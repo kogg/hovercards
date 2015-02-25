@@ -20,6 +20,9 @@
                 "http://*/*",
                 "https://*/*"
             ],
+            "css": [
+                "styles/styles.css"
+            ],
             "js": [
                 "scripts/contentscript.js"
             ],

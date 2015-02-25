@@ -314,8 +314,7 @@ module.exports = function (grunt) {
         'chromeManifest:dist',
         'useminPrepare',
         'concurrent:dist',
-        // No UI feature selected, cssmin task will be commented
-        // 'cssmin',
+        'cssmin',
         'concat',
         'uglify',
         'copy',
