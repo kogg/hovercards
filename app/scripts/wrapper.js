@@ -3,5 +3,5 @@
 'use strict';
 
 function wrapElements(selector) {
-    $(selector + ' iframe').wrap('<div class="deckard_extension"></div>');
+    $(selector + ' iframe[src^="https://www.youtube.com/embed/"]').wrap('<div class="deckard_extension"></div>');
 }
