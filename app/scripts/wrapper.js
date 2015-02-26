@@ -5,6 +5,7 @@
 function wrapElements(selector) {
     $(selector + ' iframe[src^="https://www.youtube.com/embed/"]')
         .add(selector + ' object[data^="https://www.youtube.com/v/"]')
+        .add(selector + ' embed[src^="https://www.youtube.com/v/"]')
         .wrap('<div class="deckard_extension"></div>')
         .after('<div class="deckard_minimal"></div>');
 
