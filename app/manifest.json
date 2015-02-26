@@ -25,7 +25,7 @@
             ],
             "js": [
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/contentscript.js"
+                "scripts/wrapper.js"
             ],
             "run_at": "document_end",
             "all_frames": false

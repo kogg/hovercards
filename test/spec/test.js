@@ -9,7 +9,7 @@
         describe('default youtube wrapping', function () {
             beforeEach(function() {
                 $('body').add('<iframe width="560" height="315" src="https://www.youtube.com/embed/VpXUIh7rlWI" frameborder="0" allowfullscreen></iframe>');
-                wrapElements();
+                wrapElements('body');
             });
 
             it('should wrap the element', function () {
