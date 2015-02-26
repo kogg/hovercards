@@ -87,6 +87,17 @@ module.exports = function (grunt) {
                         '<%= config.app %>'
                     ]
                 }
+            },
+            test_browser: {
+                options: {
+                    port: 9750,
+                    open: true,
+                    keepalive: true,
+                    base: [
+                        'test',
+                        '<%= config.app %>'
+                    ]
+                }
             }
         },
 
@@ -309,6 +320,10 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'connect:test',
         'mocha'
+    ]);
+
+    grunt.registerTask('test:browser', [
+        'connect:test_browser'
     ]);
 
     grunt.registerTask('build', [
