@@ -88,7 +88,7 @@ module.exports = function (grunt) {
                     ]
                 }
             },
-            test_browser: {
+            testBrowser: {
                 options: {
                     port: 9750,
                     open: true,
@@ -323,7 +323,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('test:browser', [
-        'connect:test_browser'
+        'connect:testBrowser'
     ]);
 
     grunt.registerTask('build', [

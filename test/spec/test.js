@@ -1,4 +1,4 @@
-/* global describe, it, $, beforeEach, afterEach */
+/* global describe, it, $, before, after */
 /* global wrapElements */
 /*jshint expr:true */
 
