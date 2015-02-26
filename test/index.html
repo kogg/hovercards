@@ -17,10 +17,13 @@
         var assert = chai.assert;
         var expect = chai.expect;
         var should = chai.should();
-        var chrome = { runtime: { sendMessage: $.noop } };
+        var chrome = { extension: $.noop,
+                       runtime:   { sendMessage: $.noop,
+                                    onMessage:   { addListener: $.noop } } };
     </script>
 
     <!-- include source files here... -->
+    <script src="scripts/minimal.js"></script>
     <script src="scripts/wrapper.js"></script>
 
     <!-- include spec files here... -->

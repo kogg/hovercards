@@ -1,10 +1,10 @@
 /* global describe, it, $, before, after, beforeEach, afterEach */
-/* global wrapElements */
 /*jshint expr:true */
+'use strict';
 
 (function() {
-    'use strict';
 
+    /* global wrapElements */
     describe('wrapElements', function() {
         describe('default youtube embed', function() {
             it('should wrap the element', function() {
@@ -20,11 +20,11 @@
             });
 
             it('should load minimal content', function() {
+                // Mocking sending the message
                 var originalSendMessage = chrome.runtime.sendMessage;
-                chrome.runtime.sendMessage =  function(message, callback) {
-                    if (message.cmd !== 'load_html' || message.fileName !== 'minimal.html') {
-                        callback(null);
-                    }
+                chrome.runtime.sendMessage = function(message, callback) {
+                    message.cmd.should.equal('load_html');
+                    message.fileName.should.equal('minimal.html');
                     callback('Minimal Content');
                 };
 
@@ -32,6 +32,7 @@
                 $('#sandbox > .deckard_extension > iframe#youtube_video + .deckard_minimal').should.exist;
                 $('#sandbox > .deckard_extension > iframe#youtube_video + .deckard_minimal').should.have.html('Minimal Content');
 
+                // Undo the mocking
                 chrome.runtime.sendMessage = originalSendMessage;
             });
 
@@ -42,6 +43,48 @@
 
             afterEach(function() {
                 $('#sandbox').empty();
+            });
+        });
+    });
+
+    /* global minimal */
+    describe('minimal', function() {
+        describe('load_html', function() {
+            it('should should make an ajax call', function() {
+                var listener;
+                // Mocking sending the message
+                var originalSendMessage = chrome.runtime.sendMessage;
+                chrome.runtime.sendMessage = function(message, callback) {
+                    listener(message, {}, callback).should.equal(true);
+                };
+                // Mocking adding a listener
+                var originalAddListener = chrome.runtime.onMessage.addListener;
+                chrome.runtime.onMessage.addListener = function(callback) {
+                    listener = callback;
+                };
+                // Mocking doing ajax
+                var originalAjax = $.ajax;
+                $.ajax = function(settings) {
+                    settings.url.should.match(/^chrome:\/\/gibberish_id\/somefile.html$/);
+                    settings.dataType.should.equal('html');
+                    settings.success('Minimal Content');
+                };
+                // Mocking getting the chrome url
+                var originalGetURL = chrome.extension.getURL;
+                chrome.extension.getURL = function(fileName) {
+                    return 'chrome://gibberish_id/' + fileName;
+                };
+
+                minimal();
+                chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function(data) {
+                    data.should.equal('Minimal Content');
+                });
+
+                // Undo the mocking
+                chrome.runtime.sendMessage = originalSendMessage;
+                chrome.runtime.onMessage.addListener = originalAddListener;
+                $.ajax = originalAjax;
+                chrome.extension.getURL = originalGetURL;
             });
         });
     });
