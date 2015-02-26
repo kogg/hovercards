@@ -5,7 +5,7 @@
 (function() {
     /* global wrapElements */
     describe('wrapElements', function() {
-        describe('default iframes', function() {
+        describe('youtube iframes', function() {
             it('should wrap youtube iframes', function() {
                 wrapElements('#sandbox');
                 $('#sandbox > iframe#youtube_video').should.not.exist;
@@ -45,8 +45,8 @@
             });
         });
 
-        describe('object tags', function() {
-            it('should wrap youtube object', function() {
+        describe('youtube objects', function() {
+            it('should wrap youtube objects', function() {
                 wrapElements('#sandbox');
                 $('#sandbox > object#youtube_video').should.not.exist;
                 $('#sandbox > .deckard_extension > object#youtube_video').should.exist;
