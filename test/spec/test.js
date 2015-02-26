@@ -17,6 +17,18 @@
                 $('#sandbox > .deckard_extension > iframe#not_youtube_video').should.not.exist;
             });
 
+            it('should load minimal content', function(done) {
+                $('#sandbox > iframe#youtube_video + .deckard_minimal').should.exist;
+                $.ajax({
+                    url: 'minimal.html',
+                    dataType: 'html',
+                    success: function(data) {
+                        $('#sandbox > iframe#youtube_video + .deckard_minimal').should.have.html(data);
+                        done();
+                    }
+                });
+            });
+
             before(function() {
                 $('#sandbox').append('<iframe id="youtube_video" width="560" height="315" src="https://www.youtube.com/embed/VpXUIh7rlWI" frameborder="0" allowfullscreen></iframe>');
                 $('#sandbox').append('<iframe id="not_youtube_video"></iframe>');
