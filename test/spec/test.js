@@ -19,20 +19,9 @@
             });
 
             it('should load minimal content under the iframe', function() {
-                // Mocking sending the message
-                var originalSendMessage = chrome.runtime.sendMessage;
-                chrome.runtime.sendMessage = function(message, callback) {
-                    message.cmd.should.equal('load_html');
-                    message.fileName.should.equal('minimal.html');
-                    callback('Minimal Content');
-                };
-
                 wrapElements('#sandbox');
                 $('#sandbox > .deckard_extension > iframe#youtube_video + .deckard_minimal').should.exist;
                 $('#sandbox > .deckard_extension > iframe#youtube_video + .deckard_minimal').should.have.html('Minimal Content');
-
-                // Undo the mocking
-                chrome.runtime.sendMessage = originalSendMessage;
             });
 
             beforeEach(function() {
@@ -59,20 +48,9 @@
             });
 
             it('should load minimal content under the object', function() {
-                // Mocking sending the message
-                var originalSendMessage = chrome.runtime.sendMessage;
-                chrome.runtime.sendMessage = function(message, callback) {
-                    message.cmd.should.equal('load_html');
-                    message.fileName.should.equal('minimal.html');
-                    callback('Minimal Content');
-                };
-
                 wrapElements('#sandbox');
                 $('#sandbox > .deckard_extension > object#youtube_video + .deckard_minimal').should.exist;
                 $('#sandbox > .deckard_extension > object#youtube_video + .deckard_minimal').should.have.html('Minimal Content');
-
-                // Undo the mocking
-                chrome.runtime.sendMessage = originalSendMessage;
             });
 
             beforeEach(function() {
@@ -84,49 +62,100 @@
                 $('#sandbox').empty();
             });
         });
+
+        describe('youtube embeds', function() {
+            it('should wrap youtube embeds', function() {
+                wrapElements('#sandbox');
+                $('#sandbox > embed#youtube_video').should.not.exist;
+                $('#sandbox > .deckard_extension > embed#youtube_video').should.exist;
+            });
+
+            it('shouldn\'t wrap other embeds', function() {
+                wrapElements('#sandbox');
+                $('#sandbox > embed#not_youtube_video').should.exist;
+                $('#sandbox > .deckard_extension > embed#not_youtube_video').should.not.exist;
+            });
+
+            it('should load minimal content under the embed', function() {
+                wrapElements('#sandbox');
+                $('#sandbox > .deckard_extension > embed#youtube_video + .deckard_minimal').should.exist;
+                $('#sandbox > .deckard_extension > embed#youtube_video + .deckard_minimal').should.have.html('Minimal Content');
+            });
+
+            beforeEach(function() {
+                $('#sandbox').append('<embed id="youtube_video" src="https://www.youtube.com/v/VpXUIh7rlWI">');
+                $('#sandbox').append('<embed id="not_youtube_video">');
+            });
+
+            afterEach(function() {
+                $('#sandbox').empty();
+            });
+        });
+
+        before(function() {
+            originalSendMessage = chrome.runtime.sendMessage;
+            chrome.runtime.sendMessage = function(message, callback) {
+                message.cmd.should.equal('load_html');
+                message.fileName.should.equal('minimal.html');
+                callback('Minimal Content');
+            };
+        });
+
+        after(function() {
+            chrome.runtime.sendMessage = originalSendMessage;
+        });
+
+        var originalSendMessage;
     });
 
     /* global minimal */
     describe('minimal', function() {
         describe('load_html', function() {
             it('should should make an ajax call', function() {
+                minimal();
+                chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function(data) {
+                    data.should.equal('Some File\'s Content');
+                });
+            });
+
+            before(function() {
                 var listener;
-                // Mocking sending the message
-                var originalSendMessage = chrome.runtime.sendMessage;
+                originalSendMessage = chrome.runtime.sendMessage;
                 chrome.runtime.sendMessage = function(message, callback) {
                     listener(message, {}, callback).should.equal(true);
                 };
-                // Mocking adding a listener
-                var originalAddListener = chrome.runtime.onMessage.addListener;
+
+                originalAddListener = chrome.runtime.onMessage.addListener;
                 chrome.runtime.onMessage.addListener = function(callback) {
                     should.not.exist(listener);
                     listener = callback;
                 };
-                // Mocking doing ajax
-                var originalAjax = $.ajax;
+
+                originalAjax = $.ajax;
                 $.ajax = function(settings) {
                     settings.url.should.match(/^chrome:\/\/gibberish_id\/somefile.html$/);
                     settings.dataType.should.equal('html');
-                    settings.success('Minimal Content');
+                    settings.success('Some File\'s Content');
                 };
-                // Mocking getting the chrome url
-                var originalGetURL = chrome.extension.getURL;
+
+                originalGetURL = chrome.extension.getURL;
                 chrome.extension.getURL = function(fileName) {
                     fileName.should.equal('somefile.html');
                     return 'chrome://gibberish_id/' + fileName;
                 };
+            });
 
-                minimal();
-                chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function(data) {
-                    data.should.equal('Minimal Content');
-                });
-
-                // Undo the mocking
+            after(function() {
                 chrome.runtime.sendMessage = originalSendMessage;
                 chrome.runtime.onMessage.addListener = originalAddListener;
                 $.ajax = originalAjax;
                 chrome.extension.getURL = originalGetURL;
             });
+
+            var originalSendMessage;
+            var originalAddListener;
+            var originalAjax;
+            var originalGetURL;
         });
     });
 
