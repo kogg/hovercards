@@ -7,7 +7,7 @@
     /* global wrapElements */
     describe('wrapElements', function() {
         describe('default youtube embed', function() {
-            it('should wrap the element', function() {
+            it('should wrap youtube iframes', function() {
                 wrapElements('#sandbox');
                 $('#sandbox > iframe#youtube_video').should.not.exist;
                 $('#sandbox > .deckard_extension > iframe#youtube_video').should.exist;
@@ -19,7 +19,7 @@
                 $('#sandbox > .deckard_extension > iframe#not_youtube_video').should.not.exist;
             });
 
-            it('should load minimal content', function() {
+            it('should load minimal content under the iframe', function() {
                 // Mocking sending the message
                 var originalSendMessage = chrome.runtime.sendMessage;
                 chrome.runtime.sendMessage = function(message, callback) {
