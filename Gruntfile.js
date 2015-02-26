@@ -65,13 +65,13 @@ module.exports = function (grunt) {
         // Grunt server and debug server setting
         connect: {
             options: {
-                port: 9000,
                 livereload: 35729,
                 // change this to '0.0.0.0' to access the server from outside
                 hostname: 'localhost'
             },
             chrome: {
                 options: {
+                    port: 9000,
                     open: false,
                     base: [
                         '<%= config.app %>'
@@ -80,6 +80,7 @@ module.exports = function (grunt) {
             },
             test: {
                 options: {
+                    port: 9500,
                     open: false,
                     base: [
                         'test',
@@ -121,7 +122,7 @@ module.exports = function (grunt) {
             all: {
                 options: {
                     run: true,
-                    urls: ['http://localhost:<%= connect.options.port %>/index.html'],
+                    urls: ['http://localhost:<%= connect.test.options.port %>/index.html'],
                     reporter: 'Nyan'
                 }
             }
