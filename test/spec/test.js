@@ -18,6 +18,13 @@
                 $('#sandbox > .deckard_extension > iframe#not_youtube_video').should.not.exist;
             });
 
+            it('should wrap http youtube iframes', function() {
+                $('#sandbox').append('<iframe id="youtube_video_with_http" src="http://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
+                wrapElements('#sandbox');
+                $('#sandbox > iframe#youtube_video_with_http').should.not.exist;
+                $('#sandbox > .deckard_extension > iframe#youtube_video_with_http').should.exist;
+            });
+
             it('should load minimal content under the iframe', function() {
                 wrapElements('#sandbox');
                 $('#sandbox > .deckard_extension > iframe#youtube_video + .deckard_minimal').should.exist;
@@ -53,6 +60,13 @@
                 $('#sandbox > .deckard_extension > object#youtube_video + .deckard_minimal').should.have.html('Minimal Content');
             });
 
+            it('should wrap http youtube objects', function() {
+                $('#sandbox').append('<object id="youtube_video_with_http" data="http://www.youtube.com/v/VpXUIh7rlWI"></object>');
+                wrapElements('#sandbox');
+                $('#sandbox > object#youtube_video_with_http').should.not.exist;
+                $('#sandbox > .deckard_extension > object#youtube_video_with_http').should.exist;
+            });
+
             beforeEach(function() {
                 $('#sandbox').append('<object id="youtube_video" data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
                 $('#sandbox').append('<object id="not_youtube_video"></object>');
@@ -80,6 +94,13 @@
                 wrapElements('#sandbox');
                 $('#sandbox > .deckard_extension > embed#youtube_video + .deckard_minimal').should.exist;
                 $('#sandbox > .deckard_extension > embed#youtube_video + .deckard_minimal').should.have.html('Minimal Content');
+            });
+
+            it('should wrap http youtube embeds', function() {
+                $('#sandbox').append('<embed id="youtube_video_with_http" src="http://www.youtube.com/v/VpXUIh7rlWI">');
+                wrapElements('#sandbox');
+                $('#sandbox > embed#youtube_video_with_http').should.not.exist;
+                $('#sandbox > .deckard_extension > embed#youtube_video_with_http').should.exist;
             });
 
             beforeEach(function() {
