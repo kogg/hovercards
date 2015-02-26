@@ -1,4 +1,4 @@
-/* global describe, it, $, before, after, beforeEach, afterEach */
+/* global $, should, describe, it, before, after, beforeEach, afterEach */
 /*jshint expr:true */
 'use strict';
 
@@ -60,6 +60,7 @@
                 // Mocking adding a listener
                 var originalAddListener = chrome.runtime.onMessage.addListener;
                 chrome.runtime.onMessage.addListener = function(callback) {
+                    should.not.exist(listener);
                     listener = callback;
                 };
                 // Mocking doing ajax
@@ -72,6 +73,7 @@
                 // Mocking getting the chrome url
                 var originalGetURL = chrome.extension.getURL;
                 chrome.extension.getURL = function(fileName) {
+                    fileName.should.equal('somefile.html');
                     return 'chrome://gibberish_id/' + fileName;
                 };
 
