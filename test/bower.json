@@ -1,9 +1,10 @@
 {
-    "name": "deckard",
-    "private": true,
-    "dependencies": {
-        "chai": "~1.8.0",
-        "mocha": "~1.14.0"
-    },
-    "devDependencies": {}
+  "name": "deckard",
+  "private": true,
+  "dependencies": {
+    "chai": "~1.8.0",
+    "mocha": "~1.14.0",
+    "chai-jquery": "~2.0.0"
+  },
+  "devDependencies": {}
 }

@@ -7,9 +7,12 @@
 </head>
 <body>
     <div id="mocha"></div>
+    <div id="sandbox"></div>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/mocha/mocha.js"></script>
     <script>mocha.setup('bdd')</script>
     <script src="bower_components/chai/chai.js"></script>
+    <script src="bower_components/chai-jquery/chai-jquery.js"></script>
     <script>
         var assert = chai.assert;
         var expect = chai.expect;
@@ -17,10 +20,15 @@
     </script>
 
     <!-- include source files here... -->
+    <script src="scripts/wrapper.js"></script>
 
     <!-- include spec files here... -->
     <script src="spec/test.js"></script>
 
-    <script>mocha.run()</script>
+    <script>
+        if (navigator.userAgent.indexOf('PhantomJS') < 0) {
+            mocha.run();
+        }
+    </script>
 </body>
 </html>
