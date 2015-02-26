@@ -30,12 +30,12 @@
             });
 
             it('should wrap the element', function () {
-                $('#sandbox >  iframe#youtube_video').should.not.exist;
+                $('#sandbox > iframe#youtube_video').should.not.exist;
                 $('#sandbox > .deckard_extension > iframe#youtube_video').should.exist;
             });
 
             it('shouldn\'t wrap other iframes', function () {
-                $('#sandbox >  iframe#not_youtube_video').should.exist;
+                $('#sandbox > iframe#not_youtube_video').should.exist;
                 $('#sandbox > .deckard_extension > iframe#not_youtube_video').should.not.exist;
             });
 
