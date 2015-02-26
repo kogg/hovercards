@@ -14,7 +14,7 @@
 
             it('should wrap the element', function () {
                 $('.deckard_extension').should.exist;
-                $('.deckard_extension').should.have.descendents('iframe#youtube_video');
+                $('.deckard_extension > iframe#youtube_video');
             });
 
             afterEach(function() {
