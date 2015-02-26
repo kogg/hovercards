@@ -2,10 +2,6 @@
 /* global wrapElements */
 /*jshint expr:true */
 
-if (!chrome) { chrome = {}; }
-if (!chrome.runtime) { chrome.runtime = {}; }
-if (!chrome.runtime.sendMessage) { chrome.runtime.sendMessage = $.noop; }
-
 (function () {
     'use strict';
 
@@ -30,15 +26,13 @@ if (!chrome.runtime.sendMessage) { chrome.runtime.sendMessage = $.noop; }
                 $('#sandbox').append('<iframe id="youtube_video" width="560" height="315" src="https://www.youtube.com/embed/VpXUIh7rlWI" frameborder="0" allowfullscreen></iframe>');
                 $('#sandbox').append('<iframe id="not_youtube_video"></iframe>');
 
-                var originalSendMessage = chrome.runtime.sendMessage;
-                chrome.runtime.sendMessage = function(message, callback) {
+                var mockRuntime = { sendMessage: function(message, callback) {
                     if (message.cmd !== 'load_html' || message.fileName !== 'minimal.html') {
-                        originalSendMessage.apply(this, arguments);
+                        callback(null);
                     }
                     callback('Minimal Content');
-                };
-                wrapElements('#sandbox');
-                chrome.runtime.sendMessage = originalSendMessage;
+                } };
+                wrapElements('#sandbox', mockRuntime);
             });
 
             after(function() {
