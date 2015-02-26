@@ -25,12 +25,18 @@
         describe('default youtube wrapping', function () {
             beforeEach(function() {
                 $('#sandbox').append('<iframe id="youtube_video" width="560" height="315" src="https://www.youtube.com/embed/VpXUIh7rlWI" frameborder="0" allowfullscreen></iframe>');
+                $('#sandbox').append('<iframe id="not_youtube_video"></iframe>');
                 wrapElements('#sandbox');
             });
 
             it('should wrap the element', function () {
-                $('#sandbox > .deckard_extension').should.exist;
+                $('#sandbox >  iframe#youtube_video').should.not.exist;
                 $('#sandbox > .deckard_extension > iframe#youtube_video').should.exist;
+            });
+
+            it('shouldn\'t wrap other iframes', function () {
+                $('#sandbox >  iframe#not_youtube_video').should.exist;
+                $('#sandbox > .deckard_extension > iframe#not_youtube_video').should.not.exist;
             });
 
             afterEach(function() {
