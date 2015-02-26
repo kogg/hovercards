@@ -276,7 +276,7 @@ module.exports = function (grunt) {
             dist: {
                 options: {
                     buildnumber: true,
-                    indentSize: 2,
+                    indentSize: 4,
                     background: {
                         target: 'scripts/background.js',
                         exclude: [
