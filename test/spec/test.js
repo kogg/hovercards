@@ -180,26 +180,11 @@
         });
     });
 
-    // Something about how chai-jquery works freaks out with circular references, so this deals with that
-    var originalStringify;
-    before(function() {
-        originalStringify = JSON.stringify;
-        JSON.stringify = function(obj) {
-            var seen = [];
-
-            var result = originalStringify(obj, function(key, val) {
-                if (val instanceof HTMLElement) { return val.outerHTML; }
-                if (typeof val === 'object') {
-                    if (seen.indexOf(val) >= 0) { return '[Circular]'; }
-                    seen.push(val);
-                }
-                return val;
-            });
-            return result;
-        };
-    });
-
-    after(function() {
-        JSON.stringify = originalStringify;
+    // This guards against a crazy phantomjs error we're getting where all the tests run, but the console shows none of it.
+    // It used to only happen on fail, but now its happening all the time.
+    it('takes time', function(done) {
+        setTimeout(function() {
+            done();
+        }, 1);
     });
 })();
