@@ -176,9 +176,11 @@
 
     // This guards against a crazy phantomjs error we're getting where all the tests run, but the console shows none of it.
     // It used to only happen on fail, but now its happening all the time.
-    it.skip('takes time', function(done) {
+    /*
+    it('takes time', function(done) {
         setTimeout(function() {
             done();
         }, 1);
     });
+    */
 })();
