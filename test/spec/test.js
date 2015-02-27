@@ -5,7 +5,7 @@
 (function() {
     /* global wrapElements */
     describe('wrapElements', function() {
-        describe('youtube iframes', function() {
+        describe('iframe', function() {
             it('should wrap youtube iframes', function() {
                 $('#sandbox').append('<iframe id="youtube_video" src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
                 wrapElements('#sandbox');
@@ -39,7 +39,7 @@
             });
         });
 
-        describe('youtube objects', function() {
+        describe('object', function() {
             it('should wrap youtube objects', function() {
                 $('#sandbox').append('<object id="youtube_video" data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
                 wrapElements('#sandbox');
@@ -73,7 +73,7 @@
             });
         });
 
-        describe('youtube embeds', function() {
+        describe('embed', function() {
             it('should wrap youtube embeds', function() {
                 $('#sandbox').append('<embed id="youtube_video" src="https://www.youtube.com/v/VpXUIh7rlWI">');
                 wrapElements('#sandbox');
