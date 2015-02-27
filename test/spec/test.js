@@ -1,4 +1,4 @@
-/* global $, should, describe, it, before, after, beforeEach, afterEach */
+/* global $, should, describe, it, before, after, afterEach */
 /*jshint expr:true */
 'use strict';
 
@@ -7,12 +7,14 @@
     describe('wrapElements', function() {
         describe('youtube iframes', function() {
             it('should wrap youtube iframes', function() {
+                $('#sandbox').append('<iframe id="youtube_video" src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
                 wrapElements('#sandbox');
                 $('#sandbox > iframe#youtube_video').should.not.exist;
                 $('#sandbox > .deckard_extension > iframe#youtube_video').should.exist;
             });
 
             it('shouldn\'t wrap other iframes', function() {
+                $('#sandbox').append('<iframe id="not_youtube_video"></iframe>');
                 wrapElements('#sandbox');
                 $('#sandbox > iframe#not_youtube_video').should.exist;
                 $('#sandbox > .deckard_extension > iframe#not_youtube_video').should.not.exist;
@@ -26,14 +28,10 @@
             });
 
             it('should load minimal content under the iframe', function() {
+                $('#sandbox').append('<iframe id="youtube_video" src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
                 wrapElements('#sandbox');
                 $('#sandbox > .deckard_extension > iframe#youtube_video + .deckard_minimal').should.exist;
                 $('#sandbox > .deckard_extension > iframe#youtube_video + .deckard_minimal').should.have.html('Minimal Content');
-            });
-
-            beforeEach(function() {
-                $('#sandbox').append('<iframe id="youtube_video" src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
-                $('#sandbox').append('<iframe id="not_youtube_video"></iframe>');
             });
 
             afterEach(function() {
@@ -43,18 +41,21 @@
 
         describe('youtube objects', function() {
             it('should wrap youtube objects', function() {
+                $('#sandbox').append('<object id="youtube_video" data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
                 wrapElements('#sandbox');
                 $('#sandbox > object#youtube_video').should.not.exist;
                 $('#sandbox > .deckard_extension > object#youtube_video').should.exist;
             });
 
             it('shouldn\'t wrap other objects', function() {
+                $('#sandbox').append('<object id="not_youtube_video"></object>');
                 wrapElements('#sandbox');
                 $('#sandbox > object#not_youtube_video').should.exist;
                 $('#sandbox > .deckard_extension > object#not_youtube_video').should.not.exist;
             });
 
             it('should load minimal content under the object', function() {
+                $('#sandbox').append('<object id="youtube_video" data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
                 wrapElements('#sandbox');
                 $('#sandbox > .deckard_extension > object#youtube_video + .deckard_minimal').should.exist;
                 $('#sandbox > .deckard_extension > object#youtube_video + .deckard_minimal').should.have.html('Minimal Content');
@@ -67,11 +68,6 @@
                 $('#sandbox > .deckard_extension > object#youtube_video_with_http').should.exist;
             });
 
-            beforeEach(function() {
-                $('#sandbox').append('<object id="youtube_video" data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
-                $('#sandbox').append('<object id="not_youtube_video"></object>');
-            });
-
             afterEach(function() {
                 $('#sandbox').empty();
             });
@@ -79,18 +75,21 @@
 
         describe('youtube embeds', function() {
             it('should wrap youtube embeds', function() {
+                $('#sandbox').append('<embed id="youtube_video" src="https://www.youtube.com/v/VpXUIh7rlWI">');
                 wrapElements('#sandbox');
                 $('#sandbox > embed#youtube_video').should.not.exist;
                 $('#sandbox > .deckard_extension > embed#youtube_video').should.exist;
             });
 
             it('shouldn\'t wrap other embeds', function() {
+                $('#sandbox').append('<embed id="not_youtube_video">');
                 wrapElements('#sandbox');
                 $('#sandbox > embed#not_youtube_video').should.exist;
                 $('#sandbox > .deckard_extension > embed#not_youtube_video').should.not.exist;
             });
 
             it('should load minimal content under the embed', function() {
+                $('#sandbox').append('<embed id="youtube_video" src="https://www.youtube.com/v/VpXUIh7rlWI">');
                 wrapElements('#sandbox');
                 $('#sandbox > .deckard_extension > embed#youtube_video + .deckard_minimal').should.exist;
                 $('#sandbox > .deckard_extension > embed#youtube_video + .deckard_minimal').should.have.html('Minimal Content');
@@ -101,11 +100,6 @@
                 wrapElements('#sandbox');
                 $('#sandbox > embed#youtube_video_with_http').should.not.exist;
                 $('#sandbox > .deckard_extension > embed#youtube_video_with_http').should.exist;
-            });
-
-            beforeEach(function() {
-                $('#sandbox').append('<embed id="youtube_video" src="https://www.youtube.com/v/VpXUIh7rlWI">');
-                $('#sandbox').append('<embed id="not_youtube_video">');
             });
 
             afterEach(function() {
@@ -182,7 +176,7 @@
 
     // This guards against a crazy phantomjs error we're getting where all the tests run, but the console shows none of it.
     // It used to only happen on fail, but now its happening all the time.
-    it('takes time', function(done) {
+    it.skip('takes time', function(done) {
         setTimeout(function() {
             done();
         }, 1);
