@@ -3,7 +3,8 @@
 'use strict';
 
 function wrapElements(selector) {
-    $(selector + ' iframe[src^="https://www.youtube.com/embed/"]')
+    $()
+        .add(selector + ' iframe[src^="https://www.youtube.com/embed/"]')
         .add(selector + ' iframe[src^="http://www.youtube.com/embed/"]')
         .add(selector + ' object[data^="https://www.youtube.com/v/"]')
         .add(selector + ' object[data^="http://www.youtube.com/v/"]')
