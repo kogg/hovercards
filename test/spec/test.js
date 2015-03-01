@@ -1,4 +1,4 @@
-/* global $, should, describe, it, before, afterEach */
+/* global $, should, describe, it, before, beforeEach, afterEach */
 /*jshint expr:true */
 'use strict';
 
@@ -158,21 +158,10 @@
     describe('loadHtml', function() {
         describe('ajax', function() {
             it('should should make an ajax call', function(done) {
-                chrome.runtime.sendMessage = function(message, callback) {
-                    listener(message, {}, callback).should.be.true;
-                };
-                chrome.runtime.onMessage.addListener = function(callback) {
-                    should.not.exist(listener);
-                    listener = callback;
-                };
                 $.ajax = function(settings) {
                     settings.url.should.match(/^chrome:\/\/gibberish_id\/somefile.html$/);
                     settings.dataType.should.equal('html');
                     settings.success('Some File\'s Content');
-                };
-                chrome.extension.getURL = function(fileName) {
-                    fileName.should.equal('somefile.html');
-                    return 'chrome://gibberish_id/' + fileName;
                 };
                 (function() {
                     loadHtml();
@@ -194,6 +183,19 @@
                 originalAddListener = chrome.runtime.onMessage.addListener;
                 originalAjax = $.ajax;
                 originalGetURL = chrome.extension.getURL;
+            });
+
+            beforeEach(function() {
+                chrome.runtime.sendMessage = function(message, callback) {
+                    listener(message, {}, callback).should.be.true;
+                };
+                chrome.runtime.onMessage.addListener = function(callback) {
+                    should.not.exist(listener);
+                    listener = callback;
+                };
+                chrome.extension.getURL = function(fileName) {
+                    return 'chrome://gibberish_id/' + fileName;
+                };
             });
 
             afterEach(function() {
