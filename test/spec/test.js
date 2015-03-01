@@ -7,32 +7,43 @@
     describe('wrapElements', function() {
         describe('iframe', function() {
             it('should wrap youtube iframes', function() {
-                $('#sandbox').append('<iframe id="youtube_video" src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
-                wrapElements('#sandbox');
-                $('#sandbox > iframe#youtube_video').should.not.exist;
-                $('#sandbox > .deckard-extension > iframe#youtube_video').should.exist;
+                $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
+                (function() {
+                    wrapElements('#sandbox');
+                }());
+                $('#sandbox > iframe').should.not.exist;
+                $('#sandbox > .deckard-extension > iframe').should.exist;
             });
 
             it('shouldn\'t wrap other iframes', function() {
-                $('#sandbox').append('<iframe id="not_youtube_video"></iframe>');
-                wrapElements('#sandbox');
-                $('#sandbox > iframe#not_youtube_video').should.exist;
-                $('#sandbox > .deckard-extension > iframe#not_youtube_video').should.not.exist;
+                $('#sandbox').append('<iframe></iframe>');
+                (function() {
+                    wrapElements('#sandbox');
+                }());
+                $('#sandbox > iframe').should.exist;
+                $('#sandbox > .deckard-extension > iframe').should.not.exist;
             });
 
             it('should wrap http youtube iframes', function() {
-                $('#sandbox').append('<iframe id="youtube_video_with_http" src="http://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
-                wrapElements('#sandbox');
-                $('#sandbox > iframe#youtube_video_with_http').should.not.exist;
-                $('#sandbox > .deckard-extension > iframe#youtube_video_with_http').should.exist;
+                $('#sandbox').append('<iframe src="http://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
+                (function() {
+                    wrapElements('#sandbox');
+                }());
+                $('#sandbox > iframe').should.not.exist;
+                $('#sandbox > .deckard-extension > iframe').should.exist;
             });
 
             it('should load minimal content under the iframe', function() {
-                $('#sandbox').append('<iframe id="youtube_video" src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
-                wrapElements('#sandbox');
-                $('#sandbox > .deckard-extension > iframe#youtube_video + .deckard-minimal').should.exist;
-                $('#sandbox > .deckard-extension > iframe#youtube_video + .deckard-minimal').should.have.html('Minimal Content');
+                $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
+                (function() {
+                    wrapElements('#sandbox');
+                }());
+                $('#sandbox > .deckard-extension > iframe + .deckard-minimal').should.exist;
+                $('#sandbox > .deckard-extension > iframe + .deckard-minimal').should.have.html('Minimal Content');
             });
+
+            it('should inherit the iframe\'s styles and add the height of the minimal');
+            it('should strip the iframe of it\'s styles, except for the width/height');
 
             afterEach(function() {
                 $('#sandbox').empty();
@@ -41,32 +52,43 @@
 
         describe('object', function() {
             it('should wrap youtube objects', function() {
-                $('#sandbox').append('<object id="youtube_video" data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
-                wrapElements('#sandbox');
-                $('#sandbox > object#youtube_video').should.not.exist;
-                $('#sandbox > .deckard-extension > object#youtube_video').should.exist;
+                $('#sandbox').append('<object data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
+                (function() {
+                    wrapElements('#sandbox');
+                }());
+                $('#sandbox > object').should.not.exist;
+                $('#sandbox > .deckard-extension > object').should.exist;
             });
 
             it('shouldn\'t wrap other objects', function() {
-                $('#sandbox').append('<object id="not_youtube_video"></object>');
-                wrapElements('#sandbox');
-                $('#sandbox > object#not_youtube_video').should.exist;
-                $('#sandbox > .deckard-extension > object#not_youtube_video').should.not.exist;
+                $('#sandbox').append('<object></object>');
+                (function() {
+                    wrapElements('#sandbox');
+                }());
+                $('#sandbox > object').should.exist;
+                $('#sandbox > .deckard-extension > object').should.not.exist;
             });
 
             it('should load minimal content under the object', function() {
-                $('#sandbox').append('<object id="youtube_video" data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
-                wrapElements('#sandbox');
-                $('#sandbox > .deckard-extension > object#youtube_video + .deckard-minimal').should.exist;
-                $('#sandbox > .deckard-extension > object#youtube_video + .deckard-minimal').should.have.html('Minimal Content');
+                $('#sandbox').append('<object data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
+                (function() {
+                    wrapElements('#sandbox');
+                }());
+                $('#sandbox > .deckard-extension > object + .deckard-minimal').should.exist;
+                $('#sandbox > .deckard-extension > object + .deckard-minimal').should.have.html('Minimal Content');
             });
 
             it('should wrap http youtube objects', function() {
-                $('#sandbox').append('<object id="youtube_video_with_http" data="http://www.youtube.com/v/VpXUIh7rlWI"></object>');
-                wrapElements('#sandbox');
-                $('#sandbox > object#youtube_video_with_http').should.not.exist;
-                $('#sandbox > .deckard-extension > object#youtube_video_with_http').should.exist;
+                $('#sandbox').append('<object data="http://www.youtube.com/v/VpXUIh7rlWI"></object>');
+                (function() {
+                    wrapElements('#sandbox');
+                }());
+                $('#sandbox > object').should.not.exist;
+                $('#sandbox > .deckard-extension > object').should.exist;
             });
+
+            it('should inherit the object\'s styles and add the height of the minimal');
+            it('should strip the object of it\'s styles, except for the width/height');
 
             afterEach(function() {
                 $('#sandbox').empty();
@@ -75,32 +97,43 @@
 
         describe('embed', function() {
             it('should wrap youtube embeds', function() {
-                $('#sandbox').append('<embed id="youtube_video" src="https://www.youtube.com/v/VpXUIh7rlWI">');
-                wrapElements('#sandbox');
-                $('#sandbox > embed#youtube_video').should.not.exist;
-                $('#sandbox > .deckard-extension > embed#youtube_video').should.exist;
+                $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
+                (function() {
+                    wrapElements('#sandbox');
+                }());
+                $('#sandbox > embed').should.not.exist;
+                $('#sandbox > .deckard-extension > embed').should.exist;
             });
 
             it('shouldn\'t wrap other embeds', function() {
-                $('#sandbox').append('<embed id="not_youtube_video">');
-                wrapElements('#sandbox');
-                $('#sandbox > embed#not_youtube_video').should.exist;
-                $('#sandbox > .deckard-extension > embed#not_youtube_video').should.not.exist;
+                $('#sandbox').append('<embed>');
+                (function() {
+                    wrapElements('#sandbox');
+                }());
+                $('#sandbox > embed').should.exist;
+                $('#sandbox > .deckard-extension > embed').should.not.exist;
             });
 
             it('should load minimal content under the embed', function() {
-                $('#sandbox').append('<embed id="youtube_video" src="https://www.youtube.com/v/VpXUIh7rlWI">');
-                wrapElements('#sandbox');
-                $('#sandbox > .deckard-extension > embed#youtube_video + .deckard-minimal').should.exist;
-                $('#sandbox > .deckard-extension > embed#youtube_video + .deckard-minimal').should.have.html('Minimal Content');
+                $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
+                (function() {
+                    wrapElements('#sandbox');
+                }());
+                $('#sandbox > .deckard-extension > embed + .deckard-minimal').should.exist;
+                $('#sandbox > .deckard-extension > embed + .deckard-minimal').should.have.html('Minimal Content');
             });
 
             it('should wrap http youtube embeds', function() {
-                $('#sandbox').append('<embed id="youtube_video_with_http" src="http://www.youtube.com/v/VpXUIh7rlWI">');
-                wrapElements('#sandbox');
-                $('#sandbox > embed#youtube_video_with_http').should.not.exist;
-                $('#sandbox > .deckard-extension > embed#youtube_video_with_http').should.exist;
+                $('#sandbox').append('<embed src="http://www.youtube.com/v/VpXUIh7rlWI">');
+                (function() {
+                    wrapElements('#sandbox');
+                }());
+                $('#sandbox > embed').should.not.exist;
+                $('#sandbox > .deckard-extension > embed').should.exist;
             });
+
+            it('should inherit the embed\'s styles and add the height of the minimal');
+            it('should strip the embed of it\'s styles, except for the width/height');
 
             afterEach(function() {
                 $('#sandbox').empty();
@@ -123,21 +156,42 @@
         var originalSendMessage;
     });
 
-    /* global minimal */
-    describe('minimal', function() {
-        describe('load_html', function() {
-            it('should should make an ajax call', function() {
-                minimal();
+    /* global loadHtml */
+    describe('loadHtml', function() {
+        describe('ajax', function() {
+            it('should should make an ajax call', function(done) {
+                (function() {
+                    loadHtml();
+                }());
                 chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function(data) {
                     data.should.equal('Some File\'s Content');
+                    done();
+                });
+            });
+
+            it.skip('shouldn\'t make multiple ajax calls for the same html file', function(done) {
+                var count = 0;
+                var ajax = $.ajax;
+                $.ajax = function(settings) {
+                    count++;
+                    ajax(settings);
+                };
+                (function() {
+                    loadHtml();
+                }());
+                chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function() {
+                    count.should.equal(1);
+                    chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function() {
+                        count.should.equal(1);
+                        done();
+                    });
                 });
             });
 
             before(function() {
-                var listener;
                 originalSendMessage = chrome.runtime.sendMessage;
                 chrome.runtime.sendMessage = function(message, callback) {
-                    listener(message, {}, callback).should.equal(true);
+                    listener(message, {}, callback).should.be.true;
                 };
 
                 originalAddListener = chrome.runtime.onMessage.addListener;
@@ -167,10 +221,15 @@
                 chrome.extension.getURL = originalGetURL;
             });
 
+            afterEach(function() {
+                listener = null;
+            });
+
             var originalSendMessage;
             var originalAddListener;
             var originalAjax;
             var originalGetURL;
+            var listener;
         });
     });
 
