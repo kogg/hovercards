@@ -15,7 +15,7 @@
                 $('#sandbox > .deckard-extension > iframe').should.exist;
             });
 
-            it('shouldn\'t wrap other iframes', function() {
+            it('should not wrap other iframes', function() {
                 $('#sandbox').append('<iframe></iframe>');
                 (function() {
                     wrapElements('#sandbox');
@@ -47,8 +47,11 @@
                 $('#sandbox > .deckard-extension > iframe + .deckard-minimal').should.have.html('Minimal Content');
             });
 
-            it('should inherit the iframe\'s computed styles and add the height of the minimal');
-            it('should strip the iframe of it\'s styles, except for the width/height');
+            it('should move the iframe\'s styles (excluding width/height) onto itself');
+            it('should move the iframe\'s classes onto itself');
+            it('should leave the iframe\'s id alone');
+            it('should copy the iframe\'s width');
+            it('should copy the iframe\'s height and add the minimal\'s height');
         });
 
         describe('object', function() {
@@ -61,7 +64,7 @@
                 $('#sandbox > .deckard-extension > object').should.exist;
             });
 
-            it('shouldn\'t wrap other objects', function() {
+            it('should not wrap other objects', function() {
                 $('#sandbox').append('<object></object>');
                 (function() {
                     wrapElements('#sandbox');
@@ -93,8 +96,11 @@
                 $('#sandbox > .deckard-extension > object').should.exist;
             });
 
-            it('should inherit the object\'s computed styles and add the height of the minimal');
-            it('should strip the object of it\'s styles, except for the width/height');
+            it('should move the object\'s styles (excluding width/height) onto itself');
+            it('should move the object\'s classes onto itself');
+            it('should leave the object\'s id alone');
+            it('should copy the object\'s width');
+            it('should copy the object\'s height and add the minimal\'s height');
         });
 
         describe('embed', function() {
@@ -107,7 +113,7 @@
                 $('#sandbox > .deckard-extension > embed').should.exist;
             });
 
-            it('shouldn\'t wrap other embeds', function() {
+            it('should not wrap other embeds', function() {
                 $('#sandbox').append('<embed>');
                 (function() {
                     wrapElements('#sandbox');
@@ -139,8 +145,11 @@
                 $('#sandbox > .deckard-extension > embed').should.exist;
             });
 
-            it('should inherit the embed\'s computed styles and add the height of the minimal');
-            it('should strip the embed of it\'s styles, except for the width/height');
+            it('should move the embed\'s styles (excluding width/height) onto itself');
+            it('should move the embed\'s classes onto itself');
+            it('should leave the embed\'s id alone');
+            it('should copy the embed\'s width');
+            it('should copy the embed\'s height and add the minimal\'s height');
         });
 
         var originalSendMessage;
