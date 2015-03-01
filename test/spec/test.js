@@ -156,12 +156,12 @@
         var originalSendMessage;
     });
 
-    /* global minimal */
-    describe('minimal', function() {
-        describe('load_html', function() {
+    /* global loadHtml */
+    describe('loadHtml', function() {
+        describe('ajax', function() {
             it('should should make an ajax call', function(done) {
                 (function() {
-                    minimal();
+                    loadHtml();
                 }());
                 chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function(data) {
                     data.should.equal('Some File\'s Content');
@@ -177,7 +177,7 @@
                     ajax(settings);
                 };
                 (function() {
-                    minimal();
+                    loadHtml();
                 }());
                 chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function() {
                     count.should.equal(1);

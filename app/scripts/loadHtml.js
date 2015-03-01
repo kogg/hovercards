@@ -1,8 +1,8 @@
 /* global $ */
-/* exported minimal */
+/* exported loadHtml */
 'use strict';
 
-function minimal() {
+function loadHtml() {
     chrome.runtime.onMessage.addListener(function(message, sender, callback) {
         /*jshint unused:false */
         if (message.cmd === 'load_html') {

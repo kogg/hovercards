@@ -1,4 +1,4 @@
-/* global minimal */
+/* global loadHtml */
 'use strict';
 
-minimal();
+loadHtml();
