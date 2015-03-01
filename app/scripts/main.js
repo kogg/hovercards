@@ -1,4 +1,6 @@
 /* global wrapElements */
 'use strict';
 
-wrapElements('body');
+(function() {
+    wrapElements('body');
+}());
