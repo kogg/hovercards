@@ -31,6 +31,18 @@
 	text-align: left !important;
 	display: block !important;
 }
+.deckard-card-top strong {
+	font-size: 24px !important;
+	font-family:'Roboto' !important;
+	display: block !important;
+	margin-top: 5px !important
+}
+.deckard-card-top span {
+	font-size: 12px !important;
+	color: rgba(130, 131, 132, 1) !important;
+	font-weight: 300 !important;
+}
+
 .deckard-extension .deckard-card-bottom {
 	display: block !important;
 	padding: 8px !important;
@@ -40,7 +52,11 @@
 .deckard-extension .deckard-card-bottom span {
 	padding: 8px !important;
 	border-radius: 3px !important;
+	font-weight: 400 !important;
+	font-size: 12px !important;
+	font-family:'Roboto' !important;
 	display: inline-block !important;
+	color: rgba(130, 131, 132, 1) !important
 }
 .deckard-extension .deckard-card-bottom span:hover {
 	background:rgba(0,0,0,.1) !important;
