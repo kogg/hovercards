@@ -48,7 +48,7 @@
             });
 
             it('should move the iframe\'s styles (excluding width/height) onto itself');
-            it('should move the iframe\'s classes onto itself');
+            it('should move the iframe\'s classes onto itself and add deckard-master-reset to the iframe');
             it('should leave the iframe\'s id alone');
             it('should copy the iframe\'s width');
             it('should copy the iframe\'s height and add the minimal\'s height');
@@ -97,7 +97,7 @@
             });
 
             it('should move the object\'s styles (excluding width/height) onto itself');
-            it('should move the object\'s classes onto itself');
+            it('should move the object\'s classes onto itself and add deckard-master-reset to the object');
             it('should leave the object\'s id alone');
             it('should copy the object\'s width');
             it('should copy the object\'s height and add the minimal\'s height');
@@ -146,7 +146,7 @@
             });
 
             it('should move the embed\'s styles (excluding width/height) onto itself');
-            it('should move the embed\'s classes onto itself');
+            it('should move the embed\'s classes onto itself and add deckard-master-reset to the embed');
             it('should leave the embed\'s id alone');
             it('should copy the embed\'s width');
             it('should copy the embed\'s height and add the minimal\'s height');
