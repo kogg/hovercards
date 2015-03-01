@@ -1,4 +1,4 @@
-/* global $, should, describe, it, before, after, afterEach */
+/* global $, should, describe, it, before, beforeEach, afterEach */
 /*jshint expr:true */
 'use strict';
 
@@ -15,7 +15,7 @@
                 $('#sandbox > .deckard-extension > iframe').should.exist;
             });
 
-            it('shouldn\'t wrap other iframes', function() {
+            it('should not wrap other iframes', function() {
                 $('#sandbox').append('<iframe></iframe>');
                 (function() {
                     wrapElements('#sandbox');
@@ -35,6 +35,11 @@
 
             it('should load minimal content under the iframe', function() {
                 $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
+                chrome.runtime.sendMessage = function(message, callback) {
+                    message.cmd.should.equal('load_html');
+                    message.fileName.should.equal('minimal.html');
+                    callback('Minimal Content');
+                };
                 (function() {
                     wrapElements('#sandbox');
                 }());
@@ -42,12 +47,11 @@
                 $('#sandbox > .deckard-extension > iframe + .deckard-minimal').should.have.html('Minimal Content');
             });
 
-            it('should inherit the iframe\'s styles and add the height of the minimal');
-            it('should strip the iframe of it\'s styles, except for the width/height');
-
-            afterEach(function() {
-                $('#sandbox').empty();
-            });
+            it('should move the iframe\'s styles (excluding width/height) onto itself');
+            it('should move the iframe\'s classes onto itself');
+            it('should leave the iframe\'s id alone');
+            it('should copy the iframe\'s width');
+            it('should copy the iframe\'s height and add the minimal\'s height');
         });
 
         describe('object', function() {
@@ -60,7 +64,7 @@
                 $('#sandbox > .deckard-extension > object').should.exist;
             });
 
-            it('shouldn\'t wrap other objects', function() {
+            it('should not wrap other objects', function() {
                 $('#sandbox').append('<object></object>');
                 (function() {
                     wrapElements('#sandbox');
@@ -71,6 +75,11 @@
 
             it('should load minimal content under the object', function() {
                 $('#sandbox').append('<object data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
+                chrome.runtime.sendMessage = function(message, callback) {
+                    message.cmd.should.equal('load_html');
+                    message.fileName.should.equal('minimal.html');
+                    callback('Minimal Content');
+                };
                 (function() {
                     wrapElements('#sandbox');
                 }());
@@ -87,12 +96,11 @@
                 $('#sandbox > .deckard-extension > object').should.exist;
             });
 
-            it('should inherit the object\'s styles and add the height of the minimal');
-            it('should strip the object of it\'s styles, except for the width/height');
-
-            afterEach(function() {
-                $('#sandbox').empty();
-            });
+            it('should move the object\'s styles (excluding width/height) onto itself');
+            it('should move the object\'s classes onto itself');
+            it('should leave the object\'s id alone');
+            it('should copy the object\'s width');
+            it('should copy the object\'s height and add the minimal\'s height');
         });
 
         describe('embed', function() {
@@ -105,7 +113,7 @@
                 $('#sandbox > .deckard-extension > embed').should.exist;
             });
 
-            it('shouldn\'t wrap other embeds', function() {
+            it('should not wrap other embeds', function() {
                 $('#sandbox').append('<embed>');
                 (function() {
                     wrapElements('#sandbox');
@@ -116,6 +124,11 @@
 
             it('should load minimal content under the embed', function() {
                 $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
+                chrome.runtime.sendMessage = function(message, callback) {
+                    message.cmd.should.equal('load_html');
+                    message.fileName.should.equal('minimal.html');
+                    callback('Minimal Content');
+                };
                 (function() {
                     wrapElements('#sandbox');
                 }());
@@ -132,34 +145,33 @@
                 $('#sandbox > .deckard-extension > embed').should.exist;
             });
 
-            it('should inherit the embed\'s styles and add the height of the minimal');
-            it('should strip the embed of it\'s styles, except for the width/height');
-
-            afterEach(function() {
-                $('#sandbox').empty();
-            });
-        });
-
-        before(function() {
-            originalSendMessage = chrome.runtime.sendMessage;
-            chrome.runtime.sendMessage = function(message, callback) {
-                message.cmd.should.equal('load_html');
-                message.fileName.should.equal('minimal.html');
-                callback('Minimal Content');
-            };
-        });
-
-        after(function() {
-            chrome.runtime.sendMessage = originalSendMessage;
+            it('should move the embed\'s styles (excluding width/height) onto itself');
+            it('should move the embed\'s classes onto itself');
+            it('should leave the embed\'s id alone');
+            it('should copy the embed\'s width');
+            it('should copy the embed\'s height and add the minimal\'s height');
         });
 
         var originalSendMessage;
+        before(function() {
+            originalSendMessage = chrome.runtime.sendMessage;
+        });
+
+        afterEach(function() {
+            chrome.runtime.sendMessage = originalSendMessage;
+            $('#sandbox').empty();
+        });
     });
 
     /* global loadHtml */
     describe('loadHtml', function() {
         describe('ajax', function() {
             it('should should make an ajax call', function(done) {
+                $.ajax = function(settings) {
+                    settings.url.should.match(/^chrome:\/\/gibberish_id\/somefile.html$/);
+                    settings.dataType.should.equal('html');
+                    settings.success('Some File\'s Content');
+                };
                 (function() {
                     loadHtml();
                 }());
@@ -169,67 +181,39 @@
                 });
             });
 
-            it.skip('shouldn\'t make multiple ajax calls for the same html file', function(done) {
-                var count = 0;
-                var ajax = $.ajax;
-                $.ajax = function(settings) {
-                    count++;
-                    ajax(settings);
-                };
-                (function() {
-                    loadHtml();
-                }());
-                chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function() {
-                    count.should.equal(1);
-                    chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function() {
-                        count.should.equal(1);
-                        done();
-                    });
-                });
-            });
-
-            before(function() {
-                originalSendMessage = chrome.runtime.sendMessage;
-                chrome.runtime.sendMessage = function(message, callback) {
-                    listener(message, {}, callback).should.be.true;
-                };
-
-                originalAddListener = chrome.runtime.onMessage.addListener;
-                chrome.runtime.onMessage.addListener = function(callback) {
-                    should.not.exist(listener);
-                    listener = callback;
-                };
-
-                originalAjax = $.ajax;
-                $.ajax = function(settings) {
-                    settings.url.should.match(/^chrome:\/\/gibberish_id\/somefile.html$/);
-                    settings.dataType.should.equal('html');
-                    settings.success('Some File\'s Content');
-                };
-
-                originalGetURL = chrome.extension.getURL;
-                chrome.extension.getURL = function(fileName) {
-                    fileName.should.equal('somefile.html');
-                    return 'chrome://gibberish_id/' + fileName;
-                };
-            });
-
-            after(function() {
-                chrome.runtime.sendMessage = originalSendMessage;
-                chrome.runtime.onMessage.addListener = originalAddListener;
-                $.ajax = originalAjax;
-                chrome.extension.getURL = originalGetURL;
-            });
-
-            afterEach(function() {
-                listener = null;
-            });
 
             var originalSendMessage;
             var originalAddListener;
             var originalAjax;
             var originalGetURL;
             var listener;
+            before(function() {
+                originalSendMessage = chrome.runtime.sendMessage;
+                originalAddListener = chrome.runtime.onMessage.addListener;
+                originalAjax = $.ajax;
+                originalGetURL = chrome.extension.getURL;
+            });
+
+            beforeEach(function() {
+                chrome.runtime.sendMessage = function(message, callback) {
+                    listener(message, {}, callback).should.be.true;
+                };
+                chrome.runtime.onMessage.addListener = function(callback) {
+                    should.not.exist(listener);
+                    listener = callback;
+                };
+                chrome.extension.getURL = function(fileName) {
+                    return 'chrome://gibberish_id/' + fileName;
+                };
+            });
+
+            afterEach(function() {
+                chrome.runtime.sendMessage = originalSendMessage;
+                chrome.runtime.onMessage.addListener = originalAddListener;
+                $.ajax = originalAjax;
+                chrome.extension.getURL = originalGetURL;
+                listener = null;
+            });
         });
     });
 
