@@ -191,7 +191,7 @@
             before(function() {
                 originalSendMessage = chrome.runtime.sendMessage;
                 chrome.runtime.sendMessage = function(message, callback) {
-                    listener(message, {}, callback);
+                    listener(message, {}, callback).should.be.true;
                 };
 
                 originalAddListener = chrome.runtime.onMessage.addListener;
