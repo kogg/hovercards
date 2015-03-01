@@ -7,39 +7,39 @@
     describe('wrapElements', function() {
         describe('iframe', function() {
             it('should wrap youtube iframes', function() {
-                $('#sandbox').append('<iframe id="youtube_video" src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
+                $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
                 (function() {
                     wrapElements('#sandbox');
                 }());
-                $('#sandbox > iframe#youtube_video').should.not.exist;
-                $('#sandbox > .deckard-extension > iframe#youtube_video').should.exist;
+                $('#sandbox > iframe').should.not.exist;
+                $('#sandbox > .deckard-extension > iframe').should.exist;
             });
 
             it('shouldn\'t wrap other iframes', function() {
-                $('#sandbox').append('<iframe id="not_youtube_video"></iframe>');
+                $('#sandbox').append('<iframe></iframe>');
                 (function() {
                     wrapElements('#sandbox');
                 }());
-                $('#sandbox > iframe#not_youtube_video').should.exist;
-                $('#sandbox > .deckard-extension > iframe#not_youtube_video').should.not.exist;
+                $('#sandbox > iframe').should.exist;
+                $('#sandbox > .deckard-extension > iframe').should.not.exist;
             });
 
             it('should wrap http youtube iframes', function() {
-                $('#sandbox').append('<iframe id="youtube_video_with_http" src="http://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
+                $('#sandbox').append('<iframe src="http://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
                 (function() {
                     wrapElements('#sandbox');
                 }());
-                $('#sandbox > iframe#youtube_video_with_http').should.not.exist;
-                $('#sandbox > .deckard-extension > iframe#youtube_video_with_http').should.exist;
+                $('#sandbox > iframe').should.not.exist;
+                $('#sandbox > .deckard-extension > iframe').should.exist;
             });
 
             it('should load minimal content under the iframe', function() {
-                $('#sandbox').append('<iframe id="youtube_video" src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
+                $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
                 (function() {
                     wrapElements('#sandbox');
                 }());
-                $('#sandbox > .deckard-extension > iframe#youtube_video + .deckard-minimal').should.exist;
-                $('#sandbox > .deckard-extension > iframe#youtube_video + .deckard-minimal').should.have.html('Minimal Content');
+                $('#sandbox > .deckard-extension > iframe + .deckard-minimal').should.exist;
+                $('#sandbox > .deckard-extension > iframe + .deckard-minimal').should.have.html('Minimal Content');
             });
 
             afterEach(function() {
@@ -49,39 +49,39 @@
 
         describe('object', function() {
             it('should wrap youtube objects', function() {
-                $('#sandbox').append('<object id="youtube_video" data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
+                $('#sandbox').append('<object data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
                 (function() {
                     wrapElements('#sandbox');
                 }());
-                $('#sandbox > object#youtube_video').should.not.exist;
-                $('#sandbox > .deckard-extension > object#youtube_video').should.exist;
+                $('#sandbox > object').should.not.exist;
+                $('#sandbox > .deckard-extension > object').should.exist;
             });
 
             it('shouldn\'t wrap other objects', function() {
-                $('#sandbox').append('<object id="not_youtube_video"></object>');
+                $('#sandbox').append('<object></object>');
                 (function() {
                     wrapElements('#sandbox');
                 }());
-                $('#sandbox > object#not_youtube_video').should.exist;
-                $('#sandbox > .deckard-extension > object#not_youtube_video').should.not.exist;
+                $('#sandbox > object').should.exist;
+                $('#sandbox > .deckard-extension > object').should.not.exist;
             });
 
             it('should load minimal content under the object', function() {
-                $('#sandbox').append('<object id="youtube_video" data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
+                $('#sandbox').append('<object data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
                 (function() {
                     wrapElements('#sandbox');
                 }());
-                $('#sandbox > .deckard-extension > object#youtube_video + .deckard-minimal').should.exist;
-                $('#sandbox > .deckard-extension > object#youtube_video + .deckard-minimal').should.have.html('Minimal Content');
+                $('#sandbox > .deckard-extension > object + .deckard-minimal').should.exist;
+                $('#sandbox > .deckard-extension > object + .deckard-minimal').should.have.html('Minimal Content');
             });
 
             it('should wrap http youtube objects', function() {
-                $('#sandbox').append('<object id="youtube_video_with_http" data="http://www.youtube.com/v/VpXUIh7rlWI"></object>');
+                $('#sandbox').append('<object data="http://www.youtube.com/v/VpXUIh7rlWI"></object>');
                 (function() {
                     wrapElements('#sandbox');
                 }());
-                $('#sandbox > object#youtube_video_with_http').should.not.exist;
-                $('#sandbox > .deckard-extension > object#youtube_video_with_http').should.exist;
+                $('#sandbox > object').should.not.exist;
+                $('#sandbox > .deckard-extension > object').should.exist;
             });
 
             afterEach(function() {
@@ -91,39 +91,39 @@
 
         describe('embed', function() {
             it('should wrap youtube embeds', function() {
-                $('#sandbox').append('<embed id="youtube_video" src="https://www.youtube.com/v/VpXUIh7rlWI">');
+                $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
                 (function() {
                     wrapElements('#sandbox');
                 }());
-                $('#sandbox > embed#youtube_video').should.not.exist;
-                $('#sandbox > .deckard-extension > embed#youtube_video').should.exist;
+                $('#sandbox > embed').should.not.exist;
+                $('#sandbox > .deckard-extension > embed').should.exist;
             });
 
             it('shouldn\'t wrap other embeds', function() {
-                $('#sandbox').append('<embed id="not_youtube_video">');
+                $('#sandbox').append('<embed>');
                 (function() {
                     wrapElements('#sandbox');
                 }());
-                $('#sandbox > embed#not_youtube_video').should.exist;
-                $('#sandbox > .deckard-extension > embed#not_youtube_video').should.not.exist;
+                $('#sandbox > embed').should.exist;
+                $('#sandbox > .deckard-extension > embed').should.not.exist;
             });
 
             it('should load minimal content under the embed', function() {
-                $('#sandbox').append('<embed id="youtube_video" src="https://www.youtube.com/v/VpXUIh7rlWI">');
+                $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
                 (function() {
                     wrapElements('#sandbox');
                 }());
-                $('#sandbox > .deckard-extension > embed#youtube_video + .deckard-minimal').should.exist;
-                $('#sandbox > .deckard-extension > embed#youtube_video + .deckard-minimal').should.have.html('Minimal Content');
+                $('#sandbox > .deckard-extension > embed + .deckard-minimal').should.exist;
+                $('#sandbox > .deckard-extension > embed + .deckard-minimal').should.have.html('Minimal Content');
             });
 
             it('should wrap http youtube embeds', function() {
-                $('#sandbox').append('<embed id="youtube_video_with_http" src="http://www.youtube.com/v/VpXUIh7rlWI">');
+                $('#sandbox').append('<embed src="http://www.youtube.com/v/VpXUIh7rlWI">');
                 (function() {
                     wrapElements('#sandbox');
                 }());
-                $('#sandbox > embed#youtube_video_with_http').should.not.exist;
-                $('#sandbox > .deckard-extension > embed#youtube_video_with_http').should.exist;
+                $('#sandbox > embed').should.not.exist;
+                $('#sandbox > .deckard-extension > embed').should.exist;
             });
 
             afterEach(function() {
