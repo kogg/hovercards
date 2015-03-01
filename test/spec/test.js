@@ -42,6 +42,9 @@
                 $('#sandbox > .deckard-extension > iframe + .deckard-minimal').should.have.html('Minimal Content');
             });
 
+            it('should inherit the iframe\'s styles and add the height of the minimal');
+            it('should strip the iframe of it\'s styles, except for the width/height');
+
             afterEach(function() {
                 $('#sandbox').empty();
             });
@@ -84,6 +87,9 @@
                 $('#sandbox > .deckard-extension > object').should.exist;
             });
 
+            it('should inherit the object\'s styles and add the height of the minimal');
+            it('should strip the object of it\'s styles, except for the width/height');
+
             afterEach(function() {
                 $('#sandbox').empty();
             });
@@ -125,6 +131,9 @@
                 $('#sandbox > embed').should.not.exist;
                 $('#sandbox > .deckard-extension > embed').should.exist;
             });
+
+            it('should inherit the embed\'s styles and add the height of the minimal');
+            it('should strip the embed of it\'s styles, except for the width/height');
 
             afterEach(function() {
                 $('#sandbox').empty();
