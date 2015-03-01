@@ -159,17 +159,36 @@
     /* global minimal */
     describe('minimal', function() {
         describe('load_html', function() {
-            it('should should make an ajax call', function() {
+            it('should should make an ajax call', function(done) {
                 (function() {
                     minimal();
                 }());
                 chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function(data) {
                     data.should.equal('Some File\'s Content');
+                    done();
+                });
+            });
+
+            it.skip('shouldn\'t make multiple ajax calls for the same html file', function(done) {
+                var count = 0;
+                var ajax = $.ajax;
+                $.ajax = function(settings) {
+                    count++;
+                    ajax(settings);
+                };
+                (function() {
+                    minimal();
+                }());
+                chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function() {
+                    count.should.equal(1);
+                    chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function() {
+                        count.should.equal(1);
+                        done();
+                    });
                 });
             });
 
             before(function() {
-                var listener;
                 originalSendMessage = chrome.runtime.sendMessage;
                 chrome.runtime.sendMessage = function(message, callback) {
                     listener(message, {}, callback).should.equal(true);
@@ -202,10 +221,15 @@
                 chrome.extension.getURL = originalGetURL;
             });
 
+            afterEach(function() {
+                listener = null;
+            });
+
             var originalSendMessage;
             var originalAddListener;
             var originalAjax;
             var originalGetURL;
+            var listener;
         });
     });
 
