@@ -23,7 +23,8 @@
                 "https://*/*"
             ],
             "css": [
-                "styles/styles.css"
+                "styles/styles.css",
+                "styles/fonts.css"
             ],
             "js": [
                 "bower_components/jquery/dist/jquery.js",
