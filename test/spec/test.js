@@ -9,27 +9,27 @@
             describe('iframe', function() {
                 it('should put a button on youtube https iframes', function() {
                     $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
-                    (function() {
-                        putButtons('#sandbox');
-                    }());
+
+                    putButtons('#sandbox');
+
                     $('#sandbox > div.deckard-button').should.exist;
                     $('#sandbox > div.deckard-button + iframe').should.exist;
                 });
 
                 it('should put a button on youtube http iframes', function() {
                     $('#sandbox').append('<iframe src="http://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
-                    (function() {
-                        putButtons('#sandbox');
-                    }());
+
+                    putButtons('#sandbox');
+
                     $('#sandbox > div.deckard-button').should.exist;
                     $('#sandbox > div.deckard-button + iframe').should.exist;
                 });
 
                 it('should not put a button on other iframes', function() {
                     $('#sandbox').append('<iframe></iframe>');
-                    (function() {
-                        putButtons('#sandbox');
-                    }());
+
+                    putButtons('#sandbox');
+
                     $('#sandbox > div.deckard-button').should.not.exist;
                 });
             });
@@ -37,27 +37,27 @@
             describe('object', function() {
                 it('should put a button on youtube https objects', function() {
                     $('#sandbox').append('<object data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
-                    (function() {
-                        putButtons('#sandbox');
-                    }());
+
+                    putButtons('#sandbox');
+
                     $('#sandbox > div.deckard-button').should.exist;
                     $('#sandbox > div.deckard-button + object').should.exist;
                 });
 
                 it('should put a button on youtube http objects', function() {
                     $('#sandbox').append('<object data="http://www.youtube.com/v/VpXUIh7rlWI"></object>');
-                    (function() {
-                        putButtons('#sandbox');
-                    }());
+
+                    putButtons('#sandbox');
+
                     $('#sandbox > div.deckard-button').should.exist;
                     $('#sandbox > div.deckard-button + object').should.exist;
                 });
 
                 it('should not put a button on other objects', function() {
                     $('#sandbox').append('<object></object>');
-                    (function() {
-                        putButtons('#sandbox');
-                    }());
+
+                    putButtons('#sandbox');
+
                     $('#sandbox > div.deckard-button').should.not.exist;
                 });
             });
@@ -65,27 +65,27 @@
             describe('embed', function() {
                 it('should put a button on youtube https embeds', function() {
                     $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
-                    (function() {
-                        putButtons('#sandbox');
-                    }());
+
+                    putButtons('#sandbox');
+
                     $('#sandbox > div.deckard-button').should.exist;
                     $('#sandbox > div.deckard-button + embed').should.exist;
                 });
 
                 it('should put a button on youtube http embeds', function() {
                     $('#sandbox').append('<embed src="http://www.youtube.com/v/VpXUIh7rlWI">');
-                    (function() {
-                        putButtons('#sandbox');
-                    }());
+
+                    putButtons('#sandbox');
+
                     $('#sandbox > div.deckard-button').should.exist;
                     $('#sandbox > div.deckard-button + embed').should.exist;
                 });
 
                 it('should not put a button on other embeds', function() {
                     $('#sandbox').append('<embed>');
-                    (function() {
-                        putButtons('#sandbox');
-                    }());
+
+                    putButtons('#sandbox');
+
                     $('#sandbox > div.deckard-button').should.not.exist;
                 });
             });
@@ -99,26 +99,26 @@
                     callback('Button Content');
                 };
                 $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
-                (function() {
-                    putButtons('#sandbox');
-                }());
+
+                putButtons('#sandbox');
+
                 $('#sandbox > div.deckard-button').should.have.html('Button Content');
             });
 
             it('should be on top of the youtube video', function() {
                 $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
-                (function() {
-                    putButtons('#sandbox');
-                }());
+
+                putButtons('#sandbox');
+
                 $('#sandbox > div.deckard-button').offset().left.should.equal($('#sandbox > iframe').offset().left);
                 $('#sandbox > div.deckard-button').offset().top.should.equal($('#sandbox > iframe').offset().top);
             });
 
             it('should follow the video when the window resizes', function() {
                 $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
-                (function() {
-                    putButtons('#sandbox');
-                }());
+
+                putButtons('#sandbox');
+
                 $('#sandbox > iframe').css('position', 'relative');
                 $('#sandbox > iframe').css('left', '10px');
                 $('#sandbox > iframe').css('top', '11px');
@@ -151,9 +151,9 @@
                     settings.dataType.should.equal('html');
                     settings.success('Some File\'s Content');
                 };
-                (function() {
-                    loadHtml();
-                }());
+
+                loadHtml();
+
                 chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function(data) {
                     data.should.equal('Some File\'s Content');
                     done();
