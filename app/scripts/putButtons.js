@@ -11,7 +11,7 @@ function putButtons(selector) {
                    selector + ' embed[src^="http://www.youtube.com/v/"]');
     if (videos.length) {
         var buttons = $('<div class="deckard-button"></div>').insertBefore(videos);
-        chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'minimal.html' }, function(html) {
+        chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'button.html' }, function(html) {
             buttons.html(html);
         });
     }
