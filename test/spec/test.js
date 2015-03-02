@@ -93,6 +93,11 @@
 
         describe('button', function() {
             it('should load it\'s content', function() {
+                chrome.runtime.sendMessage = function(message, callback) {
+                    message.cmd.should.equal('load_html');
+                    message.fileName.should.equal('button.html');
+                    callback('Button Content');
+                };
                 $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
                 (function() {
                     putButtons('#sandbox');
@@ -104,11 +109,6 @@
         var originalSendMessage;
         before(function() {
             originalSendMessage = chrome.runtime.sendMessage;
-            chrome.runtime.sendMessage = function(message, callback) {
-                message.cmd.should.equal('load_html');
-                message.fileName.should.equal('button.html');
-                callback('Button Content');
-            };
         });
 
         afterEach(function() {
