@@ -114,9 +114,18 @@
                 $('#sandbox > div.deckard-button').offset().top.should.equal($('#sandbox > iframe').offset().top);
             });
 
-            it('should follow the video when the window resizes');
-
-            it('should follow the video when it moves');
+            it('should follow the video when the window resizes', function() {
+                $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
+                (function() {
+                    putButtons('#sandbox');
+                }());
+                $('#sandbox > iframe').css('position', 'relative');
+                $('#sandbox > iframe').css('left', '10px');
+                $('#sandbox > iframe').css('top', '11px');
+                $(window).trigger('resize');
+                $('#sandbox > div.deckard-button').offset().left.should.equal($('#sandbox > iframe').offset().left);
+                $('#sandbox > div.deckard-button').offset().top.should.equal($('#sandbox > iframe').offset().top);
+            });
         });
 
         var originalSendMessage;

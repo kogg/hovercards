@@ -17,6 +17,9 @@ function putButtons(selector) {
             button.css('position', 'absolute');
             button.offset($this.offset());
             buttons = buttons.add(button);
+            $(window).resize(function() {
+                button.offset($this.offset());
+            });
         });
         chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'button.html' }, function(html) {
             buttons.html(html);
