@@ -33,7 +33,7 @@
                 $('#sandbox > .deckard-extension > iframe').should.exist;
             });
 
-            it('should load minimal content under the iframe', function() {
+            it('should load minimal content into the wrapper', function() {
                 $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
                 chrome.runtime.sendMessage = function(message, callback) {
                     message.cmd.should.equal('load_html');
@@ -55,10 +55,6 @@
                 $('#sandbox > .deckard-extension').should.have.css('width', '500px');
                 $('#sandbox > .deckard-extension > iframe').should.have.css('width', '500px');
             });
-
-            it('should move the iframe\'s styles (excluding width/height) onto itself');
-            it('should move the iframe\'s classes onto itself and add deckard-master-reset to the iframe');
-            it('should copy the iframe\'s height and add the minimal\'s height');
         });
 
         describe('object', function() {
@@ -80,7 +76,7 @@
                 $('#sandbox > .deckard-extension > object').should.not.exist;
             });
 
-            it('should load minimal content under the object', function() {
+            it('should load minimal content into the wrapper', function() {
                 $('#sandbox').append('<object data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
                 chrome.runtime.sendMessage = function(message, callback) {
                     message.cmd.should.equal('load_html');
@@ -111,10 +107,6 @@
                 $('#sandbox > .deckard-extension').should.have.css('width', '500px');
                 $('#sandbox > .deckard-extension > object').should.have.css('width', '500px');
             });
-
-            it('should move the object\'s styles (excluding width/height) onto itself');
-            it('should move the object\'s classes onto itself and add deckard-master-reset to the object');
-            it('should copy the object\'s height and add the minimal\'s height');
         });
 
         describe('embed', function() {
@@ -136,7 +128,7 @@
                 $('#sandbox > .deckard-extension > embed').should.not.exist;
             });
 
-            it('should load minimal content under the embed', function() {
+            it('should load minimal content into the wrapper', function() {
                 $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
                 chrome.runtime.sendMessage = function(message, callback) {
                     message.cmd.should.equal('load_html');
@@ -167,10 +159,6 @@
                 $('#sandbox > .deckard-extension').should.have.css('width', '500px');
                 $('#sandbox > .deckard-extension > embed').should.have.css('width', '500px');
             });
-
-            it('should move the embed\'s styles (excluding width/height) onto itself');
-            it('should move the embed\'s classes onto itself and add deckard-master-reset to the embed');
-            it('should copy the embed\'s height and add the minimal\'s height');
         });
 
         var originalSendMessage;
