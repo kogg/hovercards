@@ -105,6 +105,15 @@
                 $('#sandbox > div.deckard-button').should.have.html('Button Content');
             });
 
+            it('should only ever put one button on each video', function() {
+                $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
+
+                putButtons('#sandbox');
+                putButtons('#sandbox');
+
+                $('#sandbox > div.deckard-button').should.have.length(1);
+            });
+
             it('should be on top of the youtube video', function() {
                 $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
 

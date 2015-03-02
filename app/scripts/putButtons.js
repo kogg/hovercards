@@ -1,6 +1,8 @@
 /* global $ */
 'use strict';
 
+var hasButton = $();
+
 /* exported putButtons */
 function putButtons(selector) {
     var videos = $(selector + ' iframe[src^="https://www.youtube.com/embed/"],' +
@@ -8,7 +10,7 @@ function putButtons(selector) {
                    selector + ' object[data^="https://www.youtube.com/v/"],' +
                    selector + ' object[data^="http://www.youtube.com/v/"],' +
                    selector + ' embed[src^="https://www.youtube.com/v/"],' +
-                   selector + ' embed[src^="http://www.youtube.com/v/"]');
+                   selector + ' embed[src^="http://www.youtube.com/v/"]').not(hasButton);
     if (videos.length) {
         var buttons = $();
         videos.each(function() {
@@ -24,5 +26,6 @@ function putButtons(selector) {
         chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'button.html' }, function(html) {
             buttons.html(html);
         });
+        hasButton = hasButton.add(videos);
     }
 }
