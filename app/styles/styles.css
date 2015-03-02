@@ -3,62 +3,11 @@
 	-webkit-box-sizing: border-box !important;
 	-moz-box-sizing: border-box !important;
 }
-
-.deckard-master-reset, .deckard-master-reset *, .deckard-extension iframe.deckard-master-reset, .deckard-extension object.deckard-master-reset, .deckard-extension embed.deckard-master-reset {
+.deckard-yt-card {
   animation : none !important;animation-delay : 0 !important;animation-direction : normal !important;animation-duration : 0 !important;animation-fill-mode : none !important;animation-iteration-count : 1 !important;animation-name : none !important;animation-play-state : running !important;animation-timing-function : ease !important;backface-visibility : visible !important;background : 0 !important;background-attachment : scroll !important;background-clip : border-box !important;background-color : transparent !important;background-image : none !important;background-origin : padding-box !important;background-position : 0 0 !important;background-position-x : 0 !important;background-position-y : 0 !important;background-repeat : repeat !important;background-size : auto auto !important;border : 0 !important;border-style : none !important;border-width : medium !important;border-color : inherit !important;border-bottom : 0 !important;border-bottom-color : inherit !important;border-bottom-left-radius : 0 !important;border-bottom-right-radius : 0 !important;border-bottom-style : none !important;border-bottom-width : medium !important;border-collapse : separate !important;border-image : none !important;border-left : 0 !important;border-left-color : inherit !important;border-left-style : none !important;border-left-width : medium !important;border-radius : 0 !important;border-right : 0 !important;border-right-color : inherit !important;border-right-style : none !important;border-right-width : medium !important;border-spacing : 0 !important;border-top : 0 !important;border-top-color : inherit !important;border-top-left-radius : 0 !important;border-top-right-radius : 0 !important;border-top-style : none !important;border-top-width : medium !important;bottom : auto !important;box-shadow : none !important;box-sizing : content-box !important;caption-side : top !important;clear : none !important;clip : auto !important;color : inherit !important;columns : auto !important;column-count : auto !important;column-fill : balance !important;column-gap : normal !important;column-rule : medium none currentColor !important;column-rule-color : currentColor !important;column-rule-style : none !important;column-rule-width : none !important;column-span : 1 !important;column-width : auto !important;content : normal !important;counter-increment : none !important;counter-reset : none !important;cursor : auto !important;direction : ltr !important;display : inline !important;empty-cells : show !important;float : none !important;font : normal !important;font-family: 'Roboto', sans-serif !important;font-size : medium !important;font-style : normal !important;font-variant : normal !important;font-weight : normal !important;hyphens : none !important;left : auto !important;letter-spacing : normal !important;line-height : normal !important;list-style : none !important;list-style-image : none !important;list-style-position : outside !important;list-style-type : disc !important;margin : 0 !important;margin-bottom : 0 !important;margin-left : 0 !important;margin-right : 0 !important;margin-top : 0 !important;max-height : none !important;max-width : none !important;min-height : 0 !important;min-width : 0 !important;opacity : 1 !important;orphans : 0 !important;outline : 0 !important;outline-color : invert !important;outline-style : none !important;outline-width : medium !important;overflow : visible !important;overflow-x : visible !important;overflow-y : visible !important;padding : 0 !important;padding-bottom : 0 !important;padding-left : 0 !important;padding-right : 0 !important;padding-top : 0 !important;page-break-after : auto !important;page-break-before : auto !important;page-break-inside : auto !important;perspective : none !important;perspective-origin : 50% 50% !important;position : static !important;right : auto !important;tab-size : 8 !important;table-layout : auto !important;text-align : inherit !important;text-align-last : auto !important;text-decoration : none !important;text-decoration-color : inherit !important;text-decoration-line : none !important;text-decoration-style : solid !important;text-indent : 0 !important;text-shadow : none !important;text-transform : none !important;top : auto !important;transform : none !important;transform-style : flat !important;transition : none !important;transition-delay : 0s !important;transition-duration : 0s !important;transition-property : none !important;transition-timing-function : ease !important;unicode-bidi : normal !important;vertical-align : baseline !important;visibility : visible !important;white-space : normal !important;widows : 0 !important;word-spacing : normal !important;z-index : auto !important;
 }
-
-.deckard-extension iframe, .deckard-extension object, .deckard-extension embed {
-	display: block !important;
-}
-.deckard-extension .deckard-yt-card {
-	display: block !important;
-	background: white !important;
-	background: white !important;
-	border-bottom-right-radius: 3px !important;
-	border-bottom-left-radius: 3px !important;
-	border: 1px solid rgba(0,0,0,.1) !important
-}
-.deckard-extension .deckard-card-top {
-	padding: 16px !important;
-	text-align: left !important;
-}
-.deckard-card-top {
-	display: block !important;
-}
-.deckard-card-top * {
-	color: black !important;
-	text-align: left !important;
-	display: block !important;
-}
-.deckard-card-top strong {
-	font-size: 24px !important;
-	font-family:'Roboto' !important;
-	display: block !important;
-	margin-top: 5px !important
-}
-.deckard-card-top span {
-	font-size: 12px !important;
-	color: rgba(130, 131, 132, 1) !important;
-	font-weight: 300 !important;
-}
-
-.deckard-extension .deckard-card-bottom {
-	display: block !important;
-	padding: 8px !important;
-	border-top:1px solid rgba(0,0,0,.1) !important;
-	overflow:auto !important;
-}
-.deckard-extension .deckard-card-bottom span {
-	padding: 8px !important;
-	border-radius: 3px !important;
-	font-weight: 400 !important;
-	font-size: 12px !important;
-	font-family:'Roboto' !important;
-	display: inline-block !important;
-	color: rgba(130, 131, 132, 1) !important
-}
-.deckard-extension .deckard-card-bottom span:hover {
-	background:rgba(0,0,0,.1) !important;
-	cursor: pointer !important 
+.deckard-yt-card {
+	position: absolute !important;
+	z-index: 999999 !important;
+	background: pink !important;
 }
