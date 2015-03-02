@@ -113,6 +113,10 @@
                 $('#sandbox > div.deckard-button').offset().left.should.equal($('#sandbox > iframe').offset().left);
                 $('#sandbox > div.deckard-button').offset().top.should.equal($('#sandbox > iframe').offset().top);
             });
+
+            it('should follow the video when the window resizes');
+
+            it('should follow the video when it moves');
         });
 
         var originalSendMessage;
