@@ -28,7 +28,7 @@
             ],
             "js": [
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/wrapper.js",
+                "scripts/putButtons.js",
                 "scripts/main.js"
             ],
             "run_at": "document_end",

@@ -1,6 +1,6 @@
-/* global wrapElements */
+/* global putButtons */
 'use strict';
 
 (function() {
-    wrapElements('body');
+    putButtons('body');
 }());
