@@ -1,4 +1,4 @@
-.deckard-button, .deckard-button * {
+.deckard-button * {
 	-webkit-transform: translateZ(0) !important;
 	-moz-box-sizing:border-box !important;
 	-webkit-box-sizing:border-box !important;
@@ -9,6 +9,8 @@
 	border: 0 !important;
 	font-size: 100% !important;
 	font: inherit !important;
+	text-align: left !important;
+	overflow: hidden;
 }
 .deckard-button {
 	z-index: 2 !important;
@@ -17,52 +19,24 @@
 	top: 0;
 }
 .deckard-button {
-	width: 40px !important;
-	height: 40px !important;
+	padding: 0 20px 20px 0;
 }
 .deckard-button:hover {
-	cursor: crosshair;
 	width: auto !important;
 	height: auto !important;
 }
 .deckard-header {
-	height: 30.5px;
+	height: 30px;
 	width: 12px;
 	-webkit-transition:width .5s, background-position .6s, background .5s;
 	transition:width .5s, background-position .6s, background .5s;
-	background: url("chrome-extension://__MSG_@@extension_id__/images/deckardlogo-white.png") -100px 50% / 80px no-repeat #F44336 !important;
+	background: url("chrome-extension://__MSG_@@extension_id__/images/deckardlogo-white.png") 150px 50% / 80px no-repeat #F44336 !important;
 }
 .deckard-header:hover {
-	background-color:black !important
-}
-.deckard-infobar-container {
-	height: 30.5px !important;
-}
-.deckard-infobar {
-	background: white;
-	height: 30.5px !important;
-	overflow: hidden;
-	display: inline-block;
-	line-height: 30.5px !important;
-	width: 0px;
-	opacity: 0;
-	-webkit-transition:all .5s;
-	transition:all .5s;
-	-webkit-transition-delay: .5s;
-	transition-delay: .5s;
-}
-.deckard-infobar span {
-	padding: 0px 8px !important;
-}
-.deckard-infobar-1 {
-	background-color: #D32F2F;
-	color: white;
+	background-color:black !important;
+	cursor: pointer;
 }
 .deckard-button:hover .deckard-header {
 	width: 100px;
 	background-position: center !important;
-}
-.deckard-button:hover .deckard-infobar {
-	width: auto;
-	opacity: 1;
 }
