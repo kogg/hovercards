@@ -9,6 +9,20 @@ function putButtonOn(selector) {
         var buttonObj = button();
         var video = $(this);
         video.before(buttonObj);
-        buttonObj.offset(video.offset());
+
+        video.hover(function() {
+            buttonObj.show();
+            buttonObj.offset(video.offset());
+        }, function() {
+            buttonObj.hide();
+        });
+
+        // FIXME I don't like this!!
+        buttonObj.hover(function() {
+            $(this).show();
+            $(this).offset(video.offset());
+        }, function() {
+            $(this).hide();
+        });
     });
 }

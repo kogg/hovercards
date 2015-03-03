@@ -17,6 +17,7 @@
 	position: absolute;
 	left: 0;
 	top: 0;
+	display: none;
 }
 .deckard-button {
 	padding: 0 20px 20px 0;

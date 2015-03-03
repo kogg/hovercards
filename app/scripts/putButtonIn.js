@@ -3,5 +3,13 @@
 /* exported putButtonIn */
 /* global button */
 function putButtonIn(selector) {
-    $(selector).prepend(button());
+    var buttonObj = button();
+
+    $(selector).prepend(buttonObj);
+
+    $(selector).hover(function() {
+        buttonObj.show();
+    }, function() {
+        buttonObj.hide();
+    });
 }
