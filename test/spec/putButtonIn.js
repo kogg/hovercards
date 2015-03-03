@@ -18,8 +18,6 @@
                 $('#sandbox > .deckard-button').should.have.css('left', '0px');
                 $('#sandbox > .deckard-button').should.have.css('top', '0px');
             });
-
-            it('should have content');
         });
 
         afterEach(function() {

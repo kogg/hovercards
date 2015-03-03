@@ -18,7 +18,6 @@
 
         describe('button', function() {
             it('should have an offset equal to the element');
-            it('should have content');
         });
 
         afterEach(function() {
