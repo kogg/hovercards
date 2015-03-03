@@ -2,14 +2,8 @@
 
 /* exported putButtonIn */
 /* global button */
-function putButtonIn(selector) {
-    var buttonObj = button();
+function putButtonIn(video) {
+    var buttonObj = button(video);
 
-    $(selector).prepend(buttonObj);
-
-    $(selector).hover(function() {
-        buttonObj.show();
-    }, function() {
-        buttonObj.hide();
-    });
+    $(video).prepend(buttonObj);
 }

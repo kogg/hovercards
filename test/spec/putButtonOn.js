@@ -105,25 +105,6 @@
                 $('#sandbox > .deckard-button').offset().left.should.equal($('#sandbox > embed').offset().left);
                 $('#sandbox > .deckard-button').offset().top.should.equal($('#sandbox > embed').offset().top);
             });
-
-            it('should have display block on element mouseenter', function() {
-                $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
-
-                putButtonOn('#sandbox');
-
-                $('#sandbox > embed').mouseenter();
-                $('#sandbox > .deckard-button').should.have.css('display', 'block');
-            });
-
-            it('should have display none on element mouseleave', function() {
-                $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
-
-                putButtonOn('#sandbox');
-
-                $('#sandbox > embed').mouseenter();
-                $('#sandbox > embed').mouseleave();
-                $('#sandbox > .deckard-button').should.have.css('display', 'none');
-            });
         });
 
         afterEach(function() {
