@@ -13,7 +13,7 @@
 	overflow: hidden;
 }
 .deckard-button {
-	z-index: 2 !important;
+	z-index: 99 !important;
 }
 .deckard-button {
 	padding: 0 20px 20px 0;
@@ -30,7 +30,6 @@
 	background: url("chrome-extension://__MSG_@@extension_id__/images/deckardlogo-white.png") 150px 50% / 80px no-repeat #F44336 !important;
 }
 .deckard-header:hover {
-	background-color:black !important;
 	cursor: pointer;
 }
 .deckard-button:hover .deckard-header {
