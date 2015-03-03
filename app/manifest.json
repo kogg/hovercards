@@ -16,8 +16,12 @@
             "scripts/background.js"
         ]
     },
+    "web_accessible_resources": [
+        "images/*"
+    ],
     "content_scripts": [
         {
+
             "matches": [
                 "http://*/*",
                 "https://*/*"
