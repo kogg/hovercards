@@ -98,7 +98,15 @@
         });
 
         describe('button', function() {
-            it('should be at the same position as the element');
+            it('should be at the same position as the element', function() {
+                $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
+
+                putButtonOn('#sandbox');
+
+                $('#sandbox > .deckard-button').offset().left.should.equal($('#sandbox > embed').offset().left);
+                $('#sandbox > .deckard-button').offset().top.should.equal($('#sandbox > embed').offset().top);
+            });
+
             it('should follow the element when the window resizes');
         });
 

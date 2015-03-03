@@ -7,6 +7,9 @@ function putButtonOn(selector) {
     var videos = $(selector + ' object[data*="youtube.com/v/"], ' +
                    selector + ' embed[src*="youtube.com/v/"]');
     videos.each(function() {
-        $(this).before(button());
+        var buttonObj = button();
+        var video = $(this);
+        video.before(buttonObj);
+        buttonObj.offset(video.offset());
     });
 }
