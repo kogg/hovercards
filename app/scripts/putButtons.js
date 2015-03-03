@@ -6,6 +6,7 @@ var hasButton = $();
 /* exported putButtons */
 function putButtons(selector) {
     var videos = $(selector + ' iframe[src*="youtube.com/embed/"], ' +
+                   selector + ' iframe[src*="cdn.embedly.com/"][src*="schema=youtube"], ' +
                    selector + ' object[data*="youtube.com/v/"], ' +
                    selector + ' embed[src*="youtube.com/v/"]').not(hasButton);
     if (videos.length) {

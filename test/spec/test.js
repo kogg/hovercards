@@ -33,6 +33,15 @@
                     $('#sandbox > div.deckard-button').should.exist;
                     $('#sandbox > div.deckard-button + embed').should.exist;
                 });
+
+                it('should put a button on youtube https embedly iframes', function() {
+                    $('#sandbox').append('<iframe src="https://cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FXVCtkzIXYzQ%3Ffeature%3Doembed&amp;url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DXVCtkzIXYzQ&amp;image=http%3A%2F%2Fi.ytimg.com%2Fvi%2FXVCtkzIXYzQ%2Fhqdefault.jpg&amp;key=d04bfffea46d4aeda930ec88cc64b87c&amp;type=text%2Fhtml&amp;schema=youtube"></iframe>');
+
+                    putButtons('#sandbox');
+
+                    $('#sandbox > div.deckard-button').should.exist;
+                    $('#sandbox > div.deckard-button + iframe').should.exist;
+                });
             });
 
             describe('http', function() {
@@ -62,6 +71,15 @@
                     $('#sandbox > div.deckard-button').should.exist;
                     $('#sandbox > div.deckard-button + embed').should.exist;
                 });
+
+                it('should put a button on youtube http embedly iframes', function() {
+                    $('#sandbox').append('<iframe src="http://cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FXVCtkzIXYzQ%3Ffeature%3Doembed&amp;url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DXVCtkzIXYzQ&amp;image=http%3A%2F%2Fi.ytimg.com%2Fvi%2FXVCtkzIXYzQ%2Fhqdefault.jpg&amp;key=d04bfffea46d4aeda930ec88cc64b87c&amp;type=text%2Fhtml&amp;schema=youtube"></iframe>');
+
+                    putButtons('#sandbox');
+
+                    $('#sandbox > div.deckard-button').should.exist;
+                    $('#sandbox > div.deckard-button + iframe').should.exist;
+                });
             });
 
             describe('relative protocol', function() {
@@ -90,6 +108,15 @@
 
                     $('#sandbox > div.deckard-button').should.exist;
                     $('#sandbox > div.deckard-button + embed').should.exist;
+                });
+
+                it('should put a button on youtube protocol relative embedly iframes', function() {
+                    $('#sandbox').append('<iframe src="//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FXVCtkzIXYzQ%3Ffeature%3Doembed&amp;url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DXVCtkzIXYzQ&amp;image=http%3A%2F%2Fi.ytimg.com%2Fvi%2FXVCtkzIXYzQ%2Fhqdefault.jpg&amp;key=d04bfffea46d4aeda930ec88cc64b87c&amp;type=text%2Fhtml&amp;schema=youtube"></iframe>');
+
+                    putButtons('#sandbox');
+
+                    $('#sandbox > div.deckard-button').should.exist;
+                    $('#sandbox > div.deckard-button + iframe').should.exist;
                 });
             });
 
@@ -141,6 +168,14 @@
 
                 it('should not put a button on other embeds', function() {
                     $('#sandbox').append('<embed>');
+
+                    putButtons('#sandbox');
+
+                    $('#sandbox > div.deckard-button').should.not.exist;
+                });
+
+                it('should not put a button on other embedly iframes', function() {
+                    $('#sandbox').append('<iframe class="embedly-embed" src="//cdn.embedly.com/widgets/media.html?src=http%3A%2F%2Fplayer.vimeo.com%2Fvideo%2F18150336&src_secure=1&url=https%3A%2F%2Fvimeo.com%2F18150336&image=http%3A%2F%2Fi.vimeocdn.com%2Fvideo%2F117311910_1280.jpg&key=internal&type=text%2Fhtml&schema=vimeo" width="500" height="281" scrolling="no" frameborder="0" allowfullscreen></iframe>');
 
                     putButtons('#sandbox');
 
