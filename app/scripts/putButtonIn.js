@@ -2,6 +2,7 @@
 'use strict';
 
 /* exported putButtonIn */
+/* global button */
 function putButtonIn(selector) {
-    $(selector).prepend('<div class="deckard-button"></div>');
+    $(selector).prepend(button());
 }

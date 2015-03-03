@@ -7,11 +7,9 @@
     describe('putButtonIn', function() {
         describe('button', function() {
             it('should be in the element', function() {
-                $('#sandbox').append('<div id="container"></div>');
+                putButtonIn('#sandbox');
 
-                putButtonIn('#sandbox #container');
-
-                $('#sandbox div#container > .deckard-button').should.exist;
+                $('#sandbox > .deckard-button').should.exist;
             });
 
             it('should have a left and top of 0');
