@@ -33,6 +33,7 @@
             ],
             "js": [
                 "bower_components/jquery/dist/jquery.js",
+                "scripts/button.js",
                 "scripts/putButtonIn.js",
                 "scripts/inside_youtube_iframe.js"
             ],
