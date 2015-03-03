@@ -106,8 +106,6 @@
                 $('#sandbox > .deckard-button').offset().left.should.equal($('#sandbox > embed').offset().left);
                 $('#sandbox > .deckard-button').offset().top.should.equal($('#sandbox > embed').offset().top);
             });
-
-            it('should follow the element when the window resizes');
         });
 
         afterEach(function() {
