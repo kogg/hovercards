@@ -13,7 +13,7 @@
 	overflow: hidden;
 }
 .deckard-button {
-	z-index: 99 !important;
+	z-index: 999 !important;
 	position: absolute;
 	left: 0;
 	top: 0;
