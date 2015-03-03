@@ -6,7 +6,7 @@
     /* global putButtons */
     describe('putButtons', function() {
         describe('videos', function() {
-            describe('iframe', function() {
+            describe('https', function() {
                 it('should put a button on youtube https iframes', function() {
                     $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
 
@@ -16,43 +16,6 @@
                     $('#sandbox > div.deckard-button + iframe').should.exist;
                 });
 
-                it('should put a button on youtube iframes without "www"', function() {
-                    $('#sandbox').append('<iframe src="https://youtube.com/embed/VpXUIh7rlWI"></iframe>');
-
-                    putButtons('#sandbox');
-
-                    $('#sandbox > div.deckard-button').should.exist;
-                    $('#sandbox > div.deckard-button + iframe').should.exist;
-                });
-
-                it('should put a button on youtube http iframes', function() {
-                    $('#sandbox').append('<iframe src="http://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
-
-                    putButtons('#sandbox');
-
-                    $('#sandbox > div.deckard-button').should.exist;
-                    $('#sandbox > div.deckard-button + iframe').should.exist;
-                });
-
-                it('should put a button on youtube protocol relative iframes', function() {
-                    $('#sandbox').append('<iframe src="//www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
-
-                    putButtons('#sandbox');
-
-                    $('#sandbox > div.deckard-button').should.exist;
-                    $('#sandbox > div.deckard-button + iframe').should.exist;
-                });
-
-                it('should not put a button on other iframes', function() {
-                    $('#sandbox').append('<iframe></iframe>');
-
-                    putButtons('#sandbox');
-
-                    $('#sandbox > div.deckard-button').should.not.exist;
-                });
-            });
-
-            describe('object', function() {
                 it('should put a button on youtube https objects', function() {
                     $('#sandbox').append('<object data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
 
@@ -62,13 +25,24 @@
                     $('#sandbox > div.deckard-button + object').should.exist;
                 });
 
-                it('should put a button on youtube objects without "www"', function() {
-                    $('#sandbox').append('<object data="https://youtube.com/v/VpXUIh7rlWI"></object>');
+                it('should put a button on youtube https embeds', function() {
+                    $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
 
                     putButtons('#sandbox');
 
                     $('#sandbox > div.deckard-button').should.exist;
-                    $('#sandbox > div.deckard-button + object').should.exist;
+                    $('#sandbox > div.deckard-button + embed').should.exist;
+                });
+            });
+
+            describe('http', function() {
+                it('should put a button on youtube http iframes', function() {
+                    $('#sandbox').append('<iframe src="http://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
+
+                    putButtons('#sandbox');
+
+                    $('#sandbox > div.deckard-button').should.exist;
+                    $('#sandbox > div.deckard-button + iframe').should.exist;
                 });
 
                 it('should put a button on youtube http objects', function() {
@@ -80,6 +54,26 @@
                     $('#sandbox > div.deckard-button + object').should.exist;
                 });
 
+                it('should put a button on youtube http embeds', function() {
+                    $('#sandbox').append('<embed src="http://www.youtube.com/v/VpXUIh7rlWI">');
+
+                    putButtons('#sandbox');
+
+                    $('#sandbox > div.deckard-button').should.exist;
+                    $('#sandbox > div.deckard-button + embed').should.exist;
+                });
+            });
+
+            describe('relative protocol', function() {
+                it('should put a button on youtube protocol relative iframes', function() {
+                    $('#sandbox').append('<iframe src="//www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
+
+                    putButtons('#sandbox');
+
+                    $('#sandbox > div.deckard-button').should.exist;
+                    $('#sandbox > div.deckard-button + iframe').should.exist;
+                });
+
                 it('should put a button on youtube protocol relative objects', function() {
                     $('#sandbox').append('<object data="//www.youtube.com/v/VpXUIh7rlWI"></object>');
 
@@ -89,23 +83,33 @@
                     $('#sandbox > div.deckard-button + object').should.exist;
                 });
 
-                it('should not put a button on other objects', function() {
-                    $('#sandbox').append('<object></object>');
-
-                    putButtons('#sandbox');
-
-                    $('#sandbox > div.deckard-button').should.not.exist;
-                });
-            });
-
-            describe('embed', function() {
-                it('should put a button on youtube https embeds', function() {
-                    $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
+                it('should put a button on youtube protocol relative embeds', function() {
+                    $('#sandbox').append('<embed src="//www.youtube.com/v/VpXUIh7rlWI">');
 
                     putButtons('#sandbox');
 
                     $('#sandbox > div.deckard-button').should.exist;
                     $('#sandbox > div.deckard-button + embed').should.exist;
+                });
+            });
+
+            describe('without www', function() {
+                it('should put a button on youtube iframes without "www"', function() {
+                    $('#sandbox').append('<iframe src="https://youtube.com/embed/VpXUIh7rlWI"></iframe>');
+
+                    putButtons('#sandbox');
+
+                    $('#sandbox > div.deckard-button').should.exist;
+                    $('#sandbox > div.deckard-button + iframe').should.exist;
+                });
+
+                it('should put a button on youtube objects without "www"', function() {
+                    $('#sandbox').append('<object data="https://youtube.com/v/VpXUIh7rlWI"></object>');
+
+                    putButtons('#sandbox');
+
+                    $('#sandbox > div.deckard-button').should.exist;
+                    $('#sandbox > div.deckard-button + object').should.exist;
                 });
 
                 it('should put a button on youtube embeds without "www"', function() {
@@ -116,23 +120,23 @@
                     $('#sandbox > div.deckard-button').should.exist;
                     $('#sandbox > div.deckard-button + embed').should.exist;
                 });
+            });
 
-                it('should put a button on youtube http embeds', function() {
-                    $('#sandbox').append('<embed src="http://www.youtube.com/v/VpXUIh7rlWI">');
+            describe('not youtube', function() {
+                it('should not put a button on other iframes', function() {
+                    $('#sandbox').append('<iframe></iframe>');
 
                     putButtons('#sandbox');
 
-                    $('#sandbox > div.deckard-button').should.exist;
-                    $('#sandbox > div.deckard-button + embed').should.exist;
+                    $('#sandbox > div.deckard-button').should.not.exist;
                 });
 
-                it('should put a button on youtube protocol relative embeds', function() {
-                    $('#sandbox').append('<embed src="//www.youtube.com/v/VpXUIh7rlWI">');
+                it('should not put a button on other objects', function() {
+                    $('#sandbox').append('<object></object>');
 
                     putButtons('#sandbox');
 
-                    $('#sandbox > div.deckard-button').should.exist;
-                    $('#sandbox > div.deckard-button + embed').should.exist;
+                    $('#sandbox > div.deckard-button').should.not.exist;
                 });
 
                 it('should not put a button on other embeds', function() {
@@ -168,7 +172,7 @@
                 $('#sandbox > div.deckard-button').should.have.length(1);
             });
 
-            it('should be on top of the youtube video', function() {
+            it('should at the same position as the youtube video', function() {
                 $('#sandbox').append('<iframe src="https://www.youtube.com/embed/VpXUIh7rlWI"></iframe>');
 
                 putButtons('#sandbox');
@@ -264,6 +268,6 @@
     it('takes time', function(done) {
         setTimeout(function() {
             done();
-        }, 100);
+        }, 1000);
     });
 })();
