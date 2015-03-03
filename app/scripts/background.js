@@ -1,4 +1,6 @@
 /* global loadHtml */
 'use strict';
 
-loadHtml();
+(function() {
+    loadHtml();
+}());

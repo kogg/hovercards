@@ -37,7 +37,6 @@
                 "scripts/putButtonIn.js",
                 "scripts/insideYoutubeIframe.js"
             ],
-            "run_at": "document_end",
             "all_frames": true
         },
         {
@@ -55,7 +54,6 @@
                 "scripts/putButtonOn.js",
                 "scripts/onMainPage.js"
             ],
-            "run_at": "document_end",
             "all_frames": false
         }
     ]
