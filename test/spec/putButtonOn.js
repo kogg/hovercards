@@ -128,6 +128,7 @@
 
         afterEach(function() {
             $('#sandbox').empty();
+            $('#sandbox').off();
         });
     });
 })();

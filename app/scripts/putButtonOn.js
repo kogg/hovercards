@@ -16,5 +16,13 @@ function putButtonOn(selector) {
         }, function() {
             buttonObj.hide();
         });
+
+        // FIXME I don't like this!!
+        buttonObj.hover(function() {
+            $(this).show();
+            $(this).offset(video.offset());
+        }, function() {
+            $(this).hide();
+        });
     });
 }

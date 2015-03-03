@@ -16,10 +16,26 @@
                 $('#sandbox > .deckard-button').should.have.css('left', '0px');
                 $('#sandbox > .deckard-button').should.have.css('top', '0px');
             });
+
+            it('should have display block on element mouseenter', function() {
+                putButtonIn('#sandbox');
+
+                $('#sandbox').mouseenter();
+                $('#sandbox > .deckard-button').should.have.css('display', 'block');
+            });
+
+            it('should have display none on element mouseleave', function() {
+                putButtonIn('#sandbox');
+
+                $('#sandbox').mouseenter();
+                $('#sandbox').mouseleave();
+                $('#sandbox > .deckard-button').should.have.css('display', 'none');
+            });
         });
 
         afterEach(function() {
             $('#sandbox').empty();
+            $('#sandbox').off();
         });
     });
 })();
