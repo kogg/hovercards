@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Mocha Spec Runner</title>
     <link rel="stylesheet" href="bower_components/mocha/mocha.css">
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
     <div id="mocha"></div>
@@ -22,12 +23,19 @@
                                     onMessage:   { addListener: $.noop } } };
     </script>
 
-    <!-- include source files here... -->
+    <!-- include background source files here... -->
     <script src="scripts/loadHtml.js"></script>
-    <script src="scripts/putButtons.js"></script>
+
+    <!-- include content_script source files here... -->
+    <script src="scripts/button.js"></script>
+    <script src="scripts/putButtonIn.js"></script>
+    <script src="scripts/putButtonOn.js"></script>
 
     <!-- include spec files here... -->
-    <script src="spec/test.js"></script>
+    <script src="spec/loadHtml.js"></script>
+    <script src="spec/button.js"></script>
+    <script src="spec/putButtonIn.js"></script>
+    <script src="spec/putButtonOn.js"></script>
 
     <script>
         if (navigator.userAgent.indexOf('PhantomJS') < 0) {

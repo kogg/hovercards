@@ -21,7 +21,26 @@
     ],
     "content_scripts": [
         {
-
+            "matches": [
+                "http://youtube.com/embed/*",
+                "https://youtube.com/embed/*",
+                "http://www.youtube.com/embed/*",
+                "https://www.youtube.com/embed/*"
+            ],
+            "css": [
+                "styles/styles.css",
+                "styles/fonts.css"
+            ],
+            "js": [
+                "bower_components/jquery/dist/jquery.js",
+                "scripts/button.js",
+                "scripts/putButtonIn.js",
+                "scripts/insideYoutubeIframe.js"
+            ],
+            "run_at": "document_end",
+            "all_frames": true
+        },
+        {
             "matches": [
                 "http://*/*",
                 "https://*/*"
@@ -32,8 +51,9 @@
             ],
             "js": [
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/putButtons.js",
-                "scripts/main.js"
+                "scripts/button.js",
+                "scripts/putButtonOn.js",
+                "scripts/onMainPage.js"
             ],
             "run_at": "document_end",
             "all_frames": false
