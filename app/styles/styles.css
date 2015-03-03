@@ -13,6 +13,8 @@
 .deckard-button {
 	z-index: 2 !important;
 	position: absolute;
+	left: 0;
+	top: 0;
 }
 .deckard-button {
 	width: 40px !important;
