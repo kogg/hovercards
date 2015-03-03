@@ -9,6 +9,12 @@
             $('#sandbox > .deckard-button').should.exist;
         });
 
+        it('should have display none', function() {
+            $('#sandbox').append(button());
+
+            $('#sandbox > .deckard-button').should.have.css('display', 'none');
+        });
+
         it('should have position absolute', function() {
             $('#sandbox').append(button());
 

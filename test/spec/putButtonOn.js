@@ -101,6 +101,7 @@
 
                 putButtonOn('#sandbox');
 
+                $('#sandbox > .deckard-button').css('display', 'block'); // jQuery won't do offset on invisible elements
                 $('#sandbox > .deckard-button').offset().left.should.equal($('#sandbox > embed').offset().left);
                 $('#sandbox > .deckard-button').offset().top.should.equal($('#sandbox > embed').offset().top);
             });
