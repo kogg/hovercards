@@ -17,7 +17,8 @@
         });
 
         describe('button', function() {
-            it('should have an offset equal to the element');
+            it('should be at the same position as the element');
+            it('should follow the element when the window resizes');
         });
 
         afterEach(function() {
