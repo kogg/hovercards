@@ -5,12 +5,9 @@ var hasButton = $();
 
 /* exported putButtons */
 function putButtons(selector) {
-    var videos = $(selector + ' iframe[src^="https://www.youtube.com/embed/"],' +
-                   selector + ' iframe[src^="http://www.youtube.com/embed/"],' +
-                   selector + ' object[data^="https://www.youtube.com/v/"],' +
-                   selector + ' object[data^="http://www.youtube.com/v/"],' +
-                   selector + ' embed[src^="https://www.youtube.com/v/"],' +
-                   selector + ' embed[src^="http://www.youtube.com/v/"]').not(hasButton);
+    var videos = $(selector + ' iframe[src*="youtube.com/embed/"], ' +
+                   selector + ' object[data*="youtube.com/v/"], ' +
+                   selector + ' embed[src*="youtube.com/v/"]').not(hasButton);
     if (videos.length) {
         var buttons = $();
         videos.each(function() {
