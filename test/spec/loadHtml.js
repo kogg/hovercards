@@ -56,7 +56,7 @@
         });
 
         afterEach(function() {
-            $('sandbox').empty();
+            $('#sandbox').empty();
         });
     });
 })();

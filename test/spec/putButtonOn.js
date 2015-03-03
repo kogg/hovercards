@@ -17,12 +17,12 @@
         });
 
         describe('button', function() {
-            it('should have position absolute');
             it('should have an offset equal to the element');
+            it('should have content');
         });
 
         afterEach(function() {
-            $('sandbox').empty();
+            $('#sandbox').empty();
         });
     });
 })();
