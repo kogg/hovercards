@@ -1,4 +1,3 @@
-/* global $ */
 /* exported loadHtml */
 'use strict';
 

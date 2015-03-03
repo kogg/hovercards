@@ -1,5 +1,3 @@
-/* global $, should, describe, it, before, beforeEach, afterEach */
-/*jshint expr:true */
 'use strict';
 
 (function() {

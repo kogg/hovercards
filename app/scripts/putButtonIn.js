@@ -1,4 +1,3 @@
-/* global $ */
 'use strict';
 
 /* exported putButtonIn */
