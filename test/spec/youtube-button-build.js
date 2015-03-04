@@ -70,6 +70,8 @@
                 var button = youtubeButton.build('#video').appendTo('#sandbox');
 
                 $('#video').mouseenter();
+                this.clock.tick(999);
+                button.should.have.css('opacity', '1');
                 this.clock.tick(1000);
                 button.should.have.css('opacity', '0');
             });
