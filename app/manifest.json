@@ -17,7 +17,8 @@
         ]
     },
     "web_accessible_resources": [
-        "images/*"
+        "images/*",
+        "sidebar.html"
     ],
     "content_scripts": [
         {
