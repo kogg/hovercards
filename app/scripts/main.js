@@ -2,7 +2,7 @@
 
 (function() {
     /* global sidebar */
-    sidebar.putInArea('body');
+    sidebar.putInElement('body');
     /* global youtubeButton */
     youtubeButton.putOnVideos('body');
 }());
