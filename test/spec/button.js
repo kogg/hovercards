@@ -43,16 +43,15 @@
                     .should.have.css('opacity', '0');
             });
 
-            it('should still be opaque 1 second after mouseenter', function(done) {
+            it('should still be opaque 1 second after mouseenter', function() {
+                this.clock = sandbox.useFakeTimers();
                 var buttonObj = button('#video').appendTo('#sandbox');
 
                 buttonObj
                     .mouseenter();
-                setTimeout(function() {
-                    buttonObj
-                        .should.have.css('opacity', '1');
-                    done();
-                }, 1000);
+                this.clock.tick(1000);
+                buttonObj
+                    .should.have.css('opacity', '1');
             });
         });
 
@@ -77,16 +76,15 @@
                     .should.have.css('opacity', '0');
             });
 
-            it('should be transparent 1 second after video mouseenter', function(done) {
+            it('should be transparent 1 second after video mouseenter', function() {
+                this.clock = sandbox.useFakeTimers();
                 var buttonObj = button('#video').appendTo('#sandbox');
 
                 $('#video')
                     .mouseenter();
-                setTimeout(function() {
-                    buttonObj
-                        .should.have.css('opacity', '0');
-                    done();
-                }, 1000);
+                this.clock.tick(1000);
+                buttonObj
+                    .should.have.css('opacity', '0');
             });
         });
 
