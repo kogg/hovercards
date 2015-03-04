@@ -11,11 +11,12 @@
                     .should.exist;
             });
 
-            it('should have a left and top of 0', function() {
+            it('should be at the same position as the element', function() {
+                $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
                 putButtonIn('#sandbox');
 
-                $('#sandbox > .deckard-button').position()
-                    .should.deep.equal({ top: 0, left: 0 });
+                $('#sandbox > .deckard-button').offset()
+                    .should.deep.equal($('#sandbox > embed').offset());
             });
         });
 
