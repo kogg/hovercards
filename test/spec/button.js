@@ -19,7 +19,7 @@
         });
 
         it('should load it\'s content', function() {
-            sinon.stub(chrome.runtime, 'sendMessage')
+            sandbox.stub(chrome.runtime, 'sendMessage')
                 .yields('Button Content');
             var buttonObj = button('#sandbox').appendTo('#sandbox');
 
@@ -61,10 +61,16 @@
                 .should.have.css('display', 'none');
         });
 
+        var sandbox;
+
+        before(function() {
+            sandbox = sinon.sandbox.create();
+        });
+
         afterEach(function() {
             $('#sandbox').empty();
             $('#sandbox').off();
-            if ('restore' in chrome.runtime.sendMessage) { chrome.runtime.sendMessage.restore(); }
+            sandbox.restore();
         });
     });
 })();

@@ -5,11 +5,11 @@
     describe('loadHtml', function() {
         describe('ajax', function() {
             it('should should make an ajax call', function(done) {
-                sinon.stub($, 'ajax')
+                sandbox.stub($, 'ajax')
                     .yieldsTo('success', 'Some File\'s Content');
-                sinon.stub(chrome.extension, 'getURL')
+                sandbox.stub(chrome.extension, 'getURL')
                     .returns('chrome://gibberish_id/somefile.html');
-                sinon.stub(chrome.runtime.onMessage, 'addListener');
+                sandbox.stub(chrome.runtime.onMessage, 'addListener');
 
                 loadHtml();
                 chrome.runtime.onMessage.addListener
@@ -27,12 +27,16 @@
             });
         });
 
+        var sandbox;
+
+        before(function() {
+            sandbox = sinon.sandbox.create();
+        });
+
         afterEach(function() {
             $('#sandbox').empty();
             $('#sandbox').off();
-            if ('restore' in $.ajax) { $.ajax.restore(); }
-            if ('restore' in chrome.extension.getURL) { chrome.extension.getURL.restore(); }
-            if ('restore' in chrome.runtime.onMessage.addListener) { chrome.runtime.onMessage.addListener.restore(); }
+            sandbox.restore();
         });
     });
 })();
