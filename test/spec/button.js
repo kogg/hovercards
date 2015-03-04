@@ -19,13 +19,13 @@
         });
 
         it('should load it\'s content', function() {
-            chrome.runtime.sendMessage = function(message, callback) {
-                message.cmd.should.equal('load_html');
-                message.fileName.should.equal('button.html');
-                callback('Button Content');
-            };
+            sinon.stub(chrome.runtime, 'sendMessage')
+                .yields('Button Content');
+            var buttonObj = button('#sandbox').appendTo('#sandbox');
 
-            button('#sandbox').appendTo('#sandbox')
+            chrome.runtime.sendMessage
+                .should.have.been.calledWith({ cmd: 'load_html', fileName: 'button.html' });
+            buttonObj
                 .should.have.html('Button Content');
         });
 
@@ -64,6 +64,7 @@
         afterEach(function() {
             $('#sandbox').empty();
             $('#sandbox').off();
+            if ('restore' in chrome.runtime.sendMessage) { chrome.runtime.sendMessage.restore(); }
         });
     });
 })();

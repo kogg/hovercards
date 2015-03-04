@@ -14,10 +14,8 @@
             it('should have a left and top of 0', function() {
                 putButtonIn('#sandbox');
 
-                $('#sandbox > .deckard-button')
-                    .should.have.css('left', '0px');
-                $('#sandbox > .deckard-button')
-                    .should.have.css('top', '0px');
+                $('#sandbox > .deckard-button').position()
+                    .should.deep.equal({ top: 0, left: 0 });
             });
         });
 

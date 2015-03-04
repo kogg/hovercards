@@ -13,13 +13,14 @@
     <script src="bower_components/mocha/mocha.js"></script>
     <script>mocha.setup('bdd')</script>
     <script src="bower_components/chai/chai.js"></script>
-    <script src="bower_components/chai-jquery/chai-jquery.js"></script>
     <script src="bower_components/sinon-chai/lib/sinon-chai.js"></script>
+    <script src="bower_components/chai-jquery/chai-jquery.js"></script>
+    <script src="bower_components/sinonjs/sinon.js"></script>
     <script>
         var assert = chai.assert;
         var expect = chai.expect;
         var should = chai.should();
-        var chrome = { extension: $.noop,
+        var chrome = { extension: { getURL: $.noop },
                        runtime:   { sendMessage: $.noop,
                                     onMessage:   { addListener: $.noop } } };
     </script>
