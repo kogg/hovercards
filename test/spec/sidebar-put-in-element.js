@@ -2,10 +2,10 @@
 
 (function() {
     /* global sidebar */
-    describe('sidebar-put-in-area', function() {
+    describe('sidebar-put-in-element', function() {
         describe('appearance', function() {
             it('should have class deckard-youtube-button', function() {
-                sidebar.putInArea('#sandbox').should.have.class('deckard-sidebar');
+                sidebar.putInElement('#sandbox').should.have.class('deckard-sidebar');
             });
         });
 

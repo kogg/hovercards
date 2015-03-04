@@ -2,13 +2,13 @@
 
 /* exported sidebar */
 var sidebar = (function() {
-    function putInArea(area) {
+    function putInElement(element) {
         var sidebarObj = $('<div class="deckard-sidebar"></div>');
 
-        $(area).prepend(sidebarObj);
+        $(element).prepend(sidebarObj);
 
         return sidebarObj;
     }
 
-    return { putInArea: putInArea };
+    return { putInElement: putInElement };
 }());
