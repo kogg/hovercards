@@ -40,3 +40,18 @@
 	width: 100px;
 	background-position: center !important;
 }
+.deckard-sidebar {
+	position: fixed !important;
+	width: 300px !important;
+	height: 100% !important;
+	top:0px !important;
+	right: 0px !important;
+	z-index: 999999999999999 !important;
+	display: none;
+}
+.deckard-sidebar iframe {
+	position: absolute !important;
+	height: 100% !important;
+	border: none !important;
+	width:100% !important;
+}
