@@ -4,21 +4,18 @@
     /* global button */
     describe('button', function() {
         it('should have class deckard-button', function() {
-            $('#sandbox').append(button('#sandbox'));
-
-            $('#sandbox > .deckard-button').should.exist;
+            button('#sandbox').appendTo('#sandbox')
+                .should.have.class('deckard-button');
         });
 
         it('should have display none', function() {
-            $('#sandbox').append(button('#sandbox'));
-
-            $('#sandbox > .deckard-button').should.have.css('display', 'none');
+            button('#sandbox').appendTo('#sandbox')
+                .should.have.css('display', 'none');
         });
 
         it('should have position absolute', function() {
-            $('#sandbox').append(button('#sandbox'));
-
-            $('#sandbox > .deckard-button').should.have.css('position', 'absolute');
+            button('#sandbox').appendTo('#sandbox')
+                .should.have.css('position', 'absolute');
         });
 
         it('should load it\'s content', function() {
@@ -28,43 +25,45 @@
                 callback('Button Content');
             };
 
-            $('#sandbox').append(button('#sandbox'));
-
-            $('#sandbox > div.deckard-button').should.have.html('Button Content');
+            button('#sandbox').appendTo('#sandbox')
+                .should.have.html('Button Content');
         });
 
         it('should have display block on mouseenter', function() {
-            $('#sandbox').append(button('#sandbox'));
-
-            $('#sandbox > .deckard-button').mouseenter();
-            $('#sandbox > .deckard-button').should.have.css('display', 'block');
+            button('#sandbox').appendTo('#sandbox')
+                .mouseenter()
+                .should.have.css('display', 'block');
         });
 
         it('should have display none on mouseleave', function() {
-            $('#sandbox').append(button('#sandbox'));
-
-            $('#sandbox > .deckard-button').mouseenter();
-            $('#sandbox > .deckard-button').mouseleave();
-            $('#sandbox > .deckard-button').should.have.css('display', 'none');
+            button('#sandbox').appendTo('#sandbox')
+                .mouseenter()
+                .mouseleave()
+                .should.have.css('display', 'none');
         });
 
         it('should have display block on element mouseenter', function() {
-            $('#sandbox').append(button('#sandbox'));
+            var buttonObj = button('#sandbox').appendTo('#sandbox');
 
-            $('#sandbox').mouseenter();
-            $('#sandbox > .deckard-button').should.have.css('display', 'block');
+            $('#sandbox')
+                .mouseenter();
+            buttonObj
+                .should.have.css('display', 'block');
         });
 
         it('should have display none on element mouseleave', function() {
-            $('#sandbox').append(button('#sandbox'));
+            var buttonObj = button('#sandbox').appendTo('#sandbox');
 
-            $('#sandbox').mouseenter();
-            $('#sandbox').mouseleave();
-            $('#sandbox > .deckard-button').should.have.css('display', 'none');
+            $('#sandbox')
+                .mouseenter()
+                .mouseleave();
+            buttonObj
+                .should.have.css('display', 'none');
         });
 
         afterEach(function() {
             $('#sandbox').empty();
+            $('#sandbox').off();
         });
     });
 })();

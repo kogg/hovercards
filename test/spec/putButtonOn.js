@@ -9,8 +9,10 @@
 
                 putButtonOn('#sandbox');
 
-                $('#sandbox > .deckard-button').should.exist;
-                $('#sandbox > .deckard-button + embed').should.exist;
+                $('#sandbox > .deckard-button')
+                    .should.exist;
+                $('#sandbox > .deckard-button + embed')
+                    .should.exist;
             });
 
             it('should not put a button on other embeds', function() {
@@ -18,7 +20,8 @@
 
                 putButtonOn('#sandbox');
 
-                $('#sandbox > .deckard-button').should.not.exist;
+                $('#sandbox > .deckard-button')
+                    .should.not.exist;
             });
         });
 
@@ -28,8 +31,10 @@
 
                 putButtonOn('#sandbox');
 
-                $('#sandbox > .deckard-button').should.exist;
-                $('#sandbox > .deckard-button + object').should.exist;
+                $('#sandbox > .deckard-button')
+                    .should.exist;
+                $('#sandbox > .deckard-button + object')
+                    .should.exist;
             });
 
             it('shouldn\'t be on non-youtube objects', function() {
@@ -37,7 +42,8 @@
 
                 putButtonOn('#sandbox');
 
-                $('#sandbox > .deckard-button').should.not.exist;
+                $('#sandbox > .deckard-button')
+                    .should.not.exist;
             });
         });
 
@@ -46,10 +52,12 @@
                 $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
 
                 putButtonOn('#sandbox');
-
                 $('#sandbox > embed').mouseenter();
-                $('#sandbox > .deckard-button').offset().left.should.equal($('#sandbox > embed').offset().left);
-                $('#sandbox > .deckard-button').offset().top.should.equal($('#sandbox > embed').offset().top);
+
+                $('#sandbox > .deckard-button')
+                    .offset().left.should.equal($('#sandbox > embed').offset().left);
+                $('#sandbox > .deckard-button')
+                    .offset().top.should.equal($('#sandbox > embed').offset().top);
             });
         });
 
