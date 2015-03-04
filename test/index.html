@@ -25,17 +25,19 @@
                                     onMessage:   { addListener: $.noop } } };
     </script>
 
+    <!-- include content_script source files here... -->
+    <script src="scripts/sidebar.js"></script>
+    <script src="scripts/youtube-button.js"></script>
+
     <!-- include background source files here... -->
     <script src="scripts/load-html.js"></script>
 
-    <!-- include content_script source files here... -->
-    <script src="scripts/youtube-button.js"></script>
-
     <!-- include spec files here... -->
-    <script src="spec/load-html.js"></script>
+    <script src="spec/sidebar-put-in-element.js"></script>
     <script src="spec/youtube-button-build.js"></script>
     <script src="spec/youtube-button-put-in-video.js"></script>
     <script src="spec/youtube-button-put-on-videos.js"></script>
+    <script src="spec/load-html.js"></script>
 
     <script>
         if (navigator.userAgent.indexOf('PhantomJS') < 0) {

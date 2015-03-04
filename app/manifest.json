@@ -17,7 +17,8 @@
         ]
     },
     "web_accessible_resources": [
-        "images/*"
+        "images/*",
+        "sidebar.html"
     ],
     "content_scripts": [
         {
@@ -49,6 +50,7 @@
             ],
             "js": [
                 "bower_components/jquery/dist/jquery.js",
+                "scripts/sidebar.js",
                 "scripts/youtube-button.js",
                 "scripts/main.js"
             ],
