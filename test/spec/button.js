@@ -57,7 +57,6 @@
 
         describe('video hovering', function() {
             it('should be opaque on video mouseenter', function() {
-                console.log('problem');
                 var buttonObj = button('#video').appendTo('#sandbox');
 
                 $('#video')
