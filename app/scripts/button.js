@@ -5,11 +5,11 @@ function button(video) {
     var buttonObj = $('<div class="deckard-button"></div>');
     video = $(video);
 
+    buttonObj.offset(video.offset());
     $(buttonObj).add(video).hover(function() {
-        buttonObj.show();
-        buttonObj.offset(video.offset());
+        buttonObj.css('opacity', 1);
     }, function() {
-        buttonObj.hide();
+        buttonObj.css('opacity', 0);
     });
 
     chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'button.html' }, function(html) {

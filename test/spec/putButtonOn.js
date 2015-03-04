@@ -44,12 +44,10 @@
         });
 
         describe('button', function() {
-            it('should be at the same position as the element on mouseenter', function() {
+            it('should be at the same position as the element', function() {
                 $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
                 putButtonOn('#sandbox');
 
-                $('#sandbox > embed')
-                    .mouseenter();
                 $('#sandbox > .deckard-button').offset()
                     .should.deep.equal($('#sandbox > embed').offset());
             });

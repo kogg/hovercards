@@ -8,9 +8,9 @@
                 .should.have.class('deckard-button');
         });
 
-        it('should have display none', function() {
+        it('should be transparent', function() {
             button('#sandbox').appendTo('#sandbox')
-                .should.have.css('display', 'none');
+                .should.have.css('opacity', '0');
         });
 
         it('should have position absolute', function() {
@@ -29,36 +29,36 @@
                 .should.have.html('Button Content');
         });
 
-        it('should have display block on mouseenter', function() {
+        it('should be opaque on mouseenter', function() {
             button('#sandbox').appendTo('#sandbox')
                 .mouseenter()
-                .should.have.css('display', 'block');
+                .should.have.css('opacity', '1');
         });
 
-        it('should have display none on mouseleave', function() {
+        it('should be transparent on mouseleave', function() {
             button('#sandbox').appendTo('#sandbox')
                 .mouseenter()
                 .mouseleave()
-                .should.have.css('display', 'none');
+                .should.have.css('opacity', '0');
         });
 
-        it('should have display block on element mouseenter', function() {
+        it('should be opaque on element mouseenter', function() {
             var buttonObj = button('#sandbox').appendTo('#sandbox');
 
             $('#sandbox')
                 .mouseenter();
             buttonObj
-                .should.have.css('display', 'block');
+                .should.have.css('opacity', '1');
         });
 
-        it('should have display none on element mouseleave', function() {
+        it('should be transparent on element mouseleave', function() {
             var buttonObj = button('#sandbox').appendTo('#sandbox');
 
             $('#sandbox')
                 .mouseenter()
                 .mouseleave();
             buttonObj
-                .should.have.css('display', 'none');
+                .should.have.css('opacity', '0');
         });
 
         var sandbox;
