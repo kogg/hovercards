@@ -8,18 +8,15 @@
                 $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
                 youtubeButton.putOnVideos('#sandbox');
 
-                $('#sandbox > .deckard-button')
-                    .should.exist;
-                $('#sandbox > .deckard-button + embed')
-                    .should.exist;
+                $('#sandbox > .deckard-button').should.exist;
+                $('#sandbox > .deckard-button + embed').should.exist;
             });
 
             it('should not put a button on other embeds', function() {
                 $('#sandbox').append('<embed>');
                 youtubeButton.putOnVideos('#sandbox');
 
-                $('#sandbox > .deckard-button')
-                    .should.not.exist;
+                $('#sandbox > .deckard-button').should.not.exist;
             });
         });
 
@@ -28,18 +25,15 @@
                 $('#sandbox').append('<object data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
                 youtubeButton.putOnVideos('#sandbox');
 
-                $('#sandbox > .deckard-button')
-                    .should.exist;
-                $('#sandbox > .deckard-button + object')
-                    .should.exist;
+                $('#sandbox > .deckard-button').should.exist;
+                $('#sandbox > .deckard-button + object').should.exist;
             });
 
             it('shouldn\'t be on non-youtube objects', function() {
                 $('#sandbox').append('<object></object>');
                 youtubeButton.putOnVideos('#sandbox');
 
-                $('#sandbox > .deckard-button')
-                    .should.not.exist;
+                $('#sandbox > .deckard-button').should.not.exist;
             });
         });
 
@@ -48,8 +42,7 @@
                 $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
                 youtubeButton.putOnVideos('#sandbox');
 
-                $('#sandbox > .deckard-button').offset()
-                    .should.deep.equal($('#sandbox > embed').offset());
+                $('#sandbox > .deckard-button').offset().should.deep.equal($('#sandbox > embed').offset());
             });
         });
 
