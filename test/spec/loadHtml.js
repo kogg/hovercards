@@ -5,56 +5,38 @@
     describe('loadHtml', function() {
         describe('ajax', function() {
             it('should should make an ajax call', function(done) {
-                $.ajax = function(settings) {
-                    settings.url.should.match(/^chrome:\/\/gibberish_id\/somefile.html$/);
-                    settings.dataType.should.equal('html');
-                    settings.success('Some File\'s Content');
-                };
+                sandbox.stub($, 'ajax')
+                    .yieldsTo('success', 'Some File\'s Content');
+                sandbox.stub(chrome.extension, 'getURL')
+                    .returns('chrome://gibberish_id/somefile.html');
+                sandbox.stub(chrome.runtime.onMessage, 'addListener');
 
                 loadHtml();
-
-                chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'somefile.html' }, function(data) {
-                    data.should.equal('Some File\'s Content');
-                    done();
-                });
+                chrome.runtime.onMessage.addListener
+                    .yield({ cmd: 'load_html', fileName: 'somefile.html' }, {}, function(data) {
+                        chrome.extension.getURL
+                            .should.have.been.calledWith('somefile.html');
+                        $.ajax
+                            .should.have.been.calledWith(sinon.match.has('url', 'chrome://gibberish_id/somefile.html')
+                                                    .and(sinon.match.has('dataType', 'html'))
+                                                    .and(sinon.match.has('success', sinon.match.func)));
+                        data
+                            .should.equal('Some File\'s Content');
+                        done();
+                    });
             });
+        });
 
-            var originalSendMessage;
-            var originalAddListener;
-            var originalAjax;
-            var originalGetURL;
-            var listener;
-            before(function() {
-                originalSendMessage = chrome.runtime.sendMessage;
-                originalAddListener = chrome.runtime.onMessage.addListener;
-                originalAjax = $.ajax;
-                originalGetURL = chrome.extension.getURL;
-            });
+        var sandbox;
 
-            beforeEach(function() {
-                chrome.runtime.sendMessage = function(message, callback) {
-                    listener(message, {}, callback).should.be.true;
-                };
-                chrome.runtime.onMessage.addListener = function(callback) {
-                    should.not.exist(listener);
-                    listener = callback;
-                };
-                chrome.extension.getURL = function(fileName) {
-                    return 'chrome://gibberish_id/' + fileName;
-                };
-            });
-
-            afterEach(function() {
-                chrome.runtime.sendMessage = originalSendMessage;
-                chrome.runtime.onMessage.addListener = originalAddListener;
-                $.ajax = originalAjax;
-                chrome.extension.getURL = originalGetURL;
-                listener = null;
-            });
+        before(function() {
+            sandbox = sinon.sandbox.create();
         });
 
         afterEach(function() {
             $('#sandbox').empty();
+            $('#sandbox').off();
+            sandbox.restore();
         });
     });
 })();

@@ -4,67 +4,73 @@
     /* global button */
     describe('button', function() {
         it('should have class deckard-button', function() {
-            $('#sandbox').append(button('#sandbox'));
-
-            $('#sandbox > .deckard-button').should.exist;
+            button('#sandbox').appendTo('#sandbox')
+                .should.have.class('deckard-button');
         });
 
         it('should have display none', function() {
-            $('#sandbox').append(button('#sandbox'));
-
-            $('#sandbox > .deckard-button').should.have.css('display', 'none');
+            button('#sandbox').appendTo('#sandbox')
+                .should.have.css('display', 'none');
         });
 
         it('should have position absolute', function() {
-            $('#sandbox').append(button('#sandbox'));
-
-            $('#sandbox > .deckard-button').should.have.css('position', 'absolute');
+            button('#sandbox').appendTo('#sandbox')
+                .should.have.css('position', 'absolute');
         });
 
         it('should load it\'s content', function() {
-            chrome.runtime.sendMessage = function(message, callback) {
-                message.cmd.should.equal('load_html');
-                message.fileName.should.equal('button.html');
-                callback('Button Content');
-            };
+            sandbox.stub(chrome.runtime, 'sendMessage')
+                .yields('Button Content');
+            var buttonObj = button('#sandbox').appendTo('#sandbox');
 
-            $('#sandbox').append(button('#sandbox'));
-
-            $('#sandbox > div.deckard-button').should.have.html('Button Content');
+            chrome.runtime.sendMessage
+                .should.have.been.calledWith({ cmd: 'load_html', fileName: 'button.html' });
+            buttonObj
+                .should.have.html('Button Content');
         });
 
         it('should have display block on mouseenter', function() {
-            $('#sandbox').append(button('#sandbox'));
-
-            $('#sandbox > .deckard-button').mouseenter();
-            $('#sandbox > .deckard-button').should.have.css('display', 'block');
+            button('#sandbox').appendTo('#sandbox')
+                .mouseenter()
+                .should.have.css('display', 'block');
         });
 
         it('should have display none on mouseleave', function() {
-            $('#sandbox').append(button('#sandbox'));
-
-            $('#sandbox > .deckard-button').mouseenter();
-            $('#sandbox > .deckard-button').mouseleave();
-            $('#sandbox > .deckard-button').should.have.css('display', 'none');
+            button('#sandbox').appendTo('#sandbox')
+                .mouseenter()
+                .mouseleave()
+                .should.have.css('display', 'none');
         });
 
         it('should have display block on element mouseenter', function() {
-            $('#sandbox').append(button('#sandbox'));
+            var buttonObj = button('#sandbox').appendTo('#sandbox');
 
-            $('#sandbox').mouseenter();
-            $('#sandbox > .deckard-button').should.have.css('display', 'block');
+            $('#sandbox')
+                .mouseenter();
+            buttonObj
+                .should.have.css('display', 'block');
         });
 
         it('should have display none on element mouseleave', function() {
-            $('#sandbox').append(button('#sandbox'));
+            var buttonObj = button('#sandbox').appendTo('#sandbox');
 
-            $('#sandbox').mouseenter();
-            $('#sandbox').mouseleave();
-            $('#sandbox > .deckard-button').should.have.css('display', 'none');
+            $('#sandbox')
+                .mouseenter()
+                .mouseleave();
+            buttonObj
+                .should.have.css('display', 'none');
+        });
+
+        var sandbox;
+
+        before(function() {
+            sandbox = sinon.sandbox.create();
         });
 
         afterEach(function() {
             $('#sandbox').empty();
+            $('#sandbox').off();
+            sandbox.restore();
         });
     });
 })();
