@@ -33,8 +33,7 @@
             ],
             "js": [
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/button.js",
-                "scripts/putButtonIn.js",
+                "scripts/youtube-button.js",
                 "scripts/insideYoutubeIframe.js"
             ],
             "all_frames": true
@@ -50,8 +49,7 @@
             ],
             "js": [
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/button.js",
-                "scripts/putButtonOn.js",
+                "scripts/youtube-button.js",
                 "scripts/onMainPage.js"
             ],
             "all_frames": false
