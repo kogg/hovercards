@@ -24,7 +24,7 @@
             var button = youtubeButton.build('#video').appendTo('#sandbox');
 
             chrome.runtime.sendMessage
-                .should.have.been.calledWith({ cmd: 'load_html', fileName: 'button.html' });
+                .should.have.been.calledWith({ cmd: 'load_html', filename: 'button.html' });
             button
                 .should.have.html('Button Content');
         });
