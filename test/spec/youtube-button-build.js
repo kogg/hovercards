@@ -3,27 +3,29 @@
 (function() {
     /* global youtubeButton */
     describe('youtube-button-build', function() {
-        it('should have class deckard-button', function() {
-            youtubeButton.build('#video').appendTo('#sandbox').should.have.class('deckard-button');
+        describe('appearance', function() {
+            it('should have class deckard-youtube-button', function() {
+                youtubeButton.build('#video').appendTo('#sandbox').should.have.class('deckard-youtube-button');
+            });
+
+            it('should be transparent', function() {
+                youtubeButton.build('#video').appendTo('#sandbox').should.have.css('opacity', '0');
+            });
+
+            it('should have position absolute', function() {
+                youtubeButton.build('#video').appendTo('#sandbox').should.have.css('position', 'absolute');
+            });
+
+            it('should load it\'s content', function() {
+                sandbox.stub(chrome.runtime, 'sendMessage').yields('Button Content');
+                var button = youtubeButton.build('#video').appendTo('#sandbox');
+
+                chrome.runtime.sendMessage.should.have.been.calledWith({ cmd: 'load_html', filename: 'button.html' });
+                button.should.have.html('Button Content');
+            });
         });
 
-        it('should be transparent', function() {
-            youtubeButton.build('#video').appendTo('#sandbox').should.have.css('opacity', '0');
-        });
-
-        it('should have position absolute', function() {
-            youtubeButton.build('#video').appendTo('#sandbox').should.have.css('position', 'absolute');
-        });
-
-        it('should load it\'s content', function() {
-            sandbox.stub(chrome.runtime, 'sendMessage').yields('Button Content');
-            var button = youtubeButton.build('#video').appendTo('#sandbox');
-
-            chrome.runtime.sendMessage.should.have.been.calledWith({ cmd: 'load_html', filename: 'button.html' });
-            button.should.have.html('Button Content');
-        });
-
-        describe('hovering', function() {
+        describe('hover', function() {
             it('should be opaque on mouseenter', function() {
                 var button = youtubeButton.build('#video').appendTo('#sandbox');
 
@@ -49,7 +51,7 @@
             });
         });
 
-        describe('video hovering', function() {
+        describe('video hover', function() {
             it('should be opaque on video mouseenter', function() {
                 var button = youtubeButton.build('#video').appendTo('#sandbox');
 

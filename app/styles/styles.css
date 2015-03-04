@@ -1,4 +1,4 @@
-.deckard-button * {
+.deckard-youtube-button * {
 	-webkit-transform: translateZ(0) !important;
 	-moz-box-sizing:border-box !important;
 	-webkit-box-sizing:border-box !important;
@@ -12,17 +12,17 @@
 	text-align: left !important;
 	overflow: hidden;
 }
-.deckard-button {
+.deckard-youtube-button {
 	z-index: 999 !important;
 	position: absolute;
 	left: 0;
 	top: 0;
 	opacity: 0;
 }
-.deckard-button {
+.deckard-youtube-button {
 	padding: 0 20px 20px 0;
 }
-.deckard-button:hover {
+.deckard-youtube-button:hover {
 	width: auto !important;
 	height: auto !important;
 }
@@ -36,7 +36,7 @@
 .deckard-header:hover {
 	cursor: pointer;
 }
-.deckard-button:hover .deckard-header {
+.deckard-youtube-button:hover .deckard-header {
 	width: 100px;
 	background-position: center !important;
 }

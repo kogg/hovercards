@@ -3,11 +3,11 @@
 (function() {
     /* global youtubeButton */
     describe('youtube-button-put-in-video', function() {
-        describe('button', function() {
+        describe('button position', function() {
             it('should be in the element', function() {
                 youtubeButton.putInVideo('#sandbox');
 
-                $('#sandbox > .deckard-button').should.exist;
+                $('#sandbox > .deckard-youtube-button').should.exist;
             });
 
             it('should be built using the video contents', function() {
@@ -21,7 +21,7 @@
                 $('#sandbox').append('<div id="player"></div>');
                 youtubeButton.putInVideo('#sandbox');
 
-                $('#sandbox > .deckard-button').offset().should.deep.equal($('#sandbox > #player').offset());
+                $('#sandbox > .deckard-youtube-button').offset().should.deep.equal($('#sandbox > #player').offset());
             });
         });
 

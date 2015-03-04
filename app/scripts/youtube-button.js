@@ -3,7 +3,7 @@
 /* exported youtubeButton */
 var youtubeButton = (function() {
     function build(video) {
-        var button = $('<div class="deckard-button"></div>');
+        var button = $('<div class="deckard-youtube-button"></div>');
         video = $(video);
 
         var timeout;
