@@ -7,7 +7,7 @@ var sidebar = (function() {
 
         $(element).prepend(sidebarObj);
 
-        sidebarObj.append($('<iframe></iframe>').prop('src', chrome.extension.getURL('sidebar.html')));
+        sidebarObj.append($('<iframe frameborder="0"></iframe>').prop('src', chrome.extension.getURL('sidebar.html')));
 
         return sidebarObj;
     }
