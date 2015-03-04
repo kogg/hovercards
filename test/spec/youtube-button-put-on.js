@@ -1,12 +1,12 @@
 'use strict';
 
 (function() {
-    /* global putButtonOn */
-    describe('putButtonOn', function() {
+    /* global youtubeButton */
+    describe('youtube-button-put-on-videos', function() {
         describe('embed', function() {
             it('should be on youtube embeds', function() {
                 $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
-                putButtonOn('#sandbox');
+                youtubeButton.putOnVideos('#sandbox');
 
                 $('#sandbox > .deckard-button')
                     .should.exist;
@@ -16,7 +16,7 @@
 
             it('should not put a button on other embeds', function() {
                 $('#sandbox').append('<embed>');
-                putButtonOn('#sandbox');
+                youtubeButton.putOnVideos('#sandbox');
 
                 $('#sandbox > .deckard-button')
                     .should.not.exist;
@@ -26,7 +26,7 @@
         describe('object', function() {
             it('should be on youtube objects', function() {
                 $('#sandbox').append('<object data="https://www.youtube.com/v/VpXUIh7rlWI"></object>');
-                putButtonOn('#sandbox');
+                youtubeButton.putOnVideos('#sandbox');
 
                 $('#sandbox > .deckard-button')
                     .should.exist;
@@ -36,7 +36,7 @@
 
             it('shouldn\'t be on non-youtube objects', function() {
                 $('#sandbox').append('<object></object>');
-                putButtonOn('#sandbox');
+                youtubeButton.putOnVideos('#sandbox');
 
                 $('#sandbox > .deckard-button')
                     .should.not.exist;
@@ -46,7 +46,7 @@
         describe('button', function() {
             it('should be at the same position as the element', function() {
                 $('#sandbox').append('<embed src="https://www.youtube.com/v/VpXUIh7rlWI">');
-                putButtonOn('#sandbox');
+                youtubeButton.putOnVideos('#sandbox');
 
                 $('#sandbox > .deckard-button').offset()
                     .should.deep.equal($('#sandbox > embed').offset());

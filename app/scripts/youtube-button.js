@@ -1,52 +1,50 @@
 'use strict';
 
-/* exported button */
-function button(video) {
-    var buttonObj = $('<div class="deckard-button"></div>');
-    video = $(video);
+/* exported youtubeButton */
+var youtubeButton = {
+    build: function(video) {
+        var button = $('<div class="deckard-button"></div>');
+        video = $(video);
 
-    var timeout;
+        var timeout;
 
-    buttonObj.offset(video.offset());
-    $(buttonObj).hover(function() {
-        buttonObj.css('opacity', 1);
-        clearTimeout(timeout);
-    }, function() {
-        buttonObj.css('opacity', 0);
-        clearTimeout(timeout);
-    });
+        button.offset(video.offset());
+        $(button).hover(function() {
+            button.css('opacity', 1);
+            clearTimeout(timeout);
+        }, function() {
+            button.css('opacity', 0);
+            clearTimeout(timeout);
+        });
 
-    video.hover(function() {
-        buttonObj.css('opacity', 1);
-        timeout = setTimeout(function() {
-            buttonObj.css('opacity', 0);
-        }, 1000);
-    }, function() {
-        buttonObj.css('opacity', 0);
-        clearTimeout(timeout);
-    });
+        video.hover(function() {
+            button.css('opacity', 1);
+            timeout = setTimeout(function() {
+                button.css('opacity', 0);
+            }, 1000);
+        }, function() {
+            button.css('opacity', 0);
+            clearTimeout(timeout);
+        });
 
-    chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'button.html' }, function(html) {
-        buttonObj.html(html);
-    });
+        chrome.runtime.sendMessage({ cmd: 'load_html', fileName: 'button.html' }, function(html) {
+            button.html(html);
+        });
 
-    return buttonObj;
-}
+        return button;
+    },
+    putInVideo: function(video) {
+        var button = youtubeButton.build(video);
 
-/* exported putButtonIn */
-function putButtonIn(video) {
-    var buttonObj = button(video);
-
-    $(video).prepend(buttonObj);
-}
-
-/* exported putButtonOn */
-function putButtonOn(area) {
-    var videos = $(area).find('object[data*="youtube.com/v/"],' +
-                               'embed[src*="youtube.com/v/"]');
-    videos.each(function() {
-        var video = $(this);
-        var buttonObj = button(video);
-        video.before(buttonObj);
-    });
-}
+        $(video).prepend(button);
+    },
+    putOnVideos: function(area) {
+        var videos = $(area).find('object[data*="youtube.com/v/"],' +
+                                   'embed[src*="youtube.com/v/"]');
+        videos.each(function() {
+            var video = $(this);
+            var button = youtubeButton.build(video);
+            video.before(button);
+        });
+    }
+};
