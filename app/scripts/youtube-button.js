@@ -10,20 +10,20 @@ var youtubeButton = (function() {
 
         button.offset(video.offset());
         $(button).hover(function() {
-            button.css('opacity', 1);
+            button.stop(true, true).css('opacity', 1);
             clearTimeout(timeout);
         }, function() {
-            button.css('opacity', 0);
+            button.stop(true, true).css('opacity', 0);
             clearTimeout(timeout);
         });
 
         video.hover(function() {
-            button.css('opacity', 1);
+            button.stop(true, true).css('opacity', 1);
             timeout = setTimeout(function() {
-                button.css('opacity', 0);
-            }, 1000);
+                button.stop(true, true).fadeTo(500, 0);
+            }, 2000);
         }, function() {
-            button.css('opacity', 0);
+            button.stop(true, true).css('opacity', 0);
             clearTimeout(timeout);
         });
 
