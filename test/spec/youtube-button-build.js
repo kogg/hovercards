@@ -41,12 +41,12 @@
                 button.should.have.css('opacity', '0');
             });
 
-            it('should still be opaque 1 second after mouseenter', function() {
+            it('should still be opaque 2 seconds after mouseenter', function() {
                 this.clock = sandbox.useFakeTimers();
                 var button = youtubeButton.build('#video').appendTo('#sandbox');
 
                 button.mouseenter();
-                this.clock.tick(1000);
+                this.clock.tick(2000);
                 button.should.have.css('opacity', '1');
             });
         });
@@ -67,14 +67,14 @@
                 button.should.have.css('opacity', '0');
             });
 
-            it('should be transparent 1 second after video mouseenter', function() {
+            it('should be transparent 2 seconds after video mouseenter', function() {
                 this.clock = sandbox.useFakeTimers();
                 var button = youtubeButton.build('#video').appendTo('#sandbox');
 
                 $('#video').mouseenter();
-                this.clock.tick(999);
+                this.clock.tick(1999);
                 button.should.have.css('opacity', '1');
-                this.clock.tick(1000);
+                this.clock.tick(2000);
                 button.should.have.css('opacity', '0');
             });
         });

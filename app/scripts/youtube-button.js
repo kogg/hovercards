@@ -21,7 +21,7 @@ var youtubeButton = (function() {
             button.css('opacity', 1);
             timeout = setTimeout(function() {
                 button.css('opacity', 0);
-            }, 1000);
+            }, 2000);
         }, function() {
             button.css('opacity', 0);
             clearTimeout(timeout);
