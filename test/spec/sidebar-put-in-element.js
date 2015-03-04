@@ -14,6 +14,10 @@
                 $('#sandbox > .deckard-sidebar').should.exist;
             });
 
+            it('should be hidden', function() {
+                sidebar.putInElement('#sandbox').should.be.hidden;
+            });
+
             it('should contain an iframe', function() {
                 sidebar.putInElement('#sandbox').should.have.descendants('iframe');
             });

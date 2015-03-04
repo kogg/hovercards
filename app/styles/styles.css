@@ -1,3 +1,6 @@
+.deckard-sidebar {
+	display: none;
+}
 .deckard-youtube-button * {
 	-webkit-transform: translateZ(0) !important;
 	-moz-box-sizing:border-box !important;
