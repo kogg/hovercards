@@ -35,17 +35,17 @@ var youtubeButton = (function() {
     }
 
     function putInVideo(video) {
-        var button = build(video);
+        var button = youtubeButton.build('#player');
 
         $(video).prepend(button);
     }
 
     function putOnVideos(area) {
         var videos = $(area).find('object[data*="youtube.com/v/"],' +
-                                   'embed[src*="youtube.com/v/"]');
+                                  'embed[src*="youtube.com/v/"]');
         videos.each(function() {
             var video = $(this);
-            var button = build(video);
+            var button = youtubeButton.build(video);
             video.before(button);
         });
     }
