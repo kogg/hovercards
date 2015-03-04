@@ -1,43 +1,43 @@
 'use strict';
 
 (function() {
-    /* global button */
-    describe('button', function() {
+    /* global youtubeButton */
+    describe('youtube-button-build', function() {
         it('should have class deckard-button', function() {
-            button('#video').appendTo('#sandbox')
+            youtubeButton.build('#video').appendTo('#sandbox')
                 .should.have.class('deckard-button');
         });
 
         it('should be transparent', function() {
-            button('#video').appendTo('#sandbox')
+            youtubeButton.build('#video').appendTo('#sandbox')
                 .should.have.css('opacity', '0');
         });
 
         it('should have position absolute', function() {
-            button('#video').appendTo('#sandbox')
+            youtubeButton.build('#video').appendTo('#sandbox')
                 .should.have.css('position', 'absolute');
         });
 
         it('should load it\'s content', function() {
             sandbox.stub(chrome.runtime, 'sendMessage')
                 .yields('Button Content');
-            var buttonObj = button('#video').appendTo('#sandbox');
+            var button = youtubeButton.build('#video').appendTo('#sandbox');
 
             chrome.runtime.sendMessage
-                .should.have.been.calledWith({ cmd: 'load_html', fileName: 'button.html' });
-            buttonObj
+                .should.have.been.calledWith({ cmd: 'load_html', filename: 'button.html' });
+            button
                 .should.have.html('Button Content');
         });
 
         describe('hovering', function() {
             it('should be opaque on mouseenter', function() {
-                button('#video').appendTo('#sandbox')
+                youtubeButton.build('#video').appendTo('#sandbox')
                     .mouseenter()
                     .should.have.css('opacity', '1');
             });
 
             it('should be transparent on mouseleave', function() {
-                button('#video').appendTo('#sandbox')
+                youtubeButton.build('#video').appendTo('#sandbox')
                     .mouseenter()
                     .mouseleave()
                     .should.have.css('opacity', '0');
@@ -45,45 +45,44 @@
 
             it('should still be opaque 1 second after mouseenter', function() {
                 this.clock = sandbox.useFakeTimers();
-                var buttonObj = button('#video').appendTo('#sandbox');
+                var button = youtubeButton.build('#video').appendTo('#sandbox');
 
-                buttonObj
+                button
                     .mouseenter();
                 this.clock.tick(1000);
-                buttonObj
+                button
                     .should.have.css('opacity', '1');
             });
         });
 
         describe('video hovering', function() {
             it('should be opaque on video mouseenter', function() {
-                console.log('problem');
-                var buttonObj = button('#video').appendTo('#sandbox');
+                var button = youtubeButton.build('#video').appendTo('#sandbox');
 
                 $('#video')
                     .mouseenter();
-                buttonObj
+                button
                     .should.have.css('opacity', '1');
             });
 
             it('should be transparent on video mouseleave', function() {
-                var buttonObj = button('#video').appendTo('#sandbox');
+                var button = youtubeButton.build('#video').appendTo('#sandbox');
 
                 $('#video')
                     .mouseenter()
                     .mouseleave();
-                buttonObj
+                button
                     .should.have.css('opacity', '0');
             });
 
             it('should be transparent 1 second after video mouseenter', function() {
                 this.clock = sandbox.useFakeTimers();
-                var buttonObj = button('#video').appendTo('#sandbox');
+                var button = youtubeButton.build('#video').appendTo('#sandbox');
 
                 $('#video')
                     .mouseenter();
                 this.clock.tick(1000);
-                buttonObj
+                button
                     .should.have.css('opacity', '0');
             });
         });
