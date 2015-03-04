@@ -12,7 +12,7 @@
         "scripts": [
             "scripts/chromereload.js",
             "bower_components/jquery/dist/jquery.js",
-            "scripts/loadHtml.js",
+            "scripts/load-html.js",
             "scripts/background.js"
         ]
     },
