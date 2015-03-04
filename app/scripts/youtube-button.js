@@ -1,8 +1,8 @@
 'use strict';
 
 /* exported youtubeButton */
-var youtubeButton = {
-    build: function(video) {
+var youtubeButton = (function() {
+    function build(video) {
         var button = $('<div class="deckard-button"></div>');
         video = $(video);
 
@@ -32,19 +32,27 @@ var youtubeButton = {
         });
 
         return button;
-    },
-    putInVideo: function(video) {
-        var button = youtubeButton.build(video);
+    }
+
+    function putInVideo(video) {
+        var button = build(video);
 
         $(video).prepend(button);
-    },
-    putOnVideos: function(area) {
+    }
+
+    function putOnVideos(area) {
         var videos = $(area).find('object[data*="youtube.com/v/"],' +
                                    'embed[src*="youtube.com/v/"]');
         videos.each(function() {
             var video = $(this);
-            var button = youtubeButton.build(video);
+            var button = build(video);
             video.before(button);
         });
     }
-};
+
+    return {
+        build: build,
+        putInVideo: putInVideo,
+        putOnVideos: putOnVideos
+    };
+}());
