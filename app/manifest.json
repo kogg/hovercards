@@ -49,6 +49,7 @@
             ],
             "js": [
                 "bower_components/jquery/dist/jquery.js",
+                "scripts/sidebar.js",
                 "scripts/youtube-button.js",
                 "scripts/main.js"
             ],
