@@ -70,6 +70,25 @@ define(['youtube-button', 'sinon'], function(youtubeButton, sinon) {
             });
         });
 
+        describe('message (request-info)', function() {
+            it('should be sent on mouseenter', function() {
+                sandbox.stub(chrome.runtime, 'sendMessage');
+                var button = youtubeButton('#video').appendTo('#sandbox');
+                chrome.runtime.sendMessage.should.not.have.been.calledWith({ cmd: 'request-info', info: 'youtube' });
+                button.mouseenter();
+                chrome.runtime.sendMessage.should.have.been.calledWith({ cmd: 'request-info', info: 'youtube' });
+            });
+
+            it('should be sent on mouseleave', function() {
+                sandbox.stub(chrome.runtime, 'sendMessage');
+                var button = youtubeButton('#video').appendTo('#sandbox');
+                button.mouseenter();
+                chrome.runtime.sendMessage.should.not.have.been.calledWith({ cmd: 'forget-info', info: 'youtube' });
+                button.mouseleave();
+                chrome.runtime.sendMessage.should.have.been.calledWith({ cmd: 'forget-info', info: 'youtube' });
+            });
+        });
+
         afterEach(function() {
             $('#sandbox').empty();
             $('#sandbox').off();
