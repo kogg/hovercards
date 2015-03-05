@@ -12,6 +12,8 @@
         "scripts": [
             "scripts/chromereload.js",
             "bower_components/jquery/dist/jquery.js",
+            "bower_components/requirejs/require.js",
+            "scripts/config.js",
             "scripts/load-html.js",
             "scripts/background.js"
         ]
