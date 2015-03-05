@@ -14,12 +14,12 @@
             "bower_components/requirejs/require.js",
             "scripts/config.js",
             "bower_components/jquery/dist/jquery.js",
-            "scripts/load-html.js",
             "scripts/background.js"
         ]
     },
     "web_accessible_resources": [
         "images/*",
+        "button.html",
         "sidebar.html"
     ],
     "content_scripts": [

@@ -28,9 +28,7 @@ define('youtube-button', ['jquery'], function($) {
             clearTimeout(timeout);
         });
 
-        chrome.runtime.sendMessage({ msg: 'load', key: 'html', value: 'button.html' }, function(html) {
-            button.html(html);
-        });
+        button.load(chrome.extension.getURL('button.html'));
 
         return button;
     }
