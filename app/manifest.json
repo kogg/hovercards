@@ -19,6 +19,7 @@
     },
     "web_accessible_resources": [
         "images/*",
+        "button.html",
         "sidebar.html"
     ],
     "content_scripts": [
