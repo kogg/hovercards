@@ -3,12 +3,9 @@
 define(['youtube-button', 'sinon'], function(youtubeButton, sinon) {
     describe('youtube-button', function() {
         var sandbox = sinon.sandbox.create();
-        var server;
 
         beforeEach(function() {
             $('#sandbox').append('<div id="video"></div>');
-            server = sandbox.useFakeServer();
-            server.respondWith('chrome://extension_id/button.html', 'Button Content');
         });
 
         describe('view', function() {
@@ -26,10 +23,7 @@ define(['youtube-button', 'sinon'], function(youtubeButton, sinon) {
                 });
 
                 it('should load it\'s content', function() {
-                    var button = youtubeButton('#video').appendTo('#sandbox');
-                    server.respond();
-                    server.requests.should.have.length(1);
-                    button.should.have.html('Button Content');
+                    youtubeButton('#video').appendTo('#sandbox').should.have.descendants('div.deckard-youtube-button-inner');
                 });
             });
 

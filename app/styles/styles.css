@@ -26,17 +26,17 @@
 	width: auto !important;
 	height: auto !important;
 }
-.deckard-header {
+.deckard-youtube-button-inner {
 	height: 30px;
 	width: 12px;
 	-webkit-transition:width .5s, background-position .6s, background .5s;
 	transition:width .5s, background-position .6s, background .5s;
 	background: url("chrome-extension://__MSG_@@extension_id__/images/deckardlogo-white.png") 150px 50% / 80px no-repeat #F44336 !important;
 }
-.deckard-header:hover {
+.deckard-youtube-button-inner:hover {
 	cursor: pointer;
 }
-.deckard-youtube-button:hover .deckard-header {
+.deckard-youtube-button:hover .deckard-youtube-button-inner {
 	width: 100px;
 	background-position: center !important;
 }

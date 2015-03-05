@@ -2,7 +2,7 @@
 
 define('youtube-button', ['jquery'], function($) {
     function youtubeButton(video) {
-        var button = $('<div class="deckard-youtube-button"></div>');
+        var button = $('<div class="deckard-youtube-button"></div>').append('<div class="deckard-youtube-button-inner"></div>');
         video = $(video);
 
         var timeout;
@@ -30,8 +30,6 @@ define('youtube-button', ['jquery'], function($) {
             button.stop(true, true).css('opacity', 0);
             clearTimeout(timeout);
         });
-
-        button.load(chrome.extension.getURL('button.html'));
 
         return button;
     }
