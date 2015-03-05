@@ -16,6 +16,7 @@
     <script src="bower_components/sinon-chai/lib/sinon-chai.js"></script>
     <script src="bower_components/chai-jquery/chai-jquery.js"></script>
     <script src="bower_components/sinonjs/sinon.js"></script>
+    <script src="bower_components/requirejs/require.js"></script>
     <script>
         var assert = chai.assert;
         var expect = chai.expect;
@@ -25,14 +26,11 @@
                                     onMessage:   { addListener: $.noop } } };
     </script>
 
-    <!-- include content_script source files here... -->
     <script src="scripts/sidebar.js"></script>
     <script src="scripts/youtube-button.js"></script>
 
-    <!-- include background source files here... -->
     <script src="scripts/load-html.js"></script>
 
-    <!-- include spec files here... -->
     <script src="spec/sidebar-put-in-element.js"></script>
     <script src="spec/youtube-button-build.js"></script>
     <script src="spec/youtube-button-put-in-video.js"></script>
