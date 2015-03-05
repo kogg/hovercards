@@ -9,8 +9,6 @@
 <body>
     <div id="mocha"></div>
     <div id="sandbox"></div>
-    <script src="bower_components/mocha/mocha.js"></script>
-    <script>mocha.setup('bdd')</script>
     <script src="bower_components/requirejs/require.js"></script>
     <script>
         var chrome = { extension: { getURL: function() {} },
@@ -25,25 +23,36 @@
             paths: {
                 'chai':        '../bower_components/chai/chai',
                 'chai-jquery': '../bower_components/chai-jquery/chai-jquery',
+                'mocha':       '../bower_components/mocha/mocha',
                 'sinon':       '../bower_components/sinonjs/sinon',
                 'sinon-chai':  '../bower_components/sinon-chai/lib/sinon-chai'
+            },
+            shim: {
+                mocha: {
+                    init: function() {
+                        mocha.setup('bdd');
+                        return mocha;
+                    }
+                }
             }
         });
 
-        require(['chai', 'chai-jquery', 'sinon-chai'], function(chai, chaiJquery, sinonChai) {
-            var assert = chai.assert;
-            var expect = chai.expect;
-            var should = chai.should();
-            chai.use(chaiJquery);
-            chai.use(sinonChai);
-            require([
-                '../spec/sidebar-put-in-element',
-                '../spec/youtube-button.js',
-                '../spec/youtube-button-put-in-video.js',
-                '../spec/youtube-button-put-on-videos.js',
-                '../spec/load-html.js'
-            ], function() {
-                mocha.run();
+        require(['mocha'], function(mocha) {
+            require(['chai', 'chai-jquery', 'sinon-chai'], function(chai, chaiJquery, sinonChai) {
+                var assert = chai.assert;
+                var expect = chai.expect;
+                var should = chai.should();
+                chai.use(chaiJquery);
+                chai.use(sinonChai);
+                require([
+                    '../spec/sidebar-put-in-element',
+                    '../spec/youtube-button.js',
+                    '../spec/youtube-button-put-in-video.js',
+                    '../spec/youtube-button-put-on-videos.js',
+                    '../spec/load-html.js'
+                ], function() {
+                    mocha.run();
+                });
             });
         });
     </script>
