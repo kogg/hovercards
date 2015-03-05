@@ -29,6 +29,18 @@ define(['sidebar', 'sinon'], function(sidebar, sinon) {
                                                            $.noop);
                 sidebarObj.should.be.visible;
             });
+
+            it('should be hidden when uninterested', function() {
+                sandbox.stub(chrome.runtime.onMessage, 'addListener');
+                var sidebarObj = sidebar().appendTo('#sandbox');
+                chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'visible' },
+                                                           {},
+                                                           $.noop);
+                chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'uninterested' },
+                                                           {},
+                                                           $.noop);
+                sidebarObj.should.be.hidden;
+            });
         });
 
         afterEach(function() {

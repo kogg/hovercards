@@ -10,6 +10,8 @@ define('sidebar', ['jquery'], function($) {
                 if (request.key === 'display') {
                     if (request.value === 'visible') {
                         obj.show();
+                    } else if (request.value === 'uninterested') {
+                        obj.hide();
                     }
                 }
             }
