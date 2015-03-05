@@ -30,7 +30,7 @@
                 }
             }
         });
-        var chrome = { extension: { getURL: function() {} },
+        var chrome = { extension: { getURL: function(filename) { return 'chrome://extension_id/' + filename; } },
                        runtime:   { sendMessage: function() {},
                                     onMessage:   { addListener: function() {} } } };
         require(['mocha'], function(mocha) {

@@ -1,7 +1,7 @@
 'use strict';
 
 define(['sidebar', 'sinon'], function(sidebar, sinon) {
-    describe('sidebar-put-in-element', function() {
+    describe('sidebar', function() {
         var sandbox = sinon.sandbox.create();
 
         describe('view', function() {
@@ -14,11 +14,9 @@ define(['sidebar', 'sinon'], function(sidebar, sinon) {
             });
 
             it('should contain an iframe with sidebar.html', function() {
-                sandbox.stub(chrome.extension, 'getURL').returns('chrome://gibberish_id/sidebar.html');
                 var sidebarObj = sidebar().appendTo('#sandbox');
                 sidebarObj.should.have.descendants('iframe');
-                chrome.extension.getURL.should.have.been.calledWith('sidebar.html');
-                sidebarObj.children('iframe').should.have.prop('src', 'chrome://gibberish_id/sidebar.html');
+                sidebarObj.children('iframe').should.have.prop('src', 'chrome://extension_id/sidebar.html');
             });
         });
 
