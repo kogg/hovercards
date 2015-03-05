@@ -3,6 +3,12 @@
 define(['youtube-button', 'sinon'], function(youtubeButton, sinon) {
     describe('youtube-button-disperse-throughout', function() {
         var sandbox = sinon.sandbox.create();
+        var server;
+
+        beforeEach(function() {
+            server = sandbox.useFakeServer();
+            server.respondWith('chrome://extension_id/button.html', 'Button Content');
+        });
 
         describe('on embed', function() {
             it('should be on youtube embeds', function() {
