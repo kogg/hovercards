@@ -1,8 +1,8 @@
 'use strict';
 
 (function() {
-    require(['sidebar', 'youtube-button'], function(sidebar, youtubeButton) {
-        sidebar.putInElement('body');
+    require(['jquery', 'sidebar', 'youtube-button'], function($, sidebar, youtubeButton) {
+        $('body').prepend(sidebar());
         youtubeButton.disperseThroughout('body');
     });
 }());

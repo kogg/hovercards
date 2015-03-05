@@ -1,7 +1,7 @@
 'use strict';
 
 (function() {
-    require(['youtube-button', 'jquery'], function(youtubeButton, $) {
+    require(['jquery', 'youtube-button'], function($, youtubeButton) {
         $('body').prepend(youtubeButton('body #player'));
     });
 }());
