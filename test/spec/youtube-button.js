@@ -76,22 +76,22 @@ define(['youtube-button', 'sinon'], function(youtubeButton, sinon) {
             });
         });
 
-        describe('request-info', function() {
-            it('should be sent on mouseenter', function() {
+        describe('info', function() {
+            it('should be requested on mouseenter', function() {
                 sandbox.stub(chrome.runtime, 'sendMessage');
                 var button = youtubeButton('#video').appendTo('#sandbox');
-                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'request-info', key: 'youtube' });
+                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'info', key: 'youtube' });
                 button.mouseenter();
-                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'request-info', key: 'youtube' });
+                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'info', key: 'youtube' });
             });
 
-            it('should be forgotten on mouseleave', function() {
+            it('should lose interest on mouseleave', function() {
                 sandbox.stub(chrome.runtime, 'sendMessage');
                 var button = youtubeButton('#video').appendTo('#sandbox');
                 button.mouseenter();
-                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'request-info', key: 'forget' });
+                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'info', key: 'uninterested' });
                 button.mouseleave();
-                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'request-info', key: 'forget' });
+                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'info', key: 'uninterested' });
             });
         });
 
