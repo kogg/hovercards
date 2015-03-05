@@ -10,11 +10,11 @@ define('youtube-button', ['jquery'], function($) {
         button.offset(video.offset());
         $(button).hover(function() {
             button.stop(true, true).css('opacity', 1);
-            chrome.runtime.sendMessage({ cmd: 'request-info', info: 'youtube' });
+            chrome.runtime.sendMessage({ msg: 'request-info', key: 'youtube' });
             clearTimeout(timeout);
         }, function() {
             button.stop(true, true).css('opacity', 0);
-            chrome.runtime.sendMessage({ cmd: 'forget-info', info: 'youtube' });
+            chrome.runtime.sendMessage({ msg: 'forget-info', key: 'youtube' });
             clearTimeout(timeout);
         });
 
@@ -28,7 +28,7 @@ define('youtube-button', ['jquery'], function($) {
             clearTimeout(timeout);
         });
 
-        chrome.runtime.sendMessage({ cmd: 'load-html', filename: 'button.html' }, function(html) {
+        chrome.runtime.sendMessage({ msg: 'load', key: 'html', value: 'button.html' }, function(html) {
             button.html(html);
         });
 

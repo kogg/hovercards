@@ -24,7 +24,7 @@ define(['youtube-button', 'sinon'], function(youtubeButton, sinon) {
             it('should load it\'s content', function() {
                 sandbox.stub(chrome.runtime, 'sendMessage').yields('Button Content');
                 youtubeButton('#video').appendTo('#sandbox').should.have.html('Button Content');
-                chrome.runtime.sendMessage.should.have.been.calledWith({ cmd: 'load-html', filename: 'button.html' });
+                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'load', key: 'html', value: 'button.html' });
             });
         });
 
@@ -74,18 +74,18 @@ define(['youtube-button', 'sinon'], function(youtubeButton, sinon) {
             it('should be sent on mouseenter', function() {
                 sandbox.stub(chrome.runtime, 'sendMessage');
                 var button = youtubeButton('#video').appendTo('#sandbox');
-                chrome.runtime.sendMessage.should.not.have.been.calledWith({ cmd: 'request-info', info: 'youtube' });
+                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'request-info', key: 'youtube' });
                 button.mouseenter();
-                chrome.runtime.sendMessage.should.have.been.calledWith({ cmd: 'request-info', info: 'youtube' });
+                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'request-info', key: 'youtube' });
             });
 
             it('should be sent on mouseleave', function() {
                 sandbox.stub(chrome.runtime, 'sendMessage');
                 var button = youtubeButton('#video').appendTo('#sandbox');
                 button.mouseenter();
-                chrome.runtime.sendMessage.should.not.have.been.calledWith({ cmd: 'forget-info', info: 'youtube' });
+                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'forget-info', key: 'youtube' });
                 button.mouseleave();
-                chrome.runtime.sendMessage.should.have.been.calledWith({ cmd: 'forget-info', info: 'youtube' });
+                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'forget-info', key: 'youtube' });
             });
         });
 
