@@ -1,7 +1,7 @@
 'use strict';
 
 define('youtube-button', ['jquery'], function($) {
-    function build(video) {
+    function youtubeButton(video) {
         var button = $('<div class="deckard-youtube-button"></div>');
         video = $(video);
 
@@ -10,9 +10,11 @@ define('youtube-button', ['jquery'], function($) {
         button.offset(video.offset());
         $(button).hover(function() {
             button.stop(true, true).css('opacity', 1);
+            chrome.runtime.sendMessage({ msg: 'request-info', key: 'youtube' });
             clearTimeout(timeout);
         }, function() {
             button.stop(true, true).css('opacity', 0);
+            chrome.runtime.sendMessage({ msg: 'request-info', key: 'forget' });
             clearTimeout(timeout);
         });
 
@@ -26,34 +28,24 @@ define('youtube-button', ['jquery'], function($) {
             clearTimeout(timeout);
         });
 
-        chrome.runtime.sendMessage({ cmd: 'load-html', filename: 'button.html' }, function(html) {
+        chrome.runtime.sendMessage({ msg: 'load', key: 'html', value: 'button.html' }, function(html) {
             button.html(html);
         });
 
         return button;
     }
 
-    function putInVideo(video) {
-        var button = methods.build('#player');
-
-        $(video).prepend(button);
-    }
-
-    function putOnVideos(area) {
+    function disperseThroughout(area) {
         var videos = $(area).find('object[data*="youtube.com/v/"],' +
                                   'embed[src*="youtube.com/v/"]');
         videos.each(function() {
             var video = $(this);
-            var button = methods.build(video);
+            var button = youtubeButton(video);
             video.before(button);
         });
     }
 
-    var methods = {
-        build: build,
-        putInVideo: putInVideo,
-        putOnVideos: putOnVideos
-    };
+    youtubeButton.disperseThroughout = disperseThroughout;
 
-    return methods;
+    return youtubeButton;
 });

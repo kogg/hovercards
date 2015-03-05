@@ -10,12 +10,6 @@
     <div id="mocha"></div>
     <div id="sandbox"></div>
     <script src="bower_components/requirejs/require.js"></script>
-    <script>
-        var chrome = { extension: { getURL: function() {} },
-                       runtime:   { sendMessage: function() {},
-                                    onMessage:   { addListener: function() {} } } };
-    </script>
-
     <script src="scripts/config.js"></script>
     <script>
         require.config({
@@ -36,7 +30,9 @@
                 }
             }
         });
-
+        var chrome = { extension: { getURL: function() {} },
+                       runtime:   { sendMessage: function() {},
+                                    onMessage:   { addListener: function() {} } } };
         require(['mocha'], function(mocha) {
             require(['chai', 'chai-jquery', 'sinon-chai'], function(chai, chaiJquery, sinonChai) {
                 chai.should();
@@ -45,8 +41,7 @@
                 require([
                     '../spec/sidebar-put-in-element',
                     '../spec/youtube-button.js',
-                    '../spec/youtube-button-put-in-video.js',
-                    '../spec/youtube-button-put-on-videos.js',
+                    '../spec/youtube-button-disperse-throughout.js',
                     '../spec/load-html.js'
                 ], function() {
                     mocha.run();
