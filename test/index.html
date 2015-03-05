@@ -21,19 +21,13 @@
                 'sinon':       '../bower_components/sinonjs/sinon',
                 'sinon-chai':  '../bower_components/sinon-chai/lib/sinon-chai'
             },
-            shim: {
-                mocha: {
-                    init: function() {
-                        mocha.setup('bdd');
-                        return mocha;
-                    }
-                }
-            }
+            shim: { mocha: { exports: 'mocha' } }
         });
         var chrome = { extension: { getURL: function(filename) { return 'chrome://extension_id/' + filename; } },
                        runtime:   { sendMessage: function() {},
                                     onMessage:   { addListener: function() {} } } };
         require(['mocha'], function(mocha) {
+            mocha.setup('bdd');
             require(['chai', 'chai-jquery', 'sinon-chai'], function(chai, chaiJquery, sinonChai) {
                 chai.should();
                 chai.use(chaiJquery);
