@@ -1,3 +1,6 @@
 {
-    "extends": "../../.jshintrc"
+    "extends": "../../.jshintrc",
+    "globals": {
+        "define": true
+    }
 }

@@ -12,6 +12,8 @@
         "scripts": [
             "scripts/chromereload.js",
             "bower_components/jquery/dist/jquery.js",
+            "bower_components/requirejs/require.js",
+            "scripts/config.js",
             "scripts/load-html.js",
             "scripts/background.js"
         ]
@@ -34,6 +36,8 @@
             ],
             "js": [
                 "bower_components/jquery/dist/jquery.js",
+                "bower_components/requirejs/require.js",
+                "scripts/config.js",
                 "scripts/youtube-button.js",
                 "scripts/youtube-iframe.js"
             ],
@@ -50,8 +54,10 @@
             ],
             "js": [
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/sidebar.js",
+                "bower_components/requirejs/require.js",
+                "scripts/config.js",
                 "scripts/youtube-button.js",
+                "scripts/sidebar.js",
                 "scripts/main.js"
             ],
             "all_frames": false

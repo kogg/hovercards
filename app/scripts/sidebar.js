@@ -1,7 +1,6 @@
 'use strict';
 
-/* exported sidebar */
-var sidebar = (function() {
+define('sidebar', function() {
     function putInElement(element) {
         var sidebarObj = $('<div class="deckard-sidebar"></div>');
 
@@ -13,4 +12,4 @@ var sidebar = (function() {
     }
 
     return { putInElement: putInElement };
-}());
+});

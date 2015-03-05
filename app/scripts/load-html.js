@@ -1,7 +1,6 @@
 'use strict';
 
-/* exported loadHtml */
-var loadHtml = (function() {
+define('load-html', function() {
     function loadHtml(filename, callback) {
         $.ajax({
             url: chrome.extension.getURL(filename),
@@ -11,4 +10,4 @@ var loadHtml = (function() {
     }
 
     return loadHtml;
-}());
+});

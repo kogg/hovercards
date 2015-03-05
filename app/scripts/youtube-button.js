@@ -1,7 +1,6 @@
 'use strict';
 
-/* exported youtubeButton */
-var youtubeButton = (function() {
+define('youtube-button', function() {
     function build(video) {
         var button = $('<div class="deckard-youtube-button"></div>');
         video = $(video);
@@ -35,7 +34,7 @@ var youtubeButton = (function() {
     }
 
     function putInVideo(video) {
-        var button = youtubeButton.build('#player');
+        var button = methods.build('#player');
 
         $(video).prepend(button);
     }
@@ -45,14 +44,16 @@ var youtubeButton = (function() {
                                   'embed[src*="youtube.com/v/"]');
         videos.each(function() {
             var video = $(this);
-            var button = youtubeButton.build(video);
+            var button = methods.build(video);
             video.before(button);
         });
     }
 
-    return {
+    var methods = {
         build: build,
         putInVideo: putInVideo,
         putOnVideos: putOnVideos
     };
-}());
+
+    return methods;
+});
