@@ -6,8 +6,8 @@ define(['background', 'jquery', 'sinon'], function(background, $, sinon) {
 
         describe('request-info', function() {
             it('should redistribute the message to the tab it came from', function() {
-                sinon.stub(chrome.tabs, 'sendMessage');
-                sinon.stub(chrome.runtime.onMessage, 'addListener');
+                sandbox.stub(chrome.tabs, 'sendMessage');
+                sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 background();
                 chrome.runtime.onMessage.addListener.yield({ msg: 'request-info', key: 'somewhere' },
                                                            { tab: { id: 'TAB_ID' } },

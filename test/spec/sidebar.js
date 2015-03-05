@@ -20,6 +20,17 @@ define(['sidebar', 'sinon'], function(sidebar, sinon) {
             });
         });
 
+        describe('request-info', function() {
+            it('should be visible on receiving the message', function() {
+                sandbox.stub(chrome.runtime.onMessage, 'addListener');
+                var sidebarObj = sidebar().appendTo('#sandbox');
+                chrome.runtime.onMessage.addListener.yield({ msg: 'request-info', key: 'somewhere' },
+                                                           {},
+                                                           $.noop);
+                sidebarObj.should.be.visible;
+            });
+        });
+
         afterEach(function() {
             $('#sandbox').empty();
             $('#sandbox').off();
