@@ -1,6 +1,6 @@
 'use strict';
 
-define(['youtube-button', 'sinon'], function(youtubeButton, sinon) {
+define(['youtube-button', 'jquery', 'sinon'], function(youtubeButton, $, sinon) {
     describe('youtube-button', function() {
         var sandbox = sinon.sandbox.create();
 

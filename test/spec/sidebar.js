@@ -1,6 +1,6 @@
 'use strict';
 
-define(['sidebar', 'sinon'], function(sidebar, sinon) {
+define(['sidebar', 'jquery', 'sinon'], function(sidebar, $, sinon) {
     describe('sidebar', function() {
         var sandbox = sinon.sandbox.create();
 
