@@ -132,7 +132,6 @@ module.exports = function (grunt) {
         mocha: {
             all: {
                 options: {
-                    run: true,
                     urls: ['http://localhost:<%= connect.test.options.port %>/index.html'],
                     log: true,
                     reporter: 'Nyan'

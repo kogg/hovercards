@@ -9,40 +9,50 @@
 <body>
     <div id="mocha"></div>
     <div id="sandbox"></div>
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/mocha/mocha.js"></script>
-    <script>mocha.setup('bdd')</script>
-    <script src="bower_components/chai/chai.js"></script>
-    <script src="bower_components/sinon-chai/lib/sinon-chai.js"></script>
-    <script src="bower_components/chai-jquery/chai-jquery.js"></script>
-    <script src="bower_components/sinonjs/sinon.js"></script>
     <script src="bower_components/requirejs/require.js"></script>
     <script>
-        var assert = chai.assert;
-        var expect = chai.expect;
-        var should = chai.should();
-        var chrome = { extension: { getURL: $.noop },
-                       runtime:   { sendMessage: $.noop,
-                                    onMessage:   { addListener: $.noop } } };
+        var chrome = { extension: { getURL: function() {} },
+                       runtime:   { sendMessage: function() {},
+                                    onMessage:   { addListener: function() {} } } };
     </script>
 
     <script src="scripts/config.js"></script>
     <script>
         require.config({
-            baseUrl: 'scripts'
+            baseUrl: 'scripts',
+            paths: {
+                'chai':        '../bower_components/chai/chai',
+                'chai-jquery': '../bower_components/chai-jquery/chai-jquery',
+                'mocha':       '../bower_components/mocha/mocha',
+                'sinon':       '../bower_components/sinonjs/sinon',
+                'sinon-chai':  '../bower_components/sinon-chai/lib/sinon-chai'
+            },
+            shim: {
+                mocha: {
+                    init: function() {
+                        mocha.setup('bdd');
+                        return mocha;
+                    }
+                }
+            }
         });
-    </script>
 
-    <script src="spec/sidebar-put-in-element.js"></script>
-    <script src="spec/youtube-button.js"></script>
-    <script src="spec/youtube-button-put-in-video.js"></script>
-    <script src="spec/youtube-button-put-on-videos.js"></script>
-    <script src="spec/load-html.js"></script>
-
-    <script>
-        if (navigator.userAgent.indexOf('PhantomJS') < 0) {
-            mocha.run();
-        }
+        require(['mocha'], function(mocha) {
+            require(['chai', 'chai-jquery', 'sinon-chai'], function(chai, chaiJquery, sinonChai) {
+                chai.should();
+                chai.use(chaiJquery);
+                chai.use(sinonChai);
+                require([
+                    '../spec/sidebar-put-in-element',
+                    '../spec/youtube-button.js',
+                    '../spec/youtube-button-put-in-video.js',
+                    '../spec/youtube-button-put-on-videos.js',
+                    '../spec/load-html.js'
+                ], function() {
+                    mocha.run();
+                });
+            });
+        });
     </script>
 </body>
 </html>
