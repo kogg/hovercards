@@ -1,6 +1,6 @@
 'use strict';
 
-define('sidebar', function() {
+define('sidebar', ['jquery'], function($) {
     function putInElement(element) {
         var sidebarObj = $('<div class="deckard-sidebar"></div>');
 

@@ -1,3 +1,5 @@
 require.config({
-    baseUrl: chrome.extension.getURL('scripts')
+    paths: {
+        jquery: '../bower_components/jquery/dist/jquery.js'
+    }
 });

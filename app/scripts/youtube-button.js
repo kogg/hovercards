@@ -1,6 +1,6 @@
 'use strict';
 
-define('youtube-button', function() {
+define('youtube-button', ['jquery'], function($) {
     function build(video) {
         var button = $('<div class="deckard-youtube-button"></div>');
         video = $(video);
