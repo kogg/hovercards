@@ -1,7 +1,7 @@
 'use strict';
 
 define('youtube-button', ['jquery'], function($) {
-    function build(video) {
+    function youtubeButton(video) {
         var button = $('<div class="deckard-youtube-button"></div>');
         video = $(video);
 
@@ -34,7 +34,7 @@ define('youtube-button', ['jquery'], function($) {
     }
 
     function putInVideo(video) {
-        var button = methods.build('#player');
+        var button = youtubeButton.build('#player');
 
         $(video).prepend(button);
     }
@@ -44,16 +44,14 @@ define('youtube-button', ['jquery'], function($) {
                                   'embed[src*="youtube.com/v/"]');
         videos.each(function() {
             var video = $(this);
-            var button = methods.build(video);
+            var button = youtubeButton.build(video);
             video.before(button);
         });
     }
 
-    var methods = {
-        build: build,
-        putInVideo: putInVideo,
-        putOnVideos: putOnVideos
-    };
+    youtubeButton.build = youtubeButton;
+    youtubeButton.putInVideo = putInVideo;
+    youtubeButton.putOnVideos = putOnVideos;
 
-    return methods;
+    return youtubeButton;
 });
