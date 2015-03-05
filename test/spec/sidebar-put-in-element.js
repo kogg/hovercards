@@ -17,7 +17,9 @@
             it('should be hidden', function() {
                 sidebar.putInElement('#sandbox').should.be.hidden;
             });
+        });
 
+        describe('behavior', function() {
             it('should contain an iframe with sidebar.html', function() {
                 sandbox.stub(chrome.extension, 'getURL').returns('chrome://gibberish_id/sidebar.html');
                 var sidebarObj = sidebar.putInElement('#sandbox');
