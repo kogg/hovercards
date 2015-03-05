@@ -10,12 +10,6 @@
     <div id="mocha"></div>
     <div id="sandbox"></div>
     <script src="bower_components/requirejs/require.js"></script>
-    <script>
-        var chrome = { extension: { getURL: function() {} },
-                       runtime:   { sendMessage: function() {},
-                                    onMessage:   { addListener: function() {} } } };
-    </script>
-
     <script src="scripts/config.js"></script>
     <script>
         require.config({
@@ -36,7 +30,9 @@
                 }
             }
         });
-
+        var chrome = { extension: { getURL: function() {} },
+                       runtime:   { sendMessage: function() {},
+                                    onMessage:   { addListener: function() {} } } };
         require(['mocha'], function(mocha) {
             require(['chai', 'chai-jquery', 'sinon-chai'], function(chai, chaiJquery, sinonChai) {
                 chai.should();
