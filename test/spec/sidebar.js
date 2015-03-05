@@ -21,6 +21,18 @@ define(['sidebar', 'sinon'], function(sidebar, sinon) {
         });
 
         describe('display', function() {
+            it('should be visible and stay visible on receiving stay_visible', function() {
+                var clock = sandbox.useFakeTimers();
+                sandbox.stub(chrome.runtime.onMessage, 'addListener');
+                var sidebarObj = sidebar().appendTo('#sandbox');
+                chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'stay_visible' },
+                                                           {},
+                                                           $.noop);
+                sidebarObj.should.be.visible;
+                clock.tick(2000);
+                sidebarObj.should.be.visible;
+            });
+
             it('should be visible on receiving the message', function() {
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 var sidebarObj = sidebar().appendTo('#sandbox');

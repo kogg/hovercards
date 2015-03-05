@@ -5,13 +5,18 @@ define('background', function() {
         chrome.runtime.onMessage.addListener(function(request, sender) {
             switch (request.msg) {
                 case 'info':
-                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', key: 'display', value: 'visible' });
-                    break;
+                    return chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', key: 'display', value: 'visible' });
                 case 'interest':
-                    if (request.key === 'confidence' && request.value === 'unsure') {
-                        chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', key: 'display', value: 'unconcerned' });
+                    if (request.key === 'confidence') {
+                        switch (request.value) {
+                            case 'sure':
+                                return chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', key: 'display', value: 'stay_visible' });
+                            case 'unsure':
+                                return chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', key: 'display', value: 'unconcerned' });
+                        }
+                        return;
                     }
-                    break;
+                    return;
             }
         });
     };

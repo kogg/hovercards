@@ -87,6 +87,14 @@ define(['youtube-button', 'sinon'], function(youtubeButton, sinon) {
         });
 
         describe('interest', function() {
+            it('should be confident in their interest on click', function() {
+                sandbox.stub(chrome.runtime, 'sendMessage');
+                var button = youtubeButton('#video').appendTo('#sandbox');
+                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'sure' });
+                button.click();
+                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'sure' });
+            });
+
             it('should lose confidence in their interest on mouseleave', function() {
                 sandbox.stub(chrome.runtime, 'sendMessage');
                 var button = youtubeButton('#video').appendTo('#sandbox');

@@ -8,7 +8,7 @@ define('youtube-button', ['jquery'], function($) {
         var timeout;
 
         button.offset(video.offset());
-        $(button).hover(function() {
+        button.hover(function() {
             button.stop(true, true).css('opacity', 1);
             chrome.runtime.sendMessage({ msg: 'info', key: 'youtube' });
             clearTimeout(timeout);
@@ -16,6 +16,9 @@ define('youtube-button', ['jquery'], function($) {
             button.stop(true, true).css('opacity', 0);
             chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'unsure' });
             clearTimeout(timeout);
+        });
+        button.click(function() {
+            chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'sure' });
         });
 
         video.hover(function() {
