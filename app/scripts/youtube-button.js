@@ -27,7 +27,7 @@ var youtubeButton = (function() {
             clearTimeout(timeout);
         });
 
-        chrome.runtime.sendMessage({ cmd: 'load_html', filename: 'button.html' }, function(html) {
+        chrome.runtime.sendMessage({ cmd: 'load-html', filename: 'button.html' }, function(html) {
             button.html(html);
         });
 

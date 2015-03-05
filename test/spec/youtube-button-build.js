@@ -20,12 +20,12 @@
                 sandbox.stub(chrome.runtime, 'sendMessage').yields('Button Content');
                 var button = youtubeButton.build('#video').appendTo('#sandbox');
 
-                chrome.runtime.sendMessage.should.have.been.calledWith({ cmd: 'load_html', filename: 'button.html' });
+                chrome.runtime.sendMessage.should.have.been.calledWith({ cmd: 'load-html', filename: 'button.html' });
                 button.should.have.html('Button Content');
             });
         });
 
-        describe('hover', function() {
+        describe('opacity', function() {
             it('should be opaque on mouseenter', function() {
                 var button = youtubeButton.build('#video').appendTo('#sandbox');
 
@@ -50,9 +50,7 @@
                 button.should.have.css('opacity', '1');
                 $('#sandbox > .deckard-youtube-button:animated').should.not.exist;
             });
-        });
 
-        describe('video hover', function() {
             it('should be opaque on video mouseenter', function() {
                 var button = youtubeButton.build('#video').appendTo('#sandbox');
 
