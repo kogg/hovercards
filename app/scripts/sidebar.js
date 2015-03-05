@@ -6,9 +6,11 @@ define('sidebar', ['jquery'], function($) {
 
         chrome.runtime.onMessage.addListener(function(request, sender) {
             /*jshint unused:false */
-            if (request.msg === 'request-info') {
-                if (request.key !== 'forget') {
-                    obj.show();
+            if (request.msg === 'sidebar') {
+                if (request.key === 'display') {
+                    if (request.value === 'visible') {
+                        obj.show();
+                    }
                 }
             }
         });

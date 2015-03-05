@@ -10,11 +10,11 @@ define('youtube-button', ['jquery'], function($) {
         button.offset(video.offset());
         $(button).hover(function() {
             button.stop(true, true).css('opacity', 1);
-            chrome.runtime.sendMessage({ msg: 'request-info', key: 'youtube' });
+            chrome.runtime.sendMessage({ msg: 'info', key: 'youtube' });
             clearTimeout(timeout);
         }, function() {
             button.stop(true, true).css('opacity', 0);
-            chrome.runtime.sendMessage({ msg: 'request-info', key: 'forget' });
+            chrome.runtime.sendMessage({ msg: 'info', key: 'uninterested' });
             clearTimeout(timeout);
         });
 

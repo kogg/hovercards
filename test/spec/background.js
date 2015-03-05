@@ -4,15 +4,15 @@ define(['background', 'jquery', 'sinon'], function(background, $, sinon) {
     describe('background', function() {
         var sandbox = sinon.sandbox.create();
 
-        describe('request-info', function() {
-            it('should redistribute the message to the tab it came from', function() {
+        describe('info', function() {
+            it('should tell sidebar to show itself', function() {
                 sandbox.stub(chrome.tabs, 'sendMessage');
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 background();
-                chrome.runtime.onMessage.addListener.yield({ msg: 'request-info', key: 'somewhere' },
+                chrome.runtime.onMessage.addListener.yield({ msg: 'info', key: 'somewhere' },
                                                            { tab: { id: 'TAB_ID' } },
                                                            $.noop);
-                chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'request-info', key: 'somewhere' });
+                chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', key: 'display', value: 'visible' });
             });
         });
 
