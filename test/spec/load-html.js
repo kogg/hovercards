@@ -6,13 +6,13 @@ define(['load-html', 'sinon'], function(loadHtml, sinon) {
 
         describe('ajax', function() {
             it('should should make an ajax call', function(done) {
+                var server = sandbox.useFakeServer();
+                server.autoRespond = true;
+                server.respondWith('chrome://gibberish_id/somefile.html', 'Some File\'s Content');
                 sandbox.stub(chrome.extension, 'getURL').returns('chrome://gibberish_id/somefile.html');
-                sandbox.stub($, 'ajax').yieldsTo('success', 'Some File\'s Content');
 
                 loadHtml('somefile.html', function(data) {
-                    $.ajax.should.have.been.calledWith(sinon.match.has('url', 'chrome://gibberish_id/somefile.html')
-                                                  .and(sinon.match.has('dataType', 'html'))
-                                                  .and(sinon.match.has('success', sinon.match.func)));
+                    server.requests.should.have.length(1);
                     data.should.equal('Some File\'s Content');
                     done();
                 });
