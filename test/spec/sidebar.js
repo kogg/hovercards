@@ -5,7 +5,7 @@ define(['sidebar', 'sinon'], function(sidebar, sinon) {
         var sandbox = sinon.sandbox.create();
 
         describe('view', function() {
-            it('should have class deckard-youtube-button', function() {
+            it('should have class deckard-sidebar', function() {
                 sidebar().appendTo('#sandbox').should.have.class('deckard-sidebar');
             });
 
