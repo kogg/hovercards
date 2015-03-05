@@ -1,6 +1,6 @@
 'use strict';
 
-describe('youtube-button-build', function() {
+describe('youtube-button', function() {
     var sandbox, youtubeButton;
 
     before(function(done) {
