@@ -39,9 +39,7 @@
 
         require(['mocha'], function(mocha) {
             require(['chai', 'chai-jquery', 'sinon-chai'], function(chai, chaiJquery, sinonChai) {
-                var assert = chai.assert;
-                var expect = chai.expect;
-                var should = chai.should();
+                chai.should();
                 chai.use(chaiJquery);
                 chai.use(sinonChai);
                 require([
