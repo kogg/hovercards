@@ -3,6 +3,7 @@
 (function() {
     /* global sidebar */
     sidebar.putInElement('body');
-    /* global youtubeButton */
-    youtubeButton.putOnVideos('body');
+    require(['youtube-button'], function(youtubeButton) {
+        youtubeButton.putOnVideos('body');
+    });
 }());

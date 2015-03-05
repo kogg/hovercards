@@ -1,6 +1,7 @@
-/* global youtubeButton */
 'use strict';
 
 (function() {
-    youtubeButton.putInVideo('body');
+    require(['youtube-button'], function(youtubeButton) {
+        youtubeButton.putInVideo('body');
+    });
 }());
