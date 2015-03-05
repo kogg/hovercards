@@ -35,7 +35,7 @@ define('youtube-button', ['jquery'], function($) {
         return button;
     }
 
-    function putOnVideos(area) {
+    function disperseThroughout(area) {
         var videos = $(area).find('object[data*="youtube.com/v/"],' +
                                   'embed[src*="youtube.com/v/"]');
         videos.each(function() {
@@ -45,7 +45,7 @@ define('youtube-button', ['jquery'], function($) {
         });
     }
 
-    youtubeButton.putOnVideos = putOnVideos;
+    youtubeButton.disperseThroughout = disperseThroughout;
 
     return youtubeButton;
 });
