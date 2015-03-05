@@ -25,7 +25,8 @@
         });
         var chrome = { extension: { getURL: function(filename) { return 'chrome://extension_id/' + filename; } },
                        runtime:   { sendMessage: function() {},
-                                    onMessage:   { addListener: function() {} } } };
+                                    onMessage:   { addListener: function() {} } },
+                       tabs:      { sendMessage: function() {} } };
         require(['mocha'], function(mocha) {
             mocha.setup('bdd');
             require(['chai', 'chai-jquery', 'sinon-chai'], function(chai, chaiJquery, sinonChai) {
@@ -33,6 +34,7 @@
                 chai.use(chaiJquery);
                 chai.use(sinonChai);
                 require([
+                    '../spec/background',
                     '../spec/sidebar',
                     '../spec/youtube-button.js',
                     '../spec/youtube-button-disperse-throughout.js'

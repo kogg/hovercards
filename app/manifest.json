@@ -14,7 +14,8 @@
             "bower_components/requirejs/require.js",
             "scripts/config.js",
             "bower_components/jquery/dist/jquery.js",
-            "scripts/background.js"
+            "scripts/background.js",
+            "scripts/main-background.js"
         ]
     },
     "web_accessible_resources": [
