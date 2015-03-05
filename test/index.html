@@ -12,7 +12,6 @@
     <script src="bower_components/mocha/mocha.js"></script>
     <script>mocha.setup('bdd')</script>
     <script src="bower_components/chai/chai.js"></script>
-    <script src="bower_components/sinon-chai/lib/sinon-chai.js"></script>
     <script src="bower_components/sinonjs/sinon.js"></script>
     <script src="bower_components/requirejs/require.js"></script>
     <script>
@@ -29,7 +28,8 @@
         require.config({
             baseUrl: 'scripts',
             paths: {
-                'chai-jquery': '../bower_components/chai-jquery/chai-jquery'
+                'chai-jquery': '../bower_components/chai-jquery/chai-jquery',
+                'sinon-chai':  '../bower_components/sinon-chai/lib/sinon-chai'
             }
         });
     </script>
@@ -42,8 +42,9 @@
 
     <script>
         if (navigator.userAgent.indexOf('PhantomJS') < 0) {
-            require(['chai-jquery'], function(chaiJquery) {
+            require(['chai-jquery', 'sinon-chai'], function(chaiJquery, sinonChai) {
                 chai.use(chaiJquery);
+                chai.use(sinonChai);
                 mocha.run();
             });
         }
