@@ -14,15 +14,18 @@ define(['background', 'jquery', 'sinon'], function(background, $, sinon) {
                                                            $.noop);
                 chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', key: 'display', value: 'visible' });
             });
+        });
 
-            it('should tell sidebar it can hide itself when we lose interest', function() {
+
+        describe('interest', function() {
+            it('should tell sidebar it can do whatever when we\'re unsure of interest', function() {
                 sandbox.stub(chrome.tabs, 'sendMessage');
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 background();
-                chrome.runtime.onMessage.addListener.yield({ msg: 'info', key: 'uninterested' },
+                chrome.runtime.onMessage.addListener.yield({ msg: 'interest', key: 'confidence', value: 'unsure' },
                                                            { tab: { id: 'TAB_ID' } },
                                                            $.noop);
-                chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', key: 'display', value: 'uninterested' });
+                chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', key: 'display', value: 'unconcerned' });
             });
         });
 

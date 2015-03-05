@@ -14,7 +14,7 @@ define('youtube-button', ['jquery'], function($) {
             clearTimeout(timeout);
         }, function() {
             button.stop(true, true).css('opacity', 0);
-            chrome.runtime.sendMessage({ msg: 'info', key: 'uninterested' });
+            chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'unsure' });
             clearTimeout(timeout);
         });
 

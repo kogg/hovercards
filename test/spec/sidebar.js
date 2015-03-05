@@ -20,7 +20,7 @@ define(['sidebar', 'sinon'], function(sidebar, sinon) {
             });
         });
 
-        describe('info', function() {
+        describe('display', function() {
             it('should be visible on receiving the message', function() {
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 var sidebarObj = sidebar().appendTo('#sandbox');
@@ -30,7 +30,7 @@ define(['sidebar', 'sinon'], function(sidebar, sinon) {
                 sidebarObj.should.be.visible;
             });
 
-            it('should be hidden when uninterested within 2 seconds of showing', function() {
+            it('should be hidden when unconcerned within 2 seconds of showing', function() {
                 var clock = sandbox.useFakeTimers();
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 var sidebarObj = sidebar().appendTo('#sandbox');
@@ -39,13 +39,13 @@ define(['sidebar', 'sinon'], function(sidebar, sinon) {
                                                            $.noop);
                 clock.tick(1999);
                 sidebarObj.should.be.visible;
-                chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'uninterested' },
+                chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'unconcerned' },
                                                            {},
                                                            $.noop);
                 sidebarObj.should.be.hidden;
             });
 
-            it('should stay visible when uninterested over 2 seconds of showing', function() {
+            it('should stay visible when unconcerned over 2 seconds of showing', function() {
                 var clock = sandbox.useFakeTimers();
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 var sidebarObj = sidebar().appendTo('#sandbox');
@@ -53,7 +53,7 @@ define(['sidebar', 'sinon'], function(sidebar, sinon) {
                                                            {},
                                                            $.noop);
                 clock.tick(2000);
-                chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'uninterested' },
+                chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'unconcerned' },
                                                            {},
                                                            $.noop);
                 sidebarObj.should.be.visible;

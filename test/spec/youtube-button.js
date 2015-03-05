@@ -77,21 +77,23 @@ define(['youtube-button', 'sinon'], function(youtubeButton, sinon) {
         });
 
         describe('info', function() {
-            it('should be requested on mouseenter', function() {
+            it('should request youtube info on mouseenter', function() {
                 sandbox.stub(chrome.runtime, 'sendMessage');
                 var button = youtubeButton('#video').appendTo('#sandbox');
                 chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'info', key: 'youtube' });
                 button.mouseenter();
                 chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'info', key: 'youtube' });
             });
+        });
 
-            it('should lose interest on mouseleave', function() {
+        describe('interest', function() {
+            it('should lose confidence in their interest on mouseleave', function() {
                 sandbox.stub(chrome.runtime, 'sendMessage');
                 var button = youtubeButton('#video').appendTo('#sandbox');
                 button.mouseenter();
-                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'info', key: 'uninterested' });
+                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'unsure' });
                 button.mouseleave();
-                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'info', key: 'uninterested' });
+                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'unsure' });
             });
         });
 
