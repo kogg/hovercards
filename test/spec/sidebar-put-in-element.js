@@ -18,13 +18,10 @@
                 sidebar.putInElement('#sandbox').should.be.hidden;
             });
 
-            it('should contain an iframe', function() {
-                sidebar.putInElement('#sandbox').should.have.descendants('iframe');
-            });
-
             it('should contain an iframe with sidebar.html', function() {
                 sandbox.stub(chrome.extension, 'getURL').returns('chrome://gibberish_id/sidebar.html');
                 var sidebarObj = sidebar.putInElement('#sandbox');
+                sidebarObj.should.have.descendants('iframe');
                 chrome.extension.getURL.should.have.been.calledWith('sidebar.html');
                 sidebarObj.children('iframe').should.have.prop('src', 'chrome://gibberish_id/sidebar.html');
             });
