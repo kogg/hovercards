@@ -4,9 +4,9 @@ describe('youtube-button', function() {
     var sandbox, youtubeButton;
 
     before(function(done) {
-        sandbox = sinon.sandbox.create();
-        require(['youtube-button'], function(_youtubeButton) {
+        require(['youtube-button', 'sinon'], function(_youtubeButton, sinon) {
             youtubeButton = _youtubeButton;
+            sandbox = sinon.sandbox.create();
             done();
         });
     });

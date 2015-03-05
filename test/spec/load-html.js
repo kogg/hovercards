@@ -4,9 +4,9 @@ describe('load-html', function() {
     var sandbox, loadHtml;
 
     before(function(done) {
-        sandbox = sinon.sandbox.create();
-        require(['load-html'], function(_loadHtml) {
+        require(['load-html', 'sinon'], function(_loadHtml, sinon) {
             loadHtml = _loadHtml;
+            sandbox = sinon.sandbox.create();
             done();
         });
     });

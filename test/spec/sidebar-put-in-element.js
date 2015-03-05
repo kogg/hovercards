@@ -4,9 +4,9 @@ describe('sidebar-put-in-element', function() {
     var sandbox, sidebar;
 
     before(function(done) {
-        sandbox = sinon.sandbox.create();
-        require(['sidebar'], function(_sidebar) {
+        require(['sidebar', 'sinon'], function(_sidebar, sinon) {
             sidebar = _sidebar;
+            sandbox = sinon.sandbox.create();
             done();
         });
     });
