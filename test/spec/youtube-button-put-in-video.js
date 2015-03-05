@@ -11,13 +11,6 @@ define(['youtube-button', 'sinon'], function(youtubeButton, sinon) {
                 $('#sandbox > .deckard-youtube-button').should.exist;
             });
 
-            it('should be built using the video contents', function() {
-                sandbox.stub(youtubeButton, 'build');
-                youtubeButton.putInVideo('#sandbox');
-
-                youtubeButton.build.should.have.been.calledWith('#player');
-            });
-
             it('should be at the same position as the element', function() {
                 $('#sandbox').append('<div id="player"></div>');
                 youtubeButton.putInVideo('#sandbox');

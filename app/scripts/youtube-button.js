@@ -34,7 +34,7 @@ define('youtube-button', ['jquery'], function($) {
     }
 
     function putInVideo(video) {
-        var button = youtubeButton.build('#player');
+        var button = youtubeButton('#player');
 
         $(video).prepend(button);
     }
@@ -44,12 +44,11 @@ define('youtube-button', ['jquery'], function($) {
                                   'embed[src*="youtube.com/v/"]');
         videos.each(function() {
             var video = $(this);
-            var button = youtubeButton.build(video);
+            var button = youtubeButton(video);
             video.before(button);
         });
     }
 
-    youtubeButton.build = youtubeButton;
     youtubeButton.putInVideo = putInVideo;
     youtubeButton.putOnVideos = putOnVideos;
 
