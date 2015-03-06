@@ -1,35 +1,40 @@
 'use strict';
 
 define('youtube-button', ['jquery'], function($) {
-    function youtubeButton(video) {
-        var button = $('<div class="deckard-youtube-button"></div>').append('<div class="deckard-youtube-button-inner"></div>');
+    function youtubeButton(id, video) {
+        var timeout;
         video = $(video);
 
-        var timeout;
+        var button = $('<div></div>')
+            .addClass('deckard-youtube-button')
+            .offset(video.offset())
+            .append($('<div></div>').addClass('deckard-youtube-button-inner'))
+            .data('id', id)
+            .click(function() {
+                chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'sure' });
+            })
+            .mouseenter(function() {
+                button.stop(true, true).css('opacity', 1);
+                chrome.runtime.sendMessage({ msg: 'info', key: 'youtube', value: button.data('id') });
+                clearTimeout(timeout);
+            })
+            .mouseleave(function() {
+                button.stop(true, true).css('opacity', 0);
+                chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'unsure' });
+                clearTimeout(timeout);
+            });
 
-        button.offset(video.offset());
-        button.hover(function() {
-            button.stop(true, true).css('opacity', 1);
-            chrome.runtime.sendMessage({ msg: 'info', key: 'youtube' });
-            clearTimeout(timeout);
-        }, function() {
-            button.stop(true, true).css('opacity', 0);
-            chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'unsure' });
-            clearTimeout(timeout);
-        });
-        button.click(function() {
-            chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'sure' });
-        });
-
-        video.hover(function() {
-            button.stop(true, true).css('opacity', 1);
-            timeout = setTimeout(function() {
-                button.stop(true, true).fadeTo(500, 0);
-            }, 2000);
-        }, function() {
-            button.stop(true, true).css('opacity', 0);
-            clearTimeout(timeout);
-        });
+        video
+            .mouseenter(function() {
+                button.stop(true, true).css('opacity', 1);
+                timeout = setTimeout(function() {
+                    button.stop(true, true).fadeTo(500, 0);
+                }, 2000);
+            })
+            .mouseleave(function() {
+                button.stop(true, true).css('opacity', 0);
+                clearTimeout(timeout);
+            });
 
         return button;
     }
@@ -39,8 +44,10 @@ define('youtube-button', ['jquery'], function($) {
                                   'embed[src*="youtube.com/v/"]');
         videos.each(function() {
             var video = $(this);
-            var button = youtubeButton(video);
-            video.before(button);
+            var id = (video.prop('data') || video.prop('src')).match(/\(?(?:(https?):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost(?=\/)|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/);
+            if (id) { id = id[6]; }
+            video
+                .before(youtubeButton(id, video));
         });
     }
 

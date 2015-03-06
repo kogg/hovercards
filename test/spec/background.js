@@ -9,7 +9,7 @@ define(['background', 'jquery', 'sinon'], function(background, $, sinon) {
                 sandbox.stub(chrome.tabs, 'sendMessage');
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 background();
-                chrome.runtime.onMessage.addListener.yield({ msg: 'info', key: 'somewhere' },
+                chrome.runtime.onMessage.addListener.yield({ msg: 'info', key: 'somewhere', value: 'SOMEWHERE_ID' },
                                                            { tab: { id: 'TAB_ID' } },
                                                            $.noop);
                 chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', key: 'display', value: 'visible' });

@@ -8,44 +8,42 @@ define(['youtube-button', 'jquery', 'sinon'], function(youtubeButton, $, sinon) 
             $('#sandbox').append('<div id="video"></div>');
         });
 
-        describe('view', function() {
-            it('should have class deckard-youtube-button', function() {
-                youtubeButton('#video').appendTo('#sandbox').should.have.class('deckard-youtube-button');
-            });
+        it('should have class deckard-youtube-button', function() {
+            youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox').should.have.class('deckard-youtube-button');
+        });
 
-            it('should be transparent', function() {
-                youtubeButton('#video').appendTo('#sandbox').should.have.css('opacity', '0');
-            });
+        it('should be transparent', function() {
+            youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox').should.have.css('opacity', '0');
+        });
 
-            it('should have position absolute', function() {
-                youtubeButton('#video').appendTo('#sandbox').should.have.css('position', 'absolute');
-            });
+        it('should have position absolute', function() {
+            youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox').should.have.css('position', 'absolute');
+        });
 
-            it('should load it\'s content', function() {
-                youtubeButton('#video').appendTo('#sandbox').should.have.descendants('div.deckard-youtube-button-inner');
-            });
+        it('should load it\'s content', function() {
+            youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox').should.have.descendants('div.deckard-youtube-button-inner');
         });
 
         describe('when mouse event', function() {
             it('= mouseenter, should be opaque', function() {
-                youtubeButton('#video').appendTo('#sandbox').mouseenter().should.have.css('opacity', '1');
+                youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox').mouseenter().should.have.css('opacity', '1');
             });
 
             it('= mouseleave, should be transparent', function() {
-                youtubeButton('#video').appendTo('#sandbox').mouseenter().mouseleave().should.have.css('opacity', '0');
+                youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox').mouseenter().mouseleave().should.have.css('opacity', '0');
             });
 
             it('= mouseenter, should request youtube info', function() {
                 sandbox.stub(chrome.runtime, 'sendMessage');
-                var button = youtubeButton('#video').appendTo('#sandbox');
-                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'info', key: 'youtube' });
+                var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
+                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'info', key: 'youtube', value: 'VIDEO_ID' });
                 button.mouseenter();
-                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'info', key: 'youtube' });
+                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'info', key: 'youtube', value: 'VIDEO_ID' });
             });
 
             it('= mouseleave, should lose confidence in their interest', function() {
                 sandbox.stub(chrome.runtime, 'sendMessage');
-                var button = youtubeButton('#video').appendTo('#sandbox');
+                var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
                 button.mouseenter();
                 chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'unsure' });
                 button.mouseleave();
@@ -54,7 +52,7 @@ define(['youtube-button', 'jquery', 'sinon'], function(youtubeButton, $, sinon) 
 
             it('= click, should be confident in their interest', function() {
                 sandbox.stub(chrome.runtime, 'sendMessage');
-                var button = youtubeButton('#video').appendTo('#sandbox');
+                var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
                 chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'sure' });
                 button.click();
                 chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'sure' });
@@ -63,20 +61,20 @@ define(['youtube-button', 'jquery', 'sinon'], function(youtubeButton, $, sinon) 
 
         describe('when video mouse event', function() {
             it('= mouseenter, should be opaque', function() {
-                var button = youtubeButton('#video').appendTo('#sandbox');
+                var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
                 $('#video').mouseenter();
                 button.should.have.css('opacity', '1');
             });
 
             it('= mouseleave, should be transparent', function() {
-                var button = youtubeButton('#video').appendTo('#sandbox');
+                var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
                 $('#video').mouseenter().mouseleave();
                 button.should.have.css('opacity', '0');
             });
 
             it('= mouseenter, should fade out starting 2 seconds after', function() {
                 var clock = sandbox.useFakeTimers();
-                var button = youtubeButton('#video').appendTo('#sandbox');
+                var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
                 $('#video').mouseenter();
                 clock.tick(2000);
                 button.should.have.css('opacity', '1');
@@ -91,14 +89,8 @@ define(['youtube-button', 'jquery', 'sinon'], function(youtubeButton, $, sinon) 
                 youtubeButton.disperseThroughout('#sandbox');
 
                 $('#sandbox > .deckard-youtube-button').should.exist;
+                $('#sandbox > .deckard-youtube-button').should.have.data('id', 'VpXUIh7rlWI');
                 $('#sandbox > .deckard-youtube-button + embed').should.exist;
-            });
-
-            it('should not attach on other embeds', function() {
-                $('#sandbox').append('<embed>');
-                youtubeButton.disperseThroughout('#sandbox');
-
-                $('#sandbox > .deckard-youtube-button').should.not.exist;
             });
 
             it('should attach to youtube objects', function() {
@@ -106,7 +98,15 @@ define(['youtube-button', 'jquery', 'sinon'], function(youtubeButton, $, sinon) 
                 youtubeButton.disperseThroughout('#sandbox');
 
                 $('#sandbox > .deckard-youtube-button').should.exist;
+                $('#sandbox > .deckard-youtube-button').should.have.data('id', 'VpXUIh7rlWI');
                 $('#sandbox > .deckard-youtube-button + object').should.exist;
+            });
+
+            it('should not attach on other embeds', function() {
+                $('#sandbox').append('<embed>');
+                youtubeButton.disperseThroughout('#sandbox');
+
+                $('#sandbox > .deckard-youtube-button').should.not.exist;
             });
 
             it('shouldnot attach on other objects', function() {
