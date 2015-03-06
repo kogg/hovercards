@@ -89,6 +89,7 @@ define(['youtube-button', 'jquery', 'sinon'], function(youtubeButton, $, sinon) 
                 youtubeButton.disperseThroughout('#sandbox');
 
                 $('#sandbox > .deckard-youtube-button').should.exist;
+                $('#sandbox > .deckard-youtube-button').should.have.data('id', 'VpXUIh7rlWI');
                 $('#sandbox > .deckard-youtube-button + embed').should.exist;
             });
 
@@ -97,6 +98,7 @@ define(['youtube-button', 'jquery', 'sinon'], function(youtubeButton, $, sinon) 
                 youtubeButton.disperseThroughout('#sandbox');
 
                 $('#sandbox > .deckard-youtube-button').should.exist;
+                $('#sandbox > .deckard-youtube-button').should.have.data('id', 'VpXUIh7rlWI');
                 $('#sandbox > .deckard-youtube-button + object').should.exist;
             });
 
