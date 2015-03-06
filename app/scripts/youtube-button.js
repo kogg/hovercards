@@ -15,7 +15,7 @@ define('youtube-button', ['jquery'], function($) {
             })
             .mouseenter(function() {
                 button.stop(true, true).css('opacity', 1);
-                chrome.runtime.sendMessage({ msg: 'info', key: 'youtube' });
+                chrome.runtime.sendMessage({ msg: 'info', key: 'youtube', value: button.data('id') });
                 clearTimeout(timeout);
             })
             .mouseleave(function() {

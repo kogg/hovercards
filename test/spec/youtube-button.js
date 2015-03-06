@@ -36,9 +36,9 @@ define(['youtube-button', 'jquery', 'sinon'], function(youtubeButton, $, sinon) 
             it('= mouseenter, should request youtube info', function() {
                 sandbox.stub(chrome.runtime, 'sendMessage');
                 var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
-                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'info', key: 'youtube' });
+                chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'info', key: 'youtube', value: 'VIDEO_ID' });
                 button.mouseenter();
-                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'info', key: 'youtube' });
+                chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'info', key: 'youtube', value: 'VIDEO_ID' });
             });
 
             it('= mouseleave, should lose confidence in their interest', function() {
