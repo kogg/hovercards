@@ -4,8 +4,8 @@ define(['background', 'jquery', 'sinon'], function(background, $, sinon) {
     describe('background', function() {
         var sandbox = sinon.sandbox.create();
 
-        describe('info', function() {
-            it('should tell sidebar to show', function() {
+        describe('when receiving info', function() {
+            it('should tell sidebar to be visible', function() {
                 sandbox.stub(chrome.tabs, 'sendMessage');
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 background();
@@ -16,9 +16,8 @@ define(['background', 'jquery', 'sinon'], function(background, $, sinon) {
             });
         });
 
-
-        describe('interest', function() {
-            it('should tell sidebar to stay visible when we\'re sure of interest', function() {
+        describe('when receiving interest', function() {
+            it('should tell sidebar to stay visible when sure', function() {
                 sandbox.stub(chrome.tabs, 'sendMessage');
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 background();
@@ -28,7 +27,7 @@ define(['background', 'jquery', 'sinon'], function(background, $, sinon) {
                 chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', key: 'display', value: 'stay_visible' });
             });
 
-            it('should tell sidebar it can do whatever when we\'re unsure of interest', function() {
+            it('should tell sidebar to be whatever it wants when unsure', function() {
                 sandbox.stub(chrome.tabs, 'sendMessage');
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 background();

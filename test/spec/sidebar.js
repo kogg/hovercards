@@ -20,8 +20,8 @@ define(['sidebar', 'jquery', 'sinon'], function(sidebar, $, sinon) {
             });
         });
 
-        describe('display', function() {
-            it('should be visible and stay visible on receiving stay_visible', function() {
+        describe('when receiving display message', function() {
+            it('should stay visible on "stay_visible"', function() {
                 var clock = sandbox.useFakeTimers();
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 var sidebarObj = sidebar().appendTo('#sandbox');
@@ -33,7 +33,7 @@ define(['sidebar', 'jquery', 'sinon'], function(sidebar, $, sinon) {
                 sidebarObj.should.be.visible;
             });
 
-            it('should be visible on receiving the message', function() {
+            it('should be visible on "visible"', function() {
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 var sidebarObj = sidebar().appendTo('#sandbox');
                 chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'visible' },
@@ -42,7 +42,7 @@ define(['sidebar', 'jquery', 'sinon'], function(sidebar, $, sinon) {
                 sidebarObj.should.be.visible;
             });
 
-            it('should be hidden when unconcerned within 2 seconds of showing', function() {
+            it('should be hidden on "unconcerned" within 2 seconds of "visible"', function() {
                 var clock = sandbox.useFakeTimers();
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 var sidebarObj = sidebar().appendTo('#sandbox');
@@ -57,7 +57,7 @@ define(['sidebar', 'jquery', 'sinon'], function(sidebar, $, sinon) {
                 sidebarObj.should.be.hidden;
             });
 
-            it('should stay visible when unconcerned over 2 seconds of showing', function() {
+            it('should stay visible on "unconcerned" over 2 seconds of "visible"', function() {
                 var clock = sandbox.useFakeTimers();
                 sandbox.stub(chrome.runtime.onMessage, 'addListener');
                 var sidebarObj = sidebar().appendTo('#sandbox');
