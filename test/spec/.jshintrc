@@ -3,7 +3,7 @@
     "expr": true,
     "mocha": true,
     "globals": {
-        "define": true,
-        "should": true
+        "should": true,
+        "sinon": true
     }
 }

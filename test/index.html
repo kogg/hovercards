@@ -9,39 +9,36 @@
 <body>
     <div id="mocha"></div>
     <div id="sandbox"></div>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/chai/chai.js"></script>
+    <script src="bower_components/chai-jquery/chai-jquery.js"></script>
+    <script src="bower_components/mocha/mocha.js"></script>
+    <script src="bower_components/sinonjs/sinon.js"></script>
+    <script src="bower_components/sinon-chai/lib/sinon-chai.js"></script>
     <script src="bower_components/requirejs/require.js"></script>
     <script src="scripts/config.js"></script>
     <script>
         require.config({
-            baseUrl: 'scripts',
-            paths: {
-                'chai':        '../bower_components/chai/chai',
-                'chai-jquery': '../bower_components/chai-jquery/chai-jquery',
-                'mocha':       '../bower_components/mocha/mocha',
-                'sinon':       '../bower_components/sinonjs/sinon',
-                'sinon-chai':  '../bower_components/sinon-chai/lib/sinon-chai'
-            },
-            shim: { mocha: { exports: 'mocha' } }
+            baseUrl: 'scripts'
+        });
+        define('jquery', function() {
+            // Since the code will try to load a different instance of jquery, we'll give them this one
+            return $;
         });
         var chrome = { extension: { getURL: function(filename) { return 'chrome://extension_id/' + filename; } },
                        runtime:   { sendMessage: function() {},
                                     onMessage:   { addListener: function() {} } },
                        tabs:      { sendMessage: function() {} } };
-        require(['mocha'], function(mocha) {
-            mocha.setup('bdd');
-            require(['chai', 'chai-jquery', 'sinon-chai'], function(chai, chaiJquery, sinonChai) {
-                chai.should();
-                chai.use(chaiJquery);
-                chai.use(sinonChai);
-                require([
-                    '../spec/background',
-                    '../spec/sidebar',
-                    '../spec/youtube-button.js'
-                ], function() {
-                    mocha.run();
-                });
-            });
-        });
+        mocha.setup('bdd');
+        chai.should();
+    </script>
+    <script src="spec/background.js"></script>
+    <script src="spec/sidebar.js"></script>
+    <script src="spec/youtube-button.js"></script>
+    <script>
+        if (navigator.userAgent.indexOf('PhantomJS') < 0) {
+            mocha.run();
+        }
     </script>
 </body>
 </html>
