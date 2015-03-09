@@ -37,10 +37,9 @@ define('youtube-button', ['jquery', 'trigger'], function($, trigger) {
         var videos = $(area).find('object[data*="youtube.com/v/"],' +
                                   'embed[src*="youtube.com/v/"]');
         videos.each(function() {
+            /* globals purl:true */
             var video = $(this);
-            var id = (video.prop('data') || video.prop('src')).match(/\(?(?:(https?):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost(?=\/)|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/);
-            if (id) { id = id[6]; }
-            video.before(youtubeButton(video, id));
+            video.before(youtubeButton(video, purl(video.prop('data') || video.prop('src')).segment(-1)));
         });
     }
 

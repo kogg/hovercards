@@ -28,6 +28,7 @@
                 "styles/fonts.css"
             ],
             "js": [
+                "bower_components/purl/purl.js",
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
@@ -47,6 +48,7 @@
                 "styles/fonts.css"
             ],
             "js": [
+                "bower_components/purl/purl.js",
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
