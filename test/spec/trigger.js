@@ -12,6 +12,13 @@ describe('trigger', function() {
         });
     });
 
+    it('should assign data elements', function() {
+        sandbox.stub(chrome.runtime, 'sendMessage');
+        var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
+        obj.should.have.data('deckard_network', 'somewhere');
+        obj.should.have.data('deckard_id', 'SOME_ID');
+    });
+
     it('should request info on mouseenter', function() {
         sandbox.stub(chrome.runtime, 'sendMessage');
         var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');

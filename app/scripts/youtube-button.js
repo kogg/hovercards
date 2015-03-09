@@ -9,7 +9,6 @@ define('youtube-button', ['jquery', 'trigger'], function($, trigger) {
             .addClass('deckard-youtube-button')
             .offset(video.offset())
             .append($('<div></div>').addClass('deckard-youtube-button-inner'))
-            .data('id', youtubeId)
             .mouseenter(function() {
                 button.stop(true, true).css('opacity', 1);
                 clearTimeout(timeout);

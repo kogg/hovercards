@@ -36,31 +36,6 @@ describe('youtube-button', function() {
         it('= mouseleave, should be transparent', function() {
             youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox').mouseenter().mouseleave().should.have.css('opacity', '0');
         });
-
-        it('= mouseenter, should request youtube info', function() {
-            sandbox.stub(chrome.runtime, 'sendMessage');
-            var button = youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox');
-            chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'info', key: 'youtube', value: 'VIDEO_ID' });
-            button.mouseenter();
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'info', key: 'youtube', value: 'VIDEO_ID' });
-        });
-
-        it('= mouseleave, should lose confidence in their interest', function() {
-            sandbox.stub(chrome.runtime, 'sendMessage');
-            var button = youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox');
-            button.mouseenter();
-            chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'unsure' });
-            button.mouseleave();
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'unsure' });
-        });
-
-        it('= click, should be confident in their interest', function() {
-            sandbox.stub(chrome.runtime, 'sendMessage');
-            var button = youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox');
-            chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'sure' });
-            button.click();
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'sure' });
-        });
     });
 
     describe('when video mouse event', function() {
@@ -95,7 +70,8 @@ describe('youtube-button', function() {
             youtubeButton.disperseThroughout('#sandbox');
 
             $('#sandbox > .deckard-youtube-button').should.exist;
-            $('#sandbox > .deckard-youtube-button').should.have.data('id', 'VpXUIh7rlWI');
+            $('#sandbox > .deckard-youtube-button').should.have.data('deckard_network', 'youtube');
+            $('#sandbox > .deckard-youtube-button').should.have.data('deckard_id', 'VpXUIh7rlWI');
             $('#sandbox > .deckard-youtube-button + embed').should.exist;
         });
 
@@ -106,7 +82,8 @@ describe('youtube-button', function() {
             youtubeButton.disperseThroughout('#sandbox');
 
             $('#sandbox > .deckard-youtube-button').should.exist;
-            $('#sandbox > .deckard-youtube-button').should.have.data('id', 'VpXUIh7rlWI');
+            $('#sandbox > .deckard-youtube-button').should.have.data('deckard_network', 'youtube');
+            $('#sandbox > .deckard-youtube-button').should.have.data('deckard_id', 'VpXUIh7rlWI');
             $('#sandbox > .deckard-youtube-button + object').should.exist;
         });
 
