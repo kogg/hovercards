@@ -34,7 +34,7 @@
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/trigger.js",
                 "scripts/youtube-button.js",
-                "scripts/youtube-iframe.js"
+                "scripts/main-youtube-iframe.js"
             ],
             "all_frames": true
         },
