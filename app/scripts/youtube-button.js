@@ -1,26 +1,21 @@
 'use strict';
 
-define('youtube-button', ['jquery'], function($) {
-    function youtubeButton(video, id) {
+define('youtube-button', ['jquery', 'trigger'], function($, trigger) {
+    function youtubeButton(video, youtubeId) {
         var timeout;
         video = $(video);
 
-        var button = $('<div></div>')
+        var button = trigger('<div></div>', 'youtube', youtubeId)
             .addClass('deckard-youtube-button')
             .offset(video.offset())
             .append($('<div></div>').addClass('deckard-youtube-button-inner'))
-            .data('id', id)
-            .click(function() {
-                chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'sure' });
-            })
+            .data('id', youtubeId)
             .mouseenter(function() {
                 button.stop(true, true).css('opacity', 1);
-                chrome.runtime.sendMessage({ msg: 'info', key: 'youtube', value: button.data('id') });
                 clearTimeout(timeout);
             })
             .mouseleave(function() {
                 button.stop(true, true).css('opacity', 0);
-                chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'unsure' });
                 clearTimeout(timeout);
             });
 
