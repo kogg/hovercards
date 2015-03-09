@@ -33,17 +33,5 @@ define('youtube-button', ['jquery', 'trigger'], function($, trigger) {
         return button;
     }
 
-    function disperseThroughout(area) {
-        var videos = $(area).find('object[data*="youtube.com/v/"],' +
-                                  'embed[src*="youtube.com/v/"]');
-        videos.each(function() {
-            /* globals purl:true */
-            var video = $(this);
-            video.before(youtubeButton(video, purl(video.prop('data') || video.prop('src')).segment(-1)));
-        });
-    }
-
-    youtubeButton.disperseThroughout = disperseThroughout;
-
     return youtubeButton;
 });
