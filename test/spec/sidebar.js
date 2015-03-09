@@ -1,8 +1,7 @@
 'use strict';
 
 // FIXME These tests in phantomJS because the iframe loading gets cancelled
-(navigator.userAgent.indexOf('PhantomJS') < 0 ? describe : describe.skip)
-('sidebar', function() {
+describe('sidebar', function() {
     var sandbox = sinon.sandbox.create();
     var sidebar;
 
@@ -22,10 +21,10 @@
             sidebar().appendTo('#sandbox').should.be.hidden;
         });
 
-        it('should contain an iframe with sidebar.html', function() {
+        it('should contain an iframe with no src', function() {
             var sidebarObj = sidebar().appendTo('#sandbox');
             sidebarObj.should.have.descendants('iframe');
-            sidebarObj.children('iframe').should.have.prop('src', 'chrome://extension_id/sidebar.html');
+            sidebarObj.children('iframe').should.have.prop('src', '');
         });
     });
 
@@ -40,7 +39,22 @@
             sidebarObj.should.be.visible;
         });
 
+        it('= stay_visible, should have src', function() {
+            sandbox.stub(chrome.runtime.onMessage, 'addListener');
+            var sidebarObj = sidebar().appendTo('#sandbox');
+            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'stay_visible' }, {}, $.noop);
+            sidebarObj.children('iframe').should.have.prop('src', 'chrome://extension_id/sidebar.html');
+        });
+
         it('= visible, should be visible', function() {
+            sandbox.stub(chrome.runtime.onMessage, 'addListener');
+            var sidebarObj = sidebar().appendTo('#sandbox');
+            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'visible' }, {}, $.noop);
+            sidebarObj.should.be.visible;
+            sidebarObj.children('iframe').should.have.prop('src', 'chrome://extension_id/sidebar.html');
+        });
+
+        it('= visible, should have src', function() {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
             chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'visible' }, {}, $.noop);
