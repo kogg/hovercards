@@ -1,6 +1,6 @@
 'use strict';
 
-define('background', function() {
+define(function() {
     return function() {
         chrome.runtime.onMessage.addListener(function(request, sender) {
             switch (request.msg) {
