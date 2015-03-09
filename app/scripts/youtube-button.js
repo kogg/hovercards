@@ -1,26 +1,20 @@
 'use strict';
 
-define('youtube-button', ['jquery'], function($) {
-    function youtubeButton(id, video) {
+define('youtube-button', ['jquery', 'trigger'], function($, trigger) {
+    function youtubeButton(video, youtubeId) {
         var timeout;
         video = $(video);
 
-        var button = $('<div></div>')
+        var button = trigger('<div></div>', 'youtube', youtubeId)
             .addClass('deckard-youtube-button')
             .offset(video.offset())
             .append($('<div></div>').addClass('deckard-youtube-button-inner'))
-            .data('id', id)
-            .click(function() {
-                chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'sure' });
-            })
             .mouseenter(function() {
                 button.stop(true, true).css('opacity', 1);
-                chrome.runtime.sendMessage({ msg: 'info', key: 'youtube', value: button.data('id') });
                 clearTimeout(timeout);
             })
             .mouseleave(function() {
                 button.stop(true, true).css('opacity', 0);
-                chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'unsure' });
                 clearTimeout(timeout);
             });
 
@@ -46,8 +40,7 @@ define('youtube-button', ['jquery'], function($) {
             var video = $(this);
             var id = (video.prop('data') || video.prop('src')).match(/\(?(?:(https?):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost(?=\/)|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/);
             if (id) { id = id[6]; }
-            video
-                .before(youtubeButton(id, video));
+            video.before(youtubeButton(video, id));
         });
     }
 
