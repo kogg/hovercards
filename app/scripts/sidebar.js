@@ -14,13 +14,17 @@ define('sidebar', ['jquery'], function($) {
                 switch (request.value) {
                     case 'stay_visible':
                         obj.show();
-                        iframe.prop('src', chrome.extension.getURL('sidebar.html'));
+                        if (!iframe.prop('src')) {
+                            iframe.prop('src', chrome.extension.getURL('sidebar.html'));
+                        }
                         stayVisible = true;
                         clearTimeout(stayVisibleTimeout);
                         break;
                     case 'visible':
                         obj.show();
-                        iframe.prop('src', chrome.extension.getURL('sidebar.html'));
+                        if (!iframe.prop('src')) {
+                            iframe.prop('src', chrome.extension.getURL('sidebar.html'));
+                        }
                         stayVisibleTimeout = setTimeout(function() {
                             stayVisible = true;
                         }, 2000);
