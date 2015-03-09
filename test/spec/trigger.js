@@ -1,0 +1,45 @@
+'use strict';
+
+describe('trigger', function() {
+    var sandbox = sinon.sandbox.create();
+    var trigger;
+
+    beforeEach(function(done) {
+        $('#sandbox').append('<div id="trigger"></div>');
+        require(['trigger'], function(_trigger) {
+            trigger = _trigger;
+            done();
+        });
+    });
+
+    it('should request info on mouseenter', function() {
+        sandbox.stub(chrome.runtime, 'sendMessage');
+        var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
+        chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'info', key: 'somewhere', value: 'SOME_ID' });
+        obj.mouseenter();
+        chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'info', key: 'somewhere', value: 'SOME_ID' });
+    });
+
+    it('should lose confidence in their interest on mouseleave', function() {
+        sandbox.stub(chrome.runtime, 'sendMessage');
+        var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
+        obj.mouseenter();
+        chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'unsure' });
+        obj.mouseleave();
+        chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'unsure' });
+    });
+
+    it('should be confident in their interest on click', function() {
+        sandbox.stub(chrome.runtime, 'sendMessage');
+        var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
+        chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'sure' });
+        obj.click();
+        chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'sure' });
+    });
+
+    afterEach(function() {
+        $('#sandbox').empty();
+        $('#sandbox').off();
+        sandbox.restore();
+    });
+});
