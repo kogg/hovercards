@@ -5,44 +5,41 @@ describe('youtube-button', function() {
     var youtubeButton;
 
     beforeEach(function(done) {
+        $('#sandbox').append('<div id="video"></div>');
         require(['youtube-button'], function(_youtubeButton) {
             youtubeButton = _youtubeButton;
             done();
         });
     });
 
-    beforeEach(function() {
-        $('#sandbox').append('<div id="video"></div>');
-    });
-
     it('should have class deckard-youtube-button', function() {
-        youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox').should.have.class('deckard-youtube-button');
+        youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox').should.have.class('deckard-youtube-button');
     });
 
     it('should be transparent', function() {
-        youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox').should.have.css('opacity', '0');
+        youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox').should.have.css('opacity', '0');
     });
 
     it('should have position absolute', function() {
-        youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox').should.have.css('position', 'absolute');
+        youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox').should.have.css('position', 'absolute');
     });
 
     it('should load it\'s content', function() {
-        youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox').should.have.descendants('div.deckard-youtube-button-inner');
+        youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox').should.have.descendants('div.deckard-youtube-button-inner');
     });
 
     describe('when mouse event', function() {
         it('= mouseenter, should be opaque', function() {
-            youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox').mouseenter().should.have.css('opacity', '1');
+            youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox').mouseenter().should.have.css('opacity', '1');
         });
 
         it('= mouseleave, should be transparent', function() {
-            youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox').mouseenter().mouseleave().should.have.css('opacity', '0');
+            youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox').mouseenter().mouseleave().should.have.css('opacity', '0');
         });
 
         it('= mouseenter, should request youtube info', function() {
             sandbox.stub(chrome.runtime, 'sendMessage');
-            var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
+            var button = youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox');
             chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'info', key: 'youtube', value: 'VIDEO_ID' });
             button.mouseenter();
             chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'info', key: 'youtube', value: 'VIDEO_ID' });
@@ -50,7 +47,7 @@ describe('youtube-button', function() {
 
         it('= mouseleave, should lose confidence in their interest', function() {
             sandbox.stub(chrome.runtime, 'sendMessage');
-            var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
+            var button = youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox');
             button.mouseenter();
             chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'unsure' });
             button.mouseleave();
@@ -59,7 +56,7 @@ describe('youtube-button', function() {
 
         it('= click, should be confident in their interest', function() {
             sandbox.stub(chrome.runtime, 'sendMessage');
-            var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
+            var button = youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox');
             chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'sure' });
             button.click();
             chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', key: 'confidence', value: 'sure' });
@@ -68,20 +65,20 @@ describe('youtube-button', function() {
 
     describe('when video mouse event', function() {
         it('= mouseenter, should be opaque', function() {
-            var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
+            var button = youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox');
             $('#video').mouseenter();
             button.should.have.css('opacity', '1');
         });
 
         it('= mouseleave, should be transparent', function() {
-            var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
+            var button = youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox');
             $('#video').mouseenter().mouseleave();
             button.should.have.css('opacity', '0');
         });
 
         it('= mouseenter, should fade out starting 2 seconds after', function() {
             var clock = sandbox.useFakeTimers();
-            var button = youtubeButton('VIDEO_ID', '#video').appendTo('#sandbox');
+            var button = youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox');
             $('#video').mouseenter();
             clock.tick(2000);
             button.should.have.css('opacity', '1');
