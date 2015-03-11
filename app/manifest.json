@@ -18,6 +18,28 @@
     "content_scripts": [
         {
             "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "css": [
+                "styles/styles.css",
+                "styles/fonts.css"
+            ],
+            "js": [
+                "bower_components/purl/purl.js",
+                "bower_components/requirejs/require.js",
+                "scripts/config.js",
+                "bower_components/jquery/dist/jquery.js",
+                "scripts/trigger.js",
+                "scripts/youtube-button.js",
+                "scripts/youtube-inject.js",
+                "scripts/sidebar.js",
+                "scripts/main.js"
+            ],
+            "all_frames": false
+        },
+        {
+            "matches": [
                 "http://youtube.com/embed/*",
                 "https://youtube.com/embed/*",
                 "http://www.youtube.com/embed/*",
@@ -41,8 +63,7 @@
         },
         {
             "matches": [
-                "http://*/*",
-                "https://*/*"
+                "https://attachment.fbsbx.com/external_iframe.php"
             ],
             "css": [
                 "styles/styles.css",
@@ -56,10 +77,9 @@
                 "scripts/trigger.js",
                 "scripts/youtube-button.js",
                 "scripts/youtube-inject.js",
-                "scripts/sidebar.js",
-                "scripts/main.js"
+                "scripts/main-facebook-youtube-iframe.js"
             ],
-            "all_frames": false
+            "all_frames": true
         }
     ]
 }

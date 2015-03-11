@@ -42,8 +42,11 @@ define('youtube-inject', ['jquery'], function($) {
         }
         body = $(body);
         switch (context) {
-            case 'youtube iframe':
+            case '#player':
                 injectButtonOnPlayer(body);
+                break;
+            case 'objects':
+                injectButtonsOnObjectsAndEmbeds(body);
                 break;
             default:
                 injectButtonsOnObjectsAndEmbeds(body);
