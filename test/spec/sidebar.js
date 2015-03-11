@@ -26,7 +26,7 @@ describe('sidebar', function() {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
             chrome.runtime.onMessage.addListener.yield({ msg: 'load', network: 'somewhere', id: 'SOME_ID' }, {}, $.noop);
-            sidebarObj.children('iframe').should.have.prop('src', 'chrome-extension://extension_id/somewhere-sidebar.html');
+            sidebarObj.children('iframe').should.have.prop('src', 'chrome-extension://extension_id/somewhere-content.html');
         });
     });
 
