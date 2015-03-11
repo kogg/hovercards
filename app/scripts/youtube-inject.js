@@ -1,6 +1,6 @@
 'use strict';
 
-define('youtube', ['jquery'], function($) {
+define('youtube-inject', ['jquery'], function($) {
     function injectButtonOnPlayer(body) {
         require(['youtube-button'], function(youtubeButton) {
             /* globals purl:true */
@@ -36,7 +36,7 @@ define('youtube', ['jquery'], function($) {
         });
     }
 
-    function inject(body, context) {
+    return function youtubeInject(body, context) {
         if (!body) {
             body = 'body';
         }
@@ -50,7 +50,5 @@ define('youtube', ['jquery'], function($) {
                 injectTriggersOnLinks(body);
                 break;
         }
-    }
-
-    return { inject: inject };
+    };
 });

@@ -1,5 +1,5 @@
 'use strict';
 
-require(['youtube'], function(youtube) {
-    youtube.inject('body', 'youtube iframe');
+require(['youtube-inject'], function(youtubeInject) {
+    youtubeInject('body', 'youtube iframe');
 });

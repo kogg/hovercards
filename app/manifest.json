@@ -32,9 +32,9 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/youtube.js",
                 "scripts/trigger.js",
                 "scripts/youtube-button.js",
+                "scripts/youtube-inject.js",
                 "scripts/main-youtube-iframe.js"
             ],
             "all_frames": true
@@ -53,9 +53,9 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/youtube.js",
                 "scripts/trigger.js",
                 "scripts/youtube-button.js",
+                "scripts/youtube-inject.js",
                 "scripts/sidebar.js",
                 "scripts/main.js"
             ],

@@ -1,7 +1,7 @@
 'use strict';
 
 define('youtube-button', ['jquery', 'trigger'], function($, trigger) {
-    function youtubeButton(video, youtubeId) {
+    return function youtubeButton(video, youtubeId) {
         var timeout;
         video = $(video);
 
@@ -34,7 +34,5 @@ define('youtube-button', ['jquery', 'trigger'], function($, trigger) {
             });
 
         return button;
-    }
-
-    return youtubeButton;
+    };
 });

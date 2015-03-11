@@ -3,6 +3,6 @@
 require(['sidebar'], function(sidebar) {
     sidebar().appendTo('body');
 });
-require(['youtube'], function(youtube) {
-    youtube.inject('body');
+require(['youtube-inject'], function(youtubeInject) {
+    youtubeInject('body');
 });
