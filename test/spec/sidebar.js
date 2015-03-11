@@ -1,6 +1,5 @@
 'use strict';
 
-// FIXME These tests in phantomJS because the iframe loading gets cancelled
 describe('sidebar', function() {
     var sandbox = sinon.sandbox.create();
     var sidebar;
@@ -26,57 +25,62 @@ describe('sidebar', function() {
         sidebarObj.children('iframe').should.have.prop('src', '');
     });
 
-    describe('when receiving display message', function() {
-        it('= stay_visible, should stay visible', function() {
-            var clock = sandbox.useFakeTimers();
-            sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            var sidebarObj = sidebar().appendTo('#sandbox');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'stay_visible' }, {}, $.noop);
-            sidebarObj.should.be.visible;
-            clock.tick(2000);
-            sidebarObj.should.be.visible;
-        });
-
-        it('= stay_visible, should have src', function() {
-            sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            var sidebarObj = sidebar().appendTo('#sandbox');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'stay_visible' }, {}, $.noop);
-            sidebarObj.children('iframe').should.have.prop('src', 'chrome://extension_id/sidebar.html');
-        });
-
-        it('= visible, should be visible', function() {
-            sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            var sidebarObj = sidebar().appendTo('#sandbox');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'visible' }, {}, $.noop);
-            sidebarObj.should.be.visible;
-            sidebarObj.children('iframe').should.have.prop('src', 'chrome://extension_id/sidebar.html');
-        });
-
+    describe('when receiving load', function() {
         it('= visible, should have src', function() {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'visible' }, {}, $.noop);
-            sidebarObj.should.be.visible;
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', network: 'somewhere', id: 'SOME_ID' }, {}, $.noop);
+            sidebarObj.children('iframe').should.have.prop('src', 'chrome://extension_id/somewhere-sidebar.html');
         });
+    });
 
-        it('= unconcerned, should be hidden within 2 seconds of "visible"', function() {
+    describe('when receiving display', function() {
+        it('visible=true && important=true, should stay visible', function() {
             var clock = sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'visible' }, {}, $.noop);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: true, important: true }, {}, $.noop);
+            sidebarObj.should.be.visible;
+            clock.tick(2000);
+            sidebarObj.should.be.visible;
+        });
+
+        it('visible=true, should be visible', function() {
+            sandbox.stub(chrome.runtime.onMessage, 'addListener');
+            var sidebarObj = sidebar().appendTo('#sandbox');
+            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: true }, {}, $.noop);
+            sidebarObj.should.be.visible;
+        });
+
+        it('visible=null, should be hidden within 2 seconds of visible=true', function() {
+            var clock = sandbox.useFakeTimers();
+            sandbox.stub(chrome.runtime.onMessage, 'addListener');
+            var sidebarObj = sidebar().appendTo('#sandbox');
+            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: true }, {}, $.noop);
             clock.tick(1999);
             sidebarObj.should.be.visible;
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'unconcerned' }, {}, $.noop);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: null }, {}, $.noop);
             sidebarObj.should.be.hidden;
         });
 
-        it('= unconcerned, should stay visible after 2 seconds of "visible"', function() {
+        it('visible=null, should stay visible after 2 seconds of visible=true', function() {
             var clock = sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'visible' }, {}, $.noop);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: true }, {}, $.noop);
             clock.tick(2000);
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', key: 'display', value: 'unconcerned' }, {}, $.noop);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: null }, {}, $.noop);
+            sidebarObj.should.be.visible;
+        });
+
+        it('visible=null, should stay visible within 2 seconds of visible=true && important=true', function() {
+            var clock = sandbox.useFakeTimers();
+            sandbox.stub(chrome.runtime.onMessage, 'addListener');
+            var sidebarObj = sidebar().appendTo('#sandbox');
+            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: true, important: true }, {}, $.noop);
+            clock.tick(1999);
+            sidebarObj.should.be.visible;
+            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: null }, {}, $.noop);
             sidebarObj.should.be.visible;
         });
     });
