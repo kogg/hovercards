@@ -32,6 +32,7 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
+                "scripts/youtube.js",
                 "scripts/trigger.js",
                 "scripts/youtube-button.js",
                 "scripts/main-youtube-iframe.js"
@@ -52,6 +53,7 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
+                "scripts/youtube.js",
                 "scripts/trigger.js",
                 "scripts/youtube-button.js",
                 "scripts/sidebar.js",
