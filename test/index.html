@@ -24,7 +24,7 @@
             // we'll give them this one
             return $;
         });
-        var chrome = { extension: { getURL: function(filename) { return 'chrome://extension_id/' + filename; } },
+        var chrome = { extension: { getURL: function(filename) { return 'chrome-extension://extension_id/' + filename; } },
                        runtime:   { sendMessage: function() {},
                                     onMessage:   { addListener: function() {} } },
                        tabs:      { sendMessage: function() {} } };
