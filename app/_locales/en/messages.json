@@ -1,10 +1,10 @@
 {
     "appName": {
-        "message": "deckard",
+        "message": "HoverToast",
         "description": "The name of the application"
     },
     "appDescription": {
-        "message": "Deckard",
+        "message": "Description of HoverToast",
         "description": "The description of the application"
     }
 }
