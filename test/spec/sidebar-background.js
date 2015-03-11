@@ -30,7 +30,7 @@ describe('sidebar-background', function() {
     });
 
     describe('when receiving interest', function() {
-        it('interested=true, should tell sidebar it is important to be visible', function() {
+        it('should tell sidebar it is important to be visible if interested=true', function() {
             sandbox.stub(chrome.tabs, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sidebarBackground();
@@ -38,7 +38,7 @@ describe('sidebar-background', function() {
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', visible: true, important: true });
         });
 
-        it('interested=null, should tell sidebar to have null visibility', function() {
+        it('should tell sidebar we are unconcerned with its visibility if interested=null', function() {
             sandbox.stub(chrome.tabs, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sidebarBackground();

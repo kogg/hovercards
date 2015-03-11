@@ -11,10 +11,8 @@ describe('youtube-background', function() {
         });
     });
 
-    describe('when receiving info', function() {
+    describe('when receiving load', function() {
         it('should call the youtube API');
-
-        it('should send youtube info');
     });
 
     afterEach(function() {

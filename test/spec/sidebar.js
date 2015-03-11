@@ -11,10 +11,6 @@ describe('sidebar', function() {
         });
     });
 
-    it('should have class deckard-sidebar', function() {
-        sidebar().appendTo('#sandbox').should.have.class('deckard-sidebar');
-    });
-
     it('should be hidden', function() {
         sidebar().appendTo('#sandbox').should.be.hidden;
     });
@@ -26,7 +22,7 @@ describe('sidebar', function() {
     });
 
     describe('when receiving load', function() {
-        it('= visible, should have src', function() {
+        it('should give iframe a src', function() {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
             chrome.runtime.onMessage.addListener.yield({ msg: 'load', network: 'somewhere', id: 'SOME_ID' }, {}, $.noop);
@@ -35,24 +31,14 @@ describe('sidebar', function() {
     });
 
     describe('when receiving display', function() {
-        it('visible=true && important=true, should stay visible', function() {
-            var clock = sandbox.useFakeTimers();
-            sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            var sidebarObj = sidebar().appendTo('#sandbox');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: true, important: true }, {}, $.noop);
-            sidebarObj.should.be.visible;
-            clock.tick(2000);
-            sidebarObj.should.be.visible;
-        });
-
-        it('visible=true, should be visible', function() {
+        it('should be visible if visible=true', function() {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
             chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: true }, {}, $.noop);
             sidebarObj.should.be.visible;
         });
 
-        it('visible=null, should be hidden within 2 seconds of visible=true', function() {
+        it('should be hidden within 2 seconds of visible=true if visible=null', function() {
             var clock = sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
@@ -63,7 +49,7 @@ describe('sidebar', function() {
             sidebarObj.should.be.hidden;
         });
 
-        it('visible=null, should stay visible after 2 seconds of visible=true', function() {
+        it('should stay visible after 2 seconds of visible=true if visible=null', function() {
             var clock = sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
@@ -73,7 +59,7 @@ describe('sidebar', function() {
             sidebarObj.should.be.visible;
         });
 
-        it('visible=null, should stay visible within 2 seconds of visible=true && important=true', function() {
+        it('should stay visible within 2 seconds of visible=true && important=true if visible=null', function() {
             var clock = sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
