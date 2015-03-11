@@ -7,10 +7,11 @@ define('youtube-button', ['jquery', 'trigger'], function($, trigger) {
 
         var button = trigger('<div></div>', 'youtube', youtubeId)
             .addClass('deckard-youtube-button')
-            .offset(video.offset())
             .append($('<div></div>').addClass('deckard-youtube-button-inner'))
             .mouseenter(function() {
-                button.stop(true, true).css('opacity', 1);
+                button
+                    .stop(true, true).css('opacity', 1)
+                    .offset(video.offset());
                 clearTimeout(timeout);
             })
             .mouseleave(function() {
@@ -20,7 +21,9 @@ define('youtube-button', ['jquery', 'trigger'], function($, trigger) {
 
         video
             .mouseenter(function() {
-                button.stop(true, true).css('opacity', 1);
+                button
+                    .stop(true, true).css('opacity', 1)
+                    .offset(video.offset());
                 timeout = setTimeout(function() {
                     button.stop(true, true).fadeTo(500, 0);
                 }, 2000);

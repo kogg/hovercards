@@ -33,6 +33,12 @@ describe('youtube-button', function() {
             youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox').mouseenter().should.have.css('opacity', '1');
         });
 
+        it('= mouseenter, should be at the video\'s position', function() {
+            var button = youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox');
+            $('#video').offset({ top: 10, left: 11 });
+            button.mouseenter().offset().should.deep.equal($('#video').offset());
+        });
+
         it('= mouseleave, should be transparent', function() {
             youtubeButton('#video', 'VIDEO_ID').appendTo('#sandbox').mouseenter().mouseleave().should.have.css('opacity', '0');
         });
