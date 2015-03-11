@@ -33,6 +33,13 @@ define('youtube-inject', ['jquery'], function($) {
                     var link = $(this);
                     trigger(link, 'youtube', purl(link.attr('href')).param('v'));
                 });
+            body
+                .find('a[href*="youtu.be/"]')
+                .each(function() {
+                    /* globals purl:true */
+                    var link = $(this);
+                    trigger(link, 'youtube', purl(link.attr('href')).segment(-1));
+                });
         });
     }
 
