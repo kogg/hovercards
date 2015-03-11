@@ -1,6 +1,6 @@
 'use strict';
 
-require(['jquery', 'sidebar'], function($, sidebar) {
+require(['sidebar'], function(sidebar) {
     sidebar().appendTo('body');
 });
 require(['youtube'], function(youtube) {
