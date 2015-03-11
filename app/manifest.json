@@ -13,7 +13,7 @@
     },
     "web_accessible_resources": [
         "images/deckardlogo-white.png",
-        "youtube-sidebar.html"
+        "youtube-content.html"
     ],
     "content_scripts": [
         {
