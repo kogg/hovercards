@@ -12,8 +12,8 @@
         "page": "background.html"
     },
     "web_accessible_resources": [
-        "images/*",
-        "sidebar.html"
+        "images/deckardlogo-white.png",
+        "youtube-sidebar.html"
     ],
     "content_scripts": [
         {
