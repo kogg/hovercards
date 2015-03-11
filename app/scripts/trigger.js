@@ -6,13 +6,13 @@ define('trigger', ['jquery'], function($) {
             .data('deckard_network', network)
             .data('deckard_id', id)
             .click(function() {
-                chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'sure' });
+                chrome.runtime.sendMessage({ msg: 'interest', interested: true });
             })
             .mouseenter(function() {
-                chrome.runtime.sendMessage({ msg: 'info', key: network, value: id });
+                chrome.runtime.sendMessage({ msg: 'load', network: network, id: id });
             })
             .mouseleave(function() {
-                chrome.runtime.sendMessage({ msg: 'interest', key: 'confidence', value: 'unsure' });
+                chrome.runtime.sendMessage({ msg: 'interest', interested: null });
             });
     }
 

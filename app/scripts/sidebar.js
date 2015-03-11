@@ -10,32 +10,31 @@ define('sidebar', ['jquery'], function($) {
         var stayVisibleTimeout;
 
         chrome.runtime.onMessage.addListener(function(request) {
-            if (request.msg === 'sidebar' && request.key === 'display') {
-                switch (request.value) {
-                    case 'stay_visible':
-                        obj.show();
-                        if (!iframe.prop('src')) {
-                            iframe.prop('src', chrome.extension.getURL('sidebar.html'));
-                        }
-                        stayVisible = true;
-                        clearTimeout(stayVisibleTimeout);
-                        break;
-                    case 'visible':
-                        obj.show();
-                        if (!iframe.prop('src')) {
-                            iframe.prop('src', chrome.extension.getURL('sidebar.html'));
-                        }
-                        stayVisibleTimeout = setTimeout(function() {
-                            stayVisible = true;
-                        }, 2000);
-                        break;
-                    case 'unconcerned':
-                        if (!stayVisible) {
-                            obj.hide();
-                            clearTimeout(stayVisibleTimeout);
-                        }
-                        break;
-                }
+            switch (request.msg) {
+                case 'load':
+                    iframe.prop('src', chrome.extension.getURL(request.network + '-sidebar.html'));
+                    break;
+                case 'sidebar':
+                    switch (request.visible) {
+                        case true:
+                            obj.show();
+                            if (request.important) {
+                                stayVisible = true;
+                                clearTimeout(stayVisibleTimeout);
+                            } else {
+                                stayVisibleTimeout = setTimeout(function() {
+                                    stayVisible = true;
+                                }, 2000);
+                            }
+                            break;
+                        case null:
+                            if (!stayVisible) {
+                                obj.hide();
+                                clearTimeout(stayVisibleTimeout);
+                            }
+                            break;
+                    }
+                    break;
             }
         });
 
