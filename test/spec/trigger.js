@@ -19,7 +19,7 @@ describe('trigger', function() {
         obj.should.have.data('deckard_id', 'SOME_ID');
     });
 
-    it('should request info on mouseenter', function() {
+    it('should request load on mouseenter', function() {
         sandbox.stub(chrome.runtime, 'sendMessage');
         var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
         chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'load', network: 'somewhere', id: 'SOME_ID' });
