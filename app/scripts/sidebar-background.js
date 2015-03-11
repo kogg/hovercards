@@ -4,7 +4,7 @@ define(function() {
     return function() {
         chrome.runtime.onMessage.addListener(function(request, sender) {
             switch (request.msg) {
-                case 'load':
+                case 'pre-load':
                     chrome.tabs.sendMessage(sender.tab.id, request);
                     chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', visible: true });
                     break;

@@ -21,11 +21,11 @@ describe('sidebar', function() {
         sidebarObj.children('iframe').should.have.prop('src', '');
     });
 
-    describe('when receiving load', function() {
+    describe('when receiving pre-load', function() {
         it('should give iframe a src', function() {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', network: 'somewhere', id: 'SOME_ID' }, {}, $.noop);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'pre-load', network: 'somewhere', id: 'SOME_ID' }, {}, $.noop);
             sidebarObj.children('iframe').should.have.prop('src', 'chrome-extension://extension_id/somewhere-content.html');
         });
     });

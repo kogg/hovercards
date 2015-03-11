@@ -25,12 +25,12 @@ describe('trigger', function() {
     });
 
     describe('when mouseenter', function() {
-        it('should request load', function() {
+        it('should request pre-load', function() {
             sandbox.stub(chrome.runtime, 'sendMessage');
             var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
-            chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'load', network: 'somewhere', id: 'SOME_ID' });
+            chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'pre-load', network: 'somewhere', id: 'SOME_ID' });
             obj.mouseenter();
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'load', network: 'somewhere', id: 'SOME_ID' });
+            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'pre-load', network: 'somewhere', id: 'SOME_ID' });
         });
     });
 

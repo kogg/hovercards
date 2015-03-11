@@ -9,7 +9,7 @@ define('trigger', ['jquery'], function($) {
                 chrome.runtime.sendMessage({ msg: 'interest', interested: true });
             })
             .mouseenter(function() {
-                chrome.runtime.sendMessage({ msg: 'load', network: network, id: id });
+                chrome.runtime.sendMessage({ msg: 'pre-load', network: network, id: id });
             })
             .mouseleave(function() {
                 chrome.runtime.sendMessage({ msg: 'interest', interested: null });
