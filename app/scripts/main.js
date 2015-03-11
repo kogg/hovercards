@@ -3,7 +3,8 @@
 require(['jquery', 'sidebar'], function($, sidebar) {
     sidebar().appendTo('body');
 });
-require(['youtube'], function() {
+require(['youtube'], function(youtube) {
+    youtube.inject('body');
     require(['jquery', 'youtube-button'], function($, youtubeButton) {
         $('body')
             .find('object[data*="youtube.com/v/"], embed[src*="youtube.com/v/"]')
