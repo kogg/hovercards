@@ -6,8 +6,8 @@ define('youtube-button', ['jquery', 'trigger'], function($, trigger) {
         video = $(video);
 
         var button = trigger('<div></div>', 'youtube', youtubeId)
-            .addClass('deckard-youtube-button')
-            .append($('<div></div>').addClass('deckard-youtube-button-inner'))
+            .addClass('hovertoast-youtube-button')
+            .append($('<div></div>').addClass('hovertoast-youtube-button-inner'))
             .mouseenter(function() {
                 button
                     .stop(true, true).css('opacity', 1)

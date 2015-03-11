@@ -55,7 +55,7 @@ describe('youtube-button', function() {
             $('#video').mouseenter();
             clock.tick(2000);
             button.should.have.css('opacity', '1');
-            $('#sandbox > .deckard-youtube-button:animated').should.exist;
+            $('#sandbox > .hovertoast-youtube-button:animated').should.exist;
             // TODO Detect that the animation is the one we want
         });
     });

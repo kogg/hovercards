@@ -1,4 +1,4 @@
-.deckard-youtube-button * {
+.hovertoast-youtube-button * {
 	-webkit-transform: translateZ(0) !important;
 	-moz-box-sizing:border-box !important;
 	-webkit-box-sizing:border-box !important;
@@ -12,35 +12,35 @@
 	text-align: left !important;
 	overflow: hidden;
 }
-.deckard-youtube-button {
+.hovertoast-youtube-button {
 	z-index: 999 !important;
 	position: absolute;
 	left: 0;
 	top: 0;
 	opacity: 0;
 }
-.deckard-youtube-button {
+.hovertoast-youtube-button {
 	padding: 0 20px 20px 0;
 }
-.deckard-youtube-button:hover {
+.hovertoast-youtube-button:hover {
 	width: auto !important;
 	height: auto !important;
 }
-.deckard-youtube-button-inner {
+.hovertoast-youtube-button-inner {
 	height: 30px;
 	width: 12px;
 	-webkit-transition:width .5s, background-position .6s, background .5s;
 	transition:width .5s, background-position .6s, background .5s;
-	background: url("chrome-extension://__MSG_@@extension_id__/images/deckardlogo-white.png") 150px 50% / 80px no-repeat #F44336 !important;
+	background: url("chrome-extension://__MSG_@@extension_id__/images/hovertoast-logo-white.png") 150px 50% / 80px no-repeat #F44336 !important;
 }
-.deckard-youtube-button-inner:hover {
+.hovertoast-youtube-button-inner:hover {
 	cursor: pointer;
 }
-.deckard-youtube-button:hover .deckard-youtube-button-inner {
+.hovertoast-youtube-button:hover .hovertoast-youtube-button-inner {
 	width: 100px;
 	background-position: center !important;
 }
-.deckard-sidebar {
+.hovertoast-sidebar {
 	position: fixed !important;
 	width: 300px !important;
 	height: 100% !important;
@@ -49,7 +49,7 @@
 	z-index: 999999999999999 !important;
 	display: none;
 }
-.deckard-sidebar iframe {
+.hovertoast-sidebar iframe {
 	position: absolute !important;
 	height: 100% !important;
 	border: none !important;

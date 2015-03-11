@@ -12,16 +12,16 @@ describe('trigger', function() {
         });
     });
 
-    it('should have data deckard_network', function() {
+    it('should have data hovertoast_network', function() {
         sandbox.stub(chrome.runtime, 'sendMessage');
         var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
-        obj.should.have.data('deckard_network', 'somewhere');
+        obj.should.have.data('hovertoast_network', 'somewhere');
     });
 
-    it('should have data deckard_id', function() {
+    it('should have data hovertoast_id', function() {
         sandbox.stub(chrome.runtime, 'sendMessage');
         var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
-        obj.should.have.data('deckard_id', 'SOME_ID');
+        obj.should.have.data('hovertoast_id', 'SOME_ID');
     });
 
     describe('when mouseenter', function() {

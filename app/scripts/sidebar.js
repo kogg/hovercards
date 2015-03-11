@@ -2,7 +2,7 @@
 
 define('sidebar', ['jquery'], function($) {
     return function sidebar() {
-        var obj = $('<div class="deckard-sidebar"></div>');
+        var obj = $('<div class="hovertoast-sidebar"></div>');
         var iframe = $('<iframe frameborder="0"></iframe>');
         obj.append(iframe);
 

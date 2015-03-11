@@ -12,7 +12,7 @@
         "page": "background.html"
     },
     "web_accessible_resources": [
-        "images/deckardlogo-white.png",
+        "images/hovertoast-logo-white.png",
         "youtube-content.html"
     ],
     "content_scripts": [
