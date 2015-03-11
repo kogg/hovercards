@@ -12,20 +12,18 @@ describe('sidebar', function() {
         });
     });
 
-    describe('view', function() {
-        it('should have class deckard-sidebar', function() {
-            sidebar().appendTo('#sandbox').should.have.class('deckard-sidebar');
-        });
+    it('should have class deckard-sidebar', function() {
+        sidebar().appendTo('#sandbox').should.have.class('deckard-sidebar');
+    });
 
-        it('should be hidden', function() {
-            sidebar().appendTo('#sandbox').should.be.hidden;
-        });
+    it('should be hidden', function() {
+        sidebar().appendTo('#sandbox').should.be.hidden;
+    });
 
-        it('should contain an iframe with no src', function() {
-            var sidebarObj = sidebar().appendTo('#sandbox');
-            sidebarObj.should.have.descendants('iframe');
-            sidebarObj.children('iframe').should.have.prop('src', '');
-        });
+    it('should contain an iframe with no src', function() {
+        var sidebarObj = sidebar().appendTo('#sandbox');
+        sidebarObj.should.have.descendants('iframe');
+        sidebarObj.children('iframe').should.have.prop('src', '');
     });
 
     describe('when receiving display message', function() {
