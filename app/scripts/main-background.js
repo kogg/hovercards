@@ -1,5 +1,5 @@
 'use strict';
 
-require(['background'], function(background) {
-    background();
+require(['sidebar-background'], function(sidebarBackground) {
+    sidebarBackground();
 });
