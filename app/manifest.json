@@ -33,7 +33,7 @@
                 "scripts/youtube-button.js",
                 "scripts/youtube-inject.js",
                 "scripts/sidebar.js",
-                "scripts/main.js"
+                "scripts/main-top-frame.js"
             ],
             "all_frames": false
         },
