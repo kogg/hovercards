@@ -13,7 +13,7 @@
     },
     "web_accessible_resources": [
         "images/hovertoast-logo-white.png",
-        "youtube-content.html"
+        "sidebar.html"
     ],
     "content_scripts": [
         {

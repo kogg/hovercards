@@ -25,8 +25,8 @@ describe('sidebar', function() {
         it('should give iframe a src', function() {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'pre-load', network: 'somewhere', id: 'SOME_ID' }, {}, $.noop);
-            sidebarObj.children('iframe').should.have.prop('src', 'chrome-extension://extension_id/somewhere-content.html');
+            chrome.runtime.onMessage.addListener.yield({ msg: 'pre-load', content: 'something', id: 'SOME_ID' }, {}, $.noop);
+            sidebarObj.children('iframe').should.have.prop('src', 'chrome-extension://extension_id/sidebar.html?content=something&id=SOME_ID');
         });
     });
 
