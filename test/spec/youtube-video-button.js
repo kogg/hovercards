@@ -2,16 +2,24 @@
 
 describe('youtube-video-button', function() {
     var sandbox = sinon.sandbox.create();
+    var injector;
     var youtubeVideoButton;
 
     beforeEach(function(done) {
-        $('#sandbox').append('<div id="video"></div>');
         require(['Squire'], function(Squire) {
-            var injector = new Squire();
-            injector.require(['youtube-video-button'], function(_youtubeVideoButton) {
-                youtubeVideoButton = _youtubeVideoButton;
-                done();
-            });
+            injector = new Squire();
+            injector.mock('trigger', sandbox.spy(function () {
+                return $('<div></div>');
+            }));
+            done();
+        });
+    });
+
+    beforeEach(function(done) {
+        $('#sandbox').append('<div id="video"></div>');
+        injector.require(['youtube-video-button'], function(_youtubeVideoButton) {
+            youtubeVideoButton = _youtubeVideoButton;
+            done();
         });
     });
 
@@ -25,6 +33,15 @@ describe('youtube-video-button', function() {
 
     it('should have inner content', function() {
         youtubeVideoButton('#video', 'VIDEO_ID').appendTo('#sandbox').should.have.descendants('div');
+    });
+
+    it('should be a trigger', function(done) {
+        youtubeVideoButton('#video', 'VIDEO_ID');
+        injector.require(['trigger'], function(trigger) {
+            trigger.should.have.been.calledOnce;
+            trigger.should.have.been.calledWith(sinon.match.any, 'youtube', 'VIDEO_ID');
+            done();
+        });
     });
 
     describe('when mouseenter', function() {
@@ -74,6 +91,7 @@ describe('youtube-video-button', function() {
     afterEach(function() {
         $('#sandbox').empty();
         $('#sandbox').off();
+        injector.clean();
         sandbox.restore();
     });
 });
