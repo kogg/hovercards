@@ -16,15 +16,15 @@ describe('sidebar-background', function() {
             sandbox.stub(chrome.tabs, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sidebarBackground();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'pre-load', network: 'somewhere', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, $.noop);
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'pre-load', network: 'somewhere', id: 'SOME_ID' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'pre-load', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, $.noop);
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'pre-load', content: 'something', id: 'SOME_ID' });
         });
 
         it('should tell sidebar to be visible', function() {
             sandbox.stub(chrome.tabs, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sidebarBackground();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'pre-load', network: 'somewhere', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, $.noop);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'pre-load', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, $.noop);
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', visible: true });
         });
     });
