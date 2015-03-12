@@ -39,7 +39,7 @@ describe('youtube-video-button', function() {
         youtubeVideoButton('#video', 'VIDEO_ID');
         injector.require(['trigger'], function(trigger) {
             trigger.should.have.been.calledOnce;
-            trigger.should.have.been.calledWith(sinon.match.any, 'youtube', 'VIDEO_ID');
+            trigger.should.have.been.calledWith(sinon.match.any, 'youtube-video', 'VIDEO_ID');
             done();
         });
     });
