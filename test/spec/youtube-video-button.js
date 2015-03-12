@@ -6,9 +6,12 @@ describe('youtube-video-button', function() {
 
     beforeEach(function(done) {
         $('#sandbox').append('<div id="video"></div>');
-        require(['youtube-video-button'], function(_youtubeVideoButton) {
-            youtubeVideoButton = _youtubeVideoButton;
-            done();
+        require(['Squire'], function(Squire) {
+            var injector = new Squire();
+            injector.require(['youtube-video-button'], function(_youtubeVideoButton) {
+                youtubeVideoButton = _youtubeVideoButton;
+                done();
+            });
         });
     });
 
