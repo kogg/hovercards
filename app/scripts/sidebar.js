@@ -12,7 +12,7 @@ define('sidebar', ['jquery'], function($) {
         chrome.runtime.onMessage.addListener(function(request) {
             switch (request.msg) {
                 case 'pre-load':
-                    iframe.prop('src', chrome.extension.getURL(request.network + '-content.html'));
+                    iframe.prop('src', chrome.extension.getURL('sidebar.html?' + $.param({ content: request.content, id: request.id })));
                     break;
                 case 'sidebar':
                     switch (request.visible) {

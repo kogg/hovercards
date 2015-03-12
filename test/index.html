@@ -19,6 +19,11 @@
     <script src="bower_components/requirejs/require.js"></script>
     <script src="scripts/config.js"></script>
     <script>
+        require.config({
+            paths: {
+                Squire: '../bower_components/squire/src/Squire'
+            }
+        });
         define('jquery', function() {
             // Since the script will try to load a different instance of jquery (which will get decorated by chai-jquery),
             // we'll give them this one
@@ -31,9 +36,10 @@
         mocha.setup('bdd');
         chai.should();
     </script>
+
     <script src="spec/sidebar.js"></script>
     <script src="spec/sidebar-background.js"></script>
-    <script src="spec/youtube-button.js"></script>
+    <script src="spec/youtube-video-button.js"></script>
     <script src="spec/trigger.js"></script>
 
     <script>

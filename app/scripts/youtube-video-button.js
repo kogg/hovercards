@@ -1,13 +1,13 @@
 'use strict';
 
-define('youtube-button', ['jquery', 'trigger'], function($, trigger) {
-    return function youtubeButton(video, youtubeId) {
+define('youtube-video-button', ['jquery', 'trigger'], function($, trigger) {
+    return function youtubeVideoButton(video, youtubeId) {
         var timeout;
         video = $(video);
 
-        var button = trigger('<div></div>', 'youtube', youtubeId)
-            .addClass('hovertoast-youtube-button')
-            .append($('<div></div>').addClass('hovertoast-youtube-button-inner'))
+        var button = trigger('<div></div>', 'youtube-video', youtubeId)
+            .addClass('hovertoast-youtube-video-button')
+            .append($('<div></div>').addClass('hovertoast-youtube-video-button-inner'))
             .mouseenter(function() {
                 button
                     .stop(true, true).css('opacity', 1)

@@ -13,7 +13,7 @@
     },
     "web_accessible_resources": [
         "images/hovertoast-logo-white.png",
-        "youtube-content.html"
+        "sidebar.html"
     ],
     "content_scripts": [
         {
@@ -30,7 +30,7 @@
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/trigger.js",
-                "scripts/youtube-button.js",
+                "scripts/youtube-video-button.js",
                 "scripts/youtube-inject.js",
                 "scripts/sidebar.js",
                 "scripts/main-top-frame.js"
@@ -53,7 +53,7 @@
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/trigger.js",
-                "scripts/youtube-button.js",
+                "scripts/youtube-video-button.js",
                 "scripts/youtube-inject.js",
                 "scripts/main-youtube-iframe.js"
             ],
@@ -72,7 +72,7 @@
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/trigger.js",
-                "scripts/youtube-button.js",
+                "scripts/youtube-video-button.js",
                 "scripts/youtube-inject.js",
                 "scripts/main-facebook-youtube-iframe.js"
             ],

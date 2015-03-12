@@ -2,20 +2,20 @@
 
 define('youtube-inject', ['jquery'], function($) {
     function injectButtonOnPlayer(body) {
-        require(['youtube-button'], function(youtubeButton) {
+        require(['youtube-video-button'], function(youtubeVideoButton) {
             /* globals purl:true */
-            youtubeButton(body.children('#player'), purl(document.URL).segment(-1)).prependTo(body);
+            youtubeVideoButton(body.children('#player'), purl(document.URL).segment(-1)).prependTo(body);
         });
     }
 
     function injectButtonsOnObjectsAndEmbeds(body) {
-        require(['youtube-button'], function(youtubeButton) {
+        require(['youtube-video-button'], function(youtubeVideoButton) {
             body
                 .find('object[data*="youtube.com/v/"], embed[src*="youtube.com/v/"]')
                 .each(function() {
                     /* globals purl:true */
                     var video = $(this);
-                    youtubeButton(video, purl(video.prop('data') || video.prop('src')).segment(-1)).insertBefore(video);
+                    youtubeVideoButton(video, purl(video.prop('data') || video.prop('src')).segment(-1)).insertBefore(video);
                 });
         });
     }

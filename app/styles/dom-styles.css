@@ -1,4 +1,4 @@
-.hovertoast-youtube-button * {
+.hovertoast-youtube-video-button * {
 	-webkit-transform: translateZ(0) !important;
 	-moz-box-sizing:border-box !important;
 	-webkit-box-sizing:border-box !important;
@@ -12,31 +12,31 @@
 	text-align: left !important;
 	overflow: hidden;
 }
-.hovertoast-youtube-button {
+.hovertoast-youtube-video-button {
 	z-index: 999 !important;
 	position: absolute;
 	left: 0;
 	top: 0;
 	opacity: 0;
 }
-.hovertoast-youtube-button {
+.hovertoast-youtube-video-button {
 	padding: 0 20px 20px 0;
 }
-.hovertoast-youtube-button:hover {
+.hovertoast-youtube-video-button:hover {
 	width: auto !important;
 	height: auto !important;
 }
-.hovertoast-youtube-button-inner {
+.hovertoast-youtube-video-button-inner {
 	height: 30px;
 	width: 12px;
 	-webkit-transition:width .5s, background-position .6s, background .5s;
 	transition:width .5s, background-position .6s, background .5s;
 	background: url("chrome-extension://__MSG_@@extension_id__/images/hovertoast-logo-white.png") 150px 50% / 80px no-repeat #F44336 !important;
 }
-.hovertoast-youtube-button-inner:hover {
+.hovertoast-youtube-video-button-inner:hover {
 	cursor: pointer;
 }
-.hovertoast-youtube-button:hover .hovertoast-youtube-button-inner {
+.hovertoast-youtube-video-button:hover .hovertoast-youtube-video-button-inner {
 	width: 100px;
 	background-position: center !important;
 }
