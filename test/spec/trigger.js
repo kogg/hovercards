@@ -12,32 +12,30 @@ describe('trigger', function() {
         });
     });
 
-    it('should have data hovertoast_network', function() {
-        sandbox.stub(chrome.runtime, 'sendMessage');
-        var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
-        obj.should.have.data('hovertoast_network', 'somewhere');
+    it('should have data hovertoast_content', function() {
+        var obj = trigger('#trigger', 'something', 'SOME_ID').appendTo('#sandbox');
+        obj.should.have.data('hovertoast_content', 'something');
     });
 
     it('should have data hovertoast_id', function() {
-        sandbox.stub(chrome.runtime, 'sendMessage');
-        var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
+        var obj = trigger('#trigger', 'something', 'SOME_ID').appendTo('#sandbox');
         obj.should.have.data('hovertoast_id', 'SOME_ID');
     });
 
     describe('when mouseenter', function() {
         it('should request pre-load', function() {
             sandbox.stub(chrome.runtime, 'sendMessage');
-            var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
-            chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'pre-load', network: 'somewhere', id: 'SOME_ID' });
+            var obj = trigger('#trigger', 'something', 'SOME_ID').appendTo('#sandbox');
+            chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'pre-load', content: 'something', id: 'SOME_ID' });
             obj.mouseenter();
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'pre-load', network: 'somewhere', id: 'SOME_ID' });
+            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'pre-load', content: 'something', id: 'SOME_ID' });
         });
     });
 
     describe('when mouseleave', function() {
         it('should lose confidence in their interest', function() {
             sandbox.stub(chrome.runtime, 'sendMessage');
-            var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
+            var obj = trigger('#trigger', 'something', 'SOME_ID').appendTo('#sandbox');
             obj.mouseenter();
             chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', interested: null });
             obj.mouseleave();
@@ -48,7 +46,7 @@ describe('trigger', function() {
     describe('when click', function() {
         it('should be confident in their interest', function() {
             sandbox.stub(chrome.runtime, 'sendMessage');
-            var obj = trigger('#trigger', 'somewhere', 'SOME_ID').appendTo('#sandbox');
+            var obj = trigger('#trigger', 'something', 'SOME_ID').appendTo('#sandbox');
             chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', interested: true });
             obj.click();
             chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', interested: true });

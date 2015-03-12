@@ -1,15 +1,15 @@
 'use strict';
 
 define('trigger', ['jquery'], function($) {
-    function trigger(obj, network, id) {
+    function trigger(obj, content, id) {
         return $(obj)
-            .data('hovertoast_network', network)
+            .data('hovertoast_content', content)
             .data('hovertoast_id', id)
             .click(function() {
                 chrome.runtime.sendMessage({ msg: 'interest', interested: true });
             })
             .mouseenter(function() {
-                chrome.runtime.sendMessage({ msg: 'pre-load', network: network, id: id });
+                chrome.runtime.sendMessage({ msg: 'pre-load', content: content, id: id });
             })
             .mouseleave(function() {
                 chrome.runtime.sendMessage({ msg: 'interest', interested: null });
