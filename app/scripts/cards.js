@@ -11,13 +11,17 @@ define(['jquery'], function($) {
 
         return function card(content) {
             var cardObj = body.find('#' + content + '-card');
-            cardObj.show();
             if (lastCardObj) {
                 cardObj.insertAfter(lastCardObj);
             } else {
                 cardObj.prependTo(body);
             }
             lastCardObj = cardObj;
+            cardObj.show();
+            var more = cardObj.data('more');
+            if (more) {
+                more.forEach(card);
+            }
         };
     };
 });

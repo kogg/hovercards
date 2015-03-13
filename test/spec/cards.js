@@ -13,7 +13,6 @@ describe('cards', function() {
 
     it('should be visible when called', function() {
         var cardObj = $('<div id="something-card" style="display: none;"></div>').appendTo('#sandbox');
-        cardObj.should.not.be.visible;
 
         var card = cards('#sandbox');
         card('something');
@@ -34,6 +33,17 @@ describe('cards', function() {
         $('#sandbox :eq(0)').should.have.id('first-card');
         $('#sandbox :eq(1)').should.have.id('second-card');
         $('#sandbox :eq(2)').should.have.id('third-card');
+    });
+
+    it('should be called on more cards', function() {
+        $('<div id="first-card" style="display: none;" data-more=\'["third"]\'></div>').appendTo('#sandbox');
+        $('<div id="second-card" style="display: none;"></div>').appendTo('#sandbox');
+        var third = $('<div id="third-card" style="display: none;"></div>').appendTo('#sandbox');
+
+        var card = cards('#sandbox');
+        card('first');
+
+        third.should.be.visible;
     });
 
     afterEach(function() {
