@@ -1,6 +1,6 @@
 'use strict';
 
-require(['purl', 'cards'], function(purl, cards) {
-    var card = cards('body');
-    card(purl(document.URL).param('content'));
+require(['purl', 'card-handler'], function(purl, cardHandler) {
+    var handleCard = cardHandler('body');
+    handleCard(purl(document.URL).param('content'));
 });
