@@ -73,6 +73,19 @@ describe('card-handler', function() {
             handler.handled.should.not.contain('sixth');
         });
 
+        it('should handle cards in "breadth-first" order', function() {
+            $('<div id="first-card" style="display: none;" data-more=\'["second", "third"]\'></div>').appendTo('#sandbox');
+            $('<div id="second-card" style="display: none;" data-more=\'["fourth", "fifth"]\'></div>').appendTo('#sandbox');
+            $('<div id="third-card" style="display: none;"></div>').appendTo('#sandbox');
+            $('<div id="fourth-card" style="display: none;"></div>').appendTo('#sandbox');
+            $('<div id="fifth-card" style="display: none;"></div>').appendTo('#sandbox');
+
+            var handler = cardHandler('#sandbox');
+            handler.handleCard('first');
+
+            handler.handled.should.deep.equal(['first', 'second', 'third', 'fourth', 'fifth']);
+        });
+
         it('should handle each card only once', function() {
             $('<div id="first-card" style="display: none;"></div>').appendTo('#sandbox');
 
