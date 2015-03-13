@@ -8,8 +8,12 @@ define(['jquery'], function($) {
         body = $(body);
 
         var lastCardObj = null;
+        var callCount = 0;
 
         return function card(content) {
+            if (callCount++ >= 5) {
+                return;
+            }
             var cardObj = body.find('#' + content + '-card');
             if (lastCardObj) {
                 cardObj.insertAfter(lastCardObj);

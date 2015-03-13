@@ -46,6 +46,30 @@ describe('cards', function() {
         third.should.be.visible;
     });
 
+    it('should be called on five cards max', function() {
+        var first = $('<div id="first-card" style="display: none;"></div>').appendTo('#sandbox');
+        var second = $('<div id="second-card" style="display: none;"></div>').appendTo('#sandbox');
+        var third = $('<div id="third-card" style="display: none;"></div>').appendTo('#sandbox');
+        var fourth = $('<div id="fourth-card" style="display: none;"></div>').appendTo('#sandbox');
+        var fifth = $('<div id="fifth-card" style="display: none;"></div>').appendTo('#sandbox');
+        var sixth = $('<div id="sixth-card" style="display: none;"></div>').appendTo('#sandbox');
+
+        var card = cards('#sandbox');
+        card('first');
+        card('second');
+        card('third');
+        card('fourth');
+        card('fifth');
+        card('sixth');
+
+        first.should.be.visible;
+        second.should.be.visible;
+        third.should.be.visible;
+        fourth.should.be.visible;
+        fifth.should.be.visible;
+        sixth.should.not.be.visible;
+    });
+
     afterEach(function() {
         $('#sandbox').empty();
         $('#sandbox').off();
