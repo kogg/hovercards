@@ -21,7 +21,7 @@ describe('card-handler', function() {
             cardObj.should.be.visible;
         });
 
-        it('should be reorder cards', function() {
+        it('should reorder cards', function() {
             $('<div id="third-card"></div>').appendTo('#sandbox');
             $('<div id="second-card"></div>').appendTo('#sandbox');
             $('<div id="first-card"></div>').appendTo('#sandbox');
@@ -71,6 +71,16 @@ describe('card-handler', function() {
             handler.handled.should.contain('fourth');
             handler.handled.should.contain('fifth');
             handler.handled.should.not.contain('sixth');
+        });
+
+        it('should handle each card only once', function() {
+            $('<div id="first-card" style="display: none;"></div>').appendTo('#sandbox');
+
+            var handler = cardHandler('#sandbox');
+            handler.handleCard('first');
+            handler.handleCard('first');
+
+            handler.handled.should.deep.equal(['first']);
         });
     });
 

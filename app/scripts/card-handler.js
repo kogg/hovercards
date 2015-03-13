@@ -11,7 +11,7 @@ define(['jquery'], function($) {
         var handler = { handled: [] };
 
         function handleCard(content) {
-            if (handler.handled.length >= 5) {
+            if (handler.handled.length >= 5 || $.inArray(content, handler.handled) !== -1) {
                 return;
             }
             handler.handled.push(content);
