@@ -1,5 +1,5 @@
 'use strict';
 
-require(['youtube-inject'], function(youtubeInject) {
-    youtubeInject('body', 'objects');
+require(['youtube-video-inject'], function(youtubeVideoInject) {
+    youtubeVideoInject('body', 'objects');
 });
