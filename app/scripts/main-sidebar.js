@@ -1,6 +1,6 @@
 'use strict';
 
 require(['purl', 'card-handler'], function(purl, cardHandler) {
-    var card = cardHandler('body');
-    card(purl(document.URL).param('content'));
+    var handleCard = cardHandler('body');
+    handleCard(purl(document.URL).param('content'));
 });

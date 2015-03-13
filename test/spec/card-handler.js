@@ -14,8 +14,8 @@ describe('card-handler', function() {
     it('should be visible when called', function() {
         var cardObj = $('<div id="something-card" style="display: none;"></div>').appendTo('#sandbox');
 
-        var card = cardHandler('#sandbox');
-        card('something');
+        var handleCard = cardHandler('#sandbox');
+        handleCard('something');
 
         cardObj.should.be.visible;
     });
@@ -25,10 +25,10 @@ describe('card-handler', function() {
         $('<div id="second-card"></div>').appendTo('#sandbox');
         $('<div id="first-card"></div>').appendTo('#sandbox');
 
-        var card = cardHandler('#sandbox');
-        card('first');
-        card('second');
-        card('third');
+        var handleCard = cardHandler('#sandbox');
+        handleCard('first');
+        handleCard('second');
+        handleCard('third');
 
         $('#sandbox :eq(0)').should.have.id('first-card');
         $('#sandbox :eq(1)').should.have.id('second-card');
@@ -40,8 +40,8 @@ describe('card-handler', function() {
         $('<div id="second-card" style="display: none;"></div>').appendTo('#sandbox');
         var third = $('<div id="third-card" style="display: none;"></div>').appendTo('#sandbox');
 
-        var card = cardHandler('#sandbox');
-        card('first');
+        var handleCard = cardHandler('#sandbox');
+        handleCard('first');
 
         third.should.be.visible;
     });
@@ -54,13 +54,13 @@ describe('card-handler', function() {
         var fifth = $('<div id="fifth-card" style="display: none;"></div>').appendTo('#sandbox');
         var sixth = $('<div id="sixth-card" style="display: none;"></div>').appendTo('#sandbox');
 
-        var card = cardHandler('#sandbox');
-        card('first');
-        card('second');
-        card('third');
-        card('fourth');
-        card('fifth');
-        card('sixth');
+        var handleCard = cardHandler('#sandbox');
+        handleCard('first');
+        handleCard('second');
+        handleCard('third');
+        handleCard('fourth');
+        handleCard('fifth');
+        handleCard('sixth');
 
         first.should.be.visible;
         second.should.be.visible;

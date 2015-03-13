@@ -10,7 +10,7 @@ define(['jquery'], function($) {
         var lastCardObj = null;
         var callCount = 0;
 
-        return function card(content) {
+        return function handleCard(content) {
             if (callCount++ >= 5) {
                 return;
             }
@@ -24,7 +24,7 @@ define(['jquery'], function($) {
             cardObj.show();
             var more = cardObj.data('more');
             if (more) {
-                more.forEach(card);
+                more.forEach(handleCard);
             }
         };
     };
