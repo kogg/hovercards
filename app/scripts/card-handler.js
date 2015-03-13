@@ -1,7 +1,7 @@
 'use strict';
 
 define(['jquery'], function($) {
-    return function cards(body) {
+    return function cardHandler(body) {
         if (!body) {
             body = 'body';
         }

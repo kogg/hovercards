@@ -1,12 +1,12 @@
 'use strict';
 
-describe('cards', function() {
+describe('card-handler', function() {
     var sandbox = sinon.sandbox.create();
-    var cards;
+    var cardHandler;
 
     beforeEach(function(done) {
-        require(['cards'], function(_cards) {
-            cards = _cards;
+        require(['card-handler'], function(_cardHandler) {
+            cardHandler = _cardHandler;
             done();
         });
     });
@@ -14,7 +14,7 @@ describe('cards', function() {
     it('should be visible when called', function() {
         var cardObj = $('<div id="something-card" style="display: none;"></div>').appendTo('#sandbox');
 
-        var card = cards('#sandbox');
+        var card = cardHandler('#sandbox');
         card('something');
 
         cardObj.should.be.visible;
@@ -25,7 +25,7 @@ describe('cards', function() {
         $('<div id="second-card"></div>').appendTo('#sandbox');
         $('<div id="first-card"></div>').appendTo('#sandbox');
 
-        var card = cards('#sandbox');
+        var card = cardHandler('#sandbox');
         card('first');
         card('second');
         card('third');
@@ -40,7 +40,7 @@ describe('cards', function() {
         $('<div id="second-card" style="display: none;"></div>').appendTo('#sandbox');
         var third = $('<div id="third-card" style="display: none;"></div>').appendTo('#sandbox');
 
-        var card = cards('#sandbox');
+        var card = cardHandler('#sandbox');
         card('first');
 
         third.should.be.visible;
@@ -54,7 +54,7 @@ describe('cards', function() {
         var fifth = $('<div id="fifth-card" style="display: none;"></div>').appendTo('#sandbox');
         var sixth = $('<div id="sixth-card" style="display: none;"></div>').appendTo('#sandbox');
 
-        var card = cards('#sandbox');
+        var card = cardHandler('#sandbox');
         card('first');
         card('second');
         card('third');
