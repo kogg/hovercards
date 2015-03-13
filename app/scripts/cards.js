@@ -11,6 +11,7 @@ define(['jquery'], function($) {
 
         return function card(content) {
             var cardObj = body.find('#' + content + '-card');
+            cardObj.show();
             if (lastCardObj) {
                 cardObj.insertAfter(lastCardObj);
             } else {
