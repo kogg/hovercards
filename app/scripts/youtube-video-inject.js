@@ -1,6 +1,6 @@
 'use strict';
 
-define('youtube-inject', ['jquery'], function($) {
+define('youtube-video-inject', ['jquery'], function($) {
     function injectButtonOnPlayer(body) {
         require(['youtube-video-button'], function(youtubeVideoButton) {
             /* globals purl:true */
@@ -43,7 +43,7 @@ define('youtube-inject', ['jquery'], function($) {
         });
     }
 
-    return function youtubeInject(body, context) {
+    return function youtubeVideoInject(body, context) {
         if (!body) {
             body = 'body';
         }
