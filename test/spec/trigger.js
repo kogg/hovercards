@@ -23,7 +23,7 @@ describe('trigger', function() {
     });
 
     describe('when mouseenter', function() {
-        it('should request pre-load', function() {
+        it('should send pre-load message', function() {
             sandbox.stub(chrome.runtime, 'sendMessage');
             var obj = trigger('#trigger', 'something', 'SOME_ID').appendTo('#sandbox');
             chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'pre-load', content: 'something', id: 'SOME_ID' });
@@ -33,7 +33,7 @@ describe('trigger', function() {
     });
 
     describe('when mouseleave', function() {
-        it('should lose confidence in their interest', function() {
+        it('should send uninterested message', function() {
             sandbox.stub(chrome.runtime, 'sendMessage');
             var obj = trigger('#trigger', 'something', 'SOME_ID').appendTo('#sandbox');
             obj.mouseenter();
@@ -44,7 +44,7 @@ describe('trigger', function() {
     });
 
     describe('when click', function() {
-        it('should be confident in their interest', function() {
+        it('should send interested message', function() {
             sandbox.stub(chrome.runtime, 'sendMessage');
             var obj = trigger('#trigger', 'something', 'SOME_ID').appendTo('#sandbox');
             chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', interested: true });

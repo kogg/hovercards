@@ -21,7 +21,7 @@ describe('sidebar', function() {
         sidebarObj.children('iframe').should.have.prop('src', '');
     });
 
-    describe('when receiving pre-load', function() {
+    describe('when receiving pre-load message', function() {
         it('should give iframe a src', function() {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');
@@ -30,7 +30,7 @@ describe('sidebar', function() {
         });
     });
 
-    describe('when receiving display', function() {
+    describe('when receiving sidebar message', function() {
         it('should be visible if visible=true', function() {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             var sidebarObj = sidebar().appendTo('#sandbox');

@@ -11,8 +11,8 @@ describe('sidebar-background', function() {
         });
     });
 
-    describe('when receiving info', function() {
-        it('should tell sidebar to load iframe', function() {
+    describe('when receiving pre-load message', function() {
+        it('should send pre-load message', function() {
             sandbox.stub(chrome.tabs, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sidebarBackground();
@@ -20,7 +20,7 @@ describe('sidebar-background', function() {
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'pre-load', content: 'something', id: 'SOME_ID' });
         });
 
-        it('should tell sidebar to be visible', function() {
+        it('should send sidebar visible message', function() {
             sandbox.stub(chrome.tabs, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sidebarBackground();
@@ -29,8 +29,8 @@ describe('sidebar-background', function() {
         });
     });
 
-    describe('when receiving interest', function() {
-        it('should tell sidebar it is important to be visible if interested=true', function() {
+    describe('when receiving interest message', function() {
+        it('should send sidebar important visible message if interested=true', function() {
             sandbox.stub(chrome.tabs, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sidebarBackground();
@@ -38,7 +38,7 @@ describe('sidebar-background', function() {
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', visible: true, important: true });
         });
 
-        it('should tell sidebar we are unconcerned with its visibility if interested=null', function() {
+        it('should send sidebar null visible message if interested=null', function() {
             sandbox.stub(chrome.tabs, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sidebarBackground();
