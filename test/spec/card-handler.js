@@ -11,25 +11,25 @@ describe('card-handler', function() {
         });
     });
 
-    describe('handled cards', function() {
-        it('should be visible', function() {
+    describe('#handleCard', function() {
+        it('should make handled cards visible', function() {
             var cardObj = $('<div id="something-card" style="display: none;"></div>').appendTo('#sandbox');
 
-            var handleCard = cardHandler('#sandbox');
-            handleCard('something');
+            var handler = cardHandler('#sandbox');
+            handler.handleCard('something');
 
             cardObj.should.be.visible;
         });
 
-        it('should be reordered', function() {
+        it('should be reorder cards', function() {
             $('<div id="third-card"></div>').appendTo('#sandbox');
             $('<div id="second-card"></div>').appendTo('#sandbox');
             $('<div id="first-card"></div>').appendTo('#sandbox');
 
-            var handleCard = cardHandler('#sandbox');
-            handleCard('first');
-            handleCard('second');
-            handleCard('third');
+            var handler = cardHandler('#sandbox');
+            handler.handleCard('first');
+            handler.handleCard('second');
+            handler.handleCard('third');
 
             $('#sandbox :eq(0)').should.have.id('first-card');
             $('#sandbox :eq(1)').should.have.id('second-card');
@@ -39,36 +39,38 @@ describe('card-handler', function() {
         it('should handle more cards', function() {
             $('<div id="first-card" style="display: none;" data-more=\'["third"]\'></div>').appendTo('#sandbox');
             $('<div id="second-card" style="display: none;"></div>').appendTo('#sandbox');
-            var third = $('<div id="third-card" style="display: none;"></div>').appendTo('#sandbox');
+            $('<div id="third-card" style="display: none;"></div>').appendTo('#sandbox');
 
-            var handleCard = cardHandler('#sandbox');
-            handleCard('first');
+            var handler = cardHandler('#sandbox');
+            handler.handleCard('first');
 
-            third.should.be.visible;
+            handler.handled.should.contain('first');
+            handler.handled.should.not.contain('second');
+            handler.handled.should.contain('third');
         });
 
         it('should be capped at five cards', function() {
-            var first = $('<div id="first-card" style="display: none;"></div>').appendTo('#sandbox');
-            var second = $('<div id="second-card" style="display: none;"></div>').appendTo('#sandbox');
-            var third = $('<div id="third-card" style="display: none;"></div>').appendTo('#sandbox');
-            var fourth = $('<div id="fourth-card" style="display: none;"></div>').appendTo('#sandbox');
-            var fifth = $('<div id="fifth-card" style="display: none;"></div>').appendTo('#sandbox');
-            var sixth = $('<div id="sixth-card" style="display: none;"></div>').appendTo('#sandbox');
+            $('<div id="first-card" style="display: none;"></div>').appendTo('#sandbox');
+            $('<div id="second-card" style="display: none;"></div>').appendTo('#sandbox');
+            $('<div id="third-card" style="display: none;"></div>').appendTo('#sandbox');
+            $('<div id="fourth-card" style="display: none;"></div>').appendTo('#sandbox');
+            $('<div id="fifth-card" style="display: none;"></div>').appendTo('#sandbox');
+            $('<div id="sixth-card" style="display: none;"></div>').appendTo('#sandbox');
 
-            var handleCard = cardHandler('#sandbox');
-            handleCard('first');
-            handleCard('second');
-            handleCard('third');
-            handleCard('fourth');
-            handleCard('fifth');
-            handleCard('sixth');
+            var handler = cardHandler('#sandbox');
+            handler.handleCard('first');
+            handler.handleCard('second');
+            handler.handleCard('third');
+            handler.handleCard('fourth');
+            handler.handleCard('fifth');
+            handler.handleCard('sixth');
 
-            first.should.be.visible;
-            second.should.be.visible;
-            third.should.be.visible;
-            fourth.should.be.visible;
-            fifth.should.be.visible;
-            sixth.should.not.be.visible;
+            handler.handled.should.contain('first');
+            handler.handled.should.contain('second');
+            handler.handled.should.contain('third');
+            handler.handled.should.contain('fourth');
+            handler.handled.should.contain('fifth');
+            handler.handled.should.not.contain('sixth');
         });
     });
 

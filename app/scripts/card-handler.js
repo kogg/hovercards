@@ -8,12 +8,13 @@ define(['jquery'], function($) {
         body = $(body);
 
         var lastCardObj = null;
-        var callCount = 0;
+        var handler = { handled: [] };
 
-        return function handleCard(content) {
-            if (callCount++ >= 5) {
+        function handleCard(content) {
+            if (handler.handled.length >= 5) {
                 return;
             }
+            handler.handled.push(content);
             var cardObj = body.find('#' + content + '-card');
             if (lastCardObj) {
                 cardObj.insertAfter(lastCardObj);
@@ -24,8 +25,12 @@ define(['jquery'], function($) {
             cardObj.show();
             var more = cardObj.data('more');
             if (more) {
-                more.forEach(handleCard);
+                more.forEach(handler.handleCard);
             }
-        };
+        }
+
+        handler.handleCard = handleCard;
+
+        return handler;
     };
 });
