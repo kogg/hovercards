@@ -44,9 +44,7 @@ describe('card-handler', function() {
             var handler = cardHandler('#sandbox');
             handler.handleCard('first');
 
-            handler.handled.should.contain('first');
-            handler.handled.should.not.contain('second');
-            handler.handled.should.contain('third');
+            handler.handled.should.deep.equal(['first', 'third']);
         });
 
         it('should be capped at five cards', function() {
@@ -65,12 +63,7 @@ describe('card-handler', function() {
             handler.handleCard('fifth');
             handler.handleCard('sixth');
 
-            handler.handled.should.contain('first');
-            handler.handled.should.contain('second');
-            handler.handled.should.contain('third');
-            handler.handled.should.contain('fourth');
-            handler.handled.should.contain('fifth');
-            handler.handled.should.not.contain('sixth');
+            handler.handled.should.deep.equal(['first', 'second', 'third', 'fourth', 'fifth']);
         });
 
         it('should handle cards in "breadth-first" order', function() {
