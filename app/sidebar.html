@@ -1,11 +1,14 @@
-<html>
-<head></head>
+<html ng-csp>
+<head>
+    <link rel="stylesheet" href="bower_components/angular/angular-csp.css">
+</head>
 <body>
-    Sidebar!!!
-
-    <div id="youtube-video-card" style="display: none;">
-        Youtube Video Card!
+    <div id="cards" ng-controller="CardsController" ng-cloak class="ng-cloak">
+        <div ng-repeat="card in cards" ng-include="'cards/' + card.content + '-card.html'">
+            {{ card }}
+        </div>
     </div>
+    <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/requirejs/require.js"></script>
     <script src="scripts/config.js"></script>
     <script src="scripts/main-sidebar.js"></script>

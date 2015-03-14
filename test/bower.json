@@ -7,7 +7,8 @@
     "chai-jquery": "~2.0.0",
     "sinon-chai": "~2.7.0",
     "sinonjs": "~1.12.2",
-    "squire": "~0.2.0"
+    "squire": "~0.2.0",
+    "angular-mocks": "~1.3.14"
   },
   "devDependencies": {}
 }
