@@ -1,7 +1,8 @@
 'use strict';
 
-describe('sidebar', function() {
-    var $controller;
+describe('cards-controller', function() {
+    var controller;
+    var $scope;
 
     beforeEach(function(done) {
         require(['cards-controller'], function() {
@@ -9,12 +10,15 @@ describe('sidebar', function() {
         });
     });
     beforeEach(module('app'));
-    beforeEach(inject(function(_$controller_) {
-        $controller = _$controller_;
+    beforeEach(inject(function($controller, $rootScope) {
+        $scope = $rootScope.$new();
+        controller = $controller('CardsController', { $scope: $scope });
     }));
 
-    it('should have a test', function() {
-        var $scope = {};
-        $controller('CardsController', { $scope: $scope });
+    describe('#addCard', function() {
+        it('should push the card onto #cards', function() {
+            $scope.addCard({ content: 'something', id: 'ID' });
+            $scope.cards.should.deep.equal([{ content: 'something', id: 'ID' }]);
+        });
     });
 });
