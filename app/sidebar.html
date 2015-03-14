@@ -4,7 +4,7 @@
 </head>
 <body>
     <div id="cards" ng-controller="CardsController" ng-cloak class="ng-cloak">
-        <div ng-repeat="card in cards">
+        <div ng-repeat="card in cards" ng-include="'cards/' + card.content + '-card.html'">
             {{ card }}
         </div>
     </div>
