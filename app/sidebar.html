@@ -3,8 +3,10 @@
     <link rel="stylesheet" href="bower_components/angular/angular-csp.css">
 </head>
 <body>
-    <div ng-controller="CardsController" ng-cloak class="ng-cloak">
-        {{ cards }}
+    <div id="cards" ng-controller="CardsController" ng-cloak class="ng-cloak">
+        <div ng-repeat="card in cards">
+            {{ card }}
+        </div>
     </div>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/requirejs/require.js"></script>
