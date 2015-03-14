@@ -19,13 +19,15 @@ describe('sidebar-background', function() {
     });
 
     describe('when receiving pre-load message', function() {
-        it('should send pre-load message', function() {
+        beforeEach(function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'pre-load', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, $.noop);
+        });
+
+        it('should send pre-load message', function() {
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'pre-load', content: 'something', id: 'SOME_ID' });
         });
 
         it('should send sidebar visible message', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'pre-load', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, $.noop);
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', visible: true });
         });
     });
