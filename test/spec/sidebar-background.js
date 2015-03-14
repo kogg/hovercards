@@ -13,8 +13,6 @@ describe('sidebar-background', function() {
     });
 
     afterEach(function() {
-        $('#sandbox').empty();
-        $('#sandbox').off();
         sandbox.restore();
     });
 

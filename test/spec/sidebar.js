@@ -6,12 +6,18 @@ describe('sidebar', function() {
     var sidebarObj;
 
     beforeEach(function(done) {
+        $('<div id="sandbox"></div>').appendTo('body');
         require(['sidebar'], function(sidebar) {
             clock = sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sidebarObj = sidebar().appendTo('#sandbox');
             done();
         });
+    });
+
+    afterEach(function() {
+        $('#sandbox').remove();
+        sandbox.restore();
     });
 
     it('should be hidden', function() {
@@ -58,11 +64,5 @@ describe('sidebar', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: null }, {}, $.noop);
             sidebarObj.should.be.visible;
         });
-    });
-
-    afterEach(function() {
-        $('#sandbox').empty();
-        $('#sandbox').off();
-        sandbox.restore();
     });
 });

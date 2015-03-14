@@ -5,7 +5,8 @@ describe('trigger', function() {
     var triggerObj;
 
     beforeEach(function(done) {
-        $('#sandbox').append('<div id="trigger"></div>');
+        $('<div id="sandbox"></div>').appendTo('body');
+        $('<div id="trigger"></div>').appendTo('#sandbox');
         require(['trigger'], function(trigger) {
             sandbox.stub(chrome.runtime, 'sendMessage');
             triggerObj = trigger('#trigger', 'something', 'SOME_ID').appendTo('#sandbox');
@@ -14,8 +15,7 @@ describe('trigger', function() {
     });
 
     afterEach(function() {
-        $('#sandbox').empty();
-        $('#sandbox').off();
+        $('#sandbox').remove();
         sandbox.restore();
     });
 

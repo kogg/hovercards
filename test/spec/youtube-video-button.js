@@ -15,14 +15,13 @@ describe('youtube-video-button', function() {
     });
 
     beforeEach(function(done) {
-        var injector = new Squire();
-        trigger = sandbox.spy(function trigger() {
-            return $('<div></div>');
-        });
-        injector
-            .mock('trigger', trigger)
+        $('<div id="sandbox"></div>').appendTo('body');
+        $('<div id="video"></div>').appendTo('#sandbox');
+        new Squire()
+            .mock('trigger', trigger = sandbox.spy(function trigger() {
+                return $('<div></div>');
+            }))
             .require(['youtube-video-button'], function(youtubeVideoButton) {
-                $('#sandbox').append('<div id="video"></div>');
                 clock = sandbox.useFakeTimers();
                 button = youtubeVideoButton('#video', 'VIDEO_ID').appendTo('#sandbox');
                 done();
@@ -30,8 +29,7 @@ describe('youtube-video-button', function() {
     });
 
     afterEach(function() {
-        $('#sandbox').empty();
-        $('#sandbox').off();
+        $('#sandbox').remove();
         sandbox.restore();
     });
 
