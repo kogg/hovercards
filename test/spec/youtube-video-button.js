@@ -11,16 +11,19 @@ describe('youtube-video-button', function() {
             injector.mock('trigger', sandbox.spy(function () {
                 return $('<div></div>');
             }));
-            done();
+            $('#sandbox').append('<div id="video"></div>');
+            injector.require(['youtube-video-button'], function(_youtubeVideoButton) {
+                youtubeVideoButton = _youtubeVideoButton;
+                done();
+            });
         });
     });
 
-    beforeEach(function(done) {
-        $('#sandbox').append('<div id="video"></div>');
-        injector.require(['youtube-video-button'], function(_youtubeVideoButton) {
-            youtubeVideoButton = _youtubeVideoButton;
-            done();
-        });
+    afterEach(function() {
+        $('#sandbox').empty();
+        $('#sandbox').off();
+        injector.clean();
+        sandbox.restore();
     });
 
     it('should be transparent', function() {
@@ -86,12 +89,5 @@ describe('youtube-video-button', function() {
             $('#video').mouseenter().mouseleave();
             button.should.have.css('opacity', '0');
         });
-    });
-
-    afterEach(function() {
-        $('#sandbox').empty();
-        $('#sandbox').off();
-        injector.clean();
-        sandbox.restore();
     });
 });
