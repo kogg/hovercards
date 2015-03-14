@@ -36,9 +36,7 @@ describe('trigger', function() {
 
     describe('when mouseleave', function() {
         it('should send uninterested message', function() {
-            triggerObj.mouseenter();
-            chrome.runtime.sendMessage.should.not.have.been.calledWith({ msg: 'interest', interested: null });
-            triggerObj.mouseleave();
+            triggerObj.mouseenter().mouseleave();
             chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', interested: null });
         });
     });
