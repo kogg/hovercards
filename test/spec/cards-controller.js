@@ -20,5 +20,11 @@ describe('cards-controller', function() {
             $scope.addCard({ content: 'something', id: 'ID' });
             $scope.cards.should.deep.equal([{ content: 'something', id: 'ID' }]);
         });
+
+        it('shouldn\'t push the same card twice', function() {
+            $scope.addCard({ content: 'something', id: 'ID' });
+            $scope.addCard({ content: 'something', id: 'ID' });
+            $scope.cards.should.deep.equal([{ content: 'something', id: 'ID' }]);
+        });
     });
 });
