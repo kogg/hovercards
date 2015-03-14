@@ -1,4 +1,5 @@
 'use strict';
 
-require([], function() {
+require(['cards-controller'], function() {
+    angular.bootstrap(document, ['app']);
 });

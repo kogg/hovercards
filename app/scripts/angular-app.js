@@ -1,5 +1,5 @@
 'use strict';
 
-define([], function() {
+define(['domReady!'], function() {
     return angular.module('app', []);
 });
