@@ -7,7 +7,6 @@ describe('youtube-video-button', function() {
     var trigger;
     var button;
 
-
     before(function(done) {
         require(['Squire'], function(_Squire) {
             Squire = _Squire;
@@ -54,30 +53,40 @@ describe('youtube-video-button', function() {
     });
 
     describe('when mouseenter', function() {
+        beforeEach(function() {
+            $('#video').offset({ top: 10, left: 11 });
+            button.mouseenter();
+        });
+
         it('should be opaque', function() {
-            button.mouseenter().should.have.css('opacity', '1');
+            button.should.have.css('opacity', '1');
         });
 
         it('should be at the video\'s position', function() {
-            $('#video').offset({ top: 10, left: 11 });
-            button.mouseenter().offset().should.deep.equal($('#video').offset());
+            button.offset().should.deep.equal($('#video').offset());
         });
     });
 
     describe('when mouseleave', function() {
+        beforeEach(function() {
+            button.mouseenter().mouseleave();
+        });
+
         it('should be transparent', function() {
-            button.mouseenter().mouseleave().should.have.css('opacity', '0');
+            button.should.have.css('opacity', '0');
         });
     });
 
     describe('when video mouseenter', function() {
-        it('should be opaque', function() {
+        beforeEach(function() {
             $('#video').mouseenter();
+        });
+
+        it('should be opaque', function() {
             button.should.have.css('opacity', '1');
         });
 
         it('should fade out starting 2 seconds after', function() {
-            $('#video').mouseenter();
             clock.tick(2000);
             button.should.have.css('opacity', '1');
             $('#sandbox > .hovertoast-youtube-video-button:animated').should.exist;
@@ -86,8 +95,11 @@ describe('youtube-video-button', function() {
     });
 
     describe('when video mouseleave', function() {
-        it('should be transparent', function() {
+        beforeEach(function() {
             $('#video').mouseenter().mouseleave();
+        });
+
+        it('should be transparent', function() {
             button.should.have.css('opacity', '0');
         });
     });
