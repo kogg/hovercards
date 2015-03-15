@@ -32,7 +32,9 @@ describe('sidebar', function() {
     describe('when receiving pre-load message', function() {
         it('should give iframe a src', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'pre-load', content: 'something', id: 'SOME_ID' }, {}, $.noop);
-            sidebarObj.children('iframe').should.have.prop('src', 'chrome-extension://extension_id/sidebar.html?content=something&id=SOME_ID');
+            sidebarObj.children('iframe').prop('src').should.contain('chrome-extension://extension_id/sidebar.html');
+            sidebarObj.children('iframe').prop('src').should.contain('initial%5Bcontent%5D=something');
+            sidebarObj.children('iframe').prop('src').should.contain('initial%5Bid%5D=SOME_ID');
         });
     });
 
