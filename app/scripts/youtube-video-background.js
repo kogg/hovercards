@@ -2,17 +2,11 @@
 
 define([], function() {
     return function youtubeVideoBackground() {
-        chrome.runtime.onMessage.addListener(function(request, sender, callback) {
+        chrome.runtime.onMessage.addListener(function(request, sender) {
             if (request.msg !== 'triggered' || request.content !== 'youtube-video') {
                 return;
             }
-            var cards = [];
-            if (callback) {
-                callback(cards);
-                return true;
-            } else {
-                chrome.tabs.sendMessage(sender.tab.id, { msg: 'cards', cards: cards });
-            }
+            chrome.tabs.sendMessage(sender.tab.id, { msg: 'cards', cards: [] });
         });
     };
 });
