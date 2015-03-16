@@ -1,6 +1,6 @@
 'use strict';
 
-define('youtube-video-inject', ['jquery', 'youtube-video-button'], function($, youtubeVideoButton) {
+define('youtube-video-inject', ['jquery', 'youtube-video-button', 'trigger'], function($, youtubeVideoButton, trigger) {
     function injectButtonOnPlayer(body, docURL) {
         /* globals purl:true */
         youtubeVideoButton(body.children('#player'), purl(docURL).segment(-1)).prependTo(body);
@@ -17,26 +17,24 @@ define('youtube-video-inject', ['jquery', 'youtube-video-button'], function($, y
     }
 
     function injectTriggersOnLinks(body, docURL) {
-        require(['trigger'], function(trigger) {
-            var youtubeLinkSelector = 'a[href*="youtube.com/watch"]';
-            if (purl(docURL).attr('host') === 'www.youtube.com') {
-                youtubeLinkSelector += ',a[href^="/watch"]';
-            }
-            body
-                .find(youtubeLinkSelector)
-                .each(function() {
-                    /* globals purl:true */
-                    var link = $(this);
-                    trigger(link, 'youtube-video', purl(link.attr('href')).param('v'));
-                });
-            body
-                .find('a[href*="youtu.be/"]')
-                .each(function() {
-                    /* globals purl:true */
-                    var link = $(this);
-                    trigger(link, 'youtube-video', purl(link.attr('href')).segment(-1));
-                });
-        });
+        var youtubeLinkSelector = 'a[href*="youtube.com/watch"]';
+        if (purl(docURL).attr('host') === 'www.youtube.com') {
+            youtubeLinkSelector += ',a[href^="/watch"]';
+        }
+        body
+            .find(youtubeLinkSelector)
+            .each(function() {
+                /* globals purl:true */
+                var link = $(this);
+                trigger(link, 'youtube-video', purl(link.attr('href')).param('v'));
+            });
+        body
+            .find('a[href*="youtu.be/"]')
+            .each(function() {
+                /* globals purl:true */
+                var link = $(this);
+                trigger(link, 'youtube-video', purl(link.attr('href')).segment(-1));
+            });
     }
 
     return function youtubeVideoInject(body, context, docURL) {
