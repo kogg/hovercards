@@ -2,19 +2,12 @@
 
 define(['angular-app'], function(app) {
     app.controller('CardsController', ['$scope', function($scope) {
-        function addCard(card) {
-            if ($scope.cards.length >= 5) {
+        $scope.cards = [];
+        chrome.runtime.onMessage.addListener(function(request) {
+            if (request.msg !== 'cards') {
                 return;
             }
-            for (var i = 0; i < $scope.cards.length; i++) {
-                if ($scope.cards[i].content === card.content && $scope.cards[i].id === card.id) {
-                    return;
-                }
-            }
-            $scope.cards.push(card);
-        }
-
-        $scope.addCard = addCard;
-        $scope.cards = [];
+            $scope.cards = request.cards;
+        });
     }]);
 });
