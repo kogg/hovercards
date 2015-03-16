@@ -2,14 +2,17 @@
 
 describe('youtube-video-button', function() {
     var sandbox = sinon.sandbox.create();
-    var Squire;
+    var injector;
     var clock;
     var trigger;
     var button;
 
     before(function(done) {
-        require(['Squire'], function(_Squire) {
-            Squire = _Squire;
+        require(['Squire'], function(Squire) {
+            injector = new Squire()
+                .mock('trigger', function() {
+                    return trigger.apply(trigger, arguments);
+                });
             done();
         });
     });
@@ -17,14 +20,13 @@ describe('youtube-video-button', function() {
     beforeEach(function(done) {
         $('<div id="sandbox"></div>').appendTo('body');
         $('<div id="video"></div>').appendTo('#sandbox');
-        new Squire()
-            .mock('trigger', trigger = sandbox.stub().returns($('<div></div>')))
-            .require(['youtube-video-button'], function(youtubeVideoButton) {
-                clock = sandbox.useFakeTimers();
-                sandbox.stub(chrome.runtime, 'sendMessage');
-                button = youtubeVideoButton('#video', 'VIDEO_ID').appendTo('#sandbox');
-                done();
-            });
+        trigger = sandbox.stub().returns($('<div></div>'));
+        injector.require(['youtube-video-button'], function(youtubeVideoButton) {
+            clock = sandbox.useFakeTimers();
+            sandbox.stub(chrome.runtime, 'sendMessage');
+            button = youtubeVideoButton('#video', 'VIDEO_ID').appendTo('#sandbox');
+            done();
+        });
     });
 
     afterEach(function() {

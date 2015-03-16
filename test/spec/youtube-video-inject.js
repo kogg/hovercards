@@ -2,26 +2,31 @@
 
 describe('youtube-video-inject', function() {
     var sandbox = sinon.sandbox.create();
-    var Squire;
+    var injector;
     var trigger;
     var youtubeVideoButton;
     var youtubeVideoInject;
 
     before(function(done) {
-        require(['Squire'], function(_Squire) {
-            Squire = _Squire;
+        require(['Squire'], function(Squire) {
+            injector = new Squire()
+                .mock('trigger', function() {
+                    return trigger.apply(trigger, arguments);
+                })
+                .mock('youtube-video-button', function() {
+                    return youtubeVideoButton.apply(youtubeVideoButton, arguments);
+                });
             done();
         });
     });
 
     beforeEach(function(done) {
-        new Squire()
-            .mock('trigger', trigger = sandbox.stub())
-            .mock('youtube-video-button', youtubeVideoButton = sandbox.stub().returns($('<div id="button"></div>')))
-            .require(['youtube-video-inject'], function(_youtubeVideoInject) {
-                youtubeVideoInject = _youtubeVideoInject;
-                done();
-            });
+        trigger = sandbox.stub();
+        youtubeVideoButton = sandbox.stub().returns($('<div id="button"></div>'));
+        injector.require(['youtube-video-inject'], function(_youtubeVideoInject) {
+            youtubeVideoInject = _youtubeVideoInject;
+            done();
+        });
     });
 
     afterEach(function() {
