@@ -30,32 +30,43 @@
         sidebarObj.children('iframe').should.have.prop('src', 'chrome-extension://extension_id/sidebar.html');
     });
 
-    describe('when receiving sidebar message', function() {
-        it('should be visible if visible=true', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: true }, {}, $.noop);
-            sidebarObj.should.be.visible;
+    describe('when receiving maybe message', function() {
+        beforeEach(function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'maybe' }, {}, $.noop);
         });
 
-        it('should be hidden within 2 seconds of visible=true if visible=null', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: true }, {}, $.noop);
-            clock.tick(1999);
+        it('should be visible', function() {
             sidebarObj.should.be.visible;
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: null }, {}, $.noop);
+        });
+    });
+
+    describe('when receiving maybenot message', function() {
+        it('should be hidden if within 2 seconds of a maybe message', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'maybe' }, {}, $.noop);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'maybenot' }, {}, $.noop);
             sidebarObj.should.be.hidden;
         });
 
-        it('should stay visible after 2 seconds of visible=true if visible=null', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: true }, {}, $.noop);
+        it('should be visible if after 2 seconds of a maybe message', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'maybe' }, {}, $.noop);
             clock.tick(2000);
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: null }, {}, $.noop);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'maybenot' }, {}, $.noop);
             sidebarObj.should.be.visible;
         });
 
-        it('should stay visible within 2 seconds of visible=true && important=true if visible=null', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: true, important: true }, {}, $.noop);
-            clock.tick(1999);
+        it('should be visible if after on message', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'on' }, {}, $.noop);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'maybenot' }, {}, $.noop);
             sidebarObj.should.be.visible;
-            chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', visible: null }, {}, $.noop);
+        });
+    });
+
+    describe('when receiving on message', function() {
+        beforeEach(function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'on' }, {}, $.noop);
+        });
+
+        it('should be visible', function() {
             sidebarObj.should.be.visible;
         });
     });

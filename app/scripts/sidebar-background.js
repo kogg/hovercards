@@ -4,19 +4,14 @@ define(function() {
     return function() {
         chrome.runtime.onMessage.addListener(function(request, sender) {
             switch (request.msg) {
-                case 'pre-load':
-                    chrome.tabs.sendMessage(sender.tab.id, request);
-                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', visible: true });
+                case 'triggered':
+                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'maybe' });
                     break;
-                case 'interest':
-                    switch (request.interested) {
-                        case true:
-                            chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', visible: true, important: true });
-                            break;
-                        case null:
-                            chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', visible: null });
-                            break;
-                    }
+                case 'untriggered':
+                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'maybenot' });
+                    break;
+                case 'interested':
+                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'on' });
                     break;
             }
         });

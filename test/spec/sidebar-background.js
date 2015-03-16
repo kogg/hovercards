@@ -16,29 +16,33 @@ describe('sidebar-background', function() {
         sandbox.restore();
     });
 
-    describe('when receiving pre-load message', function() {
+    describe('when receiving triggered message', function() {
         beforeEach(function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'pre-load', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, $.noop);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, $.noop);
         });
 
-        it('should send pre-load message', function() {
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'pre-load', content: 'something', id: 'SOME_ID' });
-        });
-
-        it('should send sidebar visible message', function() {
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', visible: true });
+        it('should send maybe message', function() {
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'maybe' });
         });
     });
 
-    describe('when receiving interest message', function() {
-        it('should send sidebar important visible message if interested=true', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'interest', interested: true }, { tab: { id: 'TAB_ID' } }, $.noop);
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', visible: true, important: true });
+    describe('when receiving untriggered message', function() {
+        beforeEach(function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'untriggered' }, { tab: { id: 'TAB_ID' } }, $.noop);
         });
 
-        it('should send sidebar null visible message if interested=null', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'interest', interested: null }, { tab: { id: 'TAB_ID' } }, $.noop);
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', visible: null });
+        it('should send maybenot message', function() {
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'maybenot' });
+        });
+    });
+
+    describe('when receiving interested message', function() {
+        beforeEach(function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'interested' }, { tab: { id: 'TAB_ID' } }, $.noop);
+        });
+
+        it('should send on message', function() {
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'on' });
         });
     });
 });
