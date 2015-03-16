@@ -22,7 +22,8 @@ describe('youtube-video-background', function() {
         });
 
         it('should send cards message', function() {
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'cards' });
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', sinon.match.has('msg', 'cards'));
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', sinon.match.has('cards', sinon.match.array));
         });
     });
 });

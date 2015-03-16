@@ -6,7 +6,7 @@ define([], function() {
             if (request.msg !== 'triggered' || request.content !== 'youtube-video') {
                 return;
             }
-            chrome.tabs.sendMessage(sender.tab.id, { msg: 'cards' });
+            chrome.tabs.sendMessage(sender.tab.id, { msg: 'cards', cards: [] });
         });
     };
 });
