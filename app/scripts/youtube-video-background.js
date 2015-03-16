@@ -11,7 +11,7 @@ define([], function() {
                 callback(cards);
                 return true;
             } else {
-                chrome.tabs.sendMessage(sender.tab.id, { msg: 'cards', cards: [] });
+                chrome.tabs.sendMessage(sender.tab.id, { msg: 'cards', cards: cards });
             }
         });
     };
