@@ -40,11 +40,4 @@ describe('trigger', function() {
             chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', interested: null });
         });
     });
-
-    describe('when click', function() {
-        it('should send interested message', function() {
-            triggerObj.click();
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', interested: true });
-        });
-    });
 });

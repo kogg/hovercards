@@ -5,9 +5,6 @@ define('trigger', ['jquery'], function($) {
         return $(obj)
             .data('hovertoast_content', content)
             .data('hovertoast_id', id)
-            .click(function() {
-                chrome.runtime.sendMessage({ msg: 'interest', interested: true });
-            })
             .mouseenter(function() {
                 chrome.runtime.sendMessage({ msg: 'pre-load', content: content, id: id });
             })

@@ -8,6 +8,9 @@ define('youtube-video-button', ['jquery', 'trigger'], function($, trigger) {
         var button = trigger('<div></div>', 'youtube-video', youtubeId)
             .addClass('hovertoast-youtube-video-button')
             .append($('<div></div>').addClass('hovertoast-youtube-video-button-inner'))
+            .click(function() {
+                chrome.runtime.sendMessage({ msg: 'interest', interested: true });
+            })
             .mouseenter(function() {
                 button
                     .stop(true, true).css('opacity', 1)

@@ -23,6 +23,7 @@ describe('youtube-video-button', function() {
             }))
             .require(['youtube-video-button'], function(youtubeVideoButton) {
                 clock = sandbox.useFakeTimers();
+                sandbox.stub(chrome.runtime, 'sendMessage');
                 button = youtubeVideoButton('#video', 'VIDEO_ID').appendTo('#sandbox');
                 done();
             });
@@ -48,6 +49,16 @@ describe('youtube-video-button', function() {
     it('should be a trigger', function() {
         trigger.should.have.been.calledOnce;
         trigger.should.have.been.calledWith(sinon.match.any, 'youtube-video', 'VIDEO_ID');
+    });
+
+    describe('when click', function() {
+        beforeEach(function() {
+            button.click();
+        });
+
+        it('should send interested message', function() {
+            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', interested: true });
+        });
     });
 
     describe('when mouseenter', function() {
