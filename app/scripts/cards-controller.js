@@ -7,7 +7,9 @@ define(['angular-app'], function(app) {
             if (request.msg !== 'cards') {
                 return;
             }
-            $scope.cards = request.cards;
+            $scope.$apply(function() {
+                $scope.cards = request.cards;
+            });
         });
     }]);
 });
