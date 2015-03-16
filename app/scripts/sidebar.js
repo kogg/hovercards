@@ -12,7 +12,10 @@ define('sidebar', ['jquery'], function($) {
         var onTimeout;
 
         chrome.runtime.onMessage.addListener(function(request) {
-            switch (request.msg) {
+            if (request.msg !== 'sidebar') {
+                return;
+            }
+            switch (request.show) {
                 case 'maybe':
                     obj.show();
                     clearTimeout(onTimeout);

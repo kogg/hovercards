@@ -22,7 +22,7 @@ describe('sidebar-background', function() {
         });
 
         it('should send maybe message', function() {
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'maybe' });
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', show: 'maybe' });
         });
     });
 
@@ -32,7 +32,7 @@ describe('sidebar-background', function() {
         });
 
         it('should send maybenot message', function() {
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'maybenot' });
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', show: 'maybenot' });
         });
     });
 
@@ -42,7 +42,7 @@ describe('sidebar-background', function() {
         });
 
         it('should send on message', function() {
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'on' });
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', show: 'on' });
         });
     });
 });
