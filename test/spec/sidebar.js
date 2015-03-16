@@ -38,24 +38,15 @@
         it('should be visible', function() {
             sidebarObj.should.be.visible;
         });
-    });
 
-    describe('when receiving maybenot message', function() {
-        it('should be hidden if within 2 seconds of a maybe message', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'maybe' }, {}, $.noop);
+        it('should be hidden if followed by maybenot message within 2 seconds', function() {
+            clock.tick(1999);
             chrome.runtime.onMessage.addListener.yield({ msg: 'maybenot' }, {}, $.noop);
             sidebarObj.should.be.hidden;
         });
 
-        it('should be visible if after 2 seconds of a maybe message', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'maybe' }, {}, $.noop);
+        it('should be visible if followed by maybenot message after 2 seconds', function() {
             clock.tick(2000);
-            chrome.runtime.onMessage.addListener.yield({ msg: 'maybenot' }, {}, $.noop);
-            sidebarObj.should.be.visible;
-        });
-
-        it('should be visible if after on message', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'on' }, {}, $.noop);
             chrome.runtime.onMessage.addListener.yield({ msg: 'maybenot' }, {}, $.noop);
             sidebarObj.should.be.visible;
         });
@@ -67,6 +58,11 @@
         });
 
         it('should be visible', function() {
+            sidebarObj.should.be.visible;
+        });
+
+        it('should be visible if followed by maybenot message', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'maybenot' }, {}, $.noop);
             sidebarObj.should.be.visible;
         });
     });
