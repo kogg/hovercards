@@ -28,6 +28,7 @@ define('sidebar', ['jquery'], function($) {
                         return;
                     }
                     obj.hide();
+                    clearTimeout(onTimeout);
                     break;
                 case 'on':
                     obj.show();
