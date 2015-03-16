@@ -18,7 +18,7 @@ describe('youtube-video-background', function() {
 
     describe('when receiving triggered message', function() {
         beforeEach(function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, $.noop);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         });
 
         it('should send cards message', function() {
