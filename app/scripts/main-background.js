@@ -1,5 +1,6 @@
 'use strict';
 
-require(['sidebar-background'], function(sidebarBackground) {
+require(['sidebar-background', 'youtube-video-background'], function(sidebarBackground, youtubeVideoBackground) {
     sidebarBackground();
+    youtubeVideoBackground();
 });
