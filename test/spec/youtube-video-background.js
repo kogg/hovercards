@@ -29,7 +29,7 @@ describe('youtube-video-background', function() {
             cards[0].should.have.property('content', 'youtube-video');
         });
 
-        it('should send youtube-video channel', function() {
+        it('should send youtube-channel card', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
             var cards = chrome.tabs.sendMessage.getCall(0).args[1].cards;
             cards[1].should.have.property('content', 'youtube-channel');
