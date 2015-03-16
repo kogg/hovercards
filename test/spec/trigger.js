@@ -19,14 +19,6 @@ describe('trigger', function() {
         sandbox.restore();
     });
 
-    it('should have data hovertoast_content', function() {
-        triggerObj.should.have.data('hovertoast_content', 'something');
-    });
-
-    it('should have data hovertoast_id', function() {
-        triggerObj.should.have.data('hovertoast_id', 'SOME_ID');
-    });
-
     describe('when mouseenter', function() {
         beforeEach(function() {
             triggerObj.mouseenter();
