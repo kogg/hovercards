@@ -28,16 +28,22 @@ describe('trigger', function() {
     });
 
     describe('when mouseenter', function() {
-        it('should send pre-load message', function() {
+        beforeEach(function() {
             triggerObj.mouseenter();
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'pre-load', content: 'something', id: 'SOME_ID' });
+        });
+
+        it('should send triggered message', function() {
+            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'triggered', content: 'something', id: 'SOME_ID' });
         });
     });
 
     describe('when mouseleave', function() {
-        it('should send uninterested message', function() {
+        beforeEach(function() {
             triggerObj.mouseenter().mouseleave();
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', interested: null });
+        });
+
+        it('should send untriggered message', function() {
+            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'untriggered' });
         });
     });
 });

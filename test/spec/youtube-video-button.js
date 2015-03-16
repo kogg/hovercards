@@ -57,7 +57,7 @@ describe('youtube-video-button', function() {
         });
 
         it('should send interested message', function() {
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interest', interested: true });
+            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'interested' });
         });
     });
 

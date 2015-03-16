@@ -8,30 +8,28 @@ define('sidebar', ['jquery'], function($) {
             .prop('frameborder', '0');
         obj.append(iframe);
 
-        var stayVisible = false;
-        var stayVisibleTimeout;
+        var on = false;
+        var onTimeout;
 
         chrome.runtime.onMessage.addListener(function(request) {
-            if (request.msg !== 'sidebar') {
-                return;
-            }
-            switch (request.visible) {
-                case true:
+            switch (request.msg) {
+                case 'maybe':
                     obj.show();
-                    if (request.important) {
-                        stayVisible = true;
-                        clearTimeout(stayVisibleTimeout);
-                    } else {
-                        stayVisibleTimeout = setTimeout(function() {
-                            stayVisible = true;
-                        }, 2000);
-                    }
+                    clearTimeout(onTimeout);
+                    onTimeout = setTimeout(function() {
+                        on = true;
+                    }, 2000);
                     break;
-                case null:
-                    if (!stayVisible) {
-                        obj.hide();
-                        clearTimeout(stayVisibleTimeout);
+                case 'maybenot':
+                    if (on) {
+                        return;
                     }
+                    obj.hide();
+                    break;
+                case 'on':
+                    obj.show();
+                    clearTimeout(onTimeout);
+                    on = true;
                     break;
             }
         });

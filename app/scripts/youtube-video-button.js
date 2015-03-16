@@ -9,7 +9,7 @@ define('youtube-video-button', ['jquery', 'trigger'], function($, trigger) {
             .addClass('hovertoast-youtube-video-button')
             .append($('<div></div>').addClass('hovertoast-youtube-video-button-inner'))
             .click(function() {
-                chrome.runtime.sendMessage({ msg: 'interest', interested: true });
+                chrome.runtime.sendMessage({ msg: 'interested' });
             })
             .mouseenter(function() {
                 button
