@@ -18,9 +18,7 @@ describe('youtube-video-button', function() {
         $('<div id="sandbox"></div>').appendTo('body');
         $('<div id="video"></div>').appendTo('#sandbox');
         new Squire()
-            .mock('trigger', trigger = sandbox.spy(function trigger() {
-                return $('<div></div>');
-            }))
+            .mock('trigger', trigger = sandbox.stub().returns($('<div></div>')))
             .require(['youtube-video-button'], function(youtubeVideoButton) {
                 clock = sandbox.useFakeTimers();
                 sandbox.stub(chrome.runtime, 'sendMessage');
