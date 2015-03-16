@@ -1,29 +1,25 @@
 'use strict';
 
-define('youtube-video-inject', ['jquery'], function($) {
-    function injectButtonOnPlayer(body) {
-        require(['youtube-video-button'], function(youtubeVideoButton) {
-            /* globals purl:true */
-            youtubeVideoButton(body.children('#player'), purl(document.URL).segment(-1)).prependTo(body);
-        });
+define('youtube-video-inject', ['jquery', 'youtube-video-button'], function($, youtubeVideoButton) {
+    function injectButtonOnPlayer(body, docURL) {
+        /* globals purl:true */
+        youtubeVideoButton(body.children('#player'), purl(docURL).segment(-1)).prependTo(body);
     }
 
     function injectButtonsOnObjectsAndEmbeds(body) {
-        require(['youtube-video-button'], function(youtubeVideoButton) {
-            body
-                .find('object[data*="youtube.com/v/"], embed[src*="youtube.com/v/"]')
-                .each(function() {
-                    /* globals purl:true */
-                    var video = $(this);
-                    youtubeVideoButton(video, purl(video.prop('data') || video.prop('src')).segment(-1)).insertBefore(video);
-                });
-        });
+        body
+            .find('object[data*="youtube.com/v/"], embed[src*="youtube.com/v/"]')
+            .each(function() {
+                /* globals purl:true */
+                var video = $(this);
+                youtubeVideoButton(video, purl(video.prop('data') || video.prop('src')).segment(-1)).insertBefore(video);
+            });
     }
 
-    function injectTriggersOnLinks(body) {
+    function injectTriggersOnLinks(body, docURL) {
         require(['trigger'], function(trigger) {
             var youtubeLinkSelector = 'a[href*="youtube.com/watch"]';
-            if (purl(document.URL).attr('host') === 'www.youtube.com') {
+            if (purl(docURL).attr('host') === 'www.youtube.com') {
                 youtubeLinkSelector += ',a[href^="/watch"]';
             }
             body
@@ -43,21 +39,24 @@ define('youtube-video-inject', ['jquery'], function($) {
         });
     }
 
-    return function youtubeVideoInject(body, context) {
+    return function youtubeVideoInject(body, context, docURL) {
         if (!body) {
             body = 'body';
+        }
+        if (!docURL) {
+            docURL = document.URL;
         }
         body = $(body);
         switch (context) {
             case '#player':
-                injectButtonOnPlayer(body);
+                injectButtonOnPlayer(body, docURL);
                 break;
             case 'objects':
                 injectButtonsOnObjectsAndEmbeds(body);
                 break;
             default:
                 injectButtonsOnObjectsAndEmbeds(body);
-                injectTriggersOnLinks(body);
+                injectTriggersOnLinks(body, docURL);
                 break;
         }
     };
