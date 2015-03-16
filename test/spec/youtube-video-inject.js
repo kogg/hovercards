@@ -119,9 +119,4 @@ describe('youtube-video-inject', function() {
             }, 'wasn\'t matched with #object_bad'));
         });
     });
-
-    afterEach(function() {
-        $('#sandbox').remove();
-        sandbox.restore();
-    });
 });

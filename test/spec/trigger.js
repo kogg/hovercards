@@ -5,17 +5,14 @@ describe('trigger', function() {
     var triggerObj;
 
     beforeEach(function(done) {
-        $('<div id="sandbox"></div>').appendTo('body');
-        $('<div id="trigger"></div>').appendTo('#sandbox');
         require(['trigger'], function(trigger) {
             sandbox.stub(chrome.runtime, 'sendMessage');
-            triggerObj = trigger('#trigger', 'something', 'SOME_ID').appendTo('#sandbox');
+            triggerObj = trigger($('<div></div>'), 'something', 'SOME_ID');
             done();
         });
     });
 
     afterEach(function() {
-        $('#sandbox').remove();
         sandbox.restore();
     });
 
