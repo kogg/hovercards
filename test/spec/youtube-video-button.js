@@ -5,6 +5,7 @@ describe('youtube-video-button', function() {
     var injector;
     var trigger;
     var button;
+    var youtubeVideoButton;
 
     before(function(done) {
         require(['Squire'], function(Squire) {
@@ -20,9 +21,10 @@ describe('youtube-video-button', function() {
         $('<div id="sandbox"></div>').appendTo('body');
         $('<div id="video"></div>').appendTo('#sandbox');
         trigger = sandbox.stub().returns($('<div></div>'));
-        injector.require(['youtube-video-button'], function(youtubeVideoButton) {
+        injector.require(['youtube-video-button'], function(_youtubeVideoButton) {
             sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime, 'sendMessage');
+            youtubeVideoButton = _youtubeVideoButton;
             button = youtubeVideoButton('#video', 'VIDEO_ID').appendTo('#sandbox');
             done();
         });
@@ -48,6 +50,12 @@ describe('youtube-video-button', function() {
     it('should be a trigger', function() {
         trigger.should.have.been.calledOnce;
         trigger.should.have.been.calledWith(sinon.match.any, 'youtube-video', 'VIDEO_ID');
+    });
+
+    it('should strip weird query parameters', function() {
+        youtubeVideoButton('#video', 'VIDEO_ID&fs=1').appendTo('#sandbox');
+        trigger.should.have.been.calledTwice;
+        trigger.should.not.have.been.calledWith(sinon.match.any, sinon.match.any, 'VIDEO_ID&fs=1');
     });
 
     describe('when click', function() {
