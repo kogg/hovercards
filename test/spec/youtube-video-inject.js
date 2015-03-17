@@ -91,14 +91,11 @@ describe('youtube-video-inject', function() {
     });
 
     describe('.injectButtonOnPlayer', function() {
-        var body;
-
-        beforeEach(function() {
-            body = $('<div id="sandbox"><div id="player"></div></div>');
-            youtubeVideoInject.injectButtonOnPlayer(body, 'https://youtube.com/embed/SOME_ID');
-        });
-
         it('should attach youtube-video-button to #player', function() {
+            var body = $('<div id="sandbox"><div id="player"></div></div>');
+
+            youtubeVideoInject.injectButtonOnPlayer(body, 'https://youtube.com/embed/SOME_ID');
+
             youtubeVideoButton.should.have.been.calledWith(sinon.match(function(value) {
                 return value[0] === body.children('#player')[0];
             }, 'match with #player'));
