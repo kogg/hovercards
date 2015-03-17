@@ -40,7 +40,7 @@ describe('youtube-api', function() {
         it('should callback a youtubeVideoCard', function() {
             ajaxReturnValue.done.yields({ items: [{ snippet:    { publishedAt: '2011-04-06T03:21:59.000Z',
                                                                   channelId:   'SOME_CHANNEL_ID',
-                                                                  thumbnails:  { medium: { url: 'medium_url.jpg' } },
+                                                                  thumbnails:  { medium: { url: 'image.jpg' } },
                                                                   localized:   { title:       'Some Title',
                                                                                  description: 'Some Description' } },
                                                     statistics: { viewCount:    1000,
@@ -51,7 +51,7 @@ describe('youtube-api', function() {
             callback.should.have.been.calledWith(null);
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('content',     'youtube-video'));
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('id',          'SOME_VIDEO_ID'));
-            callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('icon',        'medium_url.jpg'));
+            callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('image',       'image.jpg'));
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('title',       'Some Title'));
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('description', 'Some Description'));
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('date',        1302060119000));
@@ -76,6 +76,26 @@ describe('youtube-api', function() {
             $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('id', 'SOME_CHANNEL_ID')));
             $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('part', 'snippet,statistics')));
             $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('key', youtubeApi.API_KEY)));
+        });
+
+        it('should callback a youtubeChannelCard', function() {
+            ajaxReturnValue.done.yields({ items: [{ snippet:    { thumbnails: { default: { url: 'image.jpg' } },
+                                                                  localized:  { title:       'Some Title',
+                                                                                description: 'Some Description' } },
+                                                    statistics: { viewCount:       2000,
+                                                                  subscriberCount: 3000,
+                                                                  videoCount:      1000 } }] });
+            var callback = sandbox.spy();
+            youtubeApi.channel('SOME_CHANNEL_ID', callback);
+            callback.should.have.been.calledWith(null);
+            callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('content',     'youtube-channel'));
+            callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('id',          'SOME_CHANNEL_ID'));
+            callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('image',       'image.jpg'));
+            callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('title',       'Some Title'));
+            callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('description', 'Some Description'));
+            callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('videos',       1000));
+            callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('views',        2000));
+            callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('subscribers',  3000));
         });
     });
 });
