@@ -1,9 +1,17 @@
 'use strict';
 
-define([], function() {
+define(['jquery'], function($) {
     var youtubeApi = {};
 
     function video(id, callback) {
+        $.ajax({
+            url: 'https://www.googleapis.com/youtube/v3/videos',
+            data: {
+                id: id,
+                part: 'snippet,statistics',
+                key: youtubeApi.API_KEY
+            }
+        });
         callback();
     }
 
