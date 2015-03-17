@@ -79,7 +79,7 @@ describe('youtube-api', function() {
         });
 
         it('should callback a youtubeChannelCard', function() {
-            ajaxReturnValue.done.yields({ items: [{ snippet:    { thumbnails: { default: { url: 'image.jpg' } },
+            ajaxReturnValue.done.yields({ items: [{ snippet:    { thumbnails: { medium: { url: 'image.jpg' } },
                                                                   localized:  { title:       'Some Title',
                                                                                 description: 'Some Description' } },
                                                     statistics: { viewCount:       2000,
