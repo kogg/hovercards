@@ -1,11 +1,16 @@
 <html ng-csp>
 <head>
     <link rel="stylesheet" href="bower_components/angular/angular-csp.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
+
 </head>
 <body>
-    <div id="cards" ng-controller="CardsController" ng-cloak class="ng-cloak">
-        <div ng-repeat="card in cards" ng-include="'cards/' + card.content + '-card.html'">
-            {{ card }}
+    <div class="card-container">
+        <div id="cards" ng-controller="CardsController" ng-cloak class="ng-cloak">
+            <div ng-repeat="card in cards" ng-include="'cards/' + card.content + '-card.html'">
+                    {{ card }}
+            </div>
         </div>
     </div>
     <script src="bower_components/angular/angular.js"></script>
