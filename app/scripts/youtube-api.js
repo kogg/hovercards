@@ -46,7 +46,7 @@ define(['jquery'], function($) {
             });
     }
 
-    youtubeApi.API_KEY = 'YOUTUBE_API_KEY';
+    youtubeApi.API_KEY = 'AIzaSyCIBp_dCztnCozkp1Yeqxa9F70rcVpFn30';
     youtubeApi.video = video;
     youtubeApi.channel = channel;
 
