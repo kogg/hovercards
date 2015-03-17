@@ -40,6 +40,9 @@ define(['jquery'], function($) {
                                  views:       data.items[0].statistics.viewCount,
                                  subscribers: data.items[0].statistics.subscriberCount
                 });
+            })
+            .fail(function(jqXHR, textStatus, err) {
+                callback(err);
             });
     }
 

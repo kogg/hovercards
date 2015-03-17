@@ -97,5 +97,12 @@ describe('youtube-api', function() {
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('views',        2000));
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('subscribers',  3000));
         });
+
+        it('should callback an error on failure', function() {
+            ajaxReturnValue.fail.yields('jqXHR', 'textStatus', 'err');
+            var callback = sandbox.spy();
+            youtubeApi.channel('SOME_CHANNEL_ID', callback);
+            callback.should.have.been.calledWith('err');
+        });
     });
 });
