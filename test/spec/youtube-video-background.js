@@ -32,8 +32,7 @@ describe('youtube-video-background', function() {
 
     describe('when receiving triggered message', function() {
         beforeEach(function() {
-            var video = { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } };
-            youtubeApi.video.yields(null, video);
+            youtubeApi.video.yields(null, { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } });
             youtubeApi.channel.yields(null, { content: 'youtube-channel', id: 'SOME_CHANNEL_ID' });
             chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'youtube-video', id: 'SOME_VIDEO_ID' }, { tab: { id: 'TAB_ID' } });
         });
