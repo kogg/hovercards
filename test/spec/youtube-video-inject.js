@@ -48,7 +48,7 @@ describe('youtube-video-inject', function() {
 
     describe('inside facebook youtube iframes', function() {
         it('should attach youtube-video-button to youtube embeds/objects', function() {
-            var body = $('<div id="sandbox"><div id="player"></div></div>');
+            var body = $('<div id="sandbox"></div>');
             $('<embed id="embed" src="https://www.youtube.com/v/SOME_ID">').appendTo(body);
             $('<object id="object" data="https://www.youtube.com/v/SOME_ID"></object>').appendTo(body);
 
@@ -64,7 +64,7 @@ describe('youtube-video-inject', function() {
         });
 
         it('should not attach youtube-video-button to other embeds/objects', function() {
-            var body = $('<div id="sandbox"><div id="player"></div></div>');
+            var body = $('<div id="sandbox"></div>');
             $('<embed id="embed_bad">').appendTo(body);
             $('<object id="object_bad"></object>').appendTo(body);
 
@@ -81,7 +81,7 @@ describe('youtube-video-inject', function() {
 
     describe('on top frame', function() {
         it('should attach trigger to youtube link', function() {
-            var body = $('<div id="sandbox"><div id="player"></div></div>');
+            var body = $('<div id="sandbox"></div>');
             $('<a id="link" href="https://www.youtube.com/watch?v=SOME_ID">').appendTo(body);
 
             youtubeVideoInject(body);
@@ -93,7 +93,7 @@ describe('youtube-video-inject', function() {
         });
 
         it('should not attach trigger to other link', function() {
-            var body = $('<div id="sandbox"><div id="player"></div></div>');
+            var body = $('<div id="sandbox"></div>');
             $('<a id="link_bad" href="https://www.wenoknow.com">').appendTo(body);
 
             youtubeVideoInject(body);
@@ -104,7 +104,7 @@ describe('youtube-video-inject', function() {
         });
 
         it('should attach youtube-video-button to youtube embeds/objects', function() {
-            var body = $('<div id="sandbox"><div id="player"></div></div>');
+            var body = $('<div id="sandbox"></div>');
             $('<embed id="embed" src="https://www.youtube.com/v/SOME_ID">').appendTo(body);
             $('<object id="object" data="https://www.youtube.com/v/SOME_ID"></object>').appendTo(body);
 
@@ -120,7 +120,7 @@ describe('youtube-video-inject', function() {
         });
 
         it('should not attach youtube-video-button to other embeds/objects', function() {
-            var body = $('<div id="sandbox"><div id="player"></div></div>');
+            var body = $('<div id="sandbox"></div>');
             $('<embed id="embed_bad">').appendTo(body);
             $('<object id="object_bad"></object>').appendTo(body);
 
