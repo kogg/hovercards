@@ -26,6 +26,10 @@ define(['jquery'], function($) {
     }
 
     function channel(id, callback) {
+        $.ajax({ url:  'https://www.googleapis.com/youtube/v3/channels',
+                 data: { id:   id,
+                         part: 'snippet,statistics',
+                         key:  youtubeApi.API_KEY } });
         callback();
     }
 

@@ -2,6 +2,7 @@
 
 describe('youtube-api', function() {
     var sandbox = sinon.sandbox.create();
+    var ajaxReturnValue;
     var youtubeApi;
 
     beforeEach(function(done) {
@@ -10,6 +11,13 @@ describe('youtube-api', function() {
             youtubeApi = _youtubeApi;
             done();
         });
+    });
+
+    beforeEach(function() {
+        ajaxReturnValue = {};
+        ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
+        ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
+        $.ajax.returns(ajaxReturnValue);
     });
 
     afterEach(function() {
@@ -21,15 +29,6 @@ describe('youtube-api', function() {
     });
 
     describe('.video', function() {
-        var ajaxReturnValue;
-
-        beforeEach(function() {
-            ajaxReturnValue = {};
-            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
-            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
-            $.ajax.returns(ajaxReturnValue);
-        });
-
         it('should make an ajax call', function() {
             youtubeApi.video('SOME_VIDEO_ID', $.noop);
             $.ajax.should.have.been.calledWith(sinon.match.has('url', 'https://www.googleapis.com/youtube/v3/videos'));
@@ -71,11 +70,12 @@ describe('youtube-api', function() {
     });
 
     describe('.channel', function() {
-        beforeEach(function(done) {
-            youtubeApi.channel('SOME_CHANNEL_ID', done);
-        });
-
-        it('should have a test', function() {
+        it('should make an ajax call', function() {
+            youtubeApi.channel('SOME_CHANNEL_ID', $.noop);
+            $.ajax.should.have.been.calledWith(sinon.match.has('url', 'https://www.googleapis.com/youtube/v3/channels'));
+            $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('id', 'SOME_CHANNEL_ID')));
+            $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('part', 'snippet,statistics')));
+            $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('key', youtubeApi.API_KEY)));
         });
     });
 });
