@@ -21,8 +21,16 @@ describe('youtube-api', function() {
     });
 
     describe('.video', function() {
+        var ajaxReturnValue;
+
+        beforeEach(function() {
+            ajaxReturnValue = {};
+            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
+            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
+            $.ajax.returns(ajaxReturnValue);
+        });
+
         it('should make an ajax call', function() {
-            $.ajax.returns({ done: $.noop });
             youtubeApi.video('SOME_VIDEO_ID', $.noop);
             $.ajax.should.have.been.calledWith(sinon.match.has('url', 'https://www.googleapis.com/youtube/v3/videos'));
             $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('id', 'SOME_VIDEO_ID')));
@@ -30,17 +38,15 @@ describe('youtube-api', function() {
             $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('key', youtubeApi.API_KEY)));
         });
 
-        it('should return a youtubeVideoCard', function() {
-            $.ajax.returns({
-                done: sandbox.stub().yields({ items: [{ snippet:    { publishedAt: '2011-04-06T03:21:59.000Z',
-                                                                      channelId:   'SOME_CHANNEL_ID',
-                                                                      thumbnails:  { medium: { url: 'medium_url.jpg' } },
-                                                                      localized:   { title:       'Some Title',
-                                                                                     description: 'Some Description' } },
-                                                        statistics: { viewCount:    1000,
-                                                                      likeCount:    2000,
-                                                                      dislikeCount: 3000 } }] })
-            });
+        it('should callback a youtubeVideoCard', function() {
+            ajaxReturnValue.done.yields({ items: [{ snippet:    { publishedAt: '2011-04-06T03:21:59.000Z',
+                                                                  channelId:   'SOME_CHANNEL_ID',
+                                                                  thumbnails:  { medium: { url: 'medium_url.jpg' } },
+                                                                  localized:   { title:       'Some Title',
+                                                                                 description: 'Some Description' } },
+                                                    statistics: { viewCount:    1000,
+                                                                  likeCount:    2000,
+                                                                  dislikeCount: 3000 } }] });
             var callback = sandbox.spy();
             youtubeApi.video('SOME_VIDEO_ID', callback);
             callback.should.have.been.calledWith(null);
@@ -54,6 +60,13 @@ describe('youtube-api', function() {
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('likes',       2000));
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('dislikes',    3000));
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('channel',     sinon.match.has('id', 'SOME_CHANNEL_ID')));
+        });
+
+        it('should callback an error on failure', function() {
+            ajaxReturnValue.fail.yields('jqXHR', 'textStatus', 'err');
+            var callback = sandbox.spy();
+            youtubeApi.video('SOME_VIDEO_ID', callback);
+            callback.should.have.been.calledWith('err');
         });
     });
 

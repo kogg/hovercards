@@ -19,6 +19,9 @@ define(['jquery'], function($) {
                                  likes:       data.items[0].statistics.likeCount,
                                  dislikes:    data.items[0].statistics.dislikeCount,
                                  channel:     { id: data.items[0].snippet.channelId } });
+            })
+            .fail(function(jqXHR, textStatus, err) {
+                callback(err);
             });
     }
 
