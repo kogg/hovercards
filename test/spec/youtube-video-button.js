@@ -3,7 +3,6 @@
 describe('youtube-video-button', function() {
     var sandbox = sinon.sandbox.create();
     var injector;
-    var clock;
     var trigger;
     var button;
 
@@ -22,7 +21,7 @@ describe('youtube-video-button', function() {
         $('<div id="video"></div>').appendTo('#sandbox');
         trigger = sandbox.stub().returns($('<div></div>'));
         injector.require(['youtube-video-button'], function(youtubeVideoButton) {
-            clock = sandbox.useFakeTimers();
+            sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime, 'sendMessage');
             button = youtubeVideoButton('#video', 'VIDEO_ID').appendTo('#sandbox');
             done();
@@ -96,7 +95,7 @@ describe('youtube-video-button', function() {
         });
 
         it('should fade out starting 2 seconds after', function() {
-            clock.tick(2000);
+            sandbox.clock.tick(2000);
             button.should.have.css('opacity', '1');
             $('#sandbox > .hovertoast-youtube-video-button:animated').should.exist;
             // TODO Detect that the animation is the one we want
