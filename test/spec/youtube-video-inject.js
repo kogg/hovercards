@@ -33,66 +33,131 @@ describe('youtube-video-inject', function() {
         sandbox.restore();
     });
 
-    describe('inside youtube iframe', function() {
+    describe('when on top frame', function() {
         var body;
+
         beforeEach(function() {
+            sandbox.stub(youtubeVideoInject, 'injectButtonsOnObjectsAndEmbeds');
+            sandbox.stub(youtubeVideoInject, 'injectTriggersOnLinks');
+            body = $('<div id="sandbox"></div>');
+            youtubeVideoInject(body);
+        });
+
+        it('should call .injectButtonsOnObjectsAndEmbeds', function() {
+            youtubeVideoInject.injectButtonsOnObjectsAndEmbeds.should.have.been.calledWith(sinon.match(function(value) {
+                return value[0] === body[0];
+            }, 'match with body'));
+        });
+
+        it('should call .injectTriggersOnLinks', function() {
+            youtubeVideoInject.injectTriggersOnLinks.should.have.been.calledWith(sinon.match(function(value) {
+                return value[0] === body[0];
+            }, 'match with body'));
+            youtubeVideoInject.injectTriggersOnLinks.should.have.been.calledWith(sinon.match.any, document.URL);
+        });
+    });
+
+    describe('when inside youtube iframe', function() {
+        var body;
+
+        beforeEach(function() {
+            sandbox.stub(youtubeVideoInject, 'injectButtonOnPlayer');
             body = $('<div id="sandbox"><div id="player"></div></div>');
             youtubeVideoInject(body, '#player', 'https://youtube.com/embed/SOME_ID');
         });
 
+        it('should call .injectButtonOnPlayer', function() {
+            youtubeVideoInject.injectButtonOnPlayer.should.have.been.calledWith(sinon.match(function(value) {
+                return value[0] === body[0];
+            }, 'match with body'));
+            youtubeVideoInject.injectButtonOnPlayer.should.have.been.calledWith(sinon.match.any, 'https://youtube.com/embed/SOME_ID');
+        });
+    });
+
+    describe('when inside facebook youtube iframes', function() {
+        var body;
+
+        beforeEach(function() {
+            sandbox.stub(youtubeVideoInject, 'injectButtonsOnObjectsAndEmbeds');
+            body = $('<div id="sandbox"></div>');
+            youtubeVideoInject(body, 'objects', 'https://youtube.com/embed/SOME_ID');
+        });
+
+        it('should call .injectButtonsOnObjectsAndEmbeds', function() {
+            youtubeVideoInject.injectButtonsOnObjectsAndEmbeds.should.have.been.calledWith(sinon.match(function(value) {
+                return value[0] === body[0];
+            }, 'match with body'));
+        });
+    });
+
+    describe('.injectButtonOnPlayer', function() {
         it('should attach youtube-video-button to #player', function() {
+            var body = $('<div id="sandbox"><div id="player"></div></div>');
+
+            youtubeVideoInject.injectButtonOnPlayer(body, 'https://youtube.com/embed/SOME_ID');
+
             youtubeVideoButton.should.have.been.calledWith(sinon.match(function(value) {
                 return value[0] === body.children('#player')[0];
-            }, 'wasn\'t matched with #player'));
+            }, 'match with #player'));
             youtubeVideoButton.should.always.have.been.calledWith(sinon.match.any, 'SOME_ID');
         });
     });
 
-    describe('on "embeds/objects"', function() {
-        var body;
-        beforeEach(function() {
-            body = $('<div id="sandbox"><div id="player"></div></div>');
+    describe('.injectButtonsOnObjectsAndEmbeds', function() {
+        it('should attach youtube-video-button to youtube embeds', function() {
+            var body = $('<div id="sandbox"></div>');
             $('<embed id="embed" src="https://www.youtube.com/v/SOME_ID">').appendTo(body);
-            $('<embed id="embed_bad">').appendTo(body);
-            $('<object id="object" data="https://www.youtube.com/v/SOME_ID"></object>').appendTo(body);
-            $('<object id="object_bad"></object>').appendTo(body);
-            youtubeVideoInject(body, 'objects');
-        });
 
-        it('should attach youtube-video-button to youtube embeds/objects', function() {
+            youtubeVideoInject.injectButtonsOnObjectsAndEmbeds(body);
+
             youtubeVideoButton.should.have.been.calledWith(sinon.match(function(value) {
                 return value[0] === body.children('#embed')[0];
             }, 'wasn\'t matched with #embed'));
+            youtubeVideoButton.should.always.have.been.calledWith(sinon.match.any, 'SOME_ID');
+        });
+
+        it('should attach youtube-video-button to youtube objects', function() {
+            var body = $('<div id="sandbox"></div>');
+            $('<object id="object" data="https://www.youtube.com/v/SOME_ID"></object>').appendTo(body);
+
+            youtubeVideoInject.injectButtonsOnObjectsAndEmbeds(body);
+
             youtubeVideoButton.should.have.been.calledWith(sinon.match(function(value) {
                 return value[0] === body.children('#object')[0];
             }, 'wasn\'t matched with #object'));
             youtubeVideoButton.should.always.have.been.calledWith(sinon.match.any, 'SOME_ID');
         });
 
-        it('should not attach youtube-video-button to other embeds/objects', function() {
+        it('should not attach youtube-video-button to other embeds', function() {
+            var body = $('<div id="sandbox"></div>');
+            $('<embed id="embed_bad">').appendTo(body);
+
+            youtubeVideoInject.injectButtonsOnObjectsAndEmbeds(body);
+
             youtubeVideoButton.should.not.have.been.calledWith(sinon.match(function(value) {
                 return value[0] === body.children('#embed_bad')[0];
             }, 'wasn\'t matched with #embed_bad'));
+        });
+
+        it('should not attach youtube-video-button to other objects', function() {
+            var body = $('<div id="sandbox"></div>');
+            $('<object id="object_bad"></object>').appendTo(body);
+
+            youtubeVideoInject.injectButtonsOnObjectsAndEmbeds(body);
+
             youtubeVideoButton.should.not.have.been.calledWith(sinon.match(function(value) {
                 return value[0] === body.children('#object_bad')[0];
             }, 'wasn\'t matched with #object_bad'));
         });
     });
 
-    describe('on top frame', function() {
-        var body;
-        beforeEach(function() {
-            body = $('<div id="sandbox"><div id="player"></div></div>');
-            $('<a id="link" href="https://www.youtube.com/watch?v=SOME_ID">').appendTo(body);
-            $('<a id="link_bad" href="https://www.wenoknow.com">').appendTo(body);
-            $('<embed id="embed" src="https://www.youtube.com/v/SOME_ID">').appendTo(body);
-            $('<embed id="embed_bad">').appendTo(body);
-            $('<object id="object" data="https://www.youtube.com/v/SOME_ID"></object>').appendTo(body);
-            $('<object id="object_bad"></object>').appendTo(body);
-            youtubeVideoInject(body);
-        });
-
+    describe('.injectTriggersOnLinks', function() {
         it('should attach trigger to youtube link', function() {
+            var body = $('<div id="sandbox"></div>');
+            $('<a id="link" href="https://www.youtube.com/watch?v=SOME_ID">').appendTo(body);
+
+            youtubeVideoInject.injectTriggersOnLinks(body, document.URL);
+
             trigger.should.have.been.calledWith(sinon.match(function(value) {
                 return value[0] === body.children('#link')[0];
             }, 'wasn\'t matched with #link'));
@@ -100,28 +165,14 @@ describe('youtube-video-inject', function() {
         });
 
         it('should not attach trigger to other link', function() {
+            var body = $('<div id="sandbox"></div>');
+            $('<a id="link_bad" href="https://www.wenoknow.com">').appendTo(body);
+
+            youtubeVideoInject.injectTriggersOnLinks(body, document.URL);
+
             trigger.should.not.have.been.calledWith(sinon.match(function(value) {
                 return value[0] === body.children('#link_bad')[0];
             }, 'wasn\'t matched with #link_bad'));
-        });
-
-        it('should attach youtube-video-button to youtube embeds/objects', function() {
-            youtubeVideoButton.should.have.been.calledWith(sinon.match(function(value) {
-                return value[0] === body.children('#embed')[0];
-            }, 'wasn\'t matched with #embed'));
-            youtubeVideoButton.should.have.been.calledWith(sinon.match(function(value) {
-                return value[0] === body.children('#object')[0];
-            }, 'wasn\'t matched with #object'));
-            youtubeVideoButton.should.always.have.been.calledWith(sinon.match.any, 'SOME_ID');
-        });
-
-        it('should not attach youtube-video-button to other embeds/objects', function() {
-            youtubeVideoButton.should.not.have.been.calledWith(sinon.match(function(value) {
-                return value[0] === body.children('#embed_bad')[0];
-            }, 'wasn\'t matched with #embed_bad'));
-            youtubeVideoButton.should.not.have.been.calledWith(sinon.match(function(value) {
-                return value[0] === body.children('#object_bad')[0];
-            }, 'wasn\'t matched with #object_bad'));
         });
     });
 });

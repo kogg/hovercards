@@ -5,7 +5,7 @@ define('youtube-video-button', ['jquery', 'trigger'], function($, trigger) {
         var timeout;
         video = $(video);
 
-        var button = trigger('<div></div>', 'youtube-video', youtubeId)
+        var button = trigger('<div></div>', 'youtube-video', youtubeId.replace(/&.+/, ''))
             .addClass('hovertoast-youtube-video-button')
             .append($('<div></div>').addClass('hovertoast-youtube-video-button-inner'))
             .click(function() {

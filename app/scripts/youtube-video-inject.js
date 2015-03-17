@@ -37,7 +37,7 @@ define('youtube-video-inject', ['jquery', 'youtube-video-button', 'trigger'], fu
             });
     }
 
-    return function youtubeVideoInject(body, context, docURL) {
+    function youtubeVideoInject(body, context, docURL) {
         if (!body) {
             body = 'body';
         }
@@ -47,15 +47,21 @@ define('youtube-video-inject', ['jquery', 'youtube-video-button', 'trigger'], fu
         body = $(body);
         switch (context) {
             case '#player':
-                injectButtonOnPlayer(body, docURL);
+                youtubeVideoInject.injectButtonOnPlayer(body, docURL);
                 break;
             case 'objects':
-                injectButtonsOnObjectsAndEmbeds(body);
+                youtubeVideoInject.injectButtonsOnObjectsAndEmbeds(body);
                 break;
             default:
-                injectButtonsOnObjectsAndEmbeds(body);
-                injectTriggersOnLinks(body, docURL);
+                youtubeVideoInject.injectButtonsOnObjectsAndEmbeds(body);
+                youtubeVideoInject.injectTriggersOnLinks(body, docURL);
                 break;
         }
-    };
+    }
+
+    youtubeVideoInject.injectButtonOnPlayer            = injectButtonOnPlayer;
+    youtubeVideoInject.injectButtonsOnObjectsAndEmbeds = injectButtonsOnObjectsAndEmbeds;
+    youtubeVideoInject.injectTriggersOnLinks           = injectTriggersOnLinks;
+
+    return youtubeVideoInject;
 });

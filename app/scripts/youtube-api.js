@@ -33,7 +33,7 @@ define(['jquery'], function($) {
             .done(function(data) {
                 callback(null, { content:     'youtube-channel',
                                  id:          id,
-                                 image:       data.items[0].snippet.thumbnails.default.url,
+                                 image:       data.items[0].snippet.thumbnails.medium.url,
                                  title:       data.items[0].snippet.localized.title,
                                  description: data.items[0].snippet.localized.description,
                                  videos:      data.items[0].statistics.videoCount,
