@@ -10,6 +10,10 @@ describe('youtube-api', function() {
         });
     });
 
+    it('should have an API_KEY', function() {
+        youtubeApi.API_KEY.should.be.a('string');
+    });
+
     describe('.video', function() {
         beforeEach(function(done) {
             youtubeApi.video('SOME_VIDEO_ID', done);
