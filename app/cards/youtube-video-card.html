@@ -1,7 +1,12 @@
 <div class="card" ng-click="show=!show" ng-class="::{ 'card-more': card.description }">
 
 	<div class="video-top">
-		<div class="video-image" style="background-image:url({{ ::card.image }});"></div>
+		<div class="video-image" style="background-image:url({{ ::card.image }});">
+			<div class="youtube-video">
+				<iframe width="100%" height="100%" src="https://www.youtube.com/embed/QH2-TGUlwu4" frameborder="0" allowfullscreen=""></iframe>
+			</div>
+
+		</div>
 		<div class="video-cta">
 			<i class="md  md-play-arrow"></i>
 		</div>
