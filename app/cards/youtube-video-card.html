@@ -1,4 +1,4 @@
-<div class="video-card card-more" ng-click="show=!show">
+<div class="video-card" ng-click="show=!show" ng-class="{ 'card-more': card.description }">
 
 	<div class="video-top">
 		<div class="video-image" style="background-image:url({{ card.image }});"></div>
@@ -12,7 +12,7 @@
     <a href="">{{ card.title }}</a>
 	</div>
 
-	<div class="card-description scroll-bar" ng-class="{expanddescription:show}">
+	<div class="card-description scroll-bar" ng-class="{expanddescription:show}" ng-if="card.description">
 		<b>Video Description</b>
   	<span>{{ card.description }}</span>
 	</div>
