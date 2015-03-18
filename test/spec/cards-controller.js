@@ -26,5 +26,15 @@ describe('cards-controller', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'cards', cards: [{ content: 'something' }] }, { tab: { id: 'TAB_ID' } });
             $scope.cards.should.deep.equal([{ content: 'something' }]);
         });
+
+        it('should replace newlines with line breaks in description', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', cards: [{ description: 'Something\nSomething Else' }] }, { tab: { id: 'TAB_ID' } });
+            $scope.cards.should.deep.equal([{ description: 'Something<br>Something Else' }]);
+        });
+
+        it('should wrap urls with links in description', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', cards: [{ description: 'https://www.wenoknow.com' }] }, { tab: { id: 'TAB_ID' } });
+            $scope.cards.should.deep.equal([{ description: '<a target="_blank" href="https://www.wenoknow.com">https://www.wenoknow.com</a>' }]);
+        });
     });
 });
