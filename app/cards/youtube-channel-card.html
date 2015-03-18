@@ -1,35 +1,35 @@
-<div class="card" ng-click="show=!show" ng-class="{ 'card-more': card.description }">
+<div class="card" ng-click="show=!show" ng-class="::{ 'card-more': card.description }">
 
 	<div class="profile-top row">
 		<div class="profile-left col-4">
-			<div class="profile-image" style="background-image:url({{ card.image }})"></div>
+			<div class="profile-image" style="background-image:url({{ ::card.image }})"></div>
 		</div>
 		<div class="profile-right col-8">
 			<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
-			<a href="https://www.youtube.com/channel/{{ card.id }}" target="_blank" class="ellipsis">{{ card.title }}</a>
+			<a href="https://www.youtube.com/channel/{{ ::card.id }}" target="_blank" class="ellipsis">{{ ::card.title }}</a>
 			<div class="profile-cta">
-				<div youtube-channel-subscribe-id="card.id"></div>
+				<div youtube-channel-subscribe-id="::card.id"></div>
 			</div>
 		</div>
 	</div>
 
-	<div class="card-description scroll-bar" ng-class="{expanddescription:show}" ng-if="card.description">
+	<div class="card-description scroll-bar" ng-class="{expanddescription:show}" ng-if="::card.description">
 		<b>Channel Description</b>
-	<span>{{ card.description }}</span>
+	<span>{{ ::card.description }}</span>
 	</div>
 	
 	<div class="card-stats row">
 		<div class="col-4">
 			<b>Subscribers</b>
-		<span>{{ card.subscribers }}</span>
+		<span>{{ ::card.subscribers }}</span>
 		</div>
 		<div class="col-4">
 			<b>Uploads</b>
-		<span>{{ card.videos }}</span>
+		<span>{{ ::card.videos }}</span>
 		</div>
 		<div class="col-4">
 			<b>Video Views</b>
-		<span>{{ card.views }}</span>
+		<span>{{ ::card.views }}</span>
 		</div>
 	</div>
 

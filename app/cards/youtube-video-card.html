@@ -1,37 +1,35 @@
-<div class="card" ng-click="show=!show" ng-class="{ 'card-more': card.description }">
+<div class="card" ng-click="show=!show" ng-class="::{ 'card-more': card.description }">
 
 	<div class="video-top">
-		<div class="video-image" style="background-image:url({{ card.image }});"></div>
+		<div class="video-image" style="background-image:url({{ ::card.image }});"></div>
 		<div class="video-cta">
 			<i class="md  md-play-arrow"></i>
 		</div>
 	</div>
 	
 	<div class="video-title">
-    <b class="youtube-color"><i class="md md-access-time"></i> {{ card.date | date }}</b>
-	<a href="https://www.youtube.com/watch?v={{ card.id }}" target="_blank">{{ card.title }}</a>
+    <b class="youtube-color"><i class="md md-access-time"></i> {{ ::card.date | date }}</b>
+	<a href="https://www.youtube.com/watch?v={{ ::card.id }}" target="_blank">{{ ::card.title }}</a>
 	</div>
 
-	<div class="card-description scroll-bar" ng-class="{expanddescription:show}" ng-if="card.description">
+	<div class="card-description scroll-bar" ng-class="{expanddescription:show}" ng-if="::card.description">
 		<b>Video Description</b>
-  	<span>{{ card.description }}</span>
+  	<span>{{ ::card.description }}</span>
 	</div>
 
 	<div class="card-stats row">
 		<div class="col-4">
 			<b>Views</b>
-	    <span>{{ card.views }}</span>
+	    <span>{{ ::card.views }}</span>
 		</div>
 		<div class="col-4">
 			<b>Likes</b>
-	    <span>{{ card.likes }}</span>
+	    <span>{{ ::card.likes }}</span>
 		</div>
 		<div class="col-4">
 			<b>Dislikes</b>
-	    <span>{{ card.dislikes }}</span>
+	    <span>{{ ::card.dislikes }}</span>
 		</div>
 	</div>
-	<!--
-    {{ card.id }}
-  -->
+
 </div>
