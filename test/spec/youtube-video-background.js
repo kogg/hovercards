@@ -2,21 +2,19 @@
 
 describe('youtube-video-background', function() {
     var sandbox = sinon.sandbox.create();
-    var async;
-    var injector;
+    var Squire;
     var youtubeApi;
 
     before(function(done) {
-        require(['Squire', 'async'], function(Squire, _async) {
-            injector = new Squire();
-            async = _async;
+        require(['Squire'], function(_Squire) {
+            Squire = _Squire;
             done();
         });
     });
 
     beforeEach(function(done) {
         youtubeApi = { video: sandbox.stub(), channel: sandbox.stub() };
-        injector
+        new Squire()
             .mock('youtube-api', youtubeApi)
             .require(['youtube-video-background'], function(youtubeVideoBackground) {
                 sandbox.stub(chrome.tabs, 'sendMessage');
@@ -32,50 +30,54 @@ describe('youtube-video-background', function() {
 
     describe('when receiving triggered message', function() {
         beforeEach(function() {
-            youtubeApi.video.yields(null, { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } });
-            youtubeApi.channel.yields(null, { content: 'youtube-channel', id: 'SOME_CHANNEL_ID' });
             chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'youtube-video', id: 'SOME_VIDEO_ID' }, { tab: { id: 'TAB_ID' } });
         });
 
-        it('should send cards message', function(done) {
-            // TODO Is using this a good idea? Solves my problem...
-            async.nextTick(function() {
-                chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', sinon.match.has('msg', 'cards')
-                                                                         .and(sinon.match.has('cards', sinon.match.array)));
-                done();
-            });
+        it('should send cards message', function() {
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID');
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('msg', 'cards'));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
         });
 
-        it('should send cards message with youtube-video', function(done) {
-            // TODO Is using this a good idea? Solves my problem...
-            async.nextTick(function() {
-                // TODO Is there a better solution than this crazy for loop matcher?
-                chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('cards', sinon.match(function(cards) {
-                    for (var i = 0; i < cards.length; i++) {
-                        if (cards[i].content === 'youtube-video' && cards[i].id === 'SOME_VIDEO_ID') {
-                            return true;
-                        }
-                    }
-                    return false;
-                }, 'bad!')));
-                done();
-            });
+        it('should send cards message with unique id', function() {
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
+            chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'youtube-video', id: 'SOME_VIDEO_ID' }, { tab: { id: 'TAB_ID' } });
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-1'));
         });
 
-        it('should send cards message with youtube-channel', function(done) {
-            // TODO Is using this a good idea? Solves my problem...
-            async.nextTick(function() {
-                // TODO Is there a better solution than this crazy for loop matcher?
-                chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('cards', sinon.match(function(cards) {
-                    for (var i = 0; i < cards.length; i++) {
-                        if (cards[i].content === 'youtube-channel' && cards[i].id === 'SOME_CHANNEL_ID') {
-                            return true;
-                        }
-                    }
-                    return false;
-                }, 'bad!')));
-                done();
-            });
+        it('should call youtube-api for video', function() {
+            youtubeApi.video.should.have.been.calledWith('SOME_VIDEO_ID');
+            youtubeApi.video.should.have.been.calledWith(sinon.match.any, sinon.match.func
+                                                                      .or(sinon.match.typeOf('null'))
+                                                                      .or(sinon.match.typeOf('undefined')));
+        });
+
+        it('should send card message for video', function() {
+            youtubeApi.video.yield(null, { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } });
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID');
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('msg', 'card'));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('priority', 0));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } }));
+        });
+
+        it('should call youtube-api for channel after video', function() {
+            youtubeApi.channel.should.not.have.been.called;
+            youtubeApi.video.yield(null, { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } });
+            youtubeApi.channel.should.have.been.calledWith('SOME_CHANNEL_ID');
+            youtubeApi.channel.should.have.been.calledWith(sinon.match.any, sinon.match.func
+                                                                        .or(sinon.match.typeOf('null'))
+                                                                        .or(sinon.match.typeOf('undefined')));
+        });
+
+        it('should send card message for channel', function() {
+            youtubeApi.video.yield(null, { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } });
+            youtubeApi.channel.yield(null, { content: 'youtube-channel', id: 'SOME_CHANNEL_ID' });
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID');
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('msg', 'card'));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('priority', 1));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', { content: 'youtube-channel', id: 'SOME_CHANNEL_ID' }));
         });
     });
 });

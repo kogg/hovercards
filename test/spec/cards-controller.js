@@ -22,19 +22,32 @@ describe('cards-controller', function() {
     });
 
     describe('when receiving cards message', function() {
-        it('should set $scope.cards', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', cards: [{ content: 'something' }] }, { tab: { id: 'TAB_ID' } });
+        it('should reset $scope.cards', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', id: 'first' }, { tab: { id: 'TAB_ID' } });
+            $scope.cards = [{ content: 'something' }];
+            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', id: 'second' }, { tab: { id: 'TAB_ID' } });
+            $scope.cards.should.deep.equal([]);
+        });
+    });
+
+    describe('when receiving card message', function() {
+        it('should not push cards until cards message', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'card', id: 'first', priority: 0, card: { content: 'something' } }, { tab: { id: 'TAB_ID' } });
+            $scope.cards.should.deep.equal([]);
+        });
+
+        it('should push card onto $scope.cards after cards message', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', id: 'first' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'card', id: 'first', priority: 0, card: { content: 'something' } }, { tab: { id: 'TAB_ID' } });
             $scope.cards.should.deep.equal([{ content: 'something' }]);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'card', id: 'first', priority: 1, card: { content: 'something-else' } }, { tab: { id: 'TAB_ID' } });
+            $scope.cards.should.deep.equal([{ content: 'something' }, { content: 'something-else' }]);
         });
 
-        it('should replace newlines with line breaks in description', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', cards: [{ description: 'Something\nSomething Else' }] }, { tab: { id: 'TAB_ID' } });
-            $scope.cards.should.deep.equal([{ description: 'Something<br>Something Else' }]);
-        });
-
-        it('should wrap urls with links in description', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', cards: [{ description: 'https://www.wenoknow.com' }] }, { tab: { id: 'TAB_ID' } });
-            $scope.cards.should.deep.equal([{ description: '<a target="_blank" href="https://www.wenoknow.com">https://www.wenoknow.com</a>' }]);
+        it('should not push card onto $scope.cards if wrong id', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', id: 'first' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'card', id: 'second', priority: 0, card: { content: 'something' } }, { tab: { id: 'TAB_ID' } });
+            $scope.cards.should.deep.equal([]);
         });
     });
 });
