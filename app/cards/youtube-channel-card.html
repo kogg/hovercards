@@ -6,14 +6,14 @@
 		</div>
 		<div class="profile-right col-8">
 			<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
-			<a href="https://www.youtube.com/channel/{{ ::card.id }}" target="_blank" class="ellipsis">{{ ::card.title }}</a>
+			<a href="https://www.youtube.com/channel/{{ ::card.id }}" target="_blank" class="ellipsis" ng-click="$event.stopPropagation()">{{ ::card.title }}</a>
 			<div class="profile-cta">
 				<div youtube-channel-subscribe-id="::card.id"></div>
 			</div>
 		</div>
 	</div>
 
-	<div class="card-description scroll-bar" ng-class="{expanddescription:show}" ng-if="::card.description">
+	<div class="card-description scroll-bar" ng-class="{expanddescription:show}" ng-if="::card.description" ng-click="$event.stopPropagation()">
 		<b>Channel Description</b>
 		<span ng-bind-html="::card.description"></span>
 	</div>
