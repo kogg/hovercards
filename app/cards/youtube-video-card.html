@@ -1,13 +1,39 @@
 <div class="card">
-	<div style="border: 1px solid black">
-	    {{ card.content }}<br>
-	    {{ card.id }}<br>
-	    {{ card.image }}<br>
-	    {{ card.title }}<br>
-	    {{ card.description }}<br>
-	    {{ card.date | date }}<br>
-	    {{ card.views }}<br>
-	    {{ card.likes }}<br>
-	    {{ card.dislikes }}<br>
+	<div class="video-card">
+
+		<div class="video-top">
+			<div class="video-image" style="background-image:url({{ card.image }});"></div>
+			<div class="video-cta">
+				<i class="md  md-play-arrow"></i>
+			</div>
+		</div>
+		
+		<div class="video-title">
+	    <b class="youtube-color">{{ card.date | date }}</b>
+	    <a href="">{{ card.title }}</a>
+		</div>
+
+		<div class="card-description">
+			<b>Channel Description</b>
+    	<span>{{ card.description }}</span>
+		</div>
+
+		<div class="card-stats row">
+			<div class="col-4">
+				<b>Views</b>
+		    <span>{{ card.views }}</span>
+			</div>
+			<div class="col-4">
+				<b>Likes</b>
+		    <span>{{ card.likes }}</span>
+			</div>
+			<div class="col-4">
+				<b>Dislikes</b>
+		    <span>{{ card.dislikes }}</span>
+			</div>
+		</div>
+		<!--
+	    {{ card.id }}
+	  -->
 	</div>
 </div>

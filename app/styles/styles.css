@@ -89,18 +89,25 @@ b {
 	margin-bottom: 20px;
 	background: #fff;
 	box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26)
-	transform: scale(1.0);
 	-webkit-transition: all .4s ease-in-out;
 	transition: all .2s ease-in-out;
 }
 .card:hover { 
 	transform: scale(1.05);
 	cursor: pointer;
-	transition: all .2s ease-in-out;
+	box-shadow:0 12px 15px 0 rgba(0, 0, 0, 0.24)
 }
 
 .card-stats {
 	
+}
+.card-description {
+	border-bottom: 1px solid #B6B6B6;
+	padding: 16px;
+	max-height: 200px;
+	overflow-y: scroll;
+	word-wrap:break-word;
+	display: none;
 }
 .card-stats .col-4 {
 	padding: 9.5px 16px;
@@ -120,18 +127,21 @@ b {
 	font-weight: 400;
 	font-size: 16px;
 }
-.card-description {
-	border-bottom: 1px solid #B6B6B6;
-	padding: 16px;
-	max-height: 200px;
-	overflow-y: scroll;
-	word-wrap:break-word;
-	display: none;
+.profile-right a, .video-title a {
+	color: black;
+	text-decoration: none;
+	font-size: 16px;
+	text-transform: capitalize;
+	margin-top:5px;
+	font-weight: 500;
+	display: block;
 }
+
 /*Color Palette*/
 .youtube-color {
 	color: #F44336
 }
+
 /*Profile Cards*/
 
 .profile-card {
@@ -162,15 +172,7 @@ b {
 	height: 100px;
 	border-bottom: 1px solid #B6B6B6
 }
-.profile-right a {
-	color: black;
-	text-decoration: none;
-	font-size: 16px;
-	text-transform: capitalize;
-	margin-top:5px;
-	font-weight: 500;
-	display: block;
-}
+
 .profile-cta {
 	background: pink;
 	position: absolute;
@@ -179,11 +181,39 @@ b {
 	line-height: 24px;
 }
 
+/*Video Cards*/
 
+.video-card {
 
+}
 
-
-
+.video-top {
+	height: 168px;
+	position: relative;
+}
+.video-image {
+	height: 168px;
+	background-size: cover;
+	background-position: center;
+}
+.video-title {
+	padding: 16px;
+	border-bottom: 1px solid #B6B6B6;
+}
+.video-cta {
+	position: absolute;
+	right: 16px;
+	bottom: -25px;
+	width: 46px;
+	height: 46px;
+	line-height: 46px;
+	border-radius: 50%;
+	text-align: center;
+	font-size: 25px;
+	background: #F44336;
+	color: white;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26)
+}
 
 
 
