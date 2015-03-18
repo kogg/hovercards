@@ -7,30 +7,30 @@
 			</div>
 			<div class="profile-right col-8">
 				<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
-		    <a href="" class="ellipsis">{{ card.title }}</a>
-		    <div class="profile-cta">
-		    	<div class="g-ytsubscribe" data-channelid="{{ card.id }}" data-layout="default" data-count="hidden"></div>
-		    </div>
+			<a href="" class="ellipsis">{{ card.title }}</a>
+			<div class="profile-cta">
+				<div youtube-channel-subscribe-id="card.id"></div>
+			</div>
 			</div>
 		</div>
 
 		<div class="card-description" ng-class="{expanddescription:show}">
 			<b>Channel Description</b>
-    	<span>{{ card.description }}</span>
+		<span>{{ card.description }}</span>
 		</div>
 		
 		<div class="card-stats row">
 			<div class="col-4">
 				<b>Subscribers</b>
-		    <span>{{ card.subscribers }}</span>
+			<span>{{ card.subscribers }}</span>
 			</div>
 			<div class="col-4">
 				<b>Uploads</b>
-		    <span>{{ card.videos }}</span>
+			<span>{{ card.videos }}</span>
 			</div>
 			<div class="col-4">
 				<b>Video Views</b>
-		    <span>{{ card.views }}</span>
+			<span>{{ card.views }}</span>
 			</div>
 		</div>
 
