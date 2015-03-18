@@ -1,5 +1,5 @@
 'use strict';
 
 define(['domReady!'], function() {
-    return angular.module('app', []);
+    return angular.module('app', ['ngSanitize']);
 });

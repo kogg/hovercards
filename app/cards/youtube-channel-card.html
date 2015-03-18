@@ -15,7 +15,7 @@
 
 	<div class="card-description scroll-bar" ng-class="{expanddescription:show}" ng-if="::card.description">
 		<b>Channel Description</b>
-	<span>{{ ::card.description }}</span>
+		<span ng-bind-html="::card.description"></span>
 	</div>
 	
 	<div class="card-stats row">
