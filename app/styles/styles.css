@@ -84,6 +84,11 @@ b {
 	font-size:11px;
 	text-transform: uppercase;
 }
+b i {
+	position: relative;
+	top: -.5px;
+	margin-right: 2px;
+}
 .card {
 	border-radius: 3px;
 	margin-bottom: 20px;
@@ -97,20 +102,12 @@ b {
 	cursor: pointer;
 	box-shadow:0 12px 15px 0 rgba(0, 0, 0, 0.24)
 }
+.video-card {
+	transition: all .2s ease-in-out;
+}
 
 .card-stats {
 	
-}
-.card-description {
-	border-bottom: 1px solid #B6B6B6;
-	padding: 16px;
-	max-height: 200px;
-	overflow-y: scroll;
-	word-wrap:break-word;
-	display: none;
-}
-.card-stats .col-4 {
-	padding: 9.5px 16px;
 }
 .card-stats b,
 .card-description b {
@@ -127,6 +124,33 @@ b {
 	font-weight: 400;
 	font-size: 16px;
 }
+.card-description {
+	max-height: 0px;
+	overflow: hidden;
+	word-wrap:break-word;
+	display: block;
+	transition: all .3s ease-in-out;
+}
+.card-description b, .card-description span {
+	transition-delay: 2s;
+	transition: all .45s ease-in-out;
+	opacity: 0;
+}
+.expanddescription {
+	height: auto;
+	max-height: 200px;
+	overflow-y: scroll;
+	border-bottom: 1px solid #B6B6B6;
+	padding: 16px;
+	transition: all .3s ease-in-out;
+}
+.expanddescription b, .expanddescription span {
+	opacity: 1;
+} 
+.card-stats .col-4 {
+	padding: 9.5px 16px;
+}
+
 .profile-right a, .video-title a {
 	color: black;
 	text-decoration: none;
@@ -146,10 +170,6 @@ b {
 
 .profile-card {
 
-}
-.profile-card b i {
-	position: relative;
-	top: -.5px;
 }
 .profile-top {
 

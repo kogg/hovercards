@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" ng-click="show=!show">
 	<div class="profile-card">
 
 		<div class="profile-top row">
@@ -13,8 +13,8 @@
 		    </div>
 			</div>
 		</div>
-		
-		<div class="card-description">
+
+		<div class="card-description" ng-class="{expanddescription:show}">
 			<b>Channel Description</b>
     	<span>{{ card.description }}</span>
 		</div>

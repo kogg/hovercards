@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" ng-click="show=!show">
 	<div class="video-card">
 
 		<div class="video-top">
@@ -9,12 +9,12 @@
 		</div>
 		
 		<div class="video-title">
-	    <b class="youtube-color">{{ card.date | date }}</b>
+	    <b class="youtube-color"><i class="md md-access-time"></i> {{ card.date | date }}</b>
 	    <a href="">{{ card.title }}</a>
 		</div>
 
-		<div class="card-description">
-			<b>Channel Description</b>
+		<div class="card-description" ng-class="{expanddescription:show}">
+			<b>Video Description</b>
     	<span>{{ card.description }}</span>
 		</div>
 
