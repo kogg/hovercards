@@ -1,4 +1,4 @@
-<div class="card card-more" ng-click="show=!show">
+<div class="card" ng-click="show=!show" ng-class="{ 'card-more': card.description }">
 
 	<div class="profile-top row">
 		<div class="profile-left col-4">
@@ -13,7 +13,7 @@
 		</div>
 	</div>
 
-	<div class="card-description scroll-bar" ng-class="{expanddescription:show}">
+	<div class="card-description scroll-bar" ng-class="{expanddescription:show}" ng-if="card.description">
 		<b>Channel Description</b>
 	<span>{{ card.description }}</span>
 	</div>
