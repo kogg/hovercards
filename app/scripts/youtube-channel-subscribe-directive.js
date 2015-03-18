@@ -8,7 +8,7 @@ define(['angular-app'], function(app) {
                 id: '=youtubeChannelSubscribeId'
             },
             link: function($scope, $element) {
-                require(['asyncload!https://apis.google.com/js/platform.js!onload'], function() {
+                require(['async!https://apis.google.com/js/platform.js!onload'], function() {
                     /* global gapi */
                     gapi.ytsubscribe.render($element[0], {'channelid': $scope.id, layout: 'default', count: 'hidden' });
                 });
