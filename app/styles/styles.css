@@ -83,10 +83,12 @@ b i {
 	top: -.5px;
 	margin-right: 2px;
 }
+.card {
+	background: #fff;
+}
 .card-more {
 	border-radius: 3px;
 	margin-bottom: 20px;
-	background: #fff;
 	box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26)
 	-webkit-transition: all .4s ease-in-out;
 	transition: all .2s ease-in-out;
@@ -95,9 +97,6 @@ b i {
 	transform: scale(1.05);
 	cursor: pointer;
 	box-shadow:0 12px 15px 0 rgba(0, 0, 0, 0.24)
-}
-.video-card {
-	transition: all .2s ease-in-out;
 }
 
 .card-stats {
