@@ -79,7 +79,7 @@ html,body {
 @-webkit-keyframes bounceInRight {
     0% { 
         opacity: 0; 
-        -webkit-transform: translateX(1000px); 
+        -webkit-transform: translateX(700px); 
     } 
     60% { 
         opacity: 1; 
