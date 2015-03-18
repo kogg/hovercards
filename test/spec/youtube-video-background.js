@@ -33,6 +33,18 @@ describe('youtube-video-background', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'youtube-video', id: 'SOME_VIDEO_ID' }, { tab: { id: 'TAB_ID' } });
         });
 
+        it('should send cards message', function() {
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID');
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('msg', 'cards'));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
+        });
+
+        it('should send cards message with unique id', function() {
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
+            chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'youtube-video', id: 'SOME_VIDEO_ID' }, { tab: { id: 'TAB_ID' } });
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-1'));
+        });
+
         it('should call youtube-api for video', function() {
             youtubeApi.video.should.have.been.calledWith('SOME_VIDEO_ID');
             youtubeApi.video.should.have.been.calledWith(sinon.match.any, sinon.match.func
@@ -66,16 +78,6 @@ describe('youtube-video-background', function() {
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('priority', 1));
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', { content: 'youtube-channel', id: 'SOME_CHANNEL_ID' }));
-        });
-
-        it('should send a different id each trigger', function() {
-            youtubeApi.video.yield(null, { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } });
-            youtubeApi.channel.yield(null, { content: 'youtube-channel', id: 'SOME_CHANNEL_ID' });
-            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
-            chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'youtube-video', id: 'SOME_VIDEO_ID' }, { tab: { id: 'TAB_ID' } });
-            youtubeApi.video.yield(null, { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } });
-            youtubeApi.channel.yield(null, { content: 'youtube-channel', id: 'SOME_CHANNEL_ID' });
-            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-1'));
         });
     });
 });

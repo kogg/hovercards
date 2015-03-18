@@ -8,6 +8,8 @@ define(['youtube-api'], function(youtubeApi) {
                 return;
             }
             var h = i++;
+            chrome.tabs.sendMessage(sender.tab.id, { msg:      'cards',
+                                                     id:       'youtube-video-' + h });
             youtubeApi.video(request.id, function(err, youtubeVideoCard) {
                 chrome.tabs.sendMessage(sender.tab.id, { msg:      'card',
                                                          id:       'youtube-video-' + h,
