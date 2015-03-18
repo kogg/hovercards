@@ -22,9 +22,32 @@ describe('cards-controller', function() {
     });
 
     describe('when receiving cards message', function() {
-        it('should set $scope.cards', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', cards: [{ content: 'something' }] }, { tab: { id: 'TAB_ID' } });
+        it('should reset $scope.cards', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', id: 'first' }, { tab: { id: 'TAB_ID' } });
+            $scope.cards = [{ content: 'something' }];
+            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', id: 'second' }, { tab: { id: 'TAB_ID' } });
+            $scope.cards.should.deep.equal([]);
+        });
+    });
+
+    describe('when receiving card message', function() {
+        it('should not push cards until cards message', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'card', id: 'first', priority: 0, card: { content: 'something' } }, { tab: { id: 'TAB_ID' } });
+            $scope.cards.should.deep.equal([]);
+        });
+
+        it('should push card onto $scope.cards after cards message', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', id: 'first' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'card', id: 'first', priority: 0, card: { content: 'something' } }, { tab: { id: 'TAB_ID' } });
             $scope.cards.should.deep.equal([{ content: 'something' }]);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'card', id: 'first', priority: 1, card: { content: 'something-else' } }, { tab: { id: 'TAB_ID' } });
+            $scope.cards.should.deep.equal([{ content: 'something' }, { content: 'something-else' }]);
+        });
+
+        it('should not push card onto $scope.cards if wrong id', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'cards', id: 'first' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'card', id: 'second', priority: 0, card: { content: 'something' } }, { tab: { id: 'TAB_ID' } });
+            $scope.cards.should.deep.equal([]);
         });
     });
 });
