@@ -7,8 +7,8 @@
 </head>
 <body>
     <div class="card-container">
-        <div id="cards" ng-controller="CardsController" ng-cloak class="ng-cloak animated bounceInRight">
-            <div ng-repeat="card in cards" ng-include="'cards/' + card.content + '-card.html'">
+        <div id="cards" ng-controller="CardsController" ng-cloak class="ng-cloak">
+            <div ng-repeat="card in cards" ng-include="'cards/' + card.content + '-card.html'" class="animated bounceInRight">
                     {{ card }}
             </div>
         </div>
