@@ -45,6 +45,10 @@
                 "http://www.youtube.com/embed/*",
                 "https://www.youtube.com/embed/*"
             ],
+            "exclude_matches": [
+                "http://*/*donthovercards*",
+                "https://*/*donthovercards*"
+            ],
             "css": [
                 "styles/dom-styles.css"
             ],

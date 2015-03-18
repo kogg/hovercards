@@ -3,7 +3,7 @@
 	<div class="video-top">
 		<div class="video-image" style="background-image:url({{ ::card.image }});">
 			<div class="youtube-video" ng-if="playing">
-				<iframe width="100%" height="100%" ng-src="{{ 'https://www.youtube.com/embed/' + card.id + '?autoplay=1' | trustresourceurl }}" frameborder="0" allowfullscreen=""></iframe>
+				<iframe width="100%" height="100%" ng-src="{{ 'https://www.youtube.com/embed/' + card.id + '?autoplay=1&donthovercards' | trustresourceurl }}" frameborder="0" allowfullscreen=""></iframe>
 			</div>
 
 		</div>
