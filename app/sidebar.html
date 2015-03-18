@@ -8,7 +8,7 @@
 <body>
     <div class="card-container">
         <div id="cards" ng-controller="CardsController" ng-cloak class="ng-cloak">
-            <div ng-repeat="card in cards" ng-include="'cards/' + card.content + '-card.html'">
+            <div ng-repeat="card in cards" ng-include="'cards/' + card.content + '-card.html'" class="card">
                     {{ card }}
             </div>
         </div>

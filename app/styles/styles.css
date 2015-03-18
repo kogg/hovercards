@@ -30,17 +30,11 @@
 	margin:0;
 	padding: 0;
 }
-::-webkit-scrollbar {
-  width: 15px;
-  height: 15px;
-  background: rgba(0, 0, 0, 0);
-  overflow: visible;
-}
-::-webkit-scrollbar{width:15px;height:15px;background:transparent;overflow:visible}
-::-webkit-scrollbar-thumb:vertical{height:1px;background-color:rgba(0,0,0,0.2);border-right:4px solid #fff;border-left:4px solid #fff;border-top:6px solid #fff;border-bottom:6px solid #fff}
-::-webkit-scrollbar-thumb:horizontal{height:1px;background-color:rgba(0,0,0,0.2);border-right:4px solid #fff;border-left:4px solid #fff;border-top:6px solid #fff;border-bottom:6px solid #fff}
-::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(0,0,0,0.4)}
-::-webkit-scrollbar-thumb:horizontal:hover{background-color:rgba(0,0,0,0.4)}
+.scroll-bar::-webkit-scrollbar{width:15px;height:15px;background:transparent;overflow:visible}
+.scroll-bar::-webkit-scrollbar-thumb:vertical{height:1px;background-color:rgba(0,0,0,0.2);border-right:4px solid #fff;border-left:4px solid #fff;border-top:6px solid #fff;border-bottom:6px solid #fff}
+.scroll-bar::-webkit-scrollbar-thumb:horizontal{height:1px;background-color:rgba(0,0,0,0.2);border-right:4px solid #fff;border-left:4px solid #fff;border-top:6px solid #fff;border-bottom:6px solid #fff}
+.scroll-bar::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(0,0,0,0.4)}
+.scroll-bar::-webkit-scrollbar-thumb:horizontal:hover{background-color:rgba(0,0,0,0.4)}
 html,body {
 	background: grey;
 	font-family: "Roboto", sans-serif;
@@ -194,11 +188,9 @@ b i {
 }
 
 .profile-cta {
-	background: pink;
 	position: absolute;
+	overflow: hidden;
 	bottom: 16px;
-	height: 24px;
-	line-height: 24px;
 }
 
 /*Video Cards*/

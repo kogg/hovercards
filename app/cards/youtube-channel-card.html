@@ -1,38 +1,36 @@
-<div class="card" ng-click="show=!show">
-	<div class="profile-card">
+<div class="profile-card" ng-click="show=!show">
 
-		<div class="profile-top row">
-			<div class="profile-left col-4">
-				<div class="profile-image" style="background-image:url({{ card.image }})"></div>
-			</div>
-			<div class="profile-right col-8">
-				<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
+	<div class="profile-top row">
+		<div class="profile-left col-4">
+			<div class="profile-image" style="background-image:url({{ card.image }})"></div>
+		</div>
+		<div class="profile-right col-8">
+			<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
 			<a href="" class="ellipsis">{{ card.title }}</a>
 			<div class="profile-cta">
 				<div youtube-channel-subscribe-id="card.id"></div>
 			</div>
-			</div>
 		</div>
-
-		<div class="card-description" ng-class="{expanddescription:show}">
-			<b>Channel Description</b>
-		<span>{{ card.description }}</span>
-		</div>
-		
-		<div class="card-stats row">
-			<div class="col-4">
-				<b>Subscribers</b>
-			<span>{{ card.subscribers }}</span>
-			</div>
-			<div class="col-4">
-				<b>Uploads</b>
-			<span>{{ card.videos }}</span>
-			</div>
-			<div class="col-4">
-				<b>Video Views</b>
-			<span>{{ card.views }}</span>
-			</div>
-		</div>
-
 	</div>
+
+	<div class="card-description scroll-bar" ng-class="{expanddescription:show}">
+		<b>Channel Description</b>
+	<span>{{ card.description }}</span>
+	</div>
+	
+	<div class="card-stats row">
+		<div class="col-4">
+			<b>Subscribers</b>
+		<span>{{ card.subscribers }}</span>
+		</div>
+		<div class="col-4">
+			<b>Uploads</b>
+		<span>{{ card.videos }}</span>
+		</div>
+		<div class="col-4">
+			<b>Video Views</b>
+		<span>{{ card.views }}</span>
+		</div>
+	</div>
+
 </div>
