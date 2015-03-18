@@ -1,7 +1,7 @@
 'use strict';
 
 define(['angular-app'], function(app) {
-    app.controller('CardsController', ['$scope', '$filter', function($scope, $filter) {
+    app.controller('CardsController', ['$scope', function($scope) {
         $scope.cards = [];
         chrome.runtime.onMessage.addListener(function(request) {
             if (request.msg !== 'cards') {
@@ -12,7 +12,6 @@ define(['angular-app'], function(app) {
                     if (!request.cards[i].description) {
                         continue;
                     }
-                    request.cards[i].description = $filter('linky')(request.cards[i].description, '_blank').replace(/(&#10;|\n)/g, '<br>');
                 }
                 $scope.cards = request.cards;
             });
