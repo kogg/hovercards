@@ -83,7 +83,7 @@ b i {
 	top: -.5px;
 	margin-right: 2px;
 }
-.card {
+.card-more {
 	border-radius: 3px;
 	margin-bottom: 20px;
 	background: #fff;
@@ -91,7 +91,7 @@ b i {
 	-webkit-transition: all .4s ease-in-out;
 	transition: all .2s ease-in-out;
 }
-.card:hover { 
+.card-more:hover { 
 	transform: scale(1.05);
 	cursor: pointer;
 	box-shadow:0 12px 15px 0 rgba(0, 0, 0, 0.24)
@@ -123,6 +123,7 @@ b i {
 	overflow: hidden;
 	word-wrap:break-word;
 	display: block;
+	padding: 0px 16px;
 	transition: all .3s ease-in-out;
 }
 .card-description b, .card-description span {
@@ -135,7 +136,7 @@ b i {
 	max-height: 200px;
 	overflow-y: scroll;
 	border-bottom: 1px solid #B6B6B6;
-	padding: 16px;
+	padding: 16px 16px;
 	transition: all .3s ease-in-out;
 }
 .expanddescription b, .expanddescription span {
