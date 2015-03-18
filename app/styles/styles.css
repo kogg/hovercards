@@ -96,7 +96,6 @@ b i {
 }
 .card-more:hover { 
 	transform: scale(1.05);
-	cursor: pointer;
 	box-shadow:0 12px 15px 0 rgba(0, 0, 0, 0.24)
 }
 
@@ -155,7 +154,9 @@ b i {
 	font-weight: 500;
 	display: block;
 }
-
+.profile-right a:hover, .video-title a:hover {
+	text-decoration: underline;
+}
 /*Color Palette*/
 .youtube-color {
 	color: #F44336
