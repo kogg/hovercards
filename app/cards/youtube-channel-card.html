@@ -21,15 +21,15 @@
 	<div class="card-stats row">
 		<div class="col-4">
 			<b>Subscribers</b>
-		<span>{{ ::card.subscribers }}</span>
+		<span>{{ ::card.subscribers | numsmall }}</span>
 		</div>
 		<div class="col-4">
 			<b>Uploads</b>
-		<span>{{ ::card.videos }}</span>
+		<span>{{ ::card.videos | numsmall }}</span>
 		</div>
 		<div class="col-4">
 			<b>Video Views</b>
-		<span>{{ ::card.views }}</span>
+		<span>{{ ::card.views | numsmall }}</span>
 		</div>
 	</div>
 
