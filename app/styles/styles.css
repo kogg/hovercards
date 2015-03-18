@@ -70,6 +70,33 @@ html,body {
 .col-11 {width:91.66666666%}
 .col-12 {width:100.000000000%}
 
+.animated { 
+    -webkit-animation-duration: 1.3s; 
+    animation-duration: 1.3s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+} 
+@-webkit-keyframes bounceInRight {
+    0% { 
+        opacity: 0; 
+        -webkit-transform: translateX(1000px); 
+    } 
+    60% { 
+        opacity: 1; 
+        -webkit-transform: translateX(-16px); 
+    } 
+    80% { 
+        -webkit-transform: translateX(10px); 
+    } 
+    100% { 
+        -webkit-transform: translateX(0); 
+    } 
+} 
+
+.bounceInRight { 
+    -webkit-animation-name: bounceInRight; 
+    animation-name: bounceInRight; 
+}
 /*default cards*/
 b {
 	display: block;
@@ -152,12 +179,13 @@ b i {
 	text-decoration: none;
 	font-size: 16px;
 	text-transform: capitalize;
-	margin-top:5px;
+	margin-top:3.5px;
 	font-weight: 500;
-	display: block;
-}
-.video-title a {
 	display: inline-block;
+}
+.profile-right a {
+	display: inline-block;
+	max-width: 167px;
 }
 .profile-right a:hover, .video-title a:hover {
 	text-decoration: underline;
@@ -237,14 +265,20 @@ b i {
 	color: white;
 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 	z-index: 2;
+	-webkit-transform: rotate(0deg) scale(1);
+	-webkit-transition: box-shadow .2s ease-in-out, transform .5s ease-in-out, opacity .5s ease-in-out;
 }
 .video-cta:hover {
 	cursor: pointer;
+	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0.24)
 }
-
-
-
-
+.video-cta:active {
+	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0)
+}
+.playing {
+	-webkit-transform: rotate(360deg) scale(0);
+	opacity: 0;
+}
 
 
 
