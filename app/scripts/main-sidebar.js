@@ -1,5 +1,5 @@
 'use strict';
 
-require(['cards-controller'], function() {
+require(['cards-controller', 'youtube-channel-subscribe-directive'], function() {
     angular.bootstrap(document, ['app']);
 });
