@@ -9,7 +9,7 @@
 	
 	<div class="video-title">
     <b class="youtube-color"><i class="md md-access-time"></i> {{ card.date | date }}</b>
-    <a href="">{{ card.title }}</a>
+	<a href="https://www.youtube.com/watch?v={{ card.id }}" target="_blank">{{ card.title }}</a>
 	</div>
 
 	<div class="card-description scroll-bar" ng-class="{expanddescription:show}" ng-if="card.description">
