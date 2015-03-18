@@ -7,7 +7,7 @@
 			</div>
 
 		</div>
-        <div class="video-cta" ng-click="playing=true" ng-class="{ playing: playing }">
+        <div class="video-cta" ng-click="playing=true; $event.stopPropagation();" ng-class="{ playing: playing }">
 			<i class="md  md-play-arrow"></i>
 		</div>
 	</div>
