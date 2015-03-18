@@ -2,18 +2,22 @@
 
 define(['angular-app'], function(app) {
     app.controller('CardsController', ['$scope', function($scope) {
-        $scope.cards = [];
+        $scope.ids = {};
+        $scope.currentId = null;
         chrome.runtime.onMessage.addListener(function(request) {
-            if (request.msg !== 'cards') {
+            if (request.msg !== 'card') {
                 return;
             }
             $scope.$apply(function() {
-                for (var i = 0; i < request.cards.length; i++) {
-                    if (!request.cards[i].description) {
-                        continue;
-                    }
+                if (!$scope.currentId || !$scope.ids[request.id]) {
+                    $scope.ids[request.id] = true;
+                    $scope.currentId = request.id;
+                    $scope.cards = [];
                 }
-                $scope.cards = request.cards;
+                if ($scope.currentId !== request.id) {
+                    return;
+                }
+                $scope.cards.push(request.card);
             });
         });
     }]);
