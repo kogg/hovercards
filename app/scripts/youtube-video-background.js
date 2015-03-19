@@ -11,15 +11,15 @@ define(['youtube-api'], function(youtubeApi) {
             chrome.tabs.sendMessage(sender.tab.id, { msg:      'cards',
                                                      id:       'youtube-video-' + h });
             youtubeApi.video(request.id, function(err, youtubeVideoCard) {
-                chrome.tabs.sendMessage(sender.tab.id, { msg:      'card',
-                                                         id:       'youtube-video-' + h,
-                                                         priority: 0,
-                                                         card:     youtubeVideoCard });
+                youtubeVideoCard.priority = 0;
+                chrome.tabs.sendMessage(sender.tab.id, { msg:  'card',
+                                                         id:   'youtube-video-' + h,
+                                                         card: youtubeVideoCard });
                 youtubeApi.channel(youtubeVideoCard.channel.id, function(err, youtubeChannelCard) {
-                    chrome.tabs.sendMessage(sender.tab.id, { msg:      'card',
-                                                             id:       'youtube-video-' + h,
-                                                             priority: 1,
-                                                             card:     youtubeChannelCard });
+                    youtubeChannelCard.priority = 1;
+                    chrome.tabs.sendMessage(sender.tab.id, { msg:  'card',
+                                                             id:   'youtube-video-' + h,
+                                                             card: youtubeChannelCard });
                 });
             });
         });

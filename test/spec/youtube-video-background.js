@@ -57,8 +57,10 @@ describe('youtube-video-background', function() {
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID');
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('msg', 'card'));
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
-            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('priority', 0));
-            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } }));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('content', 'youtube-video')));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('id', 'SOME_VIDEO_ID')));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('priority', 0)));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('channel', sinon.match.has('id', 'SOME_CHANNEL_ID'))));
         });
 
         it('should call youtube-api for channel after video', function() {
@@ -76,8 +78,9 @@ describe('youtube-video-background', function() {
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID');
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('msg', 'card'));
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
-            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('priority', 1));
-            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', { content: 'youtube-channel', id: 'SOME_CHANNEL_ID' }));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('content', 'youtube-channel')));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('id', 'SOME_CHANNEL_ID')));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('priority', 1)));
         });
     });
 });
