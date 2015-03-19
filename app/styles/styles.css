@@ -43,7 +43,8 @@ html,body {
 }
 .card-container {
 	width: 300px;
-	margin: auto
+	margin: auto;
+	padding-bottom: 20px;
 }
 .ellipsis {
 	white-space: nowrap;
@@ -83,10 +84,10 @@ html,body {
     } 
     60% { 
         opacity: 1; 
-        -webkit-transform: translateX(-16px); 
+        -webkit-transform: translateX(-10px); 
     } 
     80% { 
-        -webkit-transform: translateX(10px); 
+        -webkit-transform: translateX(5px); 
     } 
     100% { 
         -webkit-transform: translateX(0); 
@@ -117,12 +118,13 @@ b i {
 	box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26)
 }
 .card-more {
-	box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26)
+	box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26);
 	-webkit-transition: all .4s ease-in-out;
 	transition: all .2s ease-in-out;
 }
 .card-more:hover { 
 	transform: scale(1.05);
+	-webkit-transform: scale(1.05) !important;
 	box-shadow:0 12px 15px 0 rgba(0, 0, 0, 0.24)
 }
 
@@ -183,6 +185,9 @@ b i {
 	font-weight: 500;
 	display: inline-block;
 }
+.video-title a {
+	display: inline;
+}
 .profile-right a {
 	display: inline-block;
 	max-width: 167px;
@@ -240,6 +245,7 @@ b i {
 }
 .video-image {
 	height: 168px;
+	border-radius: 3px 3px 0 0;
 	background-size: cover;
 	background-position: center;
 }
