@@ -24,7 +24,7 @@
   font-weight: 700; }
 
 *, *:before, *:after {
-	-webkit-box-sizing: border-box; 
+	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	margin:0;
@@ -71,32 +71,58 @@ html,body {
 .col-11 {width:91.66666666%}
 .col-12 {width:100.000000000%}
 
-.animated { 
-    -webkit-animation-duration: 1.3s; 
-    animation-duration: 1.3s; 
-    -webkit-animation-fill-mode: both; 
-    animation-fill-mode: both; 
-} 
+.card-outer.ng-enter,
+.cards.ng-leave {
+    -webkit-animation-duration: 1.3s;
+    animation-duration: 1.3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
 @-webkit-keyframes bounceInRight {
-    0% { 
-        opacity: 0; 
-        -webkit-transform: translateX(700px); 
-    } 
-    60% { 
-        opacity: 1; 
-        -webkit-transform: translateX(-10px); 
-    } 
-    80% { 
-        -webkit-transform: translateX(5px); 
-    } 
-    100% { 
-        -webkit-transform: translateX(0); 
-    } 
-} 
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(700px);
+    }
+    60% {
+        opacity: 1;
+        -webkit-transform: translateX(-10px);
+    }
+    80% {
+        -webkit-transform: translateX(5px);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+    }
+}
+@-webkit-keyframes bounceOutLeft {
+    0% {
+        -webkit-transform: translateX(0);
+    }
+    60% {
+        -webkit-transform: translateX(-710px);
+    }
+    80% {
+        -webkit-transform: translateX(-695px);
+    }
+    100% {
+        -webkit-transform: translateX(-700px);
+    }
+}
 
-.bounceInRight { 
-    -webkit-animation-name: bounceInRight; 
-    animation-name: bounceInRight; 
+.card-outer.ng-enter {
+    -webkit-animation-name: bounceInRight;
+    animation-name: bounceInRight;
+}
+
+.cards.ng-leave {
+    -webkit-animation-name: bounceOutLeft;
+    animation-name: bounceOutLeft;
+}
+.cards {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 20px;
 }
 /*default cards*/
 b {
@@ -122,7 +148,7 @@ b i {
 	-webkit-transition: all .4s ease-in-out;
 	transition: all .2s ease-in-out;
 }
-.card-more:hover { 
+.card-more:hover {
 	transform: scale(1.05);
 	-webkit-transform: scale(1.05) !important;
 	box-shadow:0 12px 15px 0 rgba(0, 0, 0, 0.24)
@@ -176,7 +202,7 @@ b i {
 }
 .expanddescription b, .expanddescription span {
 	opacity: 1;
-} 
+}
 .card-stats .col-4 {
 	padding: 9.5px 16px;
 }

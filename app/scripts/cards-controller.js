@@ -2,7 +2,6 @@
 
 define(['angular-app'], function(app) {
     app.controller('CardsController', ['$scope', function($scope) {
-        $scope.cards = [];
         $scope.currentId = null;
         chrome.runtime.onMessage.addListener(function(request) {
             if (request.msg !== 'cards' && request.msg !== 'card') {
@@ -12,13 +11,13 @@ define(['angular-app'], function(app) {
                 switch (request.msg) {
                     case 'cards':
                         $scope.currentId = request.id;
-                        $scope.cards = [];
+                        $scope.cardGroups = [[]];
                         break;
                     case 'card':
                         if (request.id !== $scope.currentId) {
                             return;
                         }
-                        $scope.cards.push(request.card);
+                        $scope.cardGroups[0].push(request.card);
                         break;
                 }
             });

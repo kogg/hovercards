@@ -3,6 +3,7 @@
     "expr": true,
     "mocha": true,
     "globals": {
+        "expect": true,
         "inject": true,
         "should": true,
         "sinon": true

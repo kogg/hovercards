@@ -22,32 +22,32 @@ describe('cards-controller', function() {
     });
 
     describe('when receiving cards message', function() {
-        it('should reset $scope.cards', function() {
+        it('should reset $scope.cardGroups', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'cards', id: 'first' }, { tab: { id: 'TAB_ID' } });
-            $scope.cards = [{ content: 'something' }];
+            $scope.cardGroups = [[{ content: 'something' }]];
             chrome.runtime.onMessage.addListener.yield({ msg: 'cards', id: 'second' }, { tab: { id: 'TAB_ID' } });
-            $scope.cards.should.deep.equal([]);
+            $scope.cardGroups.should.deep.equal([[]]);
         });
     });
 
     describe('when receiving card message', function() {
         it('should not push cards until cards message', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'card', id: 'first', priority: 0, card: { content: 'something' } }, { tab: { id: 'TAB_ID' } });
-            $scope.cards.should.deep.equal([]);
+            expect($scope.cardGroups).not.to.exist;
         });
 
-        it('should push card onto $scope.cards after cards message', function() {
+        it('should push card  after cards message', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'cards', id: 'first' }, { tab: { id: 'TAB_ID' } });
             chrome.runtime.onMessage.addListener.yield({ msg: 'card', id: 'first', priority: 0, card: { content: 'something' } }, { tab: { id: 'TAB_ID' } });
-            $scope.cards.should.deep.equal([{ content: 'something' }]);
+            $scope.cardGroups.should.deep.equal([[{ content: 'something' }]]);
             chrome.runtime.onMessage.addListener.yield({ msg: 'card', id: 'first', priority: 1, card: { content: 'something-else' } }, { tab: { id: 'TAB_ID' } });
-            $scope.cards.should.deep.equal([{ content: 'something' }, { content: 'something-else' }]);
+            $scope.cardGroups.should.deep.equal([[{ content: 'something' }, { content: 'something-else' }]]);
         });
 
         it('should not push card onto $scope.cards if wrong id', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'cards', id: 'first' }, { tab: { id: 'TAB_ID' } });
             chrome.runtime.onMessage.addListener.yield({ msg: 'card', id: 'second', priority: 0, card: { content: 'something' } }, { tab: { id: 'TAB_ID' } });
-            $scope.cards.should.deep.equal([]);
+            $scope.cardGroups.should.deep.equal([[]]);
         });
     });
 });
