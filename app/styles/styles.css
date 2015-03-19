@@ -129,7 +129,7 @@ b i {
 }
 
 .card-stats {
-	
+	border-top:1px solid #B6B6B6	
 }
 .card-stats b,
 .card-description b {
@@ -153,8 +153,13 @@ b i {
 	word-wrap:break-word;
 	display: block;
 	padding: 0px 16px;
-	border-bottom: 1px solid #fff;
-	transition: all .3s ease-in-out;
+	transition: padding .3s ease-in-out, max-height .3s ease-in-out;
+}
+.card-more .card-description {
+	border-top: 1px solid #B6B6B6;
+}
+.card-more .card-stats {
+	border-top: none
 }
 .card-description b, .card-description span {
 	transition-delay: 2s;
@@ -224,7 +229,6 @@ b i {
 	padding: 16px;
 	position: relative;
 	height: 100px;
-	border-bottom: 1px solid #B6B6B6
 }
 
 .profile-cta {
@@ -255,7 +259,6 @@ b i {
 }
 .video-title {
 	padding: 16px;
-	border-bottom: 1px solid #B6B6B6;
 }
 .video-cta {
 	position: absolute;
