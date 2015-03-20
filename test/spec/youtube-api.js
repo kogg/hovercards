@@ -2,7 +2,6 @@
 
 describe('youtube-api', function() {
     var sandbox = sinon.sandbox.create();
-    var ajaxReturnValue;
     var youtubeApi;
 
     beforeEach(function(done) {
@@ -23,7 +22,7 @@ describe('youtube-api', function() {
     describe('.video', function() {
         it('should make an ajax call', function() {
             sandbox.stub($, 'ajax');
-            ajaxReturnValue = {};
+            var ajaxReturnValue = {};
             ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
             ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
             $.ajax.returns(ajaxReturnValue);
@@ -37,7 +36,7 @@ describe('youtube-api', function() {
 
         it('should callback a youtubeVideoCard', function() {
             sandbox.stub($, 'ajax');
-            ajaxReturnValue = {};
+            var ajaxReturnValue = {};
             ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
             ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
             $.ajax.returns(ajaxReturnValue);
@@ -67,7 +66,7 @@ describe('youtube-api', function() {
 
         it('should callback an error on failure', function() {
             sandbox.stub($, 'ajax');
-            ajaxReturnValue = {};
+            var ajaxReturnValue = {};
             ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
             ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
             $.ajax.returns(ajaxReturnValue);
@@ -82,7 +81,7 @@ describe('youtube-api', function() {
     describe('.channel', function() {
         it('should make an ajax call', function() {
             sandbox.stub($, 'ajax');
-            ajaxReturnValue = {};
+            var ajaxReturnValue = {};
             ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
             ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
             $.ajax.returns(ajaxReturnValue);
@@ -96,7 +95,7 @@ describe('youtube-api', function() {
 
         it('should callback a youtubeChannelCard', function() {
             sandbox.stub($, 'ajax');
-            ajaxReturnValue = {};
+            var ajaxReturnValue = {};
             ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
             ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
             $.ajax.returns(ajaxReturnValue);
@@ -122,7 +121,7 @@ describe('youtube-api', function() {
 
         it('should callback an error on failure', function() {
             sandbox.stub($, 'ajax');
-            ajaxReturnValue = {};
+            var ajaxReturnValue = {};
             ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
             ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
             $.ajax.returns(ajaxReturnValue);
