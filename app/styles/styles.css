@@ -96,16 +96,10 @@ html,body {
 }
 @-webkit-keyframes bounceOutLeft {
     0% {
-        -webkit-transform: translateX(0);
-    }
-    60% {
-        -webkit-transform: translateX(-710px);
-    }
-    80% {
-        -webkit-transform: translateX(-695px);
+        -webkit-transform: translatey(0);
     }
     100% {
-        -webkit-transform: translateX(-700px);
+        -webkit-transform: translatey(-1400px);
     }
 }
 
@@ -120,6 +114,7 @@ html,body {
 }
 .cards {
     position: absolute;
+    max-width: 340px;
     top: 0;
     left: 0;
     padding: 0 20px;
