@@ -29,17 +29,14 @@ describe('youtube-api', function() {
     });
 
     describe('.video', function() {
-        it('should call youtube\'s API', function(done) {
+        it('should call youtube\'s API', function() {
             youtubeApi.video('SOME_VIDEO_ID', $.noop);
-            sandbox.server.respondWith(function(xhr) {
-                var url = purl(xhr.url);
-                (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://www.googleapis.com/youtube/v3/videos');
-                url.param('id').should.equal('SOME_VIDEO_ID');
-                url.param('part').should.equal('snippet,statistics');
-                url.param('key').should.equal(youtubeApi.API_KEY);
-                done();
-            });
-            sandbox.server.respond();
+
+            var url = purl(sandbox.server.requests[0].url);
+            (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://www.googleapis.com/youtube/v3/videos');
+            url.param('id').should.equal('SOME_VIDEO_ID');
+            url.param('part').should.equal('snippet,statistics');
+            url.param('key').should.equal(youtubeApi.API_KEY);
         });
 
         it('should callback a youtubeVideoCard', function() {
