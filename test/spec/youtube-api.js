@@ -78,35 +78,29 @@ describe('youtube-api', function() {
     });
 
     describe('.channel', function() {
-        it('should make an ajax call', function() {
-            sandbox.stub($, 'ajax');
-            var ajaxReturnValue = {};
-            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
-            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
-            $.ajax.returns(ajaxReturnValue);
-
+        it('should call youtube\'s API', function() {
             youtubeApi.channel('SOME_CHANNEL_ID', $.noop);
-            $.ajax.should.have.been.calledWith(sinon.match.has('url', 'https://www.googleapis.com/youtube/v3/channels'));
-            $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('id', 'SOME_CHANNEL_ID')));
-            $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('part', 'snippet,statistics')));
-            $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('key', youtubeApi.API_KEY)));
+
+            var url = purl(sandbox.server.requests[0].url);
+            (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://www.googleapis.com/youtube/v3/channels');
+            url.param('id').should.equal('SOME_CHANNEL_ID');
+            url.param('part').should.equal('snippet,statistics');
+            url.param('key').should.equal(youtubeApi.API_KEY);
         });
 
         it('should callback a youtubeChannelCard', function() {
-            sandbox.stub($, 'ajax');
-            var ajaxReturnValue = {};
-            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
-            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
-            $.ajax.returns(ajaxReturnValue);
-
-            ajaxReturnValue.done.yields({ items: [{ snippet:    { thumbnails: { medium: { url: 'image.jpg' } },
-                                                                  localized:  { title:       'Some Title',
-                                                                                description: 'Some Description' } },
-                                                    statistics: { viewCount:       2000,
-                                                                  subscriberCount: 3000,
-                                                                  videoCount:      1000 } }] });
             var callback = sandbox.spy();
             youtubeApi.channel('SOME_CHANNEL_ID', callback);
+            sandbox.server.respondWith([200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify({ items: [{ snippet:    { thumbnails: { medium: { url: 'image.jpg' } },
+                                                                       localized:  { title:       'Some Title',
+                                                                                     description: 'Some Description' } },
+                                                         statistics: { viewCount:       2000,
+                                                                       subscriberCount: 3000,
+                                                                       videoCount:      1000 } }] })]);
+            sandbox.server.respond();
+
             callback.should.have.been.calledWith(null);
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('content',     'youtube-channel'));
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('id',          'SOME_CHANNEL_ID'));
@@ -119,16 +113,12 @@ describe('youtube-api', function() {
         });
 
         it('should callback an error on failure', function() {
-            sandbox.stub($, 'ajax');
-            var ajaxReturnValue = {};
-            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
-            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
-            $.ajax.returns(ajaxReturnValue);
-
-            ajaxReturnValue.fail.yields('jqXHR', 'textStatus', 'err');
             var callback = sandbox.spy();
             youtubeApi.channel('SOME_CHANNEL_ID', callback);
-            callback.should.have.been.calledWith('err');
+            sandbox.server.respondWith([404, null, '']);
+            sandbox.server.respond();
+
+            callback.should.have.been.calledWith(sinon.match.defined);
         });
     });
 });
