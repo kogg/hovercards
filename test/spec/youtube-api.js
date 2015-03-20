@@ -68,16 +68,12 @@ describe('youtube-api', function() {
         });
 
         it('should callback an error on failure', function() {
-            sandbox.stub($, 'ajax');
-            var ajaxReturnValue = {};
-            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
-            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
-            $.ajax.returns(ajaxReturnValue);
-
-            ajaxReturnValue.fail.yields('jqXHR', 'textStatus', 'err');
             var callback = sandbox.spy();
             youtubeApi.video('SOME_VIDEO_ID', callback);
-            callback.should.have.been.calledWith('err');
+            sandbox.server.respondWith([404, null, '']);
+            sandbox.server.respond();
+
+            callback.should.have.been.calledWith(sinon.match.defined);
         });
     });
 
