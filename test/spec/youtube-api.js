@@ -2,10 +2,19 @@
 
 describe('youtube-api', function() {
     var sandbox = sinon.sandbox.create();
+    var purl;
     var youtubeApi;
+
+    before(function(done) {
+        require(['purl'], function(_purl) {
+            purl = _purl;
+            done();
+        });
+    });
 
     beforeEach(function(done) {
         require(['youtube-api'], function(_youtubeApi) {
+            sandbox.useFakeServer();
             youtubeApi = _youtubeApi;
             done();
         });
@@ -20,18 +29,17 @@ describe('youtube-api', function() {
     });
 
     describe('.video', function() {
-        it('should make an ajax call', function() {
-            sandbox.stub($, 'ajax');
-            var ajaxReturnValue = {};
-            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
-            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
-            $.ajax.returns(ajaxReturnValue);
-
+        it('should call youtube\'s API', function(done) {
             youtubeApi.video('SOME_VIDEO_ID', $.noop);
-            $.ajax.should.have.been.calledWith(sinon.match.has('url', 'https://www.googleapis.com/youtube/v3/videos'));
-            $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('id', 'SOME_VIDEO_ID')));
-            $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('part', 'snippet,statistics')));
-            $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('key', youtubeApi.API_KEY)));
+            sandbox.server.respondWith(function(xhr) {
+                var url = purl(xhr.url);
+                (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://www.googleapis.com/youtube/v3/videos');
+                url.param('id').should.equal('SOME_VIDEO_ID');
+                url.param('part').should.equal('snippet,statistics');
+                url.param('key').should.equal(youtubeApi.API_KEY);
+                done();
+            });
+            sandbox.server.respond();
         });
 
         it('should callback a youtubeVideoCard', function() {
