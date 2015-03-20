@@ -4,6 +4,7 @@ describe('youtube-api', function() {
     var sandbox = sinon.sandbox.create();
     var purl;
     var youtubeApi;
+    var callback;
 
     before(function(done) {
         require(['purl'], function(_purl) {
@@ -29,9 +30,11 @@ describe('youtube-api', function() {
     });
 
     describe('.video', function() {
-        it('should call youtube\'s API', function() {
-            youtubeApi.video('SOME_VIDEO_ID', $.noop);
+        beforeEach(function() {
+            youtubeApi.video('SOME_VIDEO_ID', callback = sandbox.spy());
+        });
 
+        it('should call youtube\'s API', function() {
             var url = purl(sandbox.server.requests[0].url);
             (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://www.googleapis.com/youtube/v3/videos');
             url.param('id').should.equal('SOME_VIDEO_ID');
@@ -40,8 +43,6 @@ describe('youtube-api', function() {
         });
 
         it('should callback a youtubeVideoCard', function() {
-            var callback = sandbox.spy();
-            youtubeApi.video('SOME_VIDEO_ID', callback);
             sandbox.server.respondWith([200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify({ items: [{ snippet:    { publishedAt: '2011-04-06T03:21:59.000Z',
@@ -68,8 +69,6 @@ describe('youtube-api', function() {
         });
 
         it('should callback an error on failure', function() {
-            var callback = sandbox.spy();
-            youtubeApi.video('SOME_VIDEO_ID', callback);
             sandbox.server.respondWith([404, null, '']);
             sandbox.server.respond();
 
@@ -78,9 +77,11 @@ describe('youtube-api', function() {
     });
 
     describe('.channel', function() {
-        it('should call youtube\'s API', function() {
-            youtubeApi.channel('SOME_CHANNEL_ID', $.noop);
+        beforeEach(function() {
+            youtubeApi.channel('SOME_CHANNEL_ID', callback = sandbox.spy());
+        });
 
+        it('should call youtube\'s API', function() {
             var url = purl(sandbox.server.requests[0].url);
             (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://www.googleapis.com/youtube/v3/channels');
             url.param('id').should.equal('SOME_CHANNEL_ID');
@@ -89,8 +90,6 @@ describe('youtube-api', function() {
         });
 
         it('should callback a youtubeChannelCard', function() {
-            var callback = sandbox.spy();
-            youtubeApi.channel('SOME_CHANNEL_ID', callback);
             sandbox.server.respondWith([200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify({ items: [{ snippet:    { thumbnails: { medium: { url: 'image.jpg' } },
@@ -113,8 +112,6 @@ describe('youtube-api', function() {
         });
 
         it('should callback an error on failure', function() {
-            var callback = sandbox.spy();
-            youtubeApi.channel('SOME_CHANNEL_ID', callback);
             sandbox.server.respondWith([404, null, '']);
             sandbox.server.respond();
 
@@ -123,17 +120,17 @@ describe('youtube-api', function() {
     });
 
     describe('.comments', function() {
-        it('should call youtube\'s API (v2)', function() {
-            youtubeApi.comments('SOME_VIDEO_ID', $.noop);
+        beforeEach(function() {
+            youtubeApi.comments('SOME_VIDEO_ID', callback = sandbox.spy());
+        });
 
+        it('should call youtube\'s API (v2)', function() {
             var url = purl(sandbox.server.requests[0].url);
             (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://gdata.youtube.com/feeds/api/videos/SOME_VIDEO_ID/comments');
             url.param('max-results').should.equal('5');
         });
 
         it('should callback an error on failure', function() {
-            var callback = sandbox.spy();
-            youtubeApi.comments('SOME_VIDEO_ID', callback);
             sandbox.server.respondWith([404, null, '']);
             sandbox.server.respond();
 
