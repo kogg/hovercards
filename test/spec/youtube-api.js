@@ -7,17 +7,9 @@ describe('youtube-api', function() {
 
     beforeEach(function(done) {
         require(['youtube-api'], function(_youtubeApi) {
-            sandbox.stub($, 'ajax');
             youtubeApi = _youtubeApi;
             done();
         });
-    });
-
-    beforeEach(function() {
-        ajaxReturnValue = {};
-        ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
-        ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
-        $.ajax.returns(ajaxReturnValue);
     });
 
     afterEach(function() {
@@ -30,6 +22,12 @@ describe('youtube-api', function() {
 
     describe('.video', function() {
         it('should make an ajax call', function() {
+            sandbox.stub($, 'ajax');
+            ajaxReturnValue = {};
+            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
+            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
+            $.ajax.returns(ajaxReturnValue);
+
             youtubeApi.video('SOME_VIDEO_ID', $.noop);
             $.ajax.should.have.been.calledWith(sinon.match.has('url', 'https://www.googleapis.com/youtube/v3/videos'));
             $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('id', 'SOME_VIDEO_ID')));
@@ -38,6 +36,12 @@ describe('youtube-api', function() {
         });
 
         it('should callback a youtubeVideoCard', function() {
+            sandbox.stub($, 'ajax');
+            ajaxReturnValue = {};
+            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
+            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
+            $.ajax.returns(ajaxReturnValue);
+
             ajaxReturnValue.done.yields({ items: [{ snippet:    { publishedAt: '2011-04-06T03:21:59.000Z',
                                                                   channelId:   'SOME_CHANNEL_ID',
                                                                   thumbnails:  { medium: { url: 'image.jpg' } },
@@ -62,6 +66,12 @@ describe('youtube-api', function() {
         });
 
         it('should callback an error on failure', function() {
+            sandbox.stub($, 'ajax');
+            ajaxReturnValue = {};
+            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
+            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
+            $.ajax.returns(ajaxReturnValue);
+
             ajaxReturnValue.fail.yields('jqXHR', 'textStatus', 'err');
             var callback = sandbox.spy();
             youtubeApi.video('SOME_VIDEO_ID', callback);
@@ -71,6 +81,12 @@ describe('youtube-api', function() {
 
     describe('.channel', function() {
         it('should make an ajax call', function() {
+            sandbox.stub($, 'ajax');
+            ajaxReturnValue = {};
+            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
+            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
+            $.ajax.returns(ajaxReturnValue);
+
             youtubeApi.channel('SOME_CHANNEL_ID', $.noop);
             $.ajax.should.have.been.calledWith(sinon.match.has('url', 'https://www.googleapis.com/youtube/v3/channels'));
             $.ajax.should.have.been.calledWith(sinon.match.has('data', sinon.match.has('id', 'SOME_CHANNEL_ID')));
@@ -79,6 +95,12 @@ describe('youtube-api', function() {
         });
 
         it('should callback a youtubeChannelCard', function() {
+            sandbox.stub($, 'ajax');
+            ajaxReturnValue = {};
+            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
+            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
+            $.ajax.returns(ajaxReturnValue);
+
             ajaxReturnValue.done.yields({ items: [{ snippet:    { thumbnails: { medium: { url: 'image.jpg' } },
                                                                   localized:  { title:       'Some Title',
                                                                                 description: 'Some Description' } },
@@ -99,6 +121,12 @@ describe('youtube-api', function() {
         });
 
         it('should callback an error on failure', function() {
+            sandbox.stub($, 'ajax');
+            ajaxReturnValue = {};
+            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
+            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
+            $.ajax.returns(ajaxReturnValue);
+
             ajaxReturnValue.fail.yields('jqXHR', 'textStatus', 'err');
             var callback = sandbox.spy();
             youtubeApi.channel('SOME_CHANNEL_ID', callback);
