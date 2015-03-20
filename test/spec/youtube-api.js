@@ -40,22 +40,20 @@ describe('youtube-api', function() {
         });
 
         it('should callback a youtubeVideoCard', function() {
-            sandbox.stub($, 'ajax');
-            var ajaxReturnValue = {};
-            ajaxReturnValue.done = sandbox.stub().returns(ajaxReturnValue);
-            ajaxReturnValue.fail = sandbox.stub().returns(ajaxReturnValue);
-            $.ajax.returns(ajaxReturnValue);
-
-            ajaxReturnValue.done.yields({ items: [{ snippet:    { publishedAt: '2011-04-06T03:21:59.000Z',
-                                                                  channelId:   'SOME_CHANNEL_ID',
-                                                                  thumbnails:  { medium: { url: 'image.jpg' } },
-                                                                  localized:   { title:       'Some Title',
-                                                                                 description: 'Some Description' } },
-                                                    statistics: { viewCount:    1000,
-                                                                  likeCount:    2000,
-                                                                  dislikeCount: 3000 } }] });
             var callback = sandbox.spy();
             youtubeApi.video('SOME_VIDEO_ID', callback);
+            sandbox.server.respondWith([200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify({ items: [{ snippet:    { publishedAt: '2011-04-06T03:21:59.000Z',
+                                                                       channelId:   'SOME_CHANNEL_ID',
+                                                                       thumbnails:  { medium: { url: 'image.jpg' } },
+                                                                       localized:   { title:       'Some Title',
+                                                                                      description: 'Some Description' } },
+                                                         statistics: { viewCount:    1000,
+                                                                       likeCount:    2000,
+                                                                       dislikeCount: 3000 } }] })]);
+            sandbox.server.respond();
+
             callback.should.have.been.calledWith(null);
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('content',     'youtube-video'));
             callback.should.have.been.calledWith(sinon.match.any, sinon.match.has('id',          'SOME_VIDEO_ID'));
