@@ -45,13 +45,13 @@ describe('youtube-api', function() {
             sandbox.server.respondWith([200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify({ items: [{ snippet:    { publishedAt: '2011-04-06T03:21:59.000Z',
-                                                                       channelId:   'SOME_CHANNEL_ID',
-                                                                       thumbnails:  { medium: { url: 'image.jpg' } },
-                                                                       localized:   { title:       'Some Title',
-                                                                                      description: 'Some Description' } },
-                                                         statistics: { viewCount:    1000,
-                                                                       likeCount:    2000,
-                                                                       dislikeCount: 3000 } }] })]);
+                                                                                 channelId:   'SOME_CHANNEL_ID',
+                                                                                 thumbnails:  { medium: { url: 'image.jpg' } },
+                                                                                 localized:   { title:       'Some Title',
+                                                                                                description: 'Some Description' } },
+                                                                   statistics: { viewCount:    1000,
+                                                                                 likeCount:    2000,
+                                                                                 dislikeCount: 3000 } }] })]);
             sandbox.server.respond();
 
             callback.should.have.been.calledWith(null);
@@ -94,11 +94,11 @@ describe('youtube-api', function() {
             sandbox.server.respondWith([200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify({ items: [{ snippet:    { thumbnails: { medium: { url: 'image.jpg' } },
-                                                                       localized:  { title:       'Some Title',
-                                                                                     description: 'Some Description' } },
-                                                         statistics: { viewCount:       2000,
-                                                                       subscriberCount: 3000,
-                                                                       videoCount:      1000 } }] })]);
+                                                                                 localized:  { title:       'Some Title',
+                                                                                               description: 'Some Description' } },
+                                                                   statistics: { viewCount:       2000,
+                                                                                 subscriberCount: 3000,
+                                                                                 videoCount:      1000 } }] })]);
             sandbox.server.respond();
 
             callback.should.have.been.calledWith(null);
@@ -115,6 +115,25 @@ describe('youtube-api', function() {
         it('should callback an error on failure', function() {
             var callback = sandbox.spy();
             youtubeApi.channel('SOME_CHANNEL_ID', callback);
+            sandbox.server.respondWith([404, null, '']);
+            sandbox.server.respond();
+
+            callback.should.have.been.calledWith(sinon.match.defined);
+        });
+    });
+
+    describe('.comments', function() {
+        it('should call youtube\'s API (v2)', function() {
+            youtubeApi.comments('SOME_VIDEO_ID', $.noop);
+
+            var url = purl(sandbox.server.requests[0].url);
+            (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://gdata.youtube.com/feeds/api/videos/SOME_VIDEO_ID/comments');
+            url.param('max-results').should.equal('5');
+        });
+
+        it('should callback an error on failure', function() {
+            var callback = sandbox.spy();
+            youtubeApi.comments('SOME_VIDEO_ID', callback);
             sandbox.server.respondWith([404, null, '']);
             sandbox.server.respond();
 

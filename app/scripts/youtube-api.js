@@ -38,17 +38,28 @@ define(['jquery'], function($) {
                                  description: data.items[0].snippet.localized.description,
                                  videos:      data.items[0].statistics.videoCount,
                                  views:       data.items[0].statistics.viewCount,
-                                 subscribers: data.items[0].statistics.subscriberCount
-                });
+                                 subscribers: data.items[0].statistics.subscriberCount });
             })
             .fail(function(jqXHR, textStatus, err) {
                 callback(err);
             });
     }
 
-    youtubeApi.API_KEY = 'AIzaSyCIBp_dCztnCozkp1Yeqxa9F70rcVpFn30';
-    youtubeApi.video = video;
-    youtubeApi.channel = channel;
+    function comments(id, callback) {
+        $.ajax({ url:  'https://gdata.youtube.com/feeds/api/videos/' + id + '/comments',
+                 data: { 'max-results': 5 } })
+            .done(function(data) {
+                console.log(data);
+            })
+            .fail(function(jqXHR, textStatus, err) {
+                callback(err);
+            });
+    }
+
+    youtubeApi.API_KEY  = 'AIzaSyCIBp_dCztnCozkp1Yeqxa9F70rcVpFn30';
+    youtubeApi.video    = video;
+    youtubeApi.channel  = channel;
+    youtubeApi.comments = comments;
 
     return youtubeApi;
 });
