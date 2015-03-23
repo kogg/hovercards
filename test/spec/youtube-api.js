@@ -4,6 +4,7 @@ describe('youtube-api', function() {
     var sandbox = sinon.sandbox.create();
     var purl;
     var youtubeApi;
+    var callback;
 
     before(function(done) {
         require(['purl'], function(_purl) {
@@ -29,9 +30,11 @@ describe('youtube-api', function() {
     });
 
     describe('.video', function() {
-        it('should call youtube\'s API', function() {
-            youtubeApi.video('SOME_VIDEO_ID', $.noop);
+        beforeEach(function() {
+            youtubeApi.video('SOME_VIDEO_ID', callback = sandbox.spy());
+        });
 
+        it('should call youtube\'s API', function() {
             var url = purl(sandbox.server.requests[0].url);
             (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://www.googleapis.com/youtube/v3/videos');
             url.param('id').should.equal('SOME_VIDEO_ID');
@@ -40,18 +43,16 @@ describe('youtube-api', function() {
         });
 
         it('should callback a youtubeVideoCard', function() {
-            var callback = sandbox.spy();
-            youtubeApi.video('SOME_VIDEO_ID', callback);
             sandbox.server.respondWith([200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify({ items: [{ snippet:    { publishedAt: '2011-04-06T03:21:59.000Z',
-                                                                       channelId:   'SOME_CHANNEL_ID',
-                                                                       thumbnails:  { medium: { url: 'image.jpg' } },
-                                                                       localized:   { title:       'Some Title',
-                                                                                      description: 'Some Description' } },
-                                                         statistics: { viewCount:    1000,
-                                                                       likeCount:    2000,
-                                                                       dislikeCount: 3000 } }] })]);
+                                                                                 channelId:   'SOME_CHANNEL_ID',
+                                                                                 thumbnails:  { medium: { url: 'image.jpg' } },
+                                                                                 localized:   { title:       'Some Title',
+                                                                                                description: 'Some Description' } },
+                                                                   statistics: { viewCount:    1000,
+                                                                                 likeCount:    2000,
+                                                                                 dislikeCount: 3000 } }] })]);
             sandbox.server.respond();
 
             callback.should.have.been.calledWith(null);
@@ -68,8 +69,6 @@ describe('youtube-api', function() {
         });
 
         it('should callback an error on failure', function() {
-            var callback = sandbox.spy();
-            youtubeApi.video('SOME_VIDEO_ID', callback);
             sandbox.server.respondWith([404, null, '']);
             sandbox.server.respond();
 
@@ -78,9 +77,11 @@ describe('youtube-api', function() {
     });
 
     describe('.channel', function() {
-        it('should call youtube\'s API', function() {
-            youtubeApi.channel('SOME_CHANNEL_ID', $.noop);
+        beforeEach(function() {
+            youtubeApi.channel('SOME_CHANNEL_ID', callback = sandbox.spy());
+        });
 
+        it('should call youtube\'s API', function() {
             var url = purl(sandbox.server.requests[0].url);
             (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://www.googleapis.com/youtube/v3/channels');
             url.param('id').should.equal('SOME_CHANNEL_ID');
@@ -89,16 +90,14 @@ describe('youtube-api', function() {
         });
 
         it('should callback a youtubeChannelCard', function() {
-            var callback = sandbox.spy();
-            youtubeApi.channel('SOME_CHANNEL_ID', callback);
             sandbox.server.respondWith([200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify({ items: [{ snippet:    { thumbnails: { medium: { url: 'image.jpg' } },
-                                                                       localized:  { title:       'Some Title',
-                                                                                     description: 'Some Description' } },
-                                                         statistics: { viewCount:       2000,
-                                                                       subscriberCount: 3000,
-                                                                       videoCount:      1000 } }] })]);
+                                                                                 localized:  { title:       'Some Title',
+                                                                                               description: 'Some Description' } },
+                                                                   statistics: { viewCount:       2000,
+                                                                                 subscriberCount: 3000,
+                                                                                 videoCount:      1000 } }] })]);
             sandbox.server.respond();
 
             callback.should.have.been.calledWith(null);
@@ -113,8 +112,86 @@ describe('youtube-api', function() {
         });
 
         it('should callback an error on failure', function() {
-            var callback = sandbox.spy();
-            youtubeApi.channel('SOME_CHANNEL_ID', callback);
+            sandbox.server.respondWith([404, null, '']);
+            sandbox.server.respond();
+
+            callback.should.have.been.calledWith(sinon.match.defined);
+        });
+    });
+
+    describe('.comments', function() {
+        beforeEach(function() {
+            youtubeApi.comments('SOME_VIDEO_ID', callback = sandbox.spy());
+        });
+
+        it('should call youtube\'s API (v2)', function() {
+            var url = purl(sandbox.server.requests[0].url);
+            (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://gdata.youtube.com/feeds/api/videos/SOME_VIDEO_ID/comments');
+            url.param('max-results').should.equal('5');
+        });
+
+        it('should call youtube\'s API (v2) for each user', function() {
+            /*jshint multistr: true */
+            sandbox.server.respondWith([200,
+                                        { 'Content-Type': 'application/xml' },
+                                        '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
+                                            <entry>\
+                                                <published>2015-03-21T23:23:01.000Z</published>\
+                                                <content type="text">CONTENT_1</content>\
+                                                <author>\
+                                                    <name>AUTHOR_NAME_1</name>\
+                                                    <uri>URL_1</uri>\
+                                                </author>\
+                                                <yt:channelId>CHANNEL_ID_1</yt:channelId>\
+                                            </entry>\
+                                            <entry>\
+                                                <published>2015-03-21T23:23:01.000Z</published>\
+                                                <content type="text">CONTENT_2</content>\
+                                                <author>\
+                                                    <name>AUTHOR_NAME_2</name>\
+                                                    <uri>URL_2</uri>\
+                                                </author>\
+                                                <yt:channelId>CHANNEL_ID_2</yt:channelId>\
+                                            </entry>\
+                                            <entry>\
+                                                <published>2015-03-21T23:23:01.000Z</published>\
+                                                <content type="text">CONTENT_3</content>\
+                                                <author>\
+                                                    <name>AUTHOR_NAME_3</name>\
+                                                    <uri>URL_3</uri>\
+                                                </author>\
+                                                <yt:channelId>CHANNEL_ID_3</yt:channelId>\
+                                            </entry>\
+                                            <entry>\
+                                                <published>2015-03-21T23:23:01.000Z</published>\
+                                                <content type="text">CONTENT_4</content>\
+                                                <author>\
+                                                    <name>AUTHOR_NAME_4</name>\
+                                                    <uri>URL_4</uri>\
+                                                </author>\
+                                                <yt:channelId>CHANNEL_ID_4</yt:channelId>\
+                                            </entry>\
+                                            <entry>\
+                                                <published>2015-03-21T23:23:01.000Z</published>\
+                                                <content type="text">CONTENT_5</content>\
+                                                <author>\
+                                                    <name>AUTHOR_NAME_5</name>\
+                                                    <uri>URL_5</uri>\
+                                                </author>\
+                                                <yt:channelId>CHANNEL_ID_5</yt:channelId>\
+                                            </entry>\
+                                        </feed>']);
+            sandbox.server.respond();
+
+            // sandbox.server.requests.length.should.equal(6);
+            sandbox.server.requests[1].url.should.equal('URL_1');
+            sandbox.server.requests[2].url.should.equal('URL_2');
+            sandbox.server.requests[3].url.should.equal('URL_3');
+            sandbox.server.requests[4].url.should.equal('URL_4');
+            sandbox.server.requests[5].url.should.equal('URL_5');
+        });
+
+        it('should callback an error on failure', function() {
             sandbox.server.respondWith([404, null, '']);
             sandbox.server.respond();
 
