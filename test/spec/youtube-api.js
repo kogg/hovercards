@@ -131,8 +131,6 @@ describe('youtube-api', function() {
         var REGEX_COMMENTS = /^https:\/\/gdata.youtube.com\/feeds\/api\/videos\/SOME_VIDEO_ID\/comments/;
 
         beforeEach(function() {
-            youtubeApi.comments('SOME_VIDEO_ID', callback = sandbox.spy());
-
             /*jshint multistr: true */
             sandbox.server.respondWith(REGEX_COMMENTS,
                                        [200,
@@ -219,6 +217,8 @@ describe('youtube-api', function() {
                                         <entry xmlns="http://www.w3.org/2005/Atom" xmlns:gd="http://schemas.google.com/g/2005" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
                                             <media:thumbnail url="image5.jpg" />\
                                         </entry>']);
+
+            youtubeApi.comments('SOME_VIDEO_ID', callback = sandbox.spy());
         });
 
         it('should call youtube\'s API (v2)', function() {

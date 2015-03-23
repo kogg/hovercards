@@ -13,7 +13,7 @@ describe('youtube-video-background', function() {
     });
 
     beforeEach(function(done) {
-        youtubeApi = { video: sandbox.stub(), channel: sandbox.stub() };
+        youtubeApi = { video: sandbox.stub(), channel: sandbox.stub(), comments: sandbox.stub() };
         new Squire()
             .mock('youtube-api', youtubeApi)
             .require(['youtube-video-background'], function(youtubeVideoBackground) {
@@ -30,6 +30,9 @@ describe('youtube-video-background', function() {
 
     describe('when receiving triggered message', function() {
         beforeEach(function() {
+            youtubeApi.video.yields(null, { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } });
+            youtubeApi.channel.yields(null, { content: 'youtube-channel', id: 'SOME_CHANNEL_ID' });
+            youtubeApi.comments.yields(null, { content: 'youtube-comments', id: 'SOME_VIDEO_ID' });
             chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'youtube-video', id: 'SOME_VIDEO_ID' }, { tab: { id: 'TAB_ID' } });
         });
 
@@ -47,40 +50,41 @@ describe('youtube-video-background', function() {
 
         it('should call youtube-api for video', function() {
             youtubeApi.video.should.have.been.calledWith('SOME_VIDEO_ID');
-            youtubeApi.video.should.have.been.calledWith(sinon.match.any, sinon.match.func
-                                                                      .or(sinon.match.typeOf('null'))
-                                                                      .or(sinon.match.typeOf('undefined')));
         });
 
         it('should send card message for video', function() {
-            youtubeApi.video.yield(null, { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } });
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID');
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('msg', 'card'));
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('content', 'youtube-video')));
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('id', 'SOME_VIDEO_ID')));
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('priority', 0)));
-            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('channel', sinon.match.has('id', 'SOME_CHANNEL_ID'))));
         });
 
-        it('should call youtube-api for channel after video', function() {
-            youtubeApi.channel.should.not.have.been.called;
-            youtubeApi.video.yield(null, { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } });
+        it('should call youtube-api for channel', function() {
             youtubeApi.channel.should.have.been.calledWith('SOME_CHANNEL_ID');
-            youtubeApi.channel.should.have.been.calledWith(sinon.match.any, sinon.match.func
-                                                                        .or(sinon.match.typeOf('null'))
-                                                                        .or(sinon.match.typeOf('undefined')));
         });
 
         it('should send card message for channel', function() {
-            youtubeApi.video.yield(null, { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } });
-            youtubeApi.channel.yield(null, { content: 'youtube-channel', id: 'SOME_CHANNEL_ID' });
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID');
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('msg', 'card'));
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('content', 'youtube-channel')));
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('id', 'SOME_CHANNEL_ID')));
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('priority', 1)));
+        });
+
+        it('should call youtube-api for comments', function() {
+            youtubeApi.comments.should.have.been.calledWith('SOME_VIDEO_ID');
+        });
+
+        it('should send card message for channel', function() {
+            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID');
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('msg', 'card'));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('content', 'youtube-comments')));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('id', 'SOME_VIDEO_ID')));
+            chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('card', sinon.match.has('priority', 2)));
         });
     });
 });
