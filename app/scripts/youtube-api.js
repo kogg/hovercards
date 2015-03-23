@@ -38,17 +38,51 @@ define(['jquery'], function($) {
                                  description: data.items[0].snippet.localized.description,
                                  videos:      data.items[0].statistics.videoCount,
                                  views:       data.items[0].statistics.viewCount,
-                                 subscribers: data.items[0].statistics.subscriberCount
-                });
+                                 subscribers: data.items[0].statistics.subscriberCount });
             })
             .fail(function(jqXHR, textStatus, err) {
                 callback(err);
             });
     }
 
-    youtubeApi.API_KEY = 'AIzaSyCIBp_dCztnCozkp1Yeqxa9F70rcVpFn30';
-    youtubeApi.video = video;
-    youtubeApi.channel = channel;
+    function comments(id, callback) {
+        $.ajax({ url:  'https://gdata.youtube.com/feeds/api/videos/' + id + '/comments',
+                 data: { 'max-results': 5 } })
+            .done(function(commentsXML) {
+                var comments = $(commentsXML);
+                var entries = $(comments.children('feed').children('entry'));
+                var ajaxes = entries
+                    .children('author')
+                    .children('uri')
+                    .map(function() {
+                        return $.ajax({ url: $(this).text() });
+                    });
+                $.when(ajaxes[0], ajaxes[1], ajaxes[2], ajaxes[3], ajaxes[4])
+                    .done(function() {
+                        var card = { content:  'youtube-comments',
+                                     id:       id,
+                                     comments: [] };
+                        for (var i = 0; i < entries.length; i++) {
+                            var entry = $(entries[i]);
+                            var user = $(arguments[i][0]);
+                            card.comments.push({ author:  { name:  entry.children('author').children('name').text(),
+                                                            image: user.children('entry').children('media\\:thumbnail').attr('url') },
+                                                 date:    Date.parse(entry.children('published').text()),
+                                                 content: entry.children('content').text(),
+                                                 channel: { id: entry.children('yt\\:channelId').text() }});
+                        }
+                        callback(null, card);
+                    });
+            })
+            .fail(function(jqXHR, textStatus, err) {
+                callback(err);
+            });
+    }
+
+    youtubeApi.API_KEY  = 'AIzaSyCIBp_dCztnCozkp1Yeqxa9F70rcVpFn30';
+    youtubeApi.video    = video;
+    youtubeApi.channel  = channel;
+    youtubeApi.comments = comments;
 
     return youtubeApi;
 });
