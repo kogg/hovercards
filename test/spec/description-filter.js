@@ -1,6 +1,6 @@
 'use strict';
 
-describe('numsmall-filter', function() {
+describe('description-filter', function() {
     var description;
 
     beforeEach(function(done) {
