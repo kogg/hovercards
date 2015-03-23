@@ -48,8 +48,12 @@ define(['jquery'], function($) {
     function comments(id, callback) {
         $.ajax({ url:  'https://gdata.youtube.com/feeds/api/videos/' + id + '/comments',
                  data: { 'max-results': 5 } })
-            .done(function(data) {
-                console.log(data);
+            .done(function(xml) {
+                $(xml)
+                    .find('entry author uri')
+                    .each(function() {
+                        $.ajax({ url: $(this).text() });
+                    });
             })
             .fail(function(jqXHR, textStatus, err) {
                 callback(err);
