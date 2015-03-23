@@ -43,16 +43,7 @@ describe('youtube-api', function() {
         });
 
         it('should callback a youtubeVideoCard', function() {
-            sandbox.server.respondWith([200,
-                                        { 'Content-Type': 'application/json' },
-                                        JSON.stringify({ items: [{ snippet:    { publishedAt: '2011-04-06T03:21:59.000Z',
-                                                                                 channelId:   'SOME_CHANNEL_ID',
-                                                                                 thumbnails:  { medium: { url: 'image.jpg' } },
-                                                                                 localized:   { title:       'Some Title',
-                                                                                                description: 'Some Description' } },
-                                                                   statistics: { viewCount:    1000,
-                                                                                 likeCount:    2000,
-                                                                                 dislikeCount: 3000 } }] })]);
+            respondToVideo();
             sandbox.server.respond();
 
             callback.should.have.been.calledWith(null);
@@ -69,11 +60,24 @@ describe('youtube-api', function() {
         });
 
         it('should callback an error on failure', function() {
-            sandbox.server.respondWith([404, null, '']);
             sandbox.server.respond();
 
             callback.should.have.been.calledWith(sinon.match.defined);
         });
+
+        function respondToVideo() {
+            sandbox.server.respondWith(/^https:\/\/www.googleapis.com\/youtube\/v3\/videos/,
+                                       [200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify({ items: [{ snippet:    { publishedAt: '2011-04-06T03:21:59.000Z',
+                                                                                 channelId:   'SOME_CHANNEL_ID',
+                                                                                 thumbnails:  { medium: { url: 'image.jpg' } },
+                                                                                 localized:   { title:       'Some Title',
+                                                                                                description: 'Some Description' } },
+                                                                   statistics: { viewCount:    1000,
+                                                                                 likeCount:    2000,
+                                                                                 dislikeCount: 3000 } }] })]);
+        }
     });
 
     describe('.channel', function() {
@@ -90,14 +94,7 @@ describe('youtube-api', function() {
         });
 
         it('should callback a youtubeChannelCard', function() {
-            sandbox.server.respondWith([200,
-                                        { 'Content-Type': 'application/json' },
-                                        JSON.stringify({ items: [{ snippet:    { thumbnails: { medium: { url: 'image.jpg' } },
-                                                                                 localized:  { title:       'Some Title',
-                                                                                               description: 'Some Description' } },
-                                                                   statistics: { viewCount:       2000,
-                                                                                 subscriberCount: 3000,
-                                                                                 videoCount:      1000 } }] })]);
+            respondToChannel();
             sandbox.server.respond();
 
             callback.should.have.been.calledWith(null);
@@ -112,11 +109,22 @@ describe('youtube-api', function() {
         });
 
         it('should callback an error on failure', function() {
-            sandbox.server.respondWith([404, null, '']);
             sandbox.server.respond();
 
             callback.should.have.been.calledWith(sinon.match.defined);
         });
+
+        function respondToChannel() {
+            sandbox.server.respondWith(/^https:\/\/www.googleapis.com\/youtube\/v3\/channels/,
+                                       [200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify({ items: [{ snippet:    { thumbnails: { medium: { url: 'image.jpg' } },
+                                                                                 localized:  { title:       'Some Title',
+                                                                                               description: 'Some Description' } },
+                                                                   statistics: { viewCount:       2000,
+                                                                                 subscriberCount: 3000,
+                                                                                 videoCount:      1000 } }] })]);
+        }
     });
 
     describe('.comments', function() {
@@ -131,8 +139,27 @@ describe('youtube-api', function() {
         });
 
         it('should call youtube\'s API (v2) for each user', function() {
+            respondToComments();
+            sandbox.server.respond();
+
+            // sandbox.server.requests.length.should.equal(6);
+            sandbox.server.requests[1].url.should.equal('URL_1');
+            sandbox.server.requests[2].url.should.equal('URL_2');
+            sandbox.server.requests[3].url.should.equal('URL_3');
+            sandbox.server.requests[4].url.should.equal('URL_4');
+            sandbox.server.requests[5].url.should.equal('URL_5');
+        });
+
+        it('should callback an error on failure', function() {
+            sandbox.server.respond();
+
+            callback.should.have.been.calledWith(sinon.match.defined);
+        });
+
+        function respondToComments() {
             /*jshint multistr: true */
-            sandbox.server.respondWith([200,
+            sandbox.server.respondWith(/^https:\/\/gdata.youtube.com\/feeds\/api\/videos\/SOME_VIDEO_ID\/comments/,
+                                       [200,
                                         { 'Content-Type': 'application/xml' },
                                         '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
                                             <entry>\
@@ -181,21 +208,6 @@ describe('youtube-api', function() {
                                                 <yt:channelId>CHANNEL_ID_5</yt:channelId>\
                                             </entry>\
                                         </feed>']);
-            sandbox.server.respond();
-
-            // sandbox.server.requests.length.should.equal(6);
-            sandbox.server.requests[1].url.should.equal('URL_1');
-            sandbox.server.requests[2].url.should.equal('URL_2');
-            sandbox.server.requests[3].url.should.equal('URL_3');
-            sandbox.server.requests[4].url.should.equal('URL_4');
-            sandbox.server.requests[5].url.should.equal('URL_5');
-        });
-
-        it('should callback an error on failure', function() {
-            sandbox.server.respondWith([404, null, '']);
-            sandbox.server.respond();
-
-            callback.should.have.been.calledWith(sinon.match.defined);
-        });
+        }
     });
 });
