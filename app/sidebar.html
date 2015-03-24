@@ -8,8 +8,8 @@
 <body>
     <div class="card-container">
         <div ng-controller="CardsController" ng-cloak class="ng-cloak">
-            <div ng-repeat="cards in cardGroups" class="cards">
-                <div ng-repeat="card in cards | orderBy:'+priority'" ng-include="'cards/' + card.content + '-card.html'" class="card-outer">
+            <div ng-repeat="cards in cardGroups" class="cards bounce-out-animation">
+                <div ng-repeat="card in cards | orderBy:'+priority'" ng-include="'cards/' + card.content + '-card.html'" class="bounce-in-animation">
                         {{ card }}
                 </div>
             </div>
