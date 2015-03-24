@@ -3,14 +3,11 @@
 define('injector', [], function() {
     var injector = { registered: {} };
 
-    function register(context, body, injection) {
+    function register(context, injection) {
         if (!injector.registered[context]) {
-            injector.registered[context] = {};
+            injector.registered[context] = [];
         }
-        if (!injector.registered[context][body]) {
-            injector.registered[context][body] = [];
-        }
-        injector.registered[context][body].push(injection);
+        injector.registered[context].push(injection);
     }
     injector.register = register;
 

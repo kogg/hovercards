@@ -19,17 +19,17 @@ describe('injector', function() {
     describe('#register', function() {
         it('should add injection to registered', function() {
             var spy = sandbox.spy();
-            injector.register('context', 'body', spy);
-            injector.registered.context.body[0].should.equal(spy);
+            injector.register('context', spy);
+            injector.registered.context[0].should.equal(spy);
         });
 
         it('should allow multiple injections to be registered', function() {
             var spy  = sandbox.spy();
             var spy2 = sandbox.spy();
-            injector.register('context', 'body', spy);
-            injector.register('context', 'body', spy2);
-            injector.registered.context.body[0].should.equal(spy);
-            injector.registered.context.body[1].should.equal(spy2);
+            injector.register('context', spy);
+            injector.register('context', spy2);
+            injector.registered.context[0].should.equal(spy);
+            injector.registered.context[1].should.equal(spy2);
         });
     });
 });
