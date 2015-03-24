@@ -1,6 +1,7 @@
 'use strict';
 
 describe('injector', function() {
+    var sandbox = sinon.sandbox.create();
     var injector;
 
     beforeEach(function(done) {
@@ -10,15 +11,16 @@ describe('injector', function() {
         });
     });
 
-    describe('#register', function() {
-        it('should be a function', function() {
-            injector.register.should.be.a('function');
-        });
+    afterEach(function() {
+        sandbox.restore();
+        injector.registered = {};
     });
 
-    describe('#inject', function() {
-        it('should be a function', function() {
-            injector.inject.should.be.a('function');
+    describe('#register', function() {
+        it('should add to registered', function() {
+            var spy = sandbox.spy();
+            injector.register('context', 'body', spy);
+            injector.registered.context.body[0].should.equal(spy);
         });
     });
 });

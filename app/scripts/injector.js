@@ -1,9 +1,16 @@
 'use strict';
 
 define('injector', [], function() {
-    var injector = {};
+    var injector = { registered: {} };
 
-    function register() {
+    function register(context, body, injection) {
+        if (!injector.registered[context]) {
+            injector.registered[context] = {};
+        }
+        if (!injector.registered[context][body]) {
+            injector.registered[context][body] = [];
+        }
+        injector.registered[context][body].push(injection);
     }
     injector.register = register;
 
