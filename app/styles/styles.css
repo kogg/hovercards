@@ -337,6 +337,14 @@ b i {
 	}
 }
 
+.fade-animation {
+	-webkit-transition: all .45s ease-in-out;
+	transition: all .45s ease-in-out;
+}
+.fade-animation.ng-hide {
+	opacity: 0;
+}
+
 
 
 
