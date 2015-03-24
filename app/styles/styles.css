@@ -68,60 +68,6 @@ html,body {
 .col-11 {width:91.66666666%}
 .col-12 {width:100.000000000%}
 
-.card-outer.ng-enter,
-.cards.ng-leave {
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
-.card-outer.ng-enter {
-	-webkit-animation-duration: 2s;
-  animation-duration: 2s;
-  box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26);
-}
-@-webkit-keyframes bounceInRight {
-    0% {
-      opacity: 0;
-      -webkit-transform: translateX(700px) scale(1.015);
-    }
-    50% {
-      opacity: 1;
-      -webkit-transform: translateX(-10px) scale(1.015);
-    }
-    70% {
-      -webkit-transform: translateX(5px) scale(1.015);
-    }
-    90% {
-      -webkit-transform: translateX(0) scale(1.015);
-      box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26);
-      border: 1px solid transparent;
-    }
-    100% {
-    	-webkit-transform: translateX(0) scale(1);
-    	border: 1px solid #B6B6B6;
-    	/*I'm sorry expanding shadow :(, it was good while it lasted*/
-    	box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0);
-    }
-}
-@-webkit-keyframes bounceOutLeft {
-    0% {
-        -webkit-transform: translatey(0);
-    }
-    100% {
-        -webkit-transform: translatey(-1400px);
-    }
-}
-
-.card-outer.ng-enter {
-    -webkit-animation-name: bounceInRight;
-    animation-name: bounceInRight;
-}
-
-.cards.ng-leave {
-    -webkit-animation-name: bounceOutLeft;
-    animation-name: bounceOutLeft;
-}
 .cards {
     position: absolute;
     max-width: 340px;
@@ -336,7 +282,58 @@ b i {
 
 
 
+/* ANIMATIONS */
 
+.bounce-in-animation.ng-enter {
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26);
+    -webkit-animation-name: bounceInRight;
+    animation-name: bounceInRight;
+}
+@-webkit-keyframes bounceInRight {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(700px) scale(1.015);
+    }
+    50% {
+        opacity: 1;
+        -webkit-transform: translateX(-10px) scale(1.015);
+    }
+    70% {
+        -webkit-transform: translateX(5px) scale(1.015);
+    }
+    90% {
+        -webkit-transform: translateX(0) scale(1.015);
+        box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26);
+        border: 1px solid transparent;
+    }
+    100% {
+        -webkit-transform: translateX(0) scale(1);
+        border: 1px solid #B6B6B6;
+        /*I'm sorry expanding shadow :(, it was good while it lasted*/
+        box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0);
+    }
+}
+
+.bounce-out-animation.ng-leave {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: bounceOutLeft;
+    animation-name: bounceOutLeft;
+}
+@-webkit-keyframes bounceOutLeft {
+    0% {
+        -webkit-transform: translatey(0);
+    }
+    100% {
+        -webkit-transform: translatey(-1400px);
+    }
+}
 
 
 
