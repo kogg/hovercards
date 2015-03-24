@@ -13,9 +13,9 @@
 		</div>
 	</div>
 
-	<div class="card-description scroll-bar" ng-class="{expanddescription:show}" ng-if="::card.description" ng-click="$event.stopPropagation()">
-		<span ng-bind-html="::card.description | description"></span>
-	</div>
+    <div ng-show="show" ng-click="$event.stopPropagation()" ng-if="::card.description" class="slide-animation">
+        <span ng-bind-html="::card.description | description" ng-show="show" class="fade-animation"></span>
+    </div>
 	
 	<div class="card-stats row">
 		<div class="col-4">
