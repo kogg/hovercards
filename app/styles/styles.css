@@ -352,27 +352,31 @@ b i {
     box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26);
     -webkit-animation-name: bounceInRight;
     animation-name: bounceInRight;
+    position: relative;
 }
 @-webkit-keyframes bounceInRight {
     0% {
         opacity: 0;
-        -webkit-transform: translateX(700px) scale(1.015);
+        -webkit-transform: translateX(700px);
+        top: -3px;
     }
     50% {
         opacity: 1;
-        -webkit-transform: translateX(-10px) scale(1.015);
+        -webkit-transform: translateX(-10px);
     }
     70% {
-        -webkit-transform: translateX(5px) scale(1.015);
+        -webkit-transform: translateX(5px);
     }
     90% {
-        -webkit-transform: translateX(0) scale(1.015);
+        -webkit-transform: translateX(0);
         box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26);
         border: 1px solid transparent;
+        top: -2px;
     }
     100% {
-        -webkit-transform: translateX(0) scale(1);
+        -webkit-transform: translateX(0);
         border: 1px solid #B6B6B6;
+        top:0px;
         /*I'm sorry expanding shadow :(, it was good while it lasted*/
         box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0);
     }
