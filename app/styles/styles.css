@@ -68,6 +68,7 @@ html,body {
 .col-11 {width:91.66666666%}
 .col-12 {width:100.000000000%}
 
+
 .cards {
 	position: absolute;
 	max-width: 340px;
@@ -111,6 +112,7 @@ b i {
 }
 .card-stats b {
 	color: #727272;
+	margin-bottom: 2px;
 }
 .card-stats span/*,
 .card-description span*/ {
@@ -275,8 +277,66 @@ b i {
 	opacity: 0;
 }
 
+/*comments*/
+.comment {
+	padding: 16px;
+	border-bottom: 1px solid #B6B6B6;
+}
+.comment-top {
+	border-bottom: 1px solid #B6B6B6;
+	line-height: 50px;
+	padding: 0 16px;
+}
+.comment-top span {
+	color: #000;
+  text-decoration: none;
+  font-size: 16px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.comment-top span i {
+	margin-right: 6px;
+}
+.comment-top .col-4 {
+	text-align: right;
+}
+.comment:last-of-type {
+	border-bottom: 0;
+}
+.comment-content {
+	overflow: scroll;
+	padding-bottom: 24px;
+}
+.comment-left {
 
+}
+.comment-image {
+	width: 50px;
+	height: 50px;
+	border-radius: 50px;
+	background-size: 100%;
+	background-position: center;
+	position: relative;
+}
 
+.comment-content a {
+	color: black;
+	text-decoration: none;
+  font-size: 16px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.comment-content p {
+	line-height: 19px;
+  font-weight: 400;
+  font-size: 15px;
+  margin-top: 5px;
+  color: #727272;
+}
+.comment-content b {
+	margin-bottom: 0;
+	margin-top: 5px;
+}
 
 
 
