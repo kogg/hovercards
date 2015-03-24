@@ -7,17 +7,17 @@
 			</div>
 
 		</div>
-        <div class="video-cta" ng-click="playing=true; $event.stopPropagation();" ng-class="{ playing: playing }">
+		<div class="video-cta" ng-click="playing=true; $event.stopPropagation();" ng-class="{ playing: playing }">
 			<i class="md  md-play-arrow"></i>
 		</div>
 	</div>
 	
 	<div class="card-text">
 		<div class="video-title">
-	    <b class="youtube-color"><i class="md md-access-time"></i> {{ ::card.date | date }}</b>
+		<b class="youtube-color"><i class="md md-access-time"></i> {{ ::card.date | date }}</b>
 			<a href="https://www.youtube.com/watch?v={{ ::card.id }}" target="_blank" ng-click="$event.stopPropagation()">{{ ::card.title }}</a>
 		</div>
-		<div class="card-description" ng-class="{expanddescription:show}" ng-if="::card.description" ng-click="$event.stopPropagation()">
+		<div ng-show="show" ng-if="::card.description" ng-click="$event.stopPropagation()">
 			<span ng-bind-html="::card.description | description"></span>
 		</div>
 	</div>
@@ -26,15 +26,15 @@
 	<div class="card-stats row">
 		<div class="col-4">
 			<b>Views</b>
-	    <span>{{ ::card.views | numsmall }}</span>
+		<span>{{ ::card.views | numsmall }}</span>
 		</div>
 		<div class="col-4">
 			<b>Likes</b>
-	    <span>{{ ::card.likes | numsmall }}</span>
+		<span>{{ ::card.likes | numsmall }}</span>
 		</div>
 		<div class="col-4">
 			<b>Dislikes</b>
-	    <span>{{ ::card.dislikes | numsmall }}</span>
+		<span>{{ ::card.dislikes | numsmall }}</span>
 		</div>
 	</div>
 
