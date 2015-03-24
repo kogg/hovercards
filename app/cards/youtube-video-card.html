@@ -17,7 +17,7 @@
 		<b class="youtube-color"><i class="md md-access-time"></i> {{ ::card.date | date }}</b>
 			<a href="https://www.youtube.com/watch?v={{ ::card.id }}" target="_blank" ng-click="$event.stopPropagation()">{{ ::card.title }}</a>
 		</div>
-		<div ng-show="show" ng-click="$event.stopPropagation()" ng-if="::card.description">
+		<div ng-show="show" ng-click="$event.stopPropagation()" ng-if="::card.description" class="slide-animation">
 			<span ng-bind-html="::card.description | description" ng-show="show" class="fade-animation"></span>
 		</div>
 	</div>
