@@ -23,6 +23,12 @@ describe('injector', function() {
             injector.registered.context[0].should.equal(spy);
         });
 
+        it('should add injection to registered without context', function() {
+            var spy = sandbox.spy();
+            injector.register(spy);
+            injector.registered.default[0].should.equal(spy);
+        });
+
         it('should allow multiple injections to be registered', function() {
             var spy  = sandbox.spy();
             var spy2 = sandbox.spy();

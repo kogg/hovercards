@@ -4,6 +4,10 @@ define('injector', [], function() {
     var injector = { registered: {} };
 
     function register(context, injection) {
+        if (!injection) {
+            injection = context;
+            context = 'default';
+        }
         if (!injector.registered[context]) {
             injector.registered[context] = [];
         }
