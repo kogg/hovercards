@@ -1,6 +1,6 @@
 'use strict';
 
-define('injector', [], function() {
+define('injector', ['jquery'], function($) {
     var injector = { registered: {} };
 
     function register(context, injection) {
@@ -15,7 +15,14 @@ define('injector', [], function() {
     }
     injector.register = register;
 
-    function inject() {
+    function inject(context, body) {
+        if (!injector.registered[context]) {
+            return;
+        }
+        body = $(body);
+        for (var i = 0; i < injector.registered[context].length; i++) {
+            injector.registered[context][i](body);
+        }
     }
     injector.inject = inject;
 
