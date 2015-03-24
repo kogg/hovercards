@@ -1,9 +1,17 @@
 require.config({
     baseUrl: 'scripts',
     paths: {
-        async:    '../bower_components/requirejs-plugins/src/async',
-        domReady: '../bower_components/requirejs-domready/domReady',
-        jquery:   '../bower_components/jquery/dist/jquery',
-        purl:     '../bower_components/purl/purl'
+        angular:            '../bower_components/angular/angular',
+        'angular-animate':  '../bower_components/angular-animate/angular-animate',
+        'angular-sanitize': '../bower_components/angular-sanitize/angular-sanitize',
+        async:              '../bower_components/requirejs-plugins/src/async',
+        domReady:           '../bower_components/requirejs-domready/domReady',
+        jquery:             '../bower_components/jquery/dist/jquery',
+        purl:               '../bower_components/purl/purl'
+    },
+    shim: {
+        angular:            { exports: 'angular' },
+        'angular-animate':  ['angular'],
+        'angular-sanitize': ['angular']
     }
 });
