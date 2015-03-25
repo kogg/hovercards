@@ -77,9 +77,9 @@ describe('injector', function() {
             }, 'selector of body'));
         });
 
-        it('should call inject with default context when undefined', function() {
+        it('should call inject on "body" when undefined', function() {
             sandbox.spy(injector, 'inject');
-            injector.inject('body');
+            injector.inject('default');
             injector.inject.should.have.been.calledWith('default', 'body');
         });
 
