@@ -75,5 +75,25 @@ describe('injector', function() {
                 return body.should.match('body');
             }, 'selector of body'));
         });
+
+        it('should call injections in the default context when not defined', function() {
+            var spy = sandbox.spy();
+            injector.registered = { default: [spy] };
+            injector.inject('body');
+            spy.should.have.been.called.once;
+            spy.should.have.been.calledWith(sinon.match(function(body) {
+                return body.should.match('body');
+            }, 'selector of body'));
+        });
+
+        it('should call injections in the default context on "body" when not defined', function() {
+            var spy = sandbox.spy();
+            injector.registered = { default: [spy] };
+            injector.inject();
+            spy.should.have.been.called.once;
+            spy.should.have.been.calledWith(sinon.match(function(body) {
+                return body.should.match('body');
+            }, 'selector of body'));
+        });
     });
 });

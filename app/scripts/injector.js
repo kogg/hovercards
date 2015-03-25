@@ -16,6 +16,13 @@ define('injector', ['jquery'], function($) {
     injector.register = register;
 
     function inject(context, body) {
+        if (!context && !body) {
+            context = 'default';
+            body = 'body';
+        } else if (!body) {
+            body = context;
+            context = 'default';
+        }
         if (!injector.registered[context]) {
             return;
         }
