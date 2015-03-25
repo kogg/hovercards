@@ -6,11 +6,14 @@ describe('sidebar', function() {
     var sidebarObj;
 
     beforeEach(function(done) {
-        require(['sidebar'], function(sidebar) {
-            sandbox.useFakeTimers();
-            sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            sidebarObj = sidebar();
-            done();
+        require(['Squire'], function(Squire) {
+            new Squire()
+                .require(['sidebar'], function(sidebar) {
+                    sandbox.useFakeTimers();
+                    sandbox.stub(chrome.runtime.onMessage, 'addListener');
+                    sidebarObj = sidebar();
+                    done();
+                });
         });
     });
 

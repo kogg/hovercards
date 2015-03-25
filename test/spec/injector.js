@@ -73,7 +73,7 @@ describe('injector', function() {
             injector.registered = { context: [spy] };
             injector.inject('context', 'body');
             spy.should.have.been.calledWith(sinon.match(function(body) {
-                return body.should.match('body');
+                return body.selector === 'body';
             }, 'selector of body'));
         });
 
