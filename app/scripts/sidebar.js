@@ -3,18 +3,7 @@
 define('sidebar', ['injector', 'jquery'], function(injector) {
     var sidebar = {};
 
-    function injectSidebar() {
-    }
-    sidebar.injectSidebar = injectSidebar;
-
-    function registerInjections() {
-        injector.register('default', sidebar.injectSidebar);
-    }
-    sidebar.registerInjections = registerInjections;
-
-    return sidebar;
-    /*
-    return function sidebar() {
+    function injectSidebar(body) {
         var obj = $('<div class="hovertoast-sidebar"></div>');
         var iframe = $('<iframe></iframe>')
             .prop('src', chrome.extension.getURL('sidebar.html'))
@@ -51,7 +40,16 @@ define('sidebar', ['injector', 'jquery'], function(injector) {
             }
         });
 
+        obj.appendTo(body);
+
         return obj;
-    };
-    */
+    }
+    sidebar.injectSidebar = injectSidebar;
+
+    function registerInjections() {
+        injector.register('default', sidebar.injectSidebar);
+    }
+    sidebar.registerInjections = registerInjections;
+
+    return sidebar;
 });

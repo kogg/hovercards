@@ -52,7 +52,7 @@ describe('youtube-video', function() {
         });
     });
 
-    describe('.injectTriggersOnLinks', function() {
+    describe('#injectTriggersOnLinks', function() {
         it('should attach trigger to youtube link', function() {
             $('<a id="link" href="https://www.youtube.com/watch?v=SOME_ID">').appendTo(body);
 
@@ -75,7 +75,7 @@ describe('youtube-video', function() {
         });
     });
 
-    describe('.injectButtonOnPlayer', function() {
+    describe('#injectButtonOnPlayer', function() {
         it('should attach youtube-video-button to #player', function() {
             youtubeVideo.injectButtonOnPlayer(body, 'https://youtube.com/embed/SOME_ID');
 
@@ -86,7 +86,7 @@ describe('youtube-video', function() {
         });
     });
 
-    describe('.injectButtonsOnObjectsAndEmbeds', function() {
+    describe('#injectButtonsOnObjectsAndEmbeds', function() {
         it('should attach youtube-video-button to youtube embeds', function() {
             $('<embed id="embed" src="https://www.youtube.com/v/SOME_ID">').appendTo(body);
 
