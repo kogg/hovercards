@@ -40,8 +40,9 @@ html,body {
 }
 .card-container {
 	width: 300px;
-	margin: auto;
+	margin:50px auto;
 	padding-bottom: 20px;
+
 }
 .ellipsis {
 	white-space: nowrap;
@@ -72,10 +73,47 @@ html,body {
 .cards {
 	position: absolute;
 	max-width: 340px;
-	top: 0;
+	top: 60px;
 	left: 0;
 	padding: 0 20px;
 }
+/*header*/
+header {
+	padding: 16px;
+	position: relative;
+	z-index: 2;
+	box-shadow:0 2px 6px rgba(0, 0, 0, 0.2)
+}
+.logo {
+	background: url('../images/hovercards-white.png');
+	background-size:auto 19px;
+	background-position: left center;
+	width: 165px;
+	height: 22px;
+	display: inline-block;
+	font-size: 22px;
+	float: left;
+	color: transparent;
+	background-repeat: no-repeat;
+	margin-left: 10px;
+}
+header .md {
+	color: white;
+	font-size: 22px;
+}
+header .col-9 .md {
+	float: left;
+}
+.youtube-bg {
+	background: #F44336
+}
+header .text-right i {
+	margin-left: 5px;
+}
+.text-right {
+	text-align: right;
+}
+
 /*default cards*/
 b {
 	display: block;
@@ -114,53 +152,12 @@ b i {
 	color: #727272;
 	margin-bottom: 2px;
 }
-.card-stats span/*,
-.card-description span*/ {
+.card-stats span {
 	color: #212121;
 	font-size: 14px;
 	font-weight: 500
 }
-/*
-.card-description span a {
-	color: #1976D2;
-	text-transform: none;
-	font-weight: 500
-}
-.card-description span {
-	line-height: 19px;
-	font-weight: 400;
-	font-size: 16px;
-	color: #727272;
-	display: none;
-}
-.card-description {
-	word-wrap:break-word;
-  transition: all .45s ease-in-out;
-	display: none;
-	height: 0px;
-	overflow: hidden;
-}
 
-.card-description span {
-	transition: all .45s ease-in-out;
-	opacity: 0;
-	max-height: 0px;
-	display: table-row;
-}
-
-.expanddescription{
-	max-height: inherit;
-	position: relative;
-	display: table;
-	transition: all .45s ease-in-out;
-}
-.expanddescription span {
-	opacity: 1;
-	margin-bottom: 16px;
-	display: table-row;
-	max-height: inherit;
-}
-*/
 .card-stats .col-4 {
 	padding: 9.5px 16px;
 }
@@ -385,8 +382,8 @@ b i {
 }
 
 .bounce-out-animation.ng-leave {
-	-webkit-animation-duration: 1s;
-	animation-duration: 1s;
+	-webkit-animation-duration: .8s;
+	animation-duration: .8s;
 	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
 	-webkit-animation-name: bounceOutLeft;
@@ -395,9 +392,14 @@ b i {
 @-webkit-keyframes bounceOutLeft {
 	0% {
 		-webkit-transform: translatey(0);
+		opacity: 1;
+	}
+	70% {
+		opacity: 1;
 	}
 	100% {
-		-webkit-transform: translatey(-1400px);
+		-webkit-transform: translatey(1700px);
+		opacity: 0;
 	}
 }
 
