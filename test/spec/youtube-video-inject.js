@@ -11,6 +11,10 @@ describe('youtube-video', function() {
         });
     });
 
+    afterEach(function() {
+        sandbox.restore();
+    });
+
     describe('#registerInjections', function() {
         var injector;
 
@@ -41,10 +45,6 @@ describe('youtube-video', function() {
         it('should register injectButtonsOnObjectsAndEmbeds on facebook-youtube-iframe', function() {
             injector.register.should.have.been.calledWith('facebook-youtube-iframe', youtubeVideo.injectButtonsOnObjectsAndEmbeds);
         });
-    });
-
-    afterEach(function() {
-        sandbox.restore();
     });
 });
 
