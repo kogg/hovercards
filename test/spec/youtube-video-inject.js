@@ -1,6 +1,6 @@
 'use strict';
 
-describe('youtube-video', function() {
+describe('youtube-video (injections)', function() {
     var sandbox = sinon.sandbox.create();
     var body;
     var injector;

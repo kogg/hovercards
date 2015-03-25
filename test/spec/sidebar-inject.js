@@ -1,7 +1,6 @@
 'use strict';
 
-/* PhantomJS can't handle the iframe with a src, since it doesn't actually load something legit */
-describe('sidebar', function() {
+describe('sidebar (injections)', function() {
     var sandbox = sinon.sandbox.create();
     var body;
     var injector;
