@@ -31,7 +31,9 @@
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/trigger.js",
+                "scripts/injector.js",
                 "scripts/youtube-video-button.js",
+                "scripts/youtube-video.js",
                 "scripts/youtube-video-inject.js",
                 "scripts/sidebar.js",
                 "scripts/main-top-frame.js"
