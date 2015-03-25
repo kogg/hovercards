@@ -3,19 +3,14 @@
 describe('sidebar (injections)', function() {
     var sandbox = sinon.sandbox.create();
     var body;
-    var injector;
     var sidebar;
 
     beforeEach(function(done) {
-        require(['Squire'], function(Squire) {
-            new Squire()
-                .mock('injector', injector = {})
-                .require(['sidebar'], function(_sidebar) {
-                    sandbox.useFakeTimers();
-                    sandbox.stub(chrome.runtime.onMessage, 'addListener');
-                    sidebar = _sidebar;
-                    done();
-                });
+        require(['sidebar'], function(_sidebar) {
+            sandbox.useFakeTimers();
+            sandbox.stub(chrome.runtime.onMessage, 'addListener');
+            sidebar = _sidebar;
+            done();
         });
     });
 
