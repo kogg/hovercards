@@ -39,6 +39,10 @@ describe('youtube-video', function() {
             injector.register.should.have.been.calledWith('default', youtubeVideo.injectTriggersOnLinks);
         });
 
+        it('should register injectTriggersOnIframes on default', function() {
+            injector.register.should.have.been.calledWith('default', youtubeVideo.injectTriggersOnIframes);
+        });
+
         it('should register injectButtonsOnObjectsAndEmbeds on default', function() {
             injector.register.should.have.been.calledWith('default', youtubeVideo.injectButtonsOnObjectsAndEmbeds);
         });
@@ -72,6 +76,29 @@ describe('youtube-video', function() {
             trigger.should.not.have.been.calledWith(sinon.match(function(value) {
                 return value[0] === body.children('#link_bad')[0];
             }, 'wasn\'t matched with #link_bad'));
+        });
+    });
+
+    describe('#injectTriggersOnIframes', function() {
+        it('should attach trigger to youtube iframes', function() {
+            $('<iframe id="iframe" src="https://www.youtube.com/embed/SOME_ID">').appendTo(body);
+
+            youtubeVideo.injectTriggersOnIframes(body);
+
+            trigger.should.have.been.calledWith(sinon.match(function(value) {
+                return value[0] === body.children('iframe')[0];
+            }, 'wasn\'t matched with #iframe'));
+            trigger.should.always.have.been.calledWith(sinon.match.any, 'youtube-video', 'SOME_ID');
+        });
+
+        it('should not attach trigger to other iframes', function() {
+            $('<iframe id="iframe_bad" src="https://www.wenoknow.com">').appendTo(body);
+
+            youtubeVideo.injectTriggersOnLinks(body);
+
+            trigger.should.not.have.been.calledWith(sinon.match(function(value) {
+                return value[0] === body.children('#iframe_bad')[0];
+            }, 'wasn\'t matched with #iframe_bad'));
         });
     });
 
