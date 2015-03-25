@@ -4,7 +4,7 @@ define(['youtube-api'], function(youtubeApi) {
     return function youtubeVideoBackground() {
         var i = 0;
         chrome.runtime.onMessage.addListener(function(request, sender) {
-            if (request.msg !== 'triggered' || request.content !== 'youtube-video') {
+            if (request.msg !== 'trigger' || request.content !== 'youtube-video') {
                 return;
             }
             var h = i++;

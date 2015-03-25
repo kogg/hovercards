@@ -21,12 +21,12 @@ describe('youtube-video-background', function() {
         sandbox.restore();
     });
 
-    describe('when receiving triggered message', function() {
+    describe('when receiving trigger message', function() {
         beforeEach(function() {
             youtubeApi.video.yields(null, { content: 'youtube-video', id: 'SOME_VIDEO_ID', channel: { id: 'SOME_CHANNEL_ID' } });
             youtubeApi.channel.yields(null, { content: 'youtube-channel', id: 'SOME_CHANNEL_ID' });
             youtubeApi.comments.yields(null, { content: 'youtube-comments', id: 'SOME_VIDEO_ID' });
-            chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'youtube-video', id: 'SOME_VIDEO_ID' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'youtube-video', id: 'SOME_VIDEO_ID' }, { tab: { id: 'TAB_ID' } });
         });
 
         it('should send cards message', function() {
@@ -37,7 +37,7 @@ describe('youtube-video-background', function() {
 
         it('should send cards message with unique id', function() {
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-0'));
-            chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'youtube-video', id: 'SOME_VIDEO_ID' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'youtube-video', id: 'SOME_VIDEO_ID' }, { tab: { id: 'TAB_ID' } });
             chrome.tabs.sendMessage.should.have.been.calledWith(sinon.match.any, sinon.match.has('id', 'youtube-video-1'));
         });
 
