@@ -3,12 +3,14 @@
 describe('youtube-video', function() {
     var sandbox = sinon.sandbox.create();
     var injector;
+    var trigger;
     var youtubeVideo;
 
     beforeEach(function(done) {
         require(['Squire'], function(Squire) {
             new Squire()
                 .mock('injector', injector = {})
+                .mock('trigger', trigger = sandbox.stub().returns($('<div></div>')))
                 .require(['youtube-video'], function(_youtubeVideo) {
                     youtubeVideo = _youtubeVideo;
                     done();
@@ -40,6 +42,31 @@ describe('youtube-video', function() {
 
         it('should register injectButtonsOnObjectsAndEmbeds on facebook-youtube-iframe', function() {
             injector.register.should.have.been.calledWith('facebook-youtube-iframe', youtubeVideo.injectButtonsOnObjectsAndEmbeds);
+        });
+    });
+
+    describe('.injectTriggersOnLinks', function() {
+        it('should attach trigger to youtube link', function() {
+            var body = $('<div id="sandbox"></div>');
+            $('<a id="link" href="https://www.youtube.com/watch?v=SOME_ID">').appendTo(body);
+
+            youtubeVideo.injectTriggersOnLinks(body);
+
+            trigger.should.have.been.calledWith(sinon.match(function(value) {
+                return value[0] === body.children('#link')[0];
+            }, 'wasn\'t matched with #link'));
+            trigger.should.always.have.been.calledWith(sinon.match.any, 'youtube-video', 'SOME_ID');
+        });
+
+        it('should not attach trigger to other link', function() {
+            var body = $('<div id="sandbox"></div>');
+            $('<a id="link_bad" href="https://www.wenoknow.com">').appendTo(body);
+
+            youtubeVideo.injectTriggersOnLinks(body);
+
+            trigger.should.not.have.been.calledWith(sinon.match(function(value) {
+                return value[0] === body.children('#link_bad')[0];
+            }, 'wasn\'t matched with #link_bad'));
         });
     });
 });
@@ -193,31 +220,6 @@ describe('youtube-video-inject', function() {
             youtubeVideoButton.should.not.have.been.calledWith(sinon.match(function(value) {
                 return value[0] === body.children('#object_bad')[0];
             }, 'wasn\'t matched with #object_bad'));
-        });
-    });
-
-    describe('.injectTriggersOnLinks', function() {
-        it('should attach trigger to youtube link', function() {
-            var body = $('<div id="sandbox"></div>');
-            $('<a id="link" href="https://www.youtube.com/watch?v=SOME_ID">').appendTo(body);
-
-            youtubeVideoInject.injectTriggersOnLinks(body, document.URL);
-
-            trigger.should.have.been.calledWith(sinon.match(function(value) {
-                return value[0] === body.children('#link')[0];
-            }, 'wasn\'t matched with #link'));
-            trigger.should.always.have.been.calledWith(sinon.match.any, 'youtube-video', 'SOME_ID');
-        });
-
-        it('should not attach trigger to other link', function() {
-            var body = $('<div id="sandbox"></div>');
-            $('<a id="link_bad" href="https://www.wenoknow.com">').appendTo(body);
-
-            youtubeVideoInject.injectTriggersOnLinks(body, document.URL);
-
-            trigger.should.not.have.been.calledWith(sinon.match(function(value) {
-                return value[0] === body.children('#link_bad')[0];
-            }, 'wasn\'t matched with #link_bad'));
         });
     });
 });
