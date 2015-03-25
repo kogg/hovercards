@@ -3,13 +3,13 @@
 define('youtube-video', ['injector'], function(injector) {
     var youtubeVideo = {};
 
-    function injectButtonOnPlayer() {
-    }
-    youtubeVideo.injectButtonOnPlayer = injectButtonOnPlayer;
-
     function injectTriggersOnLinks() {
     }
     youtubeVideo.injectTriggersOnLinks = injectTriggersOnLinks;
+
+    function injectButtonOnPlayer() {
+    }
+    youtubeVideo.injectButtonOnPlayer = injectButtonOnPlayer;
 
     function injectButtonsOnObjectsAndEmbeds() {
     }
