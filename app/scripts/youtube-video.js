@@ -30,7 +30,14 @@ define('youtube-video', ['injector', 'trigger', 'youtube-video-button'], functio
     }
     youtubeVideo.injectButtonOnPlayer = injectButtonOnPlayer;
 
-    function injectButtonsOnObjectsAndEmbeds() {
+    function injectButtonsOnObjectsAndEmbeds(body) {
+        body
+            .find('object[data*="youtube.com/v/"], embed[src*="youtube.com/v/"]')
+            .each(function() {
+                /* globals purl:true */
+                var video = $(this);
+                youtubeVideoButton(video, purl(video.prop('data') || video.prop('src')).segment(-1)).insertBefore(video);
+            });
     }
     youtubeVideo.injectButtonsOnObjectsAndEmbeds = injectButtonsOnObjectsAndEmbeds;
 
