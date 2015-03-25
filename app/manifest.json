@@ -33,38 +33,10 @@
                 "scripts/injector.js",
                 "scripts/sidebar.js",
                 "scripts/trigger.js",
-                "scripts/youtube-video-button.js",
                 "scripts/youtube-video.js",
                 "scripts/main-top-frame.js"
             ],
             "all_frames": false
-        },
-        {
-            "matches": [
-                "http://youtube.com/embed/*",
-                "https://youtube.com/embed/*",
-                "http://www.youtube.com/embed/*",
-                "https://www.youtube.com/embed/*"
-            ],
-            "exclude_matches": [
-                "http://*/*donthovercards*",
-                "https://*/*donthovercards*"
-            ],
-            "css": [
-                "styles/dom-styles.css"
-            ],
-            "js": [
-                "bower_components/purl/purl.js",
-                "bower_components/requirejs/require.js",
-                "scripts/config.js",
-                "bower_components/jquery/dist/jquery.js",
-                "scripts/injector.js",
-                "scripts/trigger.js",
-                "scripts/youtube-video-button.js",
-                "scripts/youtube-video.js",
-                "scripts/main-youtube-iframe.js"
-            ],
-            "all_frames": true
         },
         {
             "matches": [
@@ -80,7 +52,6 @@
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/injector.js",
                 "scripts/trigger.js",
-                "scripts/youtube-video-button.js",
                 "scripts/youtube-video.js",
                 "scripts/main-facebook-youtube-iframe.js"
             ],

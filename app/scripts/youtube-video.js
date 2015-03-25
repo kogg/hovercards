@@ -1,6 +1,6 @@
 'use strict';
 
-define('youtube-video', ['injector', 'trigger', 'youtube-video-button'], function(injector, trigger, youtubeVideoButton) {
+define('youtube-video', ['injector', 'trigger'], function(injector, trigger) {
     var youtubeVideo = {};
 
     function injectTriggersOnLinks(body, docURL) {
@@ -35,29 +35,24 @@ define('youtube-video', ['injector', 'trigger', 'youtube-video-button'], functio
     }
     youtubeVideo.injectTriggersOnIframes = injectTriggersOnIframes;
 
-    function injectButtonOnPlayer(body, docURL) {
-        /* globals purl:true */
-        youtubeVideoButton(body.children('#player'), purl(docURL || document.URL).segment(-1)).prependTo(body);
-    }
-    youtubeVideo.injectButtonOnPlayer = injectButtonOnPlayer;
-
-    function injectButtonsOnObjectsAndEmbeds(body) {
+    function injectTriggersOnObjectsAndEmbeds(body) {
+        console.log('called');
         body
             .find('object[data*="youtube.com/v/"], embed[src*="youtube.com/v/"]')
             .each(function() {
+                console.log('called once');
                 /* globals purl:true */
                 var video = $(this);
-                youtubeVideoButton(video, purl(video.prop('data') || video.prop('src')).segment(-1)).insertBefore(video);
+                trigger(video, 'youtube-video', purl(video.prop('data') || video.prop('src')).segment(-1));
             });
     }
-    youtubeVideo.injectButtonsOnObjectsAndEmbeds = injectButtonsOnObjectsAndEmbeds;
+    youtubeVideo.injectTriggersOnObjectsAndEmbeds = injectTriggersOnObjectsAndEmbeds;
 
     function registerInjections() {
         injector.register('default',                 youtubeVideo.injectTriggersOnLinks);
         injector.register('default',                 youtubeVideo.injectTriggersOnIframes);
-        injector.register('default',                 youtubeVideo.injectButtonsOnObjectsAndEmbeds);
-        injector.register('youtube-iframe',          youtubeVideo.injectButtonOnPlayer);
-        injector.register('facebook-youtube-iframe', youtubeVideo.injectButtonsOnObjectsAndEmbeds);
+        injector.register('default',                 youtubeVideo.injectTriggersOnObjectsAndEmbeds);
+        injector.register('facebook-youtube-iframe', youtubeVideo.injectTriggersOnObjectsAndEmbeds);
     }
     youtubeVideo.registerInjections = registerInjections;
 
