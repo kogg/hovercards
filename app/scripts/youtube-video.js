@@ -36,11 +36,9 @@ define('youtube-video', ['injector', 'trigger'], function(injector, trigger) {
     youtubeVideo.injectTriggersOnIframes = injectTriggersOnIframes;
 
     function injectTriggersOnObjectsAndEmbeds(body) {
-        console.log('called');
         body
             .find('object[data*="youtube.com/v/"], embed[src*="youtube.com/v/"]')
             .each(function() {
-                console.log('called once');
                 /* globals purl:true */
                 var video = $(this);
                 trigger(video, 'youtube-video', purl(video.prop('data') || video.prop('src')).segment(-1));
