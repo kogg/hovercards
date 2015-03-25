@@ -27,14 +27,14 @@ describe('sidebar (injections)', function() {
         sandbox.restore();
     });
 
-    describe('#registerInjections', function() {
+    describe('#inject', function() {
         beforeEach(function() {
-            injector.register = sandbox.stub();
-            sidebar.registerInjections();
+            sandbox.stub(sidebar, 'injectSidebar');
         });
 
         it('should register injectSidebar on default', function() {
-            injector.register.should.have.been.calledWith('default', sidebar.injectSidebar);
+            sidebar.inject('default');
+            sidebar.injectSidebar.should.have.been.called;
         });
     });
 

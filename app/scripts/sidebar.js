@@ -1,6 +1,6 @@
 'use strict';
 
-define('sidebar', ['injector', 'jquery'], function(injector) {
+define('sidebar', ['jquery'], function() {
     var sidebar = {};
 
     function injectSidebar(body) {
@@ -46,10 +46,18 @@ define('sidebar', ['injector', 'jquery'], function(injector) {
     }
     sidebar.injectSidebar = injectSidebar;
 
-    function registerInjections() {
-        injector.register('default', sidebar.injectSidebar);
+    function inject(context, body) {
+        if (!body) {
+            body = 'body';
+        }
+        body = $(body);
+        switch (context) {
+            case 'default':
+                sidebar.injectSidebar(body);
+                break;
+        }
     }
-    sidebar.registerInjections = registerInjections;
+    sidebar.inject = inject;
 
     function background() {
         chrome.runtime.onMessage.addListener(function(request, sender) {

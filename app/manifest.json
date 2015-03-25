@@ -30,7 +30,6 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/injector.js",
                 "scripts/sidebar.js",
                 "scripts/trigger.js",
                 "scripts/youtube-video.js",
@@ -58,7 +57,6 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/injector.js",
                 "scripts/trigger.js",
                 "scripts/youtube-video.js",
                 "scripts/main-facebook-youtube-iframe.js"
@@ -75,7 +73,6 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/injector.js",
                 "scripts/trigger.js",
                 "scripts/youtube-video.js",
                 "scripts/main-youtube-iframe.js"
