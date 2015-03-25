@@ -1,15 +1,12 @@
 'use strict';
 
-define('youtube-video', ['injector', 'trigger'], function(injector, trigger) {
+define('youtube-video', ['injector', 'trigger', 'youtube-video-button'], function(injector, trigger, youtubeVideoButton) {
     var youtubeVideo = {};
 
     function injectTriggersOnLinks(body, docURL) {
         /* globals purl:true */
-        if (!docURL) {
-            docURL = document.URL;
-        }
         var youtubeLinkSelector = 'a[href*="youtube.com/watch"]';
-        if (purl(docURL).attr('host') === 'www.youtube.com') {
+        if (purl(docURL || document.URL).attr('host') === 'www.youtube.com') {
             youtubeLinkSelector += ',a[href^="/watch"]';
         }
         body
@@ -27,7 +24,9 @@ define('youtube-video', ['injector', 'trigger'], function(injector, trigger) {
     }
     youtubeVideo.injectTriggersOnLinks = injectTriggersOnLinks;
 
-    function injectButtonOnPlayer() {
+    function injectButtonOnPlayer(body, docURL) {
+        /* globals purl:true */
+        youtubeVideoButton(body.children('#player'), purl(docURL || document.URL).segment(-1)).prependTo(body);
     }
     youtubeVideo.injectButtonOnPlayer = injectButtonOnPlayer;
 

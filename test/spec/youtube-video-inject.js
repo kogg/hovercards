@@ -5,12 +5,14 @@ describe('youtube-video', function() {
     var injector;
     var trigger;
     var youtubeVideo;
+    var youtubeVideoButton;
 
     beforeEach(function(done) {
         require(['Squire'], function(Squire) {
             new Squire()
-                .mock('injector', injector = {})
-                .mock('trigger', trigger = sandbox.stub().returns($('<div></div>')))
+                .mock('injector',             injector           = {})
+                .mock('trigger',              trigger            = sandbox.stub().returns($('<div></div>')))
+                .mock('youtube-video-button', youtubeVideoButton = sandbox.stub().returns($('<div></div>')))
                 .require(['youtube-video'], function(_youtubeVideo) {
                     youtubeVideo = _youtubeVideo;
                     done();
@@ -67,6 +69,19 @@ describe('youtube-video', function() {
             trigger.should.not.have.been.calledWith(sinon.match(function(value) {
                 return value[0] === body.children('#link_bad')[0];
             }, 'wasn\'t matched with #link_bad'));
+        });
+    });
+
+    describe('.injectButtonOnPlayer', function() {
+        it('should attach youtube-video-button to #player', function() {
+            var body = $('<div id="sandbox"><div id="player"></div></div>');
+
+            youtubeVideo.injectButtonOnPlayer(body, 'https://youtube.com/embed/SOME_ID');
+
+            youtubeVideoButton.should.have.been.calledWith(sinon.match(function(value) {
+                return value[0] === body.children('#player')[0];
+            }, 'match with #player'));
+            youtubeVideoButton.should.always.have.been.calledWith(sinon.match.any, 'SOME_ID');
         });
     });
 });
@@ -159,19 +174,6 @@ describe('youtube-video-inject', function() {
             youtubeVideoInject.injectButtonsOnObjectsAndEmbeds.should.have.been.calledWith(sinon.match(function(value) {
                 return value[0] === body[0];
             }, 'match with body'));
-        });
-    });
-
-    describe('.injectButtonOnPlayer', function() {
-        it('should attach youtube-video-button to #player', function() {
-            var body = $('<div id="sandbox"><div id="player"></div></div>');
-
-            youtubeVideoInject.injectButtonOnPlayer(body, 'https://youtube.com/embed/SOME_ID');
-
-            youtubeVideoButton.should.have.been.calledWith(sinon.match(function(value) {
-                return value[0] === body.children('#player')[0];
-            }, 'match with #player'));
-            youtubeVideoButton.should.always.have.been.calledWith(sinon.match.any, 'SOME_ID');
         });
     });
 
