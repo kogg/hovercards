@@ -8,3 +8,12 @@ require(['cards-controller',
          'slide-animation'], function() {
     angular.bootstrap(document, ['app']);
 });
+
+require(['jquery'], function($) {
+    $(document).keydown(function(e) {
+        if (e.which !== 16) {
+            return;
+        }
+        chrome.runtime.sendMessage({ msg: 'shoot' });
+    });
+});

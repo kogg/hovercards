@@ -22,7 +22,7 @@ describe('trigger', function() {
         });
 
         it('should send triggered message', function() {
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'triggered', content: 'something', id: 'SOME_ID' });
+            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'trigger', content: 'something', id: 'SOME_ID' });
         });
     });
 
@@ -32,7 +32,7 @@ describe('trigger', function() {
         });
 
         it('should send untriggered message', function() {
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'untriggered' });
+            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'untrigger' });
         });
     });
 });
