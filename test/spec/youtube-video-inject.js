@@ -2,12 +2,17 @@
 
 describe('youtube-video', function() {
     var sandbox = sinon.sandbox.create();
+    var injector;
     var youtubeVideo;
 
     beforeEach(function(done) {
-        require(['youtube-video'], function(_youtubeVideo) {
-            youtubeVideo = _youtubeVideo;
-            done();
+        require(['Squire'], function(Squire) {
+            new Squire()
+                .mock('injector', injector = {})
+                .require(['youtube-video'], function(_youtubeVideo) {
+                    youtubeVideo = _youtubeVideo;
+                    done();
+                });
         });
     });
 
@@ -16,17 +21,8 @@ describe('youtube-video', function() {
     });
 
     describe('#registerInjections', function() {
-        var injector;
-
-        beforeEach(function(done) {
-            require(['injector'], function(_injector) {
-                injector = _injector;
-                sandbox.stub(injector, 'register');
-                done();
-            });
-        });
-
         beforeEach(function() {
+            injector.register = sandbox.stub();
             youtubeVideo.registerInjections();
         });
 

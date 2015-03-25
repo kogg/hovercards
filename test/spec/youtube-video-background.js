@@ -2,26 +2,19 @@
 
 describe('youtube-video-background', function() {
     var sandbox = sinon.sandbox.create();
-    var Squire;
     var youtubeApi;
 
-    before(function(done) {
-        require(['Squire'], function(_Squire) {
-            Squire = _Squire;
+    beforeEach(function(done) {
+        require(['youtube-video-background', 'youtube-api'], function(youtubeVideoBackground, _youtubeApi) {
+            sandbox.stub(chrome.tabs, 'sendMessage');
+            sandbox.stub(chrome.runtime.onMessage, 'addListener');
+            youtubeApi = _youtubeApi;
+            sandbox.stub(youtubeApi, 'video');
+            sandbox.stub(youtubeApi, 'channel');
+            sandbox.stub(youtubeApi, 'comments');
+            youtubeVideoBackground();
             done();
         });
-    });
-
-    beforeEach(function(done) {
-        youtubeApi = { video: sandbox.stub(), channel: sandbox.stub(), comments: sandbox.stub() };
-        new Squire()
-            .mock('youtube-api', youtubeApi)
-            .require(['youtube-video-background'], function(youtubeVideoBackground) {
-                sandbox.stub(chrome.tabs, 'sendMessage');
-                sandbox.stub(chrome.runtime.onMessage, 'addListener');
-                youtubeVideoBackground();
-                done();
-            });
     });
 
     afterEach(function() {
