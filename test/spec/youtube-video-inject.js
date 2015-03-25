@@ -1,5 +1,54 @@
 'use strict';
 
+describe('youtube-video', function() {
+    var sandbox = sinon.sandbox.create();
+    var youtubeVideo;
+
+    beforeEach(function(done) {
+        require(['youtube-video'], function(_youtubeVideo) {
+            youtubeVideo = _youtubeVideo;
+            done();
+        });
+    });
+
+    describe('#registerInjections', function() {
+        var injector;
+
+        beforeEach(function(done) {
+            require(['injector'], function(_injector) {
+                injector = _injector;
+                sandbox.stub(injector, 'register');
+                done();
+            });
+        });
+
+        beforeEach(function() {
+            youtubeVideo.registerInjections();
+        });
+
+        it('should register injectTriggersOnLinks on default', function() {
+            injector.register.should.have.been.calledWith('default', youtubeVideo.injectTriggersOnLinks);
+        });
+
+        it('should register injectButtonsOnObjectsAndEmbeds on default', function() {
+            injector.register.should.have.been.calledWith('default', youtubeVideo.injectButtonsOnObjectsAndEmbeds);
+        });
+
+        it('should register injectButtonOnPlayer on youtube-iframe', function() {
+            injector.register.should.have.been.calledWith('youtube-iframe', youtubeVideo.injectButtonOnPlayer);
+        });
+
+        it('should register injectButtonsOnObjectsAndEmbeds on facebook-youtube-iframe', function() {
+            injector.register.should.have.been.calledWith('facebook-youtube-iframe', youtubeVideo.injectButtonsOnObjectsAndEmbeds);
+        });
+    });
+
+    afterEach(function() {
+        sandbox.restore();
+    });
+});
+
+/*
 describe('youtube-video-inject', function() {
     var sandbox = sinon.sandbox.create();
     var injector;
@@ -176,3 +225,4 @@ describe('youtube-video-inject', function() {
         });
     });
 });
+*/
