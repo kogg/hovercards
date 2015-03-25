@@ -30,12 +30,12 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/trigger.js",
                 "scripts/injector.js",
-                "scripts/youtube-video-button.js",
-                "scripts/youtube-video.js",
-                "scripts/youtube-video-inject.js",
                 "scripts/sidebar.js",
+                "scripts/trigger.js",
+                "scripts/youtube-video-button.js",
+                "scripts/youtube-video-inject.js",
+                "scripts/youtube-video.js",
                 "scripts/main-top-frame.js"
             ],
             "all_frames": false
@@ -59,9 +59,10 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
+                "scripts/injector.js",
                 "scripts/trigger.js",
                 "scripts/youtube-video-button.js",
-                "scripts/youtube-video-inject.js",
+                "scripts/youtube-video.js",
                 "scripts/main-youtube-iframe.js"
             ],
             "all_frames": true

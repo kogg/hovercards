@@ -1,11 +1,6 @@
 'use strict';
 
 define('youtube-video-inject', ['jquery', 'youtube-video-button'], function($, youtubeVideoButton) {
-    function injectButtonOnPlayer(body, docURL) {
-        /* globals purl:true */
-        youtubeVideoButton(body.children('#player'), purl(docURL).segment(-1)).prependTo(body);
-    }
-
     function injectButtonsOnObjectsAndEmbeds(body) {
         body
             .find('object[data*="youtube.com/v/"], embed[src*="youtube.com/v/"]')
@@ -25,9 +20,6 @@ define('youtube-video-inject', ['jquery', 'youtube-video-button'], function($, y
         }
         body = $(body);
         switch (context) {
-            case '#player':
-                youtubeVideoInject.injectButtonOnPlayer(body, docURL);
-                break;
             case 'objects':
                 youtubeVideoInject.injectButtonsOnObjectsAndEmbeds(body);
                 break;
@@ -37,7 +29,6 @@ define('youtube-video-inject', ['jquery', 'youtube-video-button'], function($, y
         }
     }
 
-    youtubeVideoInject.injectButtonOnPlayer            = injectButtonOnPlayer;
     youtubeVideoInject.injectButtonsOnObjectsAndEmbeds = injectButtonsOnObjectsAndEmbeds;
 
     return youtubeVideoInject;
