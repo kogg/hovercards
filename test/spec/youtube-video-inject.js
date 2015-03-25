@@ -2,6 +2,7 @@
 
 describe('youtube-video', function() {
     var sandbox = sinon.sandbox.create();
+    var body;
     var injector;
     var trigger;
     var youtubeVideo;
@@ -18,6 +19,10 @@ describe('youtube-video', function() {
                     done();
                 });
         });
+    });
+
+    beforeEach(function() {
+        body = $('<div id="sandbox"></div>');
     });
 
     afterEach(function() {
@@ -47,9 +52,8 @@ describe('youtube-video', function() {
         });
     });
 
-    describe('.injectTriggersOnLinks', function() {
+    describe('#injectTriggersOnLinks', function() {
         it('should attach trigger to youtube link', function() {
-            var body = $('<div id="sandbox"></div>');
             $('<a id="link" href="https://www.youtube.com/watch?v=SOME_ID">').appendTo(body);
 
             youtubeVideo.injectTriggersOnLinks(body);
@@ -61,7 +65,6 @@ describe('youtube-video', function() {
         });
 
         it('should not attach trigger to other link', function() {
-            var body = $('<div id="sandbox"></div>');
             $('<a id="link_bad" href="https://www.wenoknow.com">').appendTo(body);
 
             youtubeVideo.injectTriggersOnLinks(body);
@@ -72,10 +75,8 @@ describe('youtube-video', function() {
         });
     });
 
-    describe('.injectButtonOnPlayer', function() {
+    describe('#injectButtonOnPlayer', function() {
         it('should attach youtube-video-button to #player', function() {
-            var body = $('<div id="sandbox"><div id="player"></div></div>');
-
             youtubeVideo.injectButtonOnPlayer(body, 'https://youtube.com/embed/SOME_ID');
 
             youtubeVideoButton.should.have.been.calledWith(sinon.match(function(value) {
@@ -85,9 +86,8 @@ describe('youtube-video', function() {
         });
     });
 
-    describe('.injectButtonsOnObjectsAndEmbeds', function() {
+    describe('#injectButtonsOnObjectsAndEmbeds', function() {
         it('should attach youtube-video-button to youtube embeds', function() {
-            var body = $('<div id="sandbox"></div>');
             $('<embed id="embed" src="https://www.youtube.com/v/SOME_ID">').appendTo(body);
 
             youtubeVideo.injectButtonsOnObjectsAndEmbeds(body);
@@ -99,7 +99,6 @@ describe('youtube-video', function() {
         });
 
         it('should attach youtube-video-button to youtube objects', function() {
-            var body = $('<div id="sandbox"></div>');
             $('<object id="object" data="https://www.youtube.com/v/SOME_ID"></object>').appendTo(body);
 
             youtubeVideo.injectButtonsOnObjectsAndEmbeds(body);
@@ -111,7 +110,6 @@ describe('youtube-video', function() {
         });
 
         it('should not attach youtube-video-button to other embeds', function() {
-            var body = $('<div id="sandbox"></div>');
             $('<embed id="embed_bad">').appendTo(body);
 
             youtubeVideo.injectButtonsOnObjectsAndEmbeds(body);
@@ -122,7 +120,6 @@ describe('youtube-video', function() {
         });
 
         it('should not attach youtube-video-button to other objects', function() {
-            var body = $('<div id="sandbox"></div>');
             $('<object id="object_bad"></object>').appendTo(body);
 
             youtubeVideo.injectButtonsOnObjectsAndEmbeds(body);
