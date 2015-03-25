@@ -16,9 +16,9 @@ describe('sidebar (background)', function() {
         sandbox.restore();
     });
 
-    describe('when receiving triggered message', function() {
+    describe('when receiving trigger message', function() {
         beforeEach(function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'triggered', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         });
 
         it('should send maybe message', function() {
@@ -26,23 +26,13 @@ describe('sidebar (background)', function() {
         });
     });
 
-    describe('when receiving untriggered message', function() {
+    describe('when receiving untrigger message', function() {
         beforeEach(function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'untriggered' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'untrigger' }, { tab: { id: 'TAB_ID' } });
         });
 
         it('should send maybenot message', function() {
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', show: 'maybenot' });
-        });
-    });
-
-    describe('when receiving interested message', function() {
-        beforeEach(function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'interested' }, { tab: { id: 'TAB_ID' } });
-        });
-
-        it('should send on message', function() {
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'sidebar', show: 'on' });
         });
     });
 });

@@ -62,14 +62,11 @@ define('sidebar', ['jquery'], function() {
     function background() {
         chrome.runtime.onMessage.addListener(function(request, sender) {
             switch (request.msg) {
-                case 'triggered':
+                case 'trigger':
                     chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', show: 'maybe' });
                     break;
-                case 'untriggered':
+                case 'untrigger':
                     chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', show: 'maybenot' });
-                    break;
-                case 'interested':
-                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', show: 'on' });
                     break;
             }
         });
