@@ -64,9 +64,10 @@ define('sidebar', ['jquery'], function() {
             switch (request.msg) {
                 case 'trigger':
                     chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', show: 'maybe' });
+                    sidebar.deck = { content: request.content, id: request.id };
                     break;
                 case 'untrigger':
-                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', show: 'maybenot' });
+                    sidebar.deck = null;
                     break;
             }
         });
