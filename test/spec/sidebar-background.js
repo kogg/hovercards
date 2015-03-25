@@ -1,16 +1,16 @@
 'use strict';
 
-describe('sidebar (background)', function() {
+describe('sidebar-background', function() {
     var sandbox = sinon.sandbox.create();
-    var sidebar;
+    var sidebarBackground;
 
     beforeEach(function(done) {
-        require(['sidebar'], function(_sidebar) {
+        require(['sidebar-background'], function(_sidebarBackground) {
             sandbox.useFakeTimers();
             sandbox.stub(chrome.tabs, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            sidebar = _sidebar;
-            sidebar.background();
+            sidebarBackground = _sidebarBackground;
+            sidebarBackground();
             done();
         });
     });
@@ -68,7 +68,6 @@ describe('sidebar (background)', function() {
         });
 
         it('should send undeck message', function() {
-            sidebar.deck = { content: 'something', id: 'SOME_ID' };
             chrome.runtime.onMessage.addListener.yield({ msg: 'shoot' }, { tab: { id: 'TAB_ID' } });
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'undeck' });
         });

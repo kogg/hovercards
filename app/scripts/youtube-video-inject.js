@@ -1,8 +1,6 @@
 'use strict';
 
-define('youtube-video', ['trigger'], function(trigger) {
-    var youtubeVideo = {};
-
+define('youtube-video-inject', ['trigger'], function(trigger) {
     function injectTriggersOnLinks(body, docURL) {
         /* globals purl:true */
         var youtubeLinkSelector = 'a[href*="youtube.com/watch"]';
@@ -22,13 +20,11 @@ define('youtube-video', ['trigger'], function(trigger) {
                 trigger(link, 'youtube-video', purl(link.attr('href')).segment(-1));
             });
     }
-    youtubeVideo.injectTriggersOnLinks = injectTriggersOnLinks;
 
     function injectTriggerOnIframePlayer(body, docURL) {
         /* globals purl:true */
         trigger(body.find('#player'), 'youtube-video', purl(docURL || document.URL).segment(-1));
     }
-    youtubeVideo.injectTriggerOnIframePlayer = injectTriggerOnIframePlayer;
 
     function injectTriggersOnObjectsAndEmbeds(body) {
         body
@@ -39,7 +35,6 @@ define('youtube-video', ['trigger'], function(trigger) {
                 trigger(video, 'youtube-video', purl(video.prop('data') || video.prop('src')).segment(-1).replace(/&.+/, ''));
             });
     }
-    youtubeVideo.injectTriggersOnObjectsAndEmbeds = injectTriggersOnObjectsAndEmbeds;
 
     function inject(context, body) {
         if (!body) {
@@ -48,18 +43,20 @@ define('youtube-video', ['trigger'], function(trigger) {
         body = $(body);
         switch (context) {
             case 'default':
-                youtubeVideo.injectTriggersOnLinks(body);
-                youtubeVideo.injectTriggersOnObjectsAndEmbeds(body);
+                inject.injectTriggersOnLinks(body);
+                inject.injectTriggersOnObjectsAndEmbeds(body);
                 break;
             case 'youtube-iframe':
-                youtubeVideo.injectTriggerOnIframePlayer(body);
+                inject.injectTriggerOnIframePlayer(body);
                 break;
             case 'facebook-youtube-iframe':
-                youtubeVideo.injectTriggersOnObjectsAndEmbeds(body);
+                inject.injectTriggersOnObjectsAndEmbeds(body);
                 break;
         }
     }
-    youtubeVideo.inject = inject;
+    inject.injectTriggersOnLinks = injectTriggersOnLinks;
+    inject.injectTriggerOnIframePlayer = injectTriggerOnIframePlayer;
+    inject.injectTriggersOnObjectsAndEmbeds = injectTriggersOnObjectsAndEmbeds;
 
-    return youtubeVideo;
+    return inject;
 });

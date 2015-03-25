@@ -1,15 +1,15 @@
 'use strict';
 
-describe('sidebar (injections)', function() {
+describe('sidebar-inject', function() {
     var sandbox = sinon.sandbox.create();
     var body;
-    var sidebar;
+    var sidebarInject;
 
     beforeEach(function(done) {
-        require(['sidebar'], function(_sidebar) {
+        require(['sidebar-inject'], function(_sidebarInject) {
             sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            sidebar = _sidebar;
+            sidebarInject = _sidebarInject;
             done();
         });
     });
@@ -22,14 +22,14 @@ describe('sidebar (injections)', function() {
         sandbox.restore();
     });
 
-    describe('#inject', function() {
+    describe('call', function() {
         beforeEach(function() {
-            sandbox.stub(sidebar, 'injectSidebar');
+            sandbox.stub(sidebarInject, 'injectSidebar');
         });
 
         it('should register injectSidebar on default', function() {
-            sidebar.inject('default');
-            sidebar.injectSidebar.should.have.been.called;
+            sidebarInject('default');
+            sidebarInject.injectSidebar.should.have.been.called;
         });
     });
 
@@ -37,7 +37,7 @@ describe('sidebar (injections)', function() {
         var sidebarObj;
 
         beforeEach(function() {
-            sidebarObj = sidebar.injectSidebar(body);
+            sidebarObj = sidebarInject.injectSidebar(body);
         });
 
         it('should be hidden', function() {
