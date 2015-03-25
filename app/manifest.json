@@ -42,9 +42,6 @@
             "matches": [
                 "https://attachment.fbsbx.com/external_iframe.php"
             ],
-            "css": [
-                "styles/dom-styles.css"
-            ],
             "js": [
                 "bower_components/purl/purl.js",
                 "bower_components/requirejs/require.js",
@@ -61,9 +58,6 @@
             "matches": [
                 "http://www.youtube.com/embed/*",
                 "https://www.youtube.com/embed/*"
-            ],
-            "css": [
-                "styles/dom-styles.css"
             ],
             "js": [
                 "bower_components/purl/purl.js",
