@@ -48,7 +48,7 @@ describe('injector', function() {
         });
     });
 
-    describe('#register', function() {
+    describe('#inject', function() {
         it('should call injections in the same context', function() {
             var spy = sandbox.spy();
             var spy2 = sandbox.spy();
