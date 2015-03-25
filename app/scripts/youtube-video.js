@@ -1,6 +1,6 @@
 'use strict';
 
-define('youtube-video', ['injector', 'trigger'], function(injector, trigger) {
+define('youtube-video', ['trigger'], function(trigger) {
     var youtubeVideo = {};
 
     function injectTriggersOnLinks(body, docURL) {
@@ -41,13 +41,25 @@ define('youtube-video', ['injector', 'trigger'], function(injector, trigger) {
     }
     youtubeVideo.injectTriggersOnObjectsAndEmbeds = injectTriggersOnObjectsAndEmbeds;
 
-    function registerInjections() {
-        injector.register('default',                 youtubeVideo.injectTriggersOnLinks);
-        injector.register('default',                 youtubeVideo.injectTriggersOnObjectsAndEmbeds);
-        injector.register('youtube-iframe',          youtubeVideo.injectTriggerOnIframePlayer);
-        injector.register('facebook-youtube-iframe', youtubeVideo.injectTriggersOnObjectsAndEmbeds);
+    function inject(context, body) {
+        if (!body) {
+            body = 'body';
+        }
+        body = $(body);
+        switch (context) {
+            case 'default':
+                youtubeVideo.injectTriggersOnLinks(body);
+                youtubeVideo.injectTriggersOnObjectsAndEmbeds(body);
+                break;
+            case 'youtube-iframe':
+                youtubeVideo.injectTriggerOnIframePlayer(body);
+                break;
+            case 'facebook-youtube-iframe':
+                youtubeVideo.injectTriggersOnObjectsAndEmbeds(body);
+                break;
+        }
     }
-    youtubeVideo.registerInjections = registerInjections;
+    youtubeVideo.inject = inject;
 
     return youtubeVideo;
 });

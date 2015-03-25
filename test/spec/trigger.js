@@ -16,7 +16,7 @@ describe('trigger', function() {
         sandbox.restore();
     });
 
-    describe('when mouseenter', function() {
+    describe('on mouseenter', function() {
         beforeEach(function() {
             triggerObj.mouseenter();
         });
@@ -26,7 +26,7 @@ describe('trigger', function() {
         });
     });
 
-    describe('when mouseleave', function() {
+    describe('on mouseleave', function() {
         beforeEach(function() {
             triggerObj.mouseenter().mouseleave();
         });

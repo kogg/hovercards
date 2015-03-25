@@ -3,15 +3,13 @@
 describe('youtube-video (injections)', function() {
     var sandbox = sinon.sandbox.create();
     var body;
-    var injector;
     var trigger;
     var youtubeVideo;
 
     beforeEach(function(done) {
         require(['Squire'], function(Squire) {
             new Squire()
-                .mock('injector', injector = {})
-                .mock('trigger',  trigger  = sandbox.stub().returns($('<div></div>')))
+                .mock('trigger', trigger = sandbox.stub().returns($('<div></div>')))
                 .require(['youtube-video'], function(_youtubeVideo) {
                     youtubeVideo = _youtubeVideo;
                     done();
@@ -27,26 +25,31 @@ describe('youtube-video (injections)', function() {
         sandbox.restore();
     });
 
-    describe('#registerInjections', function() {
+    describe('#inject', function() {
         beforeEach(function() {
-            injector.register = sandbox.stub();
-            youtubeVideo.registerInjections();
+            sandbox.stub(youtubeVideo, 'injectTriggerOnIframePlayer');
+            sandbox.stub(youtubeVideo, 'injectTriggersOnLinks');
+            sandbox.stub(youtubeVideo, 'injectTriggersOnObjectsAndEmbeds');
         });
 
         it('should register injectTriggersOnLinks on default', function() {
-            injector.register.should.have.been.calledWith('default', youtubeVideo.injectTriggersOnLinks);
+            youtubeVideo.inject('default');
+            youtubeVideo.injectTriggersOnLinks.should.have.been.called;
         });
 
-        it('should register injectTriggerOnIframePlayer on default', function() {
-            injector.register.should.have.been.calledWith('youtube-iframe', youtubeVideo.injectTriggerOnIframePlayer);
+        it('should register injectTriggerOnIframePlayer on youtube-iframe', function() {
+            youtubeVideo.inject('youtube-iframe');
+            youtubeVideo.injectTriggerOnIframePlayer.should.have.been.called;
         });
 
         it('should register injectTriggersOnObjectsAndEmbeds on default', function() {
-            injector.register.should.have.been.calledWith('default', youtubeVideo.injectTriggersOnObjectsAndEmbeds);
+            youtubeVideo.inject('default');
+            youtubeVideo.injectTriggersOnObjectsAndEmbeds.should.have.been.called;
         });
 
         it('should register injectTriggersOnObjectsAndEmbeds on facebook-youtube-iframe', function() {
-            injector.register.should.have.been.calledWith('facebook-youtube-iframe', youtubeVideo.injectTriggersOnObjectsAndEmbeds);
+            youtubeVideo.inject('facebook-youtube-iframe');
+            youtubeVideo.injectTriggersOnObjectsAndEmbeds.should.have.been.called;
         });
     });
 
