@@ -37,8 +37,8 @@ describe('youtube-video', function() {
             injector.register.should.have.been.calledWith('default', youtubeVideo.injectTriggersOnLinks);
         });
 
-        it('should register injectTriggersOnIframes on default', function() {
-            injector.register.should.have.been.calledWith('default', youtubeVideo.injectTriggersOnIframes);
+        it('should register injectTriggerOnIframePlayer on default', function() {
+            injector.register.should.have.been.calledWith('youtube-iframe', youtubeVideo.injectTriggerOnIframePlayer);
         });
 
         it('should register injectTriggersOnObjectsAndEmbeds on default', function() {
@@ -73,26 +73,16 @@ describe('youtube-video', function() {
         });
     });
 
-    describe('#injectTriggersOnIframes', function() {
-        it('should attach trigger to youtube iframes', function() {
-            $('<iframe id="iframe" src="https://www.youtube.com/embed/SOME_ID">').appendTo(body);
+    describe('#injectTriggerOnIframePlayer', function() {
+        it('should attach trigger to youtube link', function() {
+            $('<div id="player"></div>>').appendTo(body);
 
-            youtubeVideo.injectTriggersOnIframes(body);
+            youtubeVideo.injectTriggerOnIframePlayer(body, 'https://www.youtube.com/embed/SOME_ID');
 
             trigger.should.have.been.calledWith(sinon.match(function(value) {
-                return value[0] === body.children('iframe')[0];
-            }, 'wasn\'t matched with #iframe'));
+                return value[0] === body.children('#player')[0];
+            }, 'wasn\'t matched with #player'));
             trigger.should.always.have.been.calledWith(sinon.match.any, 'youtube-video', 'SOME_ID');
-        });
-
-        it('should not attach trigger to other iframes', function() {
-            $('<iframe id="iframe_bad" src="https://www.wenoknow.com">').appendTo(body);
-
-            youtubeVideo.injectTriggersOnLinks(body);
-
-            trigger.should.not.have.been.calledWith(sinon.match(function(value) {
-                return value[0] === body.children('#iframe_bad')[0];
-            }, 'wasn\'t matched with #iframe_bad'));
         });
     });
 

@@ -56,6 +56,26 @@
                 "scripts/main-facebook-youtube-iframe.js"
             ],
             "all_frames": true
+        },
+        {
+            "matches": [
+                "http://www.youtube.com/embed/*",
+                "https://www.youtube.com/embed/*"
+            ],
+            "css": [
+                "styles/dom-styles.css"
+            ],
+            "js": [
+                "bower_components/purl/purl.js",
+                "bower_components/requirejs/require.js",
+                "scripts/config.js",
+                "bower_components/jquery/dist/jquery.js",
+                "scripts/injector.js",
+                "scripts/trigger.js",
+                "scripts/youtube-video.js",
+                "scripts/main-youtube-iframe.js"
+            ],
+            "all_frames": true
         }
     ]
 }

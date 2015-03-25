@@ -24,16 +24,11 @@ define('youtube-video', ['injector', 'trigger'], function(injector, trigger) {
     }
     youtubeVideo.injectTriggersOnLinks = injectTriggersOnLinks;
 
-    function injectTriggersOnIframes(body) {
-        body
-            .find('iframe[src*="youtube.com/embed/"]')
-            .each(function() {
-                /* globals purl:true */
-                var video = $(this);
-                trigger(video, 'youtube-video', purl(video.prop('data') || video.prop('src')).segment(-1));
-            });
+    function injectTriggerOnIframePlayer(body, docURL) {
+        /* globals purl:true */
+        trigger(body.find('#player'), 'youtube-video', purl(docURL || document.URL).segment(-1));
     }
-    youtubeVideo.injectTriggersOnIframes = injectTriggersOnIframes;
+    youtubeVideo.injectTriggerOnIframePlayer = injectTriggerOnIframePlayer;
 
     function injectTriggersOnObjectsAndEmbeds(body) {
         body
@@ -48,8 +43,8 @@ define('youtube-video', ['injector', 'trigger'], function(injector, trigger) {
 
     function registerInjections() {
         injector.register('default',                 youtubeVideo.injectTriggersOnLinks);
-        injector.register('default',                 youtubeVideo.injectTriggersOnIframes);
         injector.register('default',                 youtubeVideo.injectTriggersOnObjectsAndEmbeds);
+        injector.register('youtube-iframe',          youtubeVideo.injectTriggerOnIframePlayer);
         injector.register('facebook-youtube-iframe', youtubeVideo.injectTriggersOnObjectsAndEmbeds);
     }
     youtubeVideo.registerInjections = registerInjections;
