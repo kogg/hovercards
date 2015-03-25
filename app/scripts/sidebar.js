@@ -13,6 +13,7 @@ define('sidebar', ['jquery'], function() {
             .appendTo(obj);
 
         var onDeck = false;
+        var hasDeck = false;
         chrome.runtime.onMessage.addListener(function(request) {
             switch (request.msg) {
                 case 'deck':
@@ -22,6 +23,11 @@ define('sidebar', ['jquery'], function() {
                     if (onDeck) {
                         obj.show();
                         onDeck = false;
+                        hasDeck = true;
+                        break;
+                    }
+                    if (!hasDeck) {
+                        obj.hide();
                         break;
                     }
                     obj.toggle(obj.css('display') === 'none');

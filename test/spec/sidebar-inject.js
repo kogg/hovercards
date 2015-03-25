@@ -63,14 +63,31 @@ describe('sidebar (injections)', function() {
                     chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
                     sidebarObj.should.not.be.css('display', 'none');
                 });
+
+                it('should be hidden if called twice', function() {
+                    sidebarObj.show();
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' });
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                    sidebarObj.should.be.css('display', 'none');
+                });
+
+                it('should be visible if called thrice', function() {
+                    sidebarObj.show();
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' });
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                    sidebarObj.should.not.be.css('display', 'none');
+                });
             });
         });
 
         describe('on undeck', function() {
-            it('should be visible if it was hidden', function() {
+            it('should be hidden if it was hidden', function() {
                 sidebarObj.hide();
                 chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
-                sidebarObj.should.not.be.css('display', 'none');
+                sidebarObj.should.be.css('display', 'none');
             });
 
             it('should be hidden if it was visible', function() {
