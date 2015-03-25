@@ -348,34 +348,20 @@ b i {
 	animation-duration: 2s;
 	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
-	box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26);
 	-webkit-animation-name: bounceInRight;
 	animation-name: bounceInRight;
-	position: relative;
 }
 @-webkit-keyframes bounceInRight {
 	0% {
 		opacity: 0;
 		-webkit-transform: translateX(700px);
-		top: -3px;
 	}
-	50% {
+	75% {
 		opacity: 1;
-		-webkit-transform: translateX(-10px);
-	}
-	70% {
-		-webkit-transform: translateX(5px);
-	}
-	90% {
-		-webkit-transform: translateX(0);
-		box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26);
-		border: 1px solid transparent;
-		top: -3px;
+		-webkit-transform: translateX(-14px);
 	}
 	100% {
-		border: 1px solid #B6B6B6;
-		top:0px;
-		box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0);
+		-webkit-transform: translateX(0px);
 	}
 }
 
@@ -384,10 +370,10 @@ b i {
 	animation-duration: .8s;
 	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
-	-webkit-animation-name: bounceOutLeft;
-	animation-name: bounceOutLeft;
+	-webkit-animation-name: bounce-down;
+	animation-name: bounce-down;
 }
-@-webkit-keyframes bounceOutLeft {
+@-webkit-keyframes bounce-down {
 	0% {
 		-webkit-transform: translatey(0);
 		opacity: 1;
