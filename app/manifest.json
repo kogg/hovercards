@@ -40,6 +40,17 @@
         },
         {
             "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "js": [
+                "bower_components/jquery/dist/jquery.js",
+                "scripts/hotkey.js"
+            ],
+            "all_frames": true
+        },
+        {
+            "matches": [
                 "https://attachment.fbsbx.com/external_iframe.php"
             ],
             "js": [
