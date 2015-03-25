@@ -1,6 +1,19 @@
 'use strict';
 
-define('sidebar', ['jquery'], function($) {
+define('sidebar', ['injector', 'jquery'], function(injector) {
+    var sidebar = {};
+
+    function injectSidebar() {
+    }
+    sidebar.injectSidebar = injectSidebar;
+
+    function registerInjections() {
+        injector.register('default', sidebar.injectSidebar);
+    }
+    sidebar.registerInjections = registerInjections;
+
+    return sidebar;
+    /*
     return function sidebar() {
         var obj = $('<div class="hovertoast-sidebar"></div>');
         var iframe = $('<iframe></iframe>')
@@ -40,4 +53,5 @@ define('sidebar', ['jquery'], function($) {
 
         return obj;
     };
+    */
 });

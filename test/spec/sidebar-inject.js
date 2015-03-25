@@ -3,15 +3,17 @@
 /* PhantomJS can't handle the iframe with a src, since it doesn't actually load something legit */
 describe('sidebar', function() {
     var sandbox = sinon.sandbox.create();
-    var sidebarObj;
+    var injector;
+    var sidebar;
 
     beforeEach(function(done) {
         require(['Squire'], function(Squire) {
             new Squire()
-                .require(['sidebar'], function(sidebar) {
+                .mock('injector', injector = {})
+                .require(['sidebar'], function(_sidebar) {
                     sandbox.useFakeTimers();
                     sandbox.stub(chrome.runtime.onMessage, 'addListener');
-                    sidebarObj = sidebar();
+                    sidebar = _sidebar;
                     done();
                 });
         });
@@ -21,6 +23,18 @@ describe('sidebar', function() {
         sandbox.restore();
     });
 
+    describe('#registerInjections', function() {
+        beforeEach(function() {
+            injector.register = sandbox.stub();
+            sidebar.registerInjections();
+        });
+
+        it('should register injectSidebar on default', function() {
+            injector.register.should.have.been.calledWith('default', sidebar.injectSidebar);
+        });
+    });
+
+    /*
     it('should be hidden', function() {
         sidebarObj.should.be.hidden;
     });
@@ -65,4 +79,5 @@ describe('sidebar', function() {
             sidebarObj.should.not.be.css('display', 'none');
         });
     });
+    */
 });
