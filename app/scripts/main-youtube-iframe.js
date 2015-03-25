@@ -1,5 +1,6 @@
 'use strict';
 
-require(['youtube-video-inject'], function(youtubeVideoInject) {
-    youtubeVideoInject('body', '#player');
+require(['youtube-video', 'injector'], function(youtubeVideo, injector) {
+    youtubeVideo.registerInjections();
+    injector.inject('youtube-iframe');
 });

@@ -73,13 +73,13 @@ describe('injector', function() {
             injector.registered = { context: [spy] };
             injector.inject('context', 'body');
             spy.should.have.been.calledWith(sinon.match(function(body) {
-                return body.should.match('body');
+                return body.selector === 'body';
             }, 'selector of body'));
         });
 
-        it('should call inject with default context when undefined', function() {
+        it('should call inject on "body" when undefined', function() {
             sandbox.spy(injector, 'inject');
-            injector.inject('body');
+            injector.inject('default');
             injector.inject.should.have.been.calledWith('default', 'body');
         });
 

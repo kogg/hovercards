@@ -18,7 +18,7 @@ define('injector', ['jquery'], function($) {
         if (!context && !body) {
             return injector.inject('default', 'body');
         } else if (!body) {
-            return injector.inject('default', context);
+            return injector.inject(context, 'body');
         }
         if (!injector.registered[context]) {
             return;

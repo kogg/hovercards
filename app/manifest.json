@@ -30,56 +30,44 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/trigger.js",
-                "scripts/youtube-video-button.js",
-                "scripts/youtube-video-inject.js",
+                "scripts/injector.js",
                 "scripts/sidebar.js",
+                "scripts/trigger.js",
+                "scripts/youtube-video.js",
                 "scripts/main-top-frame.js"
             ],
             "all_frames": false
         },
         {
             "matches": [
-                "http://youtube.com/embed/*",
-                "https://youtube.com/embed/*",
-                "http://www.youtube.com/embed/*",
-                "https://www.youtube.com/embed/*"
-            ],
-            "exclude_matches": [
-                "http://*/*donthovercards*",
-                "https://*/*donthovercards*"
-            ],
-            "css": [
-                "styles/dom-styles.css"
+                "https://attachment.fbsbx.com/external_iframe.php"
             ],
             "js": [
                 "bower_components/purl/purl.js",
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
+                "scripts/injector.js",
                 "scripts/trigger.js",
-                "scripts/youtube-video-button.js",
-                "scripts/youtube-video-inject.js",
-                "scripts/main-youtube-iframe.js"
+                "scripts/youtube-video.js",
+                "scripts/main-facebook-youtube-iframe.js"
             ],
             "all_frames": true
         },
         {
             "matches": [
-                "https://attachment.fbsbx.com/external_iframe.php"
-            ],
-            "css": [
-                "styles/dom-styles.css"
+                "http://www.youtube.com/embed/*",
+                "https://www.youtube.com/embed/*"
             ],
             "js": [
                 "bower_components/purl/purl.js",
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
+                "scripts/injector.js",
                 "scripts/trigger.js",
-                "scripts/youtube-video-button.js",
-                "scripts/youtube-video-inject.js",
-                "scripts/main-facebook-youtube-iframe.js"
+                "scripts/youtube-video.js",
+                "scripts/main-youtube-iframe.js"
             ],
             "all_frames": true
         }
