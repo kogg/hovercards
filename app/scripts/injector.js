@@ -5,8 +5,7 @@ define('injector', ['jquery'], function($) {
 
     function register(context, injection) {
         if (!injection) {
-            injection = context;
-            context = 'default';
+            return injector.register('default', context);
         }
         if (!injector.registered[context]) {
             injector.registered[context] = [];
@@ -17,11 +16,9 @@ define('injector', ['jquery'], function($) {
 
     function inject(context, body) {
         if (!context && !body) {
-            context = 'default';
-            body = 'body';
+            return injector.inject('default', 'body');
         } else if (!body) {
-            body = context;
-            context = 'default';
+            return injector.inject('default', context);
         }
         if (!injector.registered[context]) {
             return;

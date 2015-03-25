@@ -23,10 +23,11 @@ describe('injector', function() {
             injector.registered.context[0].should.equal(spy);
         });
 
-        it('should add injection to registered without context', function() {
+        it('should call register with default context when undefined', function() {
+            sandbox.spy(injector, 'register');
             var spy = sandbox.spy();
             injector.register(spy);
-            injector.registered.default[0].should.equal(spy);
+            injector.register.should.have.been.calledWith('default', spy);
         });
 
         it('should allow multiple injections of the same context to be registered', function() {
@@ -76,24 +77,16 @@ describe('injector', function() {
             }, 'selector of body'));
         });
 
-        it('should call injections in the default context when not defined', function() {
-            var spy = sandbox.spy();
-            injector.registered = { default: [spy] };
+        it('should call inject with default context when undefined', function() {
+            sandbox.spy(injector, 'inject');
             injector.inject('body');
-            spy.should.have.been.called.once;
-            spy.should.have.been.calledWith(sinon.match(function(body) {
-                return body.should.match('body');
-            }, 'selector of body'));
+            injector.inject.should.have.been.calledWith('default', 'body');
         });
 
-        it('should call injections in the default context on "body" when not defined', function() {
-            var spy = sandbox.spy();
-            injector.registered = { default: [spy] };
+        it('should call inject with default context on "body" when undefined', function() {
+            sandbox.spy(injector, 'inject');
             injector.inject();
-            spy.should.have.been.called.once;
-            spy.should.have.been.calledWith(sinon.match(function(body) {
-                return body.should.match('body');
-            }, 'selector of body'));
+            injector.inject.should.have.been.calledWith('default', 'body');
         });
     });
 });
