@@ -1,13 +1,13 @@
 'use strict';
 
-describe('sidebar-background', function() {
+describe('sidebar (background)', function() {
     var sandbox = sinon.sandbox.create();
 
     beforeEach(function(done) {
-        require(['sidebar-background'], function(sidebarBackground) {
+        require(['sidebar'], function(sidebar) {
             sandbox.stub(chrome.tabs, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            sidebarBackground();
+            sidebar.background();
             done();
         });
     });

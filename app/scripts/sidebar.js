@@ -51,5 +51,22 @@ define('sidebar', ['injector', 'jquery'], function(injector) {
     }
     sidebar.registerInjections = registerInjections;
 
+    function background() {
+        chrome.runtime.onMessage.addListener(function(request, sender) {
+            switch (request.msg) {
+                case 'triggered':
+                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', show: 'maybe' });
+                    break;
+                case 'untriggered':
+                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', show: 'maybenot' });
+                    break;
+                case 'interested':
+                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', show: 'on' });
+                    break;
+            }
+        });
+    }
+    sidebar.background = background;
+
     return sidebar;
 });
