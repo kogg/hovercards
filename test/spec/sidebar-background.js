@@ -33,33 +33,35 @@ describe('sidebar (background)', function() {
             chrome.tabs.sendMessage.should.not.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something', id: 'SOME_ID' });
             chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something-else', id: 'SOME_OTHER_ID' });
         });
-    });
 
-    describe('on untrigger', function() {
-        it('should not send deck message if within 500ms of trigger', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-            chrome.runtime.onMessage.addListener.yield({ msg: 'untrigger' }, { tab: { id: 'TAB_ID' } });
-            sandbox.clock.tick(500);
-            chrome.tabs.sendMessage.should.not.have.been.called;
+        describe('then untrigger', function() {
+            it('should not send deck message if within 500ms', function() {
+                chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+                chrome.runtime.onMessage.addListener.yield({ msg: 'untrigger' }, { tab: { id: 'TAB_ID' } });
+                sandbox.clock.tick(500);
+                chrome.tabs.sendMessage.should.not.have.been.called;
+            });
+
+            it('should send deck message of previous trigger if within 500ms', function() {
+                chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+                chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something-else', id: 'SOME_OTHER_ID' }, { tab: { id: 'TAB_ID' } });
+                chrome.runtime.onMessage.addListener.yield({ msg: 'untrigger' }, { tab: { id: 'TAB_ID' } });
+                sandbox.clock.tick(500);
+                chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something', id: 'SOME_ID' });
+                chrome.tabs.sendMessage.should.not.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something-else', id: 'SOME_OTHER_ID' });
+            });
         });
 
-        it('should send deck message of previous trigger if within 500ms of trigger', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-            chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something-else', id: 'SOME_OTHER_ID' }, { tab: { id: 'TAB_ID' } });
-            chrome.runtime.onMessage.addListener.yield({ msg: 'untrigger' }, { tab: { id: 'TAB_ID' } });
-            sandbox.clock.tick(500);
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something', id: 'SOME_ID' });
-            chrome.tabs.sendMessage.should.not.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something-else', id: 'SOME_OTHER_ID' });
+        describe('then shoot', function() {
+            it('should send deck message if within 500ms', function() {
+                chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+                chrome.runtime.onMessage.addListener.yield({ msg: 'shoot' }, { tab: { id: 'TAB_ID' } });
+                chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something', id: 'SOME_ID' });
+            });
         });
     });
 
     describe('on shoot', function() {
-        it('should send deck message if within 500ms of trigger', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-            chrome.runtime.onMessage.addListener.yield({ msg: 'shoot' }, { tab: { id: 'TAB_ID' } });
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something', id: 'SOME_ID' });
-        });
-
         it('should not send deck message if not within 500ms of trigger', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'shoot' }, { tab: { id: 'TAB_ID' } });
             chrome.tabs.sendMessage.should.not.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something', id: 'SOME_ID' });

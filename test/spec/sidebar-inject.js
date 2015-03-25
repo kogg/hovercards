@@ -48,7 +48,10 @@ describe('sidebar (injections)', function() {
             sidebarObj.children('iframe').should.have.prop('src', 'chrome-extension://extension_id/sidebar.html');
         });
 
-        describe('when receiving maybe message', function() {
+        describe('on undeck message', function() {
+        });
+
+        describe.skip('when receiving maybe message', function() {
             beforeEach(function() {
                 chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', show: 'maybe' }, {});
             });
@@ -60,7 +63,7 @@ describe('sidebar (injections)', function() {
             it('should be hidden if followed by maybenot message within 2 seconds', function() {
                 sandbox.clock.tick(1999);
                 chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', show: 'maybenot' }, {});
-                sidebarObj.should.be.css('display', 'none');
+                sidebarObj.should.be.hidden;
             });
 
             it('should be visible if followed by maybenot message after 2 seconds', function() {
@@ -70,7 +73,7 @@ describe('sidebar (injections)', function() {
             });
         });
 
-        describe('when receiving on message', function() {
+        describe.skip('when receiving on message', function() {
             beforeEach(function() {
                 chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', show: 'on' }, {});
             });
