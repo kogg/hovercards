@@ -1,5 +1,50 @@
 'use strict';
 
+describe('youtube-video', function() {
+    var sandbox = sinon.sandbox.create();
+    var injector;
+    var youtubeVideo;
+
+    beforeEach(function(done) {
+        require(['Squire'], function(Squire) {
+            new Squire()
+                .mock('injector', injector = {})
+                .require(['youtube-video'], function(_youtubeVideo) {
+                    youtubeVideo = _youtubeVideo;
+                    done();
+                });
+        });
+    });
+
+    afterEach(function() {
+        sandbox.restore();
+    });
+
+    describe('#registerInjections', function() {
+        beforeEach(function() {
+            injector.register = sandbox.stub();
+            youtubeVideo.registerInjections();
+        });
+
+        it('should register injectTriggersOnLinks on default', function() {
+            injector.register.should.have.been.calledWith('default', youtubeVideo.injectTriggersOnLinks);
+        });
+
+        it('should register injectButtonsOnObjectsAndEmbeds on default', function() {
+            injector.register.should.have.been.calledWith('default', youtubeVideo.injectButtonsOnObjectsAndEmbeds);
+        });
+
+        it('should register injectButtonOnPlayer on youtube-iframe', function() {
+            injector.register.should.have.been.calledWith('youtube-iframe', youtubeVideo.injectButtonOnPlayer);
+        });
+
+        it('should register injectButtonsOnObjectsAndEmbeds on facebook-youtube-iframe', function() {
+            injector.register.should.have.been.calledWith('facebook-youtube-iframe', youtubeVideo.injectButtonsOnObjectsAndEmbeds);
+        });
+    });
+});
+
+/*
 describe('youtube-video-inject', function() {
     var sandbox = sinon.sandbox.create();
     var injector;
@@ -176,3 +221,4 @@ describe('youtube-video-inject', function() {
         });
     });
 });
+*/
