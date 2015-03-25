@@ -36,7 +36,7 @@ define('youtube-video', ['injector', 'trigger'], function(injector, trigger) {
             .each(function() {
                 /* globals purl:true */
                 var video = $(this);
-                trigger(video, 'youtube-video', purl(video.prop('data') || video.prop('src')).segment(-1));
+                trigger(video, 'youtube-video', purl(video.prop('data') || video.prop('src')).segment(-1).replace(/&.+/, ''));
             });
     }
     youtubeVideo.injectTriggersOnObjectsAndEmbeds = injectTriggersOnObjectsAndEmbeds;
