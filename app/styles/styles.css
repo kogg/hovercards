@@ -370,13 +370,11 @@ b i {
 		-webkit-transform: translateX(0);
 		box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0.26);
 		border: 1px solid transparent;
-		top: -2px;
+		top: -3px;
 	}
 	100% {
-		-webkit-transform: translateX(0);
 		border: 1px solid #B6B6B6;
 		top:0px;
-		/*I'm sorry expanding shadow :(, it was good while it lasted*/
 		box-shadow:0px 2px 5px 0 rgba(0, 0, 0, 0);
 	}
 }
