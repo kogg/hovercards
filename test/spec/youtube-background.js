@@ -103,4 +103,148 @@ describe('youtube-background', function() {
                                                    subscribers:  3000 });
         });
     });
+
+    describe('on youtube-comments message', function() {
+        var REGEX_COMMENTS = /^https:\/\/gdata.youtube.com\/feeds\/api\/videos\/SOME_ID\/comments/;
+        /*jshint multistr: true */
+        var COMMENTS_RESPONSE = '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
+                                     <entry>\
+                                         <published>2015-03-21T23:23:01.000Z</published>\
+                                         <content type="text">Some Content 1</content>\
+                                         <author>\
+                                             <name>Author Name 1</name>\
+                                             <uri>URL_1</uri>\
+                                         </author>\
+                                         <yt:channelId>SOME_CHANNEL_ID_1</yt:channelId>\
+                                     </entry>\
+                                     <entry>\
+                                         <published>2015-03-22T23:23:01.000Z</published>\
+                                         <content type="text">Some Content 2</content>\
+                                         <author>\
+                                             <name>Author Name 2</name>\
+                                             <uri>URL_2</uri>\
+                                         </author>\
+                                         <yt:channelId>SOME_CHANNEL_ID_2</yt:channelId>\
+                                     </entry>\
+                                     <entry>\
+                                         <published>2015-03-23T23:23:01.000Z</published>\
+                                         <content type="text">Some Content 3</content>\
+                                         <author>\
+                                             <name>Author Name 3</name>\
+                                             <uri>URL_3</uri>\
+                                         </author>\
+                                         <yt:channelId>SOME_CHANNEL_ID_3</yt:channelId>\
+                                     </entry>\
+                                     <entry>\
+                                         <published>2015-03-24T23:23:01.000Z</published>\
+                                         <content type="text">Some Content 4</content>\
+                                         <author>\
+                                             <name>Author Name 4</name>\
+                                             <uri>URL_4</uri>\
+                                         </author>\
+                                         <yt:channelId>SOME_CHANNEL_ID_4</yt:channelId>\
+                                     </entry>\
+                                     <entry>\
+                                         <published>2015-03-25T23:23:01.000Z</published>\
+                                         <content type="text">Some Content 5</content>\
+                                         <author>\
+                                             <name>Author Name 5</name>\
+                                             <uri>URL_5</uri>\
+                                         </author>\
+                                         <yt:channelId>SOME_CHANNEL_ID_5</yt:channelId>\
+                                     </entry>\
+                                 </feed>';
+
+        it('should call youtube\'s API (v2)', function() {
+            var callback = sandbox.spy();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+
+            var url = purl(sandbox.server.requests[0].url);
+            (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://gdata.youtube.com/feeds/api/videos/SOME_ID/comments');
+            url.param('max-results').should.equal('5');
+        });
+
+        it('should call youtube\'s API (v2) for each user', function() {
+            var callback = sandbox.spy();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            sandbox.server.respondWith(REGEX_COMMENTS, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
+            sandbox.server.respond();
+
+            sandbox.server.requests.length.should.equal(6);
+            sandbox.server.requests[1].url.should.equal('URL_1');
+            sandbox.server.requests[2].url.should.equal('URL_2');
+            sandbox.server.requests[3].url.should.equal('URL_3');
+            sandbox.server.requests[4].url.should.equal('URL_4');
+            sandbox.server.requests[5].url.should.equal('URL_5');
+        });
+
+        it('should callback a youtubeComments', function() {
+            var callback = sandbox.spy();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            sandbox.server.respondWith(REGEX_COMMENTS, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
+            sandbox.server.respondWith(/^URL_1$/,
+                                       [200,
+                                        { 'Content-Type': 'application/xml' },
+                                        '<?xml version="1.0" encoding="UTF-8"?>\
+                                        <entry xmlns="http://www.w3.org/2005/Atom" xmlns:gd="http://schemas.google.com/g/2005" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
+                                            <media:thumbnail url="image1.jpg" />\
+                                        </entry>']);
+            sandbox.server.respondWith(/^URL_2$/,
+                                       [200,
+                                        { 'Content-Type': 'application/xml' },
+                                        '<?xml version="1.0" encoding="UTF-8"?>\
+                                        <entry xmlns="http://www.w3.org/2005/Atom" xmlns:gd="http://schemas.google.com/g/2005" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
+                                            <media:thumbnail url="image2.jpg" />\
+                                        </entry>']);
+            sandbox.server.respondWith(/^URL_3$/,
+                                       [200,
+                                        { 'Content-Type': 'application/xml' },
+                                        '<?xml version="1.0" encoding="UTF-8"?>\
+                                        <entry xmlns="http://www.w3.org/2005/Atom" xmlns:gd="http://schemas.google.com/g/2005" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
+                                            <media:thumbnail url="image3.jpg" />\
+                                        </entry>']);
+            sandbox.server.respondWith(/^URL_4$/,
+                                       [200,
+                                        { 'Content-Type': 'application/xml' },
+                                        '<?xml version="1.0" encoding="UTF-8"?>\
+                                        <entry xmlns="http://www.w3.org/2005/Atom" xmlns:gd="http://schemas.google.com/g/2005" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
+                                            <media:thumbnail url="image4.jpg" />\
+                                        </entry>']);
+            sandbox.server.respondWith(/^URL_5$/,
+                                       [200,
+                                        { 'Content-Type': 'application/xml' },
+                                        '<?xml version="1.0" encoding="UTF-8"?>\
+                                        <entry xmlns="http://www.w3.org/2005/Atom" xmlns:gd="http://schemas.google.com/g/2005" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
+                                            <media:thumbnail url="image5.jpg" />\
+                                        </entry>']);
+            sandbox.server.respond();
+            sandbox.server.respond();
+
+            callback.should.have.been.calledWith({ comments: [{ name:      'Author Name 1',
+                                                                image:     'image1.jpg',
+                                                                date:      1426980181000,
+                                                                content:   'Some Content 1',
+                                                                channelId: 'SOME_CHANNEL_ID_1' },
+                                                              { name:      'Author Name 2',
+                                                                image:     'image2.jpg',
+                                                                date:      1427066581000,
+                                                                content:   'Some Content 2',
+                                                                channelId: 'SOME_CHANNEL_ID_2' },
+                                                              { name:      'Author Name 3',
+                                                                image:     'image3.jpg',
+                                                                date:      1427152981000,
+                                                                content:   'Some Content 3',
+                                                                channelId: 'SOME_CHANNEL_ID_3' },
+                                                              { name:      'Author Name 4',
+                                                                image:     'image4.jpg',
+                                                                date:      1427239381000,
+                                                                content:   'Some Content 4',
+                                                                channelId: 'SOME_CHANNEL_ID_4' },
+                                                              { name:      'Author Name 5',
+                                                                image:     'image5.jpg',
+                                                                date:      1427325781000,
+                                                                content:   'Some Content 5',
+                                                                channelId: 'SOME_CHANNEL_ID_5' }] });
+        });
+    });
 });
