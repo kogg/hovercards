@@ -3,6 +3,7 @@
 require(['cards-controller',
          'sidebar-directive',
          'youtube-video-card-directive',
+         'youtube-channel-card-directive',
          'youtube-channel-subscribe-directive',
          'description-filter',
          'numsmall-filter',
