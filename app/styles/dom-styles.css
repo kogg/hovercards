@@ -5,8 +5,7 @@
 	top:0px !important;
 	right: 0px !important;
 	z-index: 999999999999999 !important;
-	/*box-shadow:-1px 0px 2px 0px rgba(0, 0, 0, 0.25) !important;*/
-	border-left: 1px solid #B6B6B6 !important;
+	box-shadow:-6px 0px 5px -5px #999 !important;
 	-webkit-transform: translateZ(0) !important;
 	display: none;
 }
