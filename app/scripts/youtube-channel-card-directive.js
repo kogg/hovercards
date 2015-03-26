@@ -20,6 +20,7 @@ define(['angular-app'], function(app) {
                             $scope.videos      = youtubeVideo.videos;
                             $scope.views       = youtubeVideo.views;
                             $scope.subscribers = youtubeVideo.subscribers;
+                            $scope.loaded = true;
                         });
                     });
                     removeWatch();

@@ -1,3 +1,3 @@
-<div ng-repeat="cardset in cardsets">
-    <div ng-include="'templates/' + cardset.content + '-cardset.html'" class="cards bounce-out-animation"></div>
+<div ng-repeat="cardset in cardsets" class="bounce-out-animation">
+    <div ng-include="'templates/' + cardset.content + '-cardset.html'" class="cards"></div>
 </div>

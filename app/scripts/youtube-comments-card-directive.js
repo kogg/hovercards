@@ -15,6 +15,7 @@ define(['angular-app'], function(app) {
                     chrome.runtime.sendMessage({ msg: 'youtube', content: 'youtube-comments', id: id }, function(youtubeComments) {
                         $scope.$apply(function() {
                             $scope.comments = youtubeComments.comments;
+                            $scope.loaded = true;
                         });
                     });
                     removeWatch();

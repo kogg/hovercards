@@ -87,6 +87,28 @@ describe('youtube-video-card-directive', function() {
         scope.channelId.should.equal('SOME_CHANNEL_ID');
     });
 
+    it('should set loaded to true', function() {
+        var element = angular.element('<div youtube-video youtube-video-id="videoID" youtube-channel-id="channelID"></div>');
+        var scope;
+
+        $rootScope.videoID = 'SOME_ID';
+        $compile(element)($rootScope);
+        $rootScope.$digest();
+
+        chrome.runtime.sendMessage.yield({ image:      'image.jpg',
+                                           title:      'Some Title',
+                                           description: 'Some Description',
+                                           date:        1302060119000,
+                                           views:       1000,
+                                           likes:       2000,
+                                           dislikes:    3000,
+                                           channelId:   'SOME_CHANNEL_ID' });
+        $rootScope.$digest();
+        scope = element.isolateScope();
+
+        scope.loaded.should.be.true;
+    });
+
     it('should set root scope channelID to youtube response', function() {
         var element = angular.element('<div youtube-video youtube-video-id="videoID" youtube-channel-id="channelID"></div>');
 

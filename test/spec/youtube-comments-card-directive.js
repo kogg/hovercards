@@ -108,4 +108,43 @@ describe('youtube-comments-card-directive', function() {
                                             content:   'Some Content 5',
                                             channelId: 'SOME_CHANNEL_ID_5' }]);
     });
+
+    it('should set loaded to true', function() {
+        var element = angular.element('<div youtube-comments youtube-video-id="videoID"></div>');
+        var scope;
+
+        $rootScope.videoID = 'SOME_ID';
+        $compile(element)($rootScope);
+        $rootScope.$digest();
+
+        chrome.runtime.sendMessage.yield({ comments: [{ name:      'Author Name 1',
+                                                        image:     'image1.jpg',
+                                                        date:      1426980181001,
+                                                        content:   'Some Content 1',
+                                                        channelId: 'SOME_CHANNEL_ID_1' },
+                                                      { name:      'Author Name 2',
+                                                        image:     'image2.jpg',
+                                                        date:      1426980181002,
+                                                        content:   'Some Content 2',
+                                                        channelId: 'SOME_CHANNEL_ID_2' },
+                                                      { name:      'Author Name 3',
+                                                        image:     'image3.jpg',
+                                                        date:      1426980181003,
+                                                        content:   'Some Content 3',
+                                                        channelId: 'SOME_CHANNEL_ID_3' },
+                                                      { name:      'Author Name 4',
+                                                        image:     'image4.jpg',
+                                                        date:      1426980181004,
+                                                        content:   'Some Content 4',
+                                                        channelId: 'SOME_CHANNEL_ID_4' },
+                                                      { name:      'Author Name 5',
+                                                        image:     'image5.jpg',
+                                                        date:      1426980181005,
+                                                        content:   'Some Content 5',
+                                                        channelId: 'SOME_CHANNEL_ID_5' }] });
+        $rootScope.$digest();
+        scope = element.isolateScope();
+
+        scope.loaded.should.be.true;
+    });
 });

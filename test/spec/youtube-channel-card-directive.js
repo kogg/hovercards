@@ -70,4 +70,24 @@ describe('youtube-channel-card-directive', function() {
         scope.views.should.equal(2000);
         scope.subscribers.should.equal(3000);
     });
+
+    it('should set loaded to true', function() {
+        var element = angular.element('<div youtube-channel youtube-channel-id="channelID"></div>');
+        var scope;
+
+        $rootScope.channelID = 'SOME_ID';
+        $compile(element)($rootScope);
+        $rootScope.$digest();
+
+        chrome.runtime.sendMessage.yield({ image:      'image.jpg',
+                                           title:      'Some Title',
+                                           description: 'Some Description',
+                                           videos:      1000,
+                                           views:       2000,
+                                           subscribers: 3000 });
+        $rootScope.$digest();
+        scope = element.isolateScope();
+
+        scope.loaded.should.be.true;
+    });
 });

@@ -23,6 +23,7 @@ define(['angular-app'], function(app) {
                             $scope.likes       = youtubeVideo.likes;
                             $scope.dislikes    = youtubeVideo.dislikes;
                             $scope.channelId   = youtubeVideo.channelId;
+                            $scope.loaded = true;
                         });
                     });
                     removeWatch();
