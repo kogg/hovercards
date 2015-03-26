@@ -11,25 +11,14 @@ define('sidebar-inject', ['jquery'], function($) {
             .prop('frameborder', '0')
             .appendTo(obj);
 
-        var onDeck = false;
-        var hasDeck = false;
         chrome.runtime.onMessage.addListener(function(request) {
             switch (request.msg) {
-                case 'deck':
-                    onDeck = true;
+                case 'load':
+                case 'show':
+                    obj.show();
                     break;
-                case 'undeck':
-                    if (onDeck) {
-                        obj.show();
-                        onDeck = false;
-                        hasDeck = true;
-                        break;
-                    }
-                    if (!hasDeck) {
-                        obj.hide();
-                        break;
-                    }
-                    obj.toggle(obj.css('display') === 'none');
+                case 'hide':
+                    obj.hide();
                     break;
             }
         });

@@ -8,22 +8,12 @@ define(['angular-app'], function(app) {
             link: function($scope) {
                 $scope.cardsets = [];
                 chrome.runtime.onMessage.addListener(function(request) {
-                    switch (request.msg) {
-                        case 'deck':
-                            $scope.$apply(function() {
-                                $scope.deck = { content: request.content, id: request.id };
-                            });
-                            break;
-                        case 'undeck':
-                            if (!$scope.deck) {
-                                return;
-                            }
-                            $scope.$apply(function() {
-                                $scope.cardsets = [$scope.deck];
-                                $scope.deck = null;
-                            });
-                            break;
+                    if (request.msg !== 'load') {
+                        return;
                     }
+                    $scope.$apply(function() {
+                        $scope.cardsets = [{ content: request.content, id: request.id }];
+                    });
                 });
             }
         };
