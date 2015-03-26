@@ -1,4 +1,1 @@
-<div class="cards bounce-out-animation">
-    Deck:    {{ deck | json }}<br>
-    Cardset: {{ cardset | json }}
-</div>
+<div ng-include="cardset && ('templates/' + cardset.content + '-cardset.html')" class="cards bounce-out-animation"></div>
