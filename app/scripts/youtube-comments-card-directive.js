@@ -1,6 +1,6 @@
 'use strict';
 
-define(['angular-app'], function(app) {
+define(['angular-app', 'numsmall-filter'], function(app) {
     app.directive('youtubeComments', function() {
         return {
             scope: {

@@ -1,6 +1,6 @@
 'use strict';
 
-define(['angular-app'], function(app) {
+define(['angular-app', 'description-filter', 'numsmall-filter', 'trust-resource-url-filter', 'slide-animation'], function(app) {
     app.directive('youtubeVideo', function() {
         return {
             scope: {
