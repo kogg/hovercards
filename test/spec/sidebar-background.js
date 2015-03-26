@@ -2,15 +2,13 @@
 
 describe('sidebar-background', function() {
     var sandbox = sinon.sandbox.create();
-    var sidebarBackground;
+    var sidebarBackgroundObj;
 
     beforeEach(function(done) {
-        require(['sidebar-background'], function(_sidebarBackground) {
-            sandbox.useFakeTimers();
+        require(['sidebar-background'], function(sidebarBackground) {
             sandbox.stub(chrome.tabs, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            sidebarBackground = _sidebarBackground;
-            sidebarBackground();
+            sidebarBackgroundObj = sidebarBackground();
             done();
         });
     });
@@ -19,57 +17,34 @@ describe('sidebar-background', function() {
         sandbox.restore();
     });
 
-    describe('on trigger', function() {
-        it('should send deck message after 500ms', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-            sandbox.clock.tick(500);
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something', id: 'SOME_ID' });
-        });
-
-        it('should send only one deck message after 500ms, even if repeated', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-            chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something-else', id: 'SOME_OTHER_ID' }, { tab: { id: 'TAB_ID' } });
-            sandbox.clock.tick(500);
-            chrome.tabs.sendMessage.should.not.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something', id: 'SOME_ID' });
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something-else', id: 'SOME_OTHER_ID' });
-        });
-
-        describe('then untrigger', function() {
-            it('should not send deck message if within 500ms', function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-                chrome.runtime.onMessage.addListener.yield({ msg: 'untrigger' }, { tab: { id: 'TAB_ID' } });
-                sandbox.clock.tick(500);
-                chrome.tabs.sendMessage.should.not.have.been.called;
-            });
-
-            it('should send deck message of previous trigger if within 500ms', function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-                chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something-else', id: 'SOME_OTHER_ID' }, { tab: { id: 'TAB_ID' } });
-                chrome.runtime.onMessage.addListener.yield({ msg: 'untrigger' }, { tab: { id: 'TAB_ID' } });
-                sandbox.clock.tick(500);
-                chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something', id: 'SOME_ID' });
-                chrome.tabs.sendMessage.should.not.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something-else', id: 'SOME_OTHER_ID' });
-            });
-        });
-
-        describe('then shoot', function() {
-            it('should send deck message if within 500ms', function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'trigger', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-                chrome.runtime.onMessage.addListener.yield({ msg: 'shoot' }, { tab: { id: 'TAB_ID' } });
-                chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something', id: 'SOME_ID' });
-            });
-        });
+    it('should do nothing on undeck', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' }, { tab: { id: 'TAB_ID' } });
+        chrome.tabs.sendMessage.should.not.have.been.called;
     });
 
-    describe('on shoot', function() {
-        it('should not send deck message if not within 500ms of trigger', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'shoot' }, { tab: { id: 'TAB_ID' } });
-            chrome.tabs.sendMessage.should.not.have.been.calledWith('TAB_ID', { msg: 'deck', content: 'something', id: 'SOME_ID' });
-        });
+    it('should do nothing on deck', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.tabs.sendMessage.should.not.have.been.called;
+    });
 
-        it('should send undeck message', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'shoot' }, { tab: { id: 'TAB_ID' } });
-            chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'undeck' });
-        });
+    it('should send load on deck-undeck', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' }, { tab: { id: 'TAB_ID' } });
+        chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
+    });
+
+    it('should send hide on deck-undeck-undeck', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' }, { tab: { id: 'TAB_ID' } });
+        chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'hide' });
+    });
+
+    it('should send show on deck-undeck-undeck-undeck', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' }, { tab: { id: 'TAB_ID' } });
+        chrome.tabs.sendMessage.should.have.been.calledWith('TAB_ID', { msg: 'show' });
     });
 });
