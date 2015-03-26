@@ -4,7 +4,6 @@ define(['angular-app'], function(app) {
     app.directive('sidebar', function() {
         return {
             scope: { },
-            replace: true,
             templateUrl: 'templates/sidebar.html',
             link: function($scope) {
                 $scope.cardsets = [];

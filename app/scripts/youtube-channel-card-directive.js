@@ -6,7 +6,6 @@ define(['angular-app'], function(app) {
             scope: {
                 id: '=youtubeChannelId'
             },
-            replace: true,
             templateUrl: 'templates/youtube-channel-card.html',
             link: function($scope) {
                 var removeWatch = $scope.$watch('id', function(id) {
