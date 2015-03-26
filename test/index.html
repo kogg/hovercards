@@ -41,26 +41,24 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-mocks/angular-mocks.js"></script>
 
-    <!-- sidebar -->
-    <script src="spec/sidebar-inject.js"></script>
-    <script src="spec/sidebar-background.js"></script>
-    <script src="spec/sidebar-directive.js"></script>
-
-    <!-- youtube-video -->
+    <!-- X => deck -->
+    <script src="spec/trigger.js"></script>
     <script src="spec/youtube-video-inject.js"></script>
+
+    <!-- deck/undeck => X => load/show/hide -->
+    <script src="spec/sidebar-background.js"></script>
+
+    <!-- load/show/hide => X -->
+    <script src="spec/sidebar-inject.js"></script>
+
+    <!-- load => X => data -->
+    <script src="spec/sidebar-directive.js"></script>
     <script src="spec/youtube-video-card-directive.js"></script>
-
-    <!-- youtube-channel -->
     <script src="spec/youtube-channel-card-directive.js"></script>
-
-    <!-- youtube-comments -->
     <script src="spec/youtube-comments-card-directive.js"></script>
 
-    <!-- youtube -->
+    <!-- data => X -->
     <script src="spec/youtube-background.js"></script>
-
-    <!-- common -->
-    <script src="spec/trigger.js"></script>
 
     <!-- filters -->
     <script src="spec/htmlify-filter.js"></script>
