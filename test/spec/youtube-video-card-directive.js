@@ -66,14 +66,14 @@ describe('youtube-video-card-directive', function() {
         $compile(element)($rootScope);
         $rootScope.$digest();
 
-        chrome.runtime.sendMessage.yield(null, { image:      'image.jpg',
-                                                 title:      'Some Title',
-                                                 description: 'Some Description',
-                                                 date:        1302060119000,
-                                                 views:       1000,
-                                                 likes:       2000,
-                                                 dislikes:    3000,
-                                                 channelId:   'SOME_CHANNEL_ID' });
+        chrome.runtime.sendMessage.yield({ image:      'image.jpg',
+                                           title:      'Some Title',
+                                           description: 'Some Description',
+                                           date:        1302060119000,
+                                           views:       1000,
+                                           likes:       2000,
+                                           dislikes:    3000,
+                                           channelId:   'SOME_CHANNEL_ID' });
         $rootScope.$digest();
         scope = element.isolateScope();
 
@@ -94,14 +94,14 @@ describe('youtube-video-card-directive', function() {
         $compile(element)($rootScope);
         $rootScope.$digest();
 
-        chrome.runtime.sendMessage.yield(null, { image:      'image.jpg',
-                                                 title:      'Some Title',
-                                                 description: 'Some Description',
-                                                 date:        1302060119000,
-                                                 views:       1000,
-                                                 likes:       2000,
-                                                 dislikes:    3000,
-                                                 channelId:   'SOME_CHANNEL_ID' });
+        chrome.runtime.sendMessage.yield({ image:      'image.jpg',
+                                           title:      'Some Title',
+                                           description: 'Some Description',
+                                           date:        1302060119000,
+                                           views:       1000,
+                                           likes:       2000,
+                                           dislikes:    3000,
+                                           channelId:   'SOME_CHANNEL_ID' });
         $rootScope.$digest();
 
         $rootScope.channelID.should.equal('SOME_CHANNEL_ID');
