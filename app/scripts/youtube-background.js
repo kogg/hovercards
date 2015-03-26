@@ -63,7 +63,6 @@ define(['jquery'], function($) {
                                                                  content:   entry.children('content').text(),
                                                                  channelId: entry.children('yt\\:channelId').text() });
                                     }
-                                    console.log('sup');
                                     callback(response);
                                 });
                         });
