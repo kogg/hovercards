@@ -75,7 +75,7 @@ html,body {
 	max-width: 340px;
 	top: 60px;
 	left: 0;
-	padding: 0 20px;
+	padding: 0 20px 60px;
 }
 /*header*/
 header {
@@ -121,6 +121,21 @@ b {
 	margin-bottom: 5.5px;
 	font-size:11px;
 	text-transform: uppercase;
+}
+p, p a, .card-text .card-description p a, .card-description-padding p a{
+	line-height: 19px;
+  font-weight: 400;
+  font-size: 15px;
+  color: #727272;
+}
+p a, .card-text .card-description p a, .card-description-padding p a {
+	color: #03A9F4;
+}
+.card-description-padding {
+	padding: 16px;
+}
+.card-text .card-description {
+	margin-bottom: 16px;
 }
 b i {
 	position: relative;
