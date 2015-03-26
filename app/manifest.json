@@ -33,7 +33,7 @@
                 "scripts/sidebar-inject.js",
                 "scripts/trigger.js",
                 "scripts/youtube-video-inject.js",
-                "scripts/main-top-frame.js"
+                "scripts/top-frame-main.js"
             ],
             "all_frames": false
         },
@@ -59,7 +59,7 @@
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/trigger.js",
                 "scripts/youtube-video-inject.js",
-                "scripts/main-facebook-youtube-iframe.js"
+                "scripts/facebook-youtube-video-iframe-main.js"
             ],
             "all_frames": true
         },
@@ -75,7 +75,7 @@
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/trigger.js",
                 "scripts/youtube-video-inject.js",
-                "scripts/main-youtube-iframe.js"
+                "scripts/youtube-video-iframe-main.js"
             ],
             "all_frames": true
         }
