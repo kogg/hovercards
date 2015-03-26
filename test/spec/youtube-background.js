@@ -65,4 +65,42 @@ describe('youtube-background', function() {
                                                    channelId:   'SOME_CHANNEL_ID' });
         });
     });
+
+    describe('on youtube-channel message', function() {
+        var REGEX_CHANNEL = /^https:\/\/www.googleapis.com\/youtube\/v3\/channels/;
+
+        it('should call youtube\'s API', function() {
+            var callback = sandbox.spy();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-channel', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+
+            var url = purl(sandbox.server.requests[0].url);
+            (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://www.googleapis.com/youtube/v3/channels');
+            url.param('id').should.equal('SOME_ID');
+            url.param('part').should.equal('snippet,statistics');
+            url.param('key').should.not.be.undefined;
+            url.param('key').should.not.be.null;
+        });
+
+        it('should callback a youtubeChannel', function() {
+            var callback = sandbox.spy();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-channel', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            sandbox.server.respondWith(REGEX_CHANNEL,
+                                       [200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify({ items: [{ snippet:    { thumbnails: { medium: { url: 'image.jpg' } },
+                                                                                 localized:  { title:       'Some Title',
+                                                                                               description: 'Some Description' } },
+                                                                   statistics: { viewCount:       2000,
+                                                                                 subscriberCount: 3000,
+                                                                                 videoCount:      1000 } }] })]);
+            sandbox.server.respond();
+
+            callback.should.have.been.calledWith({ image:       'image.jpg',
+                                                   title:       'Some Title',
+                                                   description: 'Some Description',
+                                                   videos:       1000,
+                                                   views:        2000,
+                                                   subscribers:  3000 });
+        });
+    });
 });
