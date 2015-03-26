@@ -1,5 +1,6 @@
 'use strict';
 
+/* FIXME Why do we have to name this within the file itself? */
 define('youtube-video-inject', ['trigger'], function(trigger) {
     function injectTriggersOnLinks(body, docURL) {
         /* globals purl:true */

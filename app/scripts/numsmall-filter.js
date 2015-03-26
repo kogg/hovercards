@@ -1,7 +1,7 @@
 'use strict';
 
 define(['angular-app'], function(app) {
-    app.filter('numsmall', function() {
+    return app.filter('numsmall', function() {
         return function(number) {
             if (number < 10000) {
                 return number + '';

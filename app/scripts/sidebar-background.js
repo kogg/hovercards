@@ -1,6 +1,6 @@
 'use strict';
 
-define('sidebar-background', [], function() {
+define([], function() {
     return function sidebarBackground() {
         function sendDeck(sender) {
             var deck = stack[sender.tab.id].pop();
