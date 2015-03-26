@@ -33,7 +33,7 @@ describe('youtube-video-card-directive', function() {
         $rootScope.$digest();
         scope = element.isolateScope();
 
-        scope.videoID.should.equal('SOME_ID');
+        scope.id.should.equal('SOME_ID');
     });
 
     it('should bring channel id into scope', function() {
@@ -45,7 +45,7 @@ describe('youtube-video-card-directive', function() {
         $rootScope.$digest();
         scope = element.isolateScope();
 
-        scope.channelID.should.equal('SOME_ID');
+        scope.channelId.should.equal('SOME_ID');
     });
 
     it('should send youtube api message', function() {
@@ -56,5 +56,54 @@ describe('youtube-video-card-directive', function() {
         $rootScope.$digest();
 
         chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'api', content: 'youtube-video', id: 'SOME_ID' }, sinon.match.func);
+    });
+
+    it('should set scope properties to youtube api response', function() {
+        var element = angular.element('<div youtube-video youtube-video-id="videoID" youtube-channel-id="channelID"></div>');
+        var scope;
+
+        $rootScope.videoID = 'SOME_ID';
+        $compile(element)($rootScope);
+        $rootScope.$digest();
+
+        chrome.runtime.sendMessage.yield(null, { image:      'image.jpg',
+                                                 title:      'Some Title',
+                                                 description: 'Some Description',
+                                                 date:        1302060119000,
+                                                 views:       1000,
+                                                 likes:       2000,
+                                                 dislikes:    3000,
+                                                 channelId:   'SOME_CHANNEL_ID' });
+        $rootScope.$digest();
+        scope = element.isolateScope();
+
+        scope.image.should.equal('image.jpg');
+        scope.title.should.equal('Some Title');
+        scope.description.should.equal('Some Description');
+        scope.date.should.equal(1302060119000);
+        scope.views.should.equal(1000);
+        scope.likes.should.equal(2000);
+        scope.dislikes.should.equal(3000);
+        scope.channelId.should.equal('SOME_CHANNEL_ID');
+    });
+
+    it('should set root scope channelID to youtube api response', function() {
+        var element = angular.element('<div youtube-video youtube-video-id="videoID" youtube-channel-id="channelID"></div>');
+
+        $rootScope.videoID = 'SOME_ID';
+        $compile(element)($rootScope);
+        $rootScope.$digest();
+
+        chrome.runtime.sendMessage.yield(null, { image:      'image.jpg',
+                                                 title:      'Some Title',
+                                                 description: 'Some Description',
+                                                 date:        1302060119000,
+                                                 views:       1000,
+                                                 likes:       2000,
+                                                 dislikes:    3000,
+                                                 channelId:   'SOME_CHANNEL_ID' });
+        $rootScope.$digest();
+
+        $rootScope.channelID.should.equal('SOME_CHANNEL_ID');
     });
 });
