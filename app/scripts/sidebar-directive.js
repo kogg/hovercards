@@ -7,6 +7,7 @@ define(['angular-app'], function(app) {
             replace: true,
             templateUrl: 'templates/sidebar.html',
             link: function($scope) {
+                $scope.cardsets = [];
                 chrome.runtime.onMessage.addListener(function(request) {
                     switch (request.msg) {
                         case 'deck':
@@ -19,7 +20,7 @@ define(['angular-app'], function(app) {
                                 return;
                             }
                             $scope.$apply(function() {
-                                $scope.cardset = $scope.deck;
+                                $scope.cardsets = [$scope.deck];
                                 $scope.deck = null;
                             });
                             break;

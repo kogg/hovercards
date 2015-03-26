@@ -24,7 +24,7 @@ describe('sidebar-directive', function() {
         sandbox.restore();
     });
 
-    it('should not start with a cardset', function() {
+    it('should start with empty cardsets', function() {
         var element = angular.element('<div sidebar></div>');
         var scope;
 
@@ -32,7 +32,7 @@ describe('sidebar-directive', function() {
         $rootScope.$digest();
         scope = element.isolateScope();
 
-        expect(scope.cardset).to.be.undefined;
+        scope.cardsets.should.deep.equal([]);
     });
 
     it('should not start with a deck', function() {
@@ -44,19 +44,6 @@ describe('sidebar-directive', function() {
         scope = element.isolateScope();
 
         expect(scope.deck).to.be.undefined;
-    });
-
-    it('should ng-include content if cardset is set', function() {
-        var element = angular.element('<div sidebar></div>');
-        var scope;
-
-        $compile(element)($rootScope);
-        $rootScope.$digest();
-        scope = element.isolateScope();
-
-        scope.cardset = { content: 'something', id: 'SOME_ID' };
-        $rootScope.$digest();
-        scope.cardset.should.deep.equal({ content: 'something', id: 'SOME_ID' });
     });
 
     describe('on deck', function() {
@@ -76,7 +63,7 @@ describe('sidebar-directive', function() {
     });
 
     describe('on undeck', function() {
-        it('should set cardset to deck', function() {
+        it('should set cardsets to deck', function() {
             var element = angular.element('<div sidebar></div>');
             var scope;
 
@@ -88,7 +75,7 @@ describe('sidebar-directive', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
             $rootScope.$digest();
 
-            scope.cardset.should.deep.equal({ content: 'something', id: 'SOME_ID' });
+            scope.cardsets.should.deep.equal([{ content: 'something', id: 'SOME_ID' }]);
         });
 
         it('should unset deck', function() {
@@ -106,7 +93,7 @@ describe('sidebar-directive', function() {
             expect(scope.deck).to.be.null;
         });
 
-        it('should not unset cardset if called twice more', function() {
+        it('should not unset cardsets if called twice more', function() {
             var element = angular.element('<div sidebar></div>');
             var scope;
 
@@ -114,13 +101,13 @@ describe('sidebar-directive', function() {
             $rootScope.$digest();
             scope = element.isolateScope();
 
-            scope.cardset = { content: 'something', id: 'SOME_ID' };
+            scope.cardsets = [{ content: 'something', id: 'SOME_ID' }];
             chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
             $rootScope.$digest();
             chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
             $rootScope.$digest();
 
-            scope.cardset.should.deep.equal({ content: 'something', id: 'SOME_ID' });
+            scope.cardsets.should.deep.equal([{ content: 'something', id: 'SOME_ID' }]);
         });
     });
 });
