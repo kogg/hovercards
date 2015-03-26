@@ -6,6 +6,7 @@ describe('trigger', function() {
 
     beforeEach(function(done) {
         require(['trigger'], function(trigger) {
+            sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime, 'sendMessage');
             triggerObj = trigger($('<div></div>'), 'something', 'SOME_ID');
             done();
@@ -17,22 +18,22 @@ describe('trigger', function() {
     });
 
     describe('on mouseenter', function() {
-        beforeEach(function() {
+        it('should send triggered message after 500ms', function() {
             triggerObj.mouseenter();
-        });
-
-        it('should send triggered message', function() {
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'trigger', content: 'something', id: 'SOME_ID' });
+            sandbox.clock.tick(499);
+            chrome.runtime.sendMessage.should.not.have.been.called;
+            sandbox.clock.tick(500);
+            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'deck', content: 'something', id: 'SOME_ID' });
         });
     });
 
     describe('on mouseleave', function() {
-        beforeEach(function() {
+        it('should not send triggered message after 500ms', function() {
             triggerObj.mouseenter().mouseleave();
-        });
-
-        it('should send untriggered message', function() {
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'untrigger' });
+            sandbox.clock.tick(499);
+            chrome.runtime.sendMessage.should.not.have.been.called;
+            sandbox.clock.tick(500);
+            chrome.runtime.sendMessage.should.not.have.been.called;
         });
     });
 });
