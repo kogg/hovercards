@@ -4,7 +4,7 @@ define(['youtube-api'], function(youtubeApi) {
     return function youtubeVideoBackground() {
         var i = 0;
         chrome.runtime.onMessage.addListener(function(request, sender) {
-            if (request.msg !== 'triggered' || request.content !== 'youtube-video') {
+            if (request.msg !== 'trigger' || request.content !== 'youtube-video') {
                 return;
             }
             var h = i++;
@@ -21,12 +21,12 @@ define(['youtube-api'], function(youtubeApi) {
                                                              id:   'youtube-video-' + h,
                                                              card: youtubeChannelCard });
                 });
-                youtubeApi.comments(youtubeVideoCard.id, function(err, youtubeCommentsCard) {
-                    youtubeCommentsCard.priority = 2;
-                    chrome.tabs.sendMessage(sender.tab.id, { msg:  'card',
-                                                             id:   'youtube-video-' + h,
-                                                             card: youtubeCommentsCard });
-                });
+            });
+            youtubeApi.comments(request.id, function(err, youtubeCommentsCard) {
+                youtubeCommentsCard.priority = 2;
+                chrome.tabs.sendMessage(sender.tab.id, { msg:  'card',
+                                                         id:   'youtube-video-' + h,
+                                                         card: youtubeCommentsCard });
             });
         });
     };

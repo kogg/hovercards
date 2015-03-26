@@ -1,19 +1,39 @@
 'use strict';
 
-define(function() {
-    return function() {
+define('sidebar-background', [], function() {
+    return function sidebarBackground() {
+        function sendDeck(sender) {
+            var deck = stack[sender.tab.id].pop();
+            stack[sender.tab.id] = [];
+            if (!deck) {
+                return;
+            }
+            chrome.tabs.sendMessage(sender.tab.id, { msg: 'deck', content: deck.content, id: deck.id });
+        }
+
+        var timeout;
+        var stack = {};
+
         chrome.runtime.onMessage.addListener(function(request, sender) {
+            if (!stack[sender.tab.id]) {
+                stack[sender.tab.id] = [];
+            }
             switch (request.msg) {
-                case 'triggered':
-                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', show: 'maybe' });
+                case 'trigger':
+                    stack[sender.tab.id].push({ content: request.content, id: request.id });
                     break;
-                case 'untriggered':
-                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', show: 'maybenot' });
+                case 'untrigger':
+                    stack[sender.tab.id].pop();
                     break;
-                case 'interested':
-                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'sidebar', show: 'on' });
+                case 'shoot':
+                    sendDeck(sender);
+                    chrome.tabs.sendMessage(sender.tab.id, { msg: 'undeck' });
                     break;
             }
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                sendDeck(sender);
+            }, 500);
         });
     };
 });

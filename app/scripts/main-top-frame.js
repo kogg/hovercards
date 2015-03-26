@@ -1,7 +1,6 @@
 'use strict';
 
-require(['sidebar', 'youtube-video', 'injector'], function(sidebar, youtubeVideo, injector) {
-    sidebar.registerInjections();
-    youtubeVideo.registerInjections();
-    injector.inject();
+require(['sidebar-inject', 'youtube-video-inject'], function(sidebarInject, youtubeVideoInject) {
+    sidebarInject('default');
+    youtubeVideoInject('default');
 });

@@ -1,8 +1,6 @@
 'use strict';
 
-define('youtube-video', ['injector', 'trigger'], function(injector, trigger) {
-    var youtubeVideo = {};
-
+define('youtube-video-inject', ['trigger'], function(trigger) {
     function injectTriggersOnLinks(body, docURL) {
         /* globals purl:true */
         var youtubeLinkSelector = 'a[href*="youtube.com/watch"]';
@@ -22,13 +20,11 @@ define('youtube-video', ['injector', 'trigger'], function(injector, trigger) {
                 trigger(link, 'youtube-video', purl(link.attr('href')).segment(-1));
             });
     }
-    youtubeVideo.injectTriggersOnLinks = injectTriggersOnLinks;
 
     function injectTriggerOnIframePlayer(body, docURL) {
         /* globals purl:true */
         trigger(body.find('#player'), 'youtube-video', purl(docURL || document.URL).segment(-1));
     }
-    youtubeVideo.injectTriggerOnIframePlayer = injectTriggerOnIframePlayer;
 
     function injectTriggersOnObjectsAndEmbeds(body) {
         body
@@ -39,15 +35,28 @@ define('youtube-video', ['injector', 'trigger'], function(injector, trigger) {
                 trigger(video, 'youtube-video', purl(video.prop('data') || video.prop('src')).segment(-1).replace(/&.+/, ''));
             });
     }
-    youtubeVideo.injectTriggersOnObjectsAndEmbeds = injectTriggersOnObjectsAndEmbeds;
 
-    function registerInjections() {
-        injector.register('default',                 youtubeVideo.injectTriggersOnLinks);
-        injector.register('default',                 youtubeVideo.injectTriggersOnObjectsAndEmbeds);
-        injector.register('youtube-iframe',          youtubeVideo.injectTriggerOnIframePlayer);
-        injector.register('facebook-youtube-iframe', youtubeVideo.injectTriggersOnObjectsAndEmbeds);
+    function inject(context, body) {
+        if (!body) {
+            body = 'body';
+        }
+        body = $(body);
+        switch (context) {
+            case 'default':
+                inject.injectTriggersOnLinks(body);
+                inject.injectTriggersOnObjectsAndEmbeds(body);
+                break;
+            case 'youtube-iframe':
+                inject.injectTriggerOnIframePlayer(body);
+                break;
+            case 'facebook-youtube-iframe':
+                inject.injectTriggersOnObjectsAndEmbeds(body);
+                break;
+        }
     }
-    youtubeVideo.registerInjections = registerInjections;
+    inject.injectTriggersOnLinks = injectTriggersOnLinks;
+    inject.injectTriggerOnIframePlayer = injectTriggerOnIframePlayer;
+    inject.injectTriggersOnObjectsAndEmbeds = injectTriggersOnObjectsAndEmbeds;
 
-    return youtubeVideo;
+    return inject;
 });

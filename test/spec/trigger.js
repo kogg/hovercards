@@ -16,23 +16,23 @@ describe('trigger', function() {
         sandbox.restore();
     });
 
-    describe('when mouseenter', function() {
+    describe('on mouseenter', function() {
         beforeEach(function() {
             triggerObj.mouseenter();
         });
 
         it('should send triggered message', function() {
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'triggered', content: 'something', id: 'SOME_ID' });
+            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'trigger', content: 'something', id: 'SOME_ID' });
         });
     });
 
-    describe('when mouseleave', function() {
+    describe('on mouseleave', function() {
         beforeEach(function() {
             triggerObj.mouseenter().mouseleave();
         });
 
         it('should send untriggered message', function() {
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'untriggered' });
+            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'untrigger' });
         });
     });
 });

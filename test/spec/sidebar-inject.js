@@ -1,22 +1,16 @@
 'use strict';
 
-/* PhantomJS can't handle the iframe with a src, since it doesn't actually load something legit */
-describe('sidebar', function() {
+describe('sidebar-inject', function() {
     var sandbox = sinon.sandbox.create();
     var body;
-    var injector;
-    var sidebar;
+    var sidebarInject;
 
     beforeEach(function(done) {
-        require(['Squire'], function(Squire) {
-            new Squire()
-                .mock('injector', injector = {})
-                .require(['sidebar'], function(_sidebar) {
-                    sandbox.useFakeTimers();
-                    sandbox.stub(chrome.runtime.onMessage, 'addListener');
-                    sidebar = _sidebar;
-                    done();
-                });
+        require(['sidebar-inject'], function(_sidebarInject) {
+            sandbox.useFakeTimers();
+            sandbox.stub(chrome.runtime.onMessage, 'addListener');
+            sidebarInject = _sidebarInject;
+            done();
         });
     });
 
@@ -28,14 +22,14 @@ describe('sidebar', function() {
         sandbox.restore();
     });
 
-    describe('#registerInjections', function() {
+    describe('call', function() {
         beforeEach(function() {
-            injector.register = sandbox.stub();
-            sidebar.registerInjections();
+            sandbox.stub(sidebarInject, 'injectSidebar');
         });
 
         it('should register injectSidebar on default', function() {
-            injector.register.should.have.been.calledWith('default', sidebar.injectSidebar);
+            sidebarInject('default');
+            sidebarInject.injectSidebar.should.have.been.called;
         });
     });
 
@@ -43,51 +37,63 @@ describe('sidebar', function() {
         var sidebarObj;
 
         beforeEach(function() {
-            sidebarObj = sidebar.injectSidebar(body);
+            sidebarObj = sidebarInject.injectSidebar(body);
         });
 
         it('should be hidden', function() {
-            sidebarObj.should.be.hidden;
+            sidebarObj.should.be.css('display', 'none');
         });
 
         it('should contain an iframe with correct src', function() {
             sidebarObj.children('iframe').should.have.prop('src', 'chrome-extension://extension_id/sidebar.html');
         });
 
-        describe('when receiving maybe message', function() {
-            beforeEach(function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', show: 'maybe' }, {});
-            });
+        describe('on deck', function() {
+            describe('then undeck', function() {
+                it('should be visible if it was hidden ', function() {
+                    sidebarObj.hide();
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' });
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                    sidebarObj.should.not.be.css('display', 'none');
+                });
 
-            it('should be visible', function() {
-                sidebarObj.should.not.be.css('display', 'none');
-            });
+                it('should be visible if it was visible', function() {
+                    sidebarObj.show();
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' });
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                    sidebarObj.should.not.be.css('display', 'none');
+                });
 
-            it('should be hidden if followed by maybenot message within 2 seconds', function() {
-                sandbox.clock.tick(1999);
-                chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', show: 'maybenot' }, {});
-                sidebarObj.should.be.css('display', 'none');
-            });
+                it('should be hidden if called twice', function() {
+                    sidebarObj.show();
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' });
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                    sidebarObj.should.be.css('display', 'none');
+                });
 
-            it('should be visible if followed by maybenot message after 2 seconds', function() {
-                sandbox.clock.tick(2000);
-                chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', show: 'maybenot' }, {});
-                sidebarObj.should.not.be.css('display', 'none');
+                it('should be visible if called thrice', function() {
+                    sidebarObj.show();
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' });
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                    chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                    sidebarObj.should.not.be.css('display', 'none');
+                });
             });
         });
 
-        describe('when receiving on message', function() {
-            beforeEach(function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', show: 'on' }, {});
+        describe('on undeck', function() {
+            it('should be hidden if it was hidden', function() {
+                sidebarObj.hide();
+                chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                sidebarObj.should.be.css('display', 'none');
             });
 
-            it('should be visible', function() {
-                sidebarObj.should.not.be.css('display', 'none');
-            });
-
-            it('should be visible if followed by maybenot message', function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'sidebar', show: 'maybenot' }, {});
-                sidebarObj.should.not.be.css('display', 'none');
+            it('should be hidden if it was visible', function() {
+                sidebarObj.show();
+                chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
+                sidebarObj.should.be.css('display', 'none');
             });
         });
     });
