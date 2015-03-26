@@ -13,8 +13,8 @@
 		</div>
 	</div>
 
-    <div ng-show="show" ng-click="$event.stopPropagation()" ng-if="::card.description" class="slide-animation">
-        <span ng-bind-html="::card.description | description" ng-show="show" class="fade-animation"></span>
+    <div ng-show="show" ng-click="$event.stopPropagation()" ng-if="::card.description" class="slide-animation card-description-padding">
+        <p ng-bind-html="::card.description | description" ng-show="show" class="fade-animation"></p>
     </div>
 	
 	<div class="card-stats row">

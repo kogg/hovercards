@@ -1,6 +1,7 @@
 'use strict';
 
 require(['cards-controller',
+         'sidebar-directive',
          'youtube-channel-subscribe-directive',
          'description-filter',
          'numsmall-filter',
