@@ -332,7 +332,6 @@ b i {
 	color: black;
 	text-decoration: none;
   font-size: 16px;
-  text-transform: capitalize;
   font-weight: 500;
 }
 .comment-content p {
