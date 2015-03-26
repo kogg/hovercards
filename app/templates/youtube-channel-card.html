@@ -1,9 +1,35 @@
-<div>
-    {{ id }};
-    {{ image }};
-    {{ title }};
-    {{ description }};
-    {{ videos }};
-    {{ views }};
-    {{ subscribers }};
+<div class="card" ng-click="show=!show" ng-class="::{ 'card-more': description }">
+
+	<div class="profile-top row">
+		<div class="profile-left col-4">
+			<div class="profile-image" style="background-image:url({{ ::image }})"></div>
+		</div>
+		<div class="profile-right col-8">
+			<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
+			<a href="https://www.youtube.com/channel/{{ ::id }}" target="_blank" class="ellipsis" ng-click="$event.stopPropagation()">{{ ::title }}</a>
+			<div class="profile-cta">
+				<div youtube-channel-subscribe-id="::id"></div>
+			</div>
+		</div>
+	</div>
+
+    <div ng-show="show" ng-click="$event.stopPropagation()" ng-if="::description" class="slide-animation card-description-padding">
+        <p ng-bind-html="::description | description" ng-show="show" class="fade-animation"></p>
+    </div>
+	
+	<div class="card-stats row">
+		<div class="col-4">
+			<b>Subscribers</b>
+		<span>{{ ::subscribers | numsmall }}</span>
+		</div>
+		<div class="col-4">
+			<b>Uploads</b>
+		<span>{{ ::videos | numsmall }}</span>
+		</div>
+		<div class="col-4">
+			<b>Video Views</b>
+		<span>{{ ::views | numsmall }}</span>
+		</div>
+	</div>
+
 </div>
