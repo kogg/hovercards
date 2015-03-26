@@ -48,17 +48,17 @@ describe('youtube-video-card-directive', function() {
         scope.channelId.should.equal('SOME_ID');
     });
 
-    it('should send youtube api message', function() {
+    it('should send youtube message', function() {
         var element = angular.element('<div youtube-video youtube-video-id="videoID"></div>');
 
         $rootScope.videoID = 'SOME_ID';
         $compile(element)($rootScope);
         $rootScope.$digest();
 
-        chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'api', content: 'youtube-video', id: 'SOME_ID' }, sinon.match.func);
+        chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'youtube', content: 'youtube-video', id: 'SOME_ID' }, sinon.match.func);
     });
 
-    it('should set scope properties to youtube api response', function() {
+    it('should set scope properties to youtube response', function() {
         var element = angular.element('<div youtube-video youtube-video-id="videoID" youtube-channel-id="channelID"></div>');
         var scope;
 
@@ -87,7 +87,7 @@ describe('youtube-video-card-directive', function() {
         scope.channelId.should.equal('SOME_CHANNEL_ID');
     });
 
-    it('should set root scope channelID to youtube api response', function() {
+    it('should set root scope channelID to youtube response', function() {
         var element = angular.element('<div youtube-video youtube-video-id="videoID" youtube-channel-id="channelID"></div>');
 
         $rootScope.videoID = 'SOME_ID';
