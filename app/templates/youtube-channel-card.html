@@ -8,7 +8,7 @@
 			<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
 			<a href="https://www.youtube.com/channel/{{ ::id }}" target="_blank" class="ellipsis" ng-click="$event.stopPropagation()">{{ ::title }}</a>
 			<div class="profile-cta">
-				<div youtube-channel-subscribe-id="::id"></div>
+				<div youtube-channel-subscribe youtube-channel-id="::id"></div>
 			</div>
 		</div>
 	</div>

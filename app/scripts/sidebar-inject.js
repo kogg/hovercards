@@ -1,5 +1,6 @@
 'use strict';
 
+/* FIXME Why do we have to name this within the file itself? */
 define('sidebar-inject', ['jquery'], function($) {
     function injectSidebar(body) {
         var obj = $('<div class="hovertoast-sidebar"></div>')

@@ -1,11 +1,11 @@
 'use strict';
 
 define(['angular-app'], function(app) {
-    app.directive('youtubeChannelSubscribeId', function() {
+    app.directive('youtubeChannelSubscribe', function() {
         return {
             restrict: 'A',
             scope: {
-                id: '=youtubeChannelSubscribeId'
+                id: '=youtubeChannelId'
             },
             link: function($scope, $element) {
                 require(['async!https://apis.google.com/js/platform.js!onload'], function() {
