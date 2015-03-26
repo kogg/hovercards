@@ -21,12 +21,12 @@ define(['youtube-api'], function(youtubeApi) {
                                                              id:   'youtube-video-' + h,
                                                              card: youtubeChannelCard });
                 });
-                youtubeApi.comments(youtubeVideoCard.id, function(err, youtubeCommentsCard) {
-                    youtubeCommentsCard.priority = 2;
-                    chrome.tabs.sendMessage(sender.tab.id, { msg:  'card',
-                                                             id:   'youtube-video-' + h,
-                                                             card: youtubeCommentsCard });
-                });
+            });
+            youtubeApi.comments(request.id, function(err, youtubeCommentsCard) {
+                youtubeCommentsCard.priority = 2;
+                chrome.tabs.sendMessage(sender.tab.id, { msg:  'card',
+                                                         id:   'youtube-video-' + h,
+                                                         card: youtubeCommentsCard });
             });
         });
     };
