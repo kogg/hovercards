@@ -25,6 +25,20 @@ define(['jquery'], function($) {
                                        channelId:   data.items[0].snippet.channelId });
                         });
                     return true;
+                case 'youtube-channel':
+                    $.ajax({ url:  'https://www.googleapis.com/youtube/v3/channels',
+                             data: { id:   request.id,
+                                     part: 'snippet,statistics',
+                                     key:  key } })
+                        .done(function(data) {
+                            callback({ image:       data.items[0].snippet.thumbnails.medium.url,
+                                       title:       data.items[0].snippet.localized.title,
+                                       description: data.items[0].snippet.localized.description,
+                                       videos:      data.items[0].statistics.videoCount,
+                                       views:       data.items[0].statistics.viewCount,
+                                       subscribers: data.items[0].statistics.subscriberCount });
+                        });
+                    return true;
             }
         });
     };

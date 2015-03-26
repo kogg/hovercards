@@ -1,29 +1,26 @@
 'use strict';
 
 define(['angular-app'], function(app) {
-    app.directive('youtubeVideo', function() {
+    app.directive('youtubeChannel', function() {
         return {
             scope: {
-                channelId: '=youtubeChannelId',
-                id: '=youtubeVideoId'
+                id: '=youtubeChannelId'
             },
             replace: true,
-            templateUrl: 'templates/youtube-video-card.html',
+            templateUrl: 'templates/youtube-channel-card.html',
             link: function($scope) {
                 var removeWatch = $scope.$watch('id', function(id) {
                     if (!id) {
                         return;
                     }
-                    chrome.runtime.sendMessage({ msg: 'youtube', content: 'youtube-video', id: id }, function(youtubeVideo) {
+                    chrome.runtime.sendMessage({ msg: 'youtube', content: 'youtube-channel', id: id }, function(youtubeVideo) {
                         $scope.$apply(function() {
                             $scope.image       = youtubeVideo.image;
                             $scope.title       = youtubeVideo.title;
                             $scope.description = youtubeVideo.description;
-                            $scope.date        = youtubeVideo.date;
+                            $scope.videos      = youtubeVideo.videos;
                             $scope.views       = youtubeVideo.views;
-                            $scope.likes       = youtubeVideo.likes;
-                            $scope.dislikes    = youtubeVideo.dislikes;
-                            $scope.channelId   = youtubeVideo.channelId;
+                            $scope.subscribers = youtubeVideo.subscribers;
                         });
                     });
                     removeWatch();
