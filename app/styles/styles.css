@@ -122,7 +122,7 @@ b {
 	font-size:11px;
 	text-transform: uppercase;
 }
-p, p a, .card-text .card-description p a, .card-description-padding p a{
+p, p a, .card-text .card-description p a, .card-description-padding p a, .comment-content p a{
 	line-height: 19px;
   font-weight: 400;
   font-size: 15px;
@@ -132,7 +132,7 @@ p, p a, .card-text .card-description p a, .card-description-padding p a{
 .card-description p {
 	margin-top: 5.5px;
 }
-p a, .card-text .card-description p a, .card-description-padding p a {
+p a, .card-text .card-description p a, .card-description-padding p a, .comment-content p a {
 	color: #03A9F4;
 }
 .card-description-padding {
@@ -183,7 +183,6 @@ b i {
 	color: black;
 	text-decoration: none;
 	font-size: 16px;
-	text-transform: capitalize;
 	font-weight: 500;
 	display: inline-block;
 }
@@ -256,7 +255,6 @@ b i {
 }
 .card-text {
 	padding: 16px;
-	max-height: 200px;
 	overflow-y: scroll;
 }
 .video-cta {
@@ -334,7 +332,6 @@ b i {
 	color: black;
 	text-decoration: none;
   font-size: 16px;
-  text-transform: capitalize;
   font-weight: 500;
 }
 .comment-content p {
