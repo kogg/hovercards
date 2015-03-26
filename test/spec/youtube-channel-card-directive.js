@@ -50,7 +50,7 @@ describe('youtube-channel-card-directive', function() {
         var element = angular.element('<div youtube-channel youtube-channel-id="channelID"></div>');
         var scope;
 
-        $rootScope.videoID = 'SOME_ID';
+        $rootScope.channelID = 'SOME_ID';
         $compile(element)($rootScope);
         $rootScope.$digest();
 

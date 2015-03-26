@@ -9,15 +9,21 @@ define(['angular-app'], function(app) {
             replace: true,
             templateUrl: 'templates/youtube-channel-card.html',
             link: function($scope) {
-                chrome.runtime.sendMessage({ msg: 'youtube', content: 'youtube-channel', id: $scope.id }, function(youtubeVideo) {
-                    $scope.$apply(function() {
-                        $scope.image       = youtubeVideo.image;
-                        $scope.title       = youtubeVideo.title;
-                        $scope.description = youtubeVideo.description;
-                        $scope.videos      = youtubeVideo.videos;
-                        $scope.views       = youtubeVideo.views;
-                        $scope.subscribers = youtubeVideo.subscribers;
+                var removeWatch = $scope.$watch('id', function(id) {
+                    if (!id) {
+                        return;
+                    }
+                    chrome.runtime.sendMessage({ msg: 'youtube', content: 'youtube-channel', id: id }, function(youtubeVideo) {
+                        $scope.$apply(function() {
+                            $scope.image       = youtubeVideo.image;
+                            $scope.title       = youtubeVideo.title;
+                            $scope.description = youtubeVideo.description;
+                            $scope.videos      = youtubeVideo.videos;
+                            $scope.views       = youtubeVideo.views;
+                            $scope.subscribers = youtubeVideo.subscribers;
+                        });
                     });
+                    removeWatch();
                 });
             }
         };
