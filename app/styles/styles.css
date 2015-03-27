@@ -73,45 +73,9 @@ html,body {
 .cards {
 	position: absolute;
 	max-width: 340px;
-	top: 60px;
+	top: 0px;
 	left: 0;
 	padding: 0 20px 60px;
-}
-/*header*/
-header {
-	padding: 16px;
-	position: relative;
-	z-index: 2;
-	box-shadow:0 2px 6px rgba(0, 0, 0, 0.2)
-}
-.logo {
-	background: url('../images/hovercards-white.png');
-	background-size:auto 19px;
-	background-position: left center;
-	width: 165px;
-	height: 22px;
-	display: inline-block;
-	font-size: 22px;
-	float: left;
-	color: transparent;
-	background-repeat: no-repeat;
-	margin-left: 10px;
-}
-header .md {
-	color: white;
-	font-size: 22px;
-}
-header .col-9 .md {
-	float: left;
-}
-.youtube-bg {
-	background: #F44336
-}
-header .text-right i {
-	margin-left: 5px;
-}
-.text-right {
-	text-align: right;
 }
 
 /*default cards*/
