@@ -1,6 +1,6 @@
 'use strict';
 
-define(['jquery'], function($) {
+define(['jquery', 'purl'], function($, purl) {
     var key = 'AIzaSyCIBp_dCztnCozkp1Yeqxa9F70rcVpFn30';
 
     return function youtubeBackground() {
@@ -39,32 +39,28 @@ define(['jquery'], function($) {
                                        subscribers: data.items[0].statistics.subscriberCount });
                         });
                     return true;
-                case 'youtube-comments':
+                case 'youtube-comments-v2':
                     $.ajax({ url:  'https://gdata.youtube.com/feeds/api/videos/' + request.id + '/comments',
                              data: { 'max-results': 5 } })
                         .done(function(commentsXML) {
                             var comments = $(commentsXML);
                             var entries = $(comments.children('feed').children('entry'));
-                            var ajaxes = entries
-                                .children('author')
-                                .children('uri')
-                                .map(function() {
-                                    return $.ajax({ url: $(this).text() });
-                                });
-                            $.when(ajaxes[0], ajaxes[1], ajaxes[2], ajaxes[3], ajaxes[4])
-                                .done(function() {
-                                    var response = { comments: [] };
-                                    for (var i = 0; i < entries.length; i++) {
-                                        var entry = $(entries[i]);
-                                        var user = $(arguments[i][0]);
-                                        response.comments.push({ name:      entry.children('author').children('name').text(),
-                                                                 image:     user.children('entry').children('media\\:thumbnail').attr('url'),
-                                                                 date:      Date.parse(entry.children('published').text()),
-                                                                 content:   entry.children('content').text(),
-                                                                 channelId: entry.children('yt\\:channelId').text() });
-                                    }
-                                    callback(response);
-                                });
+                            var response = { comments: [] };
+                            for (var i = 0; i < entries.length; i++) {
+                                var entry = $(entries[i]);
+                                response.comments.push({ name:      entry.children('author').children('name').text(),
+                                                         userId:    purl(entry.children('author').children('uri').text()).segment(-1),
+                                                         date:      Date.parse(entry.children('published').text()),
+                                                         content:   entry.children('content').text(),
+                                                         channelId: entry.children('yt\\:channelId').text() });
+                            }
+                            callback(response);
+                        });
+                    return true;
+                case 'youtube-user-v2':
+                    $.ajax({ url: 'https://gdata.youtube.com/feeds/api/users/' + request.id })
+                        .done(function(userXML) {
+                            callback({ image: $(userXML).children('entry').children('media\\:thumbnail').attr('url') });
                         });
                     return true;
             }
