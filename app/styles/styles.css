@@ -37,6 +37,10 @@ html,body {
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
   overflow-x:hidden;
+  position: relative;
+}
+body {
+	padding-bottom:60px;
 }
 .card-container {
 	width: 300px;
@@ -73,7 +77,7 @@ html,body {
 .cards {
 	max-width: 340px;
 	top: 0px;
-	padding: 0 20px 60px;
+	padding: 0 20px 16px;
 }
 
 /*default cards*/

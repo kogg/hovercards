@@ -4,100 +4,15 @@
     <link rel="stylesheet" href="bower_components/angular/angular-csp.css">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
-    <style type="text/css">
-    .sk-close {
-        -webkit-transform: translateY(90%) !important;
-        transform: translateY(90%) !important;
-        -webkit-animation: sk-appear-frames .4s cubic-bezier(.62,.28,.23,.99) !important;
-        animation: sk-appear-frames .4s cubic-bezier(.62,.28,.23,.99) !important;
-        -webkit-animation-fill-mode: forwards !important;
-        animation-fill-mode: forwards !important;
-        -webkit-animation-delay: 0s !important;
-        animation-delay: 0s !important;
-    }
-    #sk-handle {
-        display: none !important;
-    }
-    #sk-container {
-        position: relative !important;
-        right: auto !important;
-        margin-bottom: 0 !important;
-        margin: auto !important;
-        height: 422px !important;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
-        margin-bottom: 30px !important;
-        border: none !important;
-        border-radius: 3px !important;
-        overflow: hidden !important;
-    }
-    #sk-container #sk-wrapper {
-        height: 422px !important;
-    }
-    #sk-container #sk-conversation:not(:root) {
-        margin-right: 0 !important
-    }
-    #sk-container #sk-badge {
-        left: auto !important;
-        top: 16px !important;
-        right: 16px !important;
-        font-family: "Roboto", sans-serif !important;
-    }
-    #sk-container #sk-header {
-        text-align: left !important;
-        color: #000 !important;
-        text-decoration: none !important;
-        font-size: 16px !important;
-        text-transform: capitalize !important;
-        font-weight: 500 !important;
-        font-family: "Roboto", sans-serif !important;
-        box-shadow:none !important;
-        background-color: #fff !important;
-        border-bottom: 1px solid #B6B6B6 !important;
-        line-height: 50px !important;
-        height: 50px !important;
-        padding: 0 16px !important;
-        cursor: default !important;
-    }
-    #sk-container #sk-footer {
-        box-shadow: none !important;
-        border-top: 1px solid #B6B6B6 !important;
-    }
-    #sk-container .sk-right-row .sk-msg {
-        font-family: "Roboto", sans-serif !important;
-    }
-    .sk-noselect:after {
-        content: "Send Us Feedback";
-        position: absolute;
-        border-radius: 8px;
-        left: 0;
-        top: 0px;
-        height: 50px;
-        width: 100%;
-        line-height: 50px;
-        font-size: 16px !important;
-        padding: 0 16px;
-        font-family: "Roboto", sans-serif !important;
-        background: white
-    }
-    .sk-intro {
-        display: block !important;
-        position: relative !important;
-    }
-    .sk-intro:after {
-        content: "Tell us what you love, hate, or what we can approve! We'll try to reply in a timely fashion.";
-        left: 0;
-        top:0;
-        height: 31px;
-        width: 100%;
-        position: absolute;
-        color: #000;
-        background: white
-    }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles/chat-box.css">
 </head>
 <body>
     <div ng-cloak class="ng-cloak">
         <div sidebar></div>
+    </div>
+    <div class="feedback-trigger">
+        <span>Click here to talk to us. We'd love to<br>hear your feedback, be it good or bad!</span>
+        <div class="hclogo-peak shake"></div>
     </div>
     <script src="bower_components/requirejs/require.js"></script>
     <script src="scripts/config.js"></script>
