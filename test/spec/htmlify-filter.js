@@ -14,10 +14,10 @@ describe('htmlify-filter', function() {
     }));
 
     it('should replace newlines with line breaks', function() {
-        htmlify('Something\nSomething Else').should.equal('Something<br>Something Else');
+        expect(htmlify('Something\nSomething Else')).to.equal('Something<br>Something Else');
     });
 
     it('should wrap urls with links', function() {
-        htmlify('https://www.wenoknow.com').should.equal('<a target="_blank" href="https://www.wenoknow.com">https://www.wenoknow.com</a>');
+        expect(htmlify('https://www.wenoknow.com')).to.equal('<a target="_blank" href="https://www.wenoknow.com">https://www.wenoknow.com</a>');
     });
 });

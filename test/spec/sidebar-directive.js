@@ -32,7 +32,7 @@ describe('sidebar-directive', function() {
         $rootScope.$digest();
         scope = element.isolateScope();
 
-        scope.cardsets.should.deep.equal([]);
+        expect(scope.cardsets).to.deep.equal([]);
     });
 
     describe('on load', function() {
@@ -47,7 +47,7 @@ describe('sidebar-directive', function() {
             $rootScope.$digest();
             scope = element.isolateScope();
 
-            scope.cardsets.should.deep.equal([{ content: 'something', id: 'SOME_ID' }]);
+            expect(scope.cardsets).to.deep.equal([{ content: 'something', id: 'SOME_ID' }]);
         });
     });
 });

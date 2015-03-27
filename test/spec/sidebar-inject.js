@@ -25,7 +25,7 @@ describe('sidebar-inject', function() {
     it('should call injectSidebar on default', function() {
         sandbox.stub(sidebarInject, 'injectSidebar');
         sidebarInject('default');
-        sidebarInject.injectSidebar.should.have.been.called;
+        expect(sidebarInject.injectSidebar).to.have.been.called;
     });
 
     describe('#injectSidebar', function() {
@@ -36,30 +36,30 @@ describe('sidebar-inject', function() {
         });
 
         it('should be hidden', function() {
-            sidebarObj.should.be.css('display', 'none');
+            expect(sidebarObj).to.have.css('display', 'none');
         });
 
         it('should contain an iframe with correct src', function() {
-            sidebarObj.children('iframe').should.have.prop('src', 'chrome-extension://extension_id/sidebar.html');
+            expect(sidebarObj.children('iframe')).to.have.prop('src', 'chrome-extension://extension_id/sidebar.html');
         });
 
         describe('on load/show/hide', function() {
             it('should be visible on load', function() {
                 sidebarObj.hide();
                 chrome.runtime.onMessage.addListener.yield({ msg: 'load', content: 'something', id: 'SOME_ID' });
-                sidebarObj.should.not.be.css('display', 'none');
+                expect(sidebarObj).to.not.have.css('display', 'none');
             });
 
             it('should be visible on show', function() {
                 sidebarObj.hide();
                 chrome.runtime.onMessage.addListener.yield({ msg: 'show' });
-                sidebarObj.should.not.be.css('display', 'none');
+                expect(sidebarObj).to.not.have.css('display', 'none');
             });
 
             it('should be hidden on hide', function() {
                 sidebarObj.show();
                 chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
-                sidebarObj.should.be.css('display', 'none');
+                expect(sidebarObj).to.have.css('display', 'none');
             });
         });
     });

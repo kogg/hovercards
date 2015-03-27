@@ -33,7 +33,7 @@ describe('youtube-channel-card-directive', function() {
         $rootScope.$digest();
         scope = element.isolateScope();
 
-        scope.id.should.equal('SOME_ID');
+        expect(scope.id).to.equal('SOME_ID');
     });
 
     it('should send youtube', function() {
@@ -43,7 +43,7 @@ describe('youtube-channel-card-directive', function() {
         $compile(element)($rootScope);
         $rootScope.$digest();
 
-        chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'youtube', content: 'youtube-channel', id: 'SOME_ID' }, sinon.match.func);
+        expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'youtube', content: 'youtube-channel', id: 'SOME_ID' }, sinon.match.func);
     });
 
     it('should set scope properties to youtube response', function() {
@@ -63,12 +63,12 @@ describe('youtube-channel-card-directive', function() {
         $rootScope.$digest();
         scope = element.isolateScope();
 
-        scope.image.should.equal('image.jpg');
-        scope.title.should.equal('Some Title');
-        scope.description.should.equal('Some Description');
-        scope.videos.should.equal(1000);
-        scope.views.should.equal(2000);
-        scope.subscribers.should.equal(3000);
+        expect(scope.image).to.equal('image.jpg');
+        expect(scope.title).to.equal('Some Title');
+        expect(scope.description).to.equal('Some Description');
+        expect(scope.videos).to.equal(1000);
+        expect(scope.views).to.equal(2000);
+        expect(scope.subscribers).to.equal(3000);
     });
 
     it('should set loaded to true', function() {
@@ -88,6 +88,6 @@ describe('youtube-channel-card-directive', function() {
         $rootScope.$digest();
         scope = element.isolateScope();
 
-        scope.loaded.should.be.true;
+        expect(scope.loaded).to.be.true;
     });
 });

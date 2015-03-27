@@ -15,30 +15,30 @@ describe('numsmall-filter', function() {
 
     it('should leave 0 <= x < 10000 alone', function() {
         for (var i = 0; i < 10000; i++) {
-            numsmall(i).should.equal(i + '');
+            expect(numsmall(i)).to.equal(i + '');
         }
     });
 
     it('should make 10000 <= x < 1000000 use 1k <= x < 1000k notation', function() {
-        numsmall(10000).should.equal('10k');
-        numsmall(10599).should.equal('10k');
-        numsmall(100599).should.equal('100k');
-        numsmall(999999).should.equal('999k');
+        expect(numsmall(10000)).to.equal('10k');
+        expect(numsmall(10599)).to.equal('10k');
+        expect(numsmall(100599)).to.equal('100k');
+        expect(numsmall(999999)).to.equal('999k');
     });
 
     it('should make 1000000 <= x < 1000000000 use 1m <= x < 1000m notation', function() {
-        numsmall(1000000).should.equal('1.00m');
-        numsmall(1599999).should.equal('1.59m');
-        numsmall(10599999).should.equal('10.59m');
-        numsmall(100599999).should.equal('100.59m');
-        numsmall(999999999).should.equal('999.99m');
+        expect(numsmall(1000000)).to.equal('1.00m');
+        expect(numsmall(1599999)).to.equal('1.59m');
+        expect(numsmall(10599999)).to.equal('10.59m');
+        expect(numsmall(100599999)).to.equal('100.59m');
+        expect(numsmall(999999999)).to.equal('999.99m');
     });
 
     it('should make 1000000000 <= x < 1000000000000 use 1b <= x < 1000b notation', function() {
-        numsmall(1000000000).should.equal('1.00b');
-        numsmall(1599999999).should.equal('1.59b');
-        numsmall(10599999999).should.equal('10.59b');
-        numsmall(100599999999).should.equal('100.59b');
-        numsmall(999999999999).should.equal('999.99b');
+        expect(numsmall(1000000000)).to.equal('1.00b');
+        expect(numsmall(1599999999)).to.equal('1.59b');
+        expect(numsmall(10599999999)).to.equal('10.59b');
+        expect(numsmall(100599999999)).to.equal('100.59b');
+        expect(numsmall(999999999999)).to.equal('999.99b');
     });
 });

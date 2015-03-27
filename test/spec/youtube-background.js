@@ -32,11 +32,11 @@ describe('youtube-background', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
             var url = purl(sandbox.server.requests[0].url);
-            (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://www.googleapis.com/youtube/v3/videos');
-            url.param('id').should.equal('SOME_ID');
-            url.param('part').should.equal('snippet,statistics');
-            url.param('key').should.not.be.undefined;
-            url.param('key').should.not.be.null;
+            expect((url.attr('protocol') + '://' + url.attr('host') + url.attr('path'))).to.equal('https://www.googleapis.com/youtube/v3/videos');
+            expect(url.param('id')).to.equal('SOME_ID');
+            expect(url.param('part')).to.equal('snippet,statistics');
+            expect(url.param('key')).to.not.be.undefined;
+            expect(url.param('key')).to.not.be.null;
         });
 
         it('should callback a youtubeVideo', function() {
@@ -55,14 +55,14 @@ describe('youtube-background', function() {
                                                                                  dislikeCount: 3000 } }] })]);
             sandbox.server.respond();
 
-            callback.should.have.been.calledWith({ image:       'image.jpg',
-                                                   title:       'Some Title',
-                                                   description: 'Some Description',
-                                                   date:        1302060119000,
-                                                   views:       1000,
-                                                   likes:       2000,
-                                                   dislikes:    3000,
-                                                   channelId:   'SOME_CHANNEL_ID' });
+            expect(callback).to.have.been.calledWith({ image:       'image.jpg',
+                                                       title:       'Some Title',
+                                                       description: 'Some Description',
+                                                       date:        1302060119000,
+                                                       views:       1000,
+                                                       likes:       2000,
+                                                       dislikes:    3000,
+                                                       channelId:   'SOME_CHANNEL_ID' });
         });
     });
 
@@ -74,11 +74,11 @@ describe('youtube-background', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-channel', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
             var url = purl(sandbox.server.requests[0].url);
-            (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://www.googleapis.com/youtube/v3/channels');
-            url.param('id').should.equal('SOME_ID');
-            url.param('part').should.equal('snippet,statistics');
-            url.param('key').should.not.be.undefined;
-            url.param('key').should.not.be.null;
+            expect((url.attr('protocol') + '://' + url.attr('host') + url.attr('path'))).to.equal('https://www.googleapis.com/youtube/v3/channels');
+            expect(url.param('id')).to.equal('SOME_ID');
+            expect(url.param('part')).to.equal('snippet,statistics');
+            expect(url.param('key')).to.not.be.undefined;
+            expect(url.param('key')).to.not.be.null;
         });
 
         it('should callback a youtubeChannel', function() {
@@ -95,12 +95,12 @@ describe('youtube-background', function() {
                                                                                  videoCount:      1000 } }] })]);
             sandbox.server.respond();
 
-            callback.should.have.been.calledWith({ image:       'image.jpg',
-                                                   title:       'Some Title',
-                                                   description: 'Some Description',
-                                                   videos:       1000,
-                                                   views:        2000,
-                                                   subscribers:  3000 });
+            expect(callback).to.have.been.calledWith({ image:       'image.jpg',
+                                                       title:       'Some Title',
+                                                       description: 'Some Description',
+                                                       videos:       1000,
+                                                       views:        2000,
+                                                       subscribers:  3000 });
         });
     });
 
@@ -160,8 +160,8 @@ describe('youtube-background', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
             var url = purl(sandbox.server.requests[0].url);
-            (url.attr('protocol') + '://' + url.attr('host') + url.attr('path')).should.equal('https://gdata.youtube.com/feeds/api/videos/SOME_ID/comments');
-            url.param('max-results').should.equal('5');
+            expect((url.attr('protocol') + '://' + url.attr('host') + url.attr('path'))).to.equal('https://gdata.youtube.com/feeds/api/videos/SOME_ID/comments');
+            expect(url.param('max-results')).to.equal('5');
         });
 
         it('should call youtube\'s API (v2) for each user', function() {
@@ -170,12 +170,12 @@ describe('youtube-background', function() {
             sandbox.server.respondWith(REGEX_COMMENTS, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
             sandbox.server.respond();
 
-            sandbox.server.requests.length.should.equal(6);
-            sandbox.server.requests[1].url.should.equal('URL_1');
-            sandbox.server.requests[2].url.should.equal('URL_2');
-            sandbox.server.requests[3].url.should.equal('URL_3');
-            sandbox.server.requests[4].url.should.equal('URL_4');
-            sandbox.server.requests[5].url.should.equal('URL_5');
+            expect(sandbox.server.requests.length).to.equal(6);
+            expect(sandbox.server.requests[1].url).to.equal('URL_1');
+            expect(sandbox.server.requests[2].url).to.equal('URL_2');
+            expect(sandbox.server.requests[3].url).to.equal('URL_3');
+            expect(sandbox.server.requests[4].url).to.equal('URL_4');
+            expect(sandbox.server.requests[5].url).to.equal('URL_5');
         });
 
         it('should callback a youtubeComments', function() {
@@ -220,31 +220,31 @@ describe('youtube-background', function() {
             sandbox.server.respond();
             sandbox.server.respond();
 
-            callback.should.have.been.calledWith({ comments: [{ name:      'Author Name 1',
-                                                                image:     'image1.jpg',
-                                                                date:      1426980181000,
-                                                                content:   'Some Content 1',
-                                                                channelId: 'SOME_CHANNEL_ID_1' },
-                                                              { name:      'Author Name 2',
-                                                                image:     'image2.jpg',
-                                                                date:      1427066581000,
-                                                                content:   'Some Content 2',
-                                                                channelId: 'SOME_CHANNEL_ID_2' },
-                                                              { name:      'Author Name 3',
-                                                                image:     'image3.jpg',
-                                                                date:      1427152981000,
-                                                                content:   'Some Content 3',
-                                                                channelId: 'SOME_CHANNEL_ID_3' },
-                                                              { name:      'Author Name 4',
-                                                                image:     'image4.jpg',
-                                                                date:      1427239381000,
-                                                                content:   'Some Content 4',
-                                                                channelId: 'SOME_CHANNEL_ID_4' },
-                                                              { name:      'Author Name 5',
-                                                                image:     'image5.jpg',
-                                                                date:      1427325781000,
-                                                                content:   'Some Content 5',
-                                                                channelId: 'SOME_CHANNEL_ID_5' }] });
+            expect(callback).to.have.been.calledWith({ comments: [{ name:      'Author Name 1',
+                                                                    image:     'image1.jpg',
+                                                                    date:      1426980181000,
+                                                                    content:   'Some Content 1',
+                                                                    channelId: 'SOME_CHANNEL_ID_1' },
+                                                                  { name:      'Author Name 2',
+                                                                    image:     'image2.jpg',
+                                                                    date:      1427066581000,
+                                                                    content:   'Some Content 2',
+                                                                    channelId: 'SOME_CHANNEL_ID_2' },
+                                                                  { name:      'Author Name 3',
+                                                                    image:     'image3.jpg',
+                                                                    date:      1427152981000,
+                                                                    content:   'Some Content 3',
+                                                                    channelId: 'SOME_CHANNEL_ID_3' },
+                                                                  { name:      'Author Name 4',
+                                                                    image:     'image4.jpg',
+                                                                    date:      1427239381000,
+                                                                    content:   'Some Content 4',
+                                                                    channelId: 'SOME_CHANNEL_ID_4' },
+                                                                  { name:      'Author Name 5',
+                                                                    image:     'image5.jpg',
+                                                                    date:      1427325781000,
+                                                                    content:   'Some Content 5',
+                                                                    channelId: 'SOME_CHANNEL_ID_5' }] });
         });
     });
 });

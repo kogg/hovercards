@@ -21,17 +21,17 @@ describe('trigger', function() {
         it('should send deck on mouseenter > 500ms', function() {
             triggerObj.mouseenter();
             sandbox.clock.tick(499);
-            chrome.runtime.sendMessage.should.not.have.been.called;
+            expect(chrome.runtime.sendMessage).to.not.have.been.called;
             sandbox.clock.tick(500);
-            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'deck', content: 'something', id: 'SOME_ID' });
+            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'deck', content: 'something', id: 'SOME_ID' });
         });
 
         it('should not send deck on mouseenter > mouseleave > 500ms', function() {
             triggerObj.mouseenter().mouseleave();
             sandbox.clock.tick(499);
-            chrome.runtime.sendMessage.should.not.have.been.called;
+            expect(chrome.runtime.sendMessage).to.not.have.been.called;
             sandbox.clock.tick(500);
-            chrome.runtime.sendMessage.should.not.have.been.called;
+            expect(chrome.runtime.sendMessage).to.not.have.been.called;
         });
     });
 });
