@@ -11,7 +11,7 @@
     "background": {
         "page": "background.html"
     },
-    "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
+    "content_security_policy": "script-src 'self' https://apis.google.com https://cdn.supportkit.io; object-src 'self'",
     "web_accessible_resources": [
         "images/hovertoast-logo-white.png",
         "sidebar.html"
