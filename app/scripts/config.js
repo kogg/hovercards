@@ -6,6 +6,7 @@ require.config({
         'angular-sanitize': '../bower_components/angular-sanitize/angular-sanitize',
         async:              '../bower_components/requirejs-plugins/src/async',
         domReady:           '../bower_components/requirejs-domready/domReady',
+        dotdotdot:          '../bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot',
         jquery:             '../bower_components/jquery/dist/jquery',
         purl:               '../bower_components/purl/purl'
     },
