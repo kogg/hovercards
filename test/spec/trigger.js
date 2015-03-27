@@ -18,20 +18,21 @@ describe('trigger', function() {
     });
 
     describe('on mouseevents', function() {
-        it('should send deck on mouseenter > 500ms', function() {
+        it('should send deck on mouseenter', function() {
             triggerObj.mouseenter();
-            sandbox.clock.tick(499);
-            expect(chrome.runtime.sendMessage).to.not.have.been.called;
-            sandbox.clock.tick(500);
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'deck', content: 'something', id: 'SOME_ID' });
         });
 
-        it('should not send deck on mouseenter > mouseleave > 500ms', function() {
+        it('should send undodeck on mouseenter > mouseleave', function() {
             triggerObj.mouseenter().mouseleave();
-            sandbox.clock.tick(499);
-            expect(chrome.runtime.sendMessage).to.not.have.been.called;
+            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'undodeck' });
+        });
+
+        it('should not send undodeck on mouseenter > 500ms > mouseleave', function() {
+            triggerObj.mouseenter();
             sandbox.clock.tick(500);
-            expect(chrome.runtime.sendMessage).to.not.have.been.called;
+            triggerObj.mouseleave();
+            expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'undodeck' });
         });
     });
 });

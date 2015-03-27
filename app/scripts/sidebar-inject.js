@@ -11,6 +11,8 @@ define('sidebar-inject', ['jquery'], function($) {
             .prop('frameborder', '0')
             .appendTo(obj);
 
+        obj.css('right', -obj.width() + 'px');
+
         chrome.runtime.onMessage.addListener(function(request) {
             switch (request.msg) {
                 case 'load':
@@ -19,9 +21,8 @@ define('sidebar-inject', ['jquery'], function($) {
                         return;
                     }
                     obj
-                        .stop()
+                        .finish()
                         .show({ queue: true })
-                        .css('right', '-340px')
                         .animate({ right: 0 }, 400);
                     break;
                 case 'hide':
@@ -29,8 +30,7 @@ define('sidebar-inject', ['jquery'], function($) {
                         return;
                     }
                     obj
-                        .stop()
-                        .css('right', 0)
+                        .finish()
                         .animate({ right: '-340px' }, 400)
                         .hide({ queue: true });
                     break;
