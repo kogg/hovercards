@@ -1,5 +1,4 @@
-<div class="card bounce-in-animation" ng-if="loaded">
-	<!--{{ card | json }}-->
+<div class="card bounce-in-animation" ng-if="::comments">
 	<div class="comment-top row">
 		<div class="col-8">
 			<span>Youtube Comments</span>
@@ -9,7 +8,7 @@
 		</div>
 	</div>
 	<div class="comment-content">
-		<div ng-repeat="comment in comments" class="comment row">
+		<div ng-repeat="comment in comments.comments" class="comment row">
 			<div class="comment-left col-3">
                 <div class="comment-image" content="youtube-user-v2" content-id="::comment.userId" result="user" ng-style="::user && { 'background-image': 'url(' + user.image + ')'}"></div>
 			</div>

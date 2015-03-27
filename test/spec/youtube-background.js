@@ -152,7 +152,7 @@ describe('youtube-background', function() {
 
         it('should call youtube\'s API for youtube-comments-v2', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
             var url = purl(sandbox.server.requests[0].url);
             expect((url.attr('protocol') + '://' + url.attr('host') + url.attr('path'))).to.equal('https://gdata.youtube.com/feeds/api/videos/SOME_ID/comments');
@@ -161,7 +161,7 @@ describe('youtube-background', function() {
 
         it('should callback a youtubeComments', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
             sandbox.server.respondWith(/^https:\/\/gdata.youtube.com\/feeds\/api\/videos\/SOME_ID\/comments/, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
             sandbox.server.respond();
 
