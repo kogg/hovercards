@@ -27,7 +27,7 @@ describe('youtube-background', function() {
     describe('on youtube.youtube-video', function() {
         it('should call youtube\'s API for youtube-video', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
             var url = purl(sandbox.server.requests[0].url);
             expect((url.attr('protocol') + '://' + url.attr('host') + url.attr('path'))).to.equal('https://www.googleapis.com/youtube/v3/videos');
@@ -39,7 +39,7 @@ describe('youtube-background', function() {
 
         it('should callback a youtubeVideo', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
             sandbox.server.respondWith(/^https:\/\/www.googleapis.com\/youtube\/v3\/videos/,
                                        [200,
                                         { 'Content-Type': 'application/json' },
@@ -53,7 +53,8 @@ describe('youtube-background', function() {
                                                                                  dislikeCount: 3000 } }] })]);
             sandbox.server.respond();
 
-            expect(callback).to.have.been.calledWith({ image:       'image.jpg',
+            expect(callback).to.have.been.calledWith({ id:          'SOME_ID',
+                                                       image:       'image.jpg',
                                                        title:       'Some Title',
                                                        description: 'Some Description',
                                                        date:        1302060119000,
@@ -67,7 +68,7 @@ describe('youtube-background', function() {
     describe('on youtube.youtube-channel', function() {
         it('should call youtube\'s API for youtube-channel', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-channel', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-channel', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
             var url = purl(sandbox.server.requests[0].url);
             expect((url.attr('protocol') + '://' + url.attr('host') + url.attr('path'))).to.equal('https://www.googleapis.com/youtube/v3/channels');
@@ -79,7 +80,7 @@ describe('youtube-background', function() {
 
         it('should callback a youtubeChannel', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-channel', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-channel', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
             sandbox.server.respondWith(/^https:\/\/www.googleapis.com\/youtube\/v3\/channels/,
                                        [200,
                                         { 'Content-Type': 'application/json' },
@@ -91,7 +92,8 @@ describe('youtube-background', function() {
                                                                                  videoCount:      1000 } }] })]);
             sandbox.server.respond();
 
-            expect(callback).to.have.been.calledWith({ image:       'image.jpg',
+            expect(callback).to.have.been.calledWith({ id:          'SOME_ID',
+                                                       image:       'image.jpg',
                                                        title:       'Some Title',
                                                        description: 'Some Description',
                                                        videos:       1000,
@@ -152,7 +154,7 @@ describe('youtube-background', function() {
 
         it('should call youtube\'s API for youtube-comments-v2', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
             var url = purl(sandbox.server.requests[0].url);
             expect((url.attr('protocol') + '://' + url.attr('host') + url.attr('path'))).to.equal('https://gdata.youtube.com/feeds/api/videos/SOME_ID/comments');
@@ -161,11 +163,12 @@ describe('youtube-background', function() {
 
         it('should callback a youtubeComments', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
             sandbox.server.respondWith(/^https:\/\/gdata.youtube.com\/feeds\/api\/videos\/SOME_ID\/comments/, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
             sandbox.server.respond();
 
-            expect(callback).to.have.been.calledWith({ comments: [{ name:      'Author Name 1',
+            expect(callback).to.have.been.calledWith({ id:       'SOME_ID',
+                                                       comments: [{ name:      'Author Name 1',
                                                                     userId:    'USER_ID_1',
                                                                     date:      1426980181000,
                                                                     content:   'Some Content 1',
@@ -196,7 +199,7 @@ describe('youtube-background', function() {
     describe('on youtube.youtube-user-v2', function() {
         it('should call youtube\'s API for youtube-user-v2', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-user-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-user-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
             var url = purl(sandbox.server.requests[0].url);
             expect((url.attr('protocol') + '://' + url.attr('host') + url.attr('path'))).to.equal('https://gdata.youtube.com/feeds/api/users/SOME_ID');
@@ -204,7 +207,7 @@ describe('youtube-background', function() {
 
         it('should callback a youtubeVideo', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-user-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-user-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
             /*jshint multistr: true */
             sandbox.server.respondWith(/^https:\/\/gdata.youtube.com\/feeds\/api\/users/,
                                        [200,
@@ -215,7 +218,8 @@ describe('youtube-background', function() {
                                         </entry>']);
             sandbox.server.respond();
 
-            expect(callback).to.have.been.calledWith({ image: 'image.jpg' });
+            expect(callback).to.have.been.calledWith({ id:    'SOME_ID',
+                                                       image: 'image.jpg' });
         });
     });
 });
