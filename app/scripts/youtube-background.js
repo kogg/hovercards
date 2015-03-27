@@ -57,36 +57,12 @@ define(['jquery', 'purl'], function($, purl) {
                             callback(response);
                         });
                     return true;
-                /*
-                case 'youtube-comments-v2':
-                    $.ajax({ url:  'https://gdata.youtube.com/feeds/api/videos/' + request.id + '/comments',
-                             data: { 'max-results': 5 } })
-                        .done(function(commentsXML) {
-                            var comments = $(commentsXML);
-                            var entries = $(comments.children('feed').children('entry'));
-                            var ajaxes = entries
-                                .children('author')
-                                .children('uri')
-                                .map(function() {
-                                    return $.ajax({ url: $(this).text() });
-                                });
-                            $.when(ajaxes[0], ajaxes[1], ajaxes[2], ajaxes[3], ajaxes[4])
-                                .done(function() {
-                                    var response = { comments: [] };
-                                    for (var i = 0; i < entries.length; i++) {
-                                        var entry = $(entries[i]);
-                                        var user = $(arguments[i][0]);
-                                        response.comments.push({ name:      entry.children('author').children('name').text(),
-                                                                 image:     user.children('entry').children('media\\:thumbnail').attr('url'),
-                                                                 date:      Date.parse(entry.children('published').text()),
-                                                                 content:   entry.children('content').text(),
-                                                                 channelId: entry.children('yt\\:channelId').text() });
-                                    }
-                                    callback(response);
-                                });
+                case 'youtube-user-v2':
+                    $.ajax({ url: 'https://gdata.youtube.com/feeds/api/users/' + request.id })
+                        .done(function(userXML) {
+                            callback({ image: $(userXML).children('entry').children('media\\:thumbnail').attr('url') });
                         });
                     return true;
-                */
             }
         });
     };

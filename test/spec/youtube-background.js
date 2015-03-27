@@ -25,8 +25,6 @@ describe('youtube-background', function() {
     });
 
     describe('on youtube.youtube-video', function() {
-        var REGEX_VIDEO = /^https:\/\/www.googleapis.com\/youtube\/v3\/videos/;
-
         it('should call youtube\'s API for youtube-video', function() {
             var callback = sandbox.spy();
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
@@ -42,7 +40,7 @@ describe('youtube-background', function() {
         it('should callback a youtubeVideo', function() {
             var callback = sandbox.spy();
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
-            sandbox.server.respondWith(REGEX_VIDEO,
+            sandbox.server.respondWith(/^https:\/\/www.googleapis.com\/youtube\/v3\/videos/,
                                        [200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify({ items: [{ snippet:    { publishedAt: '2011-04-06T03:21:59.000Z',
@@ -67,8 +65,6 @@ describe('youtube-background', function() {
     });
 
     describe('on youtube.youtube-channel', function() {
-        var REGEX_CHANNEL = /^https:\/\/www.googleapis.com\/youtube\/v3\/channels/;
-
         it('should call youtube\'s API for youtube-channel', function() {
             var callback = sandbox.spy();
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-channel', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
@@ -84,7 +80,7 @@ describe('youtube-background', function() {
         it('should callback a youtubeChannel', function() {
             var callback = sandbox.spy();
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-channel', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
-            sandbox.server.respondWith(REGEX_CHANNEL,
+            sandbox.server.respondWith(/^https:\/\/www.googleapis.com\/youtube\/v3\/channels/,
                                        [200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify({ items: [{ snippet:    { thumbnails: { medium: { url: 'image.jpg' } },
@@ -105,7 +101,6 @@ describe('youtube-background', function() {
     });
 
     describe('on youtube.youtube-comments-v2', function() {
-        var REGEX_COMMENTS = /^https:\/\/gdata.youtube.com\/feeds\/api\/videos\/SOME_ID\/comments/;
         /*jshint multistr: true */
         var COMMENTS_RESPONSE = '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
                                      <entry>\
@@ -164,24 +159,10 @@ describe('youtube-background', function() {
             expect(url.param('max-results')).to.equal('5');
         });
 
-        it.skip('should call youtube\'s API (v2) for each user', function() {
-            var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
-            sandbox.server.respondWith(REGEX_COMMENTS, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
-            sandbox.server.respond();
-
-            expect(sandbox.server.requests.length).to.equal(6);
-            expect(sandbox.server.requests[1].url).to.equal('URL_1');
-            expect(sandbox.server.requests[2].url).to.equal('URL_2');
-            expect(sandbox.server.requests[3].url).to.equal('URL_3');
-            expect(sandbox.server.requests[4].url).to.equal('URL_4');
-            expect(sandbox.server.requests[5].url).to.equal('URL_5');
-        });
-
         it('should callback a youtubeComments', function() {
             var callback = sandbox.spy();
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
-            sandbox.server.respondWith(REGEX_COMMENTS, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
+            sandbox.server.respondWith(/^https:\/\/gdata.youtube.com\/feeds\/api\/videos\/SOME_ID\/comments/, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
             sandbox.server.respond();
 
             expect(callback).to.have.been.calledWith({ comments: [{ name:      'Author Name 1',
@@ -210,76 +191,31 @@ describe('youtube-background', function() {
                                                                     content:   'Some Content 5',
                                                                     channelId: 'SOME_CHANNEL_ID_5' }] });
         });
+    });
 
-        /*
-        it('should callback a youtubeComments', function() {
+    describe('on youtube.youtube-user-v2', function() {
+        it('should call youtube\'s API for youtube-user-v2', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
-            sandbox.server.respondWith(REGEX_COMMENTS, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
-            sandbox.server.respondWith(/^URL_1$/,
+            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-user-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+
+            var url = purl(sandbox.server.requests[0].url);
+            expect((url.attr('protocol') + '://' + url.attr('host') + url.attr('path'))).to.equal('https://gdata.youtube.com/feeds/api/users/SOME_ID');
+        });
+
+        it('should callback a youtubeVideo', function() {
+            var callback = sandbox.spy();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-user-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            /*jshint multistr: true */
+            sandbox.server.respondWith(/^https:\/\/gdata.youtube.com\/feeds\/api\/users/,
                                        [200,
                                         { 'Content-Type': 'application/xml' },
                                         '<?xml version="1.0" encoding="UTF-8"?>\
                                         <entry xmlns="http://www.w3.org/2005/Atom" xmlns:gd="http://schemas.google.com/g/2005" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
-                                            <media:thumbnail url="image1.jpg" />\
+                                            <media:thumbnail url="image.jpg" />\
                                         </entry>']);
-            sandbox.server.respondWith(/^URL_2$/,
-                                       [200,
-                                        { 'Content-Type': 'application/xml' },
-                                        '<?xml version="1.0" encoding="UTF-8"?>\
-                                        <entry xmlns="http://www.w3.org/2005/Atom" xmlns:gd="http://schemas.google.com/g/2005" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
-                                            <media:thumbnail url="image2.jpg" />\
-                                        </entry>']);
-            sandbox.server.respondWith(/^URL_3$/,
-                                       [200,
-                                        { 'Content-Type': 'application/xml' },
-                                        '<?xml version="1.0" encoding="UTF-8"?>\
-                                        <entry xmlns="http://www.w3.org/2005/Atom" xmlns:gd="http://schemas.google.com/g/2005" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
-                                            <media:thumbnail url="image3.jpg" />\
-                                        </entry>']);
-            sandbox.server.respondWith(/^URL_4$/,
-                                       [200,
-                                        { 'Content-Type': 'application/xml' },
-                                        '<?xml version="1.0" encoding="UTF-8"?>\
-                                        <entry xmlns="http://www.w3.org/2005/Atom" xmlns:gd="http://schemas.google.com/g/2005" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
-                                            <media:thumbnail url="image4.jpg" />\
-                                        </entry>']);
-            sandbox.server.respondWith(/^URL_5$/,
-                                       [200,
-                                        { 'Content-Type': 'application/xml' },
-                                        '<?xml version="1.0" encoding="UTF-8"?>\
-                                        <entry xmlns="http://www.w3.org/2005/Atom" xmlns:gd="http://schemas.google.com/g/2005" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
-                                            <media:thumbnail url="image5.jpg" />\
-                                        </entry>']);
-            sandbox.server.respond();
             sandbox.server.respond();
 
-            expect(callback).to.have.been.calledWith({ comments: [{ name:      'Author Name 1',
-                                                                    image:     'image1.jpg',
-                                                                    date:      1426980181000,
-                                                                    content:   'Some Content 1',
-                                                                    channelId: 'SOME_CHANNEL_ID_1' },
-                                                                  { name:      'Author Name 2',
-                                                                    image:     'image2.jpg',
-                                                                    date:      1427066581000,
-                                                                    content:   'Some Content 2',
-                                                                    channelId: 'SOME_CHANNEL_ID_2' },
-                                                                  { name:      'Author Name 3',
-                                                                    image:     'image3.jpg',
-                                                                    date:      1427152981000,
-                                                                    content:   'Some Content 3',
-                                                                    channelId: 'SOME_CHANNEL_ID_3' },
-                                                                  { name:      'Author Name 4',
-                                                                    image:     'image4.jpg',
-                                                                    date:      1427239381000,
-                                                                    content:   'Some Content 4',
-                                                                    channelId: 'SOME_CHANNEL_ID_4' },
-                                                                  { name:      'Author Name 5',
-                                                                    image:     'image5.jpg',
-                                                                    date:      1427325781000,
-                                                                    content:   'Some Content 5',
-                                                                    channelId: 'SOME_CHANNEL_ID_5' }] });
+            expect(callback).to.have.been.calledWith({ image: 'image.jpg' });
         });
-        */
     });
 });
