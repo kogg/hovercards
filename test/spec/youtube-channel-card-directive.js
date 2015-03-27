@@ -36,7 +36,7 @@ describe('youtube-channel-card-directive', function() {
         expect(scope.id).to.equal('SOME_ID');
     });
 
-    it('should send youtube', function() {
+    it('should send youtube for youtube-channel', function() {
         var element = angular.element('<div youtube-channel youtube-channel-id="channelID"></div>');
 
         $rootScope.channelID = 'SOME_ID';
