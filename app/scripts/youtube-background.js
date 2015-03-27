@@ -39,7 +39,7 @@ define(['jquery'], function($) {
                                        subscribers: data.items[0].statistics.subscriberCount });
                         });
                     return true;
-                case 'youtube-comments':
+                case 'youtube-comments-v2':
                     $.ajax({ url:  'https://gdata.youtube.com/feeds/api/videos/' + request.id + '/comments',
                              data: { 'max-results': 5 } })
                         .done(function(commentsXML) {

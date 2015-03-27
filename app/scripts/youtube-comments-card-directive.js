@@ -12,7 +12,7 @@ define(['angular-app', 'readmore-directive', 'htmlify-filter', 'numsmall-filter'
                     if (!id) {
                         return;
                     }
-                    chrome.runtime.sendMessage({ msg: 'youtube', content: 'youtube-comments', id: id }, function(youtubeComments) {
+                    chrome.runtime.sendMessage({ msg: 'youtube', content: 'youtube-comments-v2', id: id }, function(youtubeComments) {
                         $scope.$apply(function() {
                             $scope.comments = youtubeComments.comments;
                             $scope.loaded = true;

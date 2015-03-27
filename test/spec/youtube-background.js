@@ -104,7 +104,7 @@ describe('youtube-background', function() {
         });
     });
 
-    describe('on youtube.youtube-comments', function() {
+    describe('on youtube.youtube-comments-v2', function() {
         var REGEX_COMMENTS = /^https:\/\/gdata.youtube.com\/feeds\/api\/videos\/SOME_ID\/comments/;
         /*jshint multistr: true */
         var COMMENTS_RESPONSE = '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
@@ -155,9 +155,9 @@ describe('youtube-background', function() {
                                      </entry>\
                                  </feed>';
 
-        it('should call youtube\'s API for youtube-comments', function() {
+        it('should call youtube\'s API for youtube-comments-v2', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
             var url = purl(sandbox.server.requests[0].url);
             expect((url.attr('protocol') + '://' + url.attr('host') + url.attr('path'))).to.equal('https://gdata.youtube.com/feeds/api/videos/SOME_ID/comments');
@@ -166,7 +166,7 @@ describe('youtube-background', function() {
 
         it('should call youtube\'s API (v2) for each user', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
             sandbox.server.respondWith(REGEX_COMMENTS, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
             sandbox.server.respond();
 
@@ -180,7 +180,7 @@ describe('youtube-background', function() {
 
         it('should callback a youtubeComments', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
             sandbox.server.respondWith(REGEX_COMMENTS, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
             sandbox.server.respondWith(/^URL_1$/,
                                        [200,

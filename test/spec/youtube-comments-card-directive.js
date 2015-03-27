@@ -36,14 +36,14 @@ describe('youtube-comments-card-directive', function() {
         expect(scope.id).to.equal('SOME_ID');
     });
 
-    it('should send youtube for youtube-comments', function() {
+    it('should send youtube for youtube-comments-v2', function() {
         var element = angular.element('<div youtube-comments youtube-video-id="videoID"></div>');
 
         $rootScope.videoID = 'SOME_ID';
         $compile(element)($rootScope);
         $rootScope.$digest();
 
-        expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'youtube', content: 'youtube-comments', id: 'SOME_ID' }, sinon.match.func);
+        expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, sinon.match.func);
     });
 
     it('should set scope properties to youtube response', function() {
