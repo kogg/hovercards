@@ -113,7 +113,7 @@ describe('youtube-background', function() {
                                          <content type="text">Some Content 1</content>\
                                          <author>\
                                              <name>Author Name 1</name>\
-                                             <uri>URL_1</uri>\
+                                             <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_1</uri>\
                                          </author>\
                                          <yt:channelId>SOME_CHANNEL_ID_1</yt:channelId>\
                                      </entry>\
@@ -122,7 +122,7 @@ describe('youtube-background', function() {
                                          <content type="text">Some Content 2</content>\
                                          <author>\
                                              <name>Author Name 2</name>\
-                                             <uri>URL_2</uri>\
+                                             <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_2</uri>\
                                          </author>\
                                          <yt:channelId>SOME_CHANNEL_ID_2</yt:channelId>\
                                      </entry>\
@@ -131,7 +131,7 @@ describe('youtube-background', function() {
                                          <content type="text">Some Content 3</content>\
                                          <author>\
                                              <name>Author Name 3</name>\
-                                             <uri>URL_3</uri>\
+                                             <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_3</uri>\
                                          </author>\
                                          <yt:channelId>SOME_CHANNEL_ID_3</yt:channelId>\
                                      </entry>\
@@ -140,7 +140,7 @@ describe('youtube-background', function() {
                                          <content type="text">Some Content 4</content>\
                                          <author>\
                                              <name>Author Name 4</name>\
-                                             <uri>URL_4</uri>\
+                                             <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_4</uri>\
                                          </author>\
                                          <yt:channelId>SOME_CHANNEL_ID_4</yt:channelId>\
                                      </entry>\
@@ -149,7 +149,7 @@ describe('youtube-background', function() {
                                          <content type="text">Some Content 5</content>\
                                          <author>\
                                              <name>Author Name 5</name>\
-                                             <uri>URL_5</uri>\
+                                             <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_5</uri>\
                                          </author>\
                                          <yt:channelId>SOME_CHANNEL_ID_5</yt:channelId>\
                                      </entry>\
@@ -164,7 +164,7 @@ describe('youtube-background', function() {
             expect(url.param('max-results')).to.equal('5');
         });
 
-        it('should call youtube\'s API (v2) for each user', function() {
+        it.skip('should call youtube\'s API (v2) for each user', function() {
             var callback = sandbox.spy();
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
             sandbox.server.respondWith(REGEX_COMMENTS, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
@@ -178,6 +178,40 @@ describe('youtube-background', function() {
             expect(sandbox.server.requests[5].url).to.equal('URL_5');
         });
 
+        it('should callback a youtubeComments', function() {
+            var callback = sandbox.spy();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            sandbox.server.respondWith(REGEX_COMMENTS, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
+            sandbox.server.respond();
+
+            expect(callback).to.have.been.calledWith({ comments: [{ name:      'Author Name 1',
+                                                                    userId:    'USER_ID_1',
+                                                                    date:      1426980181000,
+                                                                    content:   'Some Content 1',
+                                                                    channelId: 'SOME_CHANNEL_ID_1' },
+                                                                  { name:      'Author Name 2',
+                                                                    userId:    'USER_ID_2',
+                                                                    date:      1427066581000,
+                                                                    content:   'Some Content 2',
+                                                                    channelId: 'SOME_CHANNEL_ID_2' },
+                                                                  { name:      'Author Name 3',
+                                                                    userId:    'USER_ID_3',
+                                                                    date:      1427152981000,
+                                                                    content:   'Some Content 3',
+                                                                    channelId: 'SOME_CHANNEL_ID_3' },
+                                                                  { name:      'Author Name 4',
+                                                                    userId:    'USER_ID_4',
+                                                                    date:      1427239381000,
+                                                                    content:   'Some Content 4',
+                                                                    channelId: 'SOME_CHANNEL_ID_4' },
+                                                                  { name:      'Author Name 5',
+                                                                    userId:    'USER_ID_5',
+                                                                    date:      1427325781000,
+                                                                    content:   'Some Content 5',
+                                                                    channelId: 'SOME_CHANNEL_ID_5' }] });
+        });
+
+        /*
         it('should callback a youtubeComments', function() {
             var callback = sandbox.spy();
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
@@ -246,5 +280,6 @@ describe('youtube-background', function() {
                                                                     content:   'Some Content 5',
                                                                     channelId: 'SOME_CHANNEL_ID_5' }] });
         });
+        */
     });
 });
