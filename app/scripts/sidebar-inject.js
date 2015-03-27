@@ -15,6 +15,9 @@ define('sidebar-inject', ['jquery'], function($) {
             switch (request.msg) {
                 case 'load':
                 case 'show':
+                    if (obj.css('display') !== 'none') {
+                        return;
+                    }
                     obj
                         .stop()
                         .show({ queue: true })
@@ -22,6 +25,9 @@ define('sidebar-inject', ['jquery'], function($) {
                         .animate({ right: 0 }, 400);
                     break;
                 case 'hide':
+                    if (obj.css('display') === 'none') {
+                        return;
+                    }
                     obj
                         .stop()
                         .css('right', 0)
