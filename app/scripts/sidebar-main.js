@@ -9,10 +9,6 @@ require(['sidebar-directive',
 });
 
 require(['jquery'], function($) {
-    $(document).keydown(function(e) {
-        if (e.which !== 16) {
-            return;
-        }
-        chrome.runtime.sendMessage({ msg: 'undeck' });
-    });
+    /* jshint unused:false */
+    require(['hotkey']);
 });
