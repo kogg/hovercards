@@ -35,5 +35,13 @@ define([], function() {
                     break;
             }
         });
+
+        chrome.tabs.onRemoved.addListener(function(tabId) {
+            state[tabId] = null;
+        });
+
+        chrome.tabs.onUpdated.addListener(function(tabId) {
+            state[tabId] = null;
+        });
     };
 });

@@ -31,7 +31,9 @@
         var chrome = { extension: { getURL: function(filename) { return 'chrome-extension://extension_id/' + filename; } },
                        runtime:   { sendMessage: $.noop,
                                     onMessage:   { addListener: $.noop } },
-                       tabs:      { sendMessage: $.noop } };
+                       tabs:      { sendMessage: $.noop,
+                                    onRemoved:   { addListener: $.noop },
+                                    onUpdated:   { addListener: $.noop } } };
         mocha.setup('bdd');
         chai.should();
         var expect = chai.expect;
