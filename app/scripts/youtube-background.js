@@ -48,6 +48,7 @@ define(['jquery', 'purl'], function($, purl) {
                             var comments = $(commentsXML);
                             var entries = $(comments.children('feed').children('entry'));
                             var response = { id:       request.id,
+                                             count:    parseInt(comments.children('feed').children('openSearch\\:totalResults').text()),
                                              comments: [] };
                             for (var i = 0; i < entries.length; i++) {
                                 var entry = $(entries[i]);

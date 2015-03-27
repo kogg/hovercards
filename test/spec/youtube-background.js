@@ -103,55 +103,6 @@ describe('youtube-background', function() {
     });
 
     describe('on youtube.youtube-comments-v2', function() {
-        /*jshint multistr: true */
-        var COMMENTS_RESPONSE = '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
-                                     <entry>\
-                                         <published>2015-03-21T23:23:01.000Z</published>\
-                                         <content type="text">Some Content 1</content>\
-                                         <author>\
-                                             <name>Author Name 1</name>\
-                                             <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_1</uri>\
-                                         </author>\
-                                         <yt:channelId>SOME_CHANNEL_ID_1</yt:channelId>\
-                                     </entry>\
-                                     <entry>\
-                                         <published>2015-03-22T23:23:01.000Z</published>\
-                                         <content type="text">Some Content 2</content>\
-                                         <author>\
-                                             <name>Author Name 2</name>\
-                                             <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_2</uri>\
-                                         </author>\
-                                         <yt:channelId>SOME_CHANNEL_ID_2</yt:channelId>\
-                                     </entry>\
-                                     <entry>\
-                                         <published>2015-03-23T23:23:01.000Z</published>\
-                                         <content type="text">Some Content 3</content>\
-                                         <author>\
-                                             <name>Author Name 3</name>\
-                                             <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_3</uri>\
-                                         </author>\
-                                         <yt:channelId>SOME_CHANNEL_ID_3</yt:channelId>\
-                                     </entry>\
-                                     <entry>\
-                                         <published>2015-03-24T23:23:01.000Z</published>\
-                                         <content type="text">Some Content 4</content>\
-                                         <author>\
-                                             <name>Author Name 4</name>\
-                                             <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_4</uri>\
-                                         </author>\
-                                         <yt:channelId>SOME_CHANNEL_ID_4</yt:channelId>\
-                                     </entry>\
-                                     <entry>\
-                                         <published>2015-03-25T23:23:01.000Z</published>\
-                                         <content type="text">Some Content 5</content>\
-                                         <author>\
-                                             <name>Author Name 5</name>\
-                                             <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_5</uri>\
-                                         </author>\
-                                         <yt:channelId>SOME_CHANNEL_ID_5</yt:channelId>\
-                                     </entry>\
-                                 </feed>';
-
         it('should call youtube\'s API for youtube-comments-v2', function() {
             var callback = sandbox.spy();
             chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
@@ -164,10 +115,62 @@ describe('youtube-background', function() {
         it('should callback a youtubeComments', function() {
             var callback = sandbox.spy();
             chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
-            sandbox.server.respondWith(/^https:\/\/gdata.youtube.com\/feeds\/api\/videos\/SOME_ID\/comments/, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
+            sandbox.server.respondWith(/^https:\/\/gdata.youtube.com\/feeds\/api\/videos\/SOME_ID\/comments/,
+                                       [200,
+                                        { 'Content-Type': 'application/xml' },
+                                        /*jshint multistr: true */
+                                        '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\
+                                             <openSearch:totalResults>9000</openSearch:totalResults>\
+                                             <entry>\
+                                                 <published>2015-03-21T23:23:01.000Z</published>\
+                                                 <content type="text">Some Content 1</content>\
+                                                 <author>\
+                                                     <name>Author Name 1</name>\
+                                                     <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_1</uri>\
+                                                 </author>\
+                                                 <yt:channelId>SOME_CHANNEL_ID_1</yt:channelId>\
+                                             </entry>\
+                                             <entry>\
+                                                 <published>2015-03-22T23:23:01.000Z</published>\
+                                                 <content type="text">Some Content 2</content>\
+                                                 <author>\
+                                                     <name>Author Name 2</name>\
+                                                     <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_2</uri>\
+                                                 </author>\
+                                                 <yt:channelId>SOME_CHANNEL_ID_2</yt:channelId>\
+                                             </entry>\
+                                             <entry>\
+                                                 <published>2015-03-23T23:23:01.000Z</published>\
+                                                 <content type="text">Some Content 3</content>\
+                                                 <author>\
+                                                     <name>Author Name 3</name>\
+                                                     <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_3</uri>\
+                                                 </author>\
+                                                 <yt:channelId>SOME_CHANNEL_ID_3</yt:channelId>\
+                                             </entry>\
+                                             <entry>\
+                                                 <published>2015-03-24T23:23:01.000Z</published>\
+                                                 <content type="text">Some Content 4</content>\
+                                                 <author>\
+                                                     <name>Author Name 4</name>\
+                                                     <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_4</uri>\
+                                                 </author>\
+                                                 <yt:channelId>SOME_CHANNEL_ID_4</yt:channelId>\
+                                             </entry>\
+                                             <entry>\
+                                                 <published>2015-03-25T23:23:01.000Z</published>\
+                                                 <content type="text">Some Content 5</content>\
+                                                 <author>\
+                                                     <name>Author Name 5</name>\
+                                                     <uri>https://gdata.youtube.com/feeds/api/users/USER_ID_5</uri>\
+                                                 </author>\
+                                                 <yt:channelId>SOME_CHANNEL_ID_5</yt:channelId>\
+                                             </entry>\
+                                         </feed>']);
             sandbox.server.respond();
 
             expect(callback).to.have.been.calledWith({ id:       'SOME_ID',
+                                                       count:    9000,
                                                        comments: [{ name:      'Author Name 1',
                                                                     userId:    'USER_ID_1',
                                                                     date:      1426980181000,
