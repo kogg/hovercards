@@ -23,6 +23,11 @@ describe('sidebar-background', function() {
             expect(chrome.tabs.sendMessage).to.not.have.been.called;
         });
 
+        it('should do nothing on undodeck', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'undodeck' }, { tab: { id: 'TAB_ID' } });
+            expect(chrome.tabs.sendMessage).to.not.have.been.called;
+        });
+
         it('should do nothing on deck', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
             expect(chrome.tabs.sendMessage).to.not.have.been.called;
@@ -30,6 +35,21 @@ describe('sidebar-background', function() {
 
         it('should send load on deck > undeck', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' }, { tab: { id: 'TAB_ID' } });
+            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
+        });
+
+        it('should send nothing on deck > undodeck > undeck', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'undodeck' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' }, { tab: { id: 'TAB_ID' } });
+            expect(chrome.tabs.sendMessage).to.not.have.been.called;
+        });
+
+        it('should send first deck on deck > deck > undodeck > undeck', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something-else', id: 'SOME_OTHER_ID' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'undodeck' }, { tab: { id: 'TAB_ID' } });
             chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' }, { tab: { id: 'TAB_ID' } });
             expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
         });
