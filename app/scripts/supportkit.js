@@ -8,5 +8,8 @@ require(['jquery'], function($) {
 		    $('#sk-container').show();
 		    $(this).hide();
 		    $('body').addClass('reduce-padding');
+		    $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+				return false;
+
 		});
 });
