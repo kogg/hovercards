@@ -3,19 +3,11 @@
 	width: 340px !important;
 	height: 100% !important;
 	top:0px !important;
-	right: -340px !important;
 	background: #EFEFEF !important;
 	z-index: 999999999999999 !important;
 	box-shadow:-1px 0px 2px 0px rgba(0, 0, 0, 0.25) !important;
 	-webkit-transform: translateZ(0) !important;
 	display: none;
-	-webkit-animation-duration: .4s;
-	animation-duration: .4s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-	-webkit-animation-name: hovercards-bouncein;
-	animation-name: hovercards-bouncein;
-
 }
 .hovertoast-sidebar iframe {
 	position: absolute !important;
@@ -23,13 +15,4 @@
 	border: none !important;
 	width:100% !important;
 	left: 0px !important
-}
-
-@-webkit-keyframes hovercards-bouncein {
-	0% {
-		right: -340px;
-	}
-	100% {
-		right: 0px;
-	}
 }

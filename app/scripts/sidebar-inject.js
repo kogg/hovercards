@@ -15,10 +15,18 @@ define('sidebar-inject', ['jquery'], function($) {
             switch (request.msg) {
                 case 'load':
                 case 'show':
-                    obj.show();
+                    obj
+                        .stop()
+                        .show({ queue: true })
+                        .css('right', '-340px')
+                        .animate({ right: 0 }, 400);
                     break;
                 case 'hide':
-                    obj.hide();
+                    obj
+                        .stop()
+                        .css('right', 0)
+                        .animate({ right: '-340px' }, 400)
+                        .hide({ queue: true });
                     break;
             }
         });
