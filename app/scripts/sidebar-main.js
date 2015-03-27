@@ -13,6 +13,6 @@ require(['jquery'], function($) {
         if (e.which !== 16) {
             return;
         }
-        chrome.runtime.sendMessage({ msg: 'shoot' });
+        chrome.runtime.sendMessage({ msg: 'undeck' });
     });
 });

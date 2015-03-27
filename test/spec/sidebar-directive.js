@@ -35,79 +35,17 @@ describe('sidebar-directive', function() {
         scope.cardsets.should.deep.equal([]);
     });
 
-    it('should not start with a deck', function() {
+    it('should set cardsets on load', function() {
         var element = angular.element('<div sidebar></div>');
         var scope;
 
         $compile(element)($rootScope);
         $rootScope.$digest();
+
+        chrome.runtime.onMessage.addListener.yield({ msg: 'load', content: 'something', id: 'SOME_ID' });
+        $rootScope.$digest();
         scope = element.isolateScope();
 
-        expect(scope.deck).to.be.undefined;
-    });
-
-    describe('on deck', function() {
-        it('should set deck', function() {
-            var element = angular.element('<div sidebar></div>');
-            var scope;
-
-            $compile(element)($rootScope);
-            $rootScope.$digest();
-
-            chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' });
-            $rootScope.$digest();
-            scope = element.isolateScope();
-
-            scope.deck.should.deep.equal({ content: 'something', id: 'SOME_ID' });
-        });
-    });
-
-    describe('on undeck', function() {
-        it('should set cardsets to deck', function() {
-            var element = angular.element('<div sidebar></div>');
-            var scope;
-
-            $compile(element)($rootScope);
-            $rootScope.$digest();
-            scope = element.isolateScope();
-
-            scope.deck = { content: 'something', id: 'SOME_ID' };
-            chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
-            $rootScope.$digest();
-
-            scope.cardsets.should.deep.equal([{ content: 'something', id: 'SOME_ID' }]);
-        });
-
-        it('should unset deck', function() {
-            var element = angular.element('<div sidebar></div>');
-            var scope;
-
-            $compile(element)($rootScope);
-            $rootScope.$digest();
-            scope = element.isolateScope();
-
-            scope.deck = { content: 'something', id: 'SOME_ID' };
-            chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
-            $rootScope.$digest();
-
-            expect(scope.deck).to.be.null;
-        });
-
-        it('should not unset cardsets if called twice more', function() {
-            var element = angular.element('<div sidebar></div>');
-            var scope;
-
-            $compile(element)($rootScope);
-            $rootScope.$digest();
-            scope = element.isolateScope();
-
-            scope.cardsets = [{ content: 'something', id: 'SOME_ID' }];
-            chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
-            $rootScope.$digest();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' });
-            $rootScope.$digest();
-
-            scope.cardsets.should.deep.equal([{ content: 'something', id: 'SOME_ID' }]);
-        });
+        scope.cardsets.should.deep.equal([{ content: 'something', id: 'SOME_ID' }]);
     });
 });
