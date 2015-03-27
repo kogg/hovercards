@@ -16,17 +16,14 @@ define([], function() {
                     tabState.deck.pop();
                     break;
                 case 'undeck':
-                    var previous = tabState.current;
                     if (tabState.deck.length) {
                         tabState.current = tabState.deck[tabState.deck.length - 1];
                         tabState.deck.length = 0;
-                    }
-                    if (!tabState.current) {
-                        return;
-                    }
-                    if (tabState.current !== previous) {
                         chrome.tabs.sendMessage(sender.tab.id, { msg: 'load', content: tabState.current.content, id: tabState.current.id });
                         tabState.showing = true;
+                        return;
+                    }
+                    if (!tabState.current) {
                         return;
                     }
                     if (tabState.showing) {
