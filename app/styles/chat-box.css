@@ -92,7 +92,7 @@
     position: absolute;
     width: 100%;
     cursor: pointer;
-    bottom: 0;
+    bottom: 30px;
 }
 .feedback-trigger span {
     font-size: 14px;
@@ -124,7 +124,7 @@
     background: url('../images/hclogomini-black.png');
     position: absolute;
     width: 70px;
-    height: 90px;
+    height: 84px;
     top: 10px;
     background-repeat: no-repeat;
     background-size: 100%;
