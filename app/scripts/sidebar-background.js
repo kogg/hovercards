@@ -16,6 +16,11 @@ define([], function() {
                     tabState.deck.pop();
                     break;
                 case 'undeck':
+                    if (tabState.deck.length && tabState.current &&
+                        tabState.deck[tabState.deck.length - 1].content === tabState.current.content &&
+                        tabState.deck[tabState.deck.length - 1].id      === tabState.current.id) {
+                        tabState.deck.length = 0;
+                    }
                     if (tabState.deck.length) {
                         tabState.current = tabState.deck[tabState.deck.length - 1];
                         tabState.deck.length = 0;

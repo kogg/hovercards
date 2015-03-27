@@ -39,6 +39,14 @@ describe('sidebar-background', function() {
             expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
         });
 
+        it('should send hide on deck > undeck > deck > undeck if same deck', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'undeck' }, { tab: { id: 'TAB_ID' } });
+            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
+        });
+
         it('should send nothing on deck > undodeck > undeck', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'deck', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
             chrome.runtime.onMessage.addListener.yield({ msg: 'undodeck' }, { tab: { id: 'TAB_ID' } });
