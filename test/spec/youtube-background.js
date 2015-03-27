@@ -27,7 +27,7 @@ describe('youtube-background', function() {
     describe('on youtube.youtube-video', function() {
         it('should call youtube\'s API for youtube-video', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
             var url = purl(sandbox.server.requests[0].url);
             expect((url.attr('protocol') + '://' + url.attr('host') + url.attr('path'))).to.equal('https://www.googleapis.com/youtube/v3/videos');
@@ -39,7 +39,7 @@ describe('youtube-background', function() {
 
         it('should callback a youtubeVideo', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
             sandbox.server.respondWith(/^https:\/\/www.googleapis.com\/youtube\/v3\/videos/,
                                        [200,
                                         { 'Content-Type': 'application/json' },
