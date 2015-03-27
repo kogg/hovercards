@@ -12,4 +12,7 @@ require(['jquery'], function($) {
 		    $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
 				return false;
 		});
+		$('body').on('click', '#sk-container', function(){
+			$('#sk-footer form input').focus();
+		});
 });
