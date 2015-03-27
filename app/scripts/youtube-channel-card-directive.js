@@ -1,6 +1,6 @@
 'use strict';
 
-define(['angular-app', 'youtube-channel-subscribe-directive', 'htmlify-filter', 'numsmall-filter', 'slide-animation'], function(app) {
+define(['angular-app', 'readmore-directive', 'youtube-channel-subscribe-directive', 'htmlify-filter', 'numsmall-filter', 'slide-animation'], function(app) {
     app.directive('youtubeChannel', function() {
         return {
             scope: {

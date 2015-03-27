@@ -15,7 +15,7 @@
 			</div>
 			<div class="comment-right col-9">
 				<a>{{ ::comment.name }}</a>
-				<p ng-bind-html="::comment.content | htmlify"></p>
+				<p readmore="::comment.content | htmlify" style="max-height: 170px"></p>
 				<b class="youtube-color"><i class="md md-access-time"></i> {{ ::comment.date | date }}</b>
 			</div>
 		</div>

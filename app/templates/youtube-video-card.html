@@ -18,7 +18,9 @@
 			<a href="https://www.youtube.com/watch?v={{ ::id }}" target="_blank" ng-click="$event.stopPropagation()">{{ ::title }}</a>
 		</div>
 		<div ng-show="show" ng-click="$event.stopPropagation()" ng-if="::description" class="slide-animation card-description">
-			<p ng-bind-html="::description | htmlify" ng-show="show" class="fade-animation"></p>
+			<div ng-show="show" class="fade-animation">
+				<p readmore="::description | htmlify" style="max-height: 170px"></p>
+			</div>
 		</div>
 	</div>
 	<div class="card-stats row">
