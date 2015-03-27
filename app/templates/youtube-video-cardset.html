@@ -1,3 +1,9 @@
-<div youtube-video youtube-video-id="cardset.id" youtube-channel-id="channelId"></div>
-<div youtube-channel youtube-channel-id="channelId"></div>
-<div youtube-comments youtube-video-id="cardset.id"></div>
+<div content="youtube-video" content-id="::cardset.id" result="video">
+	<div ng-include="'templates/youtube-video-card.html'"></div>
+</div>
+<div content="youtube-channel" content-id="::video.channelId" result="channel">
+	<div ng-include="'templates/youtube-channel-card.html'"></div>
+</div>
+<div content="youtube-comments-v2" content-id="::cardset.id" result="comments">
+	<div ng-include="'templates/youtube-comments-card.html'"></div>
+</div>

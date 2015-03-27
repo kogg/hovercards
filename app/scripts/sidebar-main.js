@@ -1,10 +1,13 @@
 'use strict';
 
 require(['sidebar-directive',
-         'youtube-video-card-directive',
-         'youtube-channel-card-directive',
+         'content-directive',
+         'readmore-directive',
          'youtube-channel-subscribe-directive',
-         'youtube-comments-card-directive'], function() {
+         'htmlify-filter',
+         'numsmall-filter',
+         'trust-resource-url-filter',
+         'slide-animation'], function() {
     angular.bootstrap(document, ['app']);
 });
 
