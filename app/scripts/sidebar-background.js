@@ -5,18 +5,21 @@ define([], function() {
         var state = {};
         chrome.runtime.onMessage.addListener(function(request, sender) {
             if (!state[sender.tab.id]) {
-                state[sender.tab.id] = {};
+                state[sender.tab.id] = { deck: [] };
             }
             var tabState = state[sender.tab.id];
             switch (request.msg) {
                 case 'deck':
-                    tabState.deck = { content: request.content, id: request.id };
+                    tabState.deck.push({ content: request.content, id: request.id });
+                    break;
+                case 'undodeck':
+                    tabState.deck.pop();
                     break;
                 case 'undeck':
                     var previous = tabState.current;
-                    if (tabState.deck) {
-                        tabState.current = tabState.deck;
-                        tabState.deck = null;
+                    if (tabState.deck.length) {
+                        tabState.current = tabState.deck[tabState.deck.length - 1];
+                        tabState.deck.length = 0;
                     }
                     if (!tabState.current) {
                         return;
