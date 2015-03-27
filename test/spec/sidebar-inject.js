@@ -43,22 +43,24 @@ describe('sidebar-inject', function() {
             sidebarObj.children('iframe').should.have.prop('src', 'chrome-extension://extension_id/sidebar.html');
         });
 
-        it('should be visible on load', function() {
-            sidebarObj.hide();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', content: 'something', id: 'SOME_ID' });
-            sidebarObj.should.not.be.css('display', 'none');
-        });
+        describe('on load/show/hide', function() {
+            it('should be visible on load', function() {
+                sidebarObj.hide();
+                chrome.runtime.onMessage.addListener.yield({ msg: 'load', content: 'something', id: 'SOME_ID' });
+                sidebarObj.should.not.be.css('display', 'none');
+            });
 
-        it('should be visible on show', function() {
-            sidebarObj.hide();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'show' });
-            sidebarObj.should.not.be.css('display', 'none');
-        });
+            it('should be visible on show', function() {
+                sidebarObj.hide();
+                chrome.runtime.onMessage.addListener.yield({ msg: 'show' });
+                sidebarObj.should.not.be.css('display', 'none');
+            });
 
-        it('should be hidden on hide', function() {
-            sidebarObj.show();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
-            sidebarObj.should.be.css('display', 'none');
+            it('should be hidden on hide', function() {
+                sidebarObj.show();
+                chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
+                sidebarObj.should.be.css('display', 'none');
+            });
         });
     });
 });

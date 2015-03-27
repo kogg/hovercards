@@ -35,17 +35,19 @@ describe('sidebar-directive', function() {
         scope.cardsets.should.deep.equal([]);
     });
 
-    it('should set cardsets on load', function() {
-        var element = angular.element('<div sidebar></div>');
-        var scope;
+    describe('on load', function() {
+        it('should set cardsets on load', function() {
+            var element = angular.element('<div sidebar></div>');
+            var scope;
 
-        $compile(element)($rootScope);
-        $rootScope.$digest();
+            $compile(element)($rootScope);
+            $rootScope.$digest();
 
-        chrome.runtime.onMessage.addListener.yield({ msg: 'load', content: 'something', id: 'SOME_ID' });
-        $rootScope.$digest();
-        scope = element.isolateScope();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', content: 'something', id: 'SOME_ID' });
+            $rootScope.$digest();
+            scope = element.isolateScope();
 
-        scope.cardsets.should.deep.equal([{ content: 'something', id: 'SOME_ID' }]);
+            scope.cardsets.should.deep.equal([{ content: 'something', id: 'SOME_ID' }]);
+        });
     });
 });

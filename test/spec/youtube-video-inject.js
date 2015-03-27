@@ -25,36 +25,32 @@ describe('youtube-video-inject', function() {
         sandbox.restore();
     });
 
-    describe('call', function() {
-        beforeEach(function() {
-            sandbox.stub(youtubeVideoInject, 'injectTriggerOnIframePlayer');
-            sandbox.stub(youtubeVideoInject, 'injectTriggersOnLinks');
-            sandbox.stub(youtubeVideoInject, 'injectTriggersOnObjectsAndEmbeds');
-        });
+    it('should call injectTriggersOnLinks with default context', function() {
+        sandbox.stub(youtubeVideoInject, 'injectTriggersOnLinks');
+        youtubeVideoInject('default');
+        youtubeVideoInject.injectTriggersOnLinks.should.have.been.called;
+    });
 
-        it('should register injectTriggersOnLinks on default', function() {
-            youtubeVideoInject('default');
-            youtubeVideoInject.injectTriggersOnLinks.should.have.been.called;
-        });
+    it('should call injectTriggerOnIframePlayer with youtube-iframe context', function() {
+        sandbox.stub(youtubeVideoInject, 'injectTriggerOnIframePlayer');
+        youtubeVideoInject('youtube-iframe');
+        youtubeVideoInject.injectTriggerOnIframePlayer.should.have.been.called;
+    });
 
-        it('should register injectTriggerOnIframePlayer on youtube-iframe', function() {
-            youtubeVideoInject('youtube-iframe');
-            youtubeVideoInject.injectTriggerOnIframePlayer.should.have.been.called;
-        });
+    it('should call injectTriggersOnObjectsAndEmbeds with default context', function() {
+        sandbox.stub(youtubeVideoInject, 'injectTriggersOnObjectsAndEmbeds');
+        youtubeVideoInject('default');
+        youtubeVideoInject.injectTriggersOnObjectsAndEmbeds.should.have.been.called;
+    });
 
-        it('should register injectTriggersOnObjectsAndEmbeds on default', function() {
-            youtubeVideoInject('default');
-            youtubeVideoInject.injectTriggersOnObjectsAndEmbeds.should.have.been.called;
-        });
-
-        it('should register injectTriggersOnObjectsAndEmbeds on facebook-youtube-iframe', function() {
-            youtubeVideoInject('facebook-youtube-iframe');
-            youtubeVideoInject.injectTriggersOnObjectsAndEmbeds.should.have.been.called;
-        });
+    it('should call injectTriggersOnObjectsAndEmbeds with facebook-youtube-iframe context', function() {
+        sandbox.stub(youtubeVideoInject, 'injectTriggersOnObjectsAndEmbeds');
+        youtubeVideoInject('facebook-youtube-iframe');
+        youtubeVideoInject.injectTriggersOnObjectsAndEmbeds.should.have.been.called;
     });
 
     describe('#injectTriggersOnLinks', function() {
-        it('should attach trigger to youtube link', function() {
+        it('should attach trigger to youtube links', function() {
             $('<a id="link" href="https://www.youtube.com/watch?v=SOME_ID">').appendTo(body);
 
             youtubeVideoInject.injectTriggersOnLinks(body);
@@ -65,7 +61,7 @@ describe('youtube-video-inject', function() {
             trigger.should.always.have.been.calledWith(sinon.match.any, 'youtube-video', 'SOME_ID');
         });
 
-        it('should not attach trigger to other link', function() {
+        it('should not attach trigger to other links', function() {
             $('<a id="link_bad" href="https://www.wenoknow.com">').appendTo(body);
 
             youtubeVideoInject.injectTriggersOnLinks(body);
@@ -77,7 +73,7 @@ describe('youtube-video-inject', function() {
     });
 
     describe('#injectTriggerOnIframePlayer', function() {
-        it('should attach trigger to youtube link', function() {
+        it('should attach trigger to youtube player', function() {
             $('<div id="player"></div>>').appendTo(body);
 
             youtubeVideoInject.injectTriggerOnIframePlayer(body, 'https://www.youtube.com/embed/SOME_ID');

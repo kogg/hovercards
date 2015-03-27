@@ -17,19 +17,21 @@ describe('trigger', function() {
         sandbox.restore();
     });
 
-    it('should send deck message on mouseenter-500ms', function() {
-        triggerObj.mouseenter();
-        sandbox.clock.tick(499);
-        chrome.runtime.sendMessage.should.not.have.been.called;
-        sandbox.clock.tick(500);
-        chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'deck', content: 'something', id: 'SOME_ID' });
-    });
+    describe('on mouseevents', function() {
+        it('should send deck on mouseenter > 500ms', function() {
+            triggerObj.mouseenter();
+            sandbox.clock.tick(499);
+            chrome.runtime.sendMessage.should.not.have.been.called;
+            sandbox.clock.tick(500);
+            chrome.runtime.sendMessage.should.have.been.calledWith({ msg: 'deck', content: 'something', id: 'SOME_ID' });
+        });
 
-    it('should not send deck message on mouseenter-mouseleave-500ms', function() {
-        triggerObj.mouseenter().mouseleave();
-        sandbox.clock.tick(499);
-        chrome.runtime.sendMessage.should.not.have.been.called;
-        sandbox.clock.tick(500);
-        chrome.runtime.sendMessage.should.not.have.been.called;
+        it('should not send deck on mouseenter > mouseleave > 500ms', function() {
+            triggerObj.mouseenter().mouseleave();
+            sandbox.clock.tick(499);
+            chrome.runtime.sendMessage.should.not.have.been.called;
+            sandbox.clock.tick(500);
+            chrome.runtime.sendMessage.should.not.have.been.called;
+        });
     });
 });

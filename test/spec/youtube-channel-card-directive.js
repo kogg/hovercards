@@ -36,7 +36,7 @@ describe('youtube-channel-card-directive', function() {
         scope.id.should.equal('SOME_ID');
     });
 
-    it('should send youtube message', function() {
+    it('should send youtube', function() {
         var element = angular.element('<div youtube-channel youtube-channel-id="channelID"></div>');
 
         $rootScope.channelID = 'SOME_ID';

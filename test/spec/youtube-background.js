@@ -24,7 +24,7 @@ describe('youtube-background', function() {
         sandbox.restore();
     });
 
-    describe('on youtube-video message', function() {
+    describe('on youtube.youtube-video', function() {
         var REGEX_VIDEO = /^https:\/\/www.googleapis.com\/youtube\/v3\/videos/;
 
         it('should call youtube\'s API', function() {
@@ -66,7 +66,7 @@ describe('youtube-background', function() {
         });
     });
 
-    describe('on youtube-channel message', function() {
+    describe('on youtube.youtube-channel', function() {
         var REGEX_CHANNEL = /^https:\/\/www.googleapis.com\/youtube\/v3\/channels/;
 
         it('should call youtube\'s API', function() {
@@ -104,7 +104,7 @@ describe('youtube-background', function() {
         });
     });
 
-    describe('on youtube-comments message', function() {
+    describe('on youtube.youtube-comments', function() {
         var REGEX_COMMENTS = /^https:\/\/gdata.youtube.com\/feeds\/api\/videos\/SOME_ID\/comments/;
         /*jshint multistr: true */
         var COMMENTS_RESPONSE = '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/" xmlns:yt="http://gdata.youtube.com/schemas/2007">\

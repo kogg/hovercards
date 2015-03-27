@@ -36,7 +36,7 @@ describe('youtube-comments-card-directive', function() {
         scope.id.should.equal('SOME_ID');
     });
 
-    it('should send youtube message', function() {
+    it('should send youtube', function() {
         var element = angular.element('<div youtube-comments youtube-video-id="videoID"></div>');
 
         $rootScope.videoID = 'SOME_ID';
