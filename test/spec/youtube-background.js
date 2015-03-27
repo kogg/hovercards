@@ -53,7 +53,8 @@ describe('youtube-background', function() {
                                                                                  dislikeCount: 3000 } }] })]);
             sandbox.server.respond();
 
-            expect(callback).to.have.been.calledWith({ image:       'image.jpg',
+            expect(callback).to.have.been.calledWith({ id:          'SOME_ID',
+                                                       image:       'image.jpg',
                                                        title:       'Some Title',
                                                        description: 'Some Description',
                                                        date:        1302060119000,
@@ -91,7 +92,8 @@ describe('youtube-background', function() {
                                                                                  videoCount:      1000 } }] })]);
             sandbox.server.respond();
 
-            expect(callback).to.have.been.calledWith({ image:       'image.jpg',
+            expect(callback).to.have.been.calledWith({ id:          'SOME_ID',
+                                                       image:       'image.jpg',
                                                        title:       'Some Title',
                                                        description: 'Some Description',
                                                        videos:       1000,
@@ -165,7 +167,8 @@ describe('youtube-background', function() {
             sandbox.server.respondWith(/^https:\/\/gdata.youtube.com\/feeds\/api\/videos\/SOME_ID\/comments/, [200, { 'Content-Type': 'application/xml' }, COMMENTS_RESPONSE]);
             sandbox.server.respond();
 
-            expect(callback).to.have.been.calledWith({ comments: [{ name:      'Author Name 1',
+            expect(callback).to.have.been.calledWith({ id:       'SOME_ID',
+                                                       comments: [{ name:      'Author Name 1',
                                                                     userId:    'USER_ID_1',
                                                                     date:      1426980181000,
                                                                     content:   'Some Content 1',
@@ -215,7 +218,8 @@ describe('youtube-background', function() {
                                         </entry>']);
             sandbox.server.respond();
 
-            expect(callback).to.have.been.calledWith({ image: 'image.jpg' });
+            expect(callback).to.have.been.calledWith({ id:    'SOME_ID',
+                                                       image: 'image.jpg' });
         });
     });
 });
