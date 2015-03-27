@@ -1,36 +1,35 @@
-<div class="card bounce-in-animation" ng-click="show=!show" ng-class="::{ 'card-more': description }" ng-if="loaded">
-
+<div class="card bounce-in-animation" ng-click="show=!show" ng-class="::{ 'card-more': channel.description }" ng-if="channel">
 	<div class="profile-top row">
 		<div class="profile-left col-4">
-			<div class="profile-image" style="background-image:url({{ ::image }})"></div>
+			<div class="profile-image" style="background-image:url({{ ::channel.image }})"></div>
 		</div>
 		<div class="profile-right col-8">
 			<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
-			<a href="https://www.youtube.com/channel/{{ ::id }}" target="_blank" class="ellipsis" ng-click="$event.stopPropagation()">{{ ::title }}</a>
+			<a href="https://www.youtube.com/channel/{{ ::channel.id }}" target="_blank" class="ellipsis" ng-click="$event.stopPropagation()">{{ ::channel.title }}</a>
 			<div class="profile-cta">
-				<div youtube-channel-subscribe youtube-channel-id="::id"></div>
+				<div youtube-channel-subscribe youtube-channel-id="::channel.id"></div>
 			</div>
 		</div>
 	</div>
 
-	<div ng-show="show" ng-click="$event.stopPropagation()" ng-if="::description" class="slide-animation card-description-padding">
+	<div ng-show="show" ng-click="$event.stopPropagation()" ng-if="::channel.description" class="slide-animation card-description-padding">
 		<div ng-show="show" class="fade-animation">
-			<p readmore="::description | htmlify" style="max-height: 170px"></p>
+			<p readmore="::channel.description | htmlify" style="max-height: 170px"></p>
 		</div>
 	</div>
 	
 	<div class="card-stats row">
 		<div class="col-4">
 			<b>Subscribers</b>
-		<span>{{ ::subscribers | numsmall }}</span>
+			<span>{{ ::channel.subscribers | numsmall }}</span>
 		</div>
 		<div class="col-4">
 			<b>Uploads</b>
-		<span>{{ ::videos | numsmall }}</span>
+			<span>{{ ::channel.videos | numsmall }}</span>
 		</div>
 		<div class="col-4">
 			<b>Video Views</b>
-		<span>{{ ::views | numsmall }}</span>
+			<span>{{ ::channel.views | numsmall }}</span>
 		</div>
 	</div>
 

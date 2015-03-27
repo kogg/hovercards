@@ -3,11 +3,12 @@
 require(['sidebar-directive',
          'content-directive',
          'youtube-video-card-directive',
-         'youtube-channel-card-directive',
          'youtube-channel-subscribe-directive',
          'readmore-directive',
          'htmlify-filter',
-         'numsmall-filter'], function() {
+         'numsmall-filter',
+         'readmore-directive',
+         'slide-animation'], function() {
     angular.bootstrap(document, ['app']);
 });
 
