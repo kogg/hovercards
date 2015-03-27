@@ -99,6 +99,10 @@ p, p a, .card-text .card-description p a, .card-description-padding p a, .commen
 p a, .card-text .card-description p a, .card-description-padding p a, .comment-content p a {
 	color: #03A9F4;
 }
+p .read-more {
+	text-decoration: underline;
+	cursor: pointer;
+}
 .card-description-padding {
 	padding: 16px;
 	border-top:1px solid #B6B6B6
@@ -123,6 +127,8 @@ b i {
 .card-more:hover {
 	transform: scale(1.05);
 	-webkit-transform: scale(1.05);
+	z-index: 3;
+	position: relative;
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
