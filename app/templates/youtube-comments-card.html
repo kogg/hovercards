@@ -11,7 +11,7 @@
 	<div class="comment-content">
 		<div ng-repeat="comment in comments" class="comment row">
 			<div class="comment-left col-3">
-				<div class="comment-image" youtube-user-image youtube-user-id="::comment.userId"></div>
+                <div class="comment-image" content="youtube-user-v2" content-id="::comment.userId" result="user" ng-style="::user && { 'background-image': 'url(' + user.image + ')'}"></div>
 			</div>
 			<div class="comment-right col-9">
 				<a>{{ ::comment.name }}</a>

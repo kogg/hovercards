@@ -196,7 +196,7 @@ describe('youtube-background', function() {
     describe('on youtube.youtube-user-v2', function() {
         it('should call youtube\'s API for youtube-user-v2', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-user-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-user-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
             var url = purl(sandbox.server.requests[0].url);
             expect((url.attr('protocol') + '://' + url.attr('host') + url.attr('path'))).to.equal('https://gdata.youtube.com/feeds/api/users/SOME_ID');
@@ -204,7 +204,7 @@ describe('youtube-background', function() {
 
         it('should callback a youtubeVideo', function() {
             var callback = sandbox.spy();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-user-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', content: 'youtube-user-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
             /*jshint multistr: true */
             sandbox.server.respondWith(/^https:\/\/gdata.youtube.com\/feeds\/api\/users/,
                                        [200,

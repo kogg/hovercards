@@ -5,6 +5,16 @@ define(['jquery', 'purl'], function($, purl) {
 
     return function youtubeBackground() {
         chrome.runtime.onMessage.addListener(function(request, sender, callback) {
+            if (request.msg === 'data') {
+                switch (request.content) {
+                    case 'youtube-user-v2':
+                        $.ajax({ url: 'https://gdata.youtube.com/feeds/api/users/' + request.id })
+                            .done(function(userXML) {
+                                callback({ image: $(userXML).children('entry').children('media\\:thumbnail').attr('url') });
+                            });
+                        return true;
+                }
+            }
             if (request.msg !== 'youtube') {
                 return;
             }
@@ -55,12 +65,6 @@ define(['jquery', 'purl'], function($, purl) {
                                                          channelId: entry.children('yt\\:channelId').text() });
                             }
                             callback(response);
-                        });
-                    return true;
-                case 'youtube-user-v2':
-                    $.ajax({ url: 'https://gdata.youtube.com/feeds/api/users/' + request.id })
-                        .done(function(userXML) {
-                            callback({ image: $(userXML).children('entry').children('media\\:thumbnail').attr('url') });
                         });
                     return true;
             }
