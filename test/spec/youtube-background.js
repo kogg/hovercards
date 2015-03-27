@@ -27,7 +27,7 @@ describe('youtube-background', function() {
     describe('on youtube.youtube-video', function() {
         var REGEX_VIDEO = /^https:\/\/www.googleapis.com\/youtube\/v3\/videos/;
 
-        it('should call youtube\'s API', function() {
+        it('should call youtube\'s API for youtube-video', function() {
             var callback = sandbox.spy();
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
@@ -69,7 +69,7 @@ describe('youtube-background', function() {
     describe('on youtube.youtube-channel', function() {
         var REGEX_CHANNEL = /^https:\/\/www.googleapis.com\/youtube\/v3\/channels/;
 
-        it('should call youtube\'s API', function() {
+        it('should call youtube\'s API for youtube-channel', function() {
             var callback = sandbox.spy();
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-channel', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
@@ -155,7 +155,7 @@ describe('youtube-background', function() {
                                      </entry>\
                                  </feed>';
 
-        it('should call youtube\'s API (v2)', function() {
+        it('should call youtube\'s API for youtube-comments', function() {
             var callback = sandbox.spy();
             chrome.runtime.onMessage.addListener.yield({ msg: 'youtube', content: 'youtube-comments', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
 
