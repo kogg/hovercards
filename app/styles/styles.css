@@ -71,10 +71,8 @@ html,body {
 
 
 .cards {
-	position: absolute;
 	max-width: 340px;
 	top: 0px;
-	left: 0;
 	padding: 0 20px 60px;
 }
 
