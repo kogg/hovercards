@@ -49,11 +49,6 @@ describe('sidebar-inject', function() {
                 expect(sidebarObj).to.not.have.css('display', 'none');
             });
 
-            it('should be visible on show', function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'show' });
-                expect(sidebarObj).to.not.have.css('display', 'none');
-            });
-
             it('should be hidden on hide', function() {
                 chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
                 expect(sidebarObj).to.have.css('display', 'none');

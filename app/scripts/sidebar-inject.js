@@ -16,7 +16,6 @@ define('sidebar-inject', ['jquery'], function($) {
         chrome.runtime.onMessage.addListener(function(request) {
             switch (request.msg) {
                 case 'load':
-                case 'show':
                     if (obj.css('display') !== 'none') {
                         return;
                     }
