@@ -10,12 +10,18 @@ define('hover-trigger', ['jquery'], function($) {
                 clearTimeout($(this).data('hovercards-timeout'));
                 chrome.runtime.sendMessage({ msg: 'unhover' });
             });
-            body.on('mousedown', selector, function() {
+            body.on('mousedown', selector, function(e) {
+                if (e.which !== 1) {
+                    return;
+                }
                 $(this).data('hovercards-timeout', setTimeout(function() {
                     chrome.runtime.sendMessage({ msg: 'activate', content: content, id: getId.call(this) });
                 }, 333));
             });
-            body.on('click', selector, function() {
+            body.on('click', selector, function(e) {
+                if (e.which !== 1) {
+                    return;
+                }
                 clearTimeout($(this).data('hovercards-timeout'));
             });
         }
