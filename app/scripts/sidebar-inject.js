@@ -1,8 +1,7 @@
 'use strict';
 
-/* FIXME Why do we have to name this within the file itself? */
 define('sidebar-inject', ['jquery'], function($) {
-    function injectSidebar(body) {
+    return function sidebarInject(body) {
         var obj = $('<div class="hovertoast-sidebar"></div>')
             .css('display', 'none')
             .appendTo(body);
@@ -37,20 +36,5 @@ define('sidebar-inject', ['jquery'], function($) {
         });
 
         return obj;
-    }
-
-    function inject(context, body) {
-        if (!body) {
-            body = 'body';
-        }
-        body = $(body);
-        switch (context) {
-            case 'default':
-                inject.injectSidebar(body);
-                break;
-        }
-    }
-    inject.injectSidebar = injectSidebar;
-
-    return inject;
+    };
 });
