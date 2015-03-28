@@ -345,8 +345,9 @@ b i {
 }
 
 .bounce-out-animation.ng-leave {
-	-webkit-animation-duration: .8s;
-	animation-duration: .8s;
+	-webkit-transform: translatey(0px);
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
 	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
 	-webkit-animation-name: bounce-down;
@@ -354,15 +355,14 @@ b i {
 }
 @-webkit-keyframes bounce-down {
 	0% {
-		-webkit-transform: translatey(0);
+		-webkit-transform: translatey(0px);
 		opacity: 1;
 	}
 	70% {
 		opacity: 1;
 	}
 	100% {
-		-webkit-transform: translatey(1700px);
-		opacity: 0;
+		-webkit-transform: translatey(1400px);
 	}
 }
 
