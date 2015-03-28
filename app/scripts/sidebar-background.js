@@ -26,10 +26,10 @@ define([], function() {
                         tabState.deck.length = 0;
                         chrome.tabs.sendMessage(sender.tab.id, { msg: 'load', content: tabState.current.content, id: tabState.current.id });
                         tabState.showing = true;
-                        return;
+                        break;
                     }
                     if (!tabState.current) {
-                        return;
+                        break;
                     }
                     if (tabState.showing) {
                         chrome.tabs.sendMessage(sender.tab.id, { msg: 'hide' });
