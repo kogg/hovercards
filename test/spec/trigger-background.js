@@ -16,38 +16,55 @@ describe('trigger-background', function() {
         sandbox.restore();
     });
 
-    it('should send msg:load[details] on activate[details]', function() {
+    it('should send msg:load[details] on ready > activate[details]', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'activate', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
     });
 
-    it('should not send anything on activate', function() {
+    it('should not send anything on ready > activate', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'activate' }, { tab: { id: 'TAB_ID' } });
         expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
     });
 
-    it('should send msg:load[details] on hover[details] > activate', function() {
+    it('should send msg:load[details] on ready > hover[details] > activate', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'hover', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'activate' }, { tab: { id: 'TAB_ID' } });
         expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
     });
 
-    it('should send msg:hide on hover[details] > unhover > activate', function() {
+    it('should send msg:hide on ready > hover[details] > unhover > activate', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'hover', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'unhover' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'activate' }, { tab: { id: 'TAB_ID' } });
         expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
     });
 
-    it('should send msg:hide on activate[details] > activate', function() {
+    it('should send msg:hide on ready > activate[details] > activate', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'activate', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'activate' }, { tab: { id: 'TAB_ID' } });
         expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
     });
 
-    it('should send msg:hide on activate[details] > activate[same details]', function() {
+    it('should send msg:hide on ready > activate[details] > activate[same details]', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'activate', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'activate', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
+    });
+
+    it('should not send anything when not ready', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        expect(chrome.tabs.sendMessage).to.not.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
+    });
+
+    it('should send msg:load[details] on activate[details] > ready', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
+        expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
     });
 });

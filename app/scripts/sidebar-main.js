@@ -14,3 +14,7 @@ require(['cardset-directive',
 require(['hotkey-trigger'], function(hotkeyTrigger) {
     hotkeyTrigger.handle('body');
 });
+
+require(['domReady!'], function() {
+    chrome.runtime.sendMessage({ msg: 'ready' });
+});
