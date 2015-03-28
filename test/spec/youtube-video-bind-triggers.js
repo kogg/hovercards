@@ -24,7 +24,7 @@ describe('youtube-video-bind-triggers', function() {
         body.remove();
     });
 
-    describe('on a[href="https://www.youtube.com/watch?v=SOME_ID]"', function() {
+    describe('on a[href="https://www.youtube.com/watch?v=SOME_ID"]', function() {
         var element;
         var selector;
 
@@ -46,7 +46,7 @@ describe('youtube-video-bind-triggers', function() {
         });
     });
 
-    describe('on embed[src="https://www.youtube.com/v/SOME_ID"]"', function() {
+    describe('on embed[src="https://www.youtube.com/v/SOME_ID"]', function() {
         var element;
         var selector;
 
@@ -68,7 +68,7 @@ describe('youtube-video-bind-triggers', function() {
         });
     });
 
-    describe('on object[data="https://www.youtube.com/v/SOME_ID"]"', function() {
+    describe('on object[data="https://www.youtube.com/v/SOME_ID"]', function() {
         var element;
         var selector;
 

@@ -42,36 +42,26 @@ describe('hover-trigger', function() {
 
     describe('longpress', function() {
         it('should send msg:activate mousedown > 333ms', function() {
-            var e = jQuery.Event('mousedown');
-            e.which = 1;
-            link.trigger(e);
+            link.trigger($.Event('mousedown', { which: 1 }));
             sandbox.clock.tick(333);
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'activate', content: 'something', id: 'SOME_ID' });
         });
 
         it('should not send msg:activate mousedown[which!=1] > 333ms', function() {
-            var e = jQuery.Event('mousedown');
-            e.which = 2;
-            link.trigger(e);
+            link.trigger($.Event('mousedown', { which: 2 }));
             sandbox.clock.tick(333);
             expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'activate', content: 'something', id: 'SOME_ID' });
         });
 
         it('should not send msg:activate mousedown > click > 333ms', function() {
-            var e = jQuery.Event('mousedown');
-            var e2 = jQuery.Event('click');
-            e.which = 1;
-            e2.which = 1;
-            link.trigger(e);
-            link.trigger(e2);
+            link.trigger($.Event('mousedown', { which: 1 }));
+            link.trigger($.Event('click', { which: 1 }));
             sandbox.clock.tick(333);
             expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'activate', content: 'something', id: 'SOME_ID' });
         });
 
         it('should not send msg:activate mousedown > mouseleave > 333ms', function() {
-            var e = jQuery.Event('mousedown');
-            e.which = 1;
-            link.trigger(e);
+            link.trigger($.Event('mousedown', { which: 1 }));
             link.mouseleave();
             sandbox.clock.tick(333);
             expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'activate', content: 'something', id: 'SOME_ID' });
