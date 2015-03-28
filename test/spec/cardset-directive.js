@@ -1,13 +1,13 @@
 'use strict';
 
-describe('sidebar-directive', function() {
+describe('cardset-directive', function() {
     var sandbox = sinon.sandbox.create();
     var angular;
     var $compile;
     var $rootScope;
 
     beforeEach(function(done) {
-        require(['angular', 'sidebar-directive'], function(_angular) {
+        require(['angular', 'cardset-directive'], function(_angular) {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             angular = _angular;
             done();
@@ -17,7 +17,7 @@ describe('sidebar-directive', function() {
     beforeEach(inject(function(_$compile_, _$rootScope_, $templateCache) {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
-        $templateCache.put('templates/sidebar.html', '<div></div>');
+        $templateCache.put('templates/cardset.html', '<div></div>');
     }));
 
     afterEach(function() {
@@ -25,7 +25,7 @@ describe('sidebar-directive', function() {
     });
 
     it('should start with empty cardsets', function() {
-        var element = angular.element('<div sidebar></div>');
+        var element = angular.element('<div cardset></div>');
         var scope;
 
         $compile(element)($rootScope);
@@ -37,7 +37,7 @@ describe('sidebar-directive', function() {
 
     describe('on load', function() {
         it('should set cardsets on load', function() {
-            var element = angular.element('<div sidebar></div>');
+            var element = angular.element('<div cardset></div>');
             var scope;
 
             $compile(element)($rootScope);

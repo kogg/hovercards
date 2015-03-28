@@ -1,10 +1,10 @@
 'use strict';
 
 define(['angular-app'], function(app) {
-    return app.directive('sidebar', function() {
+    return app.directive('cardset', function() {
         return {
             scope: { },
-            templateUrl: 'templates/sidebar.html',
+            templateUrl: 'templates/cardset.html',
             link: function($scope) {
                 $scope.cardsets = [];
                 chrome.runtime.onMessage.addListener(function(request) {
