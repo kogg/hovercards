@@ -14,16 +14,16 @@ define(['jquery', 'purl'], function($, purl) {
                              data: { id:   request.id,
                                      part: 'snippet,statistics',
                                      key:  key } })
-                        .done(function(data) {
+                        .done(function(response) {
                             callback({ id:          request.id,
-                                       image:       data.items[0].snippet.thumbnails.medium.url,
-                                       title:       data.items[0].snippet.localized.title,
-                                       description: data.items[0].snippet.localized.description,
-                                       date:        Date.parse(data.items[0].snippet.publishedAt),
-                                       views:       data.items[0].statistics.viewCount,
-                                       likes:       data.items[0].statistics.likeCount,
-                                       dislikes:    data.items[0].statistics.dislikeCount,
-                                       channelId:   data.items[0].snippet.channelId });
+                                       image:       response.items[0].snippet.thumbnails.medium.url,
+                                       title:       response.items[0].snippet.localized.title,
+                                       description: response.items[0].snippet.localized.description,
+                                       date:        Date.parse(response.items[0].snippet.publishedAt),
+                                       views:       response.items[0].statistics.viewCount,
+                                       likes:       response.items[0].statistics.likeCount,
+                                       dislikes:    response.items[0].statistics.dislikeCount,
+                                       channelId:   response.items[0].snippet.channelId });
                         });
                     return true;
                 case 'youtube-channel':
@@ -31,24 +31,24 @@ define(['jquery', 'purl'], function($, purl) {
                              data: { id:   request.id,
                                      part: 'snippet,statistics',
                                      key:  key } })
-                        .done(function(data) {
+                        .done(function(response) {
                             callback({ id:          request.id,
-                                       image:       data.items[0].snippet.thumbnails.medium.url,
-                                       title:       data.items[0].snippet.localized.title,
-                                       description: data.items[0].snippet.localized.description,
-                                       videos:      data.items[0].statistics.videoCount,
-                                       views:       data.items[0].statistics.viewCount,
-                                       subscribers: data.items[0].statistics.subscriberCount });
+                                       image:       response.items[0].snippet.thumbnails.medium.url,
+                                       title:       response.items[0].snippet.localized.title,
+                                       description: response.items[0].snippet.localized.description,
+                                       videos:      response.items[0].statistics.videoCount,
+                                       views:       response.items[0].statistics.viewCount,
+                                       subscribers: response.items[0].statistics.subscriberCount });
                         });
                     return true;
                 case 'youtube-comments-v2':
                     $.ajax({ url:  'https://gdata.youtube.com/feeds/api/videos/' + request.id + '/comments',
                              data: { 'max-results': 5 } })
-                        .done(function(commentsXML) {
-                            var comments = $(commentsXML);
-                            var entries = $(comments.children('feed').children('entry'));
+                        .done(function(result) {
+                            result = $(result);
+                            var entries = result.children('feed').children('entry');
                             var response = { id:       request.id,
-                                             count:    parseInt(comments.children('feed').children('openSearch\\:totalResults').text()),
+                                             count:    parseInt(result.children('feed').children('openSearch\\:totalResults').text()),
                                              comments: [] };
                             for (var i = 0; i < entries.length; i++) {
                                 var entry = $(entries[i]);
@@ -63,9 +63,9 @@ define(['jquery', 'purl'], function($, purl) {
                     return true;
                 case 'youtube-user-v2':
                     $.ajax({ url: 'https://gdata.youtube.com/feeds/api/users/' + request.id })
-                        .done(function(userXML) {
+                        .done(function(response) {
                             callback({ id:    request.id,
-                                       image: $(userXML).children('entry').children('media\\:thumbnail').attr('url') });
+                                       image: $(response).children('entry').children('media\\:thumbnail').attr('url') });
                         });
                     return true;
             }
