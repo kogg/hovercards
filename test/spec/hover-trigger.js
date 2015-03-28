@@ -41,30 +41,76 @@ describe('hover-trigger', function() {
     });
 
     describe('longpress', function() {
-        it('should send msg:activate mousedown > 333ms', function() {
+        it('should send msg:activate on mousedown > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
             sandbox.clock.tick(333);
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'activate', content: 'something', id: 'SOME_ID' });
         });
 
-        it('should not send msg:activate mousedown[which!=1] > 333ms', function() {
+        it('should not send msg:activate on mousedown[which!=1] > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 2 }));
             sandbox.clock.tick(333);
             expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'activate', content: 'something', id: 'SOME_ID' });
         });
 
-        it('should not send msg:activate mousedown > click > 333ms', function() {
+        it('should not send msg:activate on mousedown > click > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
             link.trigger($.Event('click', { which: 1 }));
             sandbox.clock.tick(333);
             expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'activate', content: 'something', id: 'SOME_ID' });
         });
 
-        it('should not send msg:activate mousedown > mouseleave > 333ms', function() {
+        it('should not send msg:activate on mousedown > mouseleave > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
             link.mouseleave();
             sandbox.clock.tick(333);
             expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'activate', content: 'something', id: 'SOME_ID' });
+        });
+
+        it('should prevent default on mousedown[which==1] > 333ms > click', function() {
+            link.trigger($.Event('mousedown', { which: 1 }));
+            sandbox.clock.tick(333);
+            var e = $.Event('click', { which: 1 });
+            sandbox.stub(e, 'stopPropagation');
+            sandbox.stub(e, 'preventDefault');
+            link.trigger(e);
+            expect(e.stopPropagation).to.have.been.called;
+            expect(e.preventDefault).to.have.been.called;
+        });
+
+        it('should not prevent default on mousedown[which==1] > click', function() {
+            link.trigger($.Event('mousedown', { which: 1 }));
+            var e = $.Event('click', { which: 1 });
+            sandbox.stub(e, 'stopPropagation');
+            sandbox.stub(e, 'preventDefault');
+            link.trigger(e);
+            expect(e.stopPropagation).to.not.have.been.called;
+            expect(e.preventDefault).to.not.have.been.called;
+        });
+
+        it('should not prevent default on mousedown[which==1] > mouseleave > click', function() {
+            link.trigger($.Event('mousedown', { which: 1 }));
+            link.mouseleave();
+            var e = $.Event('click', { which: 1 });
+            sandbox.stub(e, 'stopPropagation');
+            sandbox.stub(e, 'preventDefault');
+            link.trigger(e);
+            expect(e.stopPropagation).to.not.have.been.called;
+            expect(e.preventDefault).to.not.have.been.called;
+        });
+
+        it('should prevent default on mousedown[which==1] > mouseleave > click > mousedown[which==1] > 333ms > click', function() {
+            link.trigger($.Event('mousedown', { which: 1 }));
+            link.mouseleave();
+            link.trigger($.Event('click', { which: 1 }));
+            link.trigger($.Event('mousedown', { which: 1 }));
+            sandbox.clock.tick(333);
+            var e = $.Event('click', { which: 1 });
+            sandbox.stub(e, 'stopPropagation');
+            sandbox.stub(e, 'preventDefault');
+            link.trigger(e);
+            expect(e.stopPropagation).to.have.been.called;
+            expect(e.preventDefault).to.have.been.called;
         });
     });
 });
