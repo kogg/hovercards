@@ -1,6 +1,6 @@
 'use strict';
 
-require(['sidebar-inject', 'youtube-video-inject'], function(sidebarInject, youtubeVideoInject) {
+require(['sidebar-inject', 'youtube-video-bind-triggers'], function(sidebarInject, youtubeVideoBindTriggers) {
     sidebarInject('default');
-    youtubeVideoInject('default');
+    youtubeVideoBindTriggers('body');
 });

@@ -34,14 +34,21 @@ describe('youtube-video-bind-triggers', function() {
         });
 
         it('should be handled by hoverTrigger', function() {
-            expect(hoverTrigger.handle).to.be.calledWith(body, 'youtube-video', sinon.match(function(_selector) {
-                selector = _selector;
-                return body.find(selector)[0] === element[0];
-            }, 'matches element'));
+            expect(hoverTrigger.handle).to.be.calledWith(
+                sinon.match(function(thing) {
+                    return body[0] === thing[0];
+                }, 'matches element'),
+                'youtube-video',
+                sinon.match(function(_selector) {
+                    selector = _selector;
+                    return body.find(selector)[0] === element[0];
+                }, 'matches element'));
         });
 
         it('should parse ID', function() {
-            var args = hoverTrigger.handle.withArgs(body, 'youtube-video', selector).args[0];
+            var args = hoverTrigger.handle.withArgs(sinon.match(function(thing) {
+                return body[0] === thing[0];
+            }, 'matches element'), 'youtube-video', selector).args[0];
             expect(args[3].call(element)).to.equal('SOME_ID');
         });
     });
@@ -56,14 +63,21 @@ describe('youtube-video-bind-triggers', function() {
         });
 
         it('should be handled by hoverTrigger', function() {
-            expect(hoverTrigger.handle).to.be.calledWith(body, 'youtube-video', sinon.match(function(_selector) {
-                selector = _selector;
-                return body.find(selector)[0] === element[0];
-            }, 'matches element'));
+            expect(hoverTrigger.handle).to.be.calledWith(
+                sinon.match(function(thing) {
+                    return body[0] === thing[0];
+                }, 'matches element'),
+                'youtube-video',
+                sinon.match(function(_selector) {
+                    selector = _selector;
+                    return body.find(selector)[0] === element[0];
+                }, 'matches element'));
         });
 
         it('should parse ID', function() {
-            var args = hoverTrigger.handle.withArgs(body, 'youtube-video', selector).args[0];
+            var args = hoverTrigger.handle.withArgs(sinon.match(function(thing) {
+                return body[0] === thing[0];
+            }, 'matches element'), 'youtube-video', selector).args[0];
             expect(args[3].call(element)).to.equal('SOME_ID');
         });
     });
@@ -78,14 +92,21 @@ describe('youtube-video-bind-triggers', function() {
         });
 
         it('should be handled by hoverTrigger', function() {
-            expect(hoverTrigger.handle).to.be.calledWith(body, 'youtube-video', sinon.match(function(_selector) {
-                selector = _selector;
-                return body.find(selector)[0] === element[0];
-            }, 'matches element'));
+            expect(hoverTrigger.handle).to.be.calledWith(
+                sinon.match(function(thing) {
+                    return body[0] === thing[0];
+                }, 'matches element'),
+                'youtube-video',
+                sinon.match(function(_selector) {
+                    selector = _selector;
+                    return body.find(selector)[0] === element[0];
+                }, 'matches element'));
         });
 
         it('should parse ID', function() {
-            var args = hoverTrigger.handle.withArgs(body, 'youtube-video', selector).args[0];
+            var args = hoverTrigger.handle.withArgs(sinon.match(function(thing) {
+                return body[0] === thing[0];
+            }, 'matches element'), 'youtube-video', selector).args[0];
             expect(args[3].call(element)).to.equal('SOME_ID');
         });
     });

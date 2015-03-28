@@ -3,6 +3,7 @@
 define('hover-trigger', ['jquery'], function($) {
     return {
         handle: function(body, content, selector, getId) {
+            body = $(body);
             body.on('mouseenter', selector, function() {
                 chrome.runtime.sendMessage({ msg: 'hover', content: content, id: getId.call(this) });
             });
