@@ -15,15 +15,16 @@ define(['jquery', 'purl'], function($, purl) {
                                      part: 'snippet,statistics',
                                      key:  key } })
                         .done(function(response) {
+                            response = response.items[0];
                             callback({ id:          request.id,
-                                       image:       response.items[0].snippet.thumbnails.medium.url,
-                                       title:       response.items[0].snippet.localized.title,
-                                       description: response.items[0].snippet.localized.description,
-                                       date:        Date.parse(response.items[0].snippet.publishedAt),
-                                       views:       response.items[0].statistics.viewCount,
-                                       likes:       response.items[0].statistics.likeCount,
-                                       dislikes:    response.items[0].statistics.dislikeCount,
-                                       channelId:   response.items[0].snippet.channelId });
+                                       image:       response.snippet.thumbnails.medium.url,
+                                       title:       response.snippet.localized.title,
+                                       description: response.snippet.localized.description,
+                                       date:        Date.parse(response.snippet.publishedAt),
+                                       views:       response.statistics.viewCount,
+                                       likes:       response.statistics.likeCount,
+                                       dislikes:    response.statistics.dislikeCount,
+                                       channelId:   response.snippet.channelId });
                         });
                     return true;
                 case 'youtube-channel':
@@ -32,33 +33,31 @@ define(['jquery', 'purl'], function($, purl) {
                                      part: 'snippet,statistics',
                                      key:  key } })
                         .done(function(response) {
+                            response = response.items[0];
                             callback({ id:          request.id,
-                                       image:       response.items[0].snippet.thumbnails.medium.url,
-                                       title:       response.items[0].snippet.localized.title,
-                                       description: response.items[0].snippet.localized.description,
-                                       videos:      response.items[0].statistics.videoCount,
-                                       views:       response.items[0].statistics.viewCount,
-                                       subscribers: response.items[0].statistics.subscriberCount });
+                                       image:       response.snippet.thumbnails.medium.url,
+                                       title:       response.snippet.localized.title,
+                                       description: response.snippet.localized.description,
+                                       videos:      response.statistics.videoCount,
+                                       views:       response.statistics.viewCount,
+                                       subscribers: response.statistics.subscriberCount });
                         });
                     return true;
                 case 'youtube-comments-v2':
                     $.ajax({ url:  'https://gdata.youtube.com/feeds/api/videos/' + request.id + '/comments',
                              data: { 'max-results': 5 } })
-                        .done(function(result) {
-                            result = $(result);
-                            var entries = result.children('feed').children('entry');
-                            var response = { id:       request.id,
-                                             count:    parseInt(result.children('feed').children('openSearch\\:totalResults').text()),
-                                             comments: [] };
-                            for (var i = 0; i < entries.length; i++) {
-                                var entry = $(entries[i]);
-                                response.comments.push({ name:      entry.children('author').children('name').text(),
-                                                         userId:    purl(entry.children('author').children('uri').text()).segment(-1),
-                                                         date:      Date.parse(entry.children('published').text()),
-                                                         content:   entry.children('content').text(),
-                                                         channelId: entry.children('yt\\:channelId').text() });
-                            }
-                            callback(response);
+                        .done(function(response) {
+                            response = $(response).children('feed');
+                            callback({ id:       request.id,
+                                       count:    parseInt(response.children('openSearch\\:totalResults').text()),
+                                       comments: response.children('entry').map(function() {
+                                           var entry = $(this);
+                                           return { name:      entry.children('author').children('name').text(),
+                                                    userId:    purl(entry.children('author').children('uri').text()).segment(-1),
+                                                    date:      Date.parse(entry.children('published').text()),
+                                                    content:   entry.children('content').text(),
+                                                    channelId: entry.children('yt\\:channelId').text() };
+                                       }).get() });
                         });
                     return true;
                 case 'youtube-user-v2':
