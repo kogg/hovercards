@@ -134,3 +134,6 @@
 .reduce-padding {
     padding-bottom: 16px;
 }
+.sk-left-row .sk-from:before {
+    content: "@"
+}
