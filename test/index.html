@@ -28,12 +28,14 @@
         // we'll give them this one
         define('angular', function() { return angular; });
         define('jquery', function() { return $; });
-        var chrome = { extension: { getURL: function(filename) { return 'chrome-extension://extension_id/' + filename; } },
-                       runtime:   { sendMessage: $.noop,
-                                    onMessage:   { addListener: $.noop } },
-                       tabs:      { sendMessage: $.noop,
-                                    onRemoved:   { addListener: $.noop },
-                                    onUpdated:   { addListener: $.noop } } };
+        var chrome = { extension:  { getURL: function(filename) { return 'chrome-extension://extension_id/' + filename; } },
+                       pageAction: { setIcon: $.noop,
+                                     show:    $.noop },
+                       runtime:    { sendMessage: $.noop,
+                                     onMessage:   { addListener: $.noop } },
+                       tabs:       { sendMessage: $.noop,
+                                     onRemoved:   { addListener: $.noop },
+                                     onUpdated:   { addListener: $.noop } } };
         mocha.setup('bdd');
         chai.should();
         var expect = chai.expect;
