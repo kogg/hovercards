@@ -3,19 +3,18 @@
     "version": "0.0.0",
     "manifest_version": 2,
     "description": "__MSG_appDescription__",
+    "default_locale": "en",
     "icons": {
         "16": "images/icon-16.png",
         "128": "images/icon-128.png"
     },
-    "default_locale": "en",
+    "content_security_policy": "script-src 'self' https://apis.google.com https://cdn.supportkit.io; object-src 'self'",
+    "web_accessible_resources": [
+        "sidebar.html"
+    ],
     "background": {
         "page": "background.html"
     },
-    "content_security_policy": "script-src 'self' https://apis.google.com https://cdn.supportkit.io; object-src 'self'",
-    "web_accessible_resources": [
-        "images/hovertoast-logo-white.png",
-        "sidebar.html"
-    ],
     "content_scripts": [
         {
             "matches": [
