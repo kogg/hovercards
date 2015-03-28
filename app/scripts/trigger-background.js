@@ -47,5 +47,12 @@ define('trigger-background', [], function() {
                     break;
             }
         });
+
+        chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
+            if (changeInfo.status !== 'loading') {
+                return;
+            }
+            state[tabId] = { maybe: null, sent: null };
+        });
     };
 });
