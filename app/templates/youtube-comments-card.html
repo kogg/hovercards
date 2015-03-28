@@ -13,7 +13,7 @@
                 <div class="comment-image" content="youtube-user-v2" content-id="::comment.userId" result="user" ng-style="::user && { 'background-image': 'url(' + user.image + ')'}"></div>
 			</div>
 			<div class="comment-right col-9">
-				<a>{{ ::comment.name }}</a>
+				<a href="https://www.youtube.com/user/{{ ::comment.userId }}" target="_blank">{{ ::comment.name }}</a>
 				<p readmore="::comment.content | htmlify" style="max-height: 170px"></p>
 				<b class="youtube-color"><i class="md md-access-time"></i> {{ ::comment.date | date }}</b>
 			</div>
