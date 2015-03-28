@@ -15,8 +15,9 @@ define('hover-trigger', ['jquery'], function($) {
                 if (e.which !== 1) {
                     return;
                 }
+                var that = this;
                 $(this).data('hovercards-timeout', setTimeout(function() {
-                    chrome.runtime.sendMessage({ msg: 'activate', content: content, id: getId.call(this) });
+                    chrome.runtime.sendMessage({ msg: 'activate', content: content, id: getId.call(that) });
                 }, 333));
             });
             body.on('click', selector, function(e) {
