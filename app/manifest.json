@@ -30,20 +30,24 @@
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/sidebar-inject.js",
-                "scripts/trigger.js",
-                "scripts/youtube-video-inject.js",
+                "scripts/youtube-video-bind-triggers.js",
+                "scripts/hover-trigger.js",
                 "scripts/top-frame-main.js"
             ],
             "all_frames": false
         },
         {
             "matches": [
-                "http://*/*",
-                "https://*/*"
+                "http://www.youtube.com/embed/*",
+                "https://www.youtube.com/embed/*"
             ],
             "js": [
+                "bower_components/purl/purl.js",
+                "bower_components/requirejs/require.js",
+                "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/hotkey.js"
+                "scripts/hover-trigger.js",
+                "scripts/youtube-video-iframe-main.js"
             ],
             "all_frames": true
         },
@@ -56,25 +60,23 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/trigger.js",
-                "scripts/youtube-video-inject.js",
+                "scripts/youtube-video-bind-triggers.js",
+                "scripts/hover-trigger.js",
                 "scripts/facebook-youtube-video-iframe-main.js"
             ],
             "all_frames": true
         },
         {
             "matches": [
-                "http://www.youtube.com/embed/*",
-                "https://www.youtube.com/embed/*"
+                "http://*/*",
+                "https://*/*"
             ],
             "js": [
-                "bower_components/purl/purl.js",
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/trigger.js",
-                "scripts/youtube-video-inject.js",
-                "scripts/youtube-video-iframe-main.js"
+                "scripts/hotkey-trigger.js",
+                "scripts/everywhere-main.js"
             ],
             "all_frames": true
         }

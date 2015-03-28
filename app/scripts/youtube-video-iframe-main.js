@@ -1,5 +1,8 @@
 'use strict';
 
-require(['youtube-video-inject'], function(youtubeVideoInject) {
-    youtubeVideoInject('youtube-iframe');
+require(['hover-trigger'], function(hoverTrigger) {
+    hoverTrigger.handle('body', 'youtube-video', '#player', function() {
+        /* globals purl:true */
+        return purl(document.URL).segment(-1);
+    });
 });

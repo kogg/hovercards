@@ -11,7 +11,6 @@ require(['sidebar-directive',
     angular.bootstrap(document, ['app']);
 });
 
-require(['jquery'], function($) {
-    /* jshint unused:false */
-    require(['hotkey']);
+require(['hotkey-trigger'], function(hotkeyTrigger) {
+    hotkeyTrigger.handle('body');
 });
