@@ -19,11 +19,13 @@ define('hover-trigger', ['jquery'], function($) {
                 $(this).data('hovercards-timeout', setTimeout(function() {
                     chrome.runtime.sendMessage({ msg: 'activate', content: content, id: getId.call(that) });
                     $(that).css('pointer-events', 'none');
+                    $(that).css('cursor', 'default');
                     var interval = setInterval(function() {
                         if (hoverTrigger.isActive($(that))) {
                             return;
                         }
                         $(that).css('pointer-events', '');
+                        $(that).css('cursor', 'auto');
                         clearInterval(interval);
                     }, 100);
                 }, 333));
