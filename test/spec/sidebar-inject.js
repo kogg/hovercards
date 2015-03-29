@@ -28,6 +28,17 @@ describe('sidebar-inject', function() {
         expect(sidebarObj.children('iframe')).to.have.prop('src', 'chrome-extension://extension_id/sidebar.html');
     });
 
+    it('should give body overflow:hidden on iframe:mouseenter', function() {
+        sidebarObj.children('iframe').mouseenter();
+        expect(body).to.have.css('overflow', 'hidden');
+    });
+
+    it('should remove body overflow:hidden on iframe:mouseleave', function() {
+        body.css('overflow', 'hidden');
+        sidebarObj.children('iframe').mouseleave();
+        expect(body).to.not.have.css('overflow', 'hidden');
+    });
+
     describe('on load/show/hide', function() {
         it('should be visible on load', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'load', content: 'something', id: 'SOME_ID' });

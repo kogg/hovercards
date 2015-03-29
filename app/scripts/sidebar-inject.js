@@ -2,12 +2,19 @@
 
 define('sidebar-inject', ['jquery'], function($) {
     return function sidebarInject(body) {
+        body = $(body);
         var obj = $('<div class="hovertoast-sidebar"></div>')
             .css('display', 'none')
             .appendTo(body);
         $('<iframe></iframe>')
             .prop('src', chrome.extension.getURL('sidebar.html'))
             .prop('frameborder', '0')
+            .mouseenter(function() {
+                body.css('overflow', 'hidden');
+            })
+            .mouseleave(function() {
+                body.css('overflow', 'auto');
+            })
             .appendTo(obj);
 
         obj.css('right', -obj.width() + 'px');
