@@ -77,6 +77,7 @@ body {
 .cards {
 	max-width: 340px;
 	top: 0px;
+	position: relative;
 	padding: 0 20px 16px;
 }
 
