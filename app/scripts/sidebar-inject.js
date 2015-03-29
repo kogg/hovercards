@@ -2,11 +2,18 @@
 
 define('sidebar-inject', ['jquery'], function($) {
     return function sidebarInject(body) {
-        body = $(body);
+        body = $(body)
+            .dblclick(function() {
+                chrome.runtime.sendMessage({ msg: 'hide' });
+            });
+
         var obj = $('<div class="hovercards-sidebar"></div>')
-            .css('display', 'none')
-            .appendTo(body);
+            .appendTo(body)
+            .css('display', 'none');
+        obj.css('right', -obj.width() + 'px');
+
         $('<iframe></iframe>')
+            .appendTo(obj)
             .prop('src', chrome.extension.getURL('sidebar.html'))
             .prop('frameborder', '0')
             .mouseenter(function() {
@@ -14,10 +21,17 @@ define('sidebar-inject', ['jquery'], function($) {
             })
             .mouseleave(function() {
                 body.css('overflow', 'auto');
-            })
-            .appendTo(obj);
+            });
 
-        obj.css('right', -obj.width() + 'px');
+        $('<div class="hovercards-sidebar-close-button">X</div>')
+            .appendTo(obj)
+            .click(function(e) {
+                if (e.which !== 1) {
+                    return;
+                }
+                chrome.runtime.sendMessage({ msg: 'hide' });
+            });
+
 
         chrome.runtime.onMessage.addListener(function(request) {
             switch (request.msg) {
@@ -40,10 +54,6 @@ define('sidebar-inject', ['jquery'], function($) {
                         .hide({ queue: true });
                     break;
             }
-        });
-
-        body.dblclick(function() {
-            chrome.runtime.sendMessage({ msg: 'hide' });
         });
 
         return obj;

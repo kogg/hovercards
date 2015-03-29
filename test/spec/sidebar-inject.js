@@ -59,4 +59,26 @@ describe('sidebar-inject', function() {
             expect(sidebarObj).to.have.css('display', 'none');
         });
     });
+
+    describe('close button', function() {
+        var closeButton;
+
+        beforeEach(function() {
+            closeButton = sidebarObj.children('div.hovercards-sidebar-close-button');
+        });
+
+        it('should exist', function() {
+            expect(closeButton).to.exist;
+        });
+
+        it('should send msg:hide on click', function() {
+            closeButton.trigger($.Event('click', { which: 1 }));
+            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hide' });
+        });
+
+        it('should not send msg:hide on right click', function() {
+            closeButton.trigger($.Event('click', { which: 2 }));
+            expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'hide' });
+        });
+    });
 });
