@@ -33,9 +33,7 @@
                                      show:    $.noop },
                        runtime:    { sendMessage: $.noop,
                                      onMessage:   { addListener: $.noop } },
-                       tabs:       { sendMessage: $.noop,
-                                     onRemoved:   { addListener: $.noop },
-                                     onUpdated:   { addListener: $.noop } } };
+                       tabs:       { sendMessage: $.noop } };
         mocha.setup('bdd');
         chai.should();
         var expect = chai.expect;
@@ -48,6 +46,7 @@
     <script src="spec/hotkey-trigger.js"></script>
     <script src="spec/trigger-background.js"></script>
     <script src="spec/sidebar-inject.js"></script>
+    <script src="spec/state-manager.js"></script>
 
     <!-- angular components -->
     <script src="spec/cardset-directive.js"></script>

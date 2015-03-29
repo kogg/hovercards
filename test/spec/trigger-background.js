@@ -9,6 +9,11 @@ describe('trigger-background', function() {
             sandbox.stub(chrome.pageAction, 'show');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sandbox.stub(chrome.tabs, 'sendMessage');
+            // FIXME Not REALLY the best way to handle this
+            var state = {};
+            chrome.tabs.sendMessage
+                .withArgs('TAB_ID', { msg: 'getstate' }, sinon.match.func)
+                .yields(state);
             triggerBackground();
             done();
         });
