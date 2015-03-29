@@ -36,10 +36,14 @@ define('sidebar-inject', ['jquery'], function($) {
                     }
                     obj
                         .finish()
-                        .animate({ right: '-340px' }, 400)
+                        .animate({ right: -obj.width() + 'px' }, 400)
                         .hide({ queue: true });
                     break;
             }
+        });
+
+        body.dblclick(function() {
+            chrome.runtime.sendMessage({ msg: 'hide' });
         });
 
         return obj;

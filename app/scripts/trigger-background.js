@@ -3,12 +3,17 @@
 define('trigger-background', [], function() {
     return function triggerBackground() {
         chrome.runtime.onMessage.addListener(function(request, sender) {
-            if (request.msg !== 'hover' && request.msg !== 'unhover' && request.msg !== 'activate' && request.msg !== 'ready') {
+            if (request.msg !== 'hover' && request.msg !== 'unhover' && request.msg !== 'hide' && request.msg !== 'activate' && request.msg !== 'ready') {
                 return;
             }
             var tabId = sender.tab.id;
             chrome.tabs.sendMessage(tabId, { msg: 'getstate' }, function(state) {
                 switch (request.msg) {
+                    case 'hide':
+                        state.maybe = null;
+                        state.sent = null;
+                        chrome.tabs.sendMessage(tabId, { msg: 'hide' });
+                        break;
                     case 'hover':
                         state.maybe = { content: request.content, id: request.id };
                         break;
