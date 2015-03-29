@@ -1,12 +1,19 @@
 'use strict';
 
 define('youtube-video-bind-triggers', ['jquery', 'hover-trigger'], function($, hoverTrigger) {
-    return function(body) {
+    return function(body, docURL) {
         body = $(body);
+        docURL = docURL || document.URL;
         hoverTrigger.handle(body, 'youtube-video', 'a[href*="youtube.com/watch"]', function() {
             /* globals purl:true */
             return purl($(this).attr('href')).param('v');
         });
+        if (purl(docURL).attr('host') === 'www.youtube.com') {
+            hoverTrigger.handle(body, 'youtube-video', 'a[href*="/watch"]', function() {
+                /* globals purl:true */
+                return purl($(this).attr('href')).param('v');
+            });
+        }
         hoverTrigger.handle(body, 'youtube-video', 'a[href*="youtu.be/"]', function() {
             /* globals purl:true */
             return purl($(this).prop('href')).segment(-1);

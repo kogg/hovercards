@@ -53,6 +53,41 @@ describe('youtube-video-bind-triggers', function() {
         });
     });
 
+    describe('on a[href="/watch?v=SOME_ID"] on youtube.com', function() {
+        var element;
+        var selector;
+        var docURL;
+
+        beforeEach(function() {
+            docURL = document.URL;
+            element = $('<a href="/watch?v=SOME_ID">').appendTo(body);
+            youtubeVideoBindTriggers(body, 'https://www.youtube.com/');
+        });
+
+        afterEach(function() {
+            document.URL = docURL;
+        });
+
+        it('should be handled by hoverTrigger', function() {
+            expect(hoverTrigger.handle).to.be.calledWith(
+                sinon.match(function(thing) {
+                    return body[0] === thing[0];
+                }, 'matches element'),
+                'youtube-video',
+                sinon.match(function(_selector) {
+                    selector = _selector;
+                    return body.find(selector)[0] === element[0];
+                }, 'matches element'));
+        });
+
+        it('should parse ID', function() {
+            var args = hoverTrigger.handle.withArgs(sinon.match(function(thing) {
+                return body[0] === thing[0];
+            }, 'matches element'), 'youtube-video', selector).args[0];
+            expect(args[3].call(element)).to.equal('SOME_ID');
+        });
+    });
+
     describe('on a[href="https://youtu.be/SOME_ID"]', function() {
         var element;
         var selector;
