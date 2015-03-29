@@ -18,7 +18,7 @@ define(['jquery', 'purl'], function($, purl) {
                             response = response.items[0];
                             callback({ id:          request.id,
                                        image:       response.snippet.thumbnails.medium.url,
-                                       title:       response.snippet.localized.title,
+                                       name:        response.snippet.localized.title,
                                        description: response.snippet.localized.description,
                                        date:        Date.parse(response.snippet.publishedAt),
                                        views:       response.statistics.viewCount,
@@ -36,7 +36,7 @@ define(['jquery', 'purl'], function($, purl) {
                             response = response.items[0];
                             callback({ id:          request.id,
                                        image:       response.snippet.thumbnails.medium.url,
-                                       title:       response.snippet.localized.title,
+                                       name:        response.snippet.localized.title,
                                        description: response.snippet.localized.description,
                                        videos:      response.statistics.videoCount,
                                        views:       response.statistics.viewCount,
@@ -53,9 +53,9 @@ define(['jquery', 'purl'], function($, purl) {
                                        comments: response.children('entry').map(function() {
                                            var entry = $(this);
                                            return { name:      entry.children('author').children('name').text(),
-                                                    userId:    purl(entry.children('author').children('uri').text()).segment(-1),
-                                                    date:      Date.parse(entry.children('published').text()),
                                                     content:   entry.children('content').text(),
+                                                    date:      Date.parse(entry.children('published').text()),
+                                                    userId:    purl(entry.children('author').children('uri').text()).segment(-1),
                                                     channelId: entry.children('yt\\:channelId').text() };
                                        }).get() });
                         });
