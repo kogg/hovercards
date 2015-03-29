@@ -3,7 +3,7 @@
 define('sidebar-inject', ['jquery'], function($) {
     return function sidebarInject(body) {
         body = $(body);
-        var obj = $('<div class="hovertoast-sidebar"></div>')
+        var obj = $('<div class="hovercards-sidebar"></div>')
             .css('display', 'none')
             .appendTo(body);
         $('<iframe></iframe>')

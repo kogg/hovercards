@@ -1,4 +1,4 @@
-.hovertoast-sidebar {
+.hovercards-sidebar {
 	position: fixed !important;
 	width: 340px !important;
 	height: 100% !important;
@@ -9,7 +9,7 @@
 	-webkit-transform: translateZ(0) !important;
 	display: none;
 }
-.hovertoast-sidebar iframe {
+.hovercards-sidebar iframe {
 	position: absolute !important;
 	height: 100% !important;
 	border: none !important;

@@ -296,7 +296,7 @@ module.exports = function (grunt) {
                 options: {
                     archive: function() {
                         var manifest = grunt.file.readJSON('app/manifest.json');
-                        return 'package/HoverToast-' + manifest.version + '.zip';
+                        return 'package/HoverCards-' + manifest.version + '.zip';
                     }
                 },
                 files: [{

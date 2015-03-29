@@ -1,5 +1,5 @@
 {
-  "name": "HoverToast",
+  "name": "HoverCards",
   "private": true,
   "dependencies": {
     "chai": "~1.9.0",
