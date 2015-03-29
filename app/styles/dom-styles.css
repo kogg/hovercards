@@ -31,7 +31,10 @@
 	left: -35px !important; 
 	position: absolute !important;
 	color: rgba(0,0,0,.6) !important;
-  transition: all 0.3s ease !important;
+	transition: all 0.3s ease !important;
+}
+.hovercards-sidebar-close-button:after {
+	content: 'x';
 }
 .hovercards-sidebar-close-button:hover {
 	background: #aa30dd !important;

@@ -23,7 +23,7 @@ define('sidebar-inject', ['jquery'], function($) {
                 body.css('overflow', 'auto');
             });
 
-        $('<div class="hovercards-sidebar-close-button">X</div>')
+        $('<div class="hovercards-sidebar-close-button"></div>')
             .appendTo(obj)
             .click(function(e) {
                 if (e.which !== 1) {
