@@ -11,20 +11,9 @@ define('trigger-background', [], function() {
                 switch (request.msg) {
                     case 'hover':
                         state.maybe = { content: request.content, id: request.id };
-                        var provider = request.content.split('-')[0];
-                        if (state.ready) {
-                            chrome.pageAction.setIcon({ tabId: tabId,
-                                                        path:  { '19': 'images/omni-' + provider + '-19.png',
-                                                                 '38': 'images/omni-' + provider + '-38.png' } });
-                        }
                         break;
                     case 'unhover':
                         state.maybe = null;
-                        if (state.ready) {
-                            chrome.pageAction.setIcon({ tabId: tabId,
-                                                        path:  { '19': 'images/omni-default-19.png',
-                                                                 '38': 'images/omni-default-38.png' } });
-                        }
                         break;
                     case 'activate':
                         var current = (request.content && { content: request.content, id: request.id }) || state.maybe;
@@ -39,7 +28,6 @@ define('trigger-background', [], function() {
                         break;
                     case 'ready':
                         state.ready = true;
-                        chrome.pageAction.show(tabId);
                         if (state.sent) {
                             chrome.tabs.sendMessage(tabId, { msg: 'load', content: state.sent.content, id: state.sent.id });
                         }

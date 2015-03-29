@@ -15,13 +15,6 @@
     "background": {
         "page": "background.html"
     },
-    "page_action": {
-        "default_title": "__MSG_appName__",
-        "default_icon": {
-            "19": "images/omni-default-19.png",
-            "38": "images/omni-default-38.png"
-        }
-    },
     "content_scripts": [
         {
             "matches": [
