@@ -13,6 +13,7 @@ require.config({
     shim: {
         angular:            { exports: 'angular' },
         'angular-animate':  ['angular'],
-        'angular-sanitize': ['angular']
+        'angular-sanitize': ['angular'],
+        'dotdotdot':        ['jquery']
     }
 });
