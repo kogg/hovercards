@@ -33,9 +33,7 @@
                                      show:    $.noop },
                        runtime:    { sendMessage: $.noop,
                                      onMessage:   { addListener: $.noop } },
-                       tabs:       { sendMessage: $.noop,
-                                     onRemoved:   { addListener: $.noop },
-                                     onUpdated:   { addListener: $.noop } } };
+                       tabs:       { sendMessage: $.noop } };
         mocha.setup('bdd');
         chai.should();
         var expect = chai.expect;
