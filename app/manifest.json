@@ -39,6 +39,7 @@
                 "scripts/sidebar-inject.js",
                 "scripts/youtube-video-bind-triggers.js",
                 "scripts/hover-trigger.js",
+                "scripts/state-manager.js",
                 "scripts/top-frame-main.js"
             ],
             "all_frames": false
