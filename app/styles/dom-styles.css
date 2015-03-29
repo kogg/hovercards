@@ -36,4 +36,5 @@
 .hovercards-sidebar-close-button:hover {
 	background: #aa30dd !important;
 	color: white !important;
+	cursor: pointer !important;
 }
