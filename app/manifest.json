@@ -40,7 +40,9 @@
         {
             "matches": [
                 "http://www.youtube.com/embed/*",
-                "https://www.youtube.com/embed/*"
+                "https://www.youtube.com/embed/*",
+                "http://www.youtube-nocookie.com/embed/*",
+                "https://www.youtube-nocookie.com/embed/*"
             ],
             "js": [
                 "bower_components/purl/purl.js",
