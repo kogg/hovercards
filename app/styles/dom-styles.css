@@ -16,3 +16,24 @@
 	width:100% !important;
 	left: 0px !important
 }
+.hovercards-sidebar-close-button {
+	content: "x" !important;
+	font-weight: thin !important;
+	font-family: sans-serif !important;
+	line-height: 40px !important;
+	font-size: 16px !important;
+	text-align: center !important;
+	width: 35px !important;
+	height: 40px !important;
+	border-radius: 3px 0 0 3px !important;
+	background:#bfbfbf !important;
+	top: 20px !important;
+	left: -35px !important; 
+	position: absolute !important;
+	color: rgba(0,0,0,.6) !important;
+  transition: all 0.3s ease !important;
+}
+.hovercards-sidebar-close-button:hover {
+	background: #aa30dd !important;
+	color: white !important;
+}

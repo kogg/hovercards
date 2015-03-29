@@ -102,6 +102,9 @@ p, p a, .card-text .card-description p a, .card-description-padding p a, .commen
 p a, .card-text .card-description p a, .card-description-padding p a, .comment-content p a {
 	color: #03A9F4;
 }
+.comment-content p a:hover{
+	text-decoration: underline;
+}
 p .read-more {
 	text-decoration: underline;
 	cursor: pointer;
@@ -307,6 +310,9 @@ b i {
 	text-decoration: none;
 	font-size: 16px;
 	font-weight: 500;
+}
+.comment-content a:hover {
+	text-decoration: underline;
 }
 .comment-content p {
 	margin-top: 5px;
