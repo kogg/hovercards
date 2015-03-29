@@ -5,7 +5,7 @@
 		</div>
 		<div class="profile-right col-8">
 			<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
-			<a href="https://www.youtube.com/channel/{{ ::channel.id }}" target="_blank" class="ellipsis" ng-click="$event.stopPropagation()">{{ ::channel.title }}</a>
+			<a href="https://www.youtube.com/channel/{{ ::channel.id }}" target="_blank" class="ellipsis" ng-click="$event.stopPropagation()">{{ ::channel.name }}</a>
 			<div class="profile-cta">
 				<div youtube-channel-subscribe youtube-channel-id="::channel.id"></div>
 			</div>
