@@ -29,7 +29,7 @@ define('hover-trigger', ['jquery'], function($) {
                     return;
                 }
                 if ($(this).data('hovercards-prevent')) {
-                    e.stopPropagation();
+                    e.stopImmediatePropagation();
                     e.preventDefault();
                 }
                 clearTimeout($(this).data('hovercards-timeout'));

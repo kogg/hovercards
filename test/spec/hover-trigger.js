@@ -71,20 +71,20 @@ describe('hover-trigger', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
             sandbox.clock.tick(333);
             var e = $.Event('click', { which: 1 });
-            sandbox.stub(e, 'stopPropagation');
+            sandbox.stub(e, 'stopImmediatePropagation');
             sandbox.stub(e, 'preventDefault');
             link.trigger(e);
-            expect(e.stopPropagation).to.have.been.called;
+            expect(e.stopImmediatePropagation).to.have.been.called;
             expect(e.preventDefault).to.have.been.called;
         });
 
         it('should not prevent default on mousedown[which==1] > click', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
             var e = $.Event('click', { which: 1 });
-            sandbox.stub(e, 'stopPropagation');
+            sandbox.stub(e, 'stopImmediatePropagation');
             sandbox.stub(e, 'preventDefault');
             link.trigger(e);
-            expect(e.stopPropagation).to.not.have.been.called;
+            expect(e.stopImmediatePropagation).to.not.have.been.called;
             expect(e.preventDefault).to.not.have.been.called;
         });
 
@@ -92,10 +92,10 @@ describe('hover-trigger', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
             link.mouseleave();
             var e = $.Event('click', { which: 1 });
-            sandbox.stub(e, 'stopPropagation');
+            sandbox.stub(e, 'stopImmediatePropagation');
             sandbox.stub(e, 'preventDefault');
             link.trigger(e);
-            expect(e.stopPropagation).to.not.have.been.called;
+            expect(e.stopImmediatePropagation).to.not.have.been.called;
             expect(e.preventDefault).to.not.have.been.called;
         });
 
@@ -106,10 +106,10 @@ describe('hover-trigger', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
             sandbox.clock.tick(333);
             var e = $.Event('click', { which: 1 });
-            sandbox.stub(e, 'stopPropagation');
+            sandbox.stub(e, 'stopImmediatePropagation');
             sandbox.stub(e, 'preventDefault');
             link.trigger(e);
-            expect(e.stopPropagation).to.have.been.called;
+            expect(e.stopImmediatePropagation).to.have.been.called;
             expect(e.preventDefault).to.have.been.called;
         });
     });
