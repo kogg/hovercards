@@ -11,6 +11,7 @@ describe('hover-trigger', function() {
             sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime, 'sendMessage');
             hoverTrigger = _hoverTrigger;
+            sandbox.stub(hoverTrigger, 'isActive');
             done();
         });
     });
@@ -43,74 +44,52 @@ describe('hover-trigger', function() {
     describe('longpress', function() {
         it('should send msg:activate on mousedown > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
+            hoverTrigger.isActive.returns(true);
             sandbox.clock.tick(333);
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'activate', content: 'something', id: 'SOME_ID' });
         });
 
         it('should not send msg:activate on mousedown[which!=1] > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 2 }));
+            hoverTrigger.isActive.returns(true);
             sandbox.clock.tick(333);
             expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'activate', content: 'something', id: 'SOME_ID' });
         });
 
         it('should not send msg:activate on mousedown > click > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
+            hoverTrigger.isActive.returns(true);
             link.trigger($.Event('click', { which: 1 }));
+            hoverTrigger.isActive.returns(false);
             sandbox.clock.tick(333);
             expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'activate', content: 'something', id: 'SOME_ID' });
         });
 
         it('should not send msg:activate on mousedown > mouseleave > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
+            hoverTrigger.isActive.returns(true);
             link.mouseleave();
             sandbox.clock.tick(333);
             expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'activate', content: 'something', id: 'SOME_ID' });
         });
+    });
 
-        it('should prevent default on mousedown[which==1] > 333ms > click', function() {
+    describe('prevent other handlers', function() {
+        it('should have pointer-events:none on mousedown[which==1] > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
+            hoverTrigger.isActive.returns(true);
             sandbox.clock.tick(333);
-            var e = $.Event('click', { which: 1 });
-            sandbox.stub(e, 'stopImmediatePropagation');
-            sandbox.stub(e, 'preventDefault');
-            link.trigger(e);
-            expect(e.stopImmediatePropagation).to.have.been.called;
-            expect(e.preventDefault).to.have.been.called;
+            expect(link).to.have.css('pointer-events', 'none');
         });
 
-        it('should not prevent default on mousedown[which==1] > click', function() {
+        it('should have pointer-events:none on mousedown[which==1] > 333ms > click > 100ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
-            var e = $.Event('click', { which: 1 });
-            sandbox.stub(e, 'stopImmediatePropagation');
-            sandbox.stub(e, 'preventDefault');
-            link.trigger(e);
-            expect(e.stopImmediatePropagation).to.not.have.been.called;
-            expect(e.preventDefault).to.not.have.been.called;
-        });
-
-        it('should not prevent default on mousedown[which==1] > mouseleave > click', function() {
-            link.trigger($.Event('mousedown', { which: 1 }));
-            link.mouseleave();
-            var e = $.Event('click', { which: 1 });
-            sandbox.stub(e, 'stopImmediatePropagation');
-            sandbox.stub(e, 'preventDefault');
-            link.trigger(e);
-            expect(e.stopImmediatePropagation).to.not.have.been.called;
-            expect(e.preventDefault).to.not.have.been.called;
-        });
-
-        it('should prevent default on mousedown[which==1] > mouseleave > click > mousedown[which==1] > 333ms > click', function() {
-            link.trigger($.Event('mousedown', { which: 1 }));
-            link.mouseleave();
+            hoverTrigger.isActive.returns(true);
+            sandbox.clock.tick(333);
             link.trigger($.Event('click', { which: 1 }));
-            link.trigger($.Event('mousedown', { which: 1 }));
-            sandbox.clock.tick(333);
-            var e = $.Event('click', { which: 1 });
-            sandbox.stub(e, 'stopImmediatePropagation');
-            sandbox.stub(e, 'preventDefault');
-            link.trigger(e);
-            expect(e.stopImmediatePropagation).to.have.been.called;
-            expect(e.preventDefault).to.have.been.called;
+            hoverTrigger.isActive.returns(false);
+            sandbox.clock.tick(100);
+            expect(link).to.have.css('pointer-events', '');
         });
     });
 });

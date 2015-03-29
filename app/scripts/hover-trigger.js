@@ -1,17 +1,15 @@
 'use strict';
 
 define('hover-trigger', ['jquery'], function($) {
-    return {
+    var hoverTrigger = {
         handle: function(body, content, selector, getId) {
             body = $(body);
             body.on('mouseenter', selector, function() {
                 chrome.runtime.sendMessage({ msg: 'hover', content: content, id: getId.call(this) });
-                $(this).data('hovercards-prevent', false);
             });
             body.on('mouseleave', selector, function() {
                 chrome.runtime.sendMessage({ msg: 'unhover' });
                 clearTimeout($(this).data('hovercards-timeout'));
-                $(this).data('hovercards-prevent', false);
             });
             body.on('mousedown', selector, function(e) {
                 if (e.which !== 1) {
@@ -20,21 +18,27 @@ define('hover-trigger', ['jquery'], function($) {
                 var that = this;
                 $(this).data('hovercards-timeout', setTimeout(function() {
                     chrome.runtime.sendMessage({ msg: 'activate', content: content, id: getId.call(that) });
-                    $(that).data('hovercards-prevent', true);
+                    $(that).css('pointer-events', 'none');
+                    var interval = setInterval(function() {
+                        if (hoverTrigger.isActive($(that))) {
+                            return;
+                        }
+                        $(that).css('pointer-events', '');
+                        clearInterval(interval);
+                    }, 100);
                 }, 333));
-                $(this).data('hovercards-prevent', false);
             });
             body.on('click', selector, function(e) {
                 if (e.which !== 1) {
                     return;
                 }
-                if ($(this).data('hovercards-prevent')) {
-                    e.stopImmediatePropagation();
-                    e.preventDefault();
-                }
                 clearTimeout($(this).data('hovercards-timeout'));
-                $(this).data('hovercards-prevent', false);
             });
+        },
+        isActive: function(obj) {
+            return obj.is(':active');
         }
     };
+
+    return hoverTrigger;
 });
