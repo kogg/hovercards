@@ -10,7 +10,7 @@ describe('sidebar-inject', function() {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sandbox.stub(chrome.runtime, 'sendMessage');
             body = $('<div id="sandbox"></div>');
-            sidebarObj = sidebarInject(body);
+            sidebarObj = sidebarInject.on(body);
             done();
         });
     });

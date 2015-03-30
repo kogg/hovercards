@@ -10,7 +10,7 @@ describe('youtube-video-bind-triggers-on-player', function() {
         require(['youtube-video-bind-triggers-on-player', 'hover-trigger'], function(_youtubeVideoBindTriggersOnPlayer, _hoverTrigger) {
             youtubeVideoBindTriggersOnPlayer = _youtubeVideoBindTriggersOnPlayer;
             hoverTrigger = _hoverTrigger;
-            sandbox.stub(hoverTrigger, 'handle');
+            sandbox.stub(hoverTrigger, 'on');
             done();
         });
     });
@@ -31,11 +31,11 @@ describe('youtube-video-bind-triggers-on-player', function() {
         beforeEach(function() {
             var player = $('<div id="player"></div>').appendTo(body);
             element = $('<div class="html5-video-container"></div>').appendTo(player);
-            youtubeVideoBindTriggersOnPlayer(body, 'SOME_ID');
+            youtubeVideoBindTriggersOnPlayer.on(body, 'SOME_ID');
         });
 
         it('should be handled by hoverTrigger', function() {
-            expect(hoverTrigger.handle).to.be.calledWith(
+            expect(hoverTrigger.on).to.be.calledWith(
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
@@ -47,7 +47,7 @@ describe('youtube-video-bind-triggers-on-player', function() {
         });
 
         it('should parse ID', function() {
-            var args = hoverTrigger.handle.withArgs(sinon.match(function(thing) {
+            var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
                 return body[0] === thing[0];
             }, 'matches element'), 'youtube-video', selector).args[0];
             expect(args[3].call(element)).to.equal('SOME_ID');

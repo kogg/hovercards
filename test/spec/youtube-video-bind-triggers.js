@@ -10,7 +10,7 @@ describe('youtube-video-bind-triggers', function() {
         require(['youtube-video-bind-triggers', 'hover-trigger'], function(_youtubeVideoBindTriggers, _hoverTrigger) {
             youtubeVideoBindTriggers = _youtubeVideoBindTriggers;
             hoverTrigger = _hoverTrigger;
-            sandbox.stub(hoverTrigger, 'handle');
+            sandbox.stub(hoverTrigger, 'on');
             done();
         });
     });
@@ -30,11 +30,11 @@ describe('youtube-video-bind-triggers', function() {
 
         beforeEach(function() {
             element = $('<a href="https://www.youtube.com/watch?v=SOME_ID">').appendTo(body);
-            youtubeVideoBindTriggers(body);
+            youtubeVideoBindTriggers.on(body);
         });
 
         it('should be handled by hoverTrigger', function() {
-            expect(hoverTrigger.handle).to.be.calledWith(
+            expect(hoverTrigger.on).to.be.calledWith(
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
@@ -46,7 +46,7 @@ describe('youtube-video-bind-triggers', function() {
         });
 
         it('should parse ID', function() {
-            var args = hoverTrigger.handle.withArgs(sinon.match(function(thing) {
+            var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
                 return body[0] === thing[0];
             }, 'matches element'), 'youtube-video', selector).args[0];
             expect(args[3].call(element)).to.equal('SOME_ID');
@@ -59,11 +59,11 @@ describe('youtube-video-bind-triggers', function() {
 
         beforeEach(function() {
             element = $('<a href="/watch?v=SOME_ID">').appendTo(body);
-            youtubeVideoBindTriggers(body, 'https://www.youtube.com/');
+            youtubeVideoBindTriggers.on(body, 'https://www.youtube.com/');
         });
 
         it('should be handled by hoverTrigger', function() {
-            expect(hoverTrigger.handle).to.be.calledWith(
+            expect(hoverTrigger.on).to.be.calledWith(
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
@@ -75,7 +75,7 @@ describe('youtube-video-bind-triggers', function() {
         });
 
         it('should parse ID', function() {
-            var args = hoverTrigger.handle.withArgs(sinon.match(function(thing) {
+            var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
                 return body[0] === thing[0];
             }, 'matches element'), 'youtube-video', selector).args[0];
             expect(args[3].call(element)).to.equal('SOME_ID');
@@ -86,23 +86,19 @@ describe('youtube-video-bind-triggers', function() {
         var youtubeVideoBindTriggersOnPlayer;
 
         beforeEach(function(done) {
-            require(['Squire'], function(Squire) {
-                youtubeVideoBindTriggersOnPlayer = sandbox.stub();
-                new Squire()
-                    .mock('youtube-video-bind-triggers-on-player', youtubeVideoBindTriggersOnPlayer)
-                    .require(['youtube-video-bind-triggers'], function(_youtubeVideoBindTriggers) {
-                        youtubeVideoBindTriggers = _youtubeVideoBindTriggers;
-                        done();
-                    });
+            require(['youtube-video-bind-triggers-on-player'], function(_youtubeVideoBindTriggersOnPlayer) {
+                youtubeVideoBindTriggersOnPlayer = _youtubeVideoBindTriggersOnPlayer;
+                sandbox.stub(youtubeVideoBindTriggersOnPlayer, 'on');
+                done();
             });
         });
 
         beforeEach(function() {
-            youtubeVideoBindTriggers(body, 'https://www.youtube.com/watch?v=SOME_ID');
+            youtubeVideoBindTriggers.on(body, 'https://www.youtube.com/watch?v=SOME_ID');
         });
 
         it('should be handled by youtubeVideoBindTriggersOnPlayer', function() {
-            expect(youtubeVideoBindTriggersOnPlayer).to.be.calledWith(
+            expect(youtubeVideoBindTriggersOnPlayer.on).to.be.calledWith(
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
@@ -116,11 +112,11 @@ describe('youtube-video-bind-triggers', function() {
 
         beforeEach(function() {
             element = $('<a href="https://www.youtu.be/SOME_ID">').appendTo(body);
-            youtubeVideoBindTriggers(body);
+            youtubeVideoBindTriggers.on(body);
         });
 
         it('should be handled by hoverTrigger', function() {
-            expect(hoverTrigger.handle).to.be.calledWith(
+            expect(hoverTrigger.on).to.be.calledWith(
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
@@ -132,7 +128,7 @@ describe('youtube-video-bind-triggers', function() {
         });
 
         it('should parse ID', function() {
-            var args = hoverTrigger.handle.withArgs(sinon.match(function(thing) {
+            var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
                 return body[0] === thing[0];
             }, 'matches element'), 'youtube-video', selector).args[0];
             expect(args[3].call(element)).to.equal('SOME_ID');
@@ -145,11 +141,11 @@ describe('youtube-video-bind-triggers', function() {
 
         beforeEach(function() {
             element = $('<embed src="https://www.youtube.com/v/SOME_ID">').appendTo(body);
-            youtubeVideoBindTriggers(body);
+            youtubeVideoBindTriggers.on(body);
         });
 
         it('should be handled by hoverTrigger', function() {
-            expect(hoverTrigger.handle).to.be.calledWith(
+            expect(hoverTrigger.on).to.be.calledWith(
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
@@ -161,7 +157,7 @@ describe('youtube-video-bind-triggers', function() {
         });
 
         it('should parse ID', function() {
-            var args = hoverTrigger.handle.withArgs(sinon.match(function(thing) {
+            var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
                 return body[0] === thing[0];
             }, 'matches element'), 'youtube-video', selector).args[0];
             expect(args[3].call(element)).to.equal('SOME_ID');
@@ -174,11 +170,11 @@ describe('youtube-video-bind-triggers', function() {
 
         beforeEach(function() {
             element = $('<object data="https://www.youtube.com/v/SOME_ID"></object>').appendTo(body);
-            youtubeVideoBindTriggers(body);
+            youtubeVideoBindTriggers.on(body);
         });
 
         it('should be handled by hoverTrigger', function() {
-            expect(hoverTrigger.handle).to.be.calledWith(
+            expect(hoverTrigger.on).to.be.calledWith(
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
@@ -190,7 +186,7 @@ describe('youtube-video-bind-triggers', function() {
         });
 
         it('should parse ID', function() {
-            var args = hoverTrigger.handle.withArgs(sinon.match(function(thing) {
+            var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
                 return body[0] === thing[0];
             }, 'matches element'), 'youtube-video', selector).args[0];
             expect(args[3].call(element)).to.equal('SOME_ID');

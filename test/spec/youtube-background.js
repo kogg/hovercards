@@ -15,7 +15,7 @@ describe('youtube-background', function() {
         require(['youtube-background'], function(youtubeBackground) {
             sandbox.useFakeServer();
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            youtubeBackground();
+            youtubeBackground.init();
             done();
         });
     });

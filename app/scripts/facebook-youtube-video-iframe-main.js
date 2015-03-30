@@ -1,5 +1,5 @@
 'use strict';
 
 require(['youtube-video-bind-triggers'], function(youtubeVideoBindTriggers) {
-    youtubeVideoBindTriggers('body');
+    youtubeVideoBindTriggers.on('body');
 });
