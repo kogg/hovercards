@@ -7,7 +7,7 @@
 	z-index: 999999999999999 !important;
 	box-shadow:-1px 0px 2px 0px rgba(0, 0, 0, 0.25) !important;
 	right: 0;
-	-webkit-transform: translateX(340px) translateZ(0);
+	-webkit-transform: translateX(375px) translateZ(0);
 }
 
 .hovercards-sidebar-enter {
@@ -34,7 +34,7 @@
 	0% {
 	}
 	100% {
-		-webkit-transform: translateX(340px) translateZ(0);
+		-webkit-transform: translateX(375px) translateZ(0);
 	}
 }
 .hovercards-sidebar iframe {
@@ -60,11 +60,8 @@
 	position: absolute !important;
 	color: rgba(0,0,0,.6) !important;
 	transition: all 0.3s ease !important;
-	opacity: 0;
 }
-.hovercards-sidebar-enter .hovercards-sidebar-close-button {
 
-}
 .hovercards-sidebar-close-button:after {
 	content: 'x';
 }
