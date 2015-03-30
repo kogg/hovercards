@@ -39,6 +39,7 @@
                 "scripts/hover-trigger.js",
                 "scripts/sidebar-inject.js",
                 "scripts/state-manager.js",
+                "scripts/youtube-video-bind-triggers-on-player.js",
                 "scripts/youtube-video-bind-triggers.js",
                 "scripts/top-frame-main.js"
             ],
@@ -72,6 +73,7 @@
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/hover-trigger.js",
+                "scripts/youtube-video-bind-triggers-on-player.js",
                 "scripts/youtube-video-bind-triggers.js",
                 "scripts/facebook-youtube-video-iframe-main.js"
             ],

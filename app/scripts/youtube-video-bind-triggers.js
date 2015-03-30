@@ -1,6 +1,6 @@
 'use strict';
 
-define('youtube-video-bind-triggers', ['jquery', 'hover-trigger'], function($, hoverTrigger) {
+define('youtube-video-bind-triggers', ['jquery', 'hover-trigger', 'youtube-video-bind-triggers-on-player'], function($, hoverTrigger, youtubeVideoBindTriggersOnPlayer) {
     return function(body, docURL) {
         body = $(body);
         docURL = docURL || document.URL;
@@ -13,6 +13,9 @@ define('youtube-video-bind-triggers', ['jquery', 'hover-trigger'], function($, h
                 /* globals purl:true */
                 return purl($(this).attr('href')).param('v');
             });
+            if (purl(docURL).attr('path') === '/watch') {
+                youtubeVideoBindTriggersOnPlayer(body, purl(docURL).param('v'));
+            }
         }
         hoverTrigger.handle(body, 'youtube-video', 'a[href*="youtu.be/"]', function() {
             /* globals purl:true */
