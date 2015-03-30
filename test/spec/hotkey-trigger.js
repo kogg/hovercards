@@ -15,7 +15,7 @@ describe('hotkey-trigger', function() {
 
     beforeEach(function() {
         body = $('<div id="sandbox"></div>');
-        hotkeyTrigger.handle(body);
+        hotkeyTrigger.on(body);
     });
 
     afterEach(function() {

@@ -1,9 +1,9 @@
 'use strict';
 
 require(['trigger-background'], function(triggerBackground) {
-    triggerBackground();
+    triggerBackground.init();
 });
 
 require(['youtube-background'], function(youtubeBackground) {
-    youtubeBackground();
+    youtubeBackground.init();
 });
