@@ -6,9 +6,25 @@
 	background: #EFEFEF !important;
 	z-index: 999999999999999 !important;
 	box-shadow:-1px 0px 2px 0px rgba(0, 0, 0, 0.25) !important;
-	-webkit-transform: translateZ(0) !important;
+	right: 0;
 	display: none;
+	-webkit-transform: translateX(340px) translateZ(0);
 }
+
+.hovercards-sidebar-comein {
+	-webkit-animation-duration: .45s !important;
+	animation-duration: .45s !important;
+	-webkit-animation-fill-mode: both !important;
+	-webkit-animation-name: slide-in !important;
+}
+@-webkit-keyframes slide-in {
+	0% {
+	}
+	100% {
+		-webkit-transform: translateX(0px) translateZ(0);
+	}
+}
+
 .hovercards-sidebar iframe {
 	position: absolute !important;
 	height: 100% !important;

@@ -8,9 +8,7 @@ define('sidebar-inject', ['jquery'], function($) {
             });
 
         var obj = $('<div class="hovercards-sidebar"></div>')
-            .appendTo(body)
-            .css('display', 'none');
-        obj.css('right', -obj.width() + 'px');
+            .appendTo(body);
 
         $('<iframe></iframe>')
             .appendTo(obj)
@@ -36,22 +34,10 @@ define('sidebar-inject', ['jquery'], function($) {
         chrome.runtime.onMessage.addListener(function(request) {
             switch (request.msg) {
                 case 'load':
-                    if (obj.css('display') !== 'none') {
-                        return;
-                    }
-                    obj
-                        .finish()
-                        .show({ queue: true })
-                        .animate({ right: 0 }, 400);
+                    obj.show().addClass('hovercards-sidebar-comein');
                     break;
                 case 'hide':
-                    if (obj.css('display') === 'none') {
-                        return;
-                    }
-                    obj
-                        .finish()
-                        .animate({ right: -obj.width() + 'px' }, 400)
-                        .hide({ queue: true });
+                    obj.removeClass('hovercards-sidebar-comein');
                     break;
             }
         });
