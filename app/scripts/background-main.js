@@ -1,6 +1,9 @@
 'use strict';
 
-require(['trigger-background', 'youtube-background'], function(triggerBackground, youtubeBackground) {
+require(['trigger-background'], function(triggerBackground) {
     triggerBackground();
+});
+
+require(['youtube-background'], function(youtubeBackground) {
     youtubeBackground();
 });

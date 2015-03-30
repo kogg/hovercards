@@ -1,7 +1,13 @@
 'use strict';
 
-require(['sidebar-inject', 'youtube-video-bind-triggers', 'state-manager'], function(sidebarInject, youtubeVideoBindTriggers, stateManager) {
+require(['sidebar-inject'], function(sidebarInject) {
     sidebarInject('body');
+});
+
+require(['youtube-video-bind-triggers'], function(youtubeVideoBindTriggers) {
     youtubeVideoBindTriggers('body');
+});
+
+require(['state-manager'], function(stateManager) {
     stateManager();
 });
