@@ -32,6 +32,7 @@ define('notifications-inject', [], function() {
                             });
                         break;
                     case 'load':
+                    case 'hide':
                         notifications.children().each(function() {
                             clearTimeout($(this).data('hovercards-notification-timeout'));
                             $(this).addClass('hovercards-notification-exit-animation');
