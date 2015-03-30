@@ -29,7 +29,38 @@ describe('youtube-video-bind-triggers', function() {
         var selector;
 
         beforeEach(function() {
-            element = $('<a href="https://www.youtube.com/watch?v=SOME_ID">').appendTo(body);
+            element = $('<a href="https://www.youtube.com/watch?v=SOME_ID">Some Text</a>').appendTo(body);
+            youtubeVideoBindTriggers.on(body);
+        });
+
+        it('should be handled by hoverTrigger', function() {
+            expect(hoverTrigger.on).to.be.calledWith(
+                sinon.match(function(thing) {
+                    return body[0] === thing[0];
+                }, 'matches element'),
+                'youtube-video',
+                sinon.match(function(_selector) {
+                    selector = _selector;
+                    return body.find(selector)[0] === element[0];
+                }, 'matches element'));
+        });
+
+        it('should parse ID', function() {
+            var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
+                return body[0] === thing[0];
+            }, 'matches element'), 'youtube-video', selector).args[0];
+            expect(args[3].call(element)).to.equal('SOME_ID');
+        });
+    });
+
+    describe('on a[href="https://www.youtube.com/watch?v=SOME_ID"] that change href to data-href', function() {
+        var element;
+        var selector;
+
+        beforeEach(function() {
+            element = $('<a href="https://www.youtube.com/watch?v=SOME_ID">Some Text</a>').appendTo(body);
+            element.attr('data-href', element.attr('href'));
+            element.attr('href', 'FOO');
             youtubeVideoBindTriggers.on(body);
         });
 
@@ -58,7 +89,7 @@ describe('youtube-video-bind-triggers', function() {
         var selector;
 
         beforeEach(function() {
-            element = $('<a href="/watch?v=SOME_ID">').appendTo(body);
+            element = $('<a href="/watch?v=SOME_ID">Some Text</a>').appendTo(body);
             youtubeVideoBindTriggers.on(body, 'https://www.youtube.com/');
         });
 
@@ -111,7 +142,7 @@ describe('youtube-video-bind-triggers', function() {
         var selector;
 
         beforeEach(function() {
-            element = $('<a href="https://www.youtu.be/SOME_ID">').appendTo(body);
+            element = $('<a href="https://www.youtu.be/SOME_ID">Some Text</a>').appendTo(body);
             youtubeVideoBindTriggers.on(body);
         });
 
