@@ -13,7 +13,8 @@
     },
     "content_security_policy": "script-src 'self' https://apis.google.com https://cdn.supportkit.io; object-src 'self'",
     "web_accessible_resources": [
-        "sidebar.html"
+        "sidebar.html",
+        "images/youtube-notification.gif"
     ],
     "background": {
         "page": "background.html"
