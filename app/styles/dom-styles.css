@@ -12,19 +12,32 @@
 }
 
 .hovercards-sidebar-comein {
-	-webkit-animation-duration: .45s !important;
-	animation-duration: .45s !important;
+	-webkit-animation-duration: .65s !important;
+	animation-duration: .65s !important;
 	-webkit-animation-fill-mode: both !important;
-	-webkit-animation-name: slide-in !important;
+	-webkit-animation-name: slide-in-hovercards !important;
 }
-@-webkit-keyframes slide-in {
+@-webkit-keyframes slide-in-hovercards {
 	0% {
 	}
 	100% {
 		-webkit-transform: translateX(0px) translateZ(0);
 	}
 }
-
+.hovercards-sidebar-leave {
+	-webkit-transform: translateX(0px) translateZ(0);
+	-webkit-animation-duration: .65s !important;
+	animation-duration: .65s !important;
+	-webkit-animation-fill-mode: both !important;
+	-webkit-animation-name: slide-out-hovercards !important;	
+}
+@-webkit-keyframes slide-in-hovercards {
+	0% {
+	}
+	100% {
+		-webkit-transform: translateX(-340px) translateZ(0);
+	}
+}
 .hovercards-sidebar iframe {
 	position: absolute !important;
 	height: 100% !important;
@@ -48,6 +61,10 @@
 	position: absolute !important;
 	color: rgba(0,0,0,.6) !important;
 	transition: all 0.3s ease !important;
+	opacity: 0;
+}
+.hovercards-sidebar-comein .hovercards-sidebar-close-button {
+
 }
 .hovercards-sidebar-close-button:after {
 	content: 'x';
