@@ -7,7 +7,7 @@
 			<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
 			<a href="https://www.youtube.com/channel/{{ ::channel.id }}" target="_blank" class="ellipsis" ng-click="$event.stopPropagation()">{{ ::channel.name }}</a>
 			<div class="profile-cta">
-				<div youtube-channel-subscribe youtube-channel-id="::channel.id"></div>
+				<div youtube-channel-subscribe youtube-channel-id="::channel.id" subscribed-offset="offset"></div>
 			</div>
 		</div>
 	</div>
@@ -21,7 +21,7 @@
 	<div class="card-stats row">
 		<div class="col-4">
 			<b>Subscribers</b>
-			<span>{{ ::channel.subscribers | numsmall }}</span>
+            <span>{{ channel.subscribers + offset | numsmall }}</span>
 		</div>
 		<div class="col-4">
 			<b>Uploads</b>

@@ -21,9 +21,9 @@ define(['jquery', 'purl'], function($, purl) {
                                        name:        response.snippet.localized.title,
                                        description: response.snippet.localized.description,
                                        date:        Date.parse(response.snippet.publishedAt),
-                                       views:       response.statistics.viewCount,
-                                       likes:       response.statistics.likeCount,
-                                       dislikes:    response.statistics.dislikeCount,
+                                       views:       parseInt(response.statistics.viewCount),
+                                       likes:       parseInt(response.statistics.likeCount),
+                                       dislikes:    parseInt(response.statistics.dislikeCount),
                                        channelId:   response.snippet.channelId });
                         });
                     return true;
@@ -38,9 +38,9 @@ define(['jquery', 'purl'], function($, purl) {
                                        image:       response.snippet.thumbnails.medium.url,
                                        name:        response.snippet.localized.title,
                                        description: response.snippet.localized.description,
-                                       videos:      response.statistics.videoCount,
-                                       views:       response.statistics.viewCount,
-                                       subscribers: response.statistics.subscriberCount });
+                                       videos:      parseInt(response.statistics.videoCount),
+                                       views:       parseInt(response.statistics.viewCount),
+                                       subscribers: parseInt(response.statistics.subscriberCount) });
                         });
                     return true;
                 case 'youtube-comments-v2':
