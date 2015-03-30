@@ -6,7 +6,3 @@ require(['hover-trigger'], function(hoverTrigger) {
         return purl(document.URL).segment(-1);
     });
 });
-
-require(['youtube-video-bind-triggers'], function(youtubeVideoBindTriggers) {
-    youtubeVideoBindTriggers('#player .html5-info-bar');
-});
