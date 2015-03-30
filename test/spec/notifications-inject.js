@@ -30,6 +30,13 @@ describe('notifications-inject', function() {
             expect(element).to.exist;
         });
 
+        it('should add .hovercards-notification-exit-animation on load', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'notification', which: 'something' });
+            var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', content: 'something', id: 'SOME_ID' });
+            expect(element).to.match('.hovercards-notification-exit-animation');
+        });
+
         it('should add .hovercards-notification-exit-animation on click', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'notification', which: 'something' });
             var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
