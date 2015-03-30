@@ -4,13 +4,17 @@
     "manifest_version": 2,
     "description": "__MSG_appDescription__",
     "default_locale": "en",
+    "permissions": [
+        "storage"
+    ],
     "icons": {
         "16": "images/icon-16.png",
         "128": "images/icon-128.png"
     },
     "content_security_policy": "script-src 'self' https://apis.google.com https://cdn.supportkit.io; object-src 'self'",
     "web_accessible_resources": [
-        "sidebar.html"
+        "sidebar.html",
+        "images/youtube-notification.gif"
     ],
     "background": {
         "page": "background.html"
@@ -37,6 +41,7 @@
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/hover-trigger.js",
+                "scripts/notifications-inject.js",
                 "scripts/sidebar-inject.js",
                 "scripts/state-manager.js",
                 "scripts/youtube-video-bind-triggers-on-player.js",
