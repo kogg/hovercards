@@ -1,13 +1,13 @@
 'use strict';
 
 require(['sidebar-inject'], function(sidebarInject) {
-    sidebarInject('body');
+    sidebarInject.on('body');
 });
 
 require(['youtube-video-bind-triggers'], function(youtubeVideoBindTriggers) {
-    youtubeVideoBindTriggers('body');
+    youtubeVideoBindTriggers.on('body');
 });
 
 require(['state-manager'], function(stateManager) {
-    stateManager();
+    stateManager.init();
 });

@@ -19,7 +19,7 @@ describe('hover-trigger', function() {
     beforeEach(function() {
         body = $('<div id="sandbox"></div>');
         link = $('<a id="link" href="SOME_URL"></a>').appendTo(body);
-        hoverTrigger.handle(body, 'something', '#link', function() {
+        hoverTrigger.on(body, 'something', '#link', function() {
             return 'SOME_ID';
         });
     });

@@ -6,7 +6,7 @@ describe('state-manager', function() {
     beforeEach(function(done) {
         require(['state-manager'], function(stateManager) {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            stateManager();
+            stateManager.init();
             done();
         });
     });

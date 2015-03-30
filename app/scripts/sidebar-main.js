@@ -12,7 +12,7 @@ require(['cardset-directive',
 });
 
 require(['hotkey-trigger'], function(hotkeyTrigger) {
-    hotkeyTrigger.handle('body');
+    hotkeyTrigger.on('body');
 });
 
 require(['domReady!'], function() {

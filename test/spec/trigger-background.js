@@ -14,7 +14,7 @@ describe('trigger-background', function() {
             chrome.tabs.sendMessage
                 .withArgs('TAB_ID', { msg: 'getstate' }, sinon.match.func)
                 .yields(state);
-            triggerBackground();
+            triggerBackground.init();
             done();
         });
     });
