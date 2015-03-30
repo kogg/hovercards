@@ -11,3 +11,7 @@ require(['youtube-video-bind-triggers'], function(youtubeVideoBindTriggers) {
 require(['state-manager'], function(stateManager) {
     stateManager.init();
 });
+
+require(['notifications-inject'], function(notificationsInject) {
+    notificationsInject.on('body');
+});
