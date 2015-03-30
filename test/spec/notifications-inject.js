@@ -22,11 +22,9 @@ describe('notifications-inject', function() {
         expect(body.find('.hovercards-notification')).to.not.exist;
     });
 
-    describe('initial card', function() {
-        it('should be created on firsthover', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notification', which: 'firsthover' });
-            expect(body.find('.hovercards-notification')).to.exist;
-            expect(body.find('.hovercards-notification')).to.have.data('which', 'firsthover');
-        });
+    it('should created a card on notification', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'notification', which: 'something' });
+        expect(body.find('.hovercards-notification')).to.exist;
+        expect(body.find('.hovercards-notification')).to.have.data('which', 'something');
     });
 });
