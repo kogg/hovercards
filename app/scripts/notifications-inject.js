@@ -11,7 +11,7 @@ define('notifications-inject', [], function() {
                 $('<div class="hovercards-notification"></div>')
                     .appendTo(body)
                     .append('<div class="hovercards-notification-image hovercards-notification-yt"></div>')
-                    .append('<div class="hovercards-notification-text">Some Text for now</div>')
+                    .append('<div class="hovercards-notification-text"><p>You just hovered over a Hover Cards Link! <b>Click and hold</b> it, or <b>press shift</b> while hovering over it to activate Hover Cards!</p></div>')
                     .click(function(e) {
                         if (e.which !== 1) {
                             return;
