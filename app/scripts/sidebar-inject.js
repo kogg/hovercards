@@ -8,7 +8,14 @@ define('sidebar-inject', ['jquery'], function($) {
             });
 
         var obj = $('<div class="hovercards-sidebar"></div>')
-            .appendTo(body);
+            .appendTo(body)
+            .hide()
+            .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
+                if (e.originalEvent.animationName !== 'slide-out-hovercards') {
+                    return;
+                }
+                obj.hide();
+            });
 
         $('<iframe></iframe>')
             .appendTo(obj)
@@ -34,10 +41,15 @@ define('sidebar-inject', ['jquery'], function($) {
         chrome.runtime.onMessage.addListener(function(request) {
             switch (request.msg) {
                 case 'load':
-                    obj.show().addClass('hovercards-sidebar-comein');
+                    obj
+                        .show()
+                        .removeClass('hovercards-sidebar-leave')
+                        .addClass('hovercards-sidebar-enter');
                     break;
                 case 'hide':
-                    obj.removeClass('hovercards-sidebar-comein');
+                    obj
+                        .removeClass('hovercards-sidebar-enter')
+                        .addClass('hovercards-sidebar-leave');
                     break;
             }
         });
