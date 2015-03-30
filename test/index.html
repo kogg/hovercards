@@ -34,7 +34,8 @@
                        runtime:    { onMessage:   { addListener: $.noop },
                                      sendMessage: $.noop },
                        storage:    { sync:        { clear: $.noop,
-                                                    get:   $.noop } },
+                                                    get:   $.noop,
+                                                    set:   $.noop } },
                        tabs:       { sendMessage: $.noop } };
         mocha.setup('bdd');
         chai.should();

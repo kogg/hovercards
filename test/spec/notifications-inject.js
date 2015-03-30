@@ -22,8 +22,15 @@ describe('notifications-inject', function() {
         expect(body.find('.hovercards-notification')).to.not.exist;
     });
 
-    it('should created a card on notification', function() {
+    it('should create a card on notification', function() {
         chrome.runtime.onMessage.addListener.yield({ msg: 'notification', which: 'something' });
         expect(body.find('.hovercards-notification')).to.exist;
+    });
+
+    it('should add .hovercards-notification-exit-animation on click', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'notification', which: 'something' });
+        var element = body.find('.hovercards-notification');
+        element.trigger($.Event('click', { which: 1 }));
+        expect(element).to.match('.hovercards-notification-exit-animation');
     });
 });
