@@ -25,6 +25,5 @@ describe('notifications-inject', function() {
     it('should created a card on notification', function() {
         chrome.runtime.onMessage.addListener.yield({ msg: 'notification', which: 'something' });
         expect(body.find('.hovercards-notification')).to.exist;
-        expect(body.find('.hovercards-notification')).to.have.data('which', 'something');
     });
 });

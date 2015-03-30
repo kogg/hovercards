@@ -9,8 +9,7 @@ define('notifications-inject', [], function() {
                     return;
                 }
                 $('<div class="hovercards-notification"></div>')
-                    .appendTo(body)
-                    .data('which', request.which);
+                    .appendTo(body);
             });
         }
     };
