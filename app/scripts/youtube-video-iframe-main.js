@@ -1,8 +1,6 @@
 'use strict';
 
-require(['hover-trigger'], function(hoverTrigger) {
-    hoverTrigger.handle('body', 'youtube-video', '#player .html5-video-container', function() {
-        /* globals purl:true */
-        return purl(document.URL).segment(-1);
-    });
+require(['youtube-video-bind-triggers-on-player'], function(youtubeVideoBindTriggersOnPlayer) {
+    /* globals purl:true */
+    youtubeVideoBindTriggersOnPlayer('body', purl(document.URL).segment(-1));
 });
