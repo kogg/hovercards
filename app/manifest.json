@@ -40,6 +40,7 @@
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/hover-trigger.js",
+                "scripts/notifications-inject.js",
                 "scripts/sidebar-inject.js",
                 "scripts/state-manager.js",
                 "scripts/youtube-video-bind-triggers-on-player.js",
