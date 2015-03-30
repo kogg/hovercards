@@ -17,7 +17,7 @@ define('notifications-inject', [], function() {
                         $(this).addClass('hovercards-notification-exit-animation');
                     })
                     .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
-                        if (e.originalEvent.animationName !== 'slide-in-hovercards-notification') {
+                        if (e.originalEvent.animationName !== 'slide-out-hovercards-notification') {
                             return;
                         }
                         $(this).remove();

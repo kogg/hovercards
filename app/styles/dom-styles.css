@@ -80,6 +80,7 @@
 	right: 10px !important;
 	width: 300px !important;
 	position: fixed !important;
+	z-index: 999999999999999999 !important;
 	font-family: sans-serif !important;
 	-webkit-transition: all .4s ease-in-out !important;
 	-webkit-transform: translateX(375px) translateZ(0);
