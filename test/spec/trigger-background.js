@@ -79,4 +79,26 @@ describe('trigger-background', function() {
         chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
         expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
     });
+
+    it('should show pageAction on ready', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
+        expect(chrome.pageAction.show).to.have.been.calledWith('TAB_ID');
+    });
+
+    it('should setIcon pageAction on ready > hover[details]', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'hover', content: 'something-more', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        expect(chrome.pageAction.setIcon).to.have.been.calledWith({ tabId: 'TAB_ID',
+                                                                    path:  { '19': 'images/omni-something-19.png',
+                                                                             '38': 'images/omni-something-38.png' } });
+    });
+
+    it('should setIcon back pageAction on ready > hover[details] > unhover', function() {
+        chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'hover', content: 'something-more', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'unhover' }, { tab: { id: 'TAB_ID' } });
+        expect(chrome.pageAction.setIcon).to.have.been.calledWith({ tabId: 'TAB_ID',
+                                                                    path:  { '19': 'images/omni-default-19.png',
+                                                                             '38': 'images/omni-default-38.png' } });
+    });
 });
