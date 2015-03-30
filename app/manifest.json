@@ -36,10 +36,10 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/sidebar-inject.js",
-                "scripts/youtube-video-bind-triggers.js",
                 "scripts/hover-trigger.js",
+                "scripts/sidebar-inject.js",
                 "scripts/state-manager.js",
+                "scripts/youtube-video-bind-triggers.js",
                 "scripts/top-frame-main.js"
             ],
             "all_frames": false
@@ -57,6 +57,7 @@
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/hover-trigger.js",
+                "scripts/youtube-video-bind-triggers.js",
                 "scripts/youtube-video-iframe-main.js"
             ],
             "all_frames": true
@@ -70,8 +71,8 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/youtube-video-bind-triggers.js",
                 "scripts/hover-trigger.js",
+                "scripts/youtube-video-bind-triggers.js",
                 "scripts/facebook-youtube-video-iframe-main.js"
             ],
             "all_frames": true
