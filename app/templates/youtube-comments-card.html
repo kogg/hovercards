@@ -11,7 +11,7 @@
 		<div ng-repeat="comment in comments.comments" class="comment row">
 			<div class="comment-left col-3">
 				<a href="https://www.youtube.com/channel/{{ ::comment.channelId }}" target="_blank">
-					<div class="comment-image" ng-style="::user && { 'background-image': 'url(' + user.image + ')'}" content="youtube-user-v2" content-id="::comment.userId" result="user"></div>
+					<div class="comment-image" ng-style="::user && { 'background-image': 'url(' + user.image + ')'}" provider="youtube" content="user-v2" content-id="::comment.userId" result="user"></div>
 				</a>
 			</div>
 			<div class="comment-right col-9">
