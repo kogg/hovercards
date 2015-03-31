@@ -25,8 +25,8 @@ describe('trigger-background', function() {
 
     it('should send msg:load[details] on ready > activate[details]', function() {
         chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
-        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-        expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
     });
 
     it('should send msg:hide on hide', function() {
@@ -42,14 +42,14 @@ describe('trigger-background', function() {
 
     it('should send msg:load[details] on ready > hover[details] > activate', function() {
         chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
-        chrome.runtime.onMessage.addListener.yield({ msg: 'hover', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'hover', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'activate' }, { tab: { id: 'TAB_ID' } });
-        expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
+        expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
     });
 
     it('should send msg:hide on ready > hover[details] > unhover > activate', function() {
         chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
-        chrome.runtime.onMessage.addListener.yield({ msg: 'hover', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'hover', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'unhover' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'activate' }, { tab: { id: 'TAB_ID' } });
         expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
@@ -57,27 +57,27 @@ describe('trigger-background', function() {
 
     it('should send msg:hide on ready > activate[details] > activate', function() {
         chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
-        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'activate' }, { tab: { id: 'TAB_ID' } });
         expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
     });
 
     it('should send msg:hide on ready > activate[details] > activate[same details]', function() {
         chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
-        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
     });
 
     it('should not send anything when not ready', function() {
-        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-        expect(chrome.tabs.sendMessage).to.not.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        expect(chrome.tabs.sendMessage).to.not.have.been.calledWith('TAB_ID', { msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
     });
 
     it('should send msg:load[details] on activate[details] > ready', function() {
-        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'activate', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
-        expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', content: 'something', id: 'SOME_ID' });
+        expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
     });
 
     it('should show pageAction on ready', function() {
@@ -87,15 +87,15 @@ describe('trigger-background', function() {
 
     it('should setIcon pageAction on ready > hover[details]', function() {
         chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
-        chrome.runtime.onMessage.addListener.yield({ msg: 'hover', content: 'something-more', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'hover', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         expect(chrome.pageAction.setIcon).to.have.been.calledWith({ tabId: 'TAB_ID',
-                                                                    path:  { '19': 'images/omni-something-19.png',
-                                                                             '38': 'images/omni-something-38.png' } });
+                                                                    path:  { '19': 'images/omni-somewhere-19.png',
+                                                                             '38': 'images/omni-somewhere-38.png' } });
     });
 
     it('should setIcon back pageAction on ready > hover[details] > unhover', function() {
         chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
-        chrome.runtime.onMessage.addListener.yield({ msg: 'hover', content: 'something-more', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'hover', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
         chrome.runtime.onMessage.addListener.yield({ msg: 'unhover' }, { tab: { id: 'TAB_ID' } });
         expect(chrome.pageAction.setIcon).to.have.been.calledWith({ tabId: 'TAB_ID',
                                                                     path:  { '19': 'images/omni-default-19.png',
