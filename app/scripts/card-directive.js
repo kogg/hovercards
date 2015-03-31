@@ -8,7 +8,8 @@ define(['angular-app'], function(app) {
                 content:  '@',
                 id:       '=contentId',
                 object:   '=object'
-            }
+            },
+            templateUrl: 'templates/card.html',
         };
     });
 });
