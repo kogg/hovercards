@@ -2,10 +2,10 @@
 
 define('hover-trigger', ['jquery'], function($) {
     var hoverTrigger = {
-        on: function(body, content, selector, getId) {
+        on: function(body, provider, content, selector, getId) {
             body = $(body);
             body.on('mouseenter', selector, function() {
-                chrome.runtime.sendMessage({ msg: 'hover', content: content, id: getId.call(this) });
+                chrome.runtime.sendMessage({ msg: 'hover', provider: provider, content: content, id: getId.call(this) });
             });
             body.on('mouseleave', selector, function() {
                 chrome.runtime.sendMessage({ msg: 'unhover' });
@@ -17,7 +17,7 @@ define('hover-trigger', ['jquery'], function($) {
                 }
                 var that = this;
                 $(this).data('hovercards-timeout', setTimeout(function() {
-                    chrome.runtime.sendMessage({ msg: 'activate', content: content, id: getId.call(that) });
+                    chrome.runtime.sendMessage({ msg: 'activate', provider: provider, content: content, id: getId.call(that) });
                     $(that).css('pointer-events', 'none');
                     $(that).css('cursor', 'default');
                     var interval = setInterval(function() {
