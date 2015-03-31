@@ -25,16 +25,21 @@ define('trigger-background', [], function() {
                         chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'maybe' }, function(maybe) {
                             chrome.tabs.sendMessage(tabId, { msg: 'set', value: { maybe: null } });
                             var toSend = (request.provider && { provider: request.provider, content: request.content, id: request.id }) || maybe;
-                            chrome.tabs.sendMessage(tabId, { msg: 'set', value: { sent: toSend } });
-                            chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'ready' }, function(ready) {
-                                if (!ready) {
-                                    return;
+                            chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'sent' }, function(sent) {
+                                chrome.tabs.sendMessage(tabId, { msg: 'set', value: { sent: toSend } });
+                                if (sent && toSend && sent.provider === toSend.provider && sent.content === toSend.content && sent.id === toSend.id) {
+                                    toSend = null;
                                 }
-                                if (toSend) {
-                                    chrome.tabs.sendMessage(tabId, { msg: 'load', provider: toSend.provider, content: toSend.content, id: toSend.id });
-                                } else {
-                                    chrome.tabs.sendMessage(tabId, { msg: 'hide' });
-                                }
+                                chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'ready' }, function(ready) {
+                                    if (!ready) {
+                                        return;
+                                    }
+                                    if (toSend) {
+                                        chrome.tabs.sendMessage(tabId, { msg: 'load', provider: toSend.provider, content: toSend.content, id: toSend.id });
+                                    } else {
+                                        chrome.tabs.sendMessage(tabId, { msg: 'hide' });
+                                    }
+                                });
                             });
                         });
                         break;
