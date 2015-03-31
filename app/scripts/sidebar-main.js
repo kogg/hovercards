@@ -1,7 +1,8 @@
 'use strict';
 
 require(['layout-directive',
-         'content-directive',
+         'card-directive',
+         'load-directive',
          'readmore-directive',
          'youtube-channel-subscribe-directive',
          'htmlify-filter',

@@ -1,17 +1,17 @@
-<div class="card bounce-in-animation" ng-if="::comments">
+<div class="card bounce-in-animation" ng-if="::object">
 	<div class="comment-top row">
 		<div class="col-8">
 			<span>Youtube Comments</span>
 		</div>
 		<div class="col-4">
-			<span>{{ ::comments.count | numsmall }}</span>
+			<span>{{ ::object.count | numsmall }}</span>
 		</div>
 	</div>
 	<div class="comment-content">
-		<div ng-repeat="comment in comments.comments" class="comment row">
+		<div ng-repeat="comment in object.comments" class="comment row">
 			<div class="comment-left col-3">
 				<a href="https://www.youtube.com/channel/{{ ::comment.channelId }}" target="_blank">
-					<div class="comment-image" ng-style="::user && { 'background-image': 'url(' + user.image + ')'}" provider="youtube" content="user-v2" content-id="::comment.userId" result="user"></div>
+					<div class="comment-image" ng-style="::user && { 'background-image': 'url(' + user.image + ')'}" load provider="youtube" content="user-v2" id="::comment.userId" object="user" err="err"></div>
 				</a>
 			</div>
 			<div class="comment-right col-9">
