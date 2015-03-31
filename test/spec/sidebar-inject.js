@@ -63,6 +63,11 @@ describe('sidebar-inject', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
             expect(sidebarObj).to.have.css('display', 'none');
         });
+
+        it('should send hidden on load', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
+            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hidden' });
+        });
     });
 
     describe('close button', function() {

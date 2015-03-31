@@ -2,16 +2,16 @@
 
 describe('notifications-background', function() {
     var sandbox = sinon.sandbox.create();
-    var notificationsBackground;
 
     beforeEach(function(done) {
-        require(['notifications-background'], function(_notificationsBackground) {
+        require(['notifications-background'], function(notificationsBackground) {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sandbox.stub(chrome.tabs, 'sendMessage');
             sandbox.stub(chrome.storage.sync, 'get');
             sandbox.stub(chrome.storage.sync, 'set');
+            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'hasloaded' }).yields(undefined);
             chrome.storage.sync.get.yields({ });
-            notificationsBackground = _notificationsBackground;
+            notificationsBackground.init();
             done();
         });
     });
@@ -20,44 +20,110 @@ describe('notifications-background', function() {
         sandbox.restore();
     });
 
-    describe('behavior', function() {
-        beforeEach(function() {
-            sandbox.stub(notificationsBackground, 'sendNotification');
-            notificationsBackground.init();
-        });
-
-        it('should #sendNotification(TAB_ID, provider, content)', function() {
+    describe('on hover', function() {
+        it('should send notify', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'hover', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-            expect(notificationsBackground.sendNotification).to.have.been.calledWith('TAB_ID', 'somewhere', 'something');
+
+            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'notify', type: 'somewhere', instance: 'something' });
         });
 
-        it('should #sendNotification(TAB_ID, "hovercards", "loaded")', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'loaded' }, { tab: { id: 'TAB_ID' } });
-            expect(notificationsBackground.sendNotification).to.have.been.calledWith('TAB_ID', 'hovercards', 'loaded');
-        });
-    });
+        it('should not send notify if storage is set', function() {
+            chrome.storage.sync.get.withArgs('somewhere-something').yields({ 'somewhere-something': true });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'hover', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
 
-    describe('#sendNotification', function() {
-        it('should send notification', function() {
-            notificationsBackground.sendNotification('TAB_ID', 'sometype', 'someinstance');
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'notify', type: 'sometype', instance: 'someinstance' });
+            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', { msg: 'notify', type: 'somewhere', instance: 'something' });
         });
 
         it('should set storage', function() {
-            notificationsBackground.sendNotification('TAB_ID', 'sometype', 'someinstance');
-            expect(chrome.storage.sync.set).to.have.been.calledWith({ 'sometype-someinstance': true });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'hover', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.storage.sync.set).to.have.been.calledWith({ 'somewhere-something': true });
+        });
+    });
+
+    describe('on loaded', function() {
+        it('should send notify[hovercards.loaded]', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'loaded' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'notify', type: 'hovercards', instance: 'loaded' });
         });
 
-        it('should not send notification if storage is set', function() {
-            chrome.storage.sync.get.withArgs('sometype-someinstance').yields({ 'sometype-someinstance': true });
-            notificationsBackground.sendNotification('TAB_ID', 'sometype', 'someinstance');
-            expect(chrome.tabs.sendMessage).to.not.have.been.calledWith('TAB_ID', { msg: 'notify', type: 'sometype', instance: 'someinstance' });
+        it('should set hasloaded', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'loaded' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { hasloaded: true } });
         });
 
-        it('should not set storage if storage is set', function() {
-            chrome.storage.sync.get.withArgs('sometype-someinstance').yields({ 'sometype-someinstance': true });
-            notificationsBackground.sendNotification('TAB_ID', 'sometype', 'someinstance');
-            expect(chrome.storage.sync.set).to.not.have.been.calledWith({ 'sometype-someinstance': true });
+        it('should not set storage[firsttime]', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'loaded' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.storage.sync.set).not.to.have.been.calledWith({ 'firsttime': true });
+        });
+
+        it('should not send notify[hovercards.loaded] if storage[firsttime] is set', function() {
+            chrome.storage.sync.get.withArgs('firsttime').yields({ 'firsttime': true });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'loaded' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', { msg: 'notify', type: 'hovercards', instance: 'loaded' });
+        });
+
+        it('should not set hasloaded if storage[firsttime] is set', function() {
+            chrome.storage.sync.get.withArgs('firsttime').yields({ 'firsttime': true });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'loaded' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', { msg: 'set', value: { hasloaded: true } });
+        });
+
+        it('should not send notify[hovercards.loaded] if hasloaded is set', function() {
+            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'hasloaded' }).yields(true);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'loaded' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', { msg: 'notify', type: 'hovercards', instance: 'loaded' });
+        });
+
+        it('should not set loaded if hasloaded is set', function() {
+            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'hasloaded' }).yields(true);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'loaded' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', { msg: 'set', value: { hasloaded: true } });
+        });
+    });
+
+    describe('on hidden', function() {
+        it('should not send notify[hovercards.hidden]', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'hidden' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', { msg: 'notify', type: 'hovercards', instance: 'hidden' });
+        });
+
+        it('should send notify[hovercards.hidden] if hasloaded is set', function() {
+            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'hasloaded' }).yields(true);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'hidden' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'notify', type: 'hovercards', instance: 'hidden' });
+        });
+
+        it('should set storage[firsttime] if hasloaded is set', function() {
+            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'hasloaded' }).yields(true);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'hidden' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.storage.sync.set).to.have.been.calledWith({ 'firsttime': true });
+        });
+
+        it('should not send notify[hovercards.hidden] if hasloaded is set & storage[firsttime] is set', function() {
+            chrome.storage.sync.get.withArgs('firsttime').yields({ 'firsttime': true });
+            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'hasloaded' }).yields(true);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'hidden' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', { msg: 'notify', type: 'hovercards', instance: 'hidden' });
+        });
+
+        it('should set storage[firsttime] if hasloaded is set & storage[firsttime] is set', function() {
+            chrome.storage.sync.get.withArgs('firsttime').yields({ 'firsttime': true });
+            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'hasloaded' }).yields(true);
+            chrome.runtime.onMessage.addListener.yield({ msg: 'hidden' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.storage.sync.set).not.to.have.been.calledWith({ 'firsttime': true });
         });
     });
 });

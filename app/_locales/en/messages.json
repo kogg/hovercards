@@ -22,6 +22,10 @@
         "message": "You just activated Hover Cards! To close it, <b>double click the page</b> or <b>click the \"x\"</b> button!",
         "description": "The text of the notification when the sidebar is loaded for the first time"
     },
+    "hovercards_hidden_notification": {
+        "message": "Look for Carlito in the <b>omnibar!</b> He will let you know when you are able to activate Hover Cards!",
+        "description": "The text of the notification when the sidebar is hidden for the first time"
+    },
     "youtube_video": {
         "message": "Youtube Video"
     }
