@@ -50,9 +50,9 @@ describe('notifications-background', function() {
             notificationsBackground.init();
         });
 
-        it('should #sendNotification(TAB_ID, firsthover) on hover', function() {
+        it('should #sendNotification(TAB_ID, content) on hover', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'hover', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-            expect(notificationsBackground.sendNotification).to.have.been.calledWith('TAB_ID', 'firsthover');
+            expect(notificationsBackground.sendNotification).to.have.been.calledWith('TAB_ID', 'something');
         });
     });
 });
