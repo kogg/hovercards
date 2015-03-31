@@ -26,10 +26,10 @@ define('trigger-background', [], function() {
                             chrome.tabs.sendMessage(tabId, { msg: 'set', value: { maybe: null } });
                             var toSend = (request.provider && { provider: request.provider, content: request.content, id: request.id }) || maybe;
                             chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'sent' }, function(sent) {
-                                chrome.tabs.sendMessage(tabId, { msg: 'set', value: { sent: toSend } });
                                 if (sent && toSend && sent.provider === toSend.provider && sent.content === toSend.content && sent.id === toSend.id) {
                                     toSend = null;
                                 }
+                                chrome.tabs.sendMessage(tabId, { msg: 'set', value: { sent: toSend } });
                                 chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'ready' }, function(ready) {
                                     if (!ready) {
                                         return;
@@ -54,16 +54,6 @@ define('trigger-background', [], function() {
                         });
                         break;
                 }
-                /*
-                 * TODO I'll need this stuff for pageAction stuff
-                chrome.pageAction.setIcon({ tabId: tabId,
-                                            path:  { '19': 'images/omni-' + request.provider + '-19.png',
-                                                     '38': 'images/omni-' + request.provider + '-38.png' } });
-                chrome.pageAction.setIcon({ tabId: tabId,
-                                            path:  { '19': 'images/omni-default-19.png',
-                                                     '38': 'images/omni-default-38.png' } });
-                chrome.pageAction.show(tabId);
-                */
             });
         }
     };
