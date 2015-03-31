@@ -112,8 +112,8 @@
 }
 
 .hovercards-notification:hover {
-	transform: scale(1.05) !important;
-	-webkit-transform: scale(1.05) !important;
+	transform:translateX(0px) translateZ(0) scale(1.05) !important;
+	transform:translateX(0px) translateZ(0) scale(1.05) !important;
 	cursor: pointer;
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !important;
 }
@@ -151,10 +151,6 @@
 	background: white !important;
 	box-sizing: border-box !important;
 	box-sizing: -webkit-border-box !important;
-}
-.hovercards-notification-text b {
-	color: #D32F2F !important;
-	font-weight: normal !important;
 }
 .hovercards-notification-text p {
 	color:#757575 !important;

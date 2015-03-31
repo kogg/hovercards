@@ -324,9 +324,36 @@ b i {
 
 
 
+/*Error Cards*/
 
-
-
+.hovercards-error-image {
+	float: left;
+	width: 20%;
+	height: 100px;
+	line-height: 100px;
+	background:#F9F9F9;
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	text-align: center;
+	border-radius: 3px 0 0 3px;
+	overflow: hidden;
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.hovercards-error-yt {
+	background-image: url('../images/sad-notification-yt.gif');
+}
+.hovercards-error-text {
+	float: left;
+	width: 80%;
+	padding: 16px;
+	height: 100px;
+	border-radius: 0px 3px 3px 0px;
+	overflow: hidden;
+	background: white;
+}
 
 /* ANIMATIONS */
 
