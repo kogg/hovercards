@@ -26,16 +26,19 @@ define('notifications-inject', [], function() {
                                 if (e.originalEvent.animationName !== 'slide-out-hovercards-notification') {
                                     return;
                                 }
-                                $(this).remove();
+                                $(this).hide();
                             });
 
+                        var inner = $('<div class="hovercards-row"></div>')
+                            .appendTo(notification);
+
                         $('<div class="hovercards-notification-image"></div>')
-                            .appendTo(notification)
+                            .appendTo(inner)
                             // FIXME How to get !important on this without... this?
                             .css('cssText', 'background-image: url(' + chrome.extension.getURL('images/' + request.type + '-notification.gif') + ') !important');
 
                         $('<div class="hovercards-notification-text"><p>You just hovered over a Hover Cards Link! <b>Click and hold</b> it, or <b>press shift</b> while hovering over it to activate Hover Cards!</p></div>')
-                            .appendTo(notification);
+                            .appendTo(inner);
                         break;
                     case 'load':
                     case 'hide':

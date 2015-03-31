@@ -20,6 +20,23 @@ describe('notifications-background', function() {
         sandbox.restore();
     });
 
+    describe('behavior', function() {
+        beforeEach(function() {
+            sandbox.stub(notificationsBackground, 'sendNotification');
+            notificationsBackground.init();
+        });
+
+        it('should #sendNotification(TAB_ID, provider, content)', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'hover', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+            expect(notificationsBackground.sendNotification).to.have.been.calledWith('TAB_ID', 'somewhere', 'something');
+        });
+
+        it('should #sendNotification(TAB_ID, "hovercards", "loaded")', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'loaded' }, { tab: { id: 'TAB_ID' } });
+            expect(notificationsBackground.sendNotification).to.have.been.calledWith('TAB_ID', 'hovercards', 'loaded');
+        });
+    });
+
     describe('#sendNotification', function() {
         it('should send notification', function() {
             notificationsBackground.sendNotification('TAB_ID', 'sometype', 'someinstance');
@@ -41,24 +58,6 @@ describe('notifications-background', function() {
             chrome.storage.sync.get.withArgs('sometype-someinstance').yields({ 'sometype-someinstance': true });
             notificationsBackground.sendNotification('TAB_ID', 'sometype', 'someinstance');
             expect(chrome.storage.sync.set).to.not.have.been.calledWith({ 'sometype-someinstance': true });
-        });
-    });
-
-    describe('on hover', function() {
-        it('should #sendNotification(TAB_ID, provider, content)', function() {
-            sandbox.stub(notificationsBackground, 'sendNotification');
-            notificationsBackground.init();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'hover', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-            expect(notificationsBackground.sendNotification).to.have.been.calledWith('TAB_ID', 'somewhere', 'something');
-        });
-    });
-
-    describe('on loaded', function() {
-        it('should #sendNotification(TAB_ID, "hovercards", "loaded")', function() {
-            sandbox.stub(notificationsBackground, 'sendNotification');
-            notificationsBackground.init();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'loaded' }, { tab: { id: 'TAB_ID' } });
-            expect(notificationsBackground.sendNotification).to.have.been.calledWith('TAB_ID', 'hovercards', 'loaded');
         });
     });
 });

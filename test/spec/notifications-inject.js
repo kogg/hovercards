@@ -23,43 +23,38 @@ describe('notifications-inject', function() {
         expect(body.children('.hovercards-notifications-container')).to.exist;
     });
 
-    describe('a notification', function() {
-        it('should create a card on notification', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype', instance: 'someinstance' });
-            var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
+    describe('on notification', function() {
+        var element;
+
+        beforeEach(function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'somewhere', instance: 'something' });
+            element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
+        });
+
+        it('should create a card', function() {
             expect(element).to.exist;
         });
 
-        it('should set a background image for the notification', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype', instance: 'someinstance' });
-            var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
-            expect(element.find('.hovercards-notification-image')).to.have.css('background-image', 'url(chrome-extension://extension_id/images/sometype-notification.gif)');
+        it('should set the image', function() {
+            expect(element.find('.hovercards-notification-image')).to.have.css('background-image', 'url(chrome-extension://extension_id/images/somewhere-notification.gif)');
         });
 
-        it('should add .hovercards-notification-exit-animation on load', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'somewhere', instance: 'something' });
-            var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
+        it('should leave on load', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
             expect(element).to.match('.hovercards-notification-exit-animation');
         });
 
-        it('should add .hovercards-notification-exit-animation on hide', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'somewhere', instance: 'something' });
-            var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
+        it('should leave on hide', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
             expect(element).to.match('.hovercards-notification-exit-animation');
         });
 
-        it('should add .hovercards-notification-exit-animation on click', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'somewhere', instance: 'something' });
-            var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
+        it('should leave on click', function() {
             element.trigger($.Event('click', { which: 1 }));
             expect(element).to.match('.hovercards-notification-exit-animation');
         });
 
-        it('should add .hovercards-notification-exit-animation after 15s', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'somewhere', instance: 'something' });
-            var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
+        it('should leave after 15s', function() {
             sandbox.clock.tick(15000);
             expect(element).to.match('.hovercards-notification-exit-animation');
         });
