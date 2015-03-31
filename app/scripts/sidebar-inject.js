@@ -46,6 +46,7 @@ define('sidebar-inject', ['jquery'], function($) {
                             .show()
                             .removeClass('hovercards-sidebar-leave')
                             .addClass('hovercards-sidebar-enter');
+                        chrome.runtime.sendMessage({ msg: 'loaded' });
                         break;
                     case 'hide':
                         obj

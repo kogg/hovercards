@@ -53,6 +53,11 @@ describe('sidebar-inject', function() {
             expect(sidebarObj).to.not.have.css('display', 'none');
         });
 
+        it('should send loaded on load', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', content: 'something', id: 'SOME_ID' });
+            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'loaded' });
+        });
+
         it('should be hidden on hide', function() {
             // sidebarObj.css('display', '');
             chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
