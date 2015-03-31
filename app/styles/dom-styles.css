@@ -71,16 +71,20 @@
 	cursor: pointer !important;
 }
 /*Notification*/
-
+.hovercards-notifications-container {
+	position: fixed !important;
+	top: 16px !important;
+	right: 20px !important;
+	z-index: 999999999999999999 !important;
+	width: 300px !important;	
+}
 .hovercards-notification {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24) !important;
 	border-radius: 3px !important;
 	overflow: hidden !important;
-	top: 10px !important;
-	right: 10px !important;
 	width: 300px !important;
-	position: fixed !important;
-	z-index: 999999999999999999 !important;
+	margin-bottom: 16px !important;
+	position: relative !important;
 	font-family: sans-serif !important;
 	-webkit-transition: all .4s ease-in-out !important;
 	-webkit-transform: translateX(375px) translateZ(0);
@@ -106,6 +110,7 @@
 		opacity: 1
 	}
 }
+
 .hovercards-notification:hover {
 	transform: scale(1.05) !important;
 	-webkit-transform: scale(1.05) !important;
@@ -133,6 +138,9 @@
 	height: 100px !important;
 	line-height: 100px !important;
 	background:#F9F9F9 !important;
+	background-size: auto !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
 	text-align: center;
 }
 .hovercards-notification-text {
@@ -153,12 +161,6 @@
 	font-size: 14px !important;
 	line-height: 18px !important;
 	margin:0 !important;
-}
-.hovercards-notification-yt {
-	background-image:url('chrome-extension://__MSG_@@extension_id__/images/youtube-notification.gif') !important;
-	background-size: auto !important;
-	background-position: center !important;
-	background-repeat: no-repeat !important;
 }
 
 
