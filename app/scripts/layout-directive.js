@@ -8,12 +8,18 @@ define(['angular-app'], function(app) {
             link: function($scope) {
                 $scope.layouts = [];
                 chrome.runtime.onMessage.addListener(function(request) {
-                    if (request.msg !== 'load') {
-                        return;
+                    switch (request.msg) {
+                        case 'load':
+                            $scope.$apply(function() {
+                                $scope.layouts = [{ provider: request.provider, content: request.content, id: request.id }];
+                            });
+                            break;
+                        case 'hide':
+                            $scope.$apply(function() {
+                                $scope.layouts = [];
+                            });
+                            break;
                     }
-                    $scope.$apply(function() {
-                        $scope.layouts = [{ provider: request.provider, content: request.content, id: request.id }];
-                    });
                 });
             }
         };

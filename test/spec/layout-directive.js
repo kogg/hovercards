@@ -36,7 +36,7 @@ describe('layout-directive', function() {
     });
 
     describe('on load', function() {
-        it('should set layouts on load', function() {
+        it('should set layouts', function() {
             var element = angular.element('<div layout></div>');
             var scope;
 
@@ -48,6 +48,25 @@ describe('layout-directive', function() {
             scope = element.isolateScope();
 
             expect(scope.layouts).to.deep.equal([{ provider: 'somewhere', content: 'something', id: 'SOME_ID' }]);
+        });
+    });
+
+    describe('on hide', function() {
+        it('should empty layouts', function() {
+            var element = angular.element('<div layout></div>');
+            var scope;
+
+            $compile(element)($rootScope);
+            $rootScope.$digest();
+
+            scope = element.isolateScope();
+            scope.layouts = [{ something: 'something' }];
+            $rootScope.$digest();
+
+            chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
+            $rootScope.$digest();
+
+            expect(scope.layouts).to.deep.equal([]);
         });
     });
 });
