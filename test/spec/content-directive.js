@@ -24,17 +24,17 @@ describe('content-directive', function() {
     });
 
     it('should send message', function() {
-        var element = angular.element('<div content="something" content-id="contentID" result="result"></div>');
+        var element = angular.element('<div provider="somewhere" content="something" content-id="contentID" result="result"></div>');
 
         $rootScope.contentID = 'SOME_ID';
         $compile(element)($rootScope);
         $rootScope.$digest();
 
-        expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'data', content: 'something', id: 'SOME_ID' }, sinon.match.func);
+        expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'data', provider: 'somewhere', content: 'something', id: 'SOME_ID' }, sinon.match.func);
     });
 
     it('should set scope result to message response', function() {
-        var element = angular.element('<div content="something" content-id="contentID" result="result"></div>');
+        var element = angular.element('<div provider="somewhere" content="something" content-id="contentID" result="result"></div>');
 
         $rootScope.contentID = 'SOME_ID';
         $compile(element)($rootScope);

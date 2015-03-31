@@ -43,11 +43,11 @@ describe('cardset-directive', function() {
             $compile(element)($rootScope);
             $rootScope.$digest();
 
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', content: 'something', id: 'SOME_ID' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
             $rootScope.$digest();
             scope = element.isolateScope();
 
-            expect(scope.cardsets).to.deep.equal([{ content: 'something', id: 'SOME_ID' }]);
+            expect(scope.cardsets).to.deep.equal([{ provider: 'somewhere', content: 'something', id: 'SOME_ID' }]);
         });
     });
 });
