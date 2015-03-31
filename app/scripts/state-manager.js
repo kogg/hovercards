@@ -7,7 +7,7 @@ define('state-manager', [], function() {
             chrome.runtime.onMessage.addListener(function(request, sender, callback) {
                 switch (request.msg) {
                     case 'get':
-                        callback(state[request.value] || null);
+                        callback(state[request.value]);
                         return true;
                     case 'set':
                         for (var key in request.value) {

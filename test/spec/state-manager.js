@@ -18,7 +18,7 @@ describe('state-manager', function() {
     it('should send null on get', function() {
         var callback = sandbox.spy();
         chrome.runtime.onMessage.addListener.yield({ msg: 'get', value: 'something' }, {}, callback);
-        expect(callback).to.have.been.calledWith(null);
+        expect(callback).to.have.been.calledWith(undefined);
     });
 
     it('should return value on set > get', function() {
