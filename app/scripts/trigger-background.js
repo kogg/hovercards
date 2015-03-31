@@ -4,54 +4,66 @@ define('trigger-background', [], function() {
     return {
         init: function triggerBackgroundInit() {
             chrome.runtime.onMessage.addListener(function(request, sender) {
-                if (request.msg !== 'hover' && request.msg !== 'unhover' && request.msg !== 'hide' && request.msg !== 'activate' && request.msg !== 'ready') {
-                    return;
-                }
                 var tabId = sender.tab.id;
-                chrome.tabs.sendMessage(tabId, { msg: 'getstate' }, function(state) {
-                    switch (request.msg) {
-                        case 'hide':
-                            state.maybe = null;
-                            state.sent = null;
+                switch (request.msg) {
+                    case 'ready':
+                        chrome.tabs.sendMessage(tabId, { msg: 'set', value: { ready: true } });
+                        chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'sent' }, function(sent) {
+                            if (!sent) {
+                                return;
+                            }
+                            chrome.tabs.sendMessage(tabId, { msg: 'load', provider: sent.provider, content: sent.content, id: sent.id });
+                        });
+                        break;
+                    case 'hover':
+                        chrome.tabs.sendMessage(tabId, { msg: 'set', value: { maybe: { provider: request.provider, content: request.content, id: request.id } } });
+                        break;
+                    case 'unhover':
+                        chrome.tabs.sendMessage(tabId, { msg: 'set', value: { maybe: null } });
+                        break;
+                    case 'activate':
+                        chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'maybe' }, function(maybe) {
+                            chrome.tabs.sendMessage(tabId, { msg: 'set', value: { maybe: null } });
+                            var toSend = (request.provider && { provider: request.provider, content: request.content, id: request.id }) || maybe;
+                            chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'sent' }, function(sent) {
+                                chrome.tabs.sendMessage(tabId, { msg: 'set', value: { sent: toSend } });
+                                if (sent && toSend && sent.provider === toSend.provider && sent.content === toSend.content && sent.id === toSend.id) {
+                                    toSend = null;
+                                }
+                                chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'ready' }, function(ready) {
+                                    if (!ready) {
+                                        return;
+                                    }
+                                    if (toSend) {
+                                        chrome.tabs.sendMessage(tabId, { msg: 'load', provider: toSend.provider, content: toSend.content, id: toSend.id });
+                                    } else {
+                                        chrome.tabs.sendMessage(tabId, { msg: 'hide' });
+                                    }
+                                });
+                            });
+                        });
+                        break;
+                    case 'hide':
+                        chrome.tabs.sendMessage(tabId, { msg: 'set', value: { maybe: null } });
+                        chrome.tabs.sendMessage(tabId, { msg: 'set', value: { sent: null } });
+                        chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'ready' }, function(ready) {
+                            if (!ready) {
+                                return;
+                            }
                             chrome.tabs.sendMessage(tabId, { msg: 'hide' });
-                            break;
-                        case 'hover':
-                            state.maybe = { provider: request.provider, content: request.content, id: request.id };
-                            if (state.ready) {
-                                chrome.pageAction.setIcon({ tabId: tabId,
-                                                            path:  { '19': 'images/omni-' + request.provider + '-19.png',
-                                                                     '38': 'images/omni-' + request.provider + '-38.png' } });
-                            }
-                            break;
-                        case 'unhover':
-                            state.maybe = null;
-                            if (state.ready) {
-                                chrome.pageAction.setIcon({ tabId: tabId,
-                                                            path:  { '19': 'images/omni-default-19.png',
-                                                                     '38': 'images/omni-default-38.png' } });
-                            }
-                            break;
-                        case 'activate':
-                            var current = (request.provider && { provider: request.provider, content: request.content, id: request.id }) || state.maybe;
-                            state.maybe = null;
-                            if (!current || (state.sent && state.sent.provider === current.provider && state.sent.content === current.content && state.sent.id === current.id)) {
-                                chrome.tabs.sendMessage(tabId, { msg: 'hide' });
-                                current = null;
-                            } else if (state.ready) {
-                                chrome.tabs.sendMessage(tabId, { msg: 'load', provider: current.provider, content: current.content, id: current.id });
-                            }
-                            state.sent = current;
-                            break;
-                        case 'ready':
-                            state.ready = true;
-                            chrome.pageAction.show(tabId);
-                            if (state.sent) {
-                                chrome.tabs.sendMessage(tabId, { msg: 'load', provider: state.sent.provider, content: state.sent.content, id: state.sent.id });
-                            }
-                            break;
-                    }
-                    chrome.tabs.sendMessage(tabId, { msg: 'setstate', state: state });
-                });
+                        });
+                        break;
+                }
+                /*
+                 * TODO I'll need this stuff for pageAction stuff
+                chrome.pageAction.setIcon({ tabId: tabId,
+                                            path:  { '19': 'images/omni-' + request.provider + '-19.png',
+                                                     '38': 'images/omni-' + request.provider + '-38.png' } });
+                chrome.pageAction.setIcon({ tabId: tabId,
+                                            path:  { '19': 'images/omni-default-19.png',
+                                                     '38': 'images/omni-default-38.png' } });
+                chrome.pageAction.show(tabId);
+                */
             });
         }
     };
