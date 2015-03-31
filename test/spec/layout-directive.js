@@ -1,13 +1,13 @@
 'use strict';
 
-describe('cardset-directive', function() {
+describe('layout-directive', function() {
     var sandbox = sinon.sandbox.create();
     var angular;
     var $compile;
     var $rootScope;
 
     beforeEach(function(done) {
-        require(['angular', 'cardset-directive'], function(_angular) {
+        require(['angular', 'layout-directive'], function(_angular) {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             angular = _angular;
             done();
@@ -17,27 +17,27 @@ describe('cardset-directive', function() {
     beforeEach(inject(function(_$compile_, _$rootScope_, $templateCache) {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
-        $templateCache.put('templates/cardset.html', '<div></div>');
+        $templateCache.put('templates/layout.html', '<div></div>');
     }));
 
     afterEach(function() {
         sandbox.restore();
     });
 
-    it('should start with empty cardsets', function() {
-        var element = angular.element('<div cardset></div>');
+    it('should start with empty layouts', function() {
+        var element = angular.element('<div layout></div>');
         var scope;
 
         $compile(element)($rootScope);
         $rootScope.$digest();
         scope = element.isolateScope();
 
-        expect(scope.cardsets).to.deep.equal([]);
+        expect(scope.layouts).to.deep.equal([]);
     });
 
     describe('on load', function() {
-        it('should set cardsets on load', function() {
-            var element = angular.element('<div cardset></div>');
+        it('should set layouts on load', function() {
+            var element = angular.element('<div layout></div>');
             var scope;
 
             $compile(element)($rootScope);
@@ -47,7 +47,7 @@ describe('cardset-directive', function() {
             $rootScope.$digest();
             scope = element.isolateScope();
 
-            expect(scope.cardsets).to.deep.equal([{ provider: 'somewhere', content: 'something', id: 'SOME_ID' }]);
+            expect(scope.layouts).to.deep.equal([{ provider: 'somewhere', content: 'something', id: 'SOME_ID' }]);
         });
     });
 });

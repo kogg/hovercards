@@ -1,18 +1,18 @@
 'use strict';
 
 define(['angular-app'], function(app) {
-    return app.directive('cardset', function() {
+    return app.directive('layout', function() {
         return {
             scope: { },
-            templateUrl: 'templates/cardset.html',
+            templateUrl: 'templates/layout.html',
             link: function($scope) {
-                $scope.cardsets = [];
+                $scope.layouts = [];
                 chrome.runtime.onMessage.addListener(function(request) {
                     if (request.msg !== 'load') {
                         return;
                     }
                     $scope.$apply(function() {
-                        $scope.cardsets = [{ provider: request.provider, content: request.content, id: request.id }];
+                        $scope.layouts = [{ provider: request.provider, content: request.content, id: request.id }];
                     });
                 });
             }

@@ -1,6 +1,6 @@
 'use strict';
 
-require(['cardset-directive',
+require(['layout-directive',
          'content-directive',
          'readmore-directive',
          'youtube-channel-subscribe-directive',
