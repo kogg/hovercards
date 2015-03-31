@@ -8,21 +8,21 @@ define('notifications-background', [], function() {
                 var tabId = sender.tab.id;
                 switch (request.msg) {
                     case 'hover':
-                        notificationsBackground.sendNotification(tabId, request.content);
+                        notificationsBackground.sendNotification(tabId, request.provider, request.content);
                         break;
                     case 'loaded':
-                        notificationsBackground.sendNotification(tabId, 'happy');
+                        notificationsBackground.sendNotification(tabId, 'hovercards', 'loaded');
                         break;
                 }
             });
         },
-        sendNotification: function sendNotification(tabId, which) {
-            chrome.storage.sync.get(which, function(storage) {
-                if (storage[which]) {
+        sendNotification: function sendNotification(tabId, type, instance) {
+            chrome.storage.sync.get(type + '-' + instance, function(storage) {
+                if (storage[type + '-' + instance]) {
                     return;
                 }
-                chrome.tabs.sendMessage(tabId, { msg: 'notification', which: which });
-                storage[which] = true;
+                chrome.tabs.sendMessage(tabId, { msg: 'notify', type: type, instance: instance });
+                storage[type + '-' + instance] = true;
                 chrome.storage.sync.set(storage);
             });
         }
