@@ -25,7 +25,7 @@ describe('card-directive', function() {
     });
 
     it('should set scopes', function() {
-        var element = angular.element('<div card provider="somewhere" content="something" content-id="id" object="object"></div>');
+        var element = angular.element('<div card provider="somewhere" content="something" id="id" object="object"></div>');
 
         $compile(element)($rootScope);
         $rootScope.$digest();

@@ -6,8 +6,8 @@ define(['angular-app'], function(app) {
             scope: {
                 provider: '@',
                 content:  '@',
-                id:       '=contentId',
-                object:   '=object'
+                id:       '=',
+                object:   '='
             },
             templateUrl: 'templates/card.html',
         };
