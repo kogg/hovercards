@@ -10,6 +10,9 @@ define('notifications-background', [], function() {
                     case 'hover':
                         notificationsBackground.sendNotification(tabId, request.content);
                         break;
+                    case 'loaded':
+                        notificationsBackground.sendNotification(tabId, 'happy');
+                        break;
                 }
             });
         },

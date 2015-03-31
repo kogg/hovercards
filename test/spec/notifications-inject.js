@@ -31,9 +31,9 @@ describe('notifications-inject', function() {
         });
 
         it('should set a background image for the notification', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notification', which: 'something' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'notification', which: 'somewhere-something' });
             var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
-            expect(element.find('.hovercards-notification-image')).to.not.have.css('background-image', '');
+            expect(element.find('.hovercards-notification-image')).to.have.css('background-image', 'url(chrome-extension://extension_id/images/somewhere-notification.gif)');
         });
 
         it('should add .hovercards-notification-exit-animation on load', function() {

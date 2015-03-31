@@ -45,14 +45,20 @@ describe('notifications-background', function() {
     });
 
     describe('on hover', function() {
-        beforeEach(function() {
+        it('should #sendNotification(TAB_ID, provider)', function() {
             sandbox.stub(notificationsBackground, 'sendNotification');
             notificationsBackground.init();
-        });
-
-        it('should #sendNotification(TAB_ID, content) on hover', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'hover', content: 'something', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
             expect(notificationsBackground.sendNotification).to.have.been.calledWith('TAB_ID', 'something');
+        });
+    });
+
+    describe('on loaded', function() {
+        it('should #sendNotification(TAB_ID, happy)', function() {
+            sandbox.stub(notificationsBackground, 'sendNotification');
+            notificationsBackground.init();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'loaded' }, { tab: { id: 'TAB_ID' } });
+            expect(notificationsBackground.sendNotification).to.have.been.calledWith('TAB_ID', 'happy');
         });
     });
 });
