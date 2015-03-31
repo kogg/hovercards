@@ -8,7 +8,7 @@ define('notifications-background', [], function() {
                 var tabId = sender.tab.id;
                 switch (request.msg) {
                     case 'hover':
-                        notificationsBackground.sendNotification(tabId, 'firsthover');
+                        notificationsBackground.sendNotification(tabId, request.content);
                         break;
                 }
             });

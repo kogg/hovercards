@@ -12,8 +12,6 @@ define('notifications-inject', [], function() {
                     case 'notification':
                         var notification = $('<div class="hovercards-notification"></div>')
                             .appendTo(notifications)
-                            .append('<div class="hovercards-notification-image hovercards-notification-yt"></div>')
-                            .append('<div class="hovercards-notification-text"><p>You just hovered over a Hover Cards Link! <b>Click and hold</b> it, or <b>press shift</b> while hovering over it to activate Hover Cards!</p></div>')
                             .data('hovercards-notification-timeout', setTimeout(function() {
                                 notification.addClass('hovercards-notification-exit-animation');
                             }, 15000))
@@ -30,6 +28,14 @@ define('notifications-inject', [], function() {
                                 }
                                 $(this).remove();
                             });
+
+                        $('<div class="hovercards-notification-image"></div>')
+                            .appendTo(notification)
+                            // FIXME How to get !important on this without... this?
+                            .css('cssText', 'background-image: url(' + chrome.extension.getURL('images/youtube-notification.gif') + ') !important');
+
+                        $('<div class="hovercards-notification-text"><p>You just hovered over a Hover Cards Link! <b>Click and hold</b> it, or <b>press shift</b> while hovering over it to activate Hover Cards!</p></div>')
+                            .appendTo(notification);
                         break;
                     case 'load':
                     case 'hide':

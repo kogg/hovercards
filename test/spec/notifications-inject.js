@@ -30,6 +30,12 @@ describe('notifications-inject', function() {
             expect(element).to.exist;
         });
 
+        it('should set a background image for the notification', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'notification', which: 'something' });
+            var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
+            expect(element.find('.hovercards-notification-image')).to.not.have.css('background-image', '');
+        });
+
         it('should add .hovercards-notification-exit-animation on load', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'notification', which: 'something' });
             var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
