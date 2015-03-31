@@ -15,16 +15,16 @@ describe('state-manager', function() {
         sandbox.restore();
     });
 
-    it('should send empty object on getstate', function() {
+    it('should send null on get', function() {
         var callback = sandbox.spy();
-        chrome.runtime.onMessage.addListener.yield({ msg: 'getstate' }, {}, callback);
-        expect(callback).to.have.been.calledWith({});
+        chrome.runtime.onMessage.addListener.yield({ msg: 'get', value: 'something' }, {}, callback);
+        expect(callback).to.have.been.calledWith(null);
     });
 
-    it('should return state on setstate > getstate', function() {
+    it('should return value on set > get', function() {
         var callback = sandbox.spy();
-        chrome.runtime.onMessage.addListener.yield({ msg: 'setstate', state: { key: 'value' } }, {}, $.noop);
-        chrome.runtime.onMessage.addListener.yield({ msg: 'getstate' }, {}, callback);
-        expect(callback).to.have.been.calledWith({ key: 'value' });
+        chrome.runtime.onMessage.addListener.yield({ msg: 'set', value: { something: 'somevalue' } }, {}, $.noop);
+        chrome.runtime.onMessage.addListener.yield({ msg: 'get', value: 'something' }, {}, callback);
+        expect(callback).to.have.been.calledWith('somevalue');
     });
 });
