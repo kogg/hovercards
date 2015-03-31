@@ -26,6 +26,7 @@ define('notifications-inject', [], function() {
                                 if (e.originalEvent.animationName !== 'slide-out-hovercards-notification') {
                                     return;
                                 }
+                                clearTimeout($(this).data('hovercards-notification-timeout'));
                                 $(this).hide();
                             });
 
@@ -37,8 +38,18 @@ define('notifications-inject', [], function() {
                             // FIXME How to get !important on this without... this?
                             .css('cssText', 'background-image: url(' + chrome.extension.getURL('images/' + request.type + '-notification.gif') + ') !important');
 
-                        $('<div class="hovercards-notification-text"><p>You just hovered over a Hover Cards Link! <b>Click and hold</b> it, or <b>press shift</b> while hovering over it to activate Hover Cards!</p></div>')
+                        var textDiv = $('<div class="hovercards-notification-text"></div>')
                             .appendTo(inner);
+
+                        $('<p></p>')
+                            .appendTo(textDiv)
+                            .html(function() {
+                                if (request.type === 'hovercards') {
+                                    return chrome.i18n.getMessage('hovercards_' + request.instance + '_notification');
+                                }
+                                return chrome.i18n.getMessage('trigger_notification', [chrome.i18n.getMessage(request.type + '_' + request.instance)]);
+                            });
+
                         break;
                     case 'load':
                     case 'hide':

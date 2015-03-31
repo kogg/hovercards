@@ -29,6 +29,7 @@
         define('angular', function() { return angular; });
         define('jquery', function() { return $; });
         var chrome = { extension:  { getURL: function(filename) { return 'chrome-extension://extension_id/' + filename; } },
+                       i18n:       { getMessage: $.noop },
                        pageAction: { setIcon: $.noop,
                                      show:    $.noop },
                        runtime:    { onMessage:   { addListener: $.noop },
