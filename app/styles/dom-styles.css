@@ -138,7 +138,7 @@
 	height: 100px !important;
 	line-height: 100px !important;
 	background:#F9F9F9 !important;
-	background-size: auto !important;
+	background-size: 100% !important;
 	background-position: center !important;
 	background-repeat: no-repeat !important;
 	text-align: center;
