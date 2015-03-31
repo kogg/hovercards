@@ -63,6 +63,14 @@ describe('youtube-background', function() {
                                                        dislikes:    3000,
                                                        channelId:   'SOME_CHANNEL_ID' });
         });
+
+        it('should callback an err on error', function() {
+            var callback = sandbox.spy();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', provider: 'youtube', content: 'video', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            sandbox.server.respond();
+
+            expect(callback).to.have.been.calledWith(sinon.match.has('err'));
+        });
     });
 
     describe('on youtube.channel', function() {
@@ -99,6 +107,14 @@ describe('youtube-background', function() {
                                                        videos:       1000,
                                                        views:        2000,
                                                        subscribers:  3000 });
+        });
+
+        it('should callback an err on error', function() {
+            var callback = sandbox.spy();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', provider: 'youtube', content: 'channel', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            sandbox.server.respond();
+
+            expect(callback).to.have.been.calledWith(sinon.match.has('err'));
         });
     });
 
@@ -197,6 +213,14 @@ describe('youtube-background', function() {
                                                                     userId:    'USER_ID_5',
                                                                     channelId: 'SOME_CHANNEL_ID_5' }] });
         });
+
+        it('should callback an err on error', function() {
+            var callback = sandbox.spy();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', provider: 'youtube', content: 'comments-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            sandbox.server.respond();
+
+            expect(callback).to.have.been.calledWith(sinon.match.has('err'));
+        });
     });
 
     describe('on youtube.user-v2', function() {
@@ -223,6 +247,14 @@ describe('youtube-background', function() {
 
             expect(callback).to.have.been.calledWith({ id:    'SOME_ID',
                                                        image: 'image.jpg' });
+        });
+
+        it('should callback an err on error', function() {
+            var callback = sandbox.spy();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'data', provider: 'youtube', content: 'user-v2', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } }, callback);
+            sandbox.server.respond();
+
+            expect(callback).to.have.been.calledWith(sinon.match.has('err'));
         });
     });
 });

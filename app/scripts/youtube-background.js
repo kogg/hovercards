@@ -26,6 +26,9 @@ define(['jquery', 'purl'], function($, purl) {
                                            likes:       parseInt(response.statistics.likeCount),
                                            dislikes:    parseInt(response.statistics.dislikeCount),
                                            channelId:   response.snippet.channelId });
+                            })
+                            .fail(function(jqXHR, textStatus, errorThrown) {
+                                callback({ err: { status: jqXHR.status, error: errorThrown } });
                             });
                         return true;
                     case 'channel':
@@ -42,6 +45,9 @@ define(['jquery', 'purl'], function($, purl) {
                                            videos:      parseInt(response.statistics.videoCount),
                                            views:       parseInt(response.statistics.viewCount),
                                            subscribers: parseInt(response.statistics.subscriberCount) });
+                            })
+                            .fail(function(jqXHR, textStatus, errorThrown) {
+                                callback({ err: { status: jqXHR.status, error: errorThrown } });
                             });
                         return true;
                     case 'comments-v2':
@@ -59,6 +65,9 @@ define(['jquery', 'purl'], function($, purl) {
                                                         userId:    purl(entry.children('author').children('uri').text()).segment(-1),
                                                         channelId: entry.children('yt\\:channelId').text() };
                                            }).get() });
+                            })
+                            .fail(function(jqXHR, textStatus, errorThrown) {
+                                callback({ err: { status: jqXHR.status, error: errorThrown } });
                             });
                         return true;
                     case 'user-v2':
@@ -66,6 +75,9 @@ define(['jquery', 'purl'], function($, purl) {
                             .done(function(response) {
                                 callback({ id:    request.id,
                                            image: $(response).children('entry').children('media\\:thumbnail').attr('url') });
+                            })
+                            .fail(function(jqXHR, textStatus, errorThrown) {
+                                callback({ err: { status: jqXHR.status, error: errorThrown } });
                             });
                         return true;
                 }
