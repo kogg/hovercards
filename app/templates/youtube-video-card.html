@@ -1,9 +1,9 @@
-<div class="card bounce-in-animation" ng-click="show=!show" ng-class="::{ 'card-more': video.description }" ng-if="video">
+<div class="card bounce-in-animation" ng-click="show=!show" ng-class="::{ 'card-more': object.description }" ng-if="object">
 
 	<div class="video-top">
-		<div class="video-image" style="background-image:url({{ ::video.image }});">
+		<div class="video-image" style="background-image:url({{ ::object.image }});">
 			<div class="youtube-video" ng-if="playing">
-				<iframe width="100%" height="100%" ng-src="{{ 'https://www.youtube.com/embed/' + video.id + '?autoplay=1&donthovercards' | trustresourceurl }}" frameborder="0" allowfullscreen=""></iframe>
+				<iframe width="100%" height="100%" ng-src="{{ 'https://www.youtube.com/embed/' + object.id + '?autoplay=1&donthovercards' | trustresourceurl }}" frameborder="0" allowfullscreen=""></iframe>
 			</div>
 
 		</div>
@@ -14,27 +14,27 @@
 	
 	<div class="card-text">
 		<div class="video-title">
-		<b class="youtube-color"><i class="md md-access-time"></i> {{ ::video.date | date }}</b>
-			<a href="https://www.youtube.com/watch?v={{ ::video.id }}" target="_blank" ng-click="$event.stopPropagation()">{{ ::video.name }}</a>
+		<b class="youtube-color"><i class="md md-access-time"></i> {{ ::object.date | date }}</b>
+			<a href="https://www.youtube.com/watch?v={{ ::object.id }}" target="_blank" ng-click="$event.stopPropagation()">{{ ::object.name }}</a>
 		</div>
-		<div ng-show="show" ng-click="$event.stopPropagation()" ng-if="::video.description" class="slide-animation card-description">
+		<div ng-show="show" ng-click="$event.stopPropagation()" ng-if="::object.description" class="slide-animation card-description">
 			<div ng-show="show" class="fade-animation">
-				<p readmore="::video.description | htmlify" style="max-height: 170px"></p>
+				<p readmore="::object.description | htmlify" style="max-height: 170px"></p>
 			</div>
 		</div>
 	</div>
 	<div class="card-stats row">
 		<div class="col-4">
 			<b>Views</b>
-			<span>{{ ::video.views | numsmall }}</span>
+			<span>{{ ::object.views | numsmall }}</span>
 		</div>
 		<div class="col-4">
 			<b>Likes</b>
-			<span>{{ ::video.likes | numsmall }}</span>
+			<span>{{ ::object.likes | numsmall }}</span>
 		</div>
 		<div class="col-4">
 			<b>Dislikes</b>
-			<span>{{ ::video.dislikes | numsmall }}</span>
+			<span>{{ ::object.dislikes | numsmall }}</span>
 		</div>
 	</div>
 

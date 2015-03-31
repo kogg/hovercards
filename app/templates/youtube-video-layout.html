@@ -1,10 +1,3 @@
-<div provider="youtube" content="video" content-id="::layout.id" result="video">
-	<div ng-include="'templates/youtube-video-card.html'"></div>
-</div>
-<div card provider="youtube" content="video" content-id="::layout.id" object="aVideo"></div>
-<div provider="youtube" content="channel" content-id="::video.channelId" result="channel">
-	<div ng-include="'templates/youtube-channel-card.html'"></div>
-</div>
-<div provider="youtube" content="comments-v2" content-id="::layout.id" result="comments">
-	<div ng-include="'templates/youtube-comments-card.html'"></div>
-</div>
+<div card provider="youtube" content="video" id="::layout.id" object="video"></div>
+<div card provider="youtube" content="channel" id="::video.channelId" object="channel"></div>
+<div card provider="youtube" content="comments-v2" id="::layout.id" object="comments"></div>

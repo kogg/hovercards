@@ -2,6 +2,7 @@
 
 require(['layout-directive',
          'card-directive',
+         'load-directive',
          'readmore-directive',
          'youtube-channel-subscribe-directive',
          'htmlify-filter',
