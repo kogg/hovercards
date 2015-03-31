@@ -49,12 +49,12 @@ describe('sidebar-inject', function() {
     describe('on load/hide', function() {
         it('should be visible on load', function() {
             sidebarObj.css('display', 'none');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', content: 'something', id: 'SOME_ID' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
             expect(sidebarObj).to.not.have.css('display', 'none');
         });
 
         it('should send loaded on load', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', content: 'something', id: 'SOME_ID' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'loaded' });
         });
 
