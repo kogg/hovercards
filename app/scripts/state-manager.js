@@ -6,11 +6,14 @@ define('state-manager', [], function() {
             var state = {};
             chrome.runtime.onMessage.addListener(function(request, sender, callback) {
                 switch (request.msg) {
-                    case 'getstate':
-                        callback(state);
+                    case 'get':
+                        callback(state[request.value] || null);
                         return true;
-                    case 'setstate':
-                        state = request.state;
+                    case 'set':
+                        for (var key in request.value) {
+                            state[key] = request.value[key];
+                            break;
+                        }
                         callback();
                         return true;
                 }
