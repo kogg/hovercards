@@ -52,6 +52,7 @@ define('sidebar-inject', ['jquery'], function($) {
                         obj
                             .removeClass('hovercards-sidebar-enter')
                             .addClass('hovercards-sidebar-leave');
+                        chrome.runtime.sendMessage({ msg: 'hidden' });
                         break;
                 }
             });
