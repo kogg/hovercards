@@ -6,11 +6,11 @@ define(['jquery', 'purl'], function($, purl) {
     return {
         init: function youtubeBackgroundInit() {
             chrome.runtime.onMessage.addListener(function(request, sender, callback) {
-                if (request.msg !== 'data') {
+                if (request.msg !== 'data' || request.provider !== 'youtube') {
                     return;
                 }
                 switch (request.content) {
-                    case 'youtube-video':
+                    case 'video':
                         $.ajax({ url:  'https://www.googleapis.com/youtube/v3/videos',
                                  data: { id:   request.id,
                                          part: 'snippet,statistics',
@@ -28,7 +28,7 @@ define(['jquery', 'purl'], function($, purl) {
                                            channelId:   response.snippet.channelId });
                             });
                         return true;
-                    case 'youtube-channel':
+                    case 'channel':
                         $.ajax({ url:  'https://www.googleapis.com/youtube/v3/channels',
                                  data: { id:   request.id,
                                          part: 'snippet,statistics',
@@ -44,7 +44,7 @@ define(['jquery', 'purl'], function($, purl) {
                                            subscribers: parseInt(response.statistics.subscriberCount) });
                             });
                         return true;
-                    case 'youtube-comments-v2':
+                    case 'comments-v2':
                         $.ajax({ url:  'https://gdata.youtube.com/feeds/api/videos/' + request.id + '/comments',
                                  data: { 'max-results': 5 } })
                             .done(function(response) {
@@ -61,7 +61,7 @@ define(['jquery', 'purl'], function($, purl) {
                                            }).get() });
                             });
                         return true;
-                    case 'youtube-user-v2':
+                    case 'user-v2':
                         $.ajax({ url: 'https://gdata.youtube.com/feeds/api/users/' + request.id })
                             .done(function(response) {
                                 callback({ id:    request.id,
