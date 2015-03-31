@@ -45,7 +45,7 @@ define('trigger-background', [], function() {
                         break;
                     case 'hide':
                         chrome.tabs.sendMessage(tabId, { msg: 'set', value: { maybe: null } });
-                        chrome.tabs.sendMessage(tabId, { msg: 'set', value: { current: null } });
+                        chrome.tabs.sendMessage(tabId, { msg: 'set', value: { sent: null } });
                         chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'ready' }, function(ready) {
                             if (!ready) {
                                 return;

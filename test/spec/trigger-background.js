@@ -138,10 +138,10 @@ describe('trigger-background', function() {
             expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { maybe: null } });
         });
 
-        it('should unset current', function() {
+        it('should unset sent', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'hide' }, { tab: { id: 'TAB_ID' } });
 
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { current: null } });
+            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { sent: null } });
         });
 
         it('should not send hide', function() {
