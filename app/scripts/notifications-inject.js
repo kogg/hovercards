@@ -9,7 +9,7 @@ define('notifications-inject', [], function() {
 
             chrome.runtime.onMessage.addListener(function(request) {
                 switch (request.msg) {
-                    case 'notification':
+                    case 'notify':
                         var notification = $('<div class="hovercards-notification"></div>')
                             .appendTo(notifications)
                             .data('hovercards-notification-timeout', setTimeout(function() {
@@ -32,7 +32,7 @@ define('notifications-inject', [], function() {
                         $('<div class="hovercards-notification-image"></div>')
                             .appendTo(notification)
                             // FIXME How to get !important on this without... this?
-                            .css('cssText', 'background-image: url(' + chrome.extension.getURL('images/' + request.which.split('-', 1)[0] + '-notification.gif') + ') !important');
+                            .css('cssText', 'background-image: url(' + chrome.extension.getURL('images/' + request.type + '-notification.gif') + ') !important');
 
                         $('<div class="hovercards-notification-text"><p>You just hovered over a Hover Cards Link! <b>Click and hold</b> it, or <b>press shift</b> while hovering over it to activate Hover Cards!</p></div>')
                             .appendTo(notification);

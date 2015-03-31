@@ -13,7 +13,7 @@ define(['angular-app'], function(app) {
                     }
                     $scope.$apply(function() {
                         $('html,body').scrollTop(0);
-                        $scope.cardsets = [{ content: request.content, id: request.id }];
+                        $scope.cardsets = [{ provider: request.provider, content: request.content, id: request.id }];
                     });
                 });
             }

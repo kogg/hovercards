@@ -16,12 +16,11 @@ define('trigger-background', [], function() {
                             chrome.tabs.sendMessage(tabId, { msg: 'hide' });
                             break;
                         case 'hover':
-                            state.maybe = { content: request.content, id: request.id };
-                            var provider = request.content.split('-')[0];
+                            state.maybe = { provider: request.provider, content: request.content, id: request.id };
                             if (state.ready) {
                                 chrome.pageAction.setIcon({ tabId: tabId,
-                                                            path:  { '19': 'images/omni-' + provider + '-19.png',
-                                                                     '38': 'images/omni-' + provider + '-38.png' } });
+                                                            path:  { '19': 'images/omni-' + request.provider + '-19.png',
+                                                                     '38': 'images/omni-' + request.provider + '-38.png' } });
                             }
                             break;
                         case 'unhover':
@@ -33,13 +32,13 @@ define('trigger-background', [], function() {
                             }
                             break;
                         case 'activate':
-                            var current = (request.content && { content: request.content, id: request.id }) || state.maybe;
+                            var current = (request.provider && { provider: request.provider, content: request.content, id: request.id }) || state.maybe;
                             state.maybe = null;
-                            if (!current || (state.sent && state.sent.content === current.content && state.sent.id === current.id)) {
+                            if (!current || (state.sent && state.sent.provider === current.provider && state.sent.content === current.content && state.sent.id === current.id)) {
                                 chrome.tabs.sendMessage(tabId, { msg: 'hide' });
                                 current = null;
                             } else if (state.ready) {
-                                chrome.tabs.sendMessage(tabId, { msg: 'load', content: current.content, id: current.id });
+                                chrome.tabs.sendMessage(tabId, { msg: 'load', provider: current.provider, content: current.content, id: current.id });
                             }
                             state.sent = current;
                             break;
@@ -47,7 +46,7 @@ define('trigger-background', [], function() {
                             state.ready = true;
                             chrome.pageAction.show(tabId);
                             if (state.sent) {
-                                chrome.tabs.sendMessage(tabId, { msg: 'load', content: state.sent.content, id: state.sent.id });
+                                chrome.tabs.sendMessage(tabId, { msg: 'load', provider: state.sent.provider, content: state.sent.content, id: state.sent.id });
                             }
                             break;
                     }

@@ -38,7 +38,8 @@ describe('youtube-video-bind-triggers', function() {
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
-                'youtube-video',
+                'youtube',
+                'video',
                 sinon.match(function(_selector) {
                     selector = _selector;
                     return body.find(selector)[0] === element[0];
@@ -48,8 +49,8 @@ describe('youtube-video-bind-triggers', function() {
         it('should parse ID', function() {
             var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
                 return body[0] === thing[0];
-            }, 'matches element'), 'youtube-video', selector).args[0];
-            expect(args[3].call(element)).to.equal('SOME_ID');
+            }, 'matches element'), 'youtube', 'video', selector).args[0];
+            expect(args[4].call(element)).to.equal('SOME_ID');
         });
     });
 
@@ -69,7 +70,8 @@ describe('youtube-video-bind-triggers', function() {
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
-                'youtube-video',
+                'youtube',
+                'video',
                 sinon.match(function(_selector) {
                     selector = _selector;
                     return body.find(selector)[0] === element[0];
@@ -79,8 +81,8 @@ describe('youtube-video-bind-triggers', function() {
         it('should parse ID', function() {
             var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
                 return body[0] === thing[0];
-            }, 'matches element'), 'youtube-video', selector).args[0];
-            expect(args[3].call(element)).to.equal('SOME_ID');
+            }, 'matches element'), 'youtube', 'video', selector).args[0];
+            expect(args[4].call(element)).to.equal('SOME_ID');
         });
     });
 
@@ -98,7 +100,8 @@ describe('youtube-video-bind-triggers', function() {
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
-                'youtube-video',
+                'youtube',
+                'video',
                 sinon.match(function(_selector) {
                     selector = _selector;
                     return body.find(selector)[0] === element[0];
@@ -108,8 +111,8 @@ describe('youtube-video-bind-triggers', function() {
         it('should parse ID', function() {
             var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
                 return body[0] === thing[0];
-            }, 'matches element'), 'youtube-video', selector).args[0];
-            expect(args[3].call(element)).to.equal('SOME_ID');
+            }, 'matches element'), 'youtube', 'video', selector).args[0];
+            expect(args[4].call(element)).to.equal('SOME_ID');
         });
     });
 
@@ -151,7 +154,8 @@ describe('youtube-video-bind-triggers', function() {
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
-                'youtube-video',
+                'youtube',
+                'video',
                 sinon.match(function(_selector) {
                     selector = _selector;
                     return body.find(selector)[0] === element[0];
@@ -161,8 +165,8 @@ describe('youtube-video-bind-triggers', function() {
         it('should parse ID', function() {
             var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
                 return body[0] === thing[0];
-            }, 'matches element'), 'youtube-video', selector).args[0];
-            expect(args[3].call(element)).to.equal('SOME_ID');
+            }, 'matches element'), 'youtube', 'video', selector).args[0];
+            expect(args[4].call(element)).to.equal('SOME_ID');
         });
     });
 
@@ -180,7 +184,8 @@ describe('youtube-video-bind-triggers', function() {
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
-                'youtube-video',
+                'youtube',
+                'video',
                 sinon.match(function(_selector) {
                     selector = _selector;
                     return body.find(selector)[0] === element[0];
@@ -190,8 +195,8 @@ describe('youtube-video-bind-triggers', function() {
         it('should parse ID', function() {
             var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
                 return body[0] === thing[0];
-            }, 'matches element'), 'youtube-video', selector).args[0];
-            expect(args[3].call(element)).to.equal('SOME_ID');
+            }, 'matches element'), 'youtube', 'video', selector).args[0];
+            expect(args[4].call(element)).to.equal('SOME_ID');
         });
     });
 
@@ -209,7 +214,8 @@ describe('youtube-video-bind-triggers', function() {
                 sinon.match(function(thing) {
                     return body[0] === thing[0];
                 }, 'matches element'),
-                'youtube-video',
+                'youtube',
+                'video',
                 sinon.match(function(_selector) {
                     selector = _selector;
                     return body.find(selector)[0] === element[0];
@@ -219,8 +225,8 @@ describe('youtube-video-bind-triggers', function() {
         it('should parse ID', function() {
             var args = hoverTrigger.on.withArgs(sinon.match(function(thing) {
                 return body[0] === thing[0];
-            }, 'matches element'), 'youtube-video', selector).args[0];
-            expect(args[3].call(element)).to.equal('SOME_ID');
+            }, 'matches element'), 'youtube', 'video', selector).args[0];
+            expect(args[4].call(element)).to.equal('SOME_ID');
         });
     });
 });
