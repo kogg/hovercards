@@ -11,13 +11,13 @@ module.exports = function (grunt) {
                 reporter: require('jshint-stylish')
             },
             gruntfile: ['Gruntfile.js'],
-            chrome: ['app/scripts/{,*/}*.js'],
+            chrome: ['chrome/scripts/{,*/}*.js'],
             tests: ['test/spec/{,*/}*.js']
         },
         connect: {
             options: {
                 hostname: 'localhost',
-                base: ['test', 'app']
+                base: ['test', 'chrome']
             },
             chrome: {
                 options: {
