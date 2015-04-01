@@ -46,6 +46,14 @@ module.exports = function (grunt) {
                 }
             }
         },
+        bump: {
+            options: {
+                files:         ['package.json', 'bower.json', 'app/manifest.json'],
+                commitMessage: 'Bump to %VERSION%',
+                createTag:     false,
+                push:          false
+            }
+        }
     });
 
     grunt.registerTask('test', [
