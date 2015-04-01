@@ -1,4 +1,4 @@
-grunt test
+npm test
 #!/bin/sh
 #
 # An example hook script to verify what is about to be committed.
