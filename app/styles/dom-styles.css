@@ -90,7 +90,7 @@
 	overflow: hidden !important;
 	width: 300px !important;
 	margin-bottom: 16px !important;
-	position: relative !important;
+	position: absolute !important;
 	font-family: sans-serif !important;
 	-webkit-transform: translateX(375px) translateZ(0);
 	-webkit-animation-duration: 1s !important;
