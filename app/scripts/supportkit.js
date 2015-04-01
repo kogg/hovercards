@@ -27,3 +27,14 @@ require(['jquery'], function($) {
         }
     });
 });
+
+chrome.runtime.onMessage.addListener(function(request) {
+    switch (request.msg) {
+        case 'load':
+        case 'hide':
+            $('#sk-container').hide();
+            $('.feedback-trigger').show();
+            $('body').removeClass('reduce-padding');
+            break;
+    }
+});
