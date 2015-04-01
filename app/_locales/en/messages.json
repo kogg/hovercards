@@ -1,9 +1,9 @@
 {
-    "appName": {
+    "app_name": {
         "message": "Hover Cards",
         "description": "The name of the application"
     },
-    "appDescription": {
+    "app_description": {
         "message": "Description of Hover Cards",
         "description": "The description of the application"
     },
