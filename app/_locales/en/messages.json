@@ -28,5 +28,11 @@
     },
     "youtube_video": {
         "message": "Youtube Video"
+    },
+    "youtube_channel": {
+        "message": "Youtube Channel"
+    },
+    "youtube_comments_v2": {
+        "message": "Youtube Comments"
     }
 }
