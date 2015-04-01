@@ -157,8 +157,8 @@ module.exports = function (grunt) {
                 dest: '<%= config.dist %>'
             },
             html: [
-                '<%= config.app %>/popup.html',
-                '<%= config.app %>/options.html'
+                '<%= config.app %>/background.html',
+                '<%= config.app %>/sidebar.html'
             ]
         },
 
@@ -276,7 +276,6 @@ module.exports = function (grunt) {
         chromeManifest: {
             dist: {
                 options: {
-                    buildnumber: true,
                     indentSize: 4,
                     background: {
                         target: 'scripts/background.js',
