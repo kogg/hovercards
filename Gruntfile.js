@@ -10,36 +10,51 @@ module.exports = function (grunt) {
                 jshintrc: true,
                 reporter: require('jshint-stylish')
             },
-            gruntfile: ['Gruntfile.js'],
-            chrome: ['chrome/scripts/{,*/}*.js'],
-            tests: ['test/spec/{,*/}*.js']
+            all: [
+                'Gruntfile.js',
+                'app/scripts/{,*/}*.js',
+                'test/spec/{,*/}*.js'
+            ]
         },
         connect: {
             options: {
-                hostname: 'localhost',
-                base: ['test', 'chrome']
+                hostname: 'localhost'
             },
-            chrome: {
+            test: {
                 options: {
                     port: 9500,
-                    open: false
+                    open: false,
+                    base: ['test', 'app']
+                }
+            },
+            testBrowser: {
+                options: {
+                    port: 9750,
+                    open: true,
+                    keepalive: true,
+                    base: ['test', 'app']
                 }
             }
         },
         mocha: {
-            options: {
-                run: true,
-                log: true,
-                reporter: 'Nyan'
-            },
-            chrome: {
+            all: {
                 options: {
-                    urls: ['http://localhost:<%= connect.chrome.options.port %>/chrome.html']
+                    run: true,
+                    urls: ['http://localhost:<%= connect.test.options.port %>/index.html'],
+                    log: true,
+                    reporter: 'Nyan'
                 }
             }
         },
     });
 
+    grunt.registerTask('test', [
+        'jshint',
+        'connect:test',
+        'mocha'
+    ]);
 
-    grunt.registerTask('test', ['jshint', 'connect', 'mocha']);
+    grunt.registerTask('test:browser', [
+        'connect:testBrowser'
+    ]);
 };

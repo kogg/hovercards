@@ -3,6 +3,6 @@ temp
 .tmp
 dist
 .sass-cache
-chrome/bower_components
+app/bower_components
 test/bower_components
 package
