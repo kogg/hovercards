@@ -9,10 +9,10 @@
 <body>
 	<div ng-cloak class="ng-cloak">
 		<div cards="cards" class="cards">
-			<div ng-repeat="card in cards" class="card bounce-in-animation">
-				<div ng-include="'templates/'+ card.provider + '-' + card.content + '-card.html'"></div>
+			<div ng-repeat="card in cards" class="card bounce-in-animation" ng-class="{ 'card-more': card.actionable }" ng-click="card.actionable && (card.toggled=!card.toggled)">
+				<div ng-include="'templates/'+ card.provider + '-' + card.content + '-card.html'" ng-if="::!card.err"></div>
 
-				<div class="card bounce-in-animation" ng-if="card.err">
+				<div class="card bounce-in-animation" ng-if="::card.err">
 					<div class="row">
 						<div class="hovercards-error-image hovercards-error-yt"></div>
 						<div class="hovercards-error-text">
