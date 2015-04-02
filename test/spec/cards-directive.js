@@ -2,14 +2,13 @@
 
 describe('cards-directive', function() {
     var sandbox = sinon.sandbox.create();
-    var angular;
+    var element;
     var $compile;
     var $rootScope;
 
     beforeEach(function(done) {
-        require(['angular', 'cards-directive'], function(_angular) {
-            sandbox.stub(chrome.runtime, 'sendMessage');
-            angular = _angular;
+        require(['cards-directive'], function() {
+            sandbox.stub(chrome.runtime.onMessage, 'addListener');
             done();
         });
     });
@@ -18,20 +17,35 @@ describe('cards-directive', function() {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
     }));
+    beforeEach(function(done) {
+        require(['angular'], function(angular) {
+            element = angular.element('<div cards></div>');
+
+            $compile(element)($rootScope);
+            $rootScope.$digest();
+            done();
+        });
+    });
 
     afterEach(function() {
         sandbox.restore();
     });
 
     it('should set cards to an array', function() {
-        var element = angular.element('<div cards></div>');
-
-        $compile(element)($rootScope);
-        $rootScope.$digest();
-
         var scope = element.isolateScope();
-        $rootScope.$digest();
-
         expect(scope.cards).to.deep.equal([]);
+    });
+
+    describe('on hide', function() {
+        it('should empty cards', function() {
+            var scope = element.isolateScope();
+
+            scope.cards = [{ provider: 'somewhere', content: 'something' }];
+
+            chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
+            $rootScope.$digest();
+
+            expect(scope.cards).to.deep.equal([]);
+        });
     });
 });
