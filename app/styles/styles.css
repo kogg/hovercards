@@ -342,9 +342,6 @@ b i {
 	background-position: center;
 	background-repeat: no-repeat;
 }
-.hovercards-error-yt {
-	background-image: url('../images/sad-notification-yt.gif');
-}
 .hovercards-error-text {
 	float: left;
 	width: 80%;

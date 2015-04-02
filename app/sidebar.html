@@ -14,7 +14,7 @@
 
 				<div ng-if="::card.err">
 					<div class="row">
-						<div class="hovercards-error-image hovercards-error-yt"></div>
+						<div class="hovercards-error-image" ng-style="::{ 'background-image': 'url(../images/' + card.provider + '-error.gif)'}"></div>
 						<div class="hovercards-error-text">
 							<b>{{ ::card.provider + '-' + card.content | copy}}</b>
 							<p>Someting went wrong here- if you send us a message below and we'll try to fix it! :)</p>
