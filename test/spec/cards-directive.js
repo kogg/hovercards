@@ -20,7 +20,7 @@ describe('cards-directive', function() {
     }));
     beforeEach(function(done) {
         require(['angular'], function(angular) {
-            element = angular.element('<div cards="cards"></div>');
+            element = angular.element('<div cards="cardsets"></div>');
 
             $compile(element)($rootScope);
             $rootScope.$digest();
@@ -32,19 +32,19 @@ describe('cards-directive', function() {
         sandbox.restore();
     });
 
-    it('should set cards to an array', function() {
+    it('should set cardsets to an array', function() {
         var scope = element.isolateScope();
-        expect(scope.cards).to.deep.equal([]);
+        expect(scope.cardsets).to.deep.equal([]);
     });
 
     describe('on hide', function() {
-        it('should empty cards', function() {
+        it('should empty cardsets', function() {
             var scope = element.isolateScope();
-            scope.cards = [{ provider: 'somewhere', content: 'something' }];
+            scope.cardsets = [{ provider: 'somewhere', content: 'something' }];
             chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
             $rootScope.$digest();
 
-            expect(scope.cards).to.deep.equal([]);
+            expect(scope.cardsets).to.deep.equal([]);
         });
     });
 
@@ -61,9 +61,9 @@ describe('cards-directive', function() {
             sandbox.server.respond();
             $rootScope.$digest();
 
-            expect(scope.cards).to.deep.equal([{ provider: 'somewhere-1', content: 'something-1', id: 'SOME_ID-1'},
-                                               { provider: 'somewhere-2', content: 'something-2', id: 'SOME_ID-2'},
-                                               { provider: 'somewhere-3', content: 'something-3', id: 'SOME_ID-3'}]);
+            expect(scope.cardsets).to.deep.equal([[{ provider: 'somewhere-1', content: 'something-1', id: 'SOME_ID-1'},
+                                                   { provider: 'somewhere-2', content: 'something-2', id: 'SOME_ID-2'},
+                                                   { provider: 'somewhere-3', content: 'something-3', id: 'SOME_ID-3'}]]);
         });
     });
 });

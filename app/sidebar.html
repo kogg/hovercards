@@ -7,8 +7,8 @@
 	<link rel="stylesheet" type="text/css" href="styles/chat-box.css">
 </head>
 <body>
-	<div ng-cloak class="ng-cloak">
-		<div cards="cards" class="cards">
+	<div cards="cardsets" ng-cloak class="ng-cloak">
+		<div ng-repeat="cards in cardsets" class="cards bounce-out-animation" ng-animate-children>
 			<div ng-repeat="card in cards" class="card bounce-in-animation" ng-class="{ 'card-more': card.actionable }" ng-click="card.actionable && (card.toggled=!card.toggled)">
 				<div ng-include="'templates/'+ card.provider + '-' + card.content + '-card.html'" ng-if="::!card.err"></div>
 
