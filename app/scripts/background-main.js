@@ -11,7 +11,3 @@ require(['notifications-background'], function(notificationsBackground) {
 require(['omnibar-background'], function(omnibarBackground) {
     omnibarBackground.init();
 });
-
-require(['youtube-background'], function(youtubeBackground) {
-    youtubeBackground.init();
-});

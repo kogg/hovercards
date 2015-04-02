@@ -1,9 +1,6 @@
 'use strict';
 
-require(['layout-directive',
-         'card-directive',
-         'cards-directive',
-         'load-directive',
+require(['cards-directive',
          'readmore-directive',
          'youtube-channel-subscribe-directive',
          'copy-filter',
