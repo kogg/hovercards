@@ -3,7 +3,9 @@
 define(['angular-app', 'jquery'], function(app, $) {
     app.directive('cards', function() {
         return {
-            scope: { },
+            scope: {
+                cards: '='
+            },
             link: function($scope) {
                 $scope.cards = [];
                 chrome.runtime.onMessage.addListener(function(request) {

@@ -20,7 +20,7 @@ describe('cards-directive', function() {
     }));
     beforeEach(function(done) {
         require(['angular'], function(angular) {
-            element = angular.element('<div cards></div>');
+            element = angular.element('<div cards="cards"></div>');
 
             $compile(element)($rootScope);
             $rootScope.$digest();
