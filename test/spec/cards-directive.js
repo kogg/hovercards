@@ -23,13 +23,15 @@ describe('cards-directive', function() {
         sandbox.restore();
     });
 
-    it('should have a test', function() {
+    it('should set cards to an array', function() {
         var element = angular.element('<div cards></div>');
 
         $compile(element)($rootScope);
         $rootScope.$digest();
 
-        // var scope = element.isolateScope();
+        var scope = element.isolateScope();
         $rootScope.$digest();
+
+        expect(scope.cards).to.deep.equal([]);
     });
 });

@@ -3,7 +3,10 @@
 define(['angular-app'], function(app) {
     app.directive('cards', function() {
         return {
-            scope: { }
+            scope: { },
+            link: function($scope) {
+                $scope.cards = [];
+            }
         };
     });
 });
