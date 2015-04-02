@@ -1,23 +1,37 @@
 <html ng-csp>
 <head>
-    <script src="https://cdn.supportkit.io/supportkit.min.js"></script>
-    <link rel="stylesheet" href="bower_components/angular/angular-csp.css">
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
-    <link rel="stylesheet" type="text/css" href="styles/chat-box.css">
+	<script src="https://cdn.supportkit.io/supportkit.min.js"></script>
+	<link rel="stylesheet" href="bower_components/angular/angular-csp.css">
+	<link rel="stylesheet" href="styles/styles.css">
+	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="styles/chat-box.css">
 </head>
 <body>
-    <div ng-cloak class="ng-cloak">
-        <div layout></div>
-    </div>
-    <div class="feedback-trigger">
-        <span>Click here to talk to us. We'd love to<br>hear your feedback, be it good or bad!</span>
-        <div class="hclogo-peak shake"></div>
-    </div>
-    <link rel="stylesheet" href="styles/subscribe-fix-style.css">
-    <script src="bower_components/requirejs/require.js"></script>
-    <script src="scripts/config.js"></script>
-    <script src="scripts/sidebar-main.js"></script>
-    <script src="scripts/supportkit.js"></script>
+	<div ng-cloak class="ng-cloak">
+		<div cards="cards" class="cards">
+			<div ng-repeat="card in cards" class="card bounce-in-animation" ng-class="{ 'card-more': card.actionable }" ng-click="card.actionable && (card.toggled=!card.toggled)">
+				<div ng-include="'templates/'+ card.provider + '-' + card.content + '-card.html'" ng-if="::!card.err"></div>
+
+				<div class="card bounce-in-animation" ng-if="::card.err">
+					<div class="row">
+						<div class="hovercards-error-image hovercards-error-yt"></div>
+						<div class="hovercards-error-text">
+							<b>{{ ::card.provider + '-' + card.content | copy}}</b>
+							<p>Someting went wrong here- if you send us a message below and we'll try to fix it! :)</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="feedback-trigger">
+		<span>Click here to talk to us. We'd love to<br>hear your feedback, be it good or bad!</span>
+		<div class="hclogo-peak shake"></div>
+	</div>
+	<link rel="stylesheet" href="styles/subscribe-fix-style.css">
+	<script src="bower_components/requirejs/require.js"></script>
+	<script src="scripts/config.js"></script>
+	<script src="scripts/sidebar-main.js"></script>
+	<script src="scripts/supportkit.js"></script>
 </body>
 </html>

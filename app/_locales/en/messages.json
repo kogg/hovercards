@@ -32,7 +32,7 @@
     "youtube_channel": {
         "message": "Youtube Channel"
     },
-    "youtube_comments_v2": {
+    "youtube_comments": {
         "message": "Youtube Comments"
     }
 }
