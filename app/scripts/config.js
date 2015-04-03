@@ -8,6 +8,7 @@ require.config({
         domReady:           '../bower_components/requirejs-domready/domReady',
         dotdotdot:          '../bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot',
         jquery:             '../bower_components/jquery/dist/jquery',
+        oboe:               '../bower_components/oboe/dist/oboe-browser',
         purl:               '../bower_components/purl/purl'
     },
     shim: {

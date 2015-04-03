@@ -1,6 +1,6 @@
 'use strict';
 
-define(['angular-app', 'jquery'], function(app, $) {
+define(['angular-app', 'jquery', 'oboe'], function(app, $, oboe) {
     app.directive('cards', function() {
         return {
             scope: {
@@ -8,28 +8,31 @@ define(['angular-app', 'jquery'], function(app, $) {
             },
             link: function($scope) {
                 $scope.cardsets = [];
+                var abortLast = function() {};
                 chrome.runtime.onMessage.addListener(function(request) {
                     switch (request.msg) {
                         case 'hide':
+                            abortLast();
+                            abortLast = function() {};
                             $scope.$apply(function() {
                                 $scope.cardsets = [];
                             });
                             break;
                         case 'load':
+                            abortLast();
                             $scope.$apply(function() {
                                 $scope.cardsets = [[]];
                             });
-                            $.ajax('https://hovercards.herokuapp.com/v1/node/' + request.provider + '-' + request.content + '/type/id/value/' + request.id,
-                                   { dataType: 'text'})
-                                .done(function(response) {
+                            abortLast = oboe('https://hovercards.herokuapp.com/v1/node/' + request.provider + '-' + request.content + '/type/id/value/' + request.id)
+                                .node('!', function(card) {
                                     $scope.$apply(function() {
-                                        $scope.cardsets = [response.split('\n').filter(function(json) {
-                                            return !!json;
-                                        }).map(function(json) {
-                                            return JSON.parse(json);
-                                        })];
+                                        if (!$scope.cardsets[0]) {
+                                            return;
+                                        }
+                                        $scope.cardsets[0].push(card);
                                     });
-                                });
+                                    return oboe.drop;
+                                }).abort;
                             break;
                     }
                 });
