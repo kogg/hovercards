@@ -50,12 +50,12 @@ describe('cards-directive', function() {
 
     describe('on load', function() {
         it('should retrieve cards from heroku', function() {
-            sandbox.server.respondWith('https://hovercards.herokuapp.com/v1/somewhere/something/SOME_ID',
+            sandbox.server.respondWith('https://hovercards.herokuapp.com/v1/node/somewhere-something/type/id/value/SOME_ID',
                                        [200,
                                         { 'Content-Type': 'application/json' },
-                                        JSON.stringify([{ provider: 'somewhere-1', content: 'something-1', id: 'SOME_ID-1'},
-                                                        { provider: 'somewhere-2', content: 'something-2', id: 'SOME_ID-2'},
-                                                        { provider: 'somewhere-3', content: 'something-3', id: 'SOME_ID-3'}])]);
+                                        JSON.stringify({ provider: 'somewhere-1', content: 'something-1', id: 'SOME_ID-1'}) + '\n' +
+                                        JSON.stringify({ provider: 'somewhere-2', content: 'something-2', id: 'SOME_ID-2'}) + '\n' +
+                                        JSON.stringify({ provider: 'somewhere-3', content: 'something-3', id: 'SOME_ID-3'})]);
             var scope = element.isolateScope();
             chrome.runtime.onMessage.addListener.yield({ msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
             sandbox.server.respond();

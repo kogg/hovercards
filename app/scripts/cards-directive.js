@@ -19,10 +19,13 @@ define(['angular-app', 'jquery'], function(app, $) {
                             $scope.$apply(function() {
                                 $scope.cardsets = [[]];
                             });
-                            $.ajax('https://hovercards.herokuapp.com/v1/' + request.provider + '/' + request.content + '/' + request.id)
+                            $.ajax('https://hovercards.herokuapp.com/v1/node/' + request.provider + '-' + request.content + '/type/id/value/' + request.id,
+                                   { dataType: 'text'})
                                 .done(function(response) {
                                     $scope.$apply(function() {
-                                        $scope.cardsets = [response];
+                                        $scope.cardsets = [response.split('\n').map(function(json) {
+                                            return JSON.parse(json);
+                                        })];
                                     });
                                 });
                             break;
