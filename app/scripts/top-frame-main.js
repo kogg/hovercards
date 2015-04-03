@@ -1,7 +1,7 @@
 'use strict';
 
 require(['sidebar-inject'], function(sidebarInject) {
-    sidebarInject.on('body');
+    sidebarInject.on('body', 'html');
 });
 
 require(['youtube-video-bind-triggers'], function(youtubeVideoBindTriggers) {

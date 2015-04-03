@@ -2,8 +2,8 @@
 
 define('sidebar-inject', ['jquery'], function($) {
     return {
-        on: function sidebarInjectOn(body) {
-            body = $(body)
+        on: function sidebarInjectOn(body, html) {
+            body = $(html)
                 .dblclick(function() {
                     chrome.runtime.sendMessage({ msg: 'hide' });
                 });
