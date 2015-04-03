@@ -1,0 +1,428 @@
+@font-face {
+	font-family: "Roboto";
+	src: url("../fonts/roboto/Roboto-Thin.ttf");
+	font-weight: 200; }
+
+@font-face {
+	font-family: "Roboto";
+	src: url("../fonts/roboto/Roboto-Light.ttf");
+	font-weight: 300; }
+
+@font-face {
+	font-family: "Roboto";
+	src: url("../fonts/roboto/Roboto-Regular.ttf");
+	font-weight: 400; }
+
+@font-face {
+	font-family: "Roboto";
+	src: url("../fonts/roboto/Roboto-Medium.ttf");
+	font-weight: 500; }
+
+@font-face {
+	font-family: "Roboto";
+	src: url("../fonts/roboto/Roboto-Bold.ttf");
+	font-weight: 700; }
+
+*, *:before, *:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	margin:0;
+	padding: 0;
+}
+
+html,body {
+	background: #EFEFEF;
+	font-family: "Roboto", sans-serif;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	overflow-x:hidden;
+	position: relative;
+}
+body {
+	padding-bottom:90px;
+}
+.card-container {
+	width: 300px;
+	margin:50px auto;
+	padding-bottom: 20px;
+
+}
+.ellipsis {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+/* Grid */
+.row {
+	overflow:auto;
+}
+.col-1,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12 {
+	float:left;
+}
+.col-1 {width:8.333333333%}
+.col-2 {width:16.666666666%}
+.col-3 {width:24.999999999%}
+.col-4 {width:33.333333333%}
+.col-5 {width:41.666666666%}
+.col-6 {width:50.000000000%}
+.col-7 {width:58.333333333%}
+.col-8 {width:66.666666666%}
+.col-9 {width:74.999999999%}
+.col-10 {width:83.33333333%}
+.col-11 {width:91.66666666%}
+.col-12 {width:100.000000000%}
+
+
+.cards {
+	max-width: 340px;
+	top: 0px;
+	position: relative;
+	padding: 0 20px 16px;
+}
+
+/*default cards*/
+b {
+	display: block;
+	font-weight: 700;
+	margin-bottom: 5.5px;
+	font-size:11px;
+	text-transform: uppercase;
+}
+p, p a, .card-text .card-description p a, .card-description-padding p a, .comment-content p a{
+	line-height: 19px;
+	font-weight: 400;
+	font-size: 15px;
+	color: #727272;
+	word-wrap:break-word;
+}
+.card-description p {
+	margin-top: 5.5px;
+}
+p a, .card-text .card-description p a, .card-description-padding p a, .comment-content p a {
+	color: #03A9F4;
+}
+.comment-content p a:hover{
+	text-decoration: underline;
+}
+p .read-more {
+	text-decoration: underline;
+	cursor: pointer;
+}
+.card-description-padding {
+	padding: 16px;
+	border-top:1px solid #B6B6B6
+}
+b i {
+	position: relative;
+	top: -1px;
+	margin-right: 2px;
+}
+.card {
+	background: #fff;
+	border-radius: 3px;
+	margin-top: 16px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	min-width: 300px;
+}
+.card-more {
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	-webkit-transition: all .4s ease-in-out;
+	transition: all .2s ease-in-out;
+}
+.card-more:hover {
+	transform: scale(1.05);
+	-webkit-transform: scale(1.05);
+	z-index: 3;
+	position: relative;
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.card-stats {
+	border-top:1px solid #B6B6B6	
+}
+.card-stats b {
+	color: #727272;
+	margin-bottom: 2px;
+}
+.card-stats span {
+	color: #212121;
+	font-size: 14px;
+	font-weight: 500
+}
+
+.card-stats .col-4 {
+	padding: 9.5px 16px;
+}
+
+.profile-right a, .card-text a {
+	color: black;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: 500;
+	display: inline-block;
+}
+.card-text a {
+	display: inline;
+}
+.profile-right a {
+	display: inline-block;
+	max-width: 167px;
+}
+.profile-right a:hover, .card-text a:hover {
+	text-decoration: underline;
+}
+/*Color Palette*/
+.youtube-color {
+	color: #F44336
+}
+
+/*Profile Cards*/
+
+.profile-card {
+
+}
+.profile-top {
+
+}
+
+.profile-left {
+	background: #F2F2F2;
+	border-radius: 3px 0 0 0;
+}
+.profile-image {
+	background-size: 100px 100px;
+	width: 100px;
+	height: 100px;
+	background-position: center;
+	border-radius: 2px 0 0 0;
+}
+.profile-right {
+	padding: 16px;
+	position: relative;
+	height: 100px;
+}
+
+.profile-cta {
+	position: absolute;
+	overflow: hidden;
+	bottom: 16px;
+}
+
+/*Video Cards*/
+
+.video-card {
+
+}
+
+.video-top {
+	height: 168px;
+	position: relative;
+}
+.video-image {
+	height: 168px;
+	border-radius: 2px 2px 0 0;
+	background-size: cover;
+	background-position: center;
+}
+.youtube-video {
+	width: 100%;
+	height: 100%;
+}
+.card-text {
+	padding: 16px;
+	overflow-y: scroll;
+}
+.video-cta {
+	position: absolute;
+	right: 16px;
+	bottom: -25px;
+	width: 46px;
+	height: 46px;
+	line-height: 46px;
+	border-radius: 50%;
+	text-align: center;
+	font-size: 25px;
+	background: #F44336;
+	color: white;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	z-index: 2;
+	-webkit-transform: rotate(0deg) scale(1);
+	-webkit-transition: box-shadow .2s ease-in-out, transform .5s ease-in-out, opacity .5s ease-in-out;
+}
+.video-cta:hover {
+	cursor: pointer;
+	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0.24)
+}
+.video-cta:active {
+	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0)
+}
+.playing {
+	-webkit-transform: rotate(360deg) scale(0);
+	opacity: 0;
+}
+
+/*comments*/
+.comment {
+	padding: 16px;
+	border-bottom: 1px solid #B6B6B6;
+}
+.comment-top {
+	border-bottom: 1px solid #B6B6B6;
+	line-height: 50px;
+	padding: 0 16px;
+}
+.comment-top span {
+	color: #000;
+	text-decoration: none;
+	font-size: 16px;
+	text-transform: capitalize;
+	font-weight: 500;
+}
+.comment-top span i {
+	margin-right: 6px;
+}
+.comment-top .col-4 {
+	text-align: right;
+}
+.comment:last-of-type {
+	border-bottom: 0;
+}
+.comment-content {
+	overflow: scroll;
+	padding-bottom: 24px;
+}
+.comment-left {
+
+}
+.comment-image {
+	width: 50px;
+	height: 50px;
+	border-radius: 50px;
+	background-image: url('/images/missing-image.png');
+	background-size: 100%;
+	background-position: center;
+	position: relative;
+}
+
+.comment-content a {
+	color: black;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: 500;
+}
+.comment-content a:hover {
+	text-decoration: underline;
+}
+.comment-content p {
+	margin-top: 5px;
+}
+.comment-content b {
+	margin-bottom: 0;
+	margin-top: 5px;
+}
+
+
+
+/*Error Cards*/
+
+.hovercards-error-image {
+	float: left;
+	width: 20%;
+	height: 100px;
+	line-height: 100px;
+	background:#F9F9F9;
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	text-align: center;
+	border-radius: 3px 0 0 3px;
+	overflow: hidden;
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.hovercards-error-yt {
+	background-image: url('../images/sad-notification-yt.gif');
+}
+.hovercards-error-text {
+	float: left;
+	width: 80%;
+	padding: 16px;
+	height: 100px;
+	border-radius: 0px 3px 3px 0px;
+	overflow: hidden;
+	background: white;
+}
+
+/* ANIMATIONS */
+
+.bounce-in-animation.ng-enter {
+	-webkit-animation-duration: 2s;
+	animation-duration: 2s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-name: bounceInRight;
+	animation-name: bounceInRight;
+}
+@-webkit-keyframes bounceInRight {
+	0% {
+		opacity: 0;
+		-webkit-transform: translateX(700px);
+	}
+	75% {
+		opacity: 1;
+		-webkit-transform: translateX(-14px);
+	}
+	100% {
+		-webkit-transform: translateX(0px);
+	}
+}
+
+.bounce-out-animation.ng-leave {
+	-webkit-transform: translatey(0px);
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-name: bounce-down;
+	animation-name: bounce-down;
+}
+@-webkit-keyframes bounce-down {
+	0% {
+		-webkit-transform: translatey(0px);
+		opacity: 1;
+	}
+	70% {
+		opacity: 1;
+	}
+	100% {
+		-webkit-transform: translatey(1400px);
+	}
+}
+
+.fade-animation {
+	-webkit-transition: all .45s ease-in-out;
+	transition: all .45s ease-in-out;
+}
+.fade-animation.ng-hide {
+	opacity: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

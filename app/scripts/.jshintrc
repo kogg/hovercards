@@ -1,0 +1,7 @@
+{
+    "extends": "../../.jshintrc",
+    "globals": {
+        "angular": true,
+        "define": true
+    }
+}
