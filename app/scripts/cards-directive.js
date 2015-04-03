@@ -23,7 +23,9 @@ define(['angular-app', 'jquery'], function(app, $) {
                                    { dataType: 'text'})
                                 .done(function(response) {
                                     $scope.$apply(function() {
-                                        $scope.cardsets = [response.split('\n').map(function(json) {
+                                        $scope.cardsets = [response.split('\n').filter(function(json) {
+                                            return !!json;
+                                        }).map(function(json) {
                                             return JSON.parse(json);
                                         })];
                                     });

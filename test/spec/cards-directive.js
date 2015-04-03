@@ -55,7 +55,7 @@ describe('cards-directive', function() {
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify({ provider: 'somewhere-1', content: 'something-1', id: 'SOME_ID-1'}) + '\n' +
                                         JSON.stringify({ provider: 'somewhere-2', content: 'something-2', id: 'SOME_ID-2'}) + '\n' +
-                                        JSON.stringify({ provider: 'somewhere-3', content: 'something-3', id: 'SOME_ID-3'})]);
+                                        JSON.stringify({ provider: 'somewhere-3', content: 'something-3', id: 'SOME_ID-3'}) + '\n']);
             var scope = element.isolateScope();
             chrome.runtime.onMessage.addListener.yield({ msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
             sandbox.server.respond();
