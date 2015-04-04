@@ -3,10 +3,11 @@
 define('sidebar-inject', ['jquery'], function($) {
     return {
         on: function sidebarInjectOn(body, html) {
-            body = $(html)
+            html = $(html)
                 .dblclick(function() {
                     chrome.runtime.sendMessage({ msg: 'hide' });
                 });
+            body = $(body);
 
             var obj = $('<div class="hovercards-sidebar"></div>')
                 .appendTo(body)
