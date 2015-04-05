@@ -29,7 +29,7 @@ define(['angular-app', 'jquery', 'oboe'], function(app, $, oboe) {
                                                                                        query:      request.id }] })))
                                 .node('!', function(card) {
                                     $scope.$apply(function() {
-                                        if (!$scope.cardsets[0]) {
+                                        if (!$scope.cardsets[0] || !card.type) {
                                             return;
                                         }
                                         $scope.cardsets[0].push(card);
