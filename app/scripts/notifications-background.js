@@ -8,13 +8,12 @@ define('notifications-background', [], function() {
                 var tabId = sender.tab.id;
                 switch (request.msg) {
                     case 'hover':
-                        var storageKey = request.provider + '-' + request.content;
-                        chrome.storage.sync.get(storageKey, function(storage) {
-                            if (storage[storageKey]) {
+                        chrome.storage.sync.get(request.type, function(storage) {
+                            if (storage[request.type]) {
                                 return;
                             }
-                            chrome.tabs.sendMessage(tabId, { msg: 'notify', type: request.provider, instance: request.content });
-                            storage[storageKey] = true;
+                            chrome.tabs.sendMessage(tabId, { msg: 'notify', type: request.network, instance: request.type });
+                            storage[request.type] = true;
                             chrome.storage.sync.set(storage);
                         });
                         break;

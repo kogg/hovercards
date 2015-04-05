@@ -6,7 +6,7 @@ describe('hover-trigger', function() {
     var link;
     var hoverTrigger;
 
-    var activate_msg = { msg: 'activate', network: 'somewhere', type: 'somewhere-something', id: 'SOME_ID' };
+    var activate_msg = { msg: 'activate', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' };
 
     beforeEach(function(done) {
         require(['hover-trigger'], function(_hoverTrigger) {
@@ -34,7 +34,7 @@ describe('hover-trigger', function() {
     describe('hover/unhover', function() {
         it('should send hover on mouseenter', function() {
             link.mouseenter();
-            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hover', network: 'somewhere', type: 'somewhere-something', id: 'SOME_ID' });
+            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hover', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
         });
 
         it('should send unhover on mouseleave', function() {
