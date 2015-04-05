@@ -57,7 +57,7 @@ describe('cards-directive', function() {
                                         JSON.stringify({ type: 'somewhere-something-2', network: 'somewhere', id: 'SOME_ID-2'}) + '\n' +
                                         JSON.stringify({ type: 'somewhere-something-3', network: 'somewhere', id: 'SOME_ID-3'}) + '\n']);
             var scope = element.isolateScope();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
             sandbox.server.respond();
             $rootScope.$digest();
 
