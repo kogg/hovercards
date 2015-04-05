@@ -42,7 +42,7 @@ module.exports = function (grunt) {
                     run: true,
                     urls: ['http://localhost:<%= connect.test.options.port %>/index.html'],
                     log: true,
-                    reporter: 'Nyan'
+                    reporter: 'Spec'
                 }
             }
         },
