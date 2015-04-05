@@ -23,7 +23,10 @@ define(['angular-app', 'jquery', 'oboe'], function(app, $, oboe) {
                             $scope.$apply(function() {
                                 $scope.cardsets = [[]];
                             });
-                            abortLast = oboe('https://hovercards.herokuapp.com/v1/node/' + request.provider + '-' + request.content + '/type/id/value/' + request.id)
+                            abortLast = oboe('https://hovercards.herokuapp.com/v1/cards?' +
+                                             decodeURIComponent($.param({ triggers: [{ type:       request.provider + '-' + request.content,
+                                                                                       query_type: 'id',
+                                                                                       query:      request.id }] })))
                                 .node('!', function(card) {
                                     $scope.$apply(function() {
                                         if (!$scope.cardsets[0]) {

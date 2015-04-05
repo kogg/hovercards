@@ -50,7 +50,7 @@ describe('cards-directive', function() {
 
     describe('on load', function() {
         it('should retrieve cards from heroku', function() {
-            sandbox.server.respondWith('https://hovercards.herokuapp.com/v1/node/somewhere-something/type/id/value/SOME_ID',
+            sandbox.server.respondWith('https://hovercards.herokuapp.com/v1/cards?triggers[0][type]=somewhere-something&triggers[0][query_type]=id&triggers[0][query]=SOME_ID',
                                        [200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify({ provider: 'somewhere-1', content: 'something-1', id: 'SOME_ID-1'}) + '\n' +
