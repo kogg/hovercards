@@ -6,6 +6,8 @@ describe('hover-trigger', function() {
     var link;
     var hoverTrigger;
 
+    var activate_msg = { msg: 'activate', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' };
+
     beforeEach(function(done) {
         require(['hover-trigger'], function(_hoverTrigger) {
             sandbox.useFakeTimers();
@@ -19,7 +21,7 @@ describe('hover-trigger', function() {
     beforeEach(function() {
         body = $('<div id="sandbox"></div>');
         link = $('<a id="link" href="SOME_URL"></a>').appendTo(body);
-        hoverTrigger.on(body, 'somewhere', 'something', '#link', function() {
+        hoverTrigger.on(body, 'somewhere', 'somewhere-something', '#link', function() {
             return 'SOME_ID';
         });
     });
@@ -30,47 +32,47 @@ describe('hover-trigger', function() {
     });
 
     describe('hover/unhover', function() {
-        it('should send msg:hover on mouseenter', function() {
+        it('should send hover on mouseenter', function() {
             link.mouseenter();
-            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hover', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
+            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hover', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
         });
 
-        it('should send msg:unhover on mouseleave', function() {
+        it('should send unhover on mouseleave', function() {
             link.mouseleave();
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'unhover' });
         });
     });
 
     describe('longpress', function() {
-        it('should send msg:activate on mousedown > 333ms', function() {
+        it('should send activate on mousedown > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
             hoverTrigger.isActive.returns(true);
             sandbox.clock.tick(333);
-            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'activate', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
+            expect(chrome.runtime.sendMessage).to.have.been.calledWith(activate_msg);
         });
 
-        it('should not send msg:activate on mousedown[which!=1] > 333ms', function() {
+        it('should not send activate on mousedown[which!=1] > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 2 }));
             hoverTrigger.isActive.returns(true);
             sandbox.clock.tick(333);
-            expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'activate', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
+            expect(chrome.runtime.sendMessage).to.not.have.been.calledWith(activate_msg);
         });
 
-        it('should not send msg:activate on mousedown > click > 333ms', function() {
+        it('should not send activate on mousedown > click > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
             hoverTrigger.isActive.returns(true);
             link.trigger($.Event('click', { which: 1 }));
             hoverTrigger.isActive.returns(false);
             sandbox.clock.tick(333);
-            expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'activate', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
+            expect(chrome.runtime.sendMessage).to.not.have.been.calledWith(activate_msg);
         });
 
-        it('should not send msg:activate on mousedown > mouseleave > 333ms', function() {
+        it('should not send activate on mousedown > mouseleave > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
             hoverTrigger.isActive.returns(true);
             link.mouseleave();
             sandbox.clock.tick(333);
-            expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'activate', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
+            expect(chrome.runtime.sendMessage).to.not.have.been.calledWith(activate_msg);
         });
     });
 

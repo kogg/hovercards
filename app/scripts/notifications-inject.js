@@ -27,7 +27,7 @@ define('notifications-inject', [], function() {
                                     return;
                                 }
                                 clearTimeout($(this).data('hovercards-notification-timeout'));
-                                $(this).hide();
+                                $(this).remove();
                             });
 
                         var inner = $('<div class="hovercards-row"></div>')
@@ -47,7 +47,7 @@ define('notifications-inject', [], function() {
                                 if (request.type === 'hovercards') {
                                     return chrome.i18n.getMessage('hovercards_' + request.instance + '_notification');
                                 }
-                                return chrome.i18n.getMessage('trigger_notification', [chrome.i18n.getMessage(request.type + '_' + request.instance)]);
+                                return chrome.i18n.getMessage('trigger_notification', [chrome.i18n.getMessage(request.instance)]);
                             });
 
                         break;

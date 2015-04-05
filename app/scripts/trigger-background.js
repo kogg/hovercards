@@ -12,11 +12,11 @@ define('trigger-background', [], function() {
                             if (!sent) {
                                 return;
                             }
-                            chrome.tabs.sendMessage(tabId, { msg: 'load', provider: sent.provider, content: sent.content, id: sent.id });
+                            chrome.tabs.sendMessage(tabId, { msg: 'load', network: sent.network, type: sent.type, id: sent.id });
                         });
                         break;
                     case 'hover':
-                        chrome.tabs.sendMessage(tabId, { msg: 'set', value: { maybe: { provider: request.provider, content: request.content, id: request.id } } });
+                        chrome.tabs.sendMessage(tabId, { msg: 'set', value: { maybe: { network: request.network, type: request.type, id: request.id } } });
                         break;
                     case 'unhover':
                         chrome.tabs.sendMessage(tabId, { msg: 'set', value: { maybe: null } });
@@ -24,9 +24,9 @@ define('trigger-background', [], function() {
                     case 'activate':
                         chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'maybe' }, function(maybe) {
                             chrome.tabs.sendMessage(tabId, { msg: 'set', value: { maybe: null } });
-                            var toSend = (request.provider && { provider: request.provider, content: request.content, id: request.id }) || maybe;
+                            var toSend = (request.network && { network: request.network, type: request.type, id: request.id }) || maybe;
                             chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'sent' }, function(sent) {
-                                if (sent && toSend && sent.provider === toSend.provider && sent.content === toSend.content && sent.id === toSend.id) {
+                                if (sent && toSend && sent.network === toSend.network && sent.type === toSend.type && sent.id === toSend.id) {
                                     toSend = null;
                                 }
                                 chrome.tabs.sendMessage(tabId, { msg: 'set', value: { sent: toSend } });
@@ -35,7 +35,7 @@ define('trigger-background', [], function() {
                                         return;
                                     }
                                     if (toSend) {
-                                        chrome.tabs.sendMessage(tabId, { msg: 'load', provider: toSend.provider, content: toSend.content, id: toSend.id });
+                                        chrome.tabs.sendMessage(tabId, { msg: 'load', network: toSend.network, type: toSend.type, id: toSend.id });
                                     } else {
                                         chrome.tabs.sendMessage(tabId, { msg: 'hide' });
                                     }
