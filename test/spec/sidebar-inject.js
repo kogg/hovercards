@@ -28,7 +28,7 @@ describe('sidebar-inject', function() {
         expect(sidebarObj.children('iframe')).to.have.prop('src', 'chrome-extension://extension_id/sidebar.html');
     });
 
-    it('should send msg:hide on double click', function() {
+    it('should send hide on double click', function() {
         body.dblclick();
         expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hide' });
     });
@@ -49,12 +49,12 @@ describe('sidebar-inject', function() {
     describe('on load/hide', function() {
         it('should be visible on load', function() {
             sidebarObj.css('display', 'none');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
             expect(sidebarObj).to.not.have.css('display', 'none');
         });
 
         it('should send loaded on load', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', provider: 'somewhere', content: 'something', id: 'SOME_ID' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'loaded' });
         });
 
@@ -81,12 +81,12 @@ describe('sidebar-inject', function() {
             expect(closeButton).to.exist;
         });
 
-        it('should send msg:hide on click', function() {
+        it('should send hide on click', function() {
             closeButton.trigger($.Event('click', { which: 1 }));
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hide' });
         });
 
-        it('should not send msg:hide on right click', function() {
+        it('should not send hide on right click', function() {
             closeButton.trigger($.Event('click', { which: 2 }));
             expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'hide' });
         });
