@@ -4,7 +4,7 @@ define('youtube-video-bind-triggers-on-player', ['jquery', 'hover-trigger'], fun
     return {
         on: function youtubeVideoBindTriggersOnPlayerOn(body, ID) {
             body = $(body);
-            hoverTrigger.on(body, 'youtube', 'video', '#player .html5-video-container', function() {
+            hoverTrigger.on(body, 'youtube', 'youtube-video', '#player .html5-video-container', function() {
                 return ID;
             });
         }
