@@ -18,3 +18,5 @@ require(['hotkey-trigger'], function(hotkeyTrigger) {
 require(['domReady!'], function() {
     chrome.runtime.sendMessage({ msg: 'ready' });
 });
+
+require(['everywhere-main']);
