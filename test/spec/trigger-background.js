@@ -69,6 +69,14 @@ describe('trigger-background', function() {
 
             expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
         });
+
+        it('should unset sent if ready is set & sent === URL', function() {
+            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(true);
+            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields('URL');
+            chrome.runtime.onMessage.addListener.yield({ msg: 'activate', url: 'URL' }, { tab: { id: 'TAB_ID' } });
+
+            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { sent: null } });
+        });
     });
 
     describe('on hide', function() {

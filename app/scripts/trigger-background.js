@@ -17,12 +17,13 @@ define('trigger-background', [], function() {
                         break;
                     case 'activate':
                         chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'sent' }, function(url) {
-                            chrome.tabs.sendMessage(tabId, { msg: 'set', value: { sent: request.url } });
                             var msg;
                             if (request.url !== url) {
                                 msg = { msg: 'load', url: request.url };
+                                chrome.tabs.sendMessage(tabId, { msg: 'set', value: { sent: request.url } });
                             } else {
                                 msg = { msg: 'hide' };
+                                chrome.tabs.sendMessage(tabId, { msg: 'set', value: { sent: null } });
                             }
                             chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'ready' }, function(ready) {
                                 if (!ready) {
