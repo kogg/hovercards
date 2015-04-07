@@ -9,7 +9,6 @@ describe('trigger-background', function() {
             sandbox.stub(chrome.pageAction, 'show');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sandbox.stub(chrome.tabs, 'sendMessage');
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'maybe' }).yields(undefined);
             chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(undefined);
             chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields(undefined);
             triggerBackground.init();
@@ -35,109 +34,44 @@ describe('trigger-background', function() {
         });
 
         it('should send load if sent is set', function() {
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields({ type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
+            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields('URL');
             chrome.runtime.onMessage.addListener.yield({ msg: 'ready' }, { tab: { id: 'TAB_ID' } });
 
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
+            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', url: 'URL' });
         });
     });
 
-    describe('on hover', function() {
-        it('should set maybe', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'hover', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+    describe('on activate', function() {
+        it('should set sent', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'activate', url: 'URL' }, { tab: { id: 'TAB_ID' } });
 
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { maybe: { type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' } } });
-        });
-    });
-
-    describe('on unhover', function() {
-        it('should unset maybe', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'unhover' }, { tab: { id: 'TAB_ID' } });
-
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { maybe: null } });
-        });
-    });
-
-    describe('on activate[null]', function() {
-        it('should unset maybe', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'activate' }, { tab: { id: 'TAB_ID' } });
-
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { maybe: null } });
-        });
-
-        it('should set sent to maybe', function() {
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'maybe' }).yields({ type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
-            chrome.runtime.onMessage.addListener.yield({ msg: 'activate' }, { tab: { id: 'TAB_ID' } });
-
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { sent: { type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' } } });
+            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { sent: 'URL' } });
         });
 
         it('should not send anything', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'activate' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'activate', url: 'URL' }, { tab: { id: 'TAB_ID' } });
 
             expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', sinon.match.has('msg', 'load'));
             expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', sinon.match.has('msg', 'hide'));
         });
 
-        it('should send load[maybe] if maybe & ready are set', function() {
+        it('should send load if ready is set', function() {
             chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(true);
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'maybe' }).yields({ type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
-            chrome.runtime.onMessage.addListener.yield({ msg: 'activate' }, { tab: { id: 'TAB_ID' } });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'activate', url: 'URL' }, { tab: { id: 'TAB_ID' } });
 
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
+            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', url: 'URL' });
         });
 
-        it('should send hide if maybe is unset & ready is set', function() {
+        it('should send hide if ready is set & sent === URL', function() {
             chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(true);
-            chrome.runtime.onMessage.addListener.yield({ msg: 'activate' }, { tab: { id: 'TAB_ID' } });
-
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
-        });
-    });
-
-    describe('on activate[details]', function() {
-        it('should unset maybe', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'activate', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { maybe: null } });
-        });
-
-        it('should set sent to details', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'activate', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { sent: { type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' } } });
-        });
-
-        it('should not send anything', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'activate', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-
-            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', sinon.match.has('msg', 'load'));
-            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', sinon.match.has('msg', 'hide'));
-        });
-
-        it('should send load[details] if ready is set', function() {
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(true);
-            chrome.runtime.onMessage.addListener.yield({ msg: 'activate', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
-
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
-        });
-
-        it('should send hide if ready is set & sent===details', function() {
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(true);
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields({ type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
-            chrome.runtime.onMessage.addListener.yield({ msg: 'activate', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' }, { tab: { id: 'TAB_ID' } });
+            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields('URL');
+            chrome.runtime.onMessage.addListener.yield({ msg: 'activate', url: 'URL' }, { tab: { id: 'TAB_ID' } });
 
             expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
         });
     });
 
     describe('on hide', function() {
-        it('should unset maybe', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'hide' }, { tab: { id: 'TAB_ID' } });
-
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { maybe: null } });
-        });
-
         it('should unset sent', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'hide' }, { tab: { id: 'TAB_ID' } });
 
