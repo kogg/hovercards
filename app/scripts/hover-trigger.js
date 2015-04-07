@@ -32,20 +32,8 @@ define('hover-trigger', ['jquery'], function($) {
                     clearTimeout(timeout);
                 });
             });
-            chrome.storage.sync.get('intro', function(storage) {
-                if (storage.intro) {
-                    return;
-                }
-                function mouseenter() {
-                    body.off('mouseenter', selector, mouseenter);
-                    chrome.storage.sync.get('intro', function(storage) {
-                        if (storage.intro) {
-                            return;
-                        }
-                        chrome.runtime.sendMessage({ msg: 'notify', type: 'firsthover' });
-                    });
-                }
-                body.on('mouseenter', selector, mouseenter);
+            body.on('mouseenter', selector, function() {
+                chrome.runtime.sendMessage({ msg: 'hovered' });
             });
         },
         isActive: function(obj) {

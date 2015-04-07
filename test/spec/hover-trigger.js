@@ -69,49 +69,34 @@ describe('hover-trigger', function() {
 
             expect(chrome.runtime.sendMessage).not.to.have.been.called;
         });
+
+        describe('prevent other handlers', function() {
+            it('should have pointer-events:none on mousedown[which==1] > 333ms', function() {
+                link.trigger($.Event('mousedown', { which: 1 }));
+                hover_trigger.isActive.returns(true);
+                sandbox.clock.tick(333);
+
+                expect(link).to.have.css('pointer-events', 'none');
+            });
+
+            it('should have pointer-events:none on mousedown[which==1] > 333ms > click > 100ms', function() {
+                link.trigger($.Event('mousedown', { which: 1 }));
+                hover_trigger.isActive.returns(true);
+                sandbox.clock.tick(333);
+                link.trigger($.Event('click', { which: 1 }));
+                hover_trigger.isActive.returns(false);
+                sandbox.clock.tick(100);
+
+                expect(link).to.have.css('pointer-events', '');
+            });
+        });
     });
 
-    describe('prevent other handlers', function() {
-        it('should have pointer-events:none on mousedown[which==1] > 333ms', function() {
-            link.trigger($.Event('mousedown', { which: 1 }));
-            hover_trigger.isActive.returns(true);
-            sandbox.clock.tick(333);
-
-            expect(link).to.have.css('pointer-events', 'none');
-        });
-
-        it('should have pointer-events:none on mousedown[which==1] > 333ms > click > 100ms', function() {
-            link.trigger($.Event('mousedown', { which: 1 }));
-            hover_trigger.isActive.returns(true);
-            sandbox.clock.tick(333);
-            link.trigger($.Event('click', { which: 1 }));
-            hover_trigger.isActive.returns(false);
-            sandbox.clock.tick(100);
-
-            expect(link).to.have.css('pointer-events', '');
-        });
-    });
-
-    describe('firsthover', function() {
-        it('should send notify:firsthover on mouseenter', function() {
+    describe('on mouseenter', function() {
+        it('should send hovered', function() {
             link.mouseenter();
 
-            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'notify', type: 'firsthover' });
-        });
-
-        it('should not send notify:firsthover on mouseenter * 2', function() {
-            link.mouseenter();
-            var callCount = chrome.runtime.sendMessage.withArgs({ msg: 'notify', type: 'firsthover' }).callCount;
-            link.mouseenter();
-
-            expect(chrome.runtime.sendMessage.withArgs({ msg: 'notify', type: 'firsthover' }).callCount).to.equal(callCount);
-        });
-
-        it('should not send notify:firsthover on mouseenter if sync intro === true', function() {
-            chrome.storage.sync.get.withArgs('intro').yields({ intro: true });
-            link.mouseenter();
-
-            expect(chrome.runtime.sendMessage).not.to.have.been.calledWith({ msg: 'notify', type: 'firsthover' });
+            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hovered' });
         });
     });
 });

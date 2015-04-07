@@ -4,23 +4,27 @@ define('notifications-background', [], function() {
     return {
         init: function notificationsBackgroundInit() {
             chrome.storage.sync.clear();
-            var intro_notifications = { firsthover: true, firsthide: true, firstload: true };
-            var intro_count = 0;
+            var intro_levels = [{ msg: 'hovered', type: 'firsthover' },
+                                { msg: 'loaded',  type: 'firstload' },
+                                { msg: 'hidden',  type: 'firsthide' }];
             chrome.runtime.onMessage.addListener(function(request, sender) {
-                if (request.msg !== 'notify' || !intro_notifications[request.type] || intro_count === 3) {
-                    return;
-                }
                 chrome.storage.sync.get('intro', function(storage) {
                     if (storage.intro) {
                         return;
                     }
                     var tabId = sender.tab.id;
-                    intro_notifications[request.type] = false;
-                    intro_count++;
-                    chrome.tabs.sendMessage(tabId, { msg: 'notify', type: request.type });
-                    if (intro_count === 3) {
+                    chrome.tabs.sendMessage(tabId, { msg: 'get', value: 'introlevel' }, function(introlevel) {
+                        introlevel = introlevel || 0;
+                        if (request.msg !== intro_levels[introlevel].msg) {
+                            return;
+                        }
+                        chrome.tabs.sendMessage(tabId, { msg: 'notify', type: intro_levels[introlevel].type });
+                        chrome.tabs.sendMessage(tabId, { msg: 'set', value: { introlevel: ++introlevel } });
+                        if (intro_levels.length !== introlevel) {
+                            return;
+                        }
                         chrome.storage.sync.set({ intro: true });
-                    }
+                    });
                 });
             });
         }
