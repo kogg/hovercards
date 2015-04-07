@@ -21,15 +21,19 @@ define(['angular-app', 'jquery', 'oboe'], function(app, $, oboe) {
                         case 'load':
                             abortLast();
                             $scope.$apply(function() {
-                                $scope.cardsets = [[]];
+                                $scope.cardsets = [{ cards: [], errors: [] }];
                             });
                             abortLast = oboe('https://hovercards.herokuapp.com/v1/cards?' + decodeURIComponent($.param({ url: request.url })))
                                 .node('!', function(card) {
+                                    if (!$scope.cardsets[0] || !card.type) {
+                                        return;
+                                    }
                                     $scope.$apply(function() {
-                                        if (!$scope.cardsets[0] || !card.type) {
-                                            return;
+                                        if (card.type !== 'error') {
+                                            $scope.cardsets[0].cards.push(card);
+                                        } else {
+                                            $scope.cardsets[0].errors.push(card.err);
                                         }
-                                        $scope.cardsets[0].push(card);
                                     });
                                     return oboe.drop;
                                 }).abort;

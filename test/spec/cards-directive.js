@@ -61,9 +61,27 @@ describe('cards-directive', function() {
             sandbox.server.respond();
             $rootScope.$digest();
 
-            expect(scope.cardsets).to.deep.equal([[{ type: 'somewhere-something-1', network: 'somewhere', id: 'SOME_ID-1'},
-                                                   { type: 'somewhere-something-2', network: 'somewhere', id: 'SOME_ID-2'},
-                                                   { type: 'somewhere-something-3', network: 'somewhere', id: 'SOME_ID-3'}]]);
+            expect(scope.cardsets).to.deep.equal([{ cards:  [{ type: 'somewhere-something-1', network: 'somewhere', id: 'SOME_ID-1' },
+                                                             { type: 'somewhere-something-2', network: 'somewhere', id: 'SOME_ID-2' },
+                                                             { type: 'somewhere-something-3', network: 'somewhere', id: 'SOME_ID-3' }],
+                                                    errors: [] }]);
+        });
+
+        it('should retrieve error cards from heroku', function() {
+            sandbox.server.respondWith('https://hovercards.herokuapp.com/v1/cards?url=URL',
+                                       [200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify({ type: 'somewhere-something-1', network: 'somewhere', id: 'SOME_ID-1'}) + '\n' +
+                                        JSON.stringify({ type: 'error', err: { type: 'somewhere-something-2', network: 'somewhere', code: 400, message: 'Something happened' } }) + '\n' +
+                                        JSON.stringify({ type: 'error', err: { type: 'somewhere-something-3', network: 'somewhere', code: 400, message: 'Something happened' } }) + '\n']);
+            var scope = element.isolateScope();
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'URL' });
+            sandbox.server.respond();
+            $rootScope.$digest();
+
+            expect(scope.cardsets).to.deep.equal([{ cards:  [{ type: 'somewhere-something-1', network: 'somewhere', id: 'SOME_ID-1' }],
+                                                    errors: [{ type: 'somewhere-something-2', network: 'somewhere', code: 400, message: 'Something happened' },
+                                                             { type: 'somewhere-something-3', network: 'somewhere', code: 400, message: 'Something happened' }] }]);
         });
     });
 });
