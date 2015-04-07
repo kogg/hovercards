@@ -121,8 +121,8 @@ describe('hover-trigger', function() {
             expect(chrome.runtime.sendMessage.withArgs({ msg: 'notify', type: 'firsthover' }).callCount).to.equal(callCount);
         });
 
-        it('should not send notify:firsthover on mouseenter if sync firsthover === true before hover_trigger', function() {
-            chrome.storage.sync.get.withArgs('firsthover').yields({ firsthover: true });
+        it('should not send notify:firsthover on mouseenter if sync intro === true before hover_trigger', function() {
+            chrome.storage.sync.get.withArgs('intro').yields({ intro: true });
             hover_trigger.on(body, '#link', function(_link) {
                 return (link[0] === _link[0]) ? 'URL' : 'nope';
             });
@@ -131,11 +131,11 @@ describe('hover-trigger', function() {
             expect(chrome.runtime.sendMessage).not.to.have.been.calledWith({ msg: 'notify', type: 'firsthover' });
         });
 
-        it('should not send notify:firsthover on mouseenter if sync firsthover === true after hover_trigger', function() {
+        it('should not send notify:firsthover on mouseenter if sync intro === true after hover_trigger', function() {
             hover_trigger.on(body, '#link', function(_link) {
                 return (link[0] === _link[0]) ? 'URL' : 'nope';
             });
-            chrome.storage.sync.get.withArgs('firsthover').yields({ firsthover: true });
+            chrome.storage.sync.get.withArgs('intro').yields({ intro: true });
             link.mouseenter();
 
             expect(chrome.runtime.sendMessage).not.to.have.been.calledWith({ msg: 'notify', type: 'firsthover' });

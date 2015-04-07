@@ -32,14 +32,14 @@ define('hover-trigger', ['jquery'], function($) {
                     clearTimeout(timeout);
                 });
             });
-            chrome.storage.sync.get('firsthover', function(storage) {
-                if (storage.firsthover) {
+            chrome.storage.sync.get('intro', function(storage) {
+                if (storage.intro) {
                     return;
                 }
                 function mouseenter() {
                     body.off('mouseenter', selector, mouseenter);
-                    chrome.storage.sync.get('firsthover', function(storage) {
-                        if (storage.firsthover) {
+                    chrome.storage.sync.get('intro', function(storage) {
+                        if (storage.intro) {
                             return;
                         }
                         chrome.runtime.sendMessage({ msg: 'notify', type: 'firsthover' });
