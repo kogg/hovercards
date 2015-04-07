@@ -31,24 +31,15 @@ define('notifications-inject', [], function() {
                             });
 
                         var inner = $('<div class="hovercards-row"></div>')
-                            .appendTo(notification);
-
-                        $('<div class="hovercards-notification-image"></div>')
-                            .appendTo(inner)
-                            // FIXME How to get !important on this without... this?
-                            .css('cssText', 'background-image: url(' + chrome.extension.getURL('images/' + request.type + '-notification.gif') + ') !important');
+                            .appendTo(notification)
+                            .append('<div class="hovercards-notification-image"></div>');
 
                         var textDiv = $('<div class="hovercards-notification-text"></div>')
                             .appendTo(inner);
 
                         $('<p></p>')
                             .appendTo(textDiv)
-                            .html(function() {
-                                if (request.type === 'hovercards') {
-                                    return chrome.i18n.getMessage('hovercards_' + request.instance + '_notification');
-                                }
-                                return chrome.i18n.getMessage('trigger_notification', [chrome.i18n.getMessage(request.instance)]);
-                            });
+                            .html(chrome.i18n.getMessage(request.type + '_notification'));
 
                         break;
                     case 'load':
