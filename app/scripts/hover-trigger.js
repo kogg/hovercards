@@ -1,7 +1,7 @@
 'use strict';
 
 define('hover-trigger', ['jquery'], function($) {
-    var hoverTrigger = {
+    var hover_trigger = {
         on: function(body, selector, getURL) {
             body = $(body);
             body.on('mousedown', selector, function(e) {
@@ -14,7 +14,7 @@ define('hover-trigger', ['jquery'], function($) {
                     link.css('pointer-events', 'none');
                     link.css('cursor', 'default');
                     var interval = setInterval(function() {
-                        if (hoverTrigger.isActive(link)) {
+                        if (hover_trigger.isActive(link)) {
                             return;
                         }
                         link.css('pointer-events', '');
@@ -32,11 +32,26 @@ define('hover-trigger', ['jquery'], function($) {
                     clearTimeout(timeout);
                 });
             });
+            chrome.storage.sync.get('firsthover', function(storage) {
+                if (storage.firsthover) {
+                    return;
+                }
+                function mouseenter() {
+                    body.off('mouseenter', selector, mouseenter);
+                    chrome.storage.sync.get('firsthover', function(storage) {
+                        if (storage.firsthover) {
+                            return;
+                        }
+                        chrome.runtime.sendMessage({ msg: 'notify', type: 'firsthover' });
+                    });
+                }
+                body.on('mouseenter', selector, mouseenter);
+            });
         },
         isActive: function(obj) {
             return obj.is(':active');
         }
     };
 
-    return hoverTrigger;
+    return hover_trigger;
 });
