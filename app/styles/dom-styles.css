@@ -4,7 +4,7 @@
 	height: 100% !important;
 	top:0px !important;
 	background: #EFEFEF !important;
-	z-index: 2147483646 !important;
+	z-index: 2147483647 !important;
 	box-shadow:-1px 0px 2px 0px rgba(0, 0, 0, 0.25) !important;
 	right: 0;
 	-webkit-transform: translateX(375px) translateZ(0);

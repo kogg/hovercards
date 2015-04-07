@@ -20,6 +20,10 @@ define('trigger-inject', ['jquery', 'hover-trigger'], function($, hover_trigger)
             hover_trigger.on(body, 'object[data]', function(object) {
                 return object.attr('data');
             });
+
+            hover_trigger.on(body, 'div#player div.html5-video-player div.html5-video-container', function() {
+                return document.URL;
+            });
         }
     };
 });

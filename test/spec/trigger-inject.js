@@ -28,7 +28,7 @@ describe('trigger-inject', function() {
 
         expect(hover_trigger.on).to.be.calledWith(
             sinon.match(function(element) {
-                return body[0] === element[0];
+                return body.is(element);
             }, 'body'),
             sinon.match(function(selector) {
                 return body.find(selector).is(obj);
@@ -45,7 +45,7 @@ describe('trigger-inject', function() {
 
         expect(hover_trigger.on).to.be.calledWith(
             sinon.match(function(element) {
-                return body[0] === element[0];
+                return body.is(element);
             }, 'body'),
             sinon.match(function(selector) {
                 return body.find(selector).is(obj);
@@ -56,13 +56,13 @@ describe('trigger-inject', function() {
         );
     });
 
-    it('should bind to embed[src]', function() {
+    it('should bind to embed', function() {
         var obj = $('<embed src="URL">').appendTo(body);
         trigger_inject.on(body);
 
         expect(hover_trigger.on).to.be.calledWith(
             sinon.match(function(element) {
-                return body[0] === element[0];
+                return body.is(element);
             }, 'body'),
             sinon.match(function(selector) {
                 return body.find(selector).is(obj);
@@ -73,13 +73,13 @@ describe('trigger-inject', function() {
         );
     });
 
-    it('should bind to object[data]', function() {
+    it('should bind to object', function() {
         var obj = $('<object data="URL"></object>').appendTo(body);
         trigger_inject.on(body);
 
         expect(hover_trigger.on).to.be.calledWith(
             sinon.match(function(element) {
-                return body[0] === element[0];
+                return body.is(element);
             }, 'body'),
             sinon.match(function(selector) {
                 return body.find(selector).is(obj);
@@ -87,6 +87,25 @@ describe('trigger-inject', function() {
             sinon.match(function(func) {
                 return func(obj) === 'URL';
             }, 'func that gets data')
+        );
+    });
+
+    it('should bind to youtube video', function() {
+        var obj = $('<div class="html5-video-container"></div>')
+            .appendTo(body)
+            .wrap('<div id="player"><div class="html5-video-player"></div></div>');
+        trigger_inject.on(body);
+
+        expect(hover_trigger.on).to.be.calledWith(
+            sinon.match(function(element) {
+                return body.is(element);
+            }, 'body'),
+            sinon.match(function(selector) {
+                return body.find(selector).is(obj);
+            }, 'youtube video'),
+            sinon.match(function(func) {
+                return func(obj) === document.URL;
+            }, 'func that gets document.URL')
         );
     });
 });
