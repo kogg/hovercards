@@ -39,7 +39,8 @@ define('sidebar-inject', ['jquery'], function($) {
                     chrome.runtime.sendMessage({ msg: 'hide' });
                 });
 
-
+            var loaded_once = false;
+            var hidden_once = false;
             chrome.runtime.onMessage.addListener(function(request) {
                 switch (request.msg) {
                     case 'load':
@@ -47,13 +48,31 @@ define('sidebar-inject', ['jquery'], function($) {
                             .show()
                             .removeClass('hovercards-sidebar-leave')
                             .addClass('hovercards-sidebar-enter');
-                        chrome.runtime.sendMessage({ msg: 'loaded' });
+                        if (loaded_once) {
+                            break;
+                        }
+                        loaded_once = true;
+                        chrome.storage.sync.get('intro', function(storage) {
+                            if (storage.intro) {
+                                return;
+                            }
+                            chrome.runtime.sendMessage({ msg: 'notify', type: 'firstload' });
+                        });
                         break;
                     case 'hide':
                         obj
                             .removeClass('hovercards-sidebar-enter')
                             .addClass('hovercards-sidebar-leave');
-                        chrome.runtime.sendMessage({ msg: 'hidden' });
+                        if (hidden_once) {
+                            break;
+                        }
+                        hidden_once = true;
+                        chrome.storage.sync.get('intro', function(storage) {
+                            if (storage.intro) {
+                                return;
+                            }
+                            chrome.runtime.sendMessage({ msg: 'notify', type: 'firsthide' });
+                        });
                         break;
                 }
             });

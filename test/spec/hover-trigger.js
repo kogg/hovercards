@@ -24,6 +24,9 @@ describe('hover-trigger', function() {
     beforeEach(function() {
         body = $('<div id="body"></div>');
         link = $('<a id="link" href="URL"></a>').appendTo(body);
+        hover_trigger.on(body, '#link', function(_link) {
+            return (link[0] === _link[0]) ? 'URL' : 'nope';
+        });
     });
 
     afterEach(function() {
@@ -32,12 +35,6 @@ describe('hover-trigger', function() {
     });
 
     describe('longpress', function() {
-        beforeEach(function() {
-            hover_trigger.on(body, '#link', function(_link) {
-                return (link[0] === _link[0]) ? 'URL' : 'nope';
-            });
-        });
-
         it('should send activate on mousedown > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
             hover_trigger.isActive.returns(true);
@@ -75,12 +72,6 @@ describe('hover-trigger', function() {
     });
 
     describe('prevent other handlers', function() {
-        beforeEach(function() {
-            hover_trigger.on(body, '#link', function(_link) {
-                return (link[0] === _link[0]) ? 'URL' : 'nope';
-            });
-        });
-
         it('should have pointer-events:none on mousedown[which==1] > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
             hover_trigger.isActive.returns(true);
@@ -103,38 +94,20 @@ describe('hover-trigger', function() {
 
     describe('firsthover', function() {
         it('should send notify:firsthover on mouseenter', function() {
-            hover_trigger.on(body, '#link', function(_link) {
-                return (link[0] === _link[0]) ? 'URL' : 'nope';
-            });
             link.mouseenter();
 
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'notify', type: 'firsthover' });
         });
 
         it('should not send notify:firsthover on mouseenter * 2', function() {
-            hover_trigger.on(body, '#link', function(_link) {
-                return (link[0] === _link[0]) ? 'URL' : 'nope';
-            });
             link.mouseenter();
             var callCount = chrome.runtime.sendMessage.withArgs({ msg: 'notify', type: 'firsthover' }).callCount;
             link.mouseenter();
+
             expect(chrome.runtime.sendMessage.withArgs({ msg: 'notify', type: 'firsthover' }).callCount).to.equal(callCount);
         });
 
-        it('should not send notify:firsthover on mouseenter if sync intro === true before hover_trigger', function() {
-            chrome.storage.sync.get.withArgs('intro').yields({ intro: true });
-            hover_trigger.on(body, '#link', function(_link) {
-                return (link[0] === _link[0]) ? 'URL' : 'nope';
-            });
-            link.mouseenter();
-
-            expect(chrome.runtime.sendMessage).not.to.have.been.calledWith({ msg: 'notify', type: 'firsthover' });
-        });
-
-        it('should not send notify:firsthover on mouseenter if sync intro === true after hover_trigger', function() {
-            hover_trigger.on(body, '#link', function(_link) {
-                return (link[0] === _link[0]) ? 'URL' : 'nope';
-            });
+        it('should not send notify:firsthover on mouseenter if sync intro === true', function() {
             chrome.storage.sync.get.withArgs('intro').yields({ intro: true });
             link.mouseenter();
 
