@@ -50,14 +50,14 @@ describe('cards-directive', function() {
 
     describe('on load', function() {
         it('should retrieve cards from heroku', function() {
-            sandbox.server.respondWith('https://hovercards.herokuapp.com/v1/cards?triggers[0][type]=somewhere-something&triggers[0][query_type]=id&triggers[0][query]=SOME_ID',
+            sandbox.server.respondWith('https://hovercards.herokuapp.com/v1/cards?url=URL',
                                        [200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify({ type: 'somewhere-something-1', network: 'somewhere', id: 'SOME_ID-1'}) + '\n' +
                                         JSON.stringify({ type: 'somewhere-something-2', network: 'somewhere', id: 'SOME_ID-2'}) + '\n' +
                                         JSON.stringify({ type: 'somewhere-something-3', network: 'somewhere', id: 'SOME_ID-3'}) + '\n']);
             var scope = element.isolateScope();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'URL' });
             sandbox.server.respond();
             $rootScope.$digest();
 

@@ -4,25 +4,28 @@ describe('hover-trigger', function() {
     var sandbox = sinon.sandbox.create();
     var body;
     var link;
-    var hoverTrigger;
+    var hover_trigger;
 
-    var activate_msg = { msg: 'activate', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' };
+    var activate_msg = { msg: 'activate', url: 'URL' };
 
     beforeEach(function(done) {
-        require(['hover-trigger'], function(_hoverTrigger) {
+        require(['hover-trigger'], function(_hover_trigger) {
             sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime, 'sendMessage');
-            hoverTrigger = _hoverTrigger;
-            sandbox.stub(hoverTrigger, 'isActive');
+            sandbox.stub(chrome.storage.sync, 'get');
+            sandbox.stub(chrome.storage.sync, 'set');
+            chrome.storage.sync.get.yields({ });
+            hover_trigger = _hover_trigger;
+            sandbox.stub(hover_trigger, 'isActive');
             done();
         });
     });
 
     beforeEach(function() {
-        body = $('<div id="sandbox"></div>');
-        link = $('<a id="link" href="SOME_URL"></a>').appendTo(body);
-        hoverTrigger.on(body, 'somewhere', 'somewhere-something', '#link', function() {
-            return 'SOME_ID';
+        body = $('<div id="body"></div>');
+        link = $('<a id="link" href="URL"></a>').appendTo(body);
+        hover_trigger.on(body, '#link', function(_link) {
+            return (link[0] === _link[0]) ? 'URL' : 'nope';
         });
     });
 
@@ -31,67 +34,69 @@ describe('hover-trigger', function() {
         body.remove();
     });
 
-    describe('hover/unhover', function() {
-        it('should send hover on mouseenter', function() {
-            link.mouseenter();
-            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hover', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
-        });
-
-        it('should send unhover on mouseleave', function() {
-            link.mouseleave();
-            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'unhover' });
-        });
-    });
-
     describe('longpress', function() {
         it('should send activate on mousedown > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
-            hoverTrigger.isActive.returns(true);
+            hover_trigger.isActive.returns(true);
             sandbox.clock.tick(333);
+
             expect(chrome.runtime.sendMessage).to.have.been.calledWith(activate_msg);
         });
 
         it('should not send activate on mousedown[which!=1] > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 2 }));
-            hoverTrigger.isActive.returns(true);
+            hover_trigger.isActive.returns(true);
             sandbox.clock.tick(333);
-            expect(chrome.runtime.sendMessage).to.not.have.been.calledWith(activate_msg);
+
+            expect(chrome.runtime.sendMessage).not.to.not.have.been.called;
         });
 
         it('should not send activate on mousedown > click > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
-            hoverTrigger.isActive.returns(true);
+            hover_trigger.isActive.returns(true);
             link.trigger($.Event('click', { which: 1 }));
-            hoverTrigger.isActive.returns(false);
+            hover_trigger.isActive.returns(false);
             sandbox.clock.tick(333);
-            expect(chrome.runtime.sendMessage).to.not.have.been.calledWith(activate_msg);
+
+            expect(chrome.runtime.sendMessage).not.to.have.been.called;
         });
 
         it('should not send activate on mousedown > mouseleave > 333ms', function() {
             link.trigger($.Event('mousedown', { which: 1 }));
-            hoverTrigger.isActive.returns(true);
+            hover_trigger.isActive.returns(true);
             link.mouseleave();
             sandbox.clock.tick(333);
-            expect(chrome.runtime.sendMessage).to.not.have.been.calledWith(activate_msg);
+
+            expect(chrome.runtime.sendMessage).not.to.have.been.called;
+        });
+
+        describe('prevent other handlers', function() {
+            it('should have pointer-events:none on mousedown[which==1] > 333ms', function() {
+                link.trigger($.Event('mousedown', { which: 1 }));
+                hover_trigger.isActive.returns(true);
+                sandbox.clock.tick(333);
+
+                expect(link).to.have.css('pointer-events', 'none');
+            });
+
+            it('should have pointer-events:none on mousedown[which==1] > 333ms > click > 100ms', function() {
+                link.trigger($.Event('mousedown', { which: 1 }));
+                hover_trigger.isActive.returns(true);
+                sandbox.clock.tick(333);
+                link.trigger($.Event('click', { which: 1 }));
+                hover_trigger.isActive.returns(false);
+                sandbox.clock.tick(100);
+
+                expect(link).to.have.css('pointer-events', '');
+            });
         });
     });
 
-    describe('prevent other handlers', function() {
-        it('should have pointer-events:none on mousedown[which==1] > 333ms', function() {
-            link.trigger($.Event('mousedown', { which: 1 }));
-            hoverTrigger.isActive.returns(true);
-            sandbox.clock.tick(333);
-            expect(link).to.have.css('pointer-events', 'none');
-        });
+    describe('on mouseenter', function() {
+        it('should send hovered', function() {
+            link.mouseenter();
 
-        it('should have pointer-events:none on mousedown[which==1] > 333ms > click > 100ms', function() {
-            link.trigger($.Event('mousedown', { which: 1 }));
-            hoverTrigger.isActive.returns(true);
-            sandbox.clock.tick(333);
-            link.trigger($.Event('click', { which: 1 }));
-            hoverTrigger.isActive.returns(false);
-            sandbox.clock.tick(100);
-            expect(link).to.have.css('pointer-events', '');
+            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hovered' });
         });
     });
 });

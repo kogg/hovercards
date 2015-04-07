@@ -7,8 +7,11 @@ describe('sidebar-inject', function() {
 
     beforeEach(function(done) {
         require(['sidebar-inject'], function(sidebarInject) {
-            sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sandbox.stub(chrome.runtime, 'sendMessage');
+            sandbox.stub(chrome.runtime.onMessage, 'addListener');
+            sandbox.stub(chrome.storage.sync, 'get');
+            sandbox.stub(chrome.storage.sync, 'set');
+            chrome.storage.sync.get.yields({ });
             body = $('<div id="sandbox"></div>');
             sidebarObj = sidebarInject.on(body, body);
             done();
@@ -46,26 +49,30 @@ describe('sidebar-inject', function() {
         });
     });
 
-    describe('on load/hide', function() {
+    describe('on load', function() {
         it('should be visible on load', function() {
             sidebarObj.css('display', 'none');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'URL' });
             expect(sidebarObj).to.not.have.css('display', 'none');
         });
 
-        it('should send loaded on load', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', type: 'somewhere-something', network: 'somewhere', id: 'SOME_ID' });
+        it('should send loaded', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'URL' });
+
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'loaded' });
         });
+    });
 
+    describe('on hide', function() {
         it('should be hidden on hide', function() {
             // sidebarObj.css('display', '');
             chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
             expect(sidebarObj).to.have.css('display', 'none');
         });
 
-        it('should send hidden on load', function() {
+        it('should send hidden', function() {
             chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
+
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hidden' });
         });
     });

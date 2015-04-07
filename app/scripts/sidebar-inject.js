@@ -39,7 +39,6 @@ define('sidebar-inject', ['jquery'], function($) {
                     chrome.runtime.sendMessage({ msg: 'hide' });
                 });
 
-
             chrome.runtime.onMessage.addListener(function(request) {
                 switch (request.msg) {
                     case 'load':

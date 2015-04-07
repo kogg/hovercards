@@ -9,10 +9,8 @@ describe('notifications-inject', function() {
             sandbox.useFakeTimers();
             sandbox.stub(chrome.i18n, 'getMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            chrome.i18n.getMessage.withArgs('someinstance').returns('Some Description');
-            chrome.i18n.getMessage.withArgs('hovercards_someinstance_notification').returns('Some HoverCards Stuff');
-            chrome.i18n.getMessage.withArgs('trigger_notification', ['Some Description']).returns('Some Network Stuff');
-            body = $('<div id="sandbox"></div>');
+            chrome.i18n.getMessage.withArgs('sometype_notification').returns('Some Notification Text');
+            body = $('<div id="body"></div>');
             notificationsInject.on(body);
             done();
         });
@@ -27,54 +25,42 @@ describe('notifications-inject', function() {
         expect(body.children('.hovercards-notifications-container')).to.exist;
     });
 
-    describe('on notification', function() {
+    describe('on notify', function() {
         it('should create a card', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype', instance: 'someinstance' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype' });
             var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
             expect(element).to.exist;
         });
 
-        it('should set the image', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype', instance: 'someinstance' });
+        it('should set the text to getMessage', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype' });
             var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
-            expect(element.find('.hovercards-notification-image')).to.have.css('background-image', 'url(chrome-extension://extension_id/images/sometype-notification.gif)');
-        });
-
-        it('should set the text to getMessage if not hovercards', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype', instance: 'someinstance' });
-            var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
-            expect(element.find('.hovercards-notification-text')).to.have.html('<p>Some Network Stuff</p>');
-        });
-
-        it('should set the text to getMessage if hovercards', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'hovercards', instance: 'someinstance' });
-            var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
-            expect(element.find('.hovercards-notification-text')).to.have.html('<p>Some HoverCards Stuff</p>');
+            expect(element.find('.hovercards-notification-text')).to.have.html('<p>Some Notification Text</p>');
         });
 
         it('should leave on load', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype', instance: 'someinstance' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype' });
             var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', provider: 'sometype', content: 'someinstance', id: 'SOME_ID' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'URL' });
             expect(element).to.match('.hovercards-notification-exit-animation');
         });
 
         it('should leave on hide', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype', instance: 'someinstance' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype' });
             var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
             chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
             expect(element).to.match('.hovercards-notification-exit-animation');
         });
 
         it('should leave on click', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype', instance: 'someinstance' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype' });
             var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
             element.trigger($.Event('click', { which: 1 }));
             expect(element).to.match('.hovercards-notification-exit-animation');
         });
 
         it('should leave after 15s', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype', instance: 'someinstance' });
+            chrome.runtime.onMessage.addListener.yield({ msg: 'notify', type: 'sometype' });
             var element = body.children('.hovercards-notifications-container').children('.hovercards-notification');
             sandbox.clock.tick(15000);
             expect(element).to.match('.hovercards-notification-exit-animation');

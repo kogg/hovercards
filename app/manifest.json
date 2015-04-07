@@ -45,45 +45,9 @@
                 "scripts/notifications-inject.js",
                 "scripts/sidebar-inject.js",
                 "scripts/state-manager.js",
-                "scripts/youtube-video-bind-triggers-on-player.js",
-                "scripts/youtube-video-bind-triggers.js",
                 "scripts/top-frame-main.js"
             ],
             "all_frames": false
-        },
-        {
-            "matches": [
-                "http://www.youtube.com/embed/*",
-                "https://www.youtube.com/embed/*",
-                "http://www.youtube-nocookie.com/embed/*",
-                "https://www.youtube-nocookie.com/embed/*"
-            ],
-            "js": [
-                "bower_components/purl/purl.js",
-                "bower_components/requirejs/require.js",
-                "scripts/config.js",
-                "bower_components/jquery/dist/jquery.js",
-                "scripts/hover-trigger.js",
-                "scripts/youtube-video-bind-triggers-on-player.js",
-                "scripts/youtube-video-iframe-main.js"
-            ],
-            "all_frames": true
-        },
-        {
-            "matches": [
-                "https://attachment.fbsbx.com/external_iframe.php"
-            ],
-            "js": [
-                "bower_components/purl/purl.js",
-                "bower_components/requirejs/require.js",
-                "scripts/config.js",
-                "bower_components/jquery/dist/jquery.js",
-                "scripts/hover-trigger.js",
-                "scripts/youtube-video-bind-triggers-on-player.js",
-                "scripts/youtube-video-bind-triggers.js",
-                "scripts/facebook-youtube-video-iframe-main.js"
-            ],
-            "all_frames": true
         },
         {
             "matches": [
@@ -95,6 +59,8 @@
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
                 "scripts/hotkey-trigger.js",
+                "scripts/hover-trigger.js",
+                "scripts/trigger-inject.js",
                 "scripts/everywhere-main.js"
             ],
             "all_frames": true
