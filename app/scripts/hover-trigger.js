@@ -2,30 +2,26 @@
 
 define('hover-trigger', ['jquery'], function($) {
     var hoverTrigger = {
-        on: function(body, network, type, selector, getId) {
+        on: function(body, selector, getURL) {
             body = $(body);
-            body.on('mouseenter', selector, function() {
-                chrome.runtime.sendMessage({ msg: 'hover', network: network, type: type, id: getId.call(this) });
-            });
             body.on('mouseleave', selector, function() {
-                chrome.runtime.sendMessage({ msg: 'unhover' });
                 clearTimeout($(this).data('hovercards-timeout'));
             });
             body.on('mousedown', selector, function(e) {
                 if (e.which !== 1) {
                     return;
                 }
-                var that = this;
-                $(this).data('hovercards-timeout', setTimeout(function() {
-                    chrome.runtime.sendMessage({ msg: 'activate', network: network, type: type, id: getId.call(that) });
-                    $(that).css('pointer-events', 'none');
-                    $(that).css('cursor', 'default');
+                var link = $(this);
+                link.data('hovercards-timeout', setTimeout(function() {
+                    chrome.runtime.sendMessage({ msg: 'activate', url: getURL(link) });
+                    link.css('pointer-events', 'none');
+                    link.css('cursor', 'default');
                     var interval = setInterval(function() {
-                        if (hoverTrigger.isActive($(that))) {
+                        if (hoverTrigger.isActive(link)) {
                             return;
                         }
-                        $(that).css('pointer-events', '');
-                        $(that).css('cursor', 'auto');
+                        link.css('pointer-events', '');
+                        link.css('cursor', 'auto');
                         clearInterval(interval);
                     }, 100);
                 }, 333));
