@@ -10,7 +10,7 @@ define('hover-trigger', ['jquery'], function($) {
                 }
                 var link = $(this);
                 var timeout = setTimeout(function() {
-                    chrome.runtime.sendMessage({ msg: 'activate', url: getURL(link) });
+                    chrome.runtime.sendMessage({ msg: 'activate', url: hover_trigger.relative_to_absolute(getURL(link)) });
                     link.css('pointer-events', 'none');
                     link.css('cursor', 'default');
                     var interval = setInterval(function() {
@@ -38,6 +38,16 @@ define('hover-trigger', ['jquery'], function($) {
         },
         isActive: function(obj) {
             return obj.is(':active');
+        },
+        relative_to_absolute: function(url) {
+            var img = document.createElement('img');
+            img.src = url;
+            url = img.src;
+            img.src = '';
+            if (img.remove) {
+                img.remove();
+            }
+            return url;
         }
     };
 
