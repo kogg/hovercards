@@ -12,11 +12,20 @@
 			<div ng-repeat="card in cardset.cards" class="card bounce-in-animation" ng-class="{ 'card-more': card.actionable }" ng-click="card.actionable && (card.toggled=!card.toggled)">
 				<div ng-include="'templates/'+ card.type + '-card.html'"></div>
 			</div>
-			<div ng-repeat="card in cardset.errors" ng-if="!cardset.cards.length" class="card bounce-in-animation" ng-class="{ 'card-more': card.actionable }" ng-click="card.actionable && (card.toggled=!card.toggled)">
+			<div ng-repeat="card in cardset.errors" ng-if="cardset.done && !cardset.cards.length" class="card bounce-in-animation">
 				<div class="row">
 					<div class="hovercards-error-image" ng-style="::{ 'background-image': 'url(../images/' + card.network + '-error.gif)'}"></div>
 					<div class="hovercards-error-text">
 						<b>{{ ::card.type | copy}}</b>
+						<p>Someting went wrong here- if you send us a message below and we'll try to fix it! :)</p>
+					</div>
+				</div>
+			</div>
+			<div ng-if="cardset.done && !cardset.cards.length && !cardset.errors.length" class="card bounce-in-animation">
+				<div class="row">
+					<div class="hovercards-error-image" ng-style="::{ 'background-image': 'url(../images/' + card.network + '-error.gif)'}"></div>
+					<div class="hovercards-error-text">
+						<b>No Content</b>
 						<p>Someting went wrong here- if you send us a message below and we'll try to fix it! :)</p>
 					</div>
 				</div>

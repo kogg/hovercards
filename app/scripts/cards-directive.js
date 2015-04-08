@@ -21,10 +21,10 @@ define(['angular-app', 'jquery', 'oboe'], function(app, $, oboe) {
                         case 'load':
                             abortLast();
                             $scope.$apply(function() {
-                                $scope.cardsets = [{ cards: [], errors: [] }];
+                                $scope.cardsets = [{ cards: [], errors: [], done: false }];
                             });
                             abortLast = oboe('https://hovercards.herokuapp.com/v1/cards?' + decodeURIComponent($.param({ url: request.url })))
-                                .node('!', function(card) {
+                                .node('!.*', function(card) {
                                     if (!$scope.cardsets[0] || !card.type) {
                                         return;
                                     }
@@ -36,7 +36,13 @@ define(['angular-app', 'jquery', 'oboe'], function(app, $, oboe) {
                                         }
                                     });
                                     return oboe.drop;
-                                }).abort;
+                                })
+                                .done(function() {
+                                    $scope.$apply(function() {
+                                        $scope.cardsets[0].done = true;
+                                    });
+                                })
+                                .abort;
                             break;
                     }
                 });
