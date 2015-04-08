@@ -11,10 +11,6 @@ require(['cards-directive',
     angular.bootstrap(document, ['app']);
 });
 
-require(['hotkey-trigger'], function(hotkeyTrigger) {
-    hotkeyTrigger.on('body');
-});
-
 require(['domReady!'], function() {
     chrome.runtime.sendMessage({ msg: 'ready' });
 });
