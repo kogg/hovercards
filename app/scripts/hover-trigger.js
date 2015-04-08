@@ -40,12 +40,12 @@ define('hover-trigger', ['jquery'], function($) {
             return obj.is(':active');
         },
         relative_to_absolute: function(url) {
-            var img = document.createElement('img');
-            img.src = url;
-            url = img.src;
-            img.src = '';
-            if (img.remove) {
-                img.remove();
+            var a = document.createElement('a');
+            a.href = url;
+            url = a.href;
+            a.href = '';
+            if (a.remove) {
+                a.remove();
             }
             return url;
         }
