@@ -15,21 +15,27 @@ define('hover-trigger', ['jquery'], function($) {
                 }
 
                 var timeout;
-                function mouseleave() {
+                var timed_out = false;
+                function clear_timeout() {
                     clearTimeout(timeout);
                 }
                 function click(e) {
                     if (e.which !== 1) {
                         return;
                     }
-                    clearTimeout(timeout);
+                    if (!timed_out) {
+                        clear_timeout();
+                    } else {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                    }
                 }
                 timeout = setTimeout(function() {
+                    timed_out = true;
                     obj.trigger('longpress');
-                    obj.off('mouseleave', mouseleave);
-                    obj.off('click', click);
+                    obj.off('mouseleave', clear_timeout);
                 }, 333);
-                obj.one('mouseleave', mouseleave);
+                obj.one('mouseleave', clear_timeout);
                 obj.one('click', click);
             });
             body.on('longpress', selector, function() {
@@ -51,7 +57,8 @@ define('hover-trigger', ['jquery'], function($) {
                 }, 100);
             });
             body.on('mouseenter', selector, function() {
-                var url = hover_trigger.relative_to_absolute(getURL($(this)));
+                var obj = $(this);
+                var url = hover_trigger.relative_to_absolute(getURL(obj));
                 if (url.match(/^javascript:.*/)) {
                     return;
                 }
