@@ -9,8 +9,12 @@ define('hover-trigger', ['jquery'], function($) {
                     return;
                 }
                 var link = $(this);
+                var url = hover_trigger.relative_to_absolute(getURL(link));
+                if (url.match(/^javascript:.*/)) {
+                    return;
+                }
                 var timeout = setTimeout(function() {
-                    chrome.runtime.sendMessage({ msg: 'activate', url: hover_trigger.relative_to_absolute(getURL(link)) });
+                    chrome.runtime.sendMessage({ msg: 'activate', url: url });
                     link.css('pointer-events', 'none');
                     link.css('cursor', 'default');
                     var interval = setInterval(function() {
@@ -33,6 +37,10 @@ define('hover-trigger', ['jquery'], function($) {
                 });
             });
             body.on('mouseenter', selector, function() {
+                var url = hover_trigger.relative_to_absolute(getURL($(this)));
+                if (url.match(/^javascript:.*/)) {
+                    return;
+                }
                 chrome.runtime.sendMessage({ msg: 'hovered' });
             });
         },

@@ -25,7 +25,7 @@ describe('hover-trigger', function() {
         body = $('<div id="body"></div>');
         link = $('<a id="link" href="https://www.wenoknow.com/"></a>').appendTo(body);
         hover_trigger.on(body, '#link', function(_link) {
-            return (link[0] === _link[0]) ? 'https://www.wenoknow.com/' : 'nope';
+            return (link[0] === _link[0]) ? link.attr('href') : 'nope';
         });
     });
 
@@ -41,6 +41,16 @@ describe('hover-trigger', function() {
             sandbox.clock.tick(333);
 
             expect(chrome.runtime.sendMessage).to.have.been.calledWith(activate_msg);
+        });
+
+        it('should not send activate on mousedown > 333ms if url is a javascript:function', function() {
+            /*jshint scripturl:true*/
+            link.attr('href', 'javascript:void(0)');
+            link.trigger($.Event('mousedown', { which: 1 }));
+            hover_trigger.isActive.returns(true);
+            sandbox.clock.tick(333);
+
+            expect(chrome.runtime.sendMessage).not.to.have.been.called;
         });
 
         it('should not send activate on mousedown[which!=1] > 333ms', function() {
