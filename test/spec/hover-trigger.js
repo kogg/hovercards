@@ -99,4 +99,14 @@ describe('hover-trigger', function() {
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hovered' });
         });
     });
+
+    describe('.relative_to_absolute', function() {
+        it('should leave absolute URLs alone', function() {
+            expect(hover_trigger.relative_to_absolute('https://www.wenoknow.com/')).to.equal('https://www.wenoknow.com/');
+        });
+
+        it('should make relative URLs absolute', function() {
+            expect(hover_trigger.relative_to_absolute('/hello')).to.equal('http://localhost:9500/hello');
+        });
+    });
 });
