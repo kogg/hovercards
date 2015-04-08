@@ -3,7 +3,7 @@
 describe('hover-trigger', function() {
     var sandbox = sinon.sandbox.create();
     var body;
-    var link;
+    var obj;
     var hover_trigger;
 
     var activate_msg = { msg: 'activate', url: 'https://www.wenoknow.com/' };
@@ -23,9 +23,9 @@ describe('hover-trigger', function() {
 
     beforeEach(function() {
         body = $('<div id="body"></div>');
-        link = $('<a id="link" href="https://www.wenoknow.com/"></a>').appendTo(body);
-        hover_trigger.on(body, '#link', function(_link) {
-            return (link[0] === _link[0]) ? link.attr('href') : 'nope';
+        obj = $('<a id="obj" href="https://www.wenoknow.com/"></a>').appendTo(body);
+        hover_trigger.on(body, '#obj', function(_obj) {
+            return (obj[0] === _obj[0]) ? obj.attr('href') : 'nope';
         });
     });
 
@@ -36,7 +36,7 @@ describe('hover-trigger', function() {
 
     describe('longpress', function() {
         it('should send activate on mousedown > 333ms', function() {
-            link.trigger($.Event('mousedown', { which: 1 }));
+            obj.trigger($.Event('mousedown', { which: 1 }));
             hover_trigger.isActive.returns(true);
             sandbox.clock.tick(333);
 
@@ -45,8 +45,8 @@ describe('hover-trigger', function() {
 
         it('should not send activate on mousedown > 333ms if url is a javascript:function', function() {
             /*jshint scripturl:true*/
-            link.attr('href', 'javascript:void(0)');
-            link.trigger($.Event('mousedown', { which: 1 }));
+            obj.attr('href', 'javascript:void(0)');
+            obj.trigger($.Event('mousedown', { which: 1 }));
             hover_trigger.isActive.returns(true);
             sandbox.clock.tick(333);
 
@@ -54,7 +54,7 @@ describe('hover-trigger', function() {
         });
 
         it('should not send activate on mousedown[which!=1] > 333ms', function() {
-            link.trigger($.Event('mousedown', { which: 2 }));
+            obj.trigger($.Event('mousedown', { which: 2 }));
             hover_trigger.isActive.returns(true);
             sandbox.clock.tick(333);
 
@@ -62,9 +62,9 @@ describe('hover-trigger', function() {
         });
 
         it('should not send activate on mousedown > click > 333ms', function() {
-            link.trigger($.Event('mousedown', { which: 1 }));
+            obj.trigger($.Event('mousedown', { which: 1 }));
             hover_trigger.isActive.returns(true);
-            link.trigger($.Event('click', { which: 1 }));
+            obj.trigger($.Event('click', { which: 1 }));
             hover_trigger.isActive.returns(false);
             sandbox.clock.tick(333);
 
@@ -72,39 +72,65 @@ describe('hover-trigger', function() {
         });
 
         it('should not send activate on mousedown > mouseleave > 333ms', function() {
-            link.trigger($.Event('mousedown', { which: 1 }));
+            obj.trigger($.Event('mousedown', { which: 1 }));
             hover_trigger.isActive.returns(true);
-            link.mouseleave();
+            obj.mouseleave();
             sandbox.clock.tick(333);
 
             expect(chrome.runtime.sendMessage).not.to.have.been.called;
         });
 
         describe('prevent other handlers', function() {
-            it('should have pointer-events:none on mousedown[which==1] > 333ms', function() {
-                link.trigger($.Event('mousedown', { which: 1 }));
+            it('should have pointer-events:default on mousedown', function() {
+                obj.trigger($.Event('mousedown', { which: 1 }));
                 hover_trigger.isActive.returns(true);
-                sandbox.clock.tick(333);
 
-                expect(link).to.have.css('pointer-events', 'none');
+                expect(obj).to.have.css('pointer-events', '');
             });
 
-            it('should have pointer-events:none on mousedown[which==1] > 333ms > click > 100ms', function() {
-                link.trigger($.Event('mousedown', { which: 1 }));
+            it('should have pointer-events:none on mousedown > 333ms', function() {
+                obj.trigger($.Event('mousedown', { which: 1 }));
                 hover_trigger.isActive.returns(true);
                 sandbox.clock.tick(333);
-                link.trigger($.Event('click', { which: 1 }));
+
+                expect(obj).to.have.css('pointer-events', 'none');
+            });
+
+            it('should have pointer-events:default on mousedown > 333ms > click > 100ms', function() {
+                obj.trigger($.Event('mousedown', { which: 1 }));
+                hover_trigger.isActive.returns(true);
+                sandbox.clock.tick(333);
+                obj.trigger($.Event('click', { which: 1 }));
                 hover_trigger.isActive.returns(false);
                 sandbox.clock.tick(100);
 
-                expect(link).to.have.css('pointer-events', '');
+                expect(obj).to.have.css('pointer-events', '');
+            });
+
+            it('should run other click handlers on mousedown > click', function(done) {
+                obj.trigger($.Event('mousedown', { which: 1 }));
+                hover_trigger.isActive.returns(true);
+                obj.click(function() {
+                    done();
+                });
+                obj.trigger($.Event('click', { which: 1 }));
+            });
+
+            it('should not have prevented default or stopped immediate propagation on mousedown > 333ms > click', function() {
+                obj.trigger($.Event('mousedown', { which: 1 }));
+                hover_trigger.isActive.returns(true);
+                obj.click(function() {
+                    expect(true).to.be.false;
+                });
+                sandbox.clock.tick(333);
+                obj.trigger($.Event('click', { which: 1 }));
             });
         });
     });
 
     describe('on mouseenter', function() {
         it('should send hovered', function() {
-            link.mouseenter();
+            obj.mouseenter();
 
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hovered' });
         });

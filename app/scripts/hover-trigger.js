@@ -8,36 +8,57 @@ define('hover-trigger', ['jquery'], function($) {
                 if (e.which !== 1) {
                     return;
                 }
-                var link = $(this);
-                var url = hover_trigger.relative_to_absolute(getURL(link));
+                var obj = $(this);
+                var url = hover_trigger.relative_to_absolute(getURL(obj));
                 if (url.match(/^javascript:.*/)) {
                     return;
                 }
-                var timeout = setTimeout(function() {
-                    chrome.runtime.sendMessage({ msg: 'activate', url: url });
-                    link.css('pointer-events', 'none');
-                    link.css('cursor', 'default');
-                    var interval = setInterval(function() {
-                        if (hover_trigger.isActive(link)) {
-                            return;
-                        }
-                        link.css('pointer-events', '');
-                        link.css('cursor', 'auto');
-                        clearInterval(interval);
-                    }, 100);
-                }, 333);
-                link.one('mouseleave', function mouseleave() {
+
+                var timeout;
+                var timed_out = false;
+                function clear_timeout() {
                     clearTimeout(timeout);
-                });
-                link.one('click', function click() {
+                }
+                function click(e) {
                     if (e.which !== 1) {
                         return;
                     }
-                    clearTimeout(timeout);
-                });
+                    if (!timed_out) {
+                        clear_timeout();
+                    } else {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                    }
+                }
+                timeout = setTimeout(function() {
+                    timed_out = true;
+                    obj.trigger('longpress');
+                    obj.off('mouseleave', clear_timeout);
+                }, 333);
+                obj.one('mouseleave', clear_timeout);
+                obj.one('click', click);
+            });
+            body.on('longpress', selector, function() {
+                var obj = $(this);
+                var url = hover_trigger.relative_to_absolute(getURL(obj));
+                if (url.match(/^javascript:.*/)) {
+                    return;
+                }
+                chrome.runtime.sendMessage({ msg: 'activate', url: url });
+                obj.css('pointer-events', 'none');
+                obj.css('cursor', 'default');
+                var interval = setInterval(function() {
+                    if (hover_trigger.isActive(obj)) {
+                        return;
+                    }
+                    obj.css('pointer-events', '');
+                    obj.css('cursor', 'auto');
+                    clearInterval(interval);
+                }, 100);
             });
             body.on('mouseenter', selector, function() {
-                var url = hover_trigger.relative_to_absolute(getURL($(this)));
+                var obj = $(this);
+                var url = hover_trigger.relative_to_absolute(getURL(obj));
                 if (url.match(/^javascript:.*/)) {
                     return;
                 }
