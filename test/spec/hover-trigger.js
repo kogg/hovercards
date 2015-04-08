@@ -6,7 +6,7 @@ describe('hover-trigger', function() {
     var link;
     var hover_trigger;
 
-    var activate_msg = { msg: 'activate', url: 'URL' };
+    var activate_msg = { msg: 'activate', url: 'https://www.wenoknow.com/' };
 
     beforeEach(function(done) {
         require(['hover-trigger'], function(_hover_trigger) {
@@ -23,9 +23,9 @@ describe('hover-trigger', function() {
 
     beforeEach(function() {
         body = $('<div id="body"></div>');
-        link = $('<a id="link" href="URL"></a>').appendTo(body);
+        link = $('<a id="link" href="https://www.wenoknow.com/"></a>').appendTo(body);
         hover_trigger.on(body, '#link', function(_link) {
-            return (link[0] === _link[0]) ? 'URL' : 'nope';
+            return (link[0] === _link[0]) ? 'https://www.wenoknow.com/' : 'nope';
         });
     });
 
@@ -97,6 +97,16 @@ describe('hover-trigger', function() {
             link.mouseenter();
 
             expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hovered' });
+        });
+    });
+
+    describe('.relative_to_absolute', function() {
+        it('should leave absolute URLs alone', function() {
+            expect(hover_trigger.relative_to_absolute('https://www.wenoknow.com/')).to.equal('https://www.wenoknow.com/');
+        });
+
+        it('should make relative URLs absolute', function() {
+            expect(hover_trigger.relative_to_absolute('/hello')).to.equal('http://localhost:9500/hello');
         });
     });
 });
