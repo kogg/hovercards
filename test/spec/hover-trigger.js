@@ -81,6 +81,13 @@ describe('hover-trigger', function() {
         });
 
         describe('prevent other handlers', function() {
+            it('should have pointer-events:default on mousedown[which==1]', function() {
+                obj.trigger($.Event('mousedown', { which: 1 }));
+                hover_trigger.isActive.returns(true);
+
+                expect(obj).to.have.css('pointer-events', '');
+            });
+
             it('should have pointer-events:none on mousedown[which==1] > 333ms', function() {
                 obj.trigger($.Event('mousedown', { which: 1 }));
                 hover_trigger.isActive.returns(true);
@@ -89,7 +96,7 @@ describe('hover-trigger', function() {
                 expect(obj).to.have.css('pointer-events', 'none');
             });
 
-            it('should have pointer-events:none on mousedown[which==1] > 333ms > click > 100ms', function() {
+            it('should have pointer-events:default on mousedown[which==1] > 333ms > click > 100ms', function() {
                 obj.trigger($.Event('mousedown', { which: 1 }));
                 hover_trigger.isActive.returns(true);
                 sandbox.clock.tick(333);
