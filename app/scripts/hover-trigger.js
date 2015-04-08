@@ -29,7 +29,7 @@ define('hover-trigger', ['jquery'], function($) {
                 link.one('mouseleave', function mouseleave() {
                     clearTimeout(timeout);
                 });
-                link.one('click', function click() {
+                link.one('click', function click(e) {
                     if (e.which !== 1) {
                         return;
                     }
