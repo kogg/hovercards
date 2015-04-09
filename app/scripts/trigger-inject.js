@@ -21,7 +21,7 @@ define('trigger-inject', ['jquery', 'hover-trigger'], function($, hover_trigger)
                 return object.attr('data');
             });
 
-            hover_trigger.on(body, 'div#player div.html5-video-player div.html5-video-container', function() {
+            hover_trigger.on(body, 'div#player div.html5-video-player div.html5-video-container video.html5-main-video', function() {
                 return document.URL;
             });
         }

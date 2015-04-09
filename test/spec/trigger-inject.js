@@ -91,9 +91,9 @@ describe('trigger-inject', function() {
     });
 
     it('should bind to youtube video', function() {
-        var obj = $('<div class="html5-video-container"></div>')
+        var obj = $('<video class="html5-main-video"></video>')
             .appendTo(body)
-            .wrap('<div id="player"><div class="html5-video-player"></div></div>');
+            .wrap('<div id="player"><div class="html5-video-player"><div class="html5-video-container"></div></div></div>');
         trigger_inject.on(body);
 
         expect(hover_trigger.on).to.be.calledWith(
