@@ -3,10 +3,7 @@
 describe('hover-trigger', function() {
     var sandbox = sinon.sandbox.create();
     var body;
-    var obj;
     var hover_trigger;
-
-    var activate_msg = { msg: 'activate', url: 'https://www.wenoknow.com/' };
 
     beforeEach(function(done) {
         require(['hover-trigger'], function(_hover_trigger) {
@@ -21,120 +18,173 @@ describe('hover-trigger', function() {
         });
     });
 
-    beforeEach(function() {
-        body = $('<div id="body"></div>');
-        obj = $('<a id="obj" href="https://www.wenoknow.com/"></a>').appendTo(body);
-        hover_trigger.on(body, '#obj', function(_obj) {
-            return (obj[0] === _obj[0]) ? obj.attr('href') : 'nope';
-        });
-    });
-
     afterEach(function() {
         sandbox.restore();
         body.remove();
     });
 
-    describe('longpress', function() {
-        it('should send activate on mousedown > 333ms', function() {
-            obj.trigger($.Event('mousedown', { which: 1 }));
-            hover_trigger.isActive.returns(true);
-            sandbox.clock.tick(333);
+    describe('.on', function() {
+        var obj;
 
-            expect(chrome.runtime.sendMessage).to.have.been.calledWith(activate_msg);
-        });
-
-        it('should not send activate on mousedown > 333ms if url is a javascript:function', function() {
-            /*jshint scripturl:true*/
-            obj.attr('href', 'javascript:void(0)');
-            obj.trigger($.Event('mousedown', { which: 1 }));
-            hover_trigger.isActive.returns(true);
-            sandbox.clock.tick(333);
-
-            expect(chrome.runtime.sendMessage).not.to.have.been.called;
-        });
-
-        it('should not send activate on mousedown[which!=1] > 333ms', function() {
-            obj.trigger($.Event('mousedown', { which: 2 }));
-            hover_trigger.isActive.returns(true);
-            sandbox.clock.tick(333);
-
-            expect(chrome.runtime.sendMessage).not.to.not.have.been.called;
-        });
-
-        it('should not send activate on mousedown > click > 333ms', function() {
-            obj.trigger($.Event('mousedown', { which: 1 }));
-            hover_trigger.isActive.returns(true);
-            obj.trigger($.Event('click', { which: 1 }));
-            hover_trigger.isActive.returns(false);
-            sandbox.clock.tick(333);
-
-            expect(chrome.runtime.sendMessage).not.to.have.been.called;
-        });
-
-        it('should not send activate on mousedown > mouseleave > 333ms', function() {
-            obj.trigger($.Event('mousedown', { which: 1 }));
-            hover_trigger.isActive.returns(true);
-            obj.mouseleave();
-            sandbox.clock.tick(333);
-
-            expect(chrome.runtime.sendMessage).not.to.have.been.called;
-        });
-
-        describe('prevent other handlers', function() {
-            it('should have pointer-events:default on mousedown', function() {
-                obj.trigger($.Event('mousedown', { which: 1 }));
-                hover_trigger.isActive.returns(true);
-
-                expect(obj).to.have.css('pointer-events', '');
+        beforeEach(function() {
+            body = $('<div id="body"></div>');
+            obj = $('<a id="obj" href="https://www.wenoknow.com/"></a>').appendTo(body);
+            hover_trigger.on(body, '#obj', function(_obj) {
+                return (obj[0] === _obj[0]) ? obj.attr('href') : 'nope';
             });
+        });
 
-            it('should have pointer-events:none on mousedown > 333ms', function() {
+        describe('on mousedown', function() {
+            it('should trigger longpress after 333ms', function(done) {
+                obj.on('longpress', function(e, url) {
+                    expect(url).to.equal('https://www.wenoknow.com/');
+                    done();
+                });
                 obj.trigger($.Event('mousedown', { which: 1 }));
                 hover_trigger.isActive.returns(true);
                 sandbox.clock.tick(333);
+            });
+
+            it('should not trigger longpress after 333ms if .get_url is null', function() {
+                obj.on('longpress', function() {
+                    expect(true).to.be.false;
+                });
+                sandbox.stub(hover_trigger, 'get_url').returns(null);
+                obj.trigger($.Event('mousedown', { which: 1 }));
+                hover_trigger.isActive.returns(true);
+                sandbox.clock.tick(333);
+            });
+
+            it('should not trigger longpress after 333ms if which !== 1', function() {
+                obj.on('longpress', function() {
+                    expect(true).to.be.false;
+                });
+                obj.trigger($.Event('mousedown', { which: 2 }));
+                hover_trigger.isActive.returns(true);
+                sandbox.clock.tick(333);
+            });
+
+            it('should not trigger longpress after click > 333ms', function() {
+                obj.on('longpress', function() {
+                    expect(true).to.be.false;
+                });
+                obj.trigger($.Event('mousedown', { which: 1 }));
+                hover_trigger.isActive.returns(true);
+                obj.trigger($.Event('click', { which: 1 }));
+                hover_trigger.isActive.returns(false);
+                sandbox.clock.tick(333);
+            });
+
+            it('should trigger longpress on after click[which != 1] > 333ms', function(done) {
+                obj.on('longpress', function(e, url) {
+                    expect(url).to.equal('https://www.wenoknow.com/');
+                    done();
+                });
+                obj.trigger($.Event('mousedown', { which: 1 }));
+                hover_trigger.isActive.returns(true);
+                obj.trigger($.Event('click', { which: 2 }));
+                hover_trigger.isActive.returns(false);
+                sandbox.clock.tick(333);
+            });
+
+            it('should not trigger longpress after mouseleave > 333ms', function() {
+                obj.on('longpress', function() {
+                    expect(true).to.be.false;
+                });
+                obj.trigger($.Event('mousedown', { which: 1 }));
+                hover_trigger.isActive.returns(true);
+                obj.mouseleave();
+                hover_trigger.isActive.returns(false);
+                sandbox.clock.tick(333);
+            });
+        });
+
+        describe('on longpress', function() {
+            it('should send activate', function() {
+                obj.trigger('longpress', ['URL']);
+                hover_trigger.isActive.returns(true);
+
+                expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'activate', url: 'URL' });
+            });
+
+            it('should have pointer-events:none && cursor:default', function() {
+                obj.trigger('longpress', ['URL']);
+                hover_trigger.isActive.returns(true);
 
                 expect(obj).to.have.css('pointer-events', 'none');
+                expect(obj).to.have.css('cursor', 'default');
             });
 
-            it('should have pointer-events:default on mousedown > 333ms > click > 100ms', function() {
-                obj.trigger($.Event('mousedown', { which: 1 }));
+            it('should have pointer-events/cursor:initial after inactive for 100ms', function() {
+                obj.css('pointer-events', 'painted');
+                obj.css('cursor', 'none');
+                obj.trigger('longpress', ['URL']);
                 hover_trigger.isActive.returns(true);
-                sandbox.clock.tick(333);
-                obj.trigger($.Event('click', { which: 1 }));
+                sandbox.clock.tick(100);
                 hover_trigger.isActive.returns(false);
                 sandbox.clock.tick(100);
 
-                expect(obj).to.have.css('pointer-events', '');
+                expect(obj).to.have.css('pointer-events', 'painted');
+                expect(obj).to.have.css('cursor', 'none');
             });
 
-            it('should run other click handlers on mousedown > click', function(done) {
-                obj.trigger($.Event('mousedown', { which: 1 }));
-                hover_trigger.isActive.returns(true);
-                obj.click(function() {
-                    done();
-                });
+            it('should have pointer-events/cursor:initial after click', function() {
+                obj.css('pointer-events', 'painted');
+                obj.css('cursor', 'none');
+                obj.trigger('longpress', ['URL']);
                 obj.trigger($.Event('click', { which: 1 }));
+
+                expect(obj).to.have.css('pointer-events', 'painted');
+                expect(obj).to.have.css('cursor', 'none');
             });
 
-            it('should not have prevented default or stopped immediate propagation on mousedown > 333ms > click', function() {
-                obj.trigger($.Event('mousedown', { which: 1 }));
-                hover_trigger.isActive.returns(true);
+            it('should not have pointer-events/cursor:initial after click[which !== 1]', function() {
+                obj.css('pointer-events', 'painted');
+                obj.css('cursor', 'none');
+                obj.trigger('longpress', ['URL']);
+                obj.trigger($.Event('click', { which: 2 }));
+
+                expect(obj).not.to.have.css('pointer-events', 'painted');
+                expect(obj).not.to.have.css('cursor', 'none');
+            });
+
+            it('should have pointer-events/cursor:initial after mouseleave', function() {
+                obj.css('pointer-events', 'painted');
+                obj.css('cursor', 'none');
+                obj.trigger('longpress', ['URL']);
+                obj.mouseleave();
+
+                expect(obj).to.have.css('pointer-events', 'painted');
+                expect(obj).to.have.css('cursor', 'none');
+            });
+
+            it('should preventClickEvents on click', function() {
+                obj.trigger('longpress', ['URL']);
                 obj.click(function() {
                     expect(true).to.be.false;
                 });
-                sandbox.clock.tick(333);
                 obj.trigger($.Event('click', { which: 1 }));
+            });
+
+            it('should prevent other clicks on click', function(done) {
+                obj.trigger('longpress', ['URL']);
+                obj.click(function() {
+                    done();
+                });
+                obj.trigger($.Event('click', { which: 2 }));
+            });
+        });
+
+        describe('on mouseenter', function() {
+            it('should send hovered', function() {
+                obj.mouseenter();
+
+                expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hovered' });
             });
         });
     });
 
-    describe('on mouseenter', function() {
-        it('should send hovered', function() {
-            obj.mouseenter();
-
-            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hovered' });
-        });
-    });
+    // TODO test .get_url
 
     describe('.relative_to_absolute', function() {
         it('should leave absolute URLs alone', function() {
