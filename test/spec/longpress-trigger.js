@@ -101,6 +101,17 @@ describe('longpress-trigger', function() {
                 longpress_trigger.isActive.returns(false);
                 sandbox.clock.tick(333);
             });
+
+            it('should not trigger longpress after mousemove > 333ms', function() {
+                obj.on('longpress', function() {
+                    expect(true).to.be.false;
+                });
+                obj.trigger($.Event('mousedown', { which: 1 }));
+                longpress_trigger.isActive.returns(true);
+                obj.mousemove();
+                longpress_trigger.isActive.returns(false);
+                sandbox.clock.tick(333);
+            });
         });
 
         describe('on longpress', function() {
