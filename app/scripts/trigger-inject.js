@@ -21,7 +21,7 @@ define('trigger-inject', ['jquery', 'longpress-trigger', 'embedded-trigger'], fu
                 return trigger_inject.nullify_bad_url(trigger_inject.relative_to_absolute(object.attr('data')));
             });
 
-            embedded_trigger.on(inject_into, 'div#player div.html5-video-player div.html5-video-container', function() {
+            embedded_trigger.on(inject_into, 'div#player div.html5-video-player', function() {
                 return document.URL;
             });
         },

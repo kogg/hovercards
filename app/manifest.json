@@ -52,6 +52,9 @@
                 "http://*/*",
                 "https://*/*"
             ],
+            "css": [
+                "styles/trigger-styles.css"
+            ],
             "js": [
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",

@@ -101,9 +101,9 @@ describe('trigger-inject', function() {
         });
 
         it('should bind to youtube video', function() {
-            var obj = $('<div class="html5-video-container"></div>')
+            var obj = $('<div class="html5-video-player"></div>')
                 .appendTo(body)
-                .wrap('<div id="player"><div class="html5-video-player"></div></div>');
+                .wrap('<div id="player"></div>');
             trigger_inject.on(body);
 
             expect(embedded_trigger.on).to.be.calledWith(
