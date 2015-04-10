@@ -5,16 +5,21 @@ describe('trigger-inject', function() {
     var body;
     var trigger_inject;
     var longpress_trigger;
+    var embedded_trigger;
 
     beforeEach(function(done) {
-        require(['trigger-inject', 'longpress-trigger'], function(_trigger_inject, _longpress_trigger) {
-            sandbox = sinon.sandbox.create();
-            body = $('<div id="body"></div>');
-            trigger_inject = _trigger_inject;
-            longpress_trigger = _longpress_trigger;
-            sandbox.stub(longpress_trigger, 'on');
-            done();
-        });
+        require(['trigger-inject', 'longpress-trigger', 'embedded-trigger'],
+            function(_trigger_inject, _longpress_trigger, _embedded_trigger) {
+                sandbox = sinon.sandbox.create();
+                body = $('<div id="body"></div>');
+                trigger_inject = _trigger_inject;
+                longpress_trigger = _longpress_trigger;
+                embedded_trigger = _embedded_trigger;
+                sandbox.stub(longpress_trigger, 'on');
+                sandbox.stub(embedded_trigger, 'on');
+                done();
+            }
+        );
     });
 
     afterEach(function() {
@@ -60,7 +65,7 @@ describe('trigger-inject', function() {
         var obj = $('<embed src="URL">').appendTo(body);
         trigger_inject.on(body);
 
-        expect(longpress_trigger.on).to.be.calledWith(
+        expect(embedded_trigger.on).to.be.calledWith(
             sinon.match(function(element) {
                 return body.is(element);
             }, 'body'),
@@ -77,7 +82,7 @@ describe('trigger-inject', function() {
         var obj = $('<object data="URL"></object>').appendTo(body);
         trigger_inject.on(body);
 
-        expect(longpress_trigger.on).to.be.calledWith(
+        expect(embedded_trigger.on).to.be.calledWith(
             sinon.match(function(element) {
                 return body.is(element);
             }, 'body'),
@@ -91,12 +96,12 @@ describe('trigger-inject', function() {
     });
 
     it('should bind to youtube video', function() {
-        var obj = $('<video class="html5-main-video"></video>')
+        var obj = $('<div class="html5-video-container"></div>')
             .appendTo(body)
-            .wrap('<div id="player"><div class="html5-video-player"><div class="html5-video-container"></div></div></div>');
+            .wrap('<div id="player"><div class="html5-video-player"></div></div>');
         trigger_inject.on(body);
 
-        expect(longpress_trigger.on).to.be.calledWith(
+        expect(embedded_trigger.on).to.be.calledWith(
             sinon.match(function(element) {
                 return body.is(element);
             }, 'body'),

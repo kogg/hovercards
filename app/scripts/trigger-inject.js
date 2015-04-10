@@ -1,6 +1,6 @@
 'use strict';
 
-define('trigger-inject', ['jquery', 'longpress-trigger'], function($, longpress_trigger) {
+define('trigger-inject', ['jquery', 'longpress-trigger', 'embedded-trigger'], function($, longpress_trigger, embedded_trigger) {
     return {
         on: function(inject_into) {
             inject_into = $(inject_into);
@@ -13,15 +13,15 @@ define('trigger-inject', ['jquery', 'longpress-trigger'], function($, longpress_
                 return link.data('href');
             });
 
-            longpress_trigger.on(inject_into, 'embed[src]', function(embed) {
+            embedded_trigger.on(inject_into, 'embed[src]', function(embed) {
                 return embed.attr('src');
             });
 
-            longpress_trigger.on(inject_into, 'object[data]', function(object) {
+            embedded_trigger.on(inject_into, 'object[data]', function(object) {
                 return object.attr('data');
             });
 
-            longpress_trigger.on(inject_into, 'div#player div.html5-video-player div.html5-video-container video.html5-main-video', function() {
+            embedded_trigger.on(inject_into, 'div#player div.html5-video-player div.html5-video-container', function() {
                 return document.URL;
             });
         }

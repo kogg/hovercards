@@ -56,6 +56,7 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
+                "scripts/embedded-trigger.js",
                 "scripts/longpress-trigger.js",
                 "scripts/trigger-inject.js",
                 "scripts/everywhere-main.js"
