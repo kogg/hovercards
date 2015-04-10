@@ -9,7 +9,7 @@ define('longpress-trigger', ['jquery'], function($) {
                     return;
                 }
                 var obj = $(this);
-                var url = longpress_trigger.get_url(get_url(obj));
+                var url = get_url(obj);
                 if (!url) {
                     return;
                 }
@@ -55,29 +55,12 @@ define('longpress-trigger', ['jquery'], function($) {
             });
             body.on('mouseenter', selector, function() {
                 var obj = $(this);
-                var url = longpress_trigger.get_url(obj, get_url);
+                var url = get_url(obj);
                 if (!url) {
                     return;
                 }
                 chrome.runtime.sendMessage({ msg: 'hovered' });
             });
-        },
-        get_url: function(url) {
-            url = longpress_trigger.relative_to_absolute(url);
-            if (url.match(/^javascript:.*/)) {
-                return null;
-            }
-            return url;
-        },
-        relative_to_absolute: function(url) {
-            var a = document.createElement('a');
-            a.href = url;
-            url = a.href;
-            a.href = '';
-            if (a.remove) {
-                a.remove();
-            }
-            return url;
         },
         isActive: function(obj) {
             return obj.is(':active');

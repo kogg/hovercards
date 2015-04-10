@@ -27,90 +27,108 @@ describe('trigger-inject', function() {
         body.remove();
     });
 
-    it('should bind to a[href]', function() {
-        var obj = $('<a href="URL">Some Link</a>').appendTo(body);
-        trigger_inject.on(body);
+    describe('.on', function() {
+        beforeEach(function() {
+            sandbox.stub(trigger_inject, 'relative_to_absolute').withArgs('URL').returns('URL');
+        });
 
-        expect(longpress_trigger.on).to.be.calledWith(
-            sinon.match(function(element) {
-                return body.is(element);
-            }, 'body'),
-            sinon.match(function(selector) {
-                return body.find(selector).is(obj);
-            }, 'a[href]'),
-            sinon.match(function(func) {
-                return func(obj) === 'URL';
-            }, 'func that gets href')
-        );
+        it('should bind to a[href]', function() {
+            var obj = $('<a href="URL">Some Link</a>').appendTo(body);
+            trigger_inject.on(body);
+
+            expect(longpress_trigger.on).to.be.calledWith(
+                sinon.match(function(element) {
+                    return body.is(element);
+                }, 'body'),
+                sinon.match(function(selector) {
+                    return body.find(selector).is(obj);
+                }, 'a[href]'),
+                sinon.match(function(func) {
+                    return func(obj) === 'URL';
+                }, 'func that gets href')
+            );
+        });
+
+        it('should bind to a[data-href]', function() {
+            var obj = $('<a data-href="URL">Some Link</a>').appendTo(body);
+            trigger_inject.on(body);
+
+            expect(longpress_trigger.on).to.be.calledWith(
+                sinon.match(function(element) {
+                    return body.is(element);
+                }, 'body'),
+                sinon.match(function(selector) {
+                    return body.find(selector).is(obj);
+                }, 'a[data-href]'),
+                sinon.match(function(func) {
+                    return func(obj) === 'URL';
+                }, 'func that gets data-href')
+            );
+        });
+
+        it('should bind to embed', function() {
+            var obj = $('<embed src="URL">').appendTo(body);
+            trigger_inject.on(body);
+
+            expect(embedded_trigger.on).to.be.calledWith(
+                sinon.match(function(element) {
+                    return body.is(element);
+                }, 'body'),
+                sinon.match(function(selector) {
+                    return body.find(selector).is(obj);
+                }, 'embed[src]'),
+                sinon.match(function(func) {
+                    return func(obj) === 'URL';
+                }, 'func that gets src')
+            );
+        });
+
+        it('should bind to object', function() {
+            var obj = $('<object data="URL"></object>').appendTo(body);
+            trigger_inject.on(body);
+
+            expect(embedded_trigger.on).to.be.calledWith(
+                sinon.match(function(element) {
+                    return body.is(element);
+                }, 'body'),
+                sinon.match(function(selector) {
+                    return body.find(selector).is(obj);
+                }, 'object[data]'),
+                sinon.match(function(func) {
+                    return func(obj) === 'URL';
+                }, 'func that gets data')
+            );
+        });
+
+        it('should bind to youtube video', function() {
+            var obj = $('<div class="html5-video-container"></div>')
+                .appendTo(body)
+                .wrap('<div id="player"><div class="html5-video-player"></div></div>');
+            trigger_inject.on(body);
+
+            expect(embedded_trigger.on).to.be.calledWith(
+                sinon.match(function(element) {
+                    return body.is(element);
+                }, 'body'),
+                sinon.match(function(selector) {
+                    return body.find(selector).is(obj);
+                }, 'youtube video'),
+                sinon.match(function(func) {
+                    return func(obj) === document.URL;
+                }, 'func that gets document.URL')
+            );
+        });
     });
 
-    it('should bind to a[data-href]', function() {
-        var obj = $('<a data-href="URL">Some Link</a>').appendTo(body);
-        trigger_inject.on(body);
+    // TODO test .nullify_bad_url
 
-        expect(longpress_trigger.on).to.be.calledWith(
-            sinon.match(function(element) {
-                return body.is(element);
-            }, 'body'),
-            sinon.match(function(selector) {
-                return body.find(selector).is(obj);
-            }, 'a[data-href]'),
-            sinon.match(function(func) {
-                return func(obj) === 'URL';
-            }, 'func that gets data-href')
-        );
-    });
+    describe('.relative_to_absolute', function() {
+        it('should leave absolute URLs alone', function() {
+            expect(trigger_inject.relative_to_absolute('https://www.wenoknow.com/')).to.equal('https://www.wenoknow.com/');
+        });
 
-    it('should bind to embed', function() {
-        var obj = $('<embed src="URL">').appendTo(body);
-        trigger_inject.on(body);
-
-        expect(embedded_trigger.on).to.be.calledWith(
-            sinon.match(function(element) {
-                return body.is(element);
-            }, 'body'),
-            sinon.match(function(selector) {
-                return body.find(selector).is(obj);
-            }, 'embed[src]'),
-            sinon.match(function(func) {
-                return func(obj) === 'URL';
-            }, 'func that gets src')
-        );
-    });
-
-    it('should bind to object', function() {
-        var obj = $('<object data="URL"></object>').appendTo(body);
-        trigger_inject.on(body);
-
-        expect(embedded_trigger.on).to.be.calledWith(
-            sinon.match(function(element) {
-                return body.is(element);
-            }, 'body'),
-            sinon.match(function(selector) {
-                return body.find(selector).is(obj);
-            }, 'object[data]'),
-            sinon.match(function(func) {
-                return func(obj) === 'URL';
-            }, 'func that gets data')
-        );
-    });
-
-    it('should bind to youtube video', function() {
-        var obj = $('<div class="html5-video-container"></div>')
-            .appendTo(body)
-            .wrap('<div id="player"><div class="html5-video-player"></div></div>');
-        trigger_inject.on(body);
-
-        expect(embedded_trigger.on).to.be.calledWith(
-            sinon.match(function(element) {
-                return body.is(element);
-            }, 'body'),
-            sinon.match(function(selector) {
-                return body.find(selector).is(obj);
-            }, 'youtube video'),
-            sinon.match(function(func) {
-                return func(obj) === document.URL;
-            }, 'func that gets document.URL')
-        );
+        it('should make relative URLs absolute', function() {
+            expect(trigger_inject.relative_to_absolute('/hello')).to.equal('http://localhost:9500/hello');
+        });
     });
 });

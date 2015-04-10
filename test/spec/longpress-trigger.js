@@ -25,13 +25,17 @@ describe('longpress-trigger', function() {
 
     describe('.on', function() {
         var obj;
+        var get_url_with_args;
 
         beforeEach(function() {
             body = $('<div id="body"></div>');
             obj = $('<a id="obj" href="https://www.wenoknow.com/"></a>').appendTo(body);
-            longpress_trigger.on(body, '#obj', function(_obj) {
-                return (obj[0] === _obj[0]) ? obj.attr('href') : 'nope';
-            });
+            var get_url = sandbox.stub();
+            get_url_with_args = get_url.withArgs(sinon.match(function(_obj) {
+                return obj.is(_obj);
+            }, 'is obj'));
+            get_url_with_args.returns(obj.attr('href'));
+            longpress_trigger.on(body, '#obj', get_url);
         });
 
         describe('on mousedown', function() {
@@ -45,11 +49,11 @@ describe('longpress-trigger', function() {
                 sandbox.clock.tick(333);
             });
 
-            it('should not trigger longpress after 333ms if .get_url is null', function() {
+            it('should not trigger longpress after 333ms if get_url is null', function() {
                 obj.on('longpress', function() {
                     expect(true).to.be.false;
                 });
-                sandbox.stub(longpress_trigger, 'get_url').returns(null);
+                get_url_with_args.returns(null);
                 obj.trigger($.Event('mousedown', { which: 1 }));
                 longpress_trigger.isActive.returns(true);
                 sandbox.clock.tick(333);
@@ -151,18 +155,6 @@ describe('longpress-trigger', function() {
 
                 expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hovered' });
             });
-        });
-    });
-
-    // TODO test .get_url
-
-    describe('.relative_to_absolute', function() {
-        it('should leave absolute URLs alone', function() {
-            expect(longpress_trigger.relative_to_absolute('https://www.wenoknow.com/')).to.equal('https://www.wenoknow.com/');
-        });
-
-        it('should make relative URLs absolute', function() {
-            expect(longpress_trigger.relative_to_absolute('/hello')).to.equal('http://localhost:9500/hello');
         });
     });
 });
