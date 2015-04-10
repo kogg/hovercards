@@ -15,6 +15,7 @@ describe('embedded-trigger', function() {
     afterEach(function() {
         sandbox.restore();
         body.remove();
+        embedded_trigger.obj = null;
     });
 
     describe('.on', function() {
@@ -22,13 +23,21 @@ describe('embedded-trigger', function() {
 
         beforeEach(function() {
             body = $('<div id="body"></div>');
-            obj = $('<embed id="obj">').appendTo(body);
+            obj = $('<embed id="obj" src="URL">').appendTo(body);
             embedded_trigger.on(body, '#obj', function(_obj) {
-                return (obj[0] === _obj[0]) ? 'yup' : 'nope';
+                return obj.is(_obj) ? obj.attr('src') : null;
             });
         });
 
-        it('should have a test', function() {
+        it('should create an element', function() {
+            expect(body.find('.hovercards-embedded-trigger')).to.exist;
+        });
+
+        it('should not create multiple elements', function() {
+            embedded_trigger.on(body, '#somethingelse', function() {
+                return null;
+            });
+            expect(body.find('.hovercards-embedded-trigger').length).to.equal(1);
         });
     });
 });
