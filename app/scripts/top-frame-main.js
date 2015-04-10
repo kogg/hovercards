@@ -5,7 +5,7 @@ require(['notifications-inject'], function(notifications_inject) {
 });
 
 require(['sidebar-inject'], function(sidebar_inject) {
-    sidebar_inject.on('body', 'html');
+    sidebar_inject.on('body', 'body', 'html');
 });
 
 require(['state-manager'], function(state_manager) {

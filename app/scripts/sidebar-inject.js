@@ -2,7 +2,7 @@
 
 define('sidebar-inject', ['jquery'], function($) {
     return {
-        on: function sidebarInjectOn(inject_into, dbl_clickable) {
+        on: function sidebarInjectOn(inject_into, body, dbl_clickable) {
             inject_into = $(inject_into);
             dbl_clickable = $(dbl_clickable)
                 .dblclick(function() {
@@ -24,10 +24,10 @@ define('sidebar-inject', ['jquery'], function($) {
                 .prop('src', chrome.extension.getURL('sidebar.html'))
                 .prop('frameborder', '0')
                 .mouseenter(function() {
-                    inject_into.css('overflow', 'hidden');
+                    body.css('overflow', 'hidden');
                 })
                 .mouseleave(function() {
-                    inject_into.css('overflow', 'auto');
+                    body.css('overflow', 'auto');
                 });
 
             $('<div class="hovercards-sidebar-close-button"></div>')

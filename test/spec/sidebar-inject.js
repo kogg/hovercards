@@ -2,7 +2,7 @@
 
 describe('sidebar-inject', function() {
     var sandbox = sinon.sandbox.create();
-    var body, html;
+    var container, body, html;
     var sidebarObj;
 
     beforeEach(function(done) {
@@ -12,15 +12,17 @@ describe('sidebar-inject', function() {
             sandbox.stub(chrome.storage.sync, 'get');
             sandbox.stub(chrome.storage.sync, 'set');
             chrome.storage.sync.get.yields({ });
+            container = $('<div id="container"></div>');
             body = $('<div id="body"></div>');
             html = $('<div id="html"></div>');
-            sidebarObj = sidebar_inject.on(body, html);
+            sidebarObj = sidebar_inject.on(container, body, html);
             done();
         });
     });
 
     afterEach(function() {
         sandbox.restore();
+        container.remove();
         body.remove();
         html.remove();
     });
