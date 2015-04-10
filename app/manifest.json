@@ -40,7 +40,6 @@
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/hover-trigger.js",
                 "scripts/notifications-inject.js",
                 "scripts/sidebar-inject.js",
                 "scripts/state-manager.js",
@@ -53,11 +52,15 @@
                 "http://*/*",
                 "https://*/*"
             ],
+            "css": [
+                "styles/trigger-styles.css"
+            ],
             "js": [
                 "bower_components/requirejs/require.js",
                 "scripts/config.js",
                 "bower_components/jquery/dist/jquery.js",
-                "scripts/hover-trigger.js",
+                "scripts/embedded-trigger.js",
+                "scripts/longpress-trigger.js",
                 "scripts/trigger-inject.js",
                 "scripts/everywhere-main.js"
             ],

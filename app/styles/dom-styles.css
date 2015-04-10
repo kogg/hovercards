@@ -1,11 +1,14 @@
+.hovercards-container {
+	z-index: 2147483647 !important;
+	position: relative !important;
+}
 .hovercards-sidebar {
 	position: fixed !important;
 	width: 340px !important;
 	height: 100% !important;
 	top:0px !important;
-	/*background: #EFEFEF !important;*/
-	background: transparent !important;
-	z-index: 2147483647 !important;
+	background: #EFEFEF !important;
+	z-index: 0 !important;
 	box-shadow:-1px 0px 2px 0px rgba(0, 0, 0, 0.25) !important;
 	right: 0;
 	-webkit-transform: translateX(375px) translateZ(0);
@@ -76,7 +79,7 @@
 	position: fixed !important;
 	top: 16px !important;
 	right: 20px !important;
-	z-index: 2147483647 !important;
+	z-index: 1 !important;
 	width: 300px !important;
 }
 .hovercards-row {

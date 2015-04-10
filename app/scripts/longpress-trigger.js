@@ -1,7 +1,7 @@
 'use strict';
 
-define('hover-trigger', ['jquery'], function($) {
-    var hover_trigger = {
+define('longpress-trigger', ['jquery'], function($) {
+    var longpress_trigger = {
         on: function(body, selector, get_url) {
             body = $(body);
             body.on('mousedown', selector, function(e) {
@@ -9,22 +9,22 @@ define('hover-trigger', ['jquery'], function($) {
                     return;
                 }
                 var obj = $(this);
-                var url = hover_trigger.get_url(get_url(obj));
+                var url = get_url(obj);
                 if (!url) {
                     return;
                 }
                 var timeout = setTimeout(function() {
-                    obj.off('click.hovercardsmousedown');
-                    obj.off('mousedown.hovercardsmousedown');
+                    obj.off('click.longpress_mousedown');
+                    obj.off('mousedown.longpress_mousedown');
                     obj.trigger('longpress', [url]);
                 }, 333);
-                obj.one('click.hovercardsmousedown', function(e) {
+                obj.one('click.longpress_mousedown', function(e) {
                     if (e.which !== 1) {
                         return;
                     }
                     clearTimeout(timeout);
                 });
-                obj.one('mouseleave.hovercardsmousedown', function() {
+                obj.one('mouseleave.longpress_mousedown', function() {
                     clearTimeout(timeout);
                 });
             });
@@ -37,15 +37,15 @@ define('hover-trigger', ['jquery'], function($) {
                 obj.css('cursor', 'default');
 
                 var interval = setInterval(function() {
-                    if (hover_trigger.isActive(obj)) {
+                    if (longpress_trigger.isActive(obj)) {
                         return;
                     }
                     clearInterval(interval);
-                    obj.off('click.hovercardslongpress');
+                    obj.off('click.longpress_longpress');
                     obj.css('pointer-events', initialPointerEvents);
                     obj.css('cursor', initialCursor);
                 }, 100);
-                obj.one('click.hovercardslongpress', function(e) {
+                obj.one('click.longpress_longpress', function(e) {
                     if (e.which !== 1) {
                         return;
                     }
@@ -55,34 +55,17 @@ define('hover-trigger', ['jquery'], function($) {
             });
             body.on('mouseenter', selector, function() {
                 var obj = $(this);
-                var url = hover_trigger.get_url(obj, get_url);
+                var url = get_url(obj);
                 if (!url) {
                     return;
                 }
                 chrome.runtime.sendMessage({ msg: 'hovered' });
             });
         },
-        get_url: function(url) {
-            url = hover_trigger.relative_to_absolute(url);
-            if (url.match(/^javascript:.*/)) {
-                return null;
-            }
-            return url;
-        },
-        relative_to_absolute: function(url) {
-            var a = document.createElement('a');
-            a.href = url;
-            url = a.href;
-            a.href = '';
-            if (a.remove) {
-                a.remove();
-            }
-            return url;
-        },
         isActive: function(obj) {
             return obj.is(':active');
         }
     };
 
-    return hover_trigger;
+    return longpress_trigger;
 });

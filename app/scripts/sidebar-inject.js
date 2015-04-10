@@ -2,15 +2,16 @@
 
 define('sidebar-inject', ['jquery'], function($) {
     return {
-        on: function sidebarInjectOn(body, html) {
-            html = $(html)
+        on: function sidebarInjectOn(inject_into, body, dbl_clickable) {
+            inject_into = $(inject_into);
+            body = $(body);
+            dbl_clickable = $(dbl_clickable)
                 .dblclick(function() {
                     chrome.runtime.sendMessage({ msg: 'hide' });
                 });
-            body = $(body);
 
             var obj = $('<div class="hovercards-sidebar"></div>')
-                .appendTo(body)
+                .appendTo(inject_into)
                 .hide()
                 .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
                     if (e.originalEvent.animationName !== 'slide-out-hovercards') {

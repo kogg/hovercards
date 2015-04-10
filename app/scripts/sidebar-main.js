@@ -9,10 +9,10 @@ require(['cards-directive',
          'trust-resource-url-filter',
          'slide-animation'], function() {
     angular.bootstrap(document, ['app']);
-});
 
-require(['domReady!'], function() {
-    chrome.runtime.sendMessage({ msg: 'ready' });
+    require(['domReady!'], function() {
+        chrome.runtime.sendMessage({ msg: 'ready' });
+    });
 });
 
 require(['everywhere-main']);

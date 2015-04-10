@@ -1,0 +1,9 @@
+.hovercards-embedded-trigger {
+	width: 100px !important;
+	height: 100px !important;
+	background-color: pink !important;
+	z-index: 2147483647 !important;
+}
+.hovercards-embedded-trigger-fullscreenable {
+	background-color: red !important;
+}
