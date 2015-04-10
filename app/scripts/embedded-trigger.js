@@ -17,8 +17,7 @@ define('embedded-trigger', ['jquery', 'longpress-trigger'], function($, longpres
                 trigger.click(function() {
                     chrome.runtime.sendMessage({ msg: 'activate', url: trigger.data('hovercards-url') });
                 });
-
-                longpress_trigger.on(body, trigger, function() {
+                longpress_trigger.on(body, 'div.hovercards-embedded-trigger', function() {
                     return trigger.data('hovercards-url');
                 });
             }
