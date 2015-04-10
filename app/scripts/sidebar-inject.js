@@ -2,15 +2,15 @@
 
 define('sidebar-inject', ['jquery'], function($) {
     return {
-        on: function sidebarInjectOn(body, html) {
-            html = $(html)
+        on: function sidebarInjectOn(inject_into, dbl_clickable) {
+            inject_into = $(inject_into);
+            dbl_clickable = $(dbl_clickable)
                 .dblclick(function() {
                     chrome.runtime.sendMessage({ msg: 'hide' });
                 });
-            body = $(body);
 
             var obj = $('<div class="hovercards-sidebar"></div>')
-                .appendTo(body)
+                .appendTo(inject_into)
                 .hide()
                 .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
                     if (e.originalEvent.animationName !== 'slide-out-hovercards') {
@@ -24,10 +24,10 @@ define('sidebar-inject', ['jquery'], function($) {
                 .prop('src', chrome.extension.getURL('sidebar.html'))
                 .prop('frameborder', '0')
                 .mouseenter(function() {
-                    body.css('overflow', 'hidden');
+                    inject_into.css('overflow', 'hidden');
                 })
                 .mouseleave(function() {
-                    body.css('overflow', 'auto');
+                    inject_into.css('overflow', 'auto');
                 });
 
             $('<div class="hovercards-sidebar-close-button"></div>')
