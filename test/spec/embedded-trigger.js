@@ -69,6 +69,42 @@ describe('embedded-trigger', function() {
             });
         });
 
+        describe('on fullscreen', function() {
+            it('should make the trigger element visible on fullscreen', function() {
+                sandbox.stub(embedded_trigger, 'is_fullscreen').withArgs(sinon.match(function(_obj) {
+                    return obj.is(_obj);
+                }, 'is obj')).returns(true);
+                obj.trigger($.Event('fullscreenchange'));
+
+                expect(body.find('.hovercards-embedded-trigger')).not.to.have.css('display', 'none');
+            });
+
+            it('should put the trigger element at the top left', function() {
+                obj.attr('src', null); // We don't want PhantomJS to get mad about the embed's URL when it gets attached to the document
+                body.appendTo($('body')); // .offset won't mean anything unless the elements are attached to the document
+
+                body.find('.hovercards-embedded-trigger').show(); // has to be visible to change its offset
+                body.find('.hovercards-embedded-trigger').offset({ top: 20, left: 30 });
+                body.find('.hovercards-embedded-trigger').hide();
+                sandbox.stub(embedded_trigger, 'is_fullscreen').withArgs(sinon.match(function(_obj) {
+                    return obj.is(_obj);
+                }, 'is obj')).returns(true);
+                obj.trigger($.Event('fullscreenchange'));
+
+                expect(body.find('.hovercards-embedded-trigger').offset()).to.deep.equal({ top: 0, left: 0 });
+            });
+
+            it('should make the trigger element hidden off fullscreen', function() {
+                body.find('.hovercards-embedded-trigger').show();
+                sandbox.stub(embedded_trigger, 'is_fullscreen').withArgs(sinon.match(function(_obj) {
+                    return obj.is(_obj);
+                }, 'is obj')).returns(false);
+                obj.trigger($.Event('fullscreenchange'));
+
+                expect(body.find('.hovercards-embedded-trigger')).to.have.css('display', 'none');
+            });
+        });
+
         describe('on mouseenter', function() {
             it('should make the trigger element visible', function() {
                 obj.mouseenter();
@@ -84,10 +120,8 @@ describe('embedded-trigger', function() {
             });
 
             it('should move the trigger element\'s offset to match', function() {
-                // We don't want PhantomJS to get mad about the embed's URL when it gets attached to the document
-                obj.attr('src', null);
-                // .offset won't mean anything unless the elements are attached to the document
-                body.appendTo($('body'));
+                obj.attr('src', null); // We don't want PhantomJS to get mad about the embed's URL when it gets attached to the document
+                body.appendTo($('body')); // .offset won't mean anything unless the elements are attached to the document
 
                 obj.offset({ top: 20, left: 30 });
                 obj.mouseenter();

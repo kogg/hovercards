@@ -18,6 +18,14 @@ define('embedded-trigger', ['jquery'], function($) {
                     chrome.runtime.sendMessage({ msg: 'activate', url: trigger.data('hovercards-url') });
                 });
             }
+            body.on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', selector, function() {
+                if (embedded_trigger.is_fullscreen($(this))) {
+                    trigger.show();
+                    trigger.offset({ top: 0, left: 0 });
+                } else {
+                    trigger.hide();
+                }
+            });
             body.on('mouseenter', selector, function() {
                 var obj = $(this);
                 var url = get_url(obj);
@@ -31,6 +39,10 @@ define('embedded-trigger', ['jquery'], function($) {
             body.on('mouseleave', selector, function() {
                 trigger.hide();
             });
+        },
+        is_fullscreen: function(element) {
+            var dom = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement;
+            return dom && element.is(dom);
         }
     };
 
