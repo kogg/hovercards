@@ -115,7 +115,8 @@ describe('trigger-inject', function() {
                 }, 'youtube video'),
                 sinon.match(function(func) {
                     return func(obj) === document.URL;
-                }, 'func that gets document.URL')
+                }, 'func that gets document.URL'),
+                true
             );
         });
     });

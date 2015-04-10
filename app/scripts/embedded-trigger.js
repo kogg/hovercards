@@ -2,7 +2,7 @@
 
 define('embedded-trigger', ['jquery'], function($) {
     var embedded_trigger = {
-        on: function(body, selector, get_url) {
+        on: function(body, selector, get_url, fullscreenable) {
             body = $(body);
             var trigger = embedded_trigger.trigger;
             if (!embedded_trigger.trigger) { // FIXME I don't like this at all
@@ -35,6 +35,11 @@ define('embedded-trigger', ['jquery'], function($) {
                 trigger.show();
                 trigger.offset(obj.offset());
                 trigger.data('hovercards-url', url);
+                if (fullscreenable) {
+                    trigger.addClass('hovercards-embedded-trigger-fullscreenable');
+                } else {
+                    trigger.removeClass('hovercards-embedded-trigger-fullscreenable');
+                }
             });
             body.on('mouseleave', selector, function() {
                 trigger.hide();

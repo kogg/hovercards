@@ -23,7 +23,7 @@ define('trigger-inject', ['jquery', 'longpress-trigger', 'embedded-trigger'], fu
 
             embedded_trigger.on(inject_into, 'div#player div.html5-video-player', function() {
                 return document.URL;
-            });
+            }, true);
         },
         nullify_bad_url: function(url) {
             if (url.match(/^javascript:.*/)) {
