@@ -1,6 +1,6 @@
 'use strict';
 
-define('notifications-inject', [], function() {
+define('notifications-inject', ['jquery'], function($) {
     return {
         on: function notificationsInjectOn(inject_into) {
             inject_into = $(inject_into);
