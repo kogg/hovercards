@@ -25,7 +25,7 @@ define('embedded-trigger', ['jquery', 'longpress-trigger'], function($, longpres
             body.on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', selector, function() {
                 if (embedded_trigger.is_fullscreen($(this))) {
                     trigger.show();
-                    trigger.offset({ top: 0, left: 0 });
+                    trigger.offset(embedded_trigger.offset);
                 } else {
                     trigger.hide();
                 }
@@ -37,7 +37,8 @@ define('embedded-trigger', ['jquery', 'longpress-trigger'], function($, longpres
                     return;
                 }
                 trigger.show();
-                trigger.offset(obj.offset());
+                var obj_offset = obj.offset();
+                trigger.offset({ top: obj_offset.top + embedded_trigger.offset.top, left: obj_offset.left + embedded_trigger.offset.left });
                 trigger.data('hovercards-url', url);
                 if (fullscreenable) {
                     trigger.addClass('hovercards-embedded-trigger-fullscreenable');
@@ -52,7 +53,8 @@ define('embedded-trigger', ['jquery', 'longpress-trigger'], function($, longpres
         is_fullscreen: function(element) {
             var dom = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement;
             return dom && element.is(dom);
-        }
+        },
+        offset: { top: 10, left: 10 }
     };
 
     return embedded_trigger;

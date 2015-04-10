@@ -101,7 +101,7 @@ describe('embedded-trigger', function() {
                 }, 'is obj')).returns(true);
                 obj.trigger($.Event('fullscreenchange'));
 
-                expect(body.find('.hovercards-embedded-trigger').offset()).to.deep.equal({ top: 0, left: 0 });
+                expect(body.find('.hovercards-embedded-trigger').offset()).to.deep.equal(embedded_trigger.offset);
             });
 
             it('should make the trigger element hidden off fullscreen', function() {
@@ -155,7 +155,8 @@ describe('embedded-trigger', function() {
                 obj.offset({ top: 20, left: 30 });
                 obj.mouseenter();
 
-                expect(body.find('.hovercards-embedded-trigger').offset()).to.deep.equal({ top: 20, left: 30 });
+                expect(body.find('.hovercards-embedded-trigger').offset()).to.deep.equal({ top:  20 + embedded_trigger.offset.top,
+                                                                                           left: 30 + embedded_trigger.offset.top });
             });
         });
 
