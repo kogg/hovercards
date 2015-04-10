@@ -3,7 +3,8 @@
 	width: 340px !important;
 	height: 100% !important;
 	top:0px !important;
-	background: #EFEFEF !important;
+	/*background: #EFEFEF !important;*/
+	background: transparent !important;
 	z-index: 2147483647 !important;
 	box-shadow:-1px 0px 2px 0px rgba(0, 0, 0, 0.25) !important;
 	right: 0;
@@ -54,11 +55,11 @@
 	width: 35px !important;
 	height: 40px !important;
 	border-radius: 3px 0 0 3px !important;
-	background:#bfbfbf !important;
+	background:rgba(0,0,0,.3) !important;
 	top: 20px !important;
 	left: -35px !important; 
 	position: absolute !important;
-	color: rgba(0,0,0,.6) !important;
+	color: rgba(255,255,255,.9) !important;
 	transition: all 0.3s ease !important;
 }
 

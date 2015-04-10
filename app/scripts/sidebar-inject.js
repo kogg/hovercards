@@ -19,7 +19,7 @@ define('sidebar-inject', ['jquery'], function($) {
                     obj.hide();
                 });
 
-            $('<iframe></iframe>')
+            $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
                 .appendTo(obj)
                 .prop('src', chrome.extension.getURL('sidebar.html'))
                 .prop('frameborder', '0')
