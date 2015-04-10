@@ -5,13 +5,13 @@ describe('notifications-inject', function() {
     var body;
 
     beforeEach(function(done) {
-        require(['notifications-inject'], function(notificationsInject) {
+        require(['notifications-inject'], function(notifications_inject) {
             sandbox.useFakeTimers();
             sandbox.stub(chrome.i18n, 'getMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             chrome.i18n.getMessage.withArgs('sometype_notification').returns('Some Notification Text');
             body = $('<div id="body"></div>');
-            notificationsInject.on(body);
+            notifications_inject.on(body);
             done();
         });
     });

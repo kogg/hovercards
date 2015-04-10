@@ -2,10 +2,10 @@
 
 define('notifications-inject', [], function() {
     return {
-        on: function notificationsInjectOn(body) {
-            body = $(body);
+        on: function notificationsInjectOn(inject_into) {
+            inject_into = $(inject_into);
             var notifications = $('<div class="hovercards-notifications-container"></div>')
-                .appendTo(body);
+                .appendTo(inject_into);
 
             chrome.runtime.onMessage.addListener(function(request) {
                 switch (request.msg) {

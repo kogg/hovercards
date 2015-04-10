@@ -2,25 +2,29 @@
 
 describe('sidebar-inject', function() {
     var sandbox = sinon.sandbox.create();
-    var body;
+    var container, body, html;
     var sidebarObj;
 
     beforeEach(function(done) {
-        require(['sidebar-inject'], function(sidebarInject) {
+        require(['sidebar-inject'], function(sidebar_inject) {
             sandbox.stub(chrome.runtime, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sandbox.stub(chrome.storage.sync, 'get');
             sandbox.stub(chrome.storage.sync, 'set');
             chrome.storage.sync.get.yields({ });
-            body = $('<div id="sandbox"></div>');
-            sidebarObj = sidebarInject.on(body, body);
+            container = $('<div id="container"></div>');
+            body = $('<div id="body"></div>');
+            html = $('<div id="html"></div>');
+            sidebarObj = sidebar_inject.on(container, body, html);
             done();
         });
     });
 
     afterEach(function() {
         sandbox.restore();
+        container.remove();
         body.remove();
+        html.remove();
     });
 
     it('should be hidden', function() {
@@ -32,7 +36,7 @@ describe('sidebar-inject', function() {
     });
 
     it('should send hide on double click', function() {
-        body.dblclick();
+        html.dblclick();
         expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hide' });
     });
 
