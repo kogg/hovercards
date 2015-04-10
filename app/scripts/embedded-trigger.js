@@ -1,6 +1,6 @@
 'use strict';
 
-define('embedded-trigger', ['jquery'], function($) {
+define('embedded-trigger', ['jquery', 'longpress-trigger'], function($, longpress_trigger) {
     var embedded_trigger = {
         on: function(body, selector, get_url, fullscreenable) {
             body = $(body);
@@ -16,6 +16,10 @@ define('embedded-trigger', ['jquery'], function($) {
                 });
                 trigger.click(function() {
                     chrome.runtime.sendMessage({ msg: 'activate', url: trigger.data('hovercards-url') });
+                });
+
+                longpress_trigger.on(body, trigger, function() {
+                    return trigger.data('hovercards-url');
                 });
             }
             body.on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', selector, function() {
