@@ -1,19 +1,19 @@
 'use strict';
 
-describe('hover-trigger', function() {
+describe('longpress-trigger', function() {
     var sandbox = sinon.sandbox.create();
     var body;
-    var hover_trigger;
+    var longpress_trigger;
 
     beforeEach(function(done) {
-        require(['hover-trigger'], function(_hover_trigger) {
+        require(['longpress-trigger'], function(_longpress_trigger) {
             sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime, 'sendMessage');
             sandbox.stub(chrome.storage.sync, 'get');
             sandbox.stub(chrome.storage.sync, 'set');
             chrome.storage.sync.get.yields({ });
-            hover_trigger = _hover_trigger;
-            sandbox.stub(hover_trigger, 'isActive');
+            longpress_trigger = _longpress_trigger;
+            sandbox.stub(longpress_trigger, 'isActive');
             done();
         });
     });
@@ -25,13 +25,17 @@ describe('hover-trigger', function() {
 
     describe('.on', function() {
         var obj;
+        var get_url_with_args;
 
         beforeEach(function() {
             body = $('<div id="body"></div>');
             obj = $('<a id="obj" href="https://www.wenoknow.com/"></a>').appendTo(body);
-            hover_trigger.on(body, '#obj', function(_obj) {
-                return (obj[0] === _obj[0]) ? obj.attr('href') : 'nope';
-            });
+            var get_url = sandbox.stub();
+            get_url_with_args = get_url.withArgs(sinon.match(function(_obj) {
+                return obj.is(_obj);
+            }, 'is obj'));
+            get_url_with_args.returns(obj.attr('href'));
+            longpress_trigger.on(body, '#obj', get_url);
         });
 
         describe('on mousedown', function() {
@@ -41,17 +45,17 @@ describe('hover-trigger', function() {
                     done();
                 });
                 obj.trigger($.Event('mousedown', { which: 1 }));
-                hover_trigger.isActive.returns(true);
+                longpress_trigger.isActive.returns(true);
                 sandbox.clock.tick(333);
             });
 
-            it('should not trigger longpress after 333ms if .get_url is null', function() {
+            it('should not trigger longpress after 333ms if get_url is null', function() {
                 obj.on('longpress', function() {
                     expect(true).to.be.false;
                 });
-                sandbox.stub(hover_trigger, 'get_url').returns(null);
+                get_url_with_args.returns(null);
                 obj.trigger($.Event('mousedown', { which: 1 }));
-                hover_trigger.isActive.returns(true);
+                longpress_trigger.isActive.returns(true);
                 sandbox.clock.tick(333);
             });
 
@@ -60,7 +64,7 @@ describe('hover-trigger', function() {
                     expect(true).to.be.false;
                 });
                 obj.trigger($.Event('mousedown', { which: 2 }));
-                hover_trigger.isActive.returns(true);
+                longpress_trigger.isActive.returns(true);
                 sandbox.clock.tick(333);
             });
 
@@ -69,9 +73,9 @@ describe('hover-trigger', function() {
                     expect(true).to.be.false;
                 });
                 obj.trigger($.Event('mousedown', { which: 1 }));
-                hover_trigger.isActive.returns(true);
+                longpress_trigger.isActive.returns(true);
                 obj.trigger($.Event('click', { which: 1 }));
-                hover_trigger.isActive.returns(false);
+                longpress_trigger.isActive.returns(false);
                 sandbox.clock.tick(333);
             });
 
@@ -81,9 +85,9 @@ describe('hover-trigger', function() {
                     done();
                 });
                 obj.trigger($.Event('mousedown', { which: 1 }));
-                hover_trigger.isActive.returns(true);
+                longpress_trigger.isActive.returns(true);
                 obj.trigger($.Event('click', { which: 2 }));
-                hover_trigger.isActive.returns(false);
+                longpress_trigger.isActive.returns(false);
                 sandbox.clock.tick(333);
             });
 
@@ -92,9 +96,9 @@ describe('hover-trigger', function() {
                     expect(true).to.be.false;
                 });
                 obj.trigger($.Event('mousedown', { which: 1 }));
-                hover_trigger.isActive.returns(true);
+                longpress_trigger.isActive.returns(true);
                 obj.mouseleave();
-                hover_trigger.isActive.returns(false);
+                longpress_trigger.isActive.returns(false);
                 sandbox.clock.tick(333);
             });
         });
@@ -102,14 +106,14 @@ describe('hover-trigger', function() {
         describe('on longpress', function() {
             it('should send activate', function() {
                 obj.trigger('longpress', ['URL']);
-                hover_trigger.isActive.returns(true);
+                longpress_trigger.isActive.returns(true);
 
                 expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'activate', url: 'URL' });
             });
 
             it('should have pointer-events:none && cursor:default', function() {
                 obj.trigger('longpress', ['URL']);
-                hover_trigger.isActive.returns(true);
+                longpress_trigger.isActive.returns(true);
 
                 expect(obj).to.have.css('pointer-events', 'none');
                 expect(obj).to.have.css('cursor', 'default');
@@ -119,9 +123,9 @@ describe('hover-trigger', function() {
                 obj.css('pointer-events', 'painted');
                 obj.css('cursor', 'none');
                 obj.trigger('longpress', ['URL']);
-                hover_trigger.isActive.returns(true);
+                longpress_trigger.isActive.returns(true);
                 sandbox.clock.tick(100);
-                hover_trigger.isActive.returns(false);
+                longpress_trigger.isActive.returns(false);
                 sandbox.clock.tick(100);
 
                 expect(obj).to.have.css('pointer-events', 'painted');
@@ -146,23 +150,11 @@ describe('hover-trigger', function() {
         });
 
         describe('on mouseenter', function() {
-            it('should send hovered', function() {
+            it('should send longpressed', function() {
                 obj.mouseenter();
 
                 expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hovered' });
             });
-        });
-    });
-
-    // TODO test .get_url
-
-    describe('.relative_to_absolute', function() {
-        it('should leave absolute URLs alone', function() {
-            expect(hover_trigger.relative_to_absolute('https://www.wenoknow.com/')).to.equal('https://www.wenoknow.com/');
-        });
-
-        it('should make relative URLs absolute', function() {
-            expect(hover_trigger.relative_to_absolute('/hello')).to.equal('http://localhost:9500/hello');
         });
     });
 });
