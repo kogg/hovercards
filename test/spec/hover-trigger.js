@@ -128,36 +128,6 @@ describe('hover-trigger', function() {
                 expect(obj).to.have.css('cursor', 'none');
             });
 
-            it('should have pointer-events/cursor:initial after click', function() {
-                obj.css('pointer-events', 'painted');
-                obj.css('cursor', 'none');
-                obj.trigger('longpress', ['URL']);
-                obj.trigger($.Event('click', { which: 1 }));
-
-                expect(obj).to.have.css('pointer-events', 'painted');
-                expect(obj).to.have.css('cursor', 'none');
-            });
-
-            it('should not have pointer-events/cursor:initial after click[which !== 1]', function() {
-                obj.css('pointer-events', 'painted');
-                obj.css('cursor', 'none');
-                obj.trigger('longpress', ['URL']);
-                obj.trigger($.Event('click', { which: 2 }));
-
-                expect(obj).not.to.have.css('pointer-events', 'painted');
-                expect(obj).not.to.have.css('cursor', 'none');
-            });
-
-            it('should have pointer-events/cursor:initial after mouseleave', function() {
-                obj.css('pointer-events', 'painted');
-                obj.css('cursor', 'none');
-                obj.trigger('longpress', ['URL']);
-                obj.mouseleave();
-
-                expect(obj).to.have.css('pointer-events', 'painted');
-                expect(obj).to.have.css('cursor', 'none');
-            });
-
             it('should preventClickEvents on click', function() {
                 obj.trigger('longpress', ['URL']);
                 obj.click(function() {

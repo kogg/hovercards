@@ -13,21 +13,20 @@ define('hover-trigger', ['jquery'], function($) {
                 if (!url) {
                     return;
                 }
-                var timeout;
-                function cleanup(e) {
-                    if (e && e.type === 'click' && e.which !== 1) {
+                var timeout = setTimeout(function() {
+                    obj.off('click.hovercardsmousedown');
+                    obj.off('mousedown.hovercardsmousedown');
+                    obj.trigger('longpress', [url]);
+                }, 333);
+                obj.one('click.hovercardsmousedown', function(e) {
+                    if (e.which !== 1) {
                         return;
                     }
                     clearTimeout(timeout);
-                    obj.off('click', cleanup);
-                    obj.off('mouseleave', cleanup);
-                }
-                timeout = setTimeout(function() {
-                    obj.trigger('longpress', [url]);
-                    cleanup();
-                }, 333);
-                obj.one('click', cleanup);
-                obj.one('mouseleave', cleanup);
+                });
+                obj.one('mouseleave.hovercardsmousedown', function() {
+                    clearTimeout(timeout);
+                });
             });
             body.on('longpress', selector, function(e, url) {
                 chrome.runtime.sendMessage({ msg: 'activate', url: url });
@@ -37,29 +36,22 @@ define('hover-trigger', ['jquery'], function($) {
                 obj.css('pointer-events', 'none');
                 obj.css('cursor', 'default');
 
-                var interval;
-                function cleanup(e) {
-                    if (e && e.type === 'click') {
-                        if (e.which !== 1) {
-                            return;
-                        }
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
-                    }
-                    obj.css('pointer-events', initialPointerEvents);
-                    obj.css('cursor', initialCursor);
-                    clearInterval(interval);
-                    obj.off('click', cleanup);
-                    obj.off('mouseleave', cleanup);
-                }
-                interval = setInterval(function() {
+                var interval = setInterval(function() {
                     if (hover_trigger.isActive(obj)) {
                         return;
                     }
-                    cleanup();
+                    clearInterval(interval);
+                    obj.off('click.hovercardslongpress');
+                    obj.css('pointer-events', initialPointerEvents);
+                    obj.css('cursor', initialCursor);
                 }, 100);
-                obj.one('click', cleanup);
-                obj.one('mouseleave', cleanup);
+                obj.one('click.hovercardslongpress', function(e) {
+                    if (e.which !== 1) {
+                        return;
+                    }
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                });
             });
             body.on('mouseenter', selector, function() {
                 var obj = $(this);
