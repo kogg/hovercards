@@ -1,24 +1,23 @@
 'use strict';
 
-define('people-directive', ['angular-app'], function(app) {
-    app.directive('people', function() {
+define('account-directive', ['angular-app'], function(app) {
+    app.directive('account', function() {
         return {
             scope: {
                 request: '=',
-                people: '='
+                account: '='
             },
             link: function($scope) {
                 var timeout;
                 $scope.$watch('request', function(request) {
                     if (!request) {
-                        $scope.people = null;
+                        $scope.account = null;
                         clearTimeout(timeout);
                         return;
                     }
                     timeout = setTimeout(function() {
                         $scope.$apply(function() {
-                            $scope.people = [{ accounts: [{ type: 'youtube-channel', id: 'UCORIeT1hk6tYBuntEXsguLg' }, { type: 'twitter-account', id: 'SOME_ID' }] },
-                                             {}];
+                            $scope.account = request;
                         });
                     }, 333);
                 });

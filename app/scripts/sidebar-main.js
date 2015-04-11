@@ -1,6 +1,7 @@
 'use strict';
 
-require(['cards-directive',
+require(['account-directive',
+         'cards-directive',
          'content-directive',
          'discussions-directive',
          'entry-directive',
