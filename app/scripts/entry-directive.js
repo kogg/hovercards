@@ -15,7 +15,7 @@ define('entry-directive', ['angular-app'], function(app) {
                             });
                             setTimeout(function() {
                                 $scope.$apply(function() {
-                                    $scope.entry = { content: { type: 'youtube-video', id: 'SOME_ID' } };
+                                    $scope.entry = { content: { type: 'youtube-video', id: 'm3lF2qEA2cw' } };
                                 });
                             }, 333);
                             break;
