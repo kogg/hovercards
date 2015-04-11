@@ -7,38 +7,39 @@
 	background-position: center !important;
 	background-repeat: no-repeat !important;
 	opacity: .7;
-  -webkit-animation-duration: .3s;
-  animation-duration: .3s;
-  -webkit-animation-fill-mode: both; 
-  animation-fill-mode: both; 
-	-webkit-animation-name: bounceInLeft; 
-	animation-name: bounceInLeft; 
-} 
+	position: absolute !important;
+	-webkit-animation-duration: .3s;
+	animation-duration: .3s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-name: bounceInLeft;
+	animation-name: bounceInLeft;
+}
 
-@-webkit-keyframes bounceInLeft { 
-    0% { 
-        opacity: 0; 
-        background-position: -20px center;
-    } 
-    100% { 
-        background-position: center;
-        opacity: .7;
-    } 
-} 
+@-webkit-keyframes bounceInLeft {
+	0% {
+		opacity: 0;
+		background-position: -20px center;
+	}
+	100% {
+		background-position: center;
+		opacity: .7;
+	}
+}
 
-@keyframes bounceInLeft { 
-    0% { 
-        opacity: 0; 
-        background-position: -20px center;
-    } 
-    100% { 
-        background-position: center;
-        opacity: .7;
-    } 
-} 
+@keyframes bounceInLeft {
+	0% {
+		opacity: 0;
+		background-position: -20px center;
+	}
+	100% {
+		background-position: center;
+		opacity: .7;
+	}
+}
 .hovercards-embedded-trigger:hover {
-	cursor: pointer;
-	opacity: 1;	
+	cursor: pointer !important;
+	opacity: 1;
 }
 .hovercards-embedded-trigger-fullscreenable {
 	background-image:url('chrome-extension://__MSG_@@extension_id__/images/carlito-video-clicker-fs.png') !important;
