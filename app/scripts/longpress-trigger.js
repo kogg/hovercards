@@ -15,7 +15,8 @@ define('longpress-trigger', ['jquery'], function($) {
                 }
                 var timeout = setTimeout(function() {
                     obj.off('click.longpress_mousedown');
-                    obj.off('mousedown.longpress_mousedown');
+                    obj.off('mouseleave.longpress_mousedown');
+                    obj.off('mousemove.longpress_mousedown');
                     obj.trigger('longpress', [url]);
                 }, 333);
                 obj.one('click.longpress_mousedown', function(e) {
@@ -25,6 +26,9 @@ define('longpress-trigger', ['jquery'], function($) {
                     clearTimeout(timeout);
                 });
                 obj.one('mouseleave.longpress_mousedown', function() {
+                    clearTimeout(timeout);
+                });
+                obj.one('mousemove.longpress_mousedown', function() {
                     clearTimeout(timeout);
                 });
             });

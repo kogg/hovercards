@@ -15,6 +15,7 @@
     "web_accessible_resources": [
         "sidebar.html",
         "images/carlito-video-clicker.png",
+        "images/carlito-video-clicker-fs.png",
         "images/hovercards-notification.gif",
         "images/youtube-notification.gif"
     ],

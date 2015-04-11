@@ -41,5 +41,5 @@
 	opacity: 1;	
 }
 .hovercards-embedded-trigger-fullscreenable {
-
+	background-image:url('chrome-extension://__MSG_@@extension_id__/images/carlito-video-clicker-fs.png') !important;
 }
