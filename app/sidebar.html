@@ -5,6 +5,7 @@
 	<link rel="stylesheet" href="styles/styles.css">
 	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
 	<link rel="stylesheet" type="text/css" href="styles/chat-box.css">
+	<style> pre { background-color: pink; font-size: 10pt; } </style>
 </head>
 <body>
 	<div cards="cardsets" ng-cloak class="ng-cloak">
@@ -33,11 +34,40 @@
 		</div>
 	</div>
 	<!--
+	<div entry="entry" style="position: absolute; z-index: 99999999999999999999999999999999999999999999999999999999999999;">
+		<pre>entry = {{ entry | json }}</pre><br>
+		<div content="content" request="entry.content" ng-if="entry.content">
+			<pre ng-click="entry.accounts = content.accounts">content = {{ content | json }}</pre><br>
+		</div>
+		<div discussions="discussions" request="entry.content" ng-if="entry.content">
+			<div ng-repeat="discussion in discussions">
+				<pre>discussion = {{ discussion | json }}</pre><br>
+			</div>
+		</div>
+		<div people="people" request="entry.accounts" ng-if="entry.accounts">
+			<div ng-repeat="person in people">
+				<pre ng-click="entry.selectedPerson = person">person = {{ person | json }}</pre><br>
+				<div account="account" request="person.selectedAccount" ng-if="person.selectedAccount">
+					<pre>account (person's selected) = {{ account | json }}</pre><br>
+				</div>
+			</div>
+		</div>
+		<div ng-repeat="account in entry.selectedPerson.accounts">
+			<pre ng-click="entry.selectedPerson.selectedAccount = account">account = {{ account | json }}</pre><br>
+		</div>
+		<div related="related" request="entry.selectedPerson.selectedAccount" ng-if="entry.selectedPerson.selectedAccount">
+			<div ng-repeat="content in related.contents">
+				<pre ng-click="entry.content = content">content = {{ content | json }}</pre><br>
+			</div>
+		</div>
+	</div>
+	-->
+	<!--
 	<div class="feedback-trigger">
 		<span>Click here to talk to us. We'd love to<br>hear your feedback, be it good or bad!</span>
 		<div class="hclogo-peak shake"></div>
 	</div>
--->
+	-->
 	<link rel="stylesheet" href="styles/subscribe-fix-style.css">
 	<script src="bower_components/requirejs/require.js"></script>
 	<script src="scripts/config.js"></script>
