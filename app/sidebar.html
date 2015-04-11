@@ -35,16 +35,16 @@
 	</div>
 	<div entry="entry" class="cards">
 		<pre>entry = {{ entry | json }}</pre>
-		<div content="content" request="entry.content" class="card" ng-if="content">
+		<div content="content" request="entry.content" ng-if="entry.content">
 			<pre ng-click="entry.accounts = content.accounts">content = {{ content | json }}</pre>
 		</div>
-		<div discussions="discussions" request="entry.content" class="card" ng-if="discussions">
+		<div discussions="discussions" request="entry.content" ng-if="discussions">
 			<!-- TODO Show only one discussion -->
 			<div ng-repeat="discussion in discussions">
 				<pre>discussion = {{ discussion | json }}</pre>
 			</div>
 		</div>
-		<div people="people" request="entry.accounts" selected-person="person" class="card" ng-if="people">
+		<div people="people" request="entry.accounts" selected-person="person" ng-if="people">
 			<!-- TODO Show only one person -->
 			<div ng-repeat="person in people">
 				<pre>person = {{ person | json }}</pre>
@@ -57,7 +57,7 @@
 				<pre ng-click="person.selectedAccount = account">account = {{ account | json }}</pre>
 			</div>
 		</div>
-		<div related="related" from-account="person.selectedAccount" class="card" ng-if="related">
+		<div related="related" from-account="person.selectedAccount" ng-if="related">
 			<!-- FIXME will put related content into its own template -->
 			<div ng-repeat="content in related.contents">
 				<!-- TODO Have a way to select a content -->
