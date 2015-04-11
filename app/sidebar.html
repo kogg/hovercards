@@ -33,7 +33,7 @@
 			</div>
 		</div>
 	</div>
-	<div entry="entry">
+	<div entry="entry" style="position: absolute; z-index: 99999999999999999999999999999999999999999999999999999999999999;">
 		<pre>entry = {{ entry | json }}</pre><br>
 		<div content="content" request="entry.content" ng-if="entry.content">
 			<pre ng-click="entry.accounts = content.accounts">content = {{ content | json }}</pre><br>
