@@ -20,7 +20,6 @@ describe('entry-directive', function() {
     beforeEach(function(done) {
         require(['angular'], function(angular) {
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            sandbox.useFakeTimers();
             element = angular.element('<div entry="entry"></div>');
 
             $compile(element)($rootScope);

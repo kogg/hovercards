@@ -1,6 +1,7 @@
 'use strict';
 
 require(['cards-directive',
+         'content-directive',
          'entry-directive',
          'readmore-directive',
          'youtube-channel-subscribe-directive',
