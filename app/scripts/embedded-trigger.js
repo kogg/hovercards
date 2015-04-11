@@ -11,7 +11,15 @@ define('embedded-trigger', ['jquery', 'longpress-trigger'], function($, longpres
                 trigger.mouseenter(function() {
                     trigger.show();
                 });
-                trigger.mouseleave(function() {
+                trigger.mouseleave(function(e) {
+                    var to_element = e.toElement || e.relatedTarget;
+                    if (to_element) { // TODO Unit Test this
+                        to_element = $(to_element);
+                        var obj = trigger.data('hovercards-obj'); // FIXME I REALLY DON'T LIKE THIS
+                        if (obj.is(to_element) || obj.find(to_element).length) {
+                            return;
+                        }
+                    }
                     trigger.hide();
                 });
                 trigger.click(function() {
@@ -39,13 +47,21 @@ define('embedded-trigger', ['jquery', 'longpress-trigger'], function($, longpres
                 var obj_offset = obj.offset();
                 trigger.offset({ top: obj_offset.top + embedded_trigger.offset.top, left: obj_offset.left + embedded_trigger.offset.left });
                 trigger.data('hovercards-url', url);
+                trigger.data('hovercards-obj', obj); // FIXME I REALLY DON'T LIKE THIS
                 if (fullscreenable) {
                     trigger.addClass('hovercards-embedded-trigger-fullscreenable');
                 } else {
                     trigger.removeClass('hovercards-embedded-trigger-fullscreenable');
                 }
             });
-            body.on('mouseleave', selector, function() {
+            body.on('mouseleave', selector, function(e) {
+                var to_element = e.toElement || e.relatedTarget;
+                if (to_element) { // TODO Unit Test this
+                    to_element = $(to_element);
+                    if (trigger.is(to_element) || trigger.find(to_element).length) {
+                        return;
+                    }
+                }
                 trigger.hide();
             });
         },
