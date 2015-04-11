@@ -1,6 +1,12 @@
 'use strict';
 
-require(['cards-directive',
+require(['account-directive',
+         'cards-directive',
+         'content-directive',
+         'discussions-directive',
+         'entry-directive',
+         'people-directive',
+         'related-directive',
          'readmore-directive',
          'youtube-channel-subscribe-directive',
          'copy-filter',
