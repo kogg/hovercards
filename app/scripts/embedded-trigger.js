@@ -54,7 +54,7 @@ define('embedded-trigger', ['jquery', 'longpress-trigger'], function($, longpres
             var dom = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement;
             return dom && element.is(dom);
         },
-        offset: { top: 10, left: 10 }
+        offset: { top: 30, left: 0 }
     };
 
     return embedded_trigger;

@@ -156,7 +156,7 @@ describe('embedded-trigger', function() {
                 obj.mouseenter();
 
                 expect(body.find('.hovercards-embedded-trigger').offset()).to.deep.equal({ top:  20 + embedded_trigger.offset.top,
-                                                                                           left: 30 + embedded_trigger.offset.top });
+                                                                                           left: 30 + embedded_trigger.offset.left });
             });
         });
 
