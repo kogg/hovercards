@@ -2,6 +2,7 @@
 
 require(['cards-directive',
          'content-directive',
+         'discussions-directive',
          'entry-directive',
          'readmore-directive',
          'youtube-channel-subscribe-directive',
