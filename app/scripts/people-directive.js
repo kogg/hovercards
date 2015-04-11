@@ -1,23 +1,24 @@
 'use strict';
 
-define('content-directive', ['angular-app'], function(app) {
-    app.directive('content', function() {
+define('people-directive', ['angular-app'], function(app) {
+    app.directive('people', function() {
         return {
             scope: {
                 request: '=',
-                content: '='
+                people: '='
             },
             link: function($scope) {
                 var timeout;
                 $scope.$watch('request', function(request) {
                     if (!request) {
-                        $scope.content = null;
+                        $scope.people = null;
                         clearTimeout(timeout);
                         return;
                     }
                     timeout = setTimeout(function() {
                         $scope.$apply(function() {
-                            $scope.content = { type: 'youtube-video', id: 'm3lF2qEA2cw', accounts: [{ type: 'youtube-channel', id: 'UCORIeT1hk6tYBuntEXsguLg' }] };
+                            $scope.people = [{ accounts: [{ type: 'youtube-channel', id: 'UCORIeT1hk6tYBuntEXsguLg' }, { type: 'twitter-account', id: 'SOME_ID' }] },
+                                             {}];
                         });
                     }, 333);
                 });
@@ -25,3 +26,4 @@ define('content-directive', ['angular-app'], function(app) {
         };
     });
 });
+
