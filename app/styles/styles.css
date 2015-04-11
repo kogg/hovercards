@@ -77,7 +77,7 @@ body {
 .cards {
 	max-width: 340px;
 	top: 0px;
-	position: absolute;
+	position: relative;
 	padding: 0 20px 16px;
 }
 
@@ -372,8 +372,8 @@ b i {
 /* ANIMATIONS */
 
 .bounce-in-animation.ng-enter {
-	-webkit-animation-duration: 2s;
-	animation-duration: 2s;
+	-webkit-animation-duration: 1.64s;
+	animation-duration: 1.64s;
 	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
 	-webkit-animation-name: bounceInRight;
@@ -384,34 +384,32 @@ b i {
 		opacity: 0;
 		-webkit-transform: translateX(700px);
 	}
-	75% {
+	60% {
 		opacity: 1;
-		-webkit-transform: translateX(-14px);
+		-webkit-transform: translateX(-10px);
 	}
 	100% {
+		opacity: 1;
 		-webkit-transform: translateX(0px);
 	}
 }
 
 .bounce-out-animation.ng-leave {
-	-webkit-transform: translatey(0px);
-	-webkit-animation-duration: 1s;
-	animation-duration: 1s;
+	-webkit-animation-duration: .8s;
+	animation-duration: .8s;
 	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
 	-webkit-animation-name: bounce-down;
 	animation-name: bounce-down;
+	position: absolute !important;
+	top: 0px !important;
 }
 @-webkit-keyframes bounce-down {
 	0% {
-		-webkit-transform: translatey(0px);
-		opacity: 1;
-	}
-	70% {
 		opacity: 1;
 	}
 	100% {
-		-webkit-transform: translatey(1400px);
+		opacity: 0;
 	}
 }
 
