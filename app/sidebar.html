@@ -57,7 +57,7 @@
 			<!-- TODO Have a way to select a account -->
 			<pre ng-click="entry.selectedPerson.selectedAccount = account">account = {{ account | json }}</pre><br>
 		</div>
-		<div related="related" from-account="person.selectedAccount" ng-if="related">
+		<div related="related" request="entry.selectedPerson.selectedAccount" ng-if="entry.selectedPerson.selectedAccount">
 			<!-- FIXME will put related content into its own template -->
 			<div ng-repeat="content in related.contents">
 				<!-- TODO Have a way to select a content -->
