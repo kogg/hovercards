@@ -1,7 +1,7 @@
 'use strict';
 
 require(['jquery'], function($) {
-    var hovercards_container = $('<div class="hovercards-container"></div>').appendTo('body');
+    var hovercards_container = $('<div class="hovercards-container"></div>').appendTo('html');
 
     require(['notifications-inject'], function(notifications_inject) {
         notifications_inject.on(hovercards_container);
