@@ -11,32 +11,22 @@
 	<div entry="entry" ng-cloak class="ng-cloak">
 		<div ng-if="entry" class="cards bounce-out-animation">
 			<div content="content" request="entry.content" ng-if="entry.content">
-				<div ng-if="content" class="card bounce-in-animation">
-					<div ng-include="'templates/'+ content.type + '.html'" ng-click="entry.accounts = content.accounts"></div>
-				</div>
+				<div ng-include="'templates/'+ content.type + '.html'" ng-if="content" class="card bounce-in-animation" ng-click="entry.accounts = content.accounts"></div>
 			</div>
 			<div discussions="discussions" request="entry.content" ng-if="entry.content">
-				<div ng-repeat="discussion in discussions" class="card bounce-in-animation">
-					<div ng-include="'templates/'+ discussion.type + '.html'"></div>
-				</div>
+				<div ng-repeat="discussion in discussions" ng-include="'templates/'+ discussion.type + '.html'" class="card bounce-in-animation"></div>
 			</div>
 			<div people="people" request="entry.accounts" ng-if="entry.accounts">
 				<div ng-repeat="person in people">
 					<pre ng-click="entry.selectedPerson = person">person = {{ person | json }}</pre><br>
 					<div account="account" request="person.selectedAccount" ng-if="person.selectedAccount">
-						<div ng-if="account" class="card bounce-in-animation">
-							<div ng-include="'templates/'+ account.type + '.html'"></div>
-						</div>
+						<div ng-include="'templates/'+ account.type + '.html'" ng-if="account" class="card bounce-in-animation"></div>
 					</div>
 				</div>
 			</div>
-			<div ng-repeat="account in entry.selectedPerson.accounts">
-				<pre ng-click="entry.selectedPerson.selectedAccount = account">account = {{ account | json }}</pre><br>
-			</div>
+			<pre ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">account = {{ account | json }}</pre><br>
 			<div related="related" request="entry.selectedPerson.selectedAccount" ng-if="entry.selectedPerson.selectedAccount">
-				<div ng-repeat="content in related.contents">
-					<pre ng-click="entry.content = content">content = {{ content | json }}</pre><br>
-				</div>
+				<pre ng-repeat="content in related.contents" ng-click="entry.content = content">content = {{ content | json }}</pre><br>
 			</div>
 		</div>
 	</div>
