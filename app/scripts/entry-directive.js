@@ -1,6 +1,6 @@
 'use strict';
 
-define('entry-directive', ['angular-app'], function(app) {
+define('entry-directive', ['angular-app', 'jquery'], function(app, $) {
     app.directive('entry', function() {
         return {
             scope: {
@@ -13,11 +13,12 @@ define('entry-directive', ['angular-app'], function(app) {
                             $scope.$apply(function() {
                                 $scope.entry = null;
                             });
-                            setTimeout(function() {
-                                $scope.$apply(function() {
-                                    $scope.entry = { content: { type: 'youtube-video', id: 'm3lF2qEA2cw' } };
+                            $.get('https://hovercards.herokuapp.com/v1/identify', { url: request.url })
+                                .done(function(data) {
+                                    $scope.$apply(function() {
+                                        $scope.entry = data;
+                                    });
                                 });
-                            }, 333);
                             break;
                         case 'hide':
                             $scope.$apply(function() {

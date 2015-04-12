@@ -19,6 +19,7 @@ describe('entry-directive', function() {
     }));
     beforeEach(function(done) {
         require(['angular'], function(angular) {
+            sandbox.useFakeServer();
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             element = angular.element('<div entry="entry"></div>');
 
@@ -53,7 +54,16 @@ describe('entry-directive', function() {
             expect($rootScope.entry).not.to.exist;
         });
 
-        // TODO Load stuff from server
+        it('should set entry with server response', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'URL' });
+            $rootScope.$digest();
+            sandbox.server.respond('GET',
+                                   'https://hovercards.herokuapp.com/v1/identify?url=URL',
+                                   [200, { 'Content-Type': 'application/json' }, '{"content":{"type":"youtube-video","id":"m3lF2qEA2cw"}}']);
+            $rootScope.$digest();
+
+            expect($rootScope.entry).to.deep.equal({ content: { type: 'youtube-video', id: 'm3lF2qEA2cw' } });
+        });
     });
 
     describe('on hide', function() {
