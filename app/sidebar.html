@@ -12,12 +12,12 @@
 		<div ng-if="entry" class="cards bounce-out-animation">
 			<div content="content" request="entry.content" ng-if="entry.content">
 				<div ng-if="content" class="card bounce-in-animation">
-					<div ng-include="'templates/'+ content.type + '-card.html'" ng-click="entry.accounts = content.accounts"></div>
+					<div ng-include="'templates/'+ content.type + '.html'" ng-click="entry.accounts = content.accounts"></div>
 				</div>
 			</div>
 			<div discussions="discussions" request="entry.content" ng-if="entry.content">
 				<div ng-repeat="discussion in discussions" class="card bounce-in-animation">
-					<div ng-include="'templates/'+ discussion.type + '-card.html'"></div>
+					<div ng-include="'templates/'+ discussion.type + '.html'"></div>
 				</div>
 			</div>
 			<div people="people" request="entry.accounts" ng-if="entry.accounts">
@@ -25,7 +25,7 @@
 					<pre ng-click="entry.selectedPerson = person">person = {{ person | json }}</pre><br>
 					<div account="account" request="person.selectedAccount" ng-if="person.selectedAccount">
 						<div ng-if="account" class="card bounce-in-animation">
-							<div ng-include="'templates/'+ account.type + '-card.html'"></div>
+							<div ng-include="'templates/'+ account.type + '.html'"></div>
 						</div>
 					</div>
 				</div>
