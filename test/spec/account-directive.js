@@ -53,12 +53,12 @@ describe('account-directive', function() {
     });
 
     describe('on request', function() {
-        it('should empty account if request is empty', function() {
+        it('should empty account', function() {
             $rootScope.request = 'Something';
             $rootScope.$digest();
             $rootScope.account = 'Something';
             $rootScope.$digest();
-            $rootScope.request = null;
+            $rootScope.request = 'Something Else';
             $rootScope.$digest();
 
             expect($rootScope.account).not.to.exist;

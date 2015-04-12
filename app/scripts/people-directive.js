@@ -10,9 +10,9 @@ define('people-directive', ['angular-app'], function(app) {
             link: function($scope) {
                 var timeout;
                 $scope.$watch('request', function(request) {
+                    $scope.people = null;
+                    clearTimeout(timeout);
                     if (!request) {
-                        $scope.people = null;
-                        clearTimeout(timeout);
                         return;
                     }
                     timeout = setTimeout(function() {

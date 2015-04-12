@@ -53,12 +53,12 @@ describe('related-directive', function() {
     });
 
     describe('on request', function() {
-        it('should empty related if request is empty', function() {
+        it('should empty related', function() {
             $rootScope.request = 'Something';
             $rootScope.$digest();
             $rootScope.related = 'Something';
             $rootScope.$digest();
-            $rootScope.request = null;
+            $rootScope.request = 'Something Else';
             $rootScope.$digest();
 
             expect($rootScope.related).not.to.exist;

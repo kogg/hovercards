@@ -10,9 +10,9 @@ define('related-directive', ['angular-app'], function(app) {
             link: function($scope) {
                 var timeout;
                 $scope.$watch('request', function(request) {
+                    $scope.related = null;
+                    clearTimeout(timeout);
                     if (!request) {
-                        $scope.related = null;
-                        clearTimeout(timeout);
                         return;
                     }
                     timeout = setTimeout(function() {
