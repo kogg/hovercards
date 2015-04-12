@@ -19,8 +19,9 @@ describe('discussions-directive', function() {
     }));
     beforeEach(function(done) {
         require(['angular'], function(angular) {
-            element = angular.element('<div discussions="discussions" request="request"></div>');
+            sandbox.useFakeServer();
 
+            element = angular.element('<div discussions="discussions" request="request"></div>');
             $compile(element)($rootScope);
             $rootScope.$digest();
             scope = element.isolateScope();
@@ -62,6 +63,74 @@ describe('discussions-directive', function() {
             $rootScope.$digest();
 
             expect($rootScope.discussions).not.to.exist;
+        });
+
+        // TODO Make this streaming
+        it('should set content with server response', function() {
+            $rootScope.request = { type: 'youtube-video', id: 'm3lF2qEA2cw' };
+            $rootScope.$digest();
+            var response = [{ type:     'youtube-comments',
+                              id:       'm3lF2qEA2cw',
+                              count:    1650,
+                              comments: [{ description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
+                                           date:        1428438215000,
+                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
+                                                          name:  'ScottBradleeLovesYa',
+                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
+                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
+                                           date:        1428438215000,
+                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
+                                                          name:  'ScottBradleeLovesYa',
+                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
+                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
+                                           date:        1428438215000,
+                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
+                                                          name:  'ScottBradleeLovesYa',
+                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
+                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
+                                           date:        1428438215000,
+                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
+                                                          name:  'ScottBradleeLovesYa',
+                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
+                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
+                                           date:        1428438215000,
+                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
+                                                          name:  'ScottBradleeLovesYa',
+                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } }] },
+                            { type:     'youtube-comments',
+                              id:       'm3lF2qEA2cw',
+                              count:    1650,
+                              comments: [{ description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
+                                           date:        1428438215000,
+                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
+                                                          name:  'ScottBradleeLovesYa',
+                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
+                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
+                                           date:        1428438215000,
+                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
+                                                          name:  'ScottBradleeLovesYa',
+                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
+                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
+                                           date:        1428438215000,
+                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
+                                                          name:  'ScottBradleeLovesYa',
+                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
+                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
+                                           date:        1428438215000,
+                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
+                                                          name:  'ScottBradleeLovesYa',
+                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
+                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
+                                           date:        1428438215000,
+                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
+                                                          name:  'ScottBradleeLovesYa',
+                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } }] }];
+            sandbox.server.respond('GET',
+                                   'https://hovercards.herokuapp.com/v1/discussions/youtube-video/m3lF2qEA2cw',
+                                   [200, { 'Content-Type': 'application/json' }, JSON.stringify(response)]);
+            $rootScope.$digest();
+
+            expect($rootScope.discussions).to.deep.equal(response);
         });
 
         // TODO Load stuff from server
