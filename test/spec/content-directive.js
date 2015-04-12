@@ -53,12 +53,12 @@ describe('content-directive', function() {
     });
 
     describe('on request', function() {
-        it('should empty content if request is empty', function() {
+        it('should empty content', function() {
             $rootScope.request = 'Something';
             $rootScope.$digest();
             $rootScope.content = 'Something';
             $rootScope.$digest();
-            $rootScope.request = null;
+            $rootScope.request = 'Something Else';
             $rootScope.$digest();
 
             expect($rootScope.content).not.to.exist;

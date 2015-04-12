@@ -53,12 +53,12 @@ describe('discussions-directive', function() {
     });
 
     describe('on request', function() {
-        it('should empty discussions if request is empty', function() {
+        it('should empty discussions', function() {
             $rootScope.request = 'Something';
             $rootScope.$digest();
             $rootScope.discussions = 'Something';
             $rootScope.$digest();
-            $rootScope.request = null;
+            $rootScope.request = 'Something Else';
             $rootScope.$digest();
 
             expect($rootScope.discussions).not.to.exist;

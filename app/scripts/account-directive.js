@@ -10,9 +10,9 @@ define('account-directive', ['angular-app'], function(app) {
             link: function($scope) {
                 var timeout;
                 $scope.$watch('request', function(request) {
+                    $scope.account = null;
+                    clearTimeout(timeout);
                     if (!request) {
-                        $scope.account = null;
-                        clearTimeout(timeout);
                         return;
                     }
                     timeout = setTimeout(function() {

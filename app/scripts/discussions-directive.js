@@ -10,9 +10,9 @@ define('discussions-directive', ['angular-app'], function(app) {
             link: function($scope) {
                 var timeout;
                 $scope.$watch('request', function(request) {
+                    $scope.discussions = null;
+                    clearTimeout(timeout);
                     if (!request) {
-                        $scope.discussions = null;
-                        clearTimeout(timeout);
                         return;
                     }
                     timeout = setTimeout(function() {

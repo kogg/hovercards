@@ -53,12 +53,12 @@ describe('people-directive', function() {
     });
 
     describe('on request', function() {
-        it('should empty people if request is empty', function() {
+        it('should empty people', function() {
             $rootScope.request = 'Something';
             $rootScope.$digest();
             $rootScope.people = 'Something';
             $rootScope.$digest();
-            $rootScope.request = null;
+            $rootScope.request = 'Something Else';
             $rootScope.$digest();
 
             expect($rootScope.people).not.to.exist;
