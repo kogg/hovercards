@@ -1,0 +1,31 @@
+<div class="profile-top row">
+	<div class="profile-left col-4">
+		<div class="profile-image" style="background-image:url({{ ::account.image }})"></div>
+	</div>
+	<div class="profile-right col-8">
+		<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
+		<a href="https://www.youtube.com/channel/{{ ::account.id }}" target="_blank" class="ellipsis" ng-click="$event.stopPropagation()">{{ ::account.name }}</a>
+		<div class="profile-cta">
+			<div youtube-channel-subscribe youtube-channel-id="::account.id" subscribed-offset="offset"></div>
+		</div>
+	</div>
+</div>
+
+<div ng-if="::account.description" class="card-description-padding">
+	<p readmore="::account.description | htmlify" style="max-height: 50px"></p>
+</div>
+
+<div class="card-stats row">
+	<div class="col-4">
+		<b>Subscribers</b>
+		<span>{{ account.subscribers + offset | numsmall }}</span>
+	</div>
+	<div class="col-4">
+		<b>Uploads</b>
+		<span>{{ ::account.videos | numsmall }}</span>
+	</div>
+	<div class="col-4">
+		<b>Video Views</b>
+		<span>{{ ::account.views | numsmall }}</span>
+	</div>
+</div>

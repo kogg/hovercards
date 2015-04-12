@@ -8,61 +8,38 @@
 	<style> pre { background-color: pink; font-size: 10pt; } </style>
 </head>
 <body>
-	<div cards="cardsets" ng-cloak class="ng-cloak">
-		<div ng-repeat="cardset in cardsets" class="cards bounce-out-animation" ng-animate-children>
-			<div ng-repeat="card in cardset.cards" class="card bounce-in-animation" ng-class="{ 'card-more': card.actionable }" ng-click="card.actionable && (card.toggled=!card.toggled)">
-				<div ng-include="'templates/'+ card.type + '-card.html'"></div>
+	<div entry="entry" ng-cloak class="ng-cloak">
+		<div ng-if="entry" class="cards bounce-out-animation">
+			<div content="content" request="entry.content" ng-if="entry.content">
+				<div ng-if="content" class="card bounce-in-animation">
+					<div ng-include="'templates/'+ content.type + '.html'" ng-click="entry.accounts = content.accounts"></div>
+				</div>
 			</div>
-			<div ng-repeat="card in cardset.errors" ng-if="cardset.done && !cardset.cards.length" class="card bounce-in-animation">
-				<div class="row">
-					<div class="hovercards-error-image" ng-style="::{ 'background-image': 'url(../images/' + card.network + '-error.gif)'}"></div>
-					<div class="hovercards-error-text">
-						<b>{{ ::card.type | copy}}</b>
-						<p>Someting went wrong here- if you send us a message below and we'll try to fix it! :)</p>
+			<div discussions="discussions" request="entry.content" ng-if="entry.content">
+				<div ng-repeat="discussion in discussions" class="card bounce-in-animation">
+					<div ng-include="'templates/'+ discussion.type + '.html'"></div>
+				</div>
+			</div>
+			<div people="people" request="entry.accounts" ng-if="entry.accounts">
+				<div ng-repeat="person in people">
+					<pre ng-click="entry.selectedPerson = person">person = {{ person | json }}</pre><br>
+					<div account="account" request="person.selectedAccount" ng-if="person.selectedAccount">
+						<div ng-if="account" class="card bounce-in-animation">
+							<div ng-include="'templates/'+ account.type + '.html'"></div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div ng-if="cardset.done && !cardset.cards.length && !cardset.errors.length" class="card bounce-in-animation">
-				<div class="row">
-					<div class="hovercards-error-image" ng-style="::{ 'background-image': 'url(../images/' + card.network + '-error.gif)'}"></div>
-					<div class="hovercards-error-text">
-						<b>No Content</b>
-						<p>Someting went wrong here- if you send us a message below and we'll try to fix it! :)</p>
-					</div>
+			<div ng-repeat="account in entry.selectedPerson.accounts">
+				<pre ng-click="entry.selectedPerson.selectedAccount = account">account = {{ account | json }}</pre><br>
+			</div>
+			<div related="related" request="entry.selectedPerson.selectedAccount" ng-if="entry.selectedPerson.selectedAccount">
+				<div ng-repeat="content in related.contents">
+					<pre ng-click="entry.content = content">content = {{ content | json }}</pre><br>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<!--
-	<div entry="entry" style="position: absolute; z-index: 99999999999999999999999999999999999999999999999999999999999999;">
-		<pre>entry = {{ entry | json }}</pre><br>
-		<div content="content" request="entry.content" ng-if="entry.content">
-			<pre ng-click="entry.accounts = content.accounts">content = {{ content | json }}</pre><br>
-		</div>
-		<div discussions="discussions" request="entry.content" ng-if="entry.content">
-			<div ng-repeat="discussion in discussions">
-				<pre>discussion = {{ discussion | json }}</pre><br>
-			</div>
-		</div>
-		<div people="people" request="entry.accounts" ng-if="entry.accounts">
-			<div ng-repeat="person in people">
-				<pre ng-click="entry.selectedPerson = person">person = {{ person | json }}</pre><br>
-				<div account="account" request="person.selectedAccount" ng-if="person.selectedAccount">
-					<pre>account (person's selected) = {{ account | json }}</pre><br>
-				</div>
-			</div>
-		</div>
-		<div ng-repeat="account in entry.selectedPerson.accounts">
-			<pre ng-click="entry.selectedPerson.selectedAccount = account">account = {{ account | json }}</pre><br>
-		</div>
-		<div related="related" request="entry.selectedPerson.selectedAccount" ng-if="entry.selectedPerson.selectedAccount">
-			<div ng-repeat="content in related.contents">
-				<pre ng-click="entry.content = content">content = {{ content | json }}</pre><br>
-			</div>
-		</div>
-	</div>
-	-->
 
 	<div class="feedback-trigger">
 		<span>Click here to talk to us. We'd love to<br>hear your feedback, be it good or bad!</span>

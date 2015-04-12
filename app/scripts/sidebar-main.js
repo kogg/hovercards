@@ -1,7 +1,6 @@
 'use strict';
 
 require(['account-directive',
-         'cards-directive',
          'content-directive',
          'discussions-directive',
          'entry-directive',
