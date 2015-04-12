@@ -14,7 +14,7 @@
 			</a>
 		</div>
 		<div class="comment-right col-9">
-			<a href="https://www.youtube.com/channel/{{ ::comment.channel.id }}" target="_blank">{{ ::commentchannel.name }}</a>
+			<a href="https://www.youtube.com/channel/{{ ::comment.channel.id }}" target="_blank">{{ ::comment.channel.name }}</a>
 			<p readmore="::comment.description | htmlify" style="max-height: 170px"></p>
 			<b class="youtube-color"><i class="md md-access-time"></i> {{ ::comment.date | date }}</b>
 		</div>
