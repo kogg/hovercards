@@ -1,7 +1,7 @@
 <div class="video-top">
-	<div class="video-image" ng-style="::card.image && { 'background-image': 'url(' + card.image + ')' }">
+	<div class="video-image" ng-style="::content.image && { 'background-image': 'url(' + content.image + ')' }">
 		<div class="youtube-video" ng-if="playing">
-			<iframe width="100%" height="100%" ng-src="{{ 'https://www.youtube.com/embed/' + card.id + '?autoplay=1&donthovercards' | trustresourceurl }}" frameborder="0" allowfullscreen="" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+			<iframe width="100%" height="100%" ng-src="{{ 'https://www.youtube.com/embed/' + content.id + '?autoplay=1&donthovercards' | trustresourceurl }}" frameborder="0" allowfullscreen="" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 		</div>
 
 	</div>
@@ -12,30 +12,27 @@
 
 <div class="card-text">
 	<div class="video-title">
-	<b class="youtube-color"><i class="md md-access-time"></i> {{ ::card.date | date }}</b>
-		<a href="https://www.youtube.com/watch?v={{ ::card.id }}" target="_blank" ng-click="$event.stopPropagation()">{{ ::card.name }}</a>
+	<b class="youtube-color"><i class="md md-access-time"></i> {{ ::content.date | date }}</b>
+		<a href="https://www.youtube.com/watch?v={{ ::content.id }}" target="_blank" ng-click="$event.stopPropagation()">{{ ::content.name }}</a>
 	</div>
-	<div ng-show="card.toggled" ng-click="$event.stopPropagation()" ng-if="::card.description" class="slide-animation card-description">
-		<div ng-show="card.toggled" class="fade-animation">
-			<p readmore="::card.description | htmlify" style="max-height: 170px"></p>
-		</div>
+	<div ng-if="::content.description" class="card-description">
+		<p readmore="::content.description | htmlify" style="max-height: 50px"></p>
 	</div>
 </div>
 <div class="card-stats row">
 	<div class="col-4">
 		<b>Views</b>
-		<span>{{ ::card.views | numsmall }}</span>
+		<span>{{ ::content.views | numsmall }}</span>
 	</div>
 	<div class="col-4">
 		<b>Likes</b>
-		<span>{{ ::card.likes | numsmall }}</span>
+		<span>{{ ::content.likes | numsmall }}</span>
 	</div>
 	<div class="col-4">
 		<b>Dislikes</b>
-		<span>{{ ::card.dislikes | numsmall }}</span>
+		<span>{{ ::content.dislikes | numsmall }}</span>
 	</div>
-	<div class="percent-bar" ng-if="::card.likes + card.dislikes">
-		<div class="percent-bar-good" ng-style="::(card.likes + card.dislikes) && { width: (100 * card.likes / (card.likes + card.dislikes)) + '%' }"></div>
+	<div class="percent-bar" ng-if="::content.likes + content.dislikes">
+		<div class="percent-bar-good" ng-style="::(content.likes + content.dislikes) && { width: (100 * content.likes / (content.likes + content.dislikes)) + '%' }"></div>
 	</div>
 </div>
-<span ng-init="card.actionable = !!card.description"></span>
