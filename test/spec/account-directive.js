@@ -83,7 +83,5 @@ describe('account-directive', function() {
 
             expect($rootScope.account).to.deep.equal(response);
         });
-
-        // TODO Load stuff from server
     });
 });

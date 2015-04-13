@@ -132,7 +132,5 @@ describe('discussions-directive', function() {
 
             expect($rootScope.discussions).to.deep.equal(response);
         });
-
-        // TODO Load stuff from server
     });
 });
