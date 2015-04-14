@@ -65,7 +65,7 @@ describe('people-directive', function() {
 
     describe('on request', function() {
         beforeEach(function() {
-            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts?accounts%5B0%5D%5Btype%5D=some-account&accounts%5B0%5D%5Bid%5D=ACCOUNT_ID',
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts?accounts[0][type]=some-account&accounts[0][id]=ACCOUNT_ID',
                                        [200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify([{ type: 'an-account',      id: 'AN_ID' },

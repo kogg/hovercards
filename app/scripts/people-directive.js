@@ -1,6 +1,6 @@
 'use strict';
 
-define('people-directive', ['angular-app'], function(app) {
+define('people-directive', ['angular-app', 'oboe', 'jquery'], function(app, oboe, $) {
     app.directive('people', function() {
         return {
             scope: {
@@ -9,21 +9,20 @@ define('people-directive', ['angular-app'], function(app) {
                 selectedPerson: '='
             },
             link: function($scope) {
-                var timeout;
                 $scope.$watch('request', function(request) {
+                    $scope.selectedPerson = null;
                     $scope.people = null;
-                    clearTimeout(timeout);
                     if (!request) {
                         return;
                     }
-                    $scope.people = [];
-                    $.get('https://hovercards.herokuapp.com/v1/accounts', { accounts: request })
-                        .done(function(accounts) {
+                    var people = [];
+                    $scope.people = people;
+                    oboe('https://hovercards.herokuapp.com/v1/accounts?' + decodeURIComponent($.param({ accounts: request })))
+                        .node('!.{type id}', function(account) {
                             $scope.$apply(function() {
-                                accounts.forEach(function(account) {
-                                    $scope.people.push({ accounts: [account], selectedAccount: account });
-                                });
-                                $scope.selectedPerson = $scope.people[0];
+                                var person = { accounts: [account], selectedAccount: account };
+                                people.push(person);
+                                $scope.selectedPerson = $scope.selectedPerson || person;
                             });
                         });
                 });
