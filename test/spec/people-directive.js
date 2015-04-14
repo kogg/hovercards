@@ -44,13 +44,13 @@ describe('people-directive', function() {
     });
 
     it('should two way bind request', function() {
-        $rootScope.request = 'Out => In';
+        $rootScope.request = ['Out => In'];
         $rootScope.$digest();
-        expect(scope.request).to.equal('Out => In');
+        expect(scope.request).to.deep.equal(['Out => In']);
 
-        scope.request = 'In => Out';
+        scope.request = ['In => Out'];
         $rootScope.$digest();
-        expect($rootScope.request).to.equal('In => Out');
+        expect($rootScope.request).to.deep.equal(['In => Out']);
     });
 
     it('should two way bind selectedPerson', function() {
@@ -65,7 +65,7 @@ describe('people-directive', function() {
 
     describe('on request', function() {
         beforeEach(function() {
-            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts?accounts[0][type]=some-account&accounts[0][id]=ACCOUNT_ID',
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts/an-account/ACCOUNT_ID',
                                        [200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify([{ type: 'an-account',      id: 'AN_ID' },
@@ -73,7 +73,7 @@ describe('people-directive', function() {
         });
 
         it('should empty people', function() {
-            $rootScope.request = 'Something';
+            $rootScope.request = ['Something'];
             $rootScope.$digest();
             $rootScope.people = 'Something';
             $rootScope.$digest();
@@ -84,7 +84,7 @@ describe('people-directive', function() {
         });
 
         it('should unset people if null', function() {
-            $rootScope.request = 'Something';
+            $rootScope.request = ['Something'];
             $rootScope.$digest();
             $rootScope.people = 'Something';
             $rootScope.$digest();
@@ -95,7 +95,7 @@ describe('people-directive', function() {
         });
 
         it('should initially set accounts to seperate people', function() {
-            $rootScope.request = [{ type: 'some-account', id: 'ACCOUNT_ID' }];
+            $rootScope.request = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();
@@ -105,7 +105,7 @@ describe('people-directive', function() {
         });
 
         it('should initially set a selectedPerson to the first account', function() {
-            $rootScope.request = [{ type: 'some-account', id: 'ACCOUNT_ID' }];
+            $rootScope.request = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();
@@ -114,7 +114,7 @@ describe('people-directive', function() {
         });
 
         it('should initially set a person\'s selectedAccount to the first account', function() {
-            $rootScope.request = [{ type: 'some-account', id: 'ACCOUNT_ID' }];
+            $rootScope.request = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();
