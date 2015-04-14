@@ -9,7 +9,11 @@ define('account-directive', ['angular-app'], function(app) {
             },
             link: function($scope) {
                 $scope.$watch('request', function(request) {
-                    $scope.account = request;
+                    $scope.account = null;
+
+                    setTimeout(function() {
+                        $scope.account = request;
+                    }, 200);
                 });
             }
         };
