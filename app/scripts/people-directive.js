@@ -18,7 +18,7 @@ define('people-directive', ['angular-app'], function(app) {
                     $.get('https://hovercards.herokuapp.com/v1/accounts', { accounts: request })
                         .done(function(accounts) {
                             $scope.$apply(function() {
-                                $scope.people = [{ accounts: accounts }];
+                                $scope.people = [{ accounts: accounts, selectedAccount: accounts[0] }];
                             });
                         });
                 });
