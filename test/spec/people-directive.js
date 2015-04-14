@@ -64,72 +64,63 @@ describe('people-directive', function() {
     });
 
     describe('on request', function() {
+        beforeEach(function() {
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts?accounts%5B0%5D%5Btype%5D=some-account&accounts%5B0%5D%5Bid%5D=ACCOUNT_ID',
+                                       [200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify([{ type: 'an-account',      id: 'AN_ID' },
+                                                        { type: 'another-account', id: 'ANOTHER_ID' }])]);
+        });
+
         it('should empty people', function() {
             $rootScope.request = 'Something';
             $rootScope.$digest();
             $rootScope.people = 'Something';
             $rootScope.$digest();
-            $rootScope.request = 'Something Else';
+            $rootScope.request = [{ type: 'some-account', id: 'ACCOUNT_ID' }];
+            $rootScope.$digest();
+
+            expect($rootScope.people).to.be.an('array');
+        });
+
+        it('should unset people if null', function() {
+            $rootScope.request = 'Something';
+            $rootScope.$digest();
+            $rootScope.people = 'Something';
+            $rootScope.$digest();
+            $rootScope.request = null;
             $rootScope.$digest();
 
             expect($rootScope.people).not.to.exist;
         });
 
-        it('should set accounts', function() {
-            $rootScope.request = [{ type: 'youtube-channel', id: 'UCXMwB3cyA75bh4QI4pbeHgw' }];
+        it('should initially set accounts to seperate people', function() {
+            $rootScope.request = [{ type: 'some-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
-            var response = [{ type:        'youtube-channel',
-                              id:          'UCORIeT1hk6tYBuntEXsguLg',
-                              image:       'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s240-c-k-no/photo.jpg',
-                              name:        'ScottBradleeLovesYa',
-                              description: 'An alternate universe of pop music.\nSnapchat: scottbradlee\nTwitter / Insta: scottbradlee\n\niTunes: https://itunes.apple.com/us/artist/scott-bradlee-postmodern-jukebox/id636865970\n\n\n\nPMJ Tour Tix: http://www.PMJLive.com\nThe Great Impression Tour: 2015 North American Dates on sale now\n\n\nWebsite:  http://www.postmodernjukebox.com\nMy Patreon:  http://www.patreon.com/scottbradlee\nTwitter / Instagram / Vine: @scottbradlee\n\n"Like" me!\nhttp://www.facebook.com/scottbradleemusic\n\nand Postmodern Jukebox:\nhttp://www.facebook.com/postmodernjukebox',
-                              subscribers: 1063079,
-                              videos:      138,
-                              views:       199361777 }];
-            sandbox.server.respond('GET',
-                                   'https://hovercards.herokuapp.com/v1/accounts?accounts%5B0%5D%5Btype%5D=youtube-channel&accounts%5B0%5D%5Bid%5D=UCXMwB3cyA75bh4QI4pbeHgw',
-                                   [200, { 'Content-Type': 'application/json' }, JSON.stringify(response)]);
+            sandbox.server.respond();
             $rootScope.$digest();
 
-            expect($rootScope.people[0].accounts).to.deep.equal(response);
+            expect($rootScope.people[0]).to.have.property('accounts').that.deep.equals([{ type: 'an-account',      id: 'AN_ID' }]);
+            expect($rootScope.people[1]).to.have.property('accounts').that.deep.equals([{ type: 'another-account', id: 'ANOTHER_ID' }]);
         });
 
-        it('should set selectedPerson', function() {
-            $rootScope.request = [{ type: 'youtube-channel', id: 'UCXMwB3cyA75bh4QI4pbeHgw' }];
+        it('should initially set a selectedPerson to the first account', function() {
+            $rootScope.request = [{ type: 'some-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
-            var response = [{ type:        'youtube-channel',
-                              id:          'UCORIeT1hk6tYBuntEXsguLg',
-                              image:       'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s240-c-k-no/photo.jpg',
-                              name:        'ScottBradleeLovesYa',
-                              description: 'An alternate universe of pop music.\nSnapchat: scottbradlee\nTwitter / Insta: scottbradlee\n\niTunes: https://itunes.apple.com/us/artist/scott-bradlee-postmodern-jukebox/id636865970\n\n\n\nPMJ Tour Tix: http://www.PMJLive.com\nThe Great Impression Tour: 2015 North American Dates on sale now\n\n\nWebsite:  http://www.postmodernjukebox.com\nMy Patreon:  http://www.patreon.com/scottbradlee\nTwitter / Instagram / Vine: @scottbradlee\n\n"Like" me!\nhttp://www.facebook.com/scottbradleemusic\n\nand Postmodern Jukebox:\nhttp://www.facebook.com/postmodernjukebox',
-                              subscribers: 1063079,
-                              videos:      138,
-                              views:       199361777 }];
-            sandbox.server.respond('GET',
-                                   'https://hovercards.herokuapp.com/v1/accounts?accounts%5B0%5D%5Btype%5D=youtube-channel&accounts%5B0%5D%5Bid%5D=UCXMwB3cyA75bh4QI4pbeHgw',
-                                   [200, { 'Content-Type': 'application/json' }, JSON.stringify(response)]);
+            sandbox.server.respond();
             $rootScope.$digest();
 
-            expect($rootScope.selectedPerson).to.deep.equal($rootScope.people[0]);
+            expect($rootScope.selectedPerson).to.equal($rootScope.people[0]);
         });
 
-        it('should set the person\'s selectedAccount to the first account', function() {
-            $rootScope.request = [{ type: 'youtube-channel', id: 'UCXMwB3cyA75bh4QI4pbeHgw' }];
+        it('should initially set a person\'s selectedAccount to the first account', function() {
+            $rootScope.request = [{ type: 'some-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
-            var response = [{ type:        'youtube-channel',
-                              id:          'UCORIeT1hk6tYBuntEXsguLg',
-                              image:       'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s240-c-k-no/photo.jpg',
-                              name:        'ScottBradleeLovesYa',
-                              description: 'An alternate universe of pop music.\nSnapchat: scottbradlee\nTwitter / Insta: scottbradlee\n\niTunes: https://itunes.apple.com/us/artist/scott-bradlee-postmodern-jukebox/id636865970\n\n\n\nPMJ Tour Tix: http://www.PMJLive.com\nThe Great Impression Tour: 2015 North American Dates on sale now\n\n\nWebsite:  http://www.postmodernjukebox.com\nMy Patreon:  http://www.patreon.com/scottbradlee\nTwitter / Instagram / Vine: @scottbradlee\n\n"Like" me!\nhttp://www.facebook.com/scottbradleemusic\n\nand Postmodern Jukebox:\nhttp://www.facebook.com/postmodernjukebox',
-                              subscribers: 1063079,
-                              videos:      138,
-                              views:       199361777 }];
-            sandbox.server.respond('GET',
-                                   'https://hovercards.herokuapp.com/v1/accounts?accounts%5B0%5D%5Btype%5D=youtube-channel&accounts%5B0%5D%5Bid%5D=UCXMwB3cyA75bh4QI4pbeHgw',
-                                   [200, { 'Content-Type': 'application/json' }, JSON.stringify(response)]);
+            sandbox.server.respond();
             $rootScope.$digest();
 
-            expect($rootScope.people[0].selectedAccount).to.equal($rootScope.people[0].accounts[0]);
+            expect($rootScope.people[0]).to.have.property('selectedAccount').that.equals($rootScope.people[0].accounts[0]);
+            expect($rootScope.people[1]).to.have.property('selectedAccount').that.equals($rootScope.people[1].accounts[0]);
         });
     });
 });
