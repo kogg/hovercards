@@ -5,7 +5,8 @@ define('people-directive', ['angular-app'], function(app) {
         return {
             scope: {
                 request: '=',
-                people: '='
+                people: '=',
+                selectedPerson: '='
             },
             link: function($scope) {
                 var timeout;
@@ -19,6 +20,7 @@ define('people-directive', ['angular-app'], function(app) {
                         .done(function(accounts) {
                             $scope.$apply(function() {
                                 $scope.people = [{ accounts: accounts, selectedAccount: accounts[0] }];
+                                $scope.selectedPerson = $scope.people[0];
                             });
                         });
                 });
