@@ -94,33 +94,33 @@ describe('people-directive', function() {
             expect($rootScope.people).not.to.exist;
         });
 
-        it('should initially set accounts to seperate people', function() {
+        it('should set accounts to seperate people', function() {
             $rootScope.request = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();
 
-            expect($rootScope.people[0]).to.have.property('accounts').that.deep.equals([{ type: 'an-account',      id: 'AN_ID' }]);
-            expect($rootScope.people[1]).to.have.property('accounts').that.deep.equals([{ type: 'another-account', id: 'ANOTHER_ID' }]);
+            expect($rootScope.people[0].accounts).to.contain({ type: 'an-account',      id: 'AN_ID' });
+            expect($rootScope.people[1].accounts).to.contain({ type: 'another-account', id: 'ANOTHER_ID' });
         });
 
-        it('should initially set a selectedPerson to the first account', function() {
+        it('should set selectedPerson to one of the people', function() {
             $rootScope.request = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();
 
-            expect($rootScope.selectedPerson).to.equal($rootScope.people[0]);
+            expect($rootScope.people).to.contain($rootScope.selectedPerson);
         });
 
-        it('should initially set a person\'s selectedAccount to the first account', function() {
+        it('should each person\'s selectedAccount to one of their accounts', function() {
             $rootScope.request = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();
 
-            expect($rootScope.people[0]).to.have.property('selectedAccount').that.equals($rootScope.people[0].accounts[0]);
-            expect($rootScope.people[1]).to.have.property('selectedAccount').that.equals($rootScope.people[1].accounts[0]);
+            expect($rootScope.people[0].accounts).to.contain($rootScope.people[0].selectedAccount);
+            expect($rootScope.people[1].accounts).to.contain($rootScope.people[1].selectedAccount);
         });
     });
 });

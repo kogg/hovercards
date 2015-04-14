@@ -30,7 +30,8 @@ define('people-directive', ['angular-app', 'oboe'], function(app, oboe) {
                                     people.push(person);
                                     $scope.selectedPerson = $scope.selectedPerson || person;
                                 });
-                            }).abort);
+                            })
+                            .abort);
                     });
                 });
             }
