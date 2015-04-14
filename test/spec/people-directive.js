@@ -19,8 +19,9 @@ describe('people-directive', function() {
     }));
     beforeEach(function(done) {
         require(['angular'], function(angular) {
-            element = angular.element('<div people="people" request="request"></div>');
+            sandbox.useFakeServer();
 
+            element = angular.element('<div people="people" request="request"></div>');
             $compile(element)($rootScope);
             $rootScope.$digest();
             scope = element.isolateScope();
@@ -64,6 +65,23 @@ describe('people-directive', function() {
             expect($rootScope.people).not.to.exist;
         });
 
-        // TODO Load stuff from server
+        it('should set people with server response', function() {
+            $rootScope.request = [{ type: 'youtube-channel', id: 'UCXMwB3cyA75bh4QI4pbeHgw' }];
+            $rootScope.$digest();
+            var response = [{ type:        'youtube-channel',
+                              id:          'UCORIeT1hk6tYBuntEXsguLg',
+                              image:       'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s240-c-k-no/photo.jpg',
+                              name:        'ScottBradleeLovesYa',
+                              description: 'An alternate universe of pop music.\nSnapchat: scottbradlee\nTwitter / Insta: scottbradlee\n\niTunes: https://itunes.apple.com/us/artist/scott-bradlee-postmodern-jukebox/id636865970\n\n\n\nPMJ Tour Tix: http://www.PMJLive.com\nThe Great Impression Tour: 2015 North American Dates on sale now\n\n\nWebsite:  http://www.postmodernjukebox.com\nMy Patreon:  http://www.patreon.com/scottbradlee\nTwitter / Instagram / Vine: @scottbradlee\n\n"Like" me!\nhttp://www.facebook.com/scottbradleemusic\n\nand Postmodern Jukebox:\nhttp://www.facebook.com/postmodernjukebox',
+                              subscribers: 1063079,
+                              videos:      138,
+                              views:       199361777 }];
+            sandbox.server.respond('GET',
+                                   'https://hovercards.herokuapp.com/v1/accounts?accounts%5B0%5D%5Btype%5D=youtube-channel&accounts%5B0%5D%5Bid%5D=UCXMwB3cyA75bh4QI4pbeHgw',
+                                   [200, { 'Content-Type': 'application/json' }, JSON.stringify(response)]);
+            $rootScope.$digest();
+
+            expect($rootScope.people).to.deep.equal([{ accounts: response }]);
+        });
     });
 });

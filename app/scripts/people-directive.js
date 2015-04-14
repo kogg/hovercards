@@ -15,12 +15,12 @@ define('people-directive', ['angular-app'], function(app) {
                     if (!request) {
                         return;
                     }
-                    timeout = setTimeout(function() {
-                        $scope.$apply(function() {
-                            $scope.people = [{ accounts: [{ type: 'youtube-channel', id: 'UCORIeT1hk6tYBuntEXsguLg' }, { type: 'twitter-account', id: 'SOME_ID' }] },
-                                             {}];
+                    $.get('https://hovercards.herokuapp.com/v1/accounts', { accounts: request })
+                        .done(function(accounts) {
+                            $scope.$apply(function() {
+                                $scope.people = [{ accounts: accounts }];
+                            });
                         });
-                    }, 333);
                 });
             }
         };
