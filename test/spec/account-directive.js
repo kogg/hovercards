@@ -54,7 +54,7 @@ describe('account-directive', function() {
     });
 
     describe('on request', function() {
-        it('should empty account', function() {
+        it('should set account to request', function() {
             $rootScope.request = 'Something';
             $rootScope.$digest();
             $rootScope.account = 'Something';
@@ -62,26 +62,7 @@ describe('account-directive', function() {
             $rootScope.request = 'Something Else';
             $rootScope.$digest();
 
-            expect($rootScope.account).not.to.exist;
-        });
-
-        it('should set account with server response', function() {
-            $rootScope.request = { type: 'youtube-channel', id: 'UCXMwB3cyA75bh4QI4pbeHgw' };
-            $rootScope.$digest();
-            var response = { type:        'youtube-channel',
-                             id:          'UCORIeT1hk6tYBuntEXsguLg',
-                             image:       'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s240-c-k-no/photo.jpg',
-                             name:        'ScottBradleeLovesYa',
-                             description: 'An alternate universe of pop music.\nSnapchat: scottbradlee\nTwitter / Insta: scottbradlee\n\niTunes: https://itunes.apple.com/us/artist/scott-bradlee-postmodern-jukebox/id636865970\n\n\n\nPMJ Tour Tix: http://www.PMJLive.com\nThe Great Impression Tour: 2015 North American Dates on sale now\n\n\nWebsite:  http://www.postmodernjukebox.com\nMy Patreon:  http://www.patreon.com/scottbradlee\nTwitter / Instagram / Vine: @scottbradlee\n\n"Like" me!\nhttp://www.facebook.com/scottbradleemusic\n\nand Postmodern Jukebox:\nhttp://www.facebook.com/postmodernjukebox',
-                             subscribers: 1063079,
-                             videos:      138,
-                             views:       199361777 };
-            sandbox.server.respond('GET',
-                                   'https://hovercards.herokuapp.com/v1/account/youtube-channel/UCXMwB3cyA75bh4QI4pbeHgw',
-                                   [200, { 'Content-Type': 'application/json' }, JSON.stringify(response)]);
-            $rootScope.$digest();
-
-            expect($rootScope.account).to.deep.equal(response);
+            expect($rootScope.account).to.equal('Something Else');
         });
     });
 });
