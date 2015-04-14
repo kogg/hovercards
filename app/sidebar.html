@@ -16,15 +16,14 @@
 			<div discussions="discussions" request="entry.content" ng-if="entry.content">
 				<div ng-repeat="discussion in discussions" ng-include="'templates/'+ discussion.type + '.html'" class="card bounce-in-animation"></div>
 			</div>
-			<div people="people" request="entry.accounts" ng-if="entry.accounts">
-				<div ng-repeat="person in people">
-					<pre ng-click="entry.selectedPerson = person">person = {{ person | json }}</pre><br>
+			<div people="people" request="entry.accounts" selected-person="entry.selectedPerson" ng-if="entry.accounts">
+				<div ng-repeat="person in people" ng-click="entry.selectedPerson = person">
 					<div account="account" request="person.selectedAccount" ng-if="person.selectedAccount">
 						<div ng-include="'templates/'+ account.type + '.html'" ng-if="account" class="card bounce-in-animation"></div>
 					</div>
 				</div>
 			</div>
-			<pre ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">account = {{ account | json }}</pre><br>
+			<div ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">{{ account.type }}</div>
 			<div related="related" request="entry.selectedPerson.selectedAccount" ng-if="entry.selectedPerson.selectedAccount">
 				<pre ng-repeat="content in related.contents" ng-click="entry.content = content">content = {{ content | json }}</pre><br>
 			</div>

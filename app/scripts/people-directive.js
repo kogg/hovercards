@@ -5,7 +5,8 @@ define('people-directive', ['angular-app'], function(app) {
         return {
             scope: {
                 request: '=',
-                people: '='
+                people: '=',
+                selectedPerson: '='
             },
             link: function($scope) {
                 var timeout;
@@ -15,12 +16,13 @@ define('people-directive', ['angular-app'], function(app) {
                     if (!request) {
                         return;
                     }
-                    timeout = setTimeout(function() {
-                        $scope.$apply(function() {
-                            $scope.people = [{ accounts: [{ type: 'youtube-channel', id: 'UCORIeT1hk6tYBuntEXsguLg' }, { type: 'twitter-account', id: 'SOME_ID' }] },
-                                             {}];
+                    $.get('https://hovercards.herokuapp.com/v1/accounts', { accounts: request })
+                        .done(function(accounts) {
+                            $scope.$apply(function() {
+                                $scope.people = [{ accounts: accounts, selectedAccount: accounts[0] }];
+                                $scope.selectedPerson = $scope.people[0];
+                            });
                         });
-                    }, 333);
                 });
             }
         };
