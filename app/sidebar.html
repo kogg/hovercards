@@ -25,7 +25,7 @@
 					</div>
 				</div>
 				<div class="network-menu-container" ng-class="'network-menu-size-' + selectedPerson.accounts.length" ng-if="selectedPerson.accounts.length">
-					<div class="network-menu-option" ng-class="account.type + '-option'" ng-repeat="account in selectedPerson.accounts" ng-click="selectedPerson.selectedAccount = account">
+					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in selectedPerson.accounts" ng-click="selectedPerson.selectedAccount = account">
 						<span ng-class="account == selectedPerson.selectedAccount && 'active'">{{ account.type | copy }}</span>
 					</div>
 					<div class="network-menu-option">
@@ -38,6 +38,8 @@
 						<span>ProductHunt</span>
 					</div>
 				</div>
+				<div ng-show="selectedPerson.menuOffset" ng-click="selectedPerson.menuOffset = (selectedPerson.menuOffset || 0) - 3">Left</div>
+				<div ng-show="selectedPerson.menuOffset + 3 < selectedPerson.accounts.length" ng-click="selectedPerson.menuOffset = (selectedPerson.menuOffset || 0) + 3">Right</div>
 				<!--
 				<div related="related" request="selectedPerson.selectedAccount" ng-if="selectedPerson.selectedAccount">
 					<pre ng-repeat="content in related.contents" ng-click="entry.content = content">content = {{ content | json }}</pre><br>
