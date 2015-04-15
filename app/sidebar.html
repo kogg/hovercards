@@ -51,11 +51,9 @@
                 <div ng-if="selectedPerson.selectedAccount.description" class="card-description-padding">
                     <p readmore="selectedPerson.selectedAccount.description | htmlify" style="max-height: 50px"></p>
                 </div>
-                <!--
-                <div related="related" request="selectedPerson.selectedAccount" ng-if="selectedPerson.selectedAccount">
-                    <pre ng-repeat="content in related.contents" ng-click="entry.content = content">content = {{ content | json }}</pre><br>
+                <div more-content="moreContent" request="selectedPerson.selectedAccount" ng-if="selectedPerson.selectedAccount">
+                    {{ moreContent | json }}
                 </div>
-            -->
             </div>
         </div>
     </div>
