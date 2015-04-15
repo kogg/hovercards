@@ -370,6 +370,7 @@ b i {
 }
 /*Network Menu*/
 .network-menu {
+	padding: 0 20px;
 }
 .network-menu-container {
 	overflow: hidden;
