@@ -1,68 +1,68 @@
 <html ng-csp>
 <head>
-    <link rel="stylesheet" href="bower_components/angular/angular-csp.css">
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
-    <style> pre { background-color: pink; font-size: 10pt; } </style>
+	<link rel="stylesheet" href="bower_components/angular/angular-csp.css">
+	<link rel="stylesheet" href="styles/styles.css">
+	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
+	<style> pre { background-color: pink; font-size: 10pt; } </style>
 </head>
 <body>
-    <div class="ng-cloak" entry="entry" ng-cloak>
-        <div class="fade-out-animation" people="people" requests="entry.accounts" selected-person="selectedPerson" ng-if="entry">
-            <div class="cards">
-                <div content="content" request="entry.content" ng-if="entry.content">
-                    <div class="card bounce-in-animation" ng-if="content">
-                        <div ng-include="'templates/'+ content.type + '.html'"></div>
-                        <!-- TODO Figure out what triggers the people content to load -->
-                        <div ng-init="entry.accounts = content.accounts" ng-if="content"></div>
-                    </div>
-                </div>
+	<div class="ng-cloak" entry="entry" ng-cloak>
+		<div class="fade-out-animation" people="people" requests="entry.accounts" selected-person="selectedPerson" ng-if="entry">
+			<div class="cards">
+				<div content="content" request="entry.content" ng-if="entry.content">
+					<div class="card bounce-in-animation" ng-if="content">
+						<div ng-include="'templates/'+ content.type + '.html'"></div>
+						<!-- TODO Figure out what triggers the people content to load -->
+						<div ng-init="entry.accounts = content.accounts" ng-if="content"></div>
+					</div>
+				</div>
 
-                <div discussions="discussions" request="entry.content" ng-if="entry.content">
-                    <div class="card bounce-in-animation" ng-repeat="discussion in discussions">
-                        <div ng-include="'templates/'+ discussion.type + '.html'"></div>
-                    </div>
-                </div>
+				<div discussions="discussions" request="entry.content" ng-if="entry.content">
+					<div class="card bounce-in-animation" ng-repeat="discussion in discussions">
+						<div ng-include="'templates/'+ discussion.type + '.html'"></div>
+					</div>
+				</div>
 
-                <div class="card bounce-in-animation" ng-if="people">
-                    <div ng-repeat="person in people" ng-click="selectedPerson = person">
-                        <div ng-include="'templates/'+ person.selectedAccount.type + '.html'"></div>
-                    </div>
-                </div>
-            </div>
+				<div class="card bounce-in-animation" ng-if="people">
+					<div ng-repeat="person in people" ng-click="selectedPerson = person">
+						<div ng-include="'templates/'+ person.selectedAccount.type + '.html'"></div>
+					</div>
+				</div>
+			</div>
 
-            <div class="network-menu-container" ng-class="'network-menu-size-' + selectedPerson.accounts.length" ng-if="selectedPerson.accounts.length">
-                <div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in selectedPerson.accounts" ng-click="selectedPerson.selectedAccount = account">
-                    <span ng-class="account == selectedPerson.selectedAccount && 'active'">{{ account.type | copy }}</span>
-                </div>
-                <div class="network-menu-option">
-                    <span>Facebook</span>
-                </div>
-                <div class="network-menu-option">
-                    <span>Instagram</span>
-                </div>
-                <div class="network-menu-option">
-                    <span>ProductHunt</span>
-                </div>
-            </div>
-            <div ng-show="selectedPerson.menuOffset" ng-click="selectedPerson.menuOffset = (selectedPerson.menuOffset || 0) - 3">Left</div>
-            <div ng-show="selectedPerson.menuOffset + 3 < selectedPerson.accounts.length" ng-click="selectedPerson.menuOffset = (selectedPerson.menuOffset || 0) + 3">Right</div>
+			<div class="network-menu-container" ng-class="'network-menu-size-' + selectedPerson.accounts.length" ng-if="selectedPerson.accounts.length">
+				<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in selectedPerson.accounts" ng-click="selectedPerson.selectedAccount = account">
+					<span ng-class="account == selectedPerson.selectedAccount && 'active'">{{ account.type | copy }}</span>
+				</div>
+				<div class="network-menu-option">
+					<span>Facebook</span>
+				</div>
+				<div class="network-menu-option">
+					<span>Instagram</span>
+				</div>
+				<div class="network-menu-option">
+					<span>ProductHunt</span>
+				</div>
+			</div>
+			<div ng-show="selectedPerson.menuOffset" ng-click="selectedPerson.menuOffset = (selectedPerson.menuOffset || 0) - 3">Left</div>
+			<div ng-show="selectedPerson.menuOffset + 3 < selectedPerson.accounts.length" ng-click="selectedPerson.menuOffset = (selectedPerson.menuOffset || 0) + 3">Right</div>
 
-            <div class="test" ng-if="selectedPerson.selectedAccount">
-                <div ng-if="selectedPerson.selectedAccount.description" class="card-description-padding">
-                    <p readmore="selectedPerson.selectedAccount.description | htmlify" style="max-height: 50px"></p>
-                </div>
-                <!--
-                <div related="related" request="selectedPerson.selectedAccount" ng-if="selectedPerson.selectedAccount">
-                    <pre ng-repeat="content in related.contents" ng-click="entry.content = content">content = {{ content | json }}</pre><br>
-                </div>
-            -->
-            </div>
-        </div>
-    </div>
+			<div class="test" ng-if="selectedPerson.selectedAccount">
+				<div ng-if="selectedPerson.selectedAccount.description" class="card-description-padding">
+					<p readmore="selectedPerson.selectedAccount.description | htmlify" style="max-height: 50px"></p>
+				</div>
+				<div more-content="moreContent" request="selectedPerson.selectedAccount" ng-if="selectedPerson.selectedAccount">
+					<div ng-if="moreContent">
+						<div ng-include="'templates/' + moreContent.type + '.html'"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <link rel="stylesheet" href="styles/subscribe-fix-style.css">
-    <script src="bower_components/requirejs/require.js"></script>
-    <script src="scripts/config.js"></script>
-    <script src="scripts/sidebar-main.js"></script>
+	<link rel="stylesheet" href="styles/subscribe-fix-style.css">
+	<script src="bower_components/requirejs/require.js"></script>
+	<script src="scripts/config.js"></script>
+	<script src="scripts/sidebar-main.js"></script>
 </body>
 </html>
