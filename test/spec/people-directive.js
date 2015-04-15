@@ -81,6 +81,7 @@ describe('people-directive', function() {
             $rootScope.$digest();
 
             expect($rootScope.people).to.be.an('array');
+            expect($rootScope.people).to.be.empty;
         });
 
         it('should unset people if null', function() {
