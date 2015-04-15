@@ -24,16 +24,25 @@
 						<div ng-include="'templates/'+ account.type + '.html'" ng-if="account" class="card bounce-in-animation"></div>
 					</div>
 				</div>
-				<div class="network-menu">
-					<div class="network-menu-container">
-						<div ng-repeat="account in selectedPerson.accounts" class="netowrk-menu-option" ng-class="account.type + '-option'" ng-click="selectedPerson.selectedAccount = account">
-							<span ng-class="account == selectedPerson.selectedAccount && 'active'">{{ account.type | copy }}</span>
-						</div>
+				<div class="network-menu-container">
+					<div ng-repeat="account in selectedPerson.accounts" class="network-menu-option" ng-class="account.type + '-option'" ng-click="selectedPerson.selectedAccount = account">
+						<span ng-class="account == selectedPerson.selectedAccount && 'active'">{{ account.type | copy }}</span>
+					</div>
+					<div class="network-menu-option">
+						<span>Facebook</span>
+					</div>
+					<div class="network-menu-option">
+						<span>Instagram</span>
+					</div>
+					<div class="network-menu-option">
+						<span>ProductHunt</span>
 					</div>
 				</div>
+				<!--
 				<div related="related" request="selectedPerson.selectedAccount" ng-if="selectedPerson.selectedAccount">
 					<pre ng-repeat="content in related.contents" ng-click="entry.content = content">content = {{ content | json }}</pre><br>
 				</div>
+			-->
 			</div>
 		</div>
 	</div>

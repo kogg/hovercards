@@ -78,7 +78,7 @@ body {
 	max-width: 340px;
 	top: 0px;
 	position: relative;
-	padding: 0 20px 16px;
+	padding: 0 20px 0;
 }
 
 /*default cards*/
@@ -369,15 +369,12 @@ b i {
 	background: white;
 }
 /*Network Menu*/
-.network-menu {
-	padding: 0 20px;
-}
 .network-menu-container {
 	overflow: hidden;
 	white-space: nowrap;
 	text-align: center;
 }
-.netowrk-menu-option {
+.network-menu-option {
 	line-height: 48px;
 	font-size: 14px;
 	font-weight: 500;
@@ -390,11 +387,11 @@ b i {
 	text-align: center;
 	transition: all .45s ease-in-out;
 }
-.netowrk-menu-option:hover {
+.network-menu-option:hover {
 	cursor: pointer;
 	color: black;
 }
-.netowrk-menu-option span.active:after {
+.network-menu-option span.active:after {
 	content: "";
 	position: absolute;
 	bottom: 0px;
@@ -402,10 +399,10 @@ b i {
 	width: 100%;
 	left: 0px;
 }
-.youtube-option span.active {
+.youtube-channel-option span.active {
 	color: red;
 }
-.youtube-option span.active:after {
+.youtube-channel-option span.active:after {
 	background: red;
 }
 .test {
