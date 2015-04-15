@@ -19,11 +19,8 @@
         "message": "Look for Carlito in the <b>omnibar!</b> He will let you know when you are able to activate Hover Cards!",
         "description": "The text of the notification when the sidebar is hidden for the first time"
     },
-    "youtube_video": {
-        "message": "Youtube Video"
-    },
     "youtube_channel": {
-        "message": "Youtube Channel"
+        "message": "Youtube"
     },
     "youtube_comments": {
         "message": "Youtube Comments"
