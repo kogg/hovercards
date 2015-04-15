@@ -8,24 +8,24 @@
 	<style> pre { background-color: pink; font-size: 10pt; } </style>
 </head>
 <body>
-	<div entry="entry" ng-cloak class="ng-cloak">
-		<div ng-if="entry" class="cards bounce-out-animation">
+	<div class="ng-cloak" entry="entry" ng-cloak>
+		<div class="cards bounce-out-animation" ng-if="entry">
 			<div content="content" request="entry.content" ng-if="entry.content">
-				<div ng-include="'templates/'+ content.type + '.html'" ng-if="content" class="card bounce-in-animation" ng-click="entry.accounts = content.accounts"></div>
+				<div class="card bounce-in-animation" ng-include="'templates/'+ content.type + '.html'" ng-if="content" ng-click="entry.accounts = content.accounts"></div>
 			</div>
 
 			<div discussions="discussions" request="entry.content" ng-if="entry.content">
-				<div ng-repeat="discussion in discussions" ng-include="'templates/'+ discussion.type + '.html'" class="card bounce-in-animation"></div>
+				<div class="card bounce-in-animation" ng-repeat="discussion in discussions" ng-include="'templates/'+ discussion.type + '.html'"></div>
 			</div>
 
 			<div people="people" requests="entry.accounts" selected-person="selectedPerson" ng-if="entry.accounts">
 				<div ng-repeat="person in people" ng-click="selectedPerson = person">
 					<div account="account" request="person.selectedAccount" ng-if="person.selectedAccount">
-						<div ng-include="'templates/'+ account.type + '.html'" ng-if="account" class="card bounce-in-animation"></div>
+						<div class="card bounce-in-animation" ng-include="'templates/'+ account.type + '.html'" ng-if="account"></div>
 					</div>
 				</div>
 				<div class="network-menu-container">
-					<div ng-repeat="account in selectedPerson.accounts" class="network-menu-option" ng-class="account.type + '-option'" ng-click="selectedPerson.selectedAccount = account">
+					<div class="network-menu-option" ng-class="account.type + '-option'" ng-repeat="account in selectedPerson.accounts" ng-click="selectedPerson.selectedAccount = account">
 						<span ng-class="account == selectedPerson.selectedAccount && 'active'">{{ account.type | copy }}</span>
 					</div>
 					<div class="network-menu-option">
