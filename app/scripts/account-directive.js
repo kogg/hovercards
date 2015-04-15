@@ -12,7 +12,9 @@ define('account-directive', ['angular-app'], function(app) {
                     $scope.account = null;
 
                     setTimeout(function() {
-                        $scope.account = request;
+                        $scope.$apply(function() {
+                            $scope.account = request;
+                        });
                     }, 200);
                 });
             }
