@@ -13,7 +13,7 @@ define('content-directive', ['angular-app'], function(app) {
                     if (!request) {
                         return;
                     }
-                    $.get('https://hovercards.herokuapp.com/v1/content/' + request.type + '/' + request.id)
+                    $.get('https://hovercards.herokuapp.com/v1/' + request.type + '/' + request.id)
                         .done(function(data) {
                             $scope.$apply(function() {
                                 $scope.content = data;

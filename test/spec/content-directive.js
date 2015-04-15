@@ -80,7 +80,7 @@ describe('content-directive', function() {
                              accounts:    [{ type: 'youtube-channel',
                                              id:   'UCORIeT1hk6tYBuntEXsguLg' }] };
             sandbox.server.respond('GET',
-                                   'https://hovercards.herokuapp.com/v1/content/youtube-video/m3lF2qEA2cw',
+                                   'https://hovercards.herokuapp.com/v1/youtube-video/m3lF2qEA2cw',
                                    [200, { 'Content-Type': 'application/json' }, JSON.stringify(response)]);
             $rootScope.$digest();
 

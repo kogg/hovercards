@@ -22,7 +22,7 @@ define('people-directive', ['angular-app', 'oboe'], function(app, oboe) {
                     }
                     $scope.people = [];
                     requests.forEach(function(request) {
-                        aborts.push(oboe('https://hovercards.herokuapp.com/v1/accounts/' + request.type + '/' + request.id)
+                        aborts.push(oboe('https://hovercards.herokuapp.com/v1/' + request.type + '/' + request.id)
                             .node('!.{type id}', function(account) {
                                 $scope.$apply(function() {
                                     // Get IDs from account

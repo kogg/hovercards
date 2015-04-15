@@ -19,7 +19,7 @@ define('discussions-directive', ['angular-app', 'oboe'], function(app, oboe) {
                         return;
                     }
                     $scope.discussions = [];
-                    aborts.push(oboe('https://hovercards.herokuapp.com/v1/discussions/' + request.type + '/' + request.id)
+                    aborts.push(oboe('https://hovercards.herokuapp.com/v1/' + request.type + '/' + request.id + '/discussions')
                         .node('!.{type id}', function(discussion) {
                             $scope.$apply(function() {
                                 $scope.discussions.push(discussion);

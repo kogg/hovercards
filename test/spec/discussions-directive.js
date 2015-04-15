@@ -138,7 +138,7 @@ describe('discussions-directive', function() {
                                                           name:  'ScottBradleeLovesYa',
                                                           image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } }] }];
             sandbox.server.respond('GET',
-                                   'https://hovercards.herokuapp.com/v1/discussions/youtube-video/m3lF2qEA2cw',
+                                   'https://hovercards.herokuapp.com/v1/youtube-video/m3lF2qEA2cw/discussions',
                                    [200, { 'Content-Type': 'application/json' }, JSON.stringify(response)]);
             $rootScope.$digest();
 

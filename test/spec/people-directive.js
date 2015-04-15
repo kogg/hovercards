@@ -65,7 +65,7 @@ describe('people-directive', function() {
 
     describe('on requests', function() {
         beforeEach(function() {
-            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts/first-account/FIRST_ID',
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/first-account/FIRST_ID',
                                        [200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify([{ type: 'first-account',  id: 'FIRST_ID' },
@@ -126,7 +126,7 @@ describe('people-directive', function() {
         });
 
         it('should add accounts into a person who lists them', function() {
-            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts/first-account/FIRST_ID',
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/first-account/FIRST_ID',
                                        [200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify([{ type: 'first-account',  id: 'FIRST_ID', connected: [{ type: 'second-account', id: 'SECOND_ID' },
@@ -145,7 +145,7 @@ describe('people-directive', function() {
         });
 
         it('should merge people when an account references their accounts', function() {
-            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts/first-account/FIRST_ID',
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/first-account/FIRST_ID',
                                        [200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify([{ type: 'first-account',  id: 'FIRST_ID' },
@@ -164,7 +164,7 @@ describe('people-directive', function() {
         });
 
         it('should merge people who reference the same account', function() {
-            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts/first-account/FIRST_ID',
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/first-account/FIRST_ID',
                                        [200,
                                         { 'Content-Type': 'application/json' },
                                         JSON.stringify([{ type: 'first-account',  id: 'FIRST_ID',  connected: [{ type: 'third-account',  id: 'THIRD_ID' }] },
