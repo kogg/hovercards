@@ -24,7 +24,7 @@
 						<div class="card bounce-in-animation" ng-include="'templates/'+ account.type + '.html'" ng-if="account"></div>
 					</div>
 				</div>
-				<div class="network-menu-container">
+				<div class="network-menu-container" ng-class="'network-menu-size-' + selectedPerson.accounts.length" ng-if="selectedPerson.accounts.length">
 					<div class="network-menu-option" ng-class="account.type + '-option'" ng-repeat="account in selectedPerson.accounts" ng-click="selectedPerson.selectedAccount = account">
 						<span ng-class="account == selectedPerson.selectedAccount && 'active'">{{ account.type | copy }}</span>
 					</div>
