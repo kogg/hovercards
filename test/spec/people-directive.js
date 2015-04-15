@@ -65,11 +65,11 @@ describe('people-directive', function() {
 
     describe('on requests', function() {
         beforeEach(function() {
-            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts/an-account/ACCOUNT_ID',
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts/first-account/FIRST_ID',
                                        [200,
                                         { 'Content-Type': 'application/json' },
-                                        JSON.stringify([{ type: 'an-account',      id: 'AN_ID' },
-                                                        { type: 'another-account', id: 'ANOTHER_ID' }])]);
+                                        JSON.stringify([{ type: 'first-account',  id: 'FIRST_ID' },
+                                                        { type: 'second-account', id: 'SECOND_ID' }])]);
         });
 
         it('should empty people', function() {
@@ -77,7 +77,7 @@ describe('people-directive', function() {
             $rootScope.$digest();
             $rootScope.people = 'Something';
             $rootScope.$digest();
-            $rootScope.requests = [{ type: 'some-account', id: 'ACCOUNT_ID' }];
+            $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
             $rootScope.$digest();
 
             expect($rootScope.people).to.be.an('array');
@@ -96,17 +96,17 @@ describe('people-directive', function() {
         });
 
         it('should set accounts to seperate people', function() {
-            $rootScope.requests = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
+            $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();
 
-            expect($rootScope.people[0].accounts).to.contain({ type: 'an-account',      id: 'AN_ID' });
-            expect($rootScope.people[1].accounts).to.contain({ type: 'another-account', id: 'ANOTHER_ID' });
+            expect($rootScope.people[0].accounts).to.contain({ type: 'first-account',  id: 'FIRST_ID' });
+            expect($rootScope.people[1].accounts).to.contain({ type: 'second-account', id: 'SECOND_ID' });
         });
 
         it('should set selectedPerson to one of the people', function() {
-            $rootScope.requests = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
+            $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();
@@ -115,7 +115,7 @@ describe('people-directive', function() {
         });
 
         it('should each person\'s selectedAccount to one of their accounts', function() {
-            $rootScope.requests = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
+            $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();
