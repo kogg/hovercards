@@ -1,6 +1,6 @@
 'use strict';
 
-define('discussions-directive', ['angular-app'], function(app) {
+define('discussions-directive', ['angular-app', 'oboe'], function(app, oboe) {
     app.directive('discussions', function() {
         return {
             scope: {
@@ -8,19 +8,24 @@ define('discussions-directive', ['angular-app'], function(app) {
                 discussions: '='
             },
             link: function($scope) {
-                var timeout;
+                var aborts = [];
                 $scope.$watch('request', function(request) {
                     $scope.discussions = null;
-                    clearTimeout(timeout);
+                    aborts.forEach(function(abort) {
+                        abort();
+                    });
+                    aborts = [];
                     if (!request) {
                         return;
                     }
-                    $.get('https://hovercards.herokuapp.com/v1/discussions/' + request.type + '/' + request.id)
-                        .done(function(data) {
+                    $scope.discussions = [];
+                    aborts.push(oboe('https://hovercards.herokuapp.com/v1/discussions/' + request.type + '/' + request.id)
+                        .node('!.{type id}', function(discussion) {
                             $scope.$apply(function() {
-                                $scope.discussions = data;
+                                $scope.discussions.push(discussion);
                             });
-                        });
+                        })
+                        .abort);
                 });
             }
         };

@@ -62,6 +62,18 @@ describe('discussions-directive', function() {
             $rootScope.request = 'Something Else';
             $rootScope.$digest();
 
+            expect($rootScope.discussions).to.be.an('array');
+            expect($rootScope.discussions).to.be.empty;
+        });
+
+        it('should unset people if null', function() {
+            $rootScope.request = 'Something';
+            $rootScope.$digest();
+            $rootScope.discussions = 'Something';
+            $rootScope.$digest();
+            $rootScope.request = null;
+            $rootScope.$digest();
+
             expect($rootScope.discussions).not.to.exist;
         });
 
