@@ -101,6 +101,7 @@ describe('people-directive', function() {
             sandbox.server.respond();
             $rootScope.$digest();
 
+            expect($rootScope.people).to.have.length(2);
             expect($rootScope.people[0].accounts).to.contain({ type: 'first-account',  id: 'FIRST_ID' });
             expect($rootScope.people[1].accounts).to.contain({ type: 'second-account', id: 'SECOND_ID' });
         });
@@ -114,7 +115,7 @@ describe('people-directive', function() {
             expect($rootScope.people).to.contain($rootScope.selectedPerson);
         });
 
-        it('should each person\'s selectedAccount to one of their accounts', function() {
+        it('should set each person\'s selectedAccount to one of their accounts', function() {
             $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
@@ -122,6 +123,60 @@ describe('people-directive', function() {
 
             expect($rootScope.people[0].accounts).to.contain($rootScope.people[0].selectedAccount);
             expect($rootScope.people[1].accounts).to.contain($rootScope.people[1].selectedAccount);
+        });
+
+        it('should add accounts into a person who lists them', function() {
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts/first-account/FIRST_ID',
+                                       [200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify([{ type: 'first-account',  id: 'FIRST_ID', connected: [{ type: 'second-account', id: 'SECOND_ID' },
+                                                                                                              { type: 'third-account',  id: 'THIRD_ID' }] },
+                                                        { type: 'second-account', id: 'SECOND_ID' },
+                                                        { type: 'third-account',  id: 'THIRD_ID' }])]);
+            $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
+            $rootScope.$digest();
+            sandbox.server.respond();
+            $rootScope.$digest();
+
+            expect($rootScope.people).to.have.length(1);
+            expect($rootScope.people[0].accounts).to.contain({ type: 'first-account',  id: 'FIRST_ID', connected: [{ type: 'second-account', id: 'SECOND_ID' }, { type: 'third-account',  id: 'THIRD_ID' }] });
+            expect($rootScope.people[0].accounts).to.contain({ type: 'second-account', id: 'SECOND_ID' });
+            expect($rootScope.people[0].accounts).to.contain({ type: 'third-account',  id: 'THIRD_ID' });
+        });
+
+        it('should merge people when an account references their accounts', function() {
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts/first-account/FIRST_ID',
+                                       [200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify([{ type: 'first-account',  id: 'FIRST_ID' },
+                                                        { type: 'second-account', id: 'SECOND_ID' },
+                                                        { type: 'third-account',  id: 'THIRD_ID', connected: [{ type: 'first-account',  id: 'FIRST_ID' },
+                                                                                                              { type: 'second-account', id: 'SECOND_ID' }] }])]);
+            $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
+            $rootScope.$digest();
+            sandbox.server.respond();
+            $rootScope.$digest();
+
+            expect($rootScope.people).to.have.length(1);
+            expect($rootScope.people[0].accounts).to.contain({ type: 'first-account',  id: 'FIRST_ID' });
+            expect($rootScope.people[0].accounts).to.contain({ type: 'second-account', id: 'SECOND_ID' });
+            expect($rootScope.people[0].accounts).to.contain({ type: 'third-account',  id: 'THIRD_ID', connected: [{ type: 'first-account',  id: 'FIRST_ID' }, { type: 'second-account', id: 'SECOND_ID' }] });
+        });
+
+        it('should merge people who reference the same account', function() {
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts/first-account/FIRST_ID',
+                                       [200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify([{ type: 'first-account',  id: 'FIRST_ID',  connected: [{ type: 'third-account',  id: 'THIRD_ID' }] },
+                                                        { type: 'second-account', id: 'SECOND_ID', connected: [{ type: 'third-account',  id: 'THIRD_ID' }] }])]);
+            $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
+            $rootScope.$digest();
+            sandbox.server.respond();
+            $rootScope.$digest();
+
+            expect($rootScope.people).to.have.length(1);
+            expect($rootScope.people[0].accounts).to.contain({ type: 'first-account',  id: 'FIRST_ID',  connected: [{ type: 'third-account',  id: 'THIRD_ID' }] });
+            expect($rootScope.people[0].accounts).to.contain({ type: 'second-account', id: 'SECOND_ID', connected: [{ type: 'third-account',  id: 'THIRD_ID' }] });
         });
     });
 });
