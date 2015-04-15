@@ -4,13 +4,13 @@ define('people-directive', ['angular-app', 'oboe'], function(app, oboe) {
     app.directive('people', function() {
         return {
             scope: {
-                request: '=',
+                requests: '=',
                 people: '=',
                 selectedPerson: '='
             },
             link: function($scope) {
                 var aborts = [];
-                $scope.$watch('request', function(requests) {
+                $scope.$watch('requests', function(requests) {
                     $scope.selectedPerson = null;
                     $scope.people = null;
                     aborts.forEach(function(abort) {

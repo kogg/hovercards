@@ -21,7 +21,7 @@ describe('people-directive', function() {
         require(['angular'], function(angular) {
             sandbox.useFakeServer();
 
-            element = angular.element('<div people="people" request="request" selected-person="selectedPerson"></div>');
+            element = angular.element('<div people="people" requests="requests" selected-person="selectedPerson"></div>');
             $compile(element)($rootScope);
             $rootScope.$digest();
             scope = element.isolateScope();
@@ -43,14 +43,14 @@ describe('people-directive', function() {
         expect($rootScope.people).to.equal('In => Out');
     });
 
-    it('should two way bind request', function() {
-        $rootScope.request = ['Out => In'];
+    it('should two way bind requests', function() {
+        $rootScope.requests = ['Out => In'];
         $rootScope.$digest();
-        expect(scope.request).to.deep.equal(['Out => In']);
+        expect(scope.requests).to.deep.equal(['Out => In']);
 
-        scope.request = ['In => Out'];
+        scope.requests = ['In => Out'];
         $rootScope.$digest();
-        expect($rootScope.request).to.deep.equal(['In => Out']);
+        expect($rootScope.requests).to.deep.equal(['In => Out']);
     });
 
     it('should two way bind selectedPerson', function() {
@@ -63,7 +63,7 @@ describe('people-directive', function() {
         expect($rootScope.selectedPerson).to.equal('In => Out');
     });
 
-    describe('on request', function() {
+    describe('on requests', function() {
         beforeEach(function() {
             sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/accounts/an-account/ACCOUNT_ID',
                                        [200,
@@ -73,29 +73,29 @@ describe('people-directive', function() {
         });
 
         it('should empty people', function() {
-            $rootScope.request = ['Something'];
+            $rootScope.requests = ['Something'];
             $rootScope.$digest();
             $rootScope.people = 'Something';
             $rootScope.$digest();
-            $rootScope.request = [{ type: 'some-account', id: 'ACCOUNT_ID' }];
+            $rootScope.requests = [{ type: 'some-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
 
             expect($rootScope.people).to.be.an('array');
         });
 
         it('should unset people if null', function() {
-            $rootScope.request = ['Something'];
+            $rootScope.requests = ['Something'];
             $rootScope.$digest();
             $rootScope.people = 'Something';
             $rootScope.$digest();
-            $rootScope.request = null;
+            $rootScope.requests = null;
             $rootScope.$digest();
 
             expect($rootScope.people).not.to.exist;
         });
 
         it('should set accounts to seperate people', function() {
-            $rootScope.request = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
+            $rootScope.requests = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();
@@ -105,7 +105,7 @@ describe('people-directive', function() {
         });
 
         it('should set selectedPerson to one of the people', function() {
-            $rootScope.request = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
+            $rootScope.requests = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();
@@ -114,7 +114,7 @@ describe('people-directive', function() {
         });
 
         it('should each person\'s selectedAccount to one of their accounts', function() {
-            $rootScope.request = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
+            $rootScope.requests = [{ type: 'an-account', id: 'ACCOUNT_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();

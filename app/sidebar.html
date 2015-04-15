@@ -16,7 +16,7 @@
 			<div discussions="discussions" request="entry.content" ng-if="entry.content">
 				<div ng-repeat="discussion in discussions" ng-include="'templates/'+ discussion.type + '.html'" class="card bounce-in-animation"></div>
 			</div>
-			<div people="people" request="entry.accounts" selected-person="selectedPerson" ng-if="entry.accounts">
+			<div people="people" requests="entry.accounts" selected-person="selectedPerson" ng-if="entry.accounts">
 				<div ng-repeat="person in people" ng-click="selectedPerson = person">
 					<div account="account" request="person.selectedAccount" ng-if="person.selectedAccount">
 						<div ng-include="'templates/'+ account.type + '.html'" ng-if="account" class="card bounce-in-animation"></div>
