@@ -11,7 +11,8 @@
 	<div class="ng-cloak" entry="entry" ng-cloak>
 		<div class="cards bounce-out-animation" ng-if="entry">
 			<div content="content" request="entry.content" ng-if="entry.content">
-				<div class="card bounce-in-animation" ng-include="'templates/'+ content.type + '.html'" ng-if="content" ng-click="entry.accounts = content.accounts"></div>
+				<div class="card bounce-in-animation" ng-include="'templates/'+ content.type + '.html'" ng-if="content"></div>
+				<div ng-init="entry.accounts = content.accounts" ng-if="content"></div>
 			</div>
 
 			<div discussions="discussions" request="entry.content" ng-if="entry.content">
