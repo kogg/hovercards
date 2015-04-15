@@ -1,10 +1,5 @@
 @font-face {
 	font-family: "Roboto";
-	src: url("../fonts/roboto/Roboto-Thin.ttf");
-	font-weight: 200; }
-
-@font-face {
-	font-family: "Roboto";
 	src: url("../fonts/roboto/Roboto-Light.ttf");
 	font-weight: 300; }
 
@@ -38,9 +33,6 @@ html,body {
 	-webkit-font-smoothing: antialiased;
 	overflow-x:hidden;
 	position: relative;
-}
-body {
-	padding-bottom:90px;
 }
 .card-container {
 	width: 300px;
@@ -387,11 +379,17 @@ b i {
 	text-align: center;
 	transition: all .45s ease-in-out;
 }
+.network-menu-size-1 .network-menu-option{
+	width: 100%;
+}
+.network-menu-size-2 .network-menu-option{
+	width: 50%;
+}
 .network-menu-option:hover {
 	cursor: pointer;
 	color: black;
 }
-.network-menu-option span.active:after {
+.network-menu-option span.active:before {
 	content: "";
 	position: absolute;
 	bottom: 0px;
@@ -402,8 +400,11 @@ b i {
 .youtube-channel-option span.active {
 	color: red;
 }
-.youtube-channel-option span.active:after {
+.youtube-channel-option span.active:before {
 	background: red;
+}
+.network-menu-size-1 .youtube-channel-option span.active:after {
+	content: " Channel"
 }
 .test {
 	background: white;
