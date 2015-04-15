@@ -1,31 +1,31 @@
 <div class="profile-top row">
 	<div class="profile-left col-4">
-		<div class="profile-image" style="background-image:url({{ ::account.image }})"></div>
+		<div class="profile-image" style="background-image:url({{ ::person.selectedAccount.image }})"></div>
 	</div>
 	<div class="profile-right col-8">
 		<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
-		<a href="https://www.youtube.com/channel/{{ ::account.id }}" target="_blank" class="ellipsis" ng-click="$event.stopPropagation()">{{ ::account.name }}</a>
+		<a href="https://www.youtube.com/channel/{{ ::person.selectedAccount.id }}" target="_blank" class="ellipsis" ng-click="$event.stopPropagation()">{{ ::person.selectedAccount.name }}</a>
 		<div class="profile-cta">
-			<div youtube-channel-subscribe youtube-channel-id="::account.id" subscribed-offset="offset"></div>
+			<div youtube-channel-subscribe youtube-channel-id="::person.selectedAccount.id" subscribed-offset="offset"></div>
 		</div>
 	</div>
 </div>
 
-<div ng-if="::account.description" class="card-description-padding">
-	<p readmore="::account.description | htmlify" style="max-height: 50px"></p>
+<div ng-if="::person.selectedAccount.description" class="card-description-padding">
+	<p readmore="::person.selectedAccount.description | htmlify" style="max-height: 50px"></p>
 </div>
 
 <div class="card-stats row">
 	<div class="col-4">
 		<b>Subscribers</b>
-		<span>{{ account.subscribers + offset | numsmall }}</span>
+		<span>{{ person.selectedAccount.subscribers + offset | numsmall }}</span>
 	</div>
 	<div class="col-4">
 		<b>Uploads</b>
-		<span>{{ ::account.videos | numsmall }}</span>
+		<span>{{ ::person.selectedAccount.videos | numsmall }}</span>
 	</div>
 	<div class="col-4">
 		<b>Video Views</b>
-		<span>{{ ::account.views | numsmall }}</span>
+		<span>{{ ::person.selectedAccount.views | numsmall }}</span>
 	</div>
 </div>
