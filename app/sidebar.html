@@ -13,9 +13,11 @@
 			<div content="content" request="entry.content" ng-if="entry.content">
 				<div ng-include="'templates/'+ content.type + '.html'" ng-if="content" class="card bounce-in-animation" ng-click="entry.accounts = content.accounts"></div>
 			</div>
+			<!--
 			<div discussions="discussions" request="entry.content" ng-if="entry.content">
 				<div ng-repeat="discussion in discussions" ng-include="'templates/'+ discussion.type + '.html'" class="card bounce-in-animation"></div>
 			</div>
+		-->
 			<div people="people" request="entry.accounts" selected-person="entry.selectedPerson" ng-if="entry.accounts">
 				<div ng-repeat="person in people" ng-click="entry.selectedPerson = person">
 					<div account="account" request="person.selectedAccount" ng-if="person.selectedAccount">
@@ -24,12 +26,30 @@
 				</div>
 			</div>
 			<div ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">{{ account.type }}</div>
+			<div ng-if="entry.selectedPerson.accounts.length >= 5"></div>
 			<div related="related" request="entry.selectedPerson.selectedAccount" ng-if="entry.selectedPerson.selectedAccount">
 				<pre ng-repeat="content in related.contents" ng-click="entry.content = content">content = {{ content | json }}</pre><br>
 			</div>
 		</div>
 	</div>
-
+	<div class="network-menu">
+		<div class="network-menu-container">
+			<div class="netowrk-menu-option youtube-option">
+				<span class="active">YouTube</span>
+			</div>
+			<div class="netowrk-menu-option twitter-option">
+				<span>Twitter</span>
+			</div>
+			<div class="netowrk-menu-option facebook-option">
+				<span>Facebook</span>
+			</div>
+			<div class="netowrk-menu-option facebook-option">
+				<span>Instagram</span>
+			</div>
+		</div>
+	</div>
+	<div class="test">
+	</div>
 	<div class="feedback-trigger">
 		<span>Click here to talk to us. We'd love to<br>hear your feedback, be it good or bad!</span>
 		<div class="hclogo-peak shake"></div>

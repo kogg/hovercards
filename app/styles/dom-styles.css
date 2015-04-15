@@ -9,7 +9,7 @@
 	top:0px !important;
 	background: #EFEFEF !important;
 	z-index: 0 !important;
-	box-shadow:-1px 0px 2px 0px rgba(0, 0, 0, 0.25) !important;
+	border-left: 1px solid rgba(0,0,0,.06) !important;
 	right: 0;
 	-webkit-transform: translateX(375px) translateZ(0);
 }
