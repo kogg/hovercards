@@ -22,13 +22,6 @@
     "background": {
         "page": "background.html"
     },
-    "page_action": {
-        "default_title": "__MSG_app_name__",
-        "default_icon": {
-            "19": "images/hovercards-omni-19.png",
-            "38": "images/hovercards-omni-38.png"
-        }
-    },
     "content_scripts": [
         {
             "matches": [

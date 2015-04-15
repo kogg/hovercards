@@ -7,7 +7,3 @@ require(['trigger-background'], function(triggerBackground) {
 require(['notifications-background'], function(notificationsBackground) {
     notificationsBackground.init();
 });
-
-require(['omnibar-background'], function(omnibarBackground) {
-    omnibarBackground.init();
-});
