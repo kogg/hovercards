@@ -436,7 +436,7 @@ b i {
 	}
 }
 
-.bounce-out-animation.ng-leave {
+.fade-out-animation.ng-leave {
 	-webkit-animation-duration: .8s;
 	animation-duration: .8s;
 	-webkit-animation-fill-mode: both;

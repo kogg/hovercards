@@ -7,23 +7,23 @@
 </head>
 <body>
     <div class="ng-cloak" entry="entry" ng-cloak>
-        <div people="people" requests="entry.accounts" selected-person="selectedPerson">
+        <div class="fade-out-animation" people="people" requests="entry.accounts" selected-person="selectedPerson" ng-if="entry">
             <div class="cards">
                 <div content="content" request="entry.content" ng-if="entry.content">
-                    <div class="card bounce-in-animation bounce-out-animation" ng-if="content">
+                    <div class="card bounce-in-animation" ng-if="content">
                         <div ng-include="'templates/'+ content.type + '.html'"></div>
-                        <!-- TODO Figure out how we're going to lead the people stuff -->
+                        <!-- TODO Figure out what triggers the people content to load -->
                         <div ng-init="entry.accounts = content.accounts" ng-if="content"></div>
                     </div>
                 </div>
 
                 <div discussions="discussions" request="entry.content" ng-if="entry.content">
-                    <div class="card bounce-in-animation bounce-out-animation" ng-repeat="discussion in discussions">
+                    <div class="card bounce-in-animation" ng-repeat="discussion in discussions">
                         <div ng-include="'templates/'+ discussion.type + '.html'"></div>
                     </div>
                 </div>
 
-                <div class="card bounce-in-animation bounce-out-animation" ng-if="people">
+                <div class="card bounce-in-animation" ng-if="people">
                     <div ng-repeat="person in people" ng-click="selectedPerson = person">
                         <div ng-include="'templates/'+ person.selectedAccount.type + '.html'"></div>
                     </div>
