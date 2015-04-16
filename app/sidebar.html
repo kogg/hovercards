@@ -7,6 +7,8 @@
 </head>
 <body>
 	<div class="ng-cloak" entry="entry" ng-cloak>
+		<div ng-include="'templates/error.html'" ng-init="err = entry.err" ng-if="entry.err"></div>
+
 		<div class="fade-out-animation" people="people" requests="entry.accounts" selected-person="selectedPerson" ng-if="entry">
 			<div class="cards">
 				<div content="content" request="entry.content" ng-if="entry.content">
@@ -58,10 +60,6 @@
 					</div>
 				</div>
 			</div>
-
-            <div class="card bounce-in-animation" ng-if="entry.err">
-                {{ entry.err || json }}
-            </div>
 		</div>
 	</div>
 
