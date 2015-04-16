@@ -431,6 +431,39 @@ b i {
 .content-list {
 	padding: 0px 20px;
 }
+.content-list img {
+	width: 100%;
+	border: 1px solid rgba(0,0,0,.1)
+}
+.content-list .row {
+	margin-bottom: 8px;
+}
+.content-list .row:hover {
+	background: #fafafa;
+}
+.content-list .row .col-7 {
+	padding: 6px 0 8px 12px;
+}
+.content-list .row .col-7 p {
+	color: #212121;
+	margin-top: 0;
+	padding-top: 0px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.content-list .row .col-7 p:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+.content-list .row .col-7 b {
+	margin-bottom: 0;
+	margin-top: 3px;
+	color: #727272;
+	cursor: default;
+}
+.content-list .row .col-7 span {
+	display: none !important
+}
 /*content cards*/
 .content-cards {
 	padding: 0px 20px;

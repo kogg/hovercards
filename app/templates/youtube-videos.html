@@ -1,24 +1,11 @@
-<div class="content-cards">
-	<div ng-repeat="video in moreContent.videos" class="col-6 content-cards-blocks">
-		<div class="content-cards-blocks-holder">
-		<img src="{{ video.image }}">
-		<div class="content-cards-blocks-holder-description">
+<div class="content-list">
+	<div ng-repeat="video in moreContent.videos" class="row">
+		<div class="col-5">
+			<img src="{{ video.image }}">
+		</div>
+		<div class="col-7">
 			<p readmore="video.name" style="max-height: 40px">{{ video.name }}</p>
 			<b>{{ video.date | date}}</b>
 		</div>
-		</div>
 	</div>
 </div>
-<!--
-<div class="content-cards">
-	<div ng-repeat="video in moreContent.videos" class="col-6 content-cards-blocks">
-		<div class="content-cards-blocks-holder">
-		<img src="{{ video.image }}">
-		<div class="content-cards-blocks-holder-description">
-			<p readmore="video.name" style="max-height: 40px">{{ video.name }}</p>
-			<b>{{ video.date | date}}</b>
-		</div>
-		</div>
-	</div>
-</div>
--->
