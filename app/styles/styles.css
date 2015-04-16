@@ -27,7 +27,7 @@
 }
 
 html,body {
-	background: #fafafa;
+	background: #f2f2f2;
 	font-family: "Roboto", sans-serif;
 	font-weight: normal;
 	-webkit-font-smoothing: antialiased;
@@ -439,10 +439,10 @@ b i {
 	margin-bottom: 8px;
 }
 .content-list .row:hover {
-	background: #fafafa;
+	background: #f2f2f2;
 }
 .content-list .row .col-7 {
-	padding: 6px 0 8px 12px;
+	padding: 6px 8px 8px 12px;
 }
 .content-list .row .col-7 p {
 	color: #212121;
@@ -479,7 +479,7 @@ b i {
 	border-radius: 2px;
 	overflow: hidden;
 	margin-bottom: 8px;
-	background: #fafafa;
+	background: #f2f2f2;
 	border:1px solid rgba(0,0,0,.1);
 }
 .content-cards-blocks-holder img {
