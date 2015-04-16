@@ -7,12 +7,18 @@
 </head>
 <body>
 	<div class="ng-cloak" entry="entry" ng-cloak>
-		<div ng-include="'templates/error.html'" ng-init="err = entry.err" ng-if="entry.err"></div>
+		<div class="card bounce-in-animation" ng-if="entry.err">
+			<div ng-include="'templates/error.html'" ng-init="err = entry.err"></div>
+		</div>
 
 		<div class="fade-out-animation" people="people" requests="entry.accounts" selected-person="selectedPerson" ng-if="entry">
 			<div class="cards">
 				<div content="content" request="entry.content" ng-if="entry.content">
-					<div class="card bounce-in-animation" ng-if="content">
+					<div class="card bounce-in-animation" ng-if="content.err">
+						<div ng-include="'templates/error.html'" ng-init="err = content.err"></div>
+					</div>
+
+					<div class="card bounce-in-animation" ng-if="content && !content.err">
 						<div ng-include="'templates/'+ content.type + '.html'"></div>
 						<!-- TODO Figure out what triggers the people content to load -->
 						<div ng-init="entry.accounts = content.accounts" ng-if="content"></div>
