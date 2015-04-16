@@ -58,6 +58,10 @@
 					</div>
 				</div>
 			</div>
+
+            <div class="card bounce-in-animation" ng-if="entry.err">
+                {{ entry.err || json }}
+            </div>
 		</div>
 	</div>
 

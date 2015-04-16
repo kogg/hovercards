@@ -18,7 +18,13 @@ define('entry-directive', ['angular-app', 'jquery'], function(app, $) {
                                     $scope.$apply(function() {
                                         $scope.entry = data;
                                     });
-                                });
+                                })
+                                .fail(function(jqXHR) {
+                                    $scope.$apply(function() {
+                                        $scope.entry = { err: { code: jqXHR.status, message: jqXHR.responseText } };
+                                    });
+                                })
+                                ;
                             break;
                         case 'hide':
                             $scope.$apply(function() {

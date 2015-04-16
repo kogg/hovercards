@@ -65,6 +65,18 @@ describe('entry-directive', function() {
 
             expect($rootScope.entry).to.deep.equal(response);
         });
+
+        it('should set err', function() {
+            chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'URL' });
+            $rootScope.$digest();
+            sandbox.server.respond('GET',
+                                   'https://hovercards.herokuapp.com/v1/identify?url=URL',
+                                   [400, {}, 'Error Message']);
+            $rootScope.$digest();
+
+            expect($rootScope.entry.err).to.have.property('code', 400);
+            expect($rootScope.entry.err).to.have.property('message', 'Error Message');
+        });
     });
 
     describe('on hide', function() {
