@@ -86,5 +86,17 @@ describe('content-directive', function() {
 
             expect($rootScope.content).to.deep.equal(response);
         });
+
+        it('should set err', function() {
+            $rootScope.request = { type: 'youtube-video', id: 'm3lF2qEA2cw' };
+            $rootScope.$digest();
+            sandbox.server.respond('GET',
+                                   'https://hovercards.herokuapp.com/v1/youtube-video/m3lF2qEA2cw',
+                                   [400, {}, 'Error Message']);
+            $rootScope.$digest();
+
+            expect($rootScope.content.err).to.have.property('code', 400);
+            expect($rootScope.content.err).to.have.property('message', 'Error Message');
+        });
     });
 });

@@ -18,6 +18,11 @@ define('content-directive', ['angular-app'], function(app) {
                             $scope.$apply(function() {
                                 $scope.content = data;
                             });
+                        })
+                        .fail(function(jqXHR) {
+                            $scope.$apply(function() {
+                                $scope.content = { err: { code: jqXHR.status, message: jqXHR.responseText } };
+                            });
                         });
                 });
             }

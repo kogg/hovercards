@@ -62,22 +62,9 @@ describe('discussions-directive', function() {
             $rootScope.request = 'Something Else';
             $rootScope.$digest();
 
-            expect($rootScope.discussions).to.be.an('array');
-            expect($rootScope.discussions).to.be.empty;
-        });
-
-        it('should unset people if null', function() {
-            $rootScope.request = 'Something';
-            $rootScope.$digest();
-            $rootScope.discussions = 'Something';
-            $rootScope.$digest();
-            $rootScope.request = null;
-            $rootScope.$digest();
-
             expect($rootScope.discussions).not.to.exist;
         });
 
-        // TODO Make this streaming
         it('should set content with server response', function() {
             $rootScope.request = { type: 'youtube-video', id: 'm3lF2qEA2cw' };
             $rootScope.$digest();
@@ -143,6 +130,18 @@ describe('discussions-directive', function() {
             $rootScope.$digest();
 
             expect($rootScope.discussions).to.deep.equal(response);
+        });
+
+        it('should set err', function() {
+            $rootScope.request = { type: 'youtube-video', id: 'm3lF2qEA2cw' };
+            $rootScope.$digest();
+            sandbox.server.respond('GET',
+                                   'https://hovercards.herokuapp.com/v1/youtube-video/m3lF2qEA2cw/discussions',
+                                   [400, {}, 'Error Message']);
+            $rootScope.$digest();
+
+            expect($rootScope.discussions.err).to.have.property('code', 400);
+            expect($rootScope.discussions.err).to.have.property('message', 'Error Message');
         });
     });
 });
