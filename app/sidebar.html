@@ -58,7 +58,7 @@
 				<div ng-show="selectedPerson.menuOffset + 3 < selectedPerson.accounts.length" ng-click="selectedPerson.menuOffset = (selectedPerson.menuOffset || 0) + 3">Right</div>
 			</div>
 
-			<div class="social-profile" ng-style="global.at_page_bottom && global.over_social && { overflow: 'auto' }" ng-if="selectedPerson.selectedAccount" ng-mouseenter="global.over_social=true" ng-mouseleave="global.over_social=false">
+			<div class="social-profile" ng-style="global.at_page_bottom && global.over_social && { overflow: 'auto' }" ng-if="selectedPerson.selectedAccount" ng-mouseenter="global.over_social=true" ng-mouseleave="global.over_social=false" in-view-container>
 				<div ng-if="selectedPerson.selectedAccount.description">
 					<p class="social-profile-description" readmore="selectedPerson.selectedAccount.description | htmlify" style="max-height: 100px"></p>
 				</div>
