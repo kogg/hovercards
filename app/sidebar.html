@@ -7,27 +7,23 @@
 </head>
 <body>
 	<div class="ng-cloak" entry="entry" ng-cloak>
-		<div class="card bounce-in-animation" ng-if="entry.err">
-			<div ng-include="'templates/error.html'" ng-init="err = entry.err"></div>
-		</div>
-
 		<div class="fade-out-animation" people="people" requests="entry.accounts" selected-person="selectedPerson" ng-if="entry">
 			<div class="cards">
 				<div content="content" request="entry.content" ng-if="entry.content">
-					<div class="card bounce-in-animation" ng-if="content.err">
-						<div ng-include="'templates/error.html'" ng-init="err = content.err"></div>
-					</div>
-
-					<div class="card bounce-in-animation" ng-if="content && !content.err">
-						<div ng-include="'templates/'+ content.type + '.html'"></div>
+					<div class="card bounce-in-animation" ng-if="content">
+						<div ng-include="'templates/'+ content.type + '.html'" ng-if="!content.err"></div>
 						<!-- TODO Figure out what triggers the people content to load -->
-						<div ng-init="entry.accounts = content.accounts" ng-if="content"></div>
+						<div ng-init="entry.accounts = content.accounts" ng-if="!content.err"></div>
+
+						<div error ng-switch="content.err.code" ng-if="content.err.code">
+							<span ng-switch-default>There was a problem with the content!</span>
+						</div>
 					</div>
 				</div>
 
 				<div discussions="discussions" request="entry.content" ng-if="entry.content">
-					<div class="card bounce-in-animation" ng-repeat="discussion in discussions">
-						<div ng-include="'templates/'+ discussion.type + '.html'"></div>
+					<div class="card bounce-in-animation" ng-if="discussions">
+						<div ng-include="'templates/'+ discussion.type + '.html'" ng-repeat="discussion in discussions"></div>
 					</div>
 				</div>
 
@@ -65,6 +61,12 @@
 						<div ng-include="'templates/' + moreContent.type + '.html'"></div>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="card bounce-in-animation" ng-if="entry.err">
+			<div error ng-switch="entry.err.code" ng-if="entry.err.code">
+				<span ng-switch-default>There was a problem with the entry!</span>
 			</div>
 		</div>
 	</div>
