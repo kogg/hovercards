@@ -18,11 +18,16 @@ define('discussions-directive', ['angular-app', 'oboe'], function(app, oboe) {
                     if (!request) {
                         return;
                     }
-                    $scope.discussions = [];
                     aborts.push(oboe('https://hovercards.herokuapp.com/v1/' + request.type + '/' + request.id + '/discussions')
                         .node('!.{type id}', function(discussion) {
                             $scope.$apply(function() {
+                                $scope.discussions = $scope.discussions || [];
                                 $scope.discussions.push(discussion);
+                            });
+                        })
+                        .fail(function(jqXHR) {
+                            $scope.$apply(function() {
+                                $scope.discussions = { err: { code: jqXHR.statusCode, message: jqXHR.body } };
                             });
                         })
                         .abort);

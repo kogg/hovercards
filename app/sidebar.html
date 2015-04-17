@@ -23,7 +23,11 @@
 
 				<div discussions="discussions" request="entry.content" ng-if="entry.content">
 					<div class="card bounce-in-animation" ng-if="discussions">
-						<div ng-include="'templates/'+ discussion.type + '.html'" ng-repeat="discussion in discussions"></div>
+						<div ng-include="'templates/'+ discussion.type + '.html'" ng-repeat="discussion in discussions" ng-if="!discussions.err"></div>
+
+						<div error ng-switch="discussions.err.code" ng-if="discussions.err.code">
+							<span ng-switch-default>There was a problem with the discussions!</span>
+						</div>
 					</div>
 				</div>
 
