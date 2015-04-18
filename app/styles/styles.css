@@ -68,6 +68,7 @@ html,body {
 
 .cards {
 	max-width: 340px;
+	width: 100%;
 	top: 0px;
 	position: relative;
 	padding: 0 20px 0;
@@ -444,6 +445,7 @@ b i {
 }
 .content-list img {
 	width: 100%;
+	max-width: 125px;
 	border: 1px solid rgba(0,0,0,.1)
 }
 .content-list .row {
@@ -556,6 +558,7 @@ b i {
 	animation-name: bounce-down;
 	position: absolute !important;
 	top: 0px !important;
+	width: 340px;
 }
 @-webkit-keyframes bounce-down {
 	0% {
