@@ -32,7 +32,7 @@
 		<b>Dislikes</b>
 		<span>{{ ::content.dislikes | numsmall }}</span>
 	</div>
-	<div class="percent-bar" ng-if="::content.likes + content.dislikes">
-		<div class="percent-bar-good" ng-style="::(content.likes + content.dislikes) && { width: (100 * content.likes / (content.likes + content.dislikes)) + '%' }"></div>
-	</div>
+</div>
+<div class="percent-bar" ng-if="::content.likes + content.dislikes">
+	<div class="percent-bar-good" ng-style="::(content.likes + content.dislikes) && { width: (100 * content.likes / (content.likes + content.dislikes)) + '%' }"></div>
 </div>
