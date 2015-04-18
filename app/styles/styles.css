@@ -420,7 +420,6 @@ b i {
 	height: calc(100% - 216px);
 	height: -webkit-calc(100% - 216px);
 	padding: 20px 0px;
-	overflow: hidden;
 }
 .social-profile-description {
 	padding: 0px 20px 20px 20px;
