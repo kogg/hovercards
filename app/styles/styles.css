@@ -103,7 +103,7 @@ p .read-more {
 }
 .card-description-padding {
 	padding: 16px;
-	border-top:1px solid #B6B6B6
+	border-top:1px solid rgba(0,0,0,.15)
 }
 b i {
 	position: relative;
@@ -129,7 +129,7 @@ b i {
 }
 */
 .card-stats {
-	border:1px solid #B6B6B6;
+	border:1px solid rgba(0,0,0,.15);
 	border-radius: 0 0 3px 3px;
 	background: #fff;
 	position: relative;
@@ -176,9 +176,9 @@ b i {
 /*Profile Cards*/
 .profile-top {
 	background: #fff;
-	border-left:1px solid #B6B6B6;
-	border-right:1px solid #B6B6B6;
-	border-top:1px solid #B6B6B6;
+	border-left:1px solid rgba(0,0,0,.15);
+	border-right:1px solid rgba(0,0,0,.15);
+	border-top:1px solid rgba(0,0,0,.15);
 	border-radius: 3px 3px 0 0
 }
 
@@ -213,7 +213,7 @@ b i {
 
 .video-top {
 	height: 168px;
-	border:1px solid #B6B6B6;
+	border:1px solid rgba(0,0,0,.15);
 	border-bottom: none;
 	border-radius: 3px 3px 0 0;
 	position: relative;
@@ -231,8 +231,8 @@ b i {
 .card-text {
 	padding: 16px;
 	background: #fff;
-	border-left:1px solid #B6B6B6;
-	border-right:1px solid #B6B6B6;
+	border-left:1px solid rgba(0,0,0,.15);
+	border-right:1px solid rgba(0,0,0,.15);
 	overflow-y: scroll;
 }
 .video-cta {
@@ -264,13 +264,14 @@ b i {
 	opacity: 0;
 }
 .percent-bar {
-	position: absolute;
-	bottom: -1px;
-	height: 2px;
-	width: 100%;
-	border-radius: 0 0 2px 2px;
-	background: #F44336;
-	overflow: hidden;
+  position: absolute;
+  bottom: 0px;
+  height: 3px;
+  width: 298px;
+  border-radius: 0 0 4px 4px;
+  background: #F44336;
+  overflow: hidden;
+  left: 1px;
 }
 .percent-bar-good {
 	background: #4CAF50;
@@ -280,11 +281,11 @@ b i {
 .comment {
 	padding: 16px 16px 8px 16px;
 	background: white;
-	border-left: 1px solid #B6B6B6;
-	border-right: 1px solid #B6B6B6;
+	border-left: 1px solid rgba(0,0,0,.15);
+	border-right: 1px solid rgba(0,0,0,.15);
 }
 .comment-top {
-	border: 1px solid #B6B6B6;
+	border: 1px solid rgba(0,0,0,.15);
 	border-radius: 3px 3px 0 0;
 	background: #fff;
 	line-height: 50px;
@@ -310,7 +311,7 @@ b i {
 }
 .comment-content .comment:last-of-type {
 	padding-bottom: 24px;
-	border-bottom: 1px solid #B6B6B6;
+	border-bottom: 1px solid rgba(0,0,0,.15);
 	border-radius: 0 0 3px 3px;
 }
 .comment-left {
@@ -470,6 +471,8 @@ b i {
 	margin-top: 3px;
 	color: #727272;
 	cursor: default;
+}
+.content-list-selected {
 }
 .content-list .row .col-7 span {
 	display: none !important
