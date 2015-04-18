@@ -1,11 +1,13 @@
 <div class="content-list">
-	<div ng-repeat="video in moreContent.videos" class="row">
-		<div class="col-5">
-			<img src="{{ video.image }}">
+	<a data-load="https://www.youtube.com/watch?v={{ video.id }}" ng-repeat="video in moreContent.videos" ng-class="{ 'content-list-selected': video.id===entry.content.id }">
+		<div class="row">
+			<div class="col-5">
+				<img src="{{ video.image }}">
+			</div>
+			<div class="col-7">
+				<p>{{ video.name }}</p>
+				<b><i class="md md-access-time"></i> {{ video.date | date}}</b>
+			</div>
 		</div>
-		<div class="col-7">
-			<p readmore="video.name" style="max-height: 40px">{{ video.name }}</p>
-			<b><i class="md md-access-time"></i> {{ video.date | date}}</b>
-		</div>
-	</div>
+	</a>
 </div>

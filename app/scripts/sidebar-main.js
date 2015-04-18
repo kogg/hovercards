@@ -21,4 +21,13 @@ require(['account-directive',
     });
 });
 
+require(['click-trigger', 'longpress-trigger'], function(click_trigger, longpress_trigger) {
+    click_trigger.on('body', 'a[data-load]', function(link) {
+        return link.data('load');
+    });
+    longpress_trigger.on('body', 'a[data-load]', function(link) {
+        return link.data('load');
+    });
+});
+
 require(['everywhere-main']);
