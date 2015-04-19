@@ -75,6 +75,9 @@ html,body {
 }
 
 /*default cards*/
+b, a, p, span {
+	word-wrap: break-word;
+}
 b {
 	display: block;
 	font-weight: 700;
@@ -87,7 +90,6 @@ p, p a, .card-text .card-description p a, .card-description-padding p a, .commen
 	font-weight: 400;
 	font-size: 15px;
 	color: #727272;
-	word-wrap:break-word;
 }
 .card-description p {
 	margin-top: 5.5px;
@@ -149,7 +151,7 @@ b i {
 }
 
 .card-stats .col-4 {
-	padding: 9.5px 16px;
+	padding: 9.5px 8px 9.5px 16px;
 }
 
 .profile-right a, .card-text a {
@@ -354,27 +356,34 @@ b i {
 
 /*Error Cards*/
 
+.hovercards-error-container {
+	border: 1px solid rgba(0,0,0,.15);
+	border-radius: 3px;
+	overflow: hidden;
+	position: relative;
+}
 .hovercards-error-image {
-	float: left;
 	width: 20%;
-	height: 100px;
 	line-height: 100px;
 	background:#F9F9F9;
 	background-size: 100%;
 	background-position: center;
 	background-repeat: no-repeat;
-	text-align: center;
-	border-radius: 3px 0 0 3px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
 	overflow: hidden;
 	background-size: 100%;
 	background-position: center;
 	background-repeat: no-repeat;
+	border-right: none;
 }
 .hovercards-error-text {
-	float: left;
+	float: right;
+	border-left: none;
 	width: 80%;
 	padding: 16px;
-	height: 100px;
 	border-radius: 0px 3px 3px 0px;
 	overflow: hidden;
 	background: white;
@@ -455,7 +464,7 @@ b i {
 .content-list img {
 	width: 100%;
 	max-width: 125px;
-	border: 1px solid rgba(0,0,0,.1)
+	border: 1px solid rgba(0,0,0,.15)
 }
 .content-list .row:hover {
 	background: #f6f6f6;
@@ -482,7 +491,7 @@ b i {
 }
 .content-list-selected {
 	display: block;
-	border: 1px solid rgba(0,0,0,.1);
+	border: 1px solid rgba(0,0,0,.15);
 	border-radius: 3px;
 	cursor: pointer;
 	pointer-events: none;
@@ -517,13 +526,13 @@ b i {
 	overflow: hidden;
 	margin-bottom: 8px;
 	background: #f6f6f6;
-	border:1px solid rgba(0,0,0,.1);
+	border:1px solid rgba(0,0,0,.15);
 }
 .content-cards-blocks-holder img {
 	width: 100%;
 }
 .content-cards-blocks-holder-description {
-	border-top:1px solid rgba(0,0,0,.1);
+	border-top:1px solid rgba(0,0,0,.15);
 	padding: 12px;
 }
 .content-cards-blocks-holder-description p {
