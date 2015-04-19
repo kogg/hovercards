@@ -266,10 +266,10 @@ b i {
 }
 .percent-bar {
   position: absolute;
-  bottom: 0px;
+  bottom: 1px;
   height: 3px;
   width: 298px;
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 2px 2px;
   background: #F44336;
   overflow: hidden;
   left: 1px;
@@ -280,10 +280,11 @@ b i {
 }
 /*comments*/
 .comment {
-	padding: 16px 16px 8px 16px;
+	padding: 16px;
 	background: white;
 	border-left: 1px solid rgba(0,0,0,.15);
 	border-right: 1px solid rgba(0,0,0,.15);
+	border-bottom: 1px solid rgba(0,0,0,.15);
 }
 .comment-top {
 	border: 1px solid rgba(0,0,0,.15);
@@ -309,6 +310,9 @@ b i {
 	border-bottom: 0;
 }
 .comment-content {
+}
+.comment-content .comment:first-of-type {
+	padding-top:16px;
 }
 .comment-content .comment:last-of-type {
 	padding-bottom: 24px;
@@ -336,6 +340,7 @@ b i {
 }
 .comment-content a:hover {
 	text-decoration: underline;
+	cursor: pointer
 }
 .comment-content p {
 	margin-top: 5px;
@@ -443,13 +448,14 @@ b i {
 .content-list {
 	padding: 0px 20px;
 }
+.content-list-link {
+	margin-bottom: 8px;
+	display: block;
+}
 .content-list img {
 	width: 100%;
 	max-width: 125px;
 	border: 1px solid rgba(0,0,0,.1)
-}
-.content-list .row {
-	margin-bottom: 8px;
 }
 .content-list .row:hover {
 	background: #f6f6f6;
@@ -475,6 +481,22 @@ b i {
 	cursor: default;
 }
 .content-list-selected {
+	display: block;
+	border: 1px solid rgba(0,0,0,.1);
+	border-radius: 3px;
+	cursor: pointer;
+	pointer-events: none;
+}
+.content-list-selected img {
+	border:none;
+	border-radius: 2px 0 0 2px;
+}
+.content-list-selected .row:hover {
+	background: transparent;
+}
+.content-list-selected .row p:hover {
+	cursor: pointer;
+	pointer-events: none;
 }
 .content-list .row .col-7 span {
 	display: none !important
