@@ -15,15 +15,37 @@ define('entry-directive', ['angular-app', 'URIjs/URI'], function(app, URI) {
                             });
                             setTimeout(function() {
                                 var uri = URI(request.url);
-                                if (uri.domain() === 'youtube.com') {
-                                    if (uri.pathname() === '/watch') {
-                                        var query = uri.search(true);
-                                        if (query.v) {
-                                            $scope.$apply(function() {
-                                                $scope.entry = { content: { type: 'youtube-video', id: query.v } };
-                                            });
+                                switch (uri.domain()) {
+                                    case 'youtube.com':
+                                        switch (uri.directory()) {
+                                            case '/':
+                                                if (uri.filename() === 'watch') {
+                                                    var query = uri.search(true);
+                                                    if (query.v) {
+                                                        $scope.$apply(function() {
+                                                            $scope.entry = { content: { type: 'youtube-video', id: query.v } };
+                                                        });
+                                                    }
+                                                }
+                                                break;
+                                            case '/v':
+                                            case '/embed':
+                                                $scope.$apply(function() {
+                                                    $scope.entry = { content: { type: 'youtube-video', id: uri.filename() } };
+                                                });
+                                                break;
+                                            case '/channel':
+                                                $scope.$apply(function() {
+                                                    $scope.entry = { accounts: [{ type: 'youtube-channel', id: uri.filename() }] };
+                                                });
+                                                break;
                                         }
-                                    }
+                                        break;
+                                    case 'youtu.be':
+                                        $scope.$apply(function() {
+                                            $scope.entry = { content: { type: 'youtube-video', id: uri.filename() } };
+                                        });
+                                        break;
                                 }
                             }, 100);
                             break;

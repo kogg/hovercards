@@ -54,14 +54,68 @@ describe('entry-directive', function() {
             expect($rootScope.entry).not.to.exist;
         });
 
-        it('should set entry to youtube-content from www.youtube.com/watch?v=VIDEO_ID in 100ms', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://www.youtube.com/watch?v=VIDEO_ID' });
-            $rootScope.$digest();
-            sandbox.clock.tick(100);
-            $rootScope.$digest();
+        describe('youtube video URLs', function() {
+            it('should identify www.youtube.com/watch?v=VIDEO_ID in 100ms', function() {
+                chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://www.youtube.com/watch?v=VIDEO_ID' });
+                $rootScope.$digest();
+                sandbox.clock.tick(100);
+                $rootScope.$digest();
 
-            expect($rootScope.entry).to.have.deep.property('content.type', 'youtube-video');
-            expect($rootScope.entry).to.have.deep.property('content.id',   'VIDEO_ID');
+                expect($rootScope.entry).to.have.deep.property('content.type', 'youtube-video');
+                expect($rootScope.entry).to.have.deep.property('content.id',   'VIDEO_ID');
+            });
+
+            it('should identify m.youtube.com/watch?v=VIDEO_ID in 100ms', function() {
+                chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://m.youtube.com/watch?v=VIDEO_ID' });
+                $rootScope.$digest();
+                sandbox.clock.tick(100);
+                $rootScope.$digest();
+
+                expect($rootScope.entry).to.have.deep.property('content.type', 'youtube-video');
+                expect($rootScope.entry).to.have.deep.property('content.id',   'VIDEO_ID');
+            });
+
+            it('should identify www.youtube.com/v/VIDEO_ID in 100ms', function() {
+                chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://www.youtube.com/v/VIDEO_ID' });
+                $rootScope.$digest();
+                sandbox.clock.tick(100);
+                $rootScope.$digest();
+
+                expect($rootScope.entry).to.have.deep.property('content.type', 'youtube-video');
+                expect($rootScope.entry).to.have.deep.property('content.id',   'VIDEO_ID');
+            });
+
+            it('should identify www.youtube.com/embed/VIDEO_ID in 100ms', function() {
+                chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://www.youtube.com/embed/VIDEO_ID' });
+                $rootScope.$digest();
+                sandbox.clock.tick(100);
+                $rootScope.$digest();
+
+                expect($rootScope.entry).to.have.deep.property('content.type', 'youtube-video');
+                expect($rootScope.entry).to.have.deep.property('content.id',   'VIDEO_ID');
+            });
+
+            it('should identify www.youtu.be/VIDEO_ID in 100ms', function() {
+                chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://www.youtu.be/VIDEO_ID' });
+                $rootScope.$digest();
+                sandbox.clock.tick(100);
+                $rootScope.$digest();
+
+                expect($rootScope.entry).to.have.deep.property('content.type', 'youtube-video');
+                expect($rootScope.entry).to.have.deep.property('content.id',   'VIDEO_ID');
+            });
+        });
+
+        describe('youtube channel URLs', function() {
+            it('should identify www.youtube.com/channel/CHANNEL_ID in 100ms', function() {
+                chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://www.youtube.com/channel/CHANNEL_ID' });
+                $rootScope.$digest();
+                sandbox.clock.tick(100);
+                $rootScope.$digest();
+
+                expect($rootScope.entry.accounts).to.be.an('array');
+                expect($rootScope.entry.accounts).to.be.contain({ type: 'youtube-channel', id: 'CHANNEL_ID' });
+            });
         });
     });
 
