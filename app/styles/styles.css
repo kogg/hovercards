@@ -287,6 +287,8 @@ b i {
 	border-left: 1px solid rgba(0,0,0,.15);
 	border-right: 1px solid rgba(0,0,0,.15);
 	border-bottom: 1px solid rgba(0,0,0,.15);
+	left: 0;
+	width: 100%;
 }
 .comment-top {
 	border: 1px solid rgba(0,0,0,.15);
@@ -352,8 +354,26 @@ b i {
 	margin-top: 5px;
 }
 
-
-
+/*Multi threaded comments*/
+.multithread {
+	border-radius: 0 0 3px 3px;
+	transition: all .3s ease-in-out;
+}
+.multithread + .comment {
+	position: relative;
+	margin:16px 0;
+	border:none !important;
+	border-radius: 3px !important;
+	box-shadow:0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
+	width: 105%;
+	left: -6px;
+	transition: all .3s ease-in-out;
+}
+.multithread + .comment + .comment {
+	border-radius: 3px 3px 0 0;
+	border-top: 1px solid rgba(0,0,0,.15);
+	transition: all .3s ease-in-out;
+}
 /*Error Cards*/
 
 .hovercards-error-container {
