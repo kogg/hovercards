@@ -63,6 +63,7 @@ describe('entry-directive', function() {
 
                 expect($rootScope.entry).to.have.deep.property('content.type', 'youtube-video');
                 expect($rootScope.entry).to.have.deep.property('content.id',   'VIDEO_ID');
+                expect($rootScope.entry.discussions).to.contain({ type: 'youtube-comments', id: 'VIDEO_ID' });
             });
 
             it('should identify m.youtube.com/watch?v=VIDEO_ID in 100ms', function() {
@@ -73,6 +74,7 @@ describe('entry-directive', function() {
 
                 expect($rootScope.entry).to.have.deep.property('content.type', 'youtube-video');
                 expect($rootScope.entry).to.have.deep.property('content.id',   'VIDEO_ID');
+                expect($rootScope.entry.discussions).to.contain({ type: 'youtube-comments', id: 'VIDEO_ID' });
             });
 
             it('should identify www.youtube.com/v/VIDEO_ID in 100ms', function() {
@@ -83,6 +85,7 @@ describe('entry-directive', function() {
 
                 expect($rootScope.entry).to.have.deep.property('content.type', 'youtube-video');
                 expect($rootScope.entry).to.have.deep.property('content.id',   'VIDEO_ID');
+                expect($rootScope.entry.discussions).to.contain({ type: 'youtube-comments', id: 'VIDEO_ID' });
             });
 
             it('should identify www.youtube.com/embed/VIDEO_ID in 100ms', function() {
@@ -93,6 +96,7 @@ describe('entry-directive', function() {
 
                 expect($rootScope.entry).to.have.deep.property('content.type', 'youtube-video');
                 expect($rootScope.entry).to.have.deep.property('content.id',   'VIDEO_ID');
+                expect($rootScope.entry.discussions).to.contain({ type: 'youtube-comments', id: 'VIDEO_ID' });
             });
 
             it('should identify www.youtu.be/VIDEO_ID in 100ms', function() {
@@ -103,6 +107,7 @@ describe('entry-directive', function() {
 
                 expect($rootScope.entry).to.have.deep.property('content.type', 'youtube-video');
                 expect($rootScope.entry).to.have.deep.property('content.id',   'VIDEO_ID');
+                expect($rootScope.entry.discussions).to.contain({ type: 'youtube-comments', id: 'VIDEO_ID' });
             });
         });
 

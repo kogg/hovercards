@@ -14,7 +14,6 @@
 						<div ng-include="'templates/'+ content.type + '.html'" ng-if="!content.err"></div>
 						<!-- TODO Figure out what triggers the people content to load -->
 						<div ng-init="entry.accounts = content.accounts" ng-if="!content.err"></div>
-						<div ng-init="entry.discussions = content.discussions" ng-if="!content.err"></div>
 
 						<div error ng-switch="content.err.code" ng-if="content.err.code">
 							<span ng-switch-default>There was a problem with the content!</span>
