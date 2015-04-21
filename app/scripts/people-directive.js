@@ -6,12 +6,12 @@ define('people-directive', ['angular-app', 'oboe'], function(app, oboe) {
             scope: {
                 requests: '=',
                 people: '=',
-                selectedPerson: '='
+                selectedIndex: '='
             },
             link: function($scope) {
                 var aborts = [];
                 $scope.$watch('requests', function(requests) {
-                    $scope.selectedPerson = -1;
+                    $scope.selectedIndex = -1;
                     $scope.people = null;
                     aborts.forEach(function(abort) {
                         abort();
@@ -56,8 +56,8 @@ define('people-directive', ['angular-app', 'oboe'], function(app, oboe) {
                                     if (!person) {
                                         person = { accounts: [], connected_accounts_ids: { } };
                                         $scope.people.push(person);
-                                        if ($scope.selectedPerson === -1) {
-                                            $scope.selectedPerson = 0;
+                                        if ($scope.selectedIndex === -1) {
+                                            $scope.selectedIndex = 0;
                                         }
                                     }
 

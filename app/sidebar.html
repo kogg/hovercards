@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div class="ng-cloak" entry="entry" ng-cloak>
-		<div class="fade-out-animation" people="people" requests="entry.accounts" selected-person="selectedPerson" ng-if="entry">
+		<div class="fade-out-animation" people="people" requests="entry.accounts" selected-index="indexP" ng-if="entry">
 			<div class="cards">
 				<div content="content" request="entry.content" ng-if="entry.content">
 					<div class="card bounce-in-animation" ng-if="content">
@@ -32,35 +32,26 @@
 				</div>
 
 				<div class="card bounce-in-animation" ng-if="people">
-					<div ng-repeat="person in people" ng-click="selectedPerson = $index">
+					<div ng-repeat="person in people" ng-click="indexP = $index">
 						<div ng-include="'templates/'+ person.selectedAccount.type + '.html'"></div>
 					</div>
 				</div>
 			</div>
 			<div class="network-menu">
-				<div class="network-menu-container" ng-class="'network-menu-size-' + people[selectedPerson].accounts.length" ng-if="people[selectedPerson].accounts.length">
-					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * people[selectedPerson].menuOffset) || 0) + 'px' }" ng-repeat="account in people[selectedPerson].accounts" ng-click="people[selectedPerson].selectedAccount = account">
-						<span ng-class="account == people[selectedPerson].selectedAccount && 'active'">{{ account.type | copy }}</span>
-					</div>
-					<div class="network-menu-option">
-						<span>Facebook</span>
-					</div>
-					<div class="network-menu-option">
-						<span>Instagram</span>
-					</div>
-					<div class="network-menu-option">
-						<span>ProductHunt</span>
+				<div class="network-menu-container" ng-class="'network-menu-size-' + people[indexP].accounts.length" ng-if="people[indexP].accounts.length">
+					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * people[indexP].menuOffset) || 0) + 'px' }" ng-repeat="account in people[indexP].accounts" ng-click="people[indexP].selectedAccount = account">
+						<span ng-class="account == people[indexP].selectedAccount && 'active'">{{ account.type | copy }}</span>
 					</div>
 				</div>
-				<div ng-show="people[selectedPerson].menuOffset" ng-click="people[selectedPerson].menuOffset = (people[selectedPerson].menuOffset || 0) - 3">Left</div>
-				<div ng-show="people[selectedPerson].menuOffset + 3 < people[selectedPerson].accounts.length" ng-click="people[selectedPerson].menuOffset = (selectedPerson.menuOffset || 0) + 3">Right</div>
+				<div ng-show="people[indexP].menuOffset" ng-click="people[indexP].menuOffset = (people[indexP].menuOffset || 0) - 3">Left</div>
+				<div ng-show="people[indexP].menuOffset + 3 < people[indexP].accounts.length" ng-click="people[indexP].menuOffset = (people[indexP].menuOffset || 0) + 3">Right</div>
 			</div>
 
-			<div class="social-profile" ng-style="!at_page_bottom && { overflow: 'hidden' }" ng-if="people[selectedPerson].selectedAccount">
-				<div ng-if="people[selectedPerson].selectedAccount.description">
-					<p class="social-profile-description" readmore="people[selectedPerson].selectedAccount.description | htmlify" style="max-height: 100px"></p>
+			<div class="social-profile" ng-style="!at_page_bottom && { overflow: 'hidden' }" ng-if="people[indexP].selectedAccount">
+				<div ng-if="people[indexP].selectedAccount.description">
+					<p class="social-profile-description" readmore="people[indexP].selectedAccount.description | htmlify" style="max-height: 100px"></p>
 				</div>
-				<div more-content="moreContent" request="people[selectedPerson].selectedAccount" ng-if="people[selectedPerson].selectedAccount">
+				<div more-content="moreContent" request="people[indexP].selectedAccount" ng-if="people[indexP].selectedAccount">
 					<div ng-if="moreContent">
 						<div ng-include="'templates/' + moreContent.type + '.html'"></div>
 					</div>

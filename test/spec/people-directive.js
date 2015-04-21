@@ -21,7 +21,7 @@ describe('people-directive', function() {
         require(['angular'], function(angular) {
             sandbox.useFakeServer();
 
-            element = angular.element('<div people="people" requests="requests" selected-person="selectedPerson"></div>');
+            element = angular.element('<div people="people" requests="requests" selected-index="selectedIndex"></div>');
             $compile(element)($rootScope);
             $rootScope.$digest();
             scope = element.isolateScope();
@@ -53,14 +53,14 @@ describe('people-directive', function() {
         expect($rootScope.requests).to.deep.equal(['In => Out']);
     });
 
-    it('should two way bind selectedPerson', function() {
-        $rootScope.selectedPerson = 'Out => In';
+    it('should two way bind selectedIndex', function() {
+        $rootScope.selectedIndex = 'Out => In';
         $rootScope.$digest();
-        expect(scope.selectedPerson).to.equal('Out => In');
+        expect(scope.selectedIndex).to.equal('Out => In');
 
-        scope.selectedPerson = 'In => Out';
+        scope.selectedIndex = 'In => Out';
         $rootScope.$digest();
-        expect($rootScope.selectedPerson).to.equal('In => Out');
+        expect($rootScope.selectedIndex).to.equal('In => Out');
     });
 
     describe('on requests', function() {
@@ -95,7 +95,7 @@ describe('people-directive', function() {
             expect($rootScope.people).not.to.exist;
         });
 
-        it('should set selectedPerson to -1', function() {
+        it('should set selectedIndex to -1', function() {
             $rootScope.requests = ['Something'];
             $rootScope.$digest();
             $rootScope.people = 'Something';
@@ -103,7 +103,7 @@ describe('people-directive', function() {
             $rootScope.requests = null;
             $rootScope.$digest();
 
-            expect($rootScope.selectedPerson).to.equal(-1);
+            expect($rootScope.selectedIndex).to.equal(-1);
         });
 
         it('should set accounts to seperate people', function() {
@@ -117,13 +117,13 @@ describe('people-directive', function() {
             expect($rootScope.people[1].accounts).to.contain({ type: 'second-account', id: 'SECOND_ID' });
         });
 
-        it('should set selectedPerson to 0', function() {
+        it('should set selectedIndex to 0', function() {
             $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
             $rootScope.$digest();
             sandbox.server.respond();
             $rootScope.$digest();
 
-            expect($rootScope.selectedPerson).to.equal(0);
+            expect($rootScope.selectedIndex).to.equal(0);
         });
 
         it('should set each person\'s selectedAccount to one of their accounts', function() {
