@@ -106,6 +106,15 @@ describe('people-directive', function() {
             expect($rootScope.selectedIndex).to.equal(-1);
         });
 
+        it('should set selectedIndex to 0 if requests is not empty', function() {
+            $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
+            $rootScope.$digest();
+            sandbox.server.respond();
+            $rootScope.$digest();
+
+            expect($rootScope.selectedIndex).to.equal(0);
+        });
+
         it('should set accounts to seperate people', function() {
             $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
             $rootScope.$digest();
@@ -115,15 +124,6 @@ describe('people-directive', function() {
             expect($rootScope.people).to.have.length(2);
             expect($rootScope.people[0].accounts).to.contain({ type: 'first-account',  id: 'FIRST_ID' });
             expect($rootScope.people[1].accounts).to.contain({ type: 'second-account', id: 'SECOND_ID' });
-        });
-
-        it('should set selectedIndex to 0', function() {
-            $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
-            $rootScope.$digest();
-            sandbox.server.respond();
-            $rootScope.$digest();
-
-            expect($rootScope.selectedIndex).to.equal(0);
         });
 
         it('should set each person\'s selectedAccount to one of their accounts', function() {

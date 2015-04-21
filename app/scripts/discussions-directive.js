@@ -1,23 +1,28 @@
 'use strict';
 
-define('discussions-directive', ['angular-app', 'oboe'], function(app, oboe) {
+define('discussions-directive', ['angular-app', 'jquery'], function(app, $) {
     app.directive('discussions', function() {
         return {
             scope: {
-                request: '=',
-                discussions: '='
+                requests: '=',
+                discussions: '=',
+                selectedIndex: '='
             },
             link: function($scope) {
                 var aborts = [];
-                $scope.$watch('request', function(request) {
+                $scope.$watch('requests', function(requests) {
+                    $scope.selectedIndex = -1;
                     $scope.discussions = null;
                     aborts.forEach(function(abort) {
                         abort();
                     });
                     aborts = [];
-                    if (!request) {
+                    if (!requests) {
                         return;
                     }
+                    $scope.selectedIndex = 0;
+                    $scope.discussions = [];
+                    /*
                     aborts.push(oboe('https://hovercards.herokuapp.com/v1/' + request.type + '/' + request.id + '/discussions')
                         .node('!.{type id}', function(discussion) {
                             $scope.$apply(function() {
@@ -31,6 +36,22 @@ define('discussions-directive', ['angular-app', 'oboe'], function(app, oboe) {
                             });
                         })
                         .abort);
+                        */
+                });
+                $scope.$watch('selectedIndex', function(selectedIndex, old) {
+                    if (selectedIndex === -1 || selectedIndex === old || !$scope.requests) {
+                        return;
+                    }
+                    if ($scope.discussions[selectedIndex]) {
+                        return;
+                    }
+                    var request = $scope.requests[selectedIndex];
+                    $.get('https://hovercards.herokuapp.com/v1/' + request.type + '/' + request.id)
+                        .done(function(data) {
+                            $scope.$apply(function() {
+                                $scope.discussions[selectedIndex] = data;
+                            });
+                        });
                 });
             }
         };
