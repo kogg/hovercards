@@ -21,7 +21,7 @@ describe('discussions-directive', function() {
         require(['angular'], function(angular) {
             sandbox.useFakeServer();
 
-            element = angular.element('<div discussions="discussions" request="request"></div>');
+            element = angular.element('<div discussions="discussions" requests="requests" selected-index="selectedIndex"></div>');
             $compile(element)($rootScope);
             $rootScope.$digest();
             scope = element.isolateScope();
@@ -43,105 +43,143 @@ describe('discussions-directive', function() {
         expect($rootScope.discussions).to.equal('In => Out');
     });
 
-    it('should two way bind request', function() {
-        $rootScope.request = 'Out => In';
+    it('should two way bind requests', function() {
+        $rootScope.requests = ['Out => In'];
         $rootScope.$digest();
-        expect(scope.request).to.equal('Out => In');
+        expect(scope.requests).to.deep.equal(['Out => In']);
 
-        scope.request = 'In => Out';
+        scope.requests = ['In => Out'];
         $rootScope.$digest();
-        expect($rootScope.request).to.equal('In => Out');
+        expect($rootScope.requests).to.deep.equal(['In => Out']);
     });
 
-    describe('on request', function() {
+    it('should two way bind selectedIndex', function() {
+        $rootScope.selectedIndex = 'Out => In';
+        $rootScope.$digest();
+        expect(scope.selectedIndex).to.equal('Out => In');
+
+        scope.selectedIndex = 'In => Out';
+        $rootScope.$digest();
+        expect($rootScope.selectedIndex).to.equal('In => Out');
+    });
+
+    describe('on requests', function() {
         it('should empty discussions', function() {
-            $rootScope.request = 'Something';
+            $rootScope.requests = ['Something'];
             $rootScope.$digest();
             $rootScope.discussions = 'Something';
             $rootScope.$digest();
-            $rootScope.request = 'Something Else';
+            $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
+            $rootScope.$digest();
+
+            expect($rootScope.discussions).to.be.an('array');
+            expect($rootScope.discussions).to.be.empty;
+        });
+
+        it('should unset discussions if null', function() {
+            $rootScope.requests = ['Something'];
+            $rootScope.$digest();
+            $rootScope.discussions = 'Something';
+            $rootScope.$digest();
+            $rootScope.requests = null;
             $rootScope.$digest();
 
             expect($rootScope.discussions).not.to.exist;
         });
 
-        it('should set content with server response', function() {
-            $rootScope.request = { type: 'youtube-video', id: 'm3lF2qEA2cw' };
+        it('should set selectedIndex to -1', function() {
+            $rootScope.requests = ['Something'];
             $rootScope.$digest();
-            var response = [{ type:     'youtube-comments',
-                              id:       'm3lF2qEA2cw',
-                              count:    1650,
-                              comments: [{ description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
-                                           date:        1428438215000,
-                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
-                                                          name:  'ScottBradleeLovesYa',
-                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
-                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
-                                           date:        1428438215000,
-                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
-                                                          name:  'ScottBradleeLovesYa',
-                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
-                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
-                                           date:        1428438215000,
-                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
-                                                          name:  'ScottBradleeLovesYa',
-                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
-                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
-                                           date:        1428438215000,
-                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
-                                                          name:  'ScottBradleeLovesYa',
-                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
-                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
-                                           date:        1428438215000,
-                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
-                                                          name:  'ScottBradleeLovesYa',
-                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } }] },
-                            { type:     'youtube-comments',
-                              id:       'm3lF2qEA2cw',
-                              count:    1650,
-                              comments: [{ description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
-                                           date:        1428438215000,
-                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
-                                                          name:  'ScottBradleeLovesYa',
-                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
-                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
-                                           date:        1428438215000,
-                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
-                                                          name:  'ScottBradleeLovesYa',
-                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
-                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
-                                           date:        1428438215000,
-                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
-                                                          name:  'ScottBradleeLovesYa',
-                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
-                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
-                                           date:        1428438215000,
-                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
-                                                          name:  'ScottBradleeLovesYa',
-                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } },
-                                         { description: 'New Video! Check out Haley Reinhart\'s beautifully haunting rendition of our \nvintage arrangement of Radiohead\'s \"Creep,\" and get ready for some chills. \n\nSee PMJ on tour in North America this Spring: http://www.pmjlive.com',
-                                           date:        1428438215000,
-                                           channel:     { id:    'UCORIeT1hk6tYBuntEXsguLg',
-                                                          name:  'ScottBradleeLovesYa',
-                                                          image: 'https://yt3.ggpht.com/-Gqi7IQdC_9s/AAAAAAAAAAI/AAAAAAAAAAA/nQZn4aCQ-ZA/s88-c-k-no/photo.jpg' } }] }];
-            sandbox.server.respond('GET',
-                                   'https://hovercards.herokuapp.com/v1/youtube-video/m3lF2qEA2cw/discussions',
-                                   [200, { 'Content-Type': 'application/json' }, JSON.stringify(response)]);
+            $rootScope.discussions = 'Something';
+            $rootScope.$digest();
+            $rootScope.requests = null;
             $rootScope.$digest();
 
-            expect($rootScope.discussions).to.deep.equal(response);
+            expect($rootScope.selectedIndex).to.equal(-1);
         });
 
-        it('should set err', function() {
-            $rootScope.request = { type: 'youtube-video', id: 'm3lF2qEA2cw' };
+        it('should set selectedIndex to 0 if requests is not null', function() {
+            $rootScope.requests = [{ type: 'first-account', id: 'FIRST_ID' }];
             $rootScope.$digest();
-            sandbox.server.respond('GET',
-                                   'https://hovercards.herokuapp.com/v1/youtube-video/m3lF2qEA2cw/discussions',
-                                   [400, {}, 'Error Message']);
+            sandbox.server.respond();
             $rootScope.$digest();
 
-            expect($rootScope.discussions.err).to.have.property('code', 400);
-            expect($rootScope.discussions.err).to.have.property('message', 'Error Message');
+            expect($rootScope.selectedIndex).to.equal(0);
+        });
+    });
+
+    describe('on selectedIndex', function() {
+        beforeEach(function() {
+            $rootScope.requests = [{ type: 'first-type',  id: 'first-id' },
+                                   { type: 'second-type', id: 'second-id' },
+                                   { type: 'third-type',  id: 'third-id' }];
+            $rootScope.$digest();
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/first-type/first-id',
+                                       [200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify('FIRST DISCUSSION')]);
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/second-type/second-id',
+                                       [200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify('SECOND DISCUSSION')]);
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/third-type/third-id',
+                                       [200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify('THIRD DISCUSSION')]);
+        });
+
+        it('should load first discussion when 0', function() {
+            // Starts at 0;
+            $rootScope.$digest();
+            sandbox.server.respond();
+            $rootScope.$digest();
+
+            expect($rootScope.discussions[0]).to.equal('FIRST DISCUSSION');
+        });
+
+        it('should load other discussions when n', function() {
+            $rootScope.$digest();
+            sandbox.server.respond();
+            $rootScope.$digest();
+            $rootScope.selectedIndex = 1;
+            $rootScope.$digest();
+            sandbox.server.respond();
+            $rootScope.$digest();
+
+            expect($rootScope.discussions[1]).to.equal('SECOND DISCUSSION');
+        });
+
+        it('should not load those between 0 & n', function() {
+            $rootScope.$digest();
+            sandbox.server.respond();
+            $rootScope.$digest();
+            $rootScope.selectedIndex = 2;
+            $rootScope.$digest();
+            sandbox.server.respond();
+            $rootScope.$digest();
+
+            expect($rootScope.discussions[1]).to.not.exist;
+        });
+
+        it('should not reload discussions', function() {
+            // Starts at 0
+            $rootScope.$digest();
+            sandbox.server.respond();
+            $rootScope.$digest();
+            $rootScope.selectedIndex = 1;
+            $rootScope.$digest();
+            sandbox.server.respond();
+            $rootScope.$digest();
+            sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/first-type/first-id',
+                                       [200,
+                                        { 'Content-Type': 'application/json' },
+                                        JSON.stringify('FIRST DISCUSSION AGAIN')]);
+            $rootScope.selectedIndex = 0;
+            $rootScope.$digest();
+            sandbox.server.respond();
+            $rootScope.$digest();
+
+            expect($rootScope.discussions[0]).not.to.equal('FIRST DISCUSSION AGAIN');
         });
     });
 });
