@@ -14,6 +14,7 @@
 						<div ng-include="'templates/'+ content.type + '.html'" ng-if="!content.err"></div>
 						<!-- TODO Figure out what triggers the people content to load -->
 						<div ng-init="entry.accounts = content.accounts" ng-if="!content.err"></div>
+						<div ng-init="entry.discussions = content.discussions" ng-if="!content.err"></div>
 
 						<div error ng-switch="content.err.code" ng-if="content.err.code">
 							<span ng-switch-default>There was a problem with the content!</span>
@@ -21,12 +22,12 @@
 					</div>
 				</div>
 
-				<div discussions="discussions" request="entry.content" ng-if="entry.content">
-					<div class="card bounce-in-animation" ng-if="discussions">
-						<div ng-include="'templates/'+ discussion.type + '.html'" ng-repeat="discussion in discussions" ng-if="!discussions.err"></div>
+				<div discussions="discussions" requests="entry.discussions" selected-index="indexD" ng-if="entry.discussions">
+					<div class="card bounce-in-animation" ng-if="discussions[0]">
+						<div ng-include="'templates/'+ discussions[indexD].type + '.html'" ng-if="!discussions[indexD].err"></div>
 
-						<div error ng-switch="discussions.err.code" ng-if="discussions.err.code">
-							<span ng-switch-default>There was a problem with the discussions!</span>
+						<div error ng-switch="discussions[indexD].err.code" ng-if="discussions[indexD].err.code">
+							<span ng-switch-default>There was a problem with the discussion!</span>
 						</div>
 					</div>
 				</div>

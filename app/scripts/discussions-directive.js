@@ -22,24 +22,10 @@ define('discussions-directive', ['angular-app', 'jquery'], function(app, $) {
                     }
                     $scope.selectedIndex = 0;
                     $scope.discussions = [];
-                    /*
-                    aborts.push(oboe('https://hovercards.herokuapp.com/v1/' + request.type + '/' + request.id + '/discussions')
-                        .node('!.{type id}', function(discussion) {
-                            $scope.$apply(function() {
-                                $scope.discussions = $scope.discussions || [];
-                                $scope.discussions.push(discussion);
-                            });
-                        })
-                        .fail(function(jqXHR) {
-                            $scope.$apply(function() {
-                                $scope.discussions = { err: { code: jqXHR.statusCode, message: jqXHR.body } };
-                            });
-                        })
-                        .abort);
-                        */
                 });
-                $scope.$watch('selectedIndex', function(selectedIndex, old) {
-                    if (selectedIndex === -1 || selectedIndex === old || !$scope.requests) {
+
+                $scope.$watch('selectedIndex', function(selectedIndex) {
+                    if (selectedIndex === -1 || !$scope.requests) {
                         return;
                     }
                     if ($scope.discussions[selectedIndex]) {
