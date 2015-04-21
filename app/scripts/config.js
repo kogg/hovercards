@@ -9,7 +9,8 @@ require.config({
         domReady:           '../bower_components/requirejs-domready/domReady',
         dotdotdot:          '../bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot',
         jquery:             '../bower_components/jquery/dist/jquery',
-        oboe:               '../bower_components/oboe/dist/oboe-browser'
+        oboe:               '../bower_components/oboe/dist/oboe-browser',
+        URIjs:              '../bower_components/uri.js/src'
     },
     shim: {
         angular:            { exports: 'angular' },

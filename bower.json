@@ -11,7 +11,8 @@
     "oboe": "~2.1.1",
     "requirejs": "~2.1.16",
     "requirejs-domready": "~2.0.1",
-    "requirejs-plugins": "~1.0.3"
+    "requirejs-plugins": "~1.0.3",
+    "uri.js": "~1.15.0"
   },
   "devDependencies": {}
 }
