@@ -355,6 +355,9 @@ b i {
 }
 
 /*Multi threaded comments*/
+.comment-content .comment:first-of-type {
+	background: green
+}
 .multithread {
 	border-radius: 0 0 3px 3px;
 	transition: all .3s ease-in-out;
