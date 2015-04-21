@@ -1,36 +1,43 @@
 'use strict';
 
-define('discussions-directive', ['angular-app', 'oboe'], function(app, oboe) {
+define('discussions-directive', ['angular-app', 'jquery'], function(app, $) {
     app.directive('discussions', function() {
         return {
             scope: {
-                request: '=',
-                discussions: '='
+                requests: '=',
+                discussions: '=',
+                selectedIndex: '='
             },
             link: function($scope) {
                 var aborts = [];
-                $scope.$watch('request', function(request) {
+                $scope.$watch('requests', function(requests) {
+                    $scope.selectedIndex = -1;
                     $scope.discussions = null;
                     aborts.forEach(function(abort) {
                         abort();
                     });
                     aborts = [];
-                    if (!request) {
+                    if (!requests) {
                         return;
                     }
-                    aborts.push(oboe('https://hovercards.herokuapp.com/v1/' + request.type + '/' + request.id + '/discussions')
-                        .node('!.{type id}', function(discussion) {
+                    $scope.selectedIndex = 0;
+                    $scope.discussions = [];
+                });
+
+                $scope.$watch('selectedIndex', function(selectedIndex) {
+                    if (selectedIndex === -1 || !$scope.requests) {
+                        return;
+                    }
+                    if ($scope.discussions[selectedIndex]) {
+                        return;
+                    }
+                    var request = $scope.requests[selectedIndex];
+                    $.get('https://hovercards.herokuapp.com/v1/' + request.type + '/' + request.id)
+                        .done(function(data) {
                             $scope.$apply(function() {
-                                $scope.discussions = $scope.discussions || [];
-                                $scope.discussions.push(discussion);
+                                $scope.discussions[selectedIndex] = data;
                             });
-                        })
-                        .fail(function(jqXHR) {
-                            $scope.$apply(function() {
-                                $scope.discussions = { err: { code: jqXHR.statusCode, message: jqXHR.body } };
-                            });
-                        })
-                        .abort);
+                        });
                 });
             }
         };
