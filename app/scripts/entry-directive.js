@@ -5,7 +5,7 @@ define('entry-directive', ['angular-app', 'URIjs/URI'], function(app, URI) {
         var entry = { content: { type: type, id: id } };
 
         if (type === 'youtube-video') {
-            entry.discussions = [{ type: 'youtube-comments', id: id }];
+            entry.discussions = [{ type: 'youtube-comments', id: id }, { type: 'reddit-comments', id: 'youtube_' + id }];
         }
 
         return entry;
