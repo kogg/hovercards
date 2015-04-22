@@ -292,7 +292,8 @@ b i {
 }
 .comment-top {
 	border: 1px solid rgba(0,0,0,.15);
-	border-radius: 3px 3px 0 0;
+	border-top-left-radius: 3px !important;
+  border-top-right-radius: 3px !important;
 	background: #fff;
 	line-height: 50px;
 	padding: 0 16px;
@@ -313,18 +314,14 @@ b i {
 .comment:last-of-type {
 	border-bottom: 0;
 }
-.comment-content {
-}
-.comment-content .comment:first-of-type {
+
+.comment:first-of-type {
 	padding-top:16px;
 }
-.comment-content .comment:last-of-type {
+.comment:last-of-type {
 	padding-bottom: 24px;
 	border-bottom: 1px solid rgba(0,0,0,.15);
 	border-radius: 0 0 3px 3px;
-}
-.comment-left {
-
 }
 .comment-image {
 	width: 50px;
@@ -336,28 +333,25 @@ b i {
 	position: relative;
 }
 
-.comment-content a {
+.comment a {
 	color: black;
 	text-decoration: none;
 	font-size: 16px;
 	font-weight: 500;
 }
-.comment-content a:hover {
+.comment a:hover {
 	text-decoration: underline;
 	cursor: pointer
 }
-.comment-content p {
+.comment p {
 	margin-top: 5px;
 }
-.comment-content b {
+.comment b {
 	margin-bottom: 0;
 	margin-top: 5px;
 }
 
 /*Multi threaded comments*/
-.comment-content .comment:first-of-type {
-	background: green
-}
 .multithread {
 	border-radius: 0 0 3px 3px;
 	transition: all .3s ease-in-out;
@@ -376,6 +370,19 @@ b i {
 	border-radius: 3px 3px 0 0;
 	border-top: 1px solid rgba(0,0,0,.15);
 	transition: all .3s ease-in-out;
+}
+/*COmment Childs*/
+.child {
+	display: none;
+	clear: both;
+	padding:8px 0 0 8px;
+}
+.multithread + .comment .child {
+	display: block;
+}
+.child-comment {
+	border-left:1px dotted rgba(0,0,0,.2);
+	padding: 8px 16px;
 }
 /*Error Cards*/
 
