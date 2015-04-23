@@ -2,9 +2,11 @@
 
 describe('state-manager', function() {
     var sandbox = sinon.sandbox.create();
+    var $;
 
     beforeEach(function(done) {
-        require(['state-manager'], function(stateManager) {
+        require(['state-manager', 'jquery'], function(stateManager, jquery) {
+            $ = jquery;
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             stateManager.init();
             done();

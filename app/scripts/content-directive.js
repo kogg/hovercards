@@ -1,6 +1,6 @@
 'use strict';
 
-define('content-directive', ['angular-app'], function(app) {
+define('content-directive', ['angular-app', 'jquery'], function(app, $) {
     app.directive('content', function() {
         return {
             scope: {

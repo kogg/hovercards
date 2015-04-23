@@ -3,9 +3,11 @@
 describe('notifications-inject', function() {
     var sandbox = sinon.sandbox.create();
     var body;
+    var $;
 
     beforeEach(function(done) {
-        require(['notifications-inject'], function(notifications_inject) {
+        require(['notifications-inject', 'jquery'], function(notifications_inject, jquery) {
+            $ = jquery;
             sandbox.useFakeTimers();
             sandbox.stub(chrome.i18n, 'getMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');

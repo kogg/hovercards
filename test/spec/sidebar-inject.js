@@ -4,9 +4,11 @@ describe('sidebar-inject', function() {
     var sandbox = sinon.sandbox.create();
     var container, body, html;
     var sidebarObj;
+    var $;
 
     beforeEach(function(done) {
-        require(['sidebar-inject'], function(sidebar_inject) {
+        require(['sidebar-inject', 'jquery'], function(sidebar_inject, jquery) {
+            $ = jquery;
             sandbox.stub(chrome.runtime, 'sendMessage');
             sandbox.stub(chrome.runtime.onMessage, 'addListener');
             sandbox.stub(chrome.storage.sync, 'get');

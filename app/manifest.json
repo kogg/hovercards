@@ -20,7 +20,7 @@
         "images/youtube-notification.gif"
     ],
     "background": {
-        "page": "background.html"
+        "scripts": ["scripts/background-main.js"]
     },
     "content_scripts": [
         {
@@ -32,12 +32,6 @@
                 "styles/dom-styles.css"
             ],
             "js": [
-                "bower_components/requirejs/require.js",
-                "scripts/config.js",
-                "bower_components/jquery/dist/jquery.js",
-                "scripts/notifications-inject.js",
-                "scripts/sidebar-inject.js",
-                "scripts/state-manager.js",
                 "scripts/top-frame-main.js"
             ],
             "all_frames": false
@@ -51,12 +45,6 @@
                 "styles/trigger-styles.css"
             ],
             "js": [
-                "bower_components/requirejs/require.js",
-                "scripts/config.js",
-                "bower_components/jquery/dist/jquery.js",
-                "scripts/embedded-trigger.js",
-                "scripts/longpress-trigger.js",
-                "scripts/trigger-inject.js",
                 "scripts/everywhere-main.js"
             ],
             "all_frames": true

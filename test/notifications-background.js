@@ -7,11 +7,12 @@ chai.use(sinonChai);
 
 require('./chrome');
 
+var notificationsBackground = require('../app/scripts/notifications-background');
+
 describe('notifications-background', function() {
     var sandbox = sinon.sandbox.create();
 
     beforeEach(function() {
-        var notificationsBackground = require('../app/scripts/notifications-background');
         sandbox.stub(chrome.runtime.onMessage, 'addListener');
         sandbox.stub(chrome.tabs, 'sendMessage');
         sandbox.stub(chrome.storage.sync, 'get');

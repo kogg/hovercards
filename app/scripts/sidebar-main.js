@@ -1,5 +1,19 @@
-'use strict';
+//var angular = require('angular');
 
+var click_trigger     = require('./click-trigger');
+var longpress_trigger = require('./longpress-trigger');
+
+click_trigger('body', 'a[data-load]', function(link) {
+    return link.data('load');
+});
+
+longpress_trigger.on('body', 'a[data-load]', function(link) {
+    return link.data('load');
+});
+
+chrome.runtime.sendMessage({ msg: 'ready' });
+
+/*
 require(['account-directive',
          'content-directive',
          'discussions-directive',
@@ -21,14 +35,4 @@ require(['account-directive',
         chrome.runtime.sendMessage({ msg: 'ready' });
     });
 });
-
-require(['click-trigger', 'longpress-trigger'], function(click_trigger, longpress_trigger) {
-    click_trigger.on('body', 'a[data-load]', function(link) {
-        return link.data('load');
-    });
-    longpress_trigger.on('body', 'a[data-load]', function(link) {
-        return link.data('load');
-    });
-});
-
-require(['everywhere-main']);
+*/

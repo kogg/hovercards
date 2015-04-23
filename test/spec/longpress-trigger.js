@@ -4,9 +4,11 @@ describe('longpress-trigger', function() {
     var sandbox = sinon.sandbox.create();
     var body;
     var longpress_trigger;
+    var $;
 
     beforeEach(function(done) {
-        require(['longpress-trigger'], function(_longpress_trigger) {
+        require(['longpress-trigger', 'jquery'], function(_longpress_trigger, jquery) {
+            $ = jquery;
             sandbox.useFakeTimers();
             sandbox.stub(chrome.runtime, 'sendMessage');
             sandbox.stub(chrome.storage.sync, 'get');

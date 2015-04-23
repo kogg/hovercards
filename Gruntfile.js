@@ -15,7 +15,10 @@ module.exports = function (grunt) {
         browserify: {
             scripts: {
                 files: {
-                    'dist/scripts/background-main.js': 'app/scripts/background-main.js'
+                    'dist/scripts/background-main.js': 'app/scripts/background-main.js',
+                    'dist/scripts/everywhere-main.js': 'app/scripts/everywhere-main.js',
+                    'dist/scripts/sidebar-main.js':    'app/scripts/sidebar-main.js',
+                    'dist/scripts/top-frame-main.js':  'app/scripts/top-frame-main.js'
                 }
             }
         },

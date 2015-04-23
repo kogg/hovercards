@@ -6,7 +6,6 @@
     "esnext": true,
     "immed": true,
     "indent": 4,
-    "jquery": true,
     "latedef": true,
     "newcap": true,
     "noarg": true,

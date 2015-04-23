@@ -16,6 +16,7 @@
     <script src="bower_components/mocha/mocha.js"></script>
     <script src="bower_components/sinonjs/sinon.js"></script>
     <script src="bower_components/sinon-chai/lib/sinon-chai.js"></script>
+    <!--
     <script src="bower_components/requirejs/require.js"></script>
     <script src="scripts/config.js"></script>
     <script>
@@ -28,6 +29,9 @@
         // we'll give them this one
         define('angular', function() { return angular; });
         define('jquery', function() { return $; });
+    </script>
+    -->
+    <script>
         var chrome = { extension:  { getURL: function(filename) { return 'chrome-extension://extension_id/' + filename; } },
                        i18n:       { getMessage: $.noop },
                        pageAction: { setIcon: $.noop,
@@ -46,9 +50,10 @@
     <script src="bower_components/angular-mocks/angular-mocks.js"></script>
 
     <!-- tests -->
+    <script src="spec/embedded-trigger.js"></script>
+    <!--
     <script src="spec/content-directive.js"></script>
     <script src="spec/discussions-directive.js"></script>
-    <script src="spec/embedded-trigger.js"></script>
     <script src="spec/entry-directive.js"></script>
     <script src="spec/longpress-trigger.js"></script>
     <script src="spec/more-content-directive.js"></script>
@@ -57,7 +62,7 @@
     <script src="spec/people-directive.js"></script>
     <script src="spec/sidebar-inject.js"></script>
     <script src="spec/state-manager.js"></script>
-    <script src="spec/trigger-inject.js"></script>
+    -->
 
     <script>
         if (navigator.userAgent.indexOf('PhantomJS') < 0) {

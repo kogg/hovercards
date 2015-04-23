@@ -7,11 +7,12 @@ chai.use(sinonChai);
 
 require('./chrome');
 
+var triggerBackground = require('../app/scripts/trigger-background');
+
 describe('trigger-background', function() {
     var sandbox = sinon.sandbox.create();
 
     beforeEach(function() {
-        var triggerBackground = require('../app/scripts/trigger-background');
         sandbox.stub(chrome.pageAction, 'setIcon');
         sandbox.stub(chrome.pageAction, 'show');
         sandbox.stub(chrome.runtime.onMessage, 'addListener');

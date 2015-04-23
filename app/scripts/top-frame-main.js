@@ -1,17 +1,11 @@
-'use strict';
+var $ = require('jquery');
 
-require(['jquery'], function($) {
-    var hovercards_container = $('<div class="hovercards-container"></div>').appendTo('html');
+var notifications_inject = require('./notifications-inject');
+var sidebar_inject       = require('./sidebar-inject');
+var state_manager        = require('./state-manager');
 
-    require(['notifications-inject'], function(notifications_inject) {
-        notifications_inject.on(hovercards_container);
-    });
+var hovercards_container = $('<div class="hovercards-container"></div>').appendTo('html');
+notifications_inject(hovercards_container);
+sidebar_inject(hovercards_container);
 
-    require(['sidebar-inject'], function(sidebar_inject) {
-        sidebar_inject.on(hovercards_container, 'body', 'html');
-    });
-});
-
-require(['state-manager'], function(state_manager) {
-    state_manager.init();
-});
+state_manager();
