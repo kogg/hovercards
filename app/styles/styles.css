@@ -779,7 +779,48 @@ b i {
 .fade-animation.ng-hide {
 	opacity: 0;
 }
+/*loading animation*/
+.loader, .colored {
+  width: 100%;
+  height: 5px;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  position: fixed;
+  margin: 0 auto;
+}
 
+.loader {
+  -webkit-animation: colors 3s linear infinite;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.colored {
+  -webkit-animation: colorsmv 3s linear infinite;
+}
+
+@-webkit-keyframes colorsmv {
+  0%    { width: 0;    background: #DA4530; }
+  25%   { width: 100%; background: #DA4530; }
+  25.1% { width: 0;    background: #156CEC; }
+  50%   { width: 100%; background: #156CEC; }
+  50.1% { width: 0;    background: #FFB900; }
+  75%   { width: 100%; background: #FFB900; }
+  75.1% { width: 0;    background: #009956; }
+  100%  { width: 100%; background: #009956; }
+}
+
+@-webkit-keyframes colors {
+  0%    { background: #009956; }
+  25%   { background: #009956; }
+  25.1% { background: #DA4530; }
+  50%   { background: #DA4530; }
+  50.1% { background: #156CEC; }
+  75%   { background: #156CEC; }
+  75.1% { background: #FFB900; }
+  100%  { background: #FFB900; }
+}
 
 
 
