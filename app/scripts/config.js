@@ -9,6 +9,7 @@ require.config({
         domReady:           '../bower_components/requirejs-domready/domReady',
         dotdotdot:          '../bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot',
         jquery:             '../bower_components/jquery/dist/jquery',
+        'jquery-ui':        './jquery-ui.min',
         oboe:               '../bower_components/oboe/dist/oboe-browser',
         URIjs:              '../bower_components/uri.js/src'
     },
@@ -17,6 +18,7 @@ require.config({
         'angular-animate':  ['angular'],
         'angular-inview':   ['angular'],
         'angular-sanitize': ['angular'],
-        'dotdotdot':        ['jquery']
+        dotdotdot:          ['jquery'],
+        'jquery-ui':        ['jquery']
     }
 });
