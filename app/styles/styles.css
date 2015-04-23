@@ -379,7 +379,6 @@ b i {
 }
 #sortable li:hover {
 	cursor: pointer !important;
-	background: #e5e5e5;
 }
 #sortable li:active {
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
@@ -455,8 +454,7 @@ b i {
 } 
 
 .ui-state-highlight {
-	height: 1.5em;
-	line-height: 1.2em;
+	height: 50px;
 	background: #e5e5e5 !important
 }
 /*Multi threaded comments*/
