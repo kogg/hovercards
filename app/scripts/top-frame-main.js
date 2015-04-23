@@ -6,6 +6,6 @@ var state_manager        = require('./state-manager');
 
 var hovercards_container = $('<div class="hovercards-container"></div>').appendTo('html');
 notifications_inject(hovercards_container);
-sidebar_inject(hovercards_container);
+sidebar_inject(hovercards_container, 'body', 'html');
 
 state_manager();
