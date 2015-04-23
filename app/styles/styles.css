@@ -362,17 +362,29 @@ b i {
 .menu {
 	clear: both;
 }
+.menu-description {
+	background: #FFF9C4;
+	border-top: 1px solid rgba(0,0,0,.15);
+}
+.menu-description p {
+	line-height: 19px;
+  font-weight: 400;
+  font-size: 15px;
+  color: #727272;
+}
 #sortable {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 	width: 100%;
+	overflow-y:scroll;
 }
 #sortable li {
 	border-top: 1px solid rgba(0,0,0,0.15);
 	padding: 15px 16px;
-	position: relative;
 	background: white;
+	position: relative;	
+	height: 50px !important
 }
 #sortable li span {
 	color: #727272;
@@ -384,8 +396,7 @@ b i {
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
 	border-radius: 3px;
 	background: white;
-  -webkit-transform: rotate(2.6deg);
-  transform: rotate(2.6deg);
+
   border-top: none;
   z-index: 2;
   cursor: -webkit-grabbing !important

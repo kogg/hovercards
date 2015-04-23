@@ -23,8 +23,33 @@
 
 				<div discussions="discussions" requests="entry.discussions" selected-index="indexD" ng-if="entry.discussions">
 					<div class="card bounce-in-animation" ng-if="discussions[0]">
+						<div class="comment-top">
+							<div class="row">
+								<div class="col-9">
+									<span>{{ ::discussions[indexD].type | copy}}</span>
+								</div>
+								<div class="col-3">
+									<span>{{ ::discussions[indexD].count | numsmall }}</span>
+									<i class="md md-more-vert" ng-click="showMenu = ! showMenu"></i>
+								</div>
+							</div>
+							<div class="menu" ng-show="showMenu">
+								<div class="menu-description">
+									<div class="row">
+										<div class="col-10">
+											<p>Sort your favourite</p>
+										</div>
+										<div class="col-2">X</div>
+									</div>
+								</div>
+								<ul id="sortable" sortable>
+								  <li class="ui-state-default" ng-class="{ selected: chosen==='youtube-comments'}" ng-click="chosen='youtube-comments'"><span>Youtube Comments</span></li>
+								  <li class="ui-state-default" ng-class="{ selected: chosen==='reddit-comments'}" ng-click="chosen='reddit-comments'"><span>Reddit Discussion</span></li>
+								  <li class="ui-state-default" ng-class="{ selected: chosen==='twitter-comments'}" ng-click="chosen='twitter-comments'"><span>Twitter Tweets </span></li>
+								</ul>
+							</div>
+						</div>
 						<div ng-include="'templates/'+ discussions[indexD].type + '.html'" ng-if="!discussions[indexD].err"></div>
-
 						<div error ng-switch="discussions[indexD].err.code" ng-if="discussions[indexD].err.code">
 							<span ng-switch-default>There was a problem with the discussion!</span>
 						</div>
