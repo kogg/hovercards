@@ -354,16 +354,25 @@ b i {
 .comment p {
 	margin-top: 5px;
 }
+.comment p a {
+	color: #03A9F4;
+	font-weight: 400;
+  font-size: 15px;
+}
 .comment b {
 	margin-bottom: 0;
+	display: inline-block;
 	margin-top: 5px;
+}
+.comment b:nth-of-type(2) {
+	margin-left: 8px;
 }
 /*Comments Menu*/
 .menu {
 	clear: both;
 }
 .menu-description {
-	background: #FFF9C4;
+	background: #fcf5e1;
 	border-top: 1px solid rgba(0,0,0,.15);
 }
 .menu-description p {
@@ -371,6 +380,16 @@ b i {
   font-weight: 400;
   font-size: 15px;
   color: #727272;
+}
+.menu-description .col-2 {
+	text-align: right;
+}
+.menu-description .col-2 i {
+	color: #727272;
+  position: relative;
+  left: -2px;
+  font-size: 20px;
+  cursor: pointer;
 }
 #sortable {
 	list-style-type: none;
@@ -479,8 +498,6 @@ b i {
 	border:none !important;
 	border-radius: 3px !important;
 	box-shadow:0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
-	width: 105%;
-	left: -6px;
 	transition: all .3s ease-in-out;
 }
 .multithread + .comment + .comment {
@@ -500,6 +517,14 @@ b i {
 .child-comment {
 	border-left:1px dotted rgba(0,0,0,.2);
 	padding: 8px 16px;
+}
+.child-comment .col-12, .comment .col-12 {
+	float: none
+}
+.reddit-votes {
+	font-weight: 700;
+  font-size: 11px;
+  color: #727272;
 }
 /*Error Cards*/
 
