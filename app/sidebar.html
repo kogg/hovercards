@@ -47,7 +47,7 @@
 								</ul>
 							</div>
 						</div>
-						<div ng-include="'templates/'+ discussions[index.d].type + '.html'" ng-if="!discussions[index.d].err"></div>
+						<div ng-include="'templates/'+ discussions[index.d].type + '.html'" ng-if="discussions[index.d] && !discussions[index.d].err"></div>
 						<div error ng-switch="discussions[index.d].err.code" ng-if="discussions[index.d].err.code">
 							<span ng-switch-default>There was a problem with the discussion!</span>
 						</div>
