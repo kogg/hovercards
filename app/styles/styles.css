@@ -295,6 +295,8 @@ b i {
 	border-top-left-radius: 3px !important;
   border-top-right-radius: 3px !important;
 	background: #fff;
+}
+.comment-top .row {
 	line-height: 50px;
 	padding: 0 16px;
 }
@@ -350,7 +352,39 @@ b i {
 	margin-bottom: 0;
 	margin-top: 5px;
 }
-
+/*Comments Menu*/
+.menu {
+	clear: both;
+	padding-bottom: 8px;
+}
+#sortable {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+#sortable li {
+	border-top: 1px solid rgba(0,0,0,0.15);
+	padding: 8px 16px;
+	background: white;
+}
+#sortable li:hover {
+	cursor: pointer !important;
+	background: #e5e5e5;
+}
+#sortable li:active {
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
+	border-radius: 3px;
+	background: white;
+  -webkit-transform: rotate(1.6deg);
+  transform: rotate(1.6deg);
+  cursor: -webkit-grabbing !important
+}
+.ui-state-highlight {
+	height: 1.5em;
+	line-height: 1.2em;
+	background: #e5e5e5 !important
+}
 /*Multi threaded comments*/
 .multithread {
 	border-radius: 0 0 3px 3px;
