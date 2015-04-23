@@ -5,6 +5,11 @@ module.exports = function (grunt) {
     require('time-grunt')(grunt);
 
     grunt.initConfig({
+        copy: {
+            dist: {
+                files: [{ expand: true, cwd: 'app/', src: ['**'], dest: 'dist/' }]
+            }
+        },
         jshint: {
             options: {
                 jshintrc: true,
@@ -17,21 +22,11 @@ module.exports = function (grunt) {
             ]
         },
         connect: {
-            options: {
-                hostname: 'localhost'
-            },
             test: {
                 options: {
+                    hostname: 'localhost',
                     port: 9500,
                     open: false,
-                    base: ['test', 'app']
-                }
-            },
-            testBrowser: {
-                options: {
-                    port: 9750,
-                    open: true,
-                    keepalive: true,
                     base: ['test', 'app']
                 }
             }
@@ -46,15 +41,20 @@ module.exports = function (grunt) {
                 }
             }
         },
+        watch: {
+            dist: {
+                files: ['app/**/*'],
+                tasks: ['copy'],
+                options: {
+                    interrupt: true
+                }
+            }
+        }
     });
 
     grunt.registerTask('test', [
         'jshint',
         'connect:test',
         'mocha'
-    ]);
-
-    grunt.registerTask('test:browser', [
-        'connect:testBrowser'
     ]);
 };
