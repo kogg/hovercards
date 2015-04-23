@@ -1,19 +1,24 @@
-'use strict';
+var chai      = require('chai');
+var sinon     = require('sinon');
+var sinonChai = require('sinon-chai');
+var nock      = require('nock');
+var expect    = chai.expect;
+chai.use(sinonChai);
+
+require('./chrome');
 
 describe('trigger-background', function() {
     var sandbox = sinon.sandbox.create();
 
-    beforeEach(function(done) {
-        require(['trigger-background'], function(triggerBackground) {
-            sandbox.stub(chrome.pageAction, 'setIcon');
-            sandbox.stub(chrome.pageAction, 'show');
-            sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            sandbox.stub(chrome.tabs, 'sendMessage');
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(undefined);
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields(undefined);
-            triggerBackground();
-            done();
-        });
+    beforeEach(function() {
+        var triggerBackground = require('../app/scripts/trigger-background');
+        sandbox.stub(chrome.pageAction, 'setIcon');
+        sandbox.stub(chrome.pageAction, 'show');
+        sandbox.stub(chrome.runtime.onMessage, 'addListener');
+        sandbox.stub(chrome.tabs, 'sendMessage');
+        chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(undefined);
+        chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields(undefined);
+        triggerBackground();
     });
 
     afterEach(function() {

@@ -7,7 +7,16 @@ module.exports = function (grunt) {
     grunt.initConfig({
         copy: {
             dist: {
-                files: [{ expand: true, cwd: 'app/', src: ['**'], dest: 'dist/' }]
+                files: [
+                    { expand: true, cwd: 'app/', src: ['**'/*, '!bower_components/**', '!scripts/**'*/], dest: 'dist/' },
+                ]
+            }
+        },
+        browserify: {
+            scripts: {
+                files: {
+                    'dist/scripts/background-main.js': 'app/scripts/background-main.js'
+                }
             }
         },
         jshint: {
@@ -44,7 +53,7 @@ module.exports = function (grunt) {
         watch: {
             dist: {
                 files: ['app/**/*'],
-                tasks: ['copy'],
+                tasks: ['copy', 'browserify'],
                 options: {
                     interrupt: true
                 }
