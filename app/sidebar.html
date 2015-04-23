@@ -21,15 +21,15 @@
 					</div>
 				</div>
 
-				<div discussions="discussions" requests="entry.discussions" selected-index="indexD" ng-if="entry.discussions">
+				<div discussions="discussions" requests="entry.discussions" selected-index="index.d" ng-if="entry.discussions">
 					<div class="card bounce-in-animation" ng-if="discussions[0]">
 						<div class="comment-top">
 							<div class="row">
 								<div class="col-9">
-									<span>{{ ::discussions[indexD].type | copy}}</span>
+									<span>{{ discussions[index.d].type | copy}}</span>
 								</div>
 								<div class="col-3">
-									<span>{{ ::discussions[indexD].count | numsmall }}</span>
+									<span>{{ discussions[index.d].count | numsmall }}</span>
 									<i class="md md-more-vert" ng-click="showMenu = ! showMenu"></i>
 								</div>
 							</div>
@@ -43,14 +43,12 @@
 									</div>
 								</div>
 								<ul id="sortable" sortable>
-								  <li class="ui-state-default" ng-class="{ selected: chosen==='youtube-comments'}" ng-click="chosen='youtube-comments'"><span>Youtube Comments</span></li>
-								  <li class="ui-state-default" ng-class="{ selected: chosen==='reddit-comments'}" ng-click="chosen='reddit-comments'"><span>Reddit Discussion</span></li>
-								  <li class="ui-state-default" ng-class="{ selected: chosen==='twitter-comments'}" ng-click="chosen='twitter-comments'"><span>Twitter Tweets </span></li>
+									<li class="ui-state-default" ng-class="{ selected: index.d === $index }" ng-click="index.d = $index" ng-repeat="discussion in entry.discussions"><span>{{ discussion.type | copy }}</span></li>
 								</ul>
 							</div>
 						</div>
-						<div ng-include="'templates/'+ discussions[indexD].type + '.html'" ng-if="!discussions[indexD].err"></div>
-						<div error ng-switch="discussions[indexD].err.code" ng-if="discussions[indexD].err.code">
+						<div ng-include="'templates/'+ discussions[index.d].type + '.html'" ng-if="!discussions[index.d].err"></div>
+						<div error ng-switch="discussions[index.d].err.code" ng-if="discussions[index.d].err.code">
 							<span ng-switch-default>There was a problem with the discussion!</span>
 						</div>
 					</div>

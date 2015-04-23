@@ -1,12 +1,12 @@
 <div class="comment-top row multithread">
 	<div class="col-8">
-		<span>{{ ::discussions[indexD].type | copy}}</span>
+		<span>{{ ::discussions[index.d].type | copy}}</span>
 	</div>
 	<div class="col-4">
-		<span>{{ ::discussions[indexD].count | numsmall }}</span>
+		<span>{{ ::discussions[index.d].count | numsmall }}</span>
 	</div>
 </div>
-<div ng-repeat="comment in discussions[indexD].comments" class="comment row">
+<div ng-repeat="comment in discussions[index.d].comments" class="comment row">
 	<!--
 	<div class="col-3">
 		<a data-load="https://www.youtube.com/channel/{{ ::comment.channel.id }}">
