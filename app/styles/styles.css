@@ -297,8 +297,7 @@ b i {
 	background: #fff;
 }
 .comment-top .row {
-	line-height: 50px;
-	padding: 0 16px;
+	padding: 15px 13px 15px 16px;
 }
 .comment-top span {
 	color: #000;
@@ -307,11 +306,18 @@ b i {
 	text-transform: capitalize;
 	font-weight: 500;
 }
-.comment-top span i {
-	margin-right: 6px;
-}
-.comment-top .col-4 {
+.comment-top .col-3 {
 	text-align: right;
+}
+.comment-top .col-3 i {
+	color:#727272;
+	top: -1.5px;
+	position: relative;
+	font-size: 20px;
+}
+.comment-top .col-3 i:hover {
+	cursor: pointer;
+	color: black
 }
 .comment:last-of-type {
 	border-bottom: 0;
@@ -355,7 +361,6 @@ b i {
 /*Comments Menu*/
 .menu {
 	clear: both;
-	padding-bottom: 8px;
 }
 #sortable {
 	list-style-type: none;
@@ -365,8 +370,12 @@ b i {
 }
 #sortable li {
 	border-top: 1px solid rgba(0,0,0,0.15);
-	padding: 8px 16px;
+	padding: 15px 16px;
+	position: relative;
 	background: white;
+}
+#sortable li span {
+	color: #727272;
 }
 #sortable li:hover {
 	cursor: pointer !important;
@@ -376,10 +385,75 @@ b i {
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
 	border-radius: 3px;
 	background: white;
-  -webkit-transform: rotate(1.6deg);
-  transform: rotate(1.6deg);
+  -webkit-transform: rotate(2.6deg);
+  transform: rotate(2.6deg);
+  border-top: none;
+  z-index: 2;
   cursor: -webkit-grabbing !important
 }
+#sortable .selected span {
+	color: #000;
+}
+#sortable .selected:after {
+	content:"\2714";
+	width: 30px;
+	height: 50px;
+  line-height: inherit;
+  font-size: 16px;
+  text-align: right;
+  vertical-align: bottom;
+	line-height: 50px;
+	position: absolute;
+	right: 16px;
+	top: 0;
+	-webkit-animation-duration: .5s;
+	animation-duration: .5s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-name: bounceIn;
+	animation-name: bounceIn;
+} 
+
+@-webkit-keyframes bounceIn { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: scale(.3); 
+    } 
+
+    50% { 
+        opacity: 1; 
+        -webkit-transform: scale(1.05); 
+    } 
+
+    70% { 
+        -webkit-transform: scale(.9); 
+    } 
+
+    100% { 
+         -webkit-transform: scale(1); 
+    } 
+} 
+
+@keyframes bounceIn { 
+    0% { 
+        opacity: 0; 
+        transform: scale(.3); 
+    } 
+
+    50% { 
+        opacity: 1; 
+        transform: scale(1.05); 
+    } 
+
+    70% { 
+        transform: scale(.9); 
+    } 
+
+    100% { 
+        transform: scale(1); 
+    } 
+} 
+
 .ui-state-highlight {
 	height: 1.5em;
 	line-height: 1.2em;
