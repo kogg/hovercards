@@ -1,8 +1,5 @@
-node_modules
-temp
-.tmp
-dist
 .sass-cache
-app/bower_components
-test/bower_components
-package
+.tmp
+bower_components
+dist
+node_modules

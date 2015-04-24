@@ -1,8 +1,11 @@
 {
   "name": "HoverCards",
   "version": "0.0.2",
+  "reporter": "List",
   "scripts": {
-    "test": "mocha && grunt test"
+    "postinstall": "bower install",
+    "start": "grunt develop",
+    "test": "jshint --reporter=node_modules/jshint-stylish/stylish.js *.js app/**/*.js test/**/*.js && mocha -R $npm_package_reporter && grunt test"
   },
   "dependencies": {
     "URIjs": "^1.15.0",
@@ -20,22 +23,21 @@
     "browserify-shim": "^3.8.5",
     "chai": "^2.2.0",
     "chai-jquery": "^2.0.0",
+    "es5-shim": "^4.1.1",
     "grunt": "~0.4.1",
     "grunt-browserify": "^3.7.0",
+    "grunt-concurrent": "^1.0.0",
     "grunt-contrib-connect": "~0.7.1",
     "grunt-contrib-copy": "^0.8.0",
-    "grunt-contrib-jshint": "^0.11.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-mocha": "~0.4.10",
-    "jsdom": "^3.0.1",
+    "jshint": "^2.7.0",
     "jshint-stylish": "^1.0.1",
     "load-grunt-tasks": "~0.4.0",
     "mocha": "^2.2.4",
-    "nock": "^1.6.1",
     "require-stub": "^2.2.4",
     "sinon": "^1.14.1",
-    "sinon-chai": "^2.7.0",
-    "time-grunt": "~0.3.1"
+    "sinon-chai": "^2.7.0"
   },
   "engines": {
     "node": ">=0.8.0"

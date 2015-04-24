@@ -1,3 +1,5 @@
+/* exported chrome */
+
 var chrome = global.chrome = (function() {
     var noop = function() {};
     return { extension:  { getURL: function(filename) { return 'chrome-extension://extension_id/' + filename; } },

@@ -2,18 +2,11 @@
 
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
-    require('time-grunt')(grunt);
 
     grunt.initConfig({
-        copy: {
-            dist: {
-                files: [
-                    { expand: true, cwd: 'app/', src: ['**'/*, '!bower_components/**', '!scripts/**'*/], dest: 'dist/' },
-                ]
-            }
-        },
+        pkg: grunt.file.readJSON('package.json'),
         browserify: {
-            scripts: {
+            main: {
                 files: {
                     'dist/scripts/background-main.js': 'app/scripts/background-main.js',
                     'dist/scripts/everywhere-main.js': 'app/scripts/everywhere-main.js',
@@ -22,19 +15,16 @@ module.exports = function (grunt) {
                 }
             }
         },
-        jshint: {
+        concurrent: {
             options: {
-                jshintrc: true,
-                reporter: require('jshint-stylish')
+                logConcurrentOutput: true
             },
-            all: [
-                'Gruntfile.js',
-                'app/scripts/{,*/}*.js',
-                'test/spec/{,*/}*.js'
-            ]
+            develop: {
+                tasks: ['watch:non_js', 'watch:js']
+            }
         },
         connect: {
-            test: {
+            browser_tests: {
                 options: {
                     hostname: 'localhost',
                     port: 9500,
@@ -43,31 +33,47 @@ module.exports = function (grunt) {
                 }
             }
         },
+        copy: {
+            non_js: {
+                files: [
+                    { expand: true, cwd: 'app/', src: ['**', '!scripts/**'], dest: 'dist/' },
+                    { expand: true, cwd: 'node_modules/angular/', src: ['angular-csp.css'], dest: 'dist/styles/' }
+                ]
+            }
+        },
         mocha: {
-            all: {
+            browser_tests: {
                 options: {
                     run: true,
-                    urls: ['http://localhost:<%= connect.test.options.port %>/index.html'],
+                    urls: ['http://localhost:<%= connect.browser_tests.options.port %>/index.html'],
                     log: true,
                     logErrors: true,
-                    reporter: 'Spec'
+                    reporter: '<%= pkg.reporter %>'
                 }
             }
         },
         watch: {
-            dist: {
-                files: ['app/**/*'],
-                tasks: ['copy', 'browserify'],
-                options: {
-                    interrupt: true
-                }
+            options: {
+                atBegin: true,
+                interrupt: true
+            },
+            non_js: {
+                files: ['app/**/*', '!app/scripts/**'],
+                tasks: ['copy:non_js']
+            },
+            js: {
+                files: ['app/scripts/**'],
+                tasks: ['browserify:main']
             }
         }
     });
 
     grunt.registerTask('test', [
-        'jshint',
-        'connect:test',
-        'mocha'
+        'connect:browser_tests',
+        'mocha:browser_tests'
+    ]);
+
+    grunt.registerTask('develop', [
+        'concurrent'
     ]);
 };
