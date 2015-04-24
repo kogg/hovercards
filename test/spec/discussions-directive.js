@@ -33,36 +33,6 @@ describe('discussions-directive', function() {
         sandbox.restore();
     });
 
-    it('should two way bind discussions', function() {
-        $rootScope.discussions = 'Out => In';
-        $rootScope.$digest();
-        expect(scope.discussions).to.equal('Out => In');
-
-        scope.discussions = 'In => Out';
-        $rootScope.$digest();
-        expect($rootScope.discussions).to.equal('In => Out');
-    });
-
-    it('should two way bind requests', function() {
-        $rootScope.requests = ['Out => In'];
-        $rootScope.$digest();
-        expect(scope.requests).to.deep.equal(['Out => In']);
-
-        scope.requests = ['In => Out'];
-        $rootScope.$digest();
-        expect($rootScope.requests).to.deep.equal(['In => Out']);
-    });
-
-    it('should two way bind selectedIndex', function() {
-        $rootScope.selectedIndex = 'Out => In';
-        $rootScope.$digest();
-        expect(scope.selectedIndex).to.equal('Out => In');
-
-        scope.selectedIndex = 'In => Out';
-        $rootScope.$digest();
-        expect($rootScope.selectedIndex).to.equal('In => Out');
-    });
-
     describe('on requests', function() {
         it('should empty discussions', function() {
             $rootScope.requests = ['Something'];

@@ -34,16 +34,6 @@ describe('entry-directive', function() {
         sandbox.restore();
     });
 
-    it('should two way bind entry', function() {
-        $rootScope.entry = 'Out => In';
-        $rootScope.$digest();
-        expect(scope.entry).to.equal('Out => In');
-
-        scope.entry = 'In => Out';
-        $rootScope.$digest();
-        expect($rootScope.entry).to.equal('In => Out');
-    });
-
     describe('on load', function() {
         it('should empty entry', function() {
             $rootScope.entry = 'Something';

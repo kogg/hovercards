@@ -1,4 +1,4 @@
-var $       = require('jquery');
+require('jquery');
 var angular = require('angular');
 
 var app = angular.module('app', [require('angular-animate'),
