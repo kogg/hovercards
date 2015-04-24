@@ -2,17 +2,21 @@
   "name": "HoverCards",
   "version": "0.0.2",
   "scripts": {
-    "test": "mocha && grunt test"
+    "test": "mocha # && grunt test"
   },
   "dependencies": {
+    "URIjs": "^1.15.0",
     "angular": "^1.3.15",
     "angular-animate": "^1.3.15",
     "angular-inview": "^1.5.0",
     "angular-sanitize": "^1.3.15",
-    "jquery": "^2.1.3"
+    "dotdotdot": "^1.7.0",
+    "jquery": "^2.1.3",
+    "oboe": "^2.1.1"
   },
   "devDependencies": {
     "browserify": "^9.0.8",
+    "browserify-shim": "^3.8.5",
     "chai": "^2.2.0",
     "chai-jquery": "^2.0.0",
     "grunt": "~0.4.1",
@@ -33,5 +37,17 @@
   },
   "engines": {
     "node": ">=0.8.0"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browser": {
+    "jquery": "./node_modules/jquery/dist/jquery.js"
+  },
+  "browserify-shim": {
+    "jquery": "$",
+    "gapi": "global:gapi"
   }
 }

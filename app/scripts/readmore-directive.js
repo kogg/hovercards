@@ -1,3 +1,5 @@
+require('dotdotdot');
+
 module.exports =  ['$sanitize', function($sanitize) {
     return {
         restrict: 'A',
