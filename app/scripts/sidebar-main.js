@@ -1,15 +1,7 @@
-//var angular = require('angular');
+require('jquery');
+var angular = require('angular');
 
-var click_trigger     = require('./click-trigger');
-var longpress_trigger = require('./longpress-trigger');
-
-click_trigger('body', 'a[data-load]', function(link) {
-    return link.data('load');
-});
-
-longpress_trigger.on('body', 'a[data-load]', function(link) {
-    return link.data('load');
-});
+angular.bootstrap(document, [require('./angular-app').name]);
 
 chrome.runtime.sendMessage({ msg: 'ready' });
 
