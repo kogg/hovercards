@@ -1,5 +1,3 @@
-'use strict';
-
 describe('people-directive', function() {
     var sandbox = sinon.sandbox.create();
     var element;
@@ -7,26 +5,22 @@ describe('people-directive', function() {
     var $rootScope;
     var scope;
 
-    beforeEach(function(done) {
-        require(['people-directive'], function() {
-            done();
-        });
+    before(function() {
+        var app = angular.module('app', []);
+        app.directive('people', require('../../app/scripts/people-directive'));
     });
     beforeEach(module('app'));
     beforeEach(inject(function(_$compile_, _$rootScope_) {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
     }));
-    beforeEach(function(done) {
-        require(['angular'], function(angular) {
-            sandbox.useFakeServer();
+    beforeEach(function() {
+        sandbox.useFakeServer();
 
-            element = angular.element('<div people="people" requests="requests" selected-index="selectedIndex"></div>');
-            $compile(element)($rootScope);
-            $rootScope.$digest();
-            scope = element.isolateScope();
-            done();
-        });
+        element = angular.element('<div people="people" requests="requests" selected-index="selectedIndex"></div>');
+        $compile(element)($rootScope);
+        $rootScope.$digest();
+        scope = element.isolateScope();
     });
 
     afterEach(function() {

@@ -1,23 +1,18 @@
-'use strict';
+var $ = require('jquery');
 
 describe('longpress-trigger', function() {
     var sandbox = sinon.sandbox.create();
     var body;
     var longpress_trigger;
-    var $;
 
-    beforeEach(function(done) {
-        require(['longpress-trigger', 'jquery'], function(_longpress_trigger, jquery) {
-            $ = jquery;
-            sandbox.useFakeTimers();
-            sandbox.stub(chrome.runtime, 'sendMessage');
-            sandbox.stub(chrome.storage.sync, 'get');
-            sandbox.stub(chrome.storage.sync, 'set');
-            chrome.storage.sync.get.yields({ });
-            longpress_trigger = _longpress_trigger;
-            sandbox.stub(longpress_trigger, 'isActive');
-            done();
-        });
+    beforeEach(function() {
+        longpress_trigger = require('./scripts/longpress-trigger');
+        sandbox.useFakeTimers();
+        sandbox.stub(chrome.runtime, 'sendMessage');
+        sandbox.stub(chrome.storage.sync, 'get');
+        sandbox.stub(chrome.storage.sync, 'set');
+        chrome.storage.sync.get.yields({ });
+        sandbox.stub(longpress_trigger, 'isActive');
     });
 
     afterEach(function() {

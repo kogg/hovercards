@@ -1,14 +1,12 @@
-'use strict';
+var $ = require('jquery');
 
 describe('embedded-trigger', function() {
     var sandbox = sinon.sandbox.create();
     var body;
     var embedded_trigger;
-    var $;
 
     beforeEach(function() {
-        embedded_trigger = require('../../app/scripts/embedded-trigger');
-        $ = require('jquery');
+        embedded_trigger = require('./scripts/embedded-trigger');
         sandbox.stub(chrome.runtime, 'sendMessage');
     });
 

@@ -1,5 +1,3 @@
-'use strict';
-
 describe('discussions-directive', function() {
     var sandbox = sinon.sandbox.create();
     var element;
@@ -7,26 +5,22 @@ describe('discussions-directive', function() {
     var $rootScope;
     var scope;
 
-    beforeEach(function(done) {
-        require(['discussions-directive'], function() {
-            done();
-        });
+    before(function() {
+        var app = angular.module('app', []);
+        app.directive('discussions', require('../../app/scripts/discussions-directive'));
     });
     beforeEach(module('app'));
     beforeEach(inject(function(_$compile_, _$rootScope_) {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
     }));
-    beforeEach(function(done) {
-        require(['angular'], function(angular) {
-            sandbox.useFakeServer();
+    beforeEach(function() {
+        sandbox.useFakeServer();
 
-            element = angular.element('<div discussions="discussions" requests="requests" selected-index="selectedIndex"></div>');
-            $compile(element)($rootScope);
-            $rootScope.$digest();
-            scope = element.isolateScope();
-            done();
-        });
+        element = angular.element('<div discussions="discussions" requests="requests" selected-index="selectedIndex"></div>');
+        $compile(element)($rootScope);
+        $rootScope.$digest();
+        scope = element.isolateScope();
     });
 
     afterEach(function() {

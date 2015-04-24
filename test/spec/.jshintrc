@@ -3,6 +3,7 @@
     "expr": true,
     "mocha": true,
     "globals": {
+        "angular": true,
         "expect": true,
         "inject": true,
         "should": true,

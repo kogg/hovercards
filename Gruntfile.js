@@ -39,7 +39,7 @@ module.exports = function (grunt) {
                     hostname: 'localhost',
                     port: 9500,
                     open: false,
-                    base: ['test', 'app']
+                    base: ['test', 'app', '.']
                 }
             }
         },
@@ -49,6 +49,7 @@ module.exports = function (grunt) {
                     run: true,
                     urls: ['http://localhost:<%= connect.test.options.port %>/index.html'],
                     log: true,
+                    logErrors: true,
                     reporter: 'Spec'
                 }
             }

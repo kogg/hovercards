@@ -3,66 +3,34 @@
 <head>
     <meta charset="utf-8">
     <title>Mocha Spec Runner</title>
-    <link rel="stylesheet" href="bower_components/mocha/mocha.css">
+    <link rel="stylesheet" href="node_modules/mocha/mocha.css">
     <link rel="stylesheet" href="styles/dom-styles.css">
 </head>
 <body>
     <div id="mocha"></div>
 
     <script src="bower_components/es5-shim/es5-shim.js"></script>
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/chai/chai.js"></script>
-    <script src="bower_components/chai-jquery/chai-jquery.js"></script>
-    <script src="bower_components/mocha/mocha.js"></script>
+    <script src="node_modules/require-stub/index.js"></script>
+    <script>jQuery = $ = require('jquery');</script>
+    <script>chai = require('chai');</script>
+    <script>chai.use(require('chai-jquery'));</script>
+    <script>require('mocha');</script>
     <script src="bower_components/sinonjs/sinon.js"></script>
-    <script src="bower_components/sinon-chai/lib/sinon-chai.js"></script>
-    <!--
-    <script src="bower_components/requirejs/require.js"></script>
-    <script src="scripts/config.js"></script>
-    <script>
-        require.config({
-            paths: {
-                Squire: '../bower_components/squire/src/Squire'
-            }
-        });
-        // Since the script will try to load a different instance of jquery (which will get decorated by chai-jquery),
-        // we'll give them this one
-        define('angular', function() { return angular; });
-        define('jquery', function() { return $; });
-    </script>
-    -->
-    <script>
-        var chrome = { extension:  { getURL: function(filename) { return 'chrome-extension://extension_id/' + filename; } },
-                       i18n:       { getMessage: $.noop },
-                       pageAction: { setIcon: $.noop,
-                                     show:    $.noop },
-                       runtime:    { onMessage:   { addListener: $.noop },
-                                     sendMessage: $.noop },
-                       storage:    { sync:        { clear: $.noop,
-                                                    get:   $.noop,
-                                                    set:   $.noop } },
-                       tabs:       { sendMessage: $.noop } };
-        mocha.setup('bdd');
-        chai.should();
-        var expect = chai.expect;
-    </script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script>chai.use(require('sinon-chai'));</script>
+    <script>mocha.setup('bdd');</script>
+    <script>chai.should();</script>
+    <script>var expect = chai.expect;</script>
+
+    <script>require('angular'); require('angular-mocks');</script>
 
     <!-- tests -->
-    <script src="spec/embedded-trigger.js"></script>
-    <!--
-    <script src="spec/content-directive.js"></script>
+    <script>require('./chrome');</script>
     <script src="spec/discussions-directive.js"></script>
+    <script src="spec/embedded-trigger.js"></script>
     <script src="spec/entry-directive.js"></script>
     <script src="spec/longpress-trigger.js"></script>
-    <script src="spec/more-content-directive.js"></script>
     <script src="spec/notifications-inject.js"></script>
-    <script src="spec/numsmall-filter.js"></script>
     <script src="spec/people-directive.js"></script>
-    <script src="spec/sidebar-inject.js"></script>
-    <script src="spec/state-manager.js"></script>
-    -->
 
     <script>
         if (navigator.userAgent.indexOf('PhantomJS') < 0) {
