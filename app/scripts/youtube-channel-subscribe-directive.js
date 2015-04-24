@@ -1,7 +1,5 @@
 var gapi = require('gapi');
 
-console.log(gapi);
-
 module.exports = function() {
     return {
         restrict: 'A',
