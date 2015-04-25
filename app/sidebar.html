@@ -5,6 +5,9 @@
 	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
 </head>
 <body>
+	<div class="loader">
+	  <div class="colored"></div>
+	</div>
 	<div class="ng-cloak" entry="entry" ng-cloak>
 		<div class="fade-out-animation" people="people" requests="entry.accounts" selected-index="indexP" ng-if="entry">
 			<div class="cards">
@@ -36,9 +39,11 @@
 								<div class="menu-description">
 									<div class="row">
 										<div class="col-10">
-											<p>Sort your favourite</p>
+											<p>Content is prioritized based on the order of the list below. Drag and drop elements accordingly, or click an item to instantly access its content.</p>
 										</div>
-										<div class="col-2">X</div>
+										<div class="col-2">
+											<i class="md md-close"></i>
+										</div>
 									</div>
 								</div>
 								<ul id="sortable" sortable>

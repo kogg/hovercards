@@ -24,5 +24,8 @@
     },
     "youtube_comments": {
         "message": "Youtube Comments"
+    },
+    "reddit_comments": {
+        "message": "Reddit Discussion"
     }
 }
