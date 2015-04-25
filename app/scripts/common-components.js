@@ -44,7 +44,8 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
         };
     }])
     .directive('sortable', function() {
-        require('./jquery-ui.min'); // FIXME
+        require('jquery-ui/sortable');
+        require('jquery-ui/droppable');
 
         return {
             restrict: 'A',
