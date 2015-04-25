@@ -19,15 +19,15 @@ exports.on = function(inject_into) {
 
     embedded_trigger.on(inject_into, 'embed[src]', function(embed) {
         return exports.nullify_bad_url(exports.relative_to_absolute(embed.attr('src')));
-    });
+    }, sendMessage);
 
     embedded_trigger.on(inject_into, 'object[data]', function(object) {
         return exports.nullify_bad_url(exports.relative_to_absolute(object.attr('data')));
-    });
+    }, sendMessage);
 
     embedded_trigger.on(inject_into, 'div#player div.html5-video-player', function() {
         return document.URL;
-    }, true);
+    }, sendMessage, true);
 };
 
 exports.nullify_bad_url = function(url) {
