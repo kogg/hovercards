@@ -7,7 +7,7 @@ describe('embedded-trigger', function() {
 
     beforeEach(function() {
         embedded_trigger = require('./scripts/embedded-trigger');
-        sandbox.stub(chrome.runtime, 'sendMessage');
+        sandbox.stub(window.top, 'postMessage');
     });
 
     afterEach(function() {
@@ -71,7 +71,7 @@ describe('embedded-trigger', function() {
                 obj.mouseenter();
                 body.find('.hovercards-embedded-trigger').click();
 
-                expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'activate', url: 'URL' });
+                expect(window.top.postMessage).to.have.been.calledWith({ msg: 'activate', url: 'URL' }, '*');
             });
         });
 

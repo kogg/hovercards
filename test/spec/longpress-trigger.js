@@ -8,10 +8,7 @@ describe('longpress-trigger', function() {
     beforeEach(function() {
         longpress_trigger = require('./scripts/longpress-trigger');
         sandbox.useFakeTimers();
-        sandbox.stub(chrome.runtime, 'sendMessage');
-        sandbox.stub(chrome.storage.sync, 'get');
-        sandbox.stub(chrome.storage.sync, 'set');
-        chrome.storage.sync.get.yields({ });
+        sandbox.stub(window.top, 'postMessage');
         sandbox.stub(longpress_trigger, 'isActive');
     });
 
@@ -116,7 +113,7 @@ describe('longpress-trigger', function() {
                 obj.trigger('longpress', ['URL']);
                 longpress_trigger.isActive.returns(true);
 
-                expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'activate', url: 'URL' });
+                expect(window.top.postMessage).to.have.been.calledWith({ msg: 'activate', url: 'URL' }, '*');
             });
 
             it('should have pointer-events:none && cursor:default', function() {
@@ -161,7 +158,7 @@ describe('longpress-trigger', function() {
             it('should send longpressed', function() {
                 obj.mouseenter();
 
-                expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hovered' });
+                expect(window.top.postMessage).to.have.been.calledWith({ msg: 'hovered' }, '*');
             });
         });
     });

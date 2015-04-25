@@ -33,7 +33,7 @@ exports.on = function(body, selector, get_url) {
     });
 
     body.on('longpress', selector, function(e, url) {
-        chrome.runtime.sendMessage({ msg: 'activate', url: url });
+        window.top.postMessage({ msg: 'activate', url: url }, '*');
         var obj = $(this);
         var initialPointerEvents = obj.css('pointer-events');
         var initialCursor = obj.css('cursor');
@@ -64,7 +64,7 @@ exports.on = function(body, selector, get_url) {
         if (!url) {
             return;
         }
-        chrome.runtime.sendMessage({ msg: 'hovered' });
+        window.top.postMessage({ msg: 'hovered' }, '*');
     });
 };
 

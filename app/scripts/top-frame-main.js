@@ -9,3 +9,10 @@ notifications_inject(hovercards_container);
 sidebar_inject(hovercards_container, 'body', 'html');
 
 state_manager();
+
+var sidebar_trigger = require('./sidebar-trigger')();
+window.addEventListener('message', function(event) {
+    sidebar_trigger(event.data, function(trigger) {
+        console.log('trigger', trigger);
+    });
+}, false);

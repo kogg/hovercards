@@ -22,7 +22,7 @@ exports.on = function(body, selector, get_url, fullscreenable) {
             trigger.hide();
         });
         trigger.click(function() {
-            chrome.runtime.sendMessage({ msg: 'activate', url: trigger.data('hovercards-url') });
+            window.top.postMessage({ msg: 'activate', url: trigger.data('hovercards-url') }, '*');
         });
         longpress_trigger.on(body, 'div.hovercards-embedded-trigger', function() {
             return trigger.data('hovercards-url');
