@@ -70,7 +70,7 @@
 					</div>
 
 					<div error ng-if="people.$err" ng-switch="people.$err.status">
-						<span ng-switch-default>There was a problem with the discussion!</span>
+						<span ng-switch-default>There was a problem with the people!</span>
 					</div>
 				</div>
 			</div>
@@ -89,16 +89,14 @@
 					<p class="social-profile-description" readmore="entry.selectedPerson.selectedAccount.description | htmlify" style="max-height: 100px"></p>
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
-					<div ng-if="moreContent">
-						<div ng-include="'templates/' + moreContent.type + '.html'"></div>
+					<div ng-if="moreContent.$resolved">
+						<div ng-include="'templates/' + moreContent.type + '.html'" ng-if="!moreContent.$err"></div>
+
+						<div error ng-if="moreContent.$err" ng-switch="moreContent.$err.status">
+							<span ng-switch-default>There was a problem with the more content!</span>
+						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-
-		<div class="card bounce-in-animation" ng-if="entry.err">
-			<div error ng-switch="entry.err.code" ng-if="entry.err.code">
-				<span ng-switch-default>There was a problem with the entry!</span>
 			</div>
 		</div>
 	</div>
