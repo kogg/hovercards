@@ -2,11 +2,7 @@ var $                 = require('jquery');
 var embedded_trigger  = require('./embedded-trigger');
 var longpress_trigger = require('./longpress-trigger');
 
-function sendMessage(msg) {
-    window.top.postMessage(msg, '*');
-}
-
-exports.on = function(inject_into) {
+exports.on = function(inject_into, sendMessage) {
     inject_into = $(inject_into);
 
     longpress_trigger.on(inject_into, 'a[href]', function(link) {
