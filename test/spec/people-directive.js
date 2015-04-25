@@ -3,24 +3,19 @@ describe('people-directive', function() {
     var element;
     var $compile;
     var $rootScope;
-    var scope;
 
-    before(function() {
-        var app = angular.module('app', []);
-        app.directive('people', require('../../app/scripts/people-directive'));
-    });
-    beforeEach(module('app'));
+    beforeEach(module(require('../../app/scripts/people-components')));
     beforeEach(inject(function(_$compile_, _$rootScope_) {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
+        $rootScope.entry = {};
     }));
     beforeEach(function() {
         sandbox.useFakeServer();
 
-        element = angular.element('<div people="people" requests="requests" selected-index="selectedIndex"></div>');
+        element = angular.element('<div ng-controller=PeopleController></div>');
         $compile(element)($rootScope);
         $rootScope.$digest();
-        scope = element.isolateScope();
     });
 
     afterEach(function() {
