@@ -1,6 +1,5 @@
 module.exports = function triggerBackgroundInit() {
-    chrome.runtime.onMessage.addListener(function(request, sender) {
-        var tabId = sender.tab.id;
+    return function(tabId, request) {
         switch (request.msg) {
             case 'ready':
                 chrome.tabs.sendMessage(tabId, { msg: 'set', value: { ready: true } });
@@ -39,5 +38,5 @@ module.exports = function triggerBackgroundInit() {
                 });
                 break;
         }
-    });
+    };
 };
