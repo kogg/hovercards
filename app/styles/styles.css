@@ -82,15 +82,17 @@ b {
 	display: block;
 	font-weight: 700;
 	margin-bottom: 5.5px;
-	font-size:11px;
+	font-size:12px;
 	color:#727272;
-	text-transform: uppercase;
 }
 p, p a, .card-text .card-description p a, .card-description-padding p a, .comment-content p a{
 	line-height: 19px;
 	font-weight: 400;
 	font-size: 15px;
 	color: #727272;
+}
+p br {
+	display: none;
 }
 .card-description p {
 	margin-top: 5.5px;
@@ -112,7 +114,7 @@ p .read-more {
 b i {
 	position: relative;
 	top: -1px;
-	margin-right: 2px;
+	margin-right: 3px;
 }
 .card {
 	margin-top: 16px;
@@ -156,10 +158,10 @@ b i {
 }
 
 .profile-right a, .card-text a {
-	color: #2196F3;
 	text-decoration: none;
 	font-size: 16px;
-	font-weight: 400;
+	color: black;
+	font-weight: 500;
 	display: inline-block;
 }
 .card-text a {
@@ -174,7 +176,7 @@ b i {
 }
 /*Color Palette*/
 .youtube-color {
-
+	color: #F44336
 }
 
 /*Profile Cards*/
@@ -291,6 +293,12 @@ b i {
 	left: 0;
 	width: 100%;
 }
+.comment .col-10 {
+	padding-left: 16px;
+}
+.comment .user-context {
+	position: relative;
+}
 .comment-top {
 	border: 1px solid rgba(0,0,0,.15);
 	border-top-left-radius: 3px !important;
@@ -308,6 +316,7 @@ b i {
 }
 .comment-top .col-3 {
 	text-align: right;
+	float: right !important;
 }
 .comment-top .col-3 i {
 	color:#727272;
@@ -332,8 +341,8 @@ b i {
 	border-radius: 0 0 3px 3px;
 }
 .comment-image {
-	width: 50px;
-	height: 50px;
+	width: 42px;
+	height: 42px;
 	border-radius: 50px;
 	background-image: url('/images/missing-image.png');
 	background-size: 100%;
@@ -344,7 +353,7 @@ b i {
 .comment a {
 	color: black;
 	text-decoration: none;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 500;
 }
 .comment a:hover {
@@ -401,14 +410,20 @@ b i {
 	margin: 0;
 	padding: 0;
 	width: 100%;
+	border:2px solid #e5e5e5;
+	background:#e5e5e5;
 	overflow-y:scroll;
 }
 #sortable li {
-	border-top: 1px solid rgba(0,0,0,0.15);
 	padding: 15px 16px;
 	background: white;
-	position: relative;	
+	position: relative;
+	margin-bottom:2px;
+	border-radius: 3px;
 	height: 50px !important
+}
+#sortable li:last-of-type {
+	margin-bottom:0
 }
 #sortable li span {
 	color: #727272;
@@ -418,9 +433,10 @@ b i {
 }
 #sortable li:active {
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
-	border-radius: 3px;
 	background: white;
-
+	-ms-transform: rotate(2deg);
+	-webkit-transform: rotate(2deg);
+	transform: rotate(2deg);
   border-top: none;
   z-index: 2;
   cursor: -webkit-grabbing !important
@@ -490,8 +506,34 @@ b i {
 
 .ui-state-highlight {
 	height: 50px;
-	background: #e5e5e5 !important
-}
+	-webkit-animation: colorflux 2.5s infinite;
+	animation: colorflux 2.5s infinite;
+} 
+
+@-webkit-keyframes colorflux { 
+    0% { 
+      background: rgba(0,0,0,0.1);
+    } 
+    50% { 
+      background: rgba(0,0,0,0)
+    }
+    100% {
+    	background: rgba(0,0,0,0.1)
+    } 
+} 
+
+@keyframes colorflux { 
+		0% { 
+      background: rgba(0,0,0,0.1);
+    } 
+    50% { 
+      background: rgba(0,0,0,0)
+    }
+    100% {
+    	background: rgba(0,0,0,0.1)
+    } 
+ 
+} 
 /*Reddit titles*/
 .reddit-title {
 	padding: 16px;
@@ -509,54 +551,42 @@ b i {
 	text-decoration: underline;
 }
 .reddit-title b {
-  margin-bottom: 0;
+  margin-top: 0;
   display: inline-block;
-  margin-top: 5px;
+  margin-bottom: 5px;
   color: #727272;
 }
 .reddit-title b:nth-of-type(2) {
   margin-left: 8px;
 }
-/*Multi threaded comments*/
-.multithread {
-	border-radius: 0 0 3px 3px;
-	transition: all .3s ease-in-out;
-}
-.multithread + .comment {
-	position: relative;
-	margin:16px 0;
-	border:none !important;
-	border-radius: 3px !important;
-	box-shadow:0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
-	transition: all .3s ease-in-out;
-}
-.multithread + .comment + .comment {
-	border-radius: 3px 3px 0 0;
-	border-top: 1px solid rgba(0,0,0,.15);
-	transition: all .3s ease-in-out;
-}
-/*COmment Childs*/
+/*Comment Childs*/
 .child {
-	display: none;
 	clear: both;
 	padding:8px 0 0 8px;
 }
-.multithread + .comment .child {
-	display: block;
-}
 .child-comment {
 	border-left:1px dotted rgba(0,0,0,.2);
-	padding: 8px 16px;
+	padding: 8px 0 8px 8px;
 }
 .child-comment .col-12, .comment .col-12 {
 	float: none
 }
 .reddit-votes {
 	font-weight: 700;
-  font-size: 11px;
-  position: relative;
-  top: -1px;
+  font-size: 12px;
+  position: absolute;
+  right: -7px;
+  top: -5px;
   color: #727272;
+  padding: 7px;
+  cursor: default;
+  display: inline-block;
+}
+.hidden-date {
+	display: none;
+}
+.reddit-votes:hover .hidden-date {
+	display: inline;
 }
 /*Error Cards*/
 
@@ -680,7 +710,7 @@ b i {
 	color: #212121;
 	margin-top: 0;
 	padding-top: 0px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
 }
 .content-list .row .col-7 p:hover {
