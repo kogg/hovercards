@@ -6,20 +6,22 @@
 </head>
 <body>
 	<div class="ng-cloak" entry="entry" ng-cloak>
-		<div class="loader" ng-show="entry.loading">
-			<div class="colored"></div>
+		<div ng-if="entry.loading">
+			<div class="loader" ng-show="entry.loading">
+				<div class="colored"></div>
+			</div>
 		</div>
 		<div class="fade-out-animation" people="people" requests="entry.accounts" selected-index="indexP" ng-if="entry">
 			<div class="cards">
 				<div ng-controller="ContentController">
-					<div class="card bounce-in-animation" ng-if="content.$resolved && !content.$err">
-						<div ng-include="'templates/'+ content.type + '.html'"></div>
+					<div class="card bounce-in-animation" ng-if="content.$resolved">
+						<div ng-include="'templates/'+ content.type + '.html'" ng-if="!content.$err"></div>
 						<!-- TODO Figure out what triggers the people content to load -->
-						<div ng-init="entry.accounts = content.accounts"></div>
-					</div>
+						<div ng-init="entry.accounts = content.accounts" ng-if="!content.$err"></div>
 
-					<div error class="card bounce-in-animation" ng-if="content.$resolved && content.$err" ng-switch="content.$err.status">
-						<span ng-switch-default>There was a problem with the content!</span>
+						<div error ng-if="content.$err" ng-switch="content.$err.status">
+							<span ng-switch-default>There was a problem with the content!</span>
+						</div>
 					</div>
 				</div>
 
