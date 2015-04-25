@@ -1,9 +1,9 @@
-<a data-load="https://www.reddit.com/user/{{ ::comment.channel.id }}">{{ ::comment.author.id }}</a><a> &middot;</a>
-<span class="reddit-votes">{{ ::comment.score }} points</span>
+<a data-load="https://www.reddit.com/user/{{ ::comment.channel.id }}">{{ ::comment.author.id }}</a><a></a>
+<span class="reddit-votes">&middot; {{ ::comment.score }} points</span>
 <p readmore="::comment.description | htmlify" style="max-height: 170px"></p>
 <div>
-	<b><i class="md md-forum"></i> 33 Replys</b>
-	<b><i class="md md-access-time"></i> {{ ::comment.date | date }}</b>
+	<b><i class="md md-forum"></i>33 Replys</b>
+	<b><i class="md md-access-time"></i>{{ ::comment.date | date }}</b>
 </div>
 <div class="child" ng-repeat="comment in comment.comments">
 	<div class="child-comment">
