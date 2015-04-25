@@ -6,11 +6,11 @@ var app = angular.module('app', [require('angular-animate'),
                                  require('angular-inview/angular-inview') && 'angular-inview',
                                  require('./content-components'),
                                  require('./discussion-components'),
-                                 require('./people-components')]);
+                                 require('./people-components'),
+                                 require('./more-content-components')]);
 
 app.directive('entry',       require('./entry-directive'));
 app.directive('error',       require('./error-directive'));
-app.directive('moreContent', require('./more-content-directive'));
 
 app.directive('readmore',                require('./readmore-directive'));
 app.directive('sortable',                require('./sortable-directive'));
