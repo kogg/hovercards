@@ -11,9 +11,10 @@ var SidebarTrigger = require('../app/scripts/sidebar-trigger');
 describe('sidebar-trigger', function() {
     var sandbox = sinon.sandbox.create();
     var sidebar_trigger;
+    var spy;
 
     beforeEach(function() {
-        sidebar_trigger = SidebarTrigger();
+        sidebar_trigger = SidebarTrigger(spy = sandbox.spy());
     });
 
     afterEach(function() {
@@ -21,54 +22,47 @@ describe('sidebar-trigger', function() {
     });
 
     it('should not send anything on activate', function() {
-        var spy = sandbox.spy();
-        sidebar_trigger({ msg: 'activate', url: 'URL' }, spy);
+        sidebar_trigger({ msg: 'activate', url: 'URL' });
 
         expect(spy).to.not.have.been.called;
     });
 
     it('should not send anything on hide', function() {
-        var spy = sandbox.spy();
-        sidebar_trigger({ msg: 'hide' }, spy);
+        sidebar_trigger({ msg: 'hide' });
 
         expect(spy).to.not.have.been.called;
     });
 
     it('should not send anything on ready', function() {
-        var spy = sandbox.spy();
-        sidebar_trigger({ msg: 'ready' }, spy);
+        sidebar_trigger({ msg: 'ready' });
 
         expect(spy).to.not.have.been.called;
     });
 
     it('should send load on ready & activate', function() {
-        var spy = sandbox.spy();
         sidebar_trigger({ msg: 'ready' });
-        sidebar_trigger({ msg: 'activate', url: 'URL' }, spy);
+        sidebar_trigger({ msg: 'activate', url: 'URL' });
 
         expect(spy).to.have.been.calledWith({ msg: 'load', url: 'URL' });
     });
 
     it('should send load on activate & ready', function() {
-        var spy = sandbox.spy();
         sidebar_trigger({ msg: 'activate', url: 'URL' });
-        sidebar_trigger({ msg: 'ready' }, spy);
+        sidebar_trigger({ msg: 'ready' });
 
         expect(spy).to.have.been.calledWith({ msg: 'load', url: 'URL' });
     });
 
     it('should send hide on ready & hide', function() {
-        var spy = sandbox.spy();
         sidebar_trigger({ msg: 'ready' });
-        sidebar_trigger({ msg: 'hide' }, spy);
+        sidebar_trigger({ msg: 'hide' });
 
         expect(spy).to.have.been.calledWith({ msg: 'hide' });
     });
 
     it('should not send hide on hide & ready', function() {
-        var spy = sandbox.spy();
         sidebar_trigger({ msg: 'hide' });
-        sidebar_trigger({ msg: 'ready' }, spy);
+        sidebar_trigger({ msg: 'ready' });
 
         expect(spy).to.not.have.been.called;
     });

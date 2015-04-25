@@ -1,25 +1,16 @@
-'use strict';
+var $ = require('jquery');
 
 describe('sidebar-inject', function() {
     var sandbox = sinon.sandbox.create();
     var container, body, html;
     var sidebarObj;
-    var $;
+    var spy;
 
-    beforeEach(function(done) {
-        require(['sidebar-inject', 'jquery'], function(sidebar_inject, jquery) {
-            $ = jquery;
-            sandbox.stub(chrome.runtime, 'sendMessage');
-            sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            sandbox.stub(chrome.storage.sync, 'get');
-            sandbox.stub(chrome.storage.sync, 'set');
-            chrome.storage.sync.get.yields({ });
-            container = $('<div id="container"></div>');
-            body = $('<div id="body"></div>');
-            html = $('<div id="html"></div>');
-            sidebarObj = sidebar_inject.on(container, body, html);
-            done();
-        });
+    beforeEach(function() {
+        container = $('<div id="container"></div>');
+        body = $('<div id="body"></div>');
+        html = $('<div id="html"></div>');
+        sidebarObj = require('./scripts/sidebar-inject')(container, body, html, spy = sandbox.spy());
     });
 
     afterEach(function() {
@@ -39,7 +30,7 @@ describe('sidebar-inject', function() {
 
     it('should send hide on double click', function() {
         html.dblclick();
-        expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hide' });
+        expect(spy).to.have.been.calledWith({ msg: 'hide' });
     });
 
     describe('scroll behavior', function() {
@@ -58,28 +49,30 @@ describe('sidebar-inject', function() {
     describe('on load', function() {
         it('should be visible on load', function() {
             sidebarObj.css('display', 'none');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'URL' });
+            sidebarObj.trigger('sidebar.msg', [{ msg: 'load', url: 'URL' }]);
+
             expect(sidebarObj).to.not.have.css('display', 'none');
         });
 
         it('should send loaded', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'URL' });
+            sidebarObj.trigger('sidebar.msg', [{ msg: 'load', url: 'URL' }]);
 
-            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'loaded' });
+            expect(spy).to.have.been.calledWith({ msg: 'loaded' });
         });
     });
 
     describe('on hide', function() {
         it('should be hidden on hide', function() {
             // sidebarObj.css('display', '');
-            chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
+            sidebarObj.trigger('sidebar.msg', [{ msg: 'hide' }]);
+
             expect(sidebarObj).to.have.css('display', 'none');
         });
 
         it('should send hidden', function() {
-            chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
+            sidebarObj.trigger('sidebar.msg', [{ msg: 'hide' }]);
 
-            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hidden' });
+            expect(spy).to.have.been.calledWith({ msg: 'hidden' });
         });
     });
 
@@ -96,12 +89,12 @@ describe('sidebar-inject', function() {
 
         it('should send hide on click', function() {
             closeButton.trigger($.Event('click', { which: 1 }));
-            expect(chrome.runtime.sendMessage).to.have.been.calledWith({ msg: 'hide' });
+            expect(spy).to.have.been.calledWith({ msg: 'hide' });
         });
 
         it('should not send hide on right click', function() {
             closeButton.trigger($.Event('click', { which: 2 }));
-            expect(chrome.runtime.sendMessage).to.not.have.been.calledWith({ msg: 'hide' });
+            expect(spy).to.not.have.been.calledWith({ msg: 'hide' });
         });
     });
 });

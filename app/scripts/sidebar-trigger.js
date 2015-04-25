@@ -1,8 +1,8 @@
-module.exports = function sidebarTrigger() {
+module.exports = function sidebarTrigger(sendMessage) {
     var ready;
     var url;
 
-    return function(request, sendMessage) {
+    return function(request) {
         if (!request) {
             return;
         }
