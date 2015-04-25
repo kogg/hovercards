@@ -6,13 +6,13 @@
 </head>
 <body>
 	<div class="ng-cloak" ng-cloak ng-controller="EntryController">
-		<div ng-if="entry.loading">
+		<div class="fade-out-animation" ng-if="entry.loading">
 			<div class="loader" ng-show="entry.loading">
 				<div class="colored"></div>
 			</div>
 		</div>
-		<div ng-controller="PeopleController" ng-if="entry">
-			<div class="cards">
+		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry">
+			<div class="cards ">
 				<div ng-controller="ContentController">
 					<div class="card bounce-in-animation" ng-if="content.$resolved">
 						<div ng-include="'templates/'+ content.type + '.html'" ng-if="!content.$err"></div>

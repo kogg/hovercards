@@ -1,6 +1,19 @@
 var angular = require('angular');
 
 module.exports = angular.module('hovercardsCommonComponents', [require('angular-sanitize')])
+    .directive('clickActivate', function() {
+        return {
+            restrict: 'A',
+            scope: {
+                clickActivate: '@'
+            },
+            link: function($scope, $element) {
+                $element.on('click', function() {
+                    window.top.postMessage({ msg: 'activate', url: $scope.clickActivate }, '*');
+                });
+            }
+        };
+    })
     .directive('readmore', ['$sanitize', function($sanitize) {
         require('dotdotdot');
 
@@ -31,7 +44,8 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
         };
     }])
     .directive('sortable', function() {
-        require('./jquery-ui.min'); // FIXME
+        require('jquery-ui/sortable');
+        require('jquery-ui/droppable');
 
         return {
             restrict: 'A',
@@ -51,7 +65,7 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
     })
     .filter('htmlify', ['$filter', function($filter) {
         return function(content) {
-            return $filter('linky')(content, '_blank').replace(/(&#10;|\n)/g, '<br>');
+            return $filter('linky')(content, '_blank');
         };
     }])
     .filter('numsmall', function() {
