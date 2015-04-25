@@ -1,34 +1,6 @@
-'use strict';
+require('jquery');
+var angular = require('angular');
 
-require(['account-directive',
-         'content-directive',
-         'discussions-directive',
-         'entry-directive',
-         'error-directive',
-         'more-content-directive',
-         'people-directive',
-         'readmore-directive',
-         'sortable-directive',
-         'youtube-channel-subscribe-directive',
-         'copy-filter',
-         'htmlify-filter',
-         'numsmall-filter',
-         'trust-resource-url-filter',
-         'slide-animation'], function() {
-    angular.bootstrap(document, ['app']);
+angular.bootstrap(document, [require('./angular-app').name]);
 
-    require(['domReady!'], function() {
-        chrome.runtime.sendMessage({ msg: 'ready' });
-    });
-});
-
-require(['click-trigger', 'longpress-trigger'], function(click_trigger, longpress_trigger) {
-    click_trigger.on('body', 'a[data-load]', function(link) {
-        return link.data('load');
-    });
-    longpress_trigger.on('body', 'a[data-load]', function(link) {
-        return link.data('load');
-    });
-});
-
-require(['everywhere-main']);
+chrome.runtime.sendMessage({ msg: 'ready' });

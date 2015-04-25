@@ -1,5 +1,3 @@
-'use strict';
-
 describe('entry-directive', function() {
     var sandbox = sinon.sandbox.create();
     var element;
@@ -7,41 +5,27 @@ describe('entry-directive', function() {
     var $rootScope;
     var scope;
 
-    beforeEach(function(done) {
-        require(['entry-directive'], function() {
-            done();
-        });
+    before(function() {
+        var app = angular.module('app', []);
+        app.directive('entry', require('../../app/scripts/entry-directive'));
     });
     beforeEach(module('app'));
     beforeEach(inject(function(_$compile_, _$rootScope_) {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
     }));
-    beforeEach(function(done) {
-        require(['angular'], function(angular) {
-            sandbox.useFakeTimers();
-            sandbox.stub(chrome.runtime.onMessage, 'addListener');
+    beforeEach(function() {
+        sandbox.useFakeTimers();
+        sandbox.stub(chrome.runtime.onMessage, 'addListener');
 
-            element = angular.element('<div entry="entry"></div>');
-            $compile(element)($rootScope);
-            $rootScope.$digest();
-            scope = element.isolateScope();
-            done();
-        });
+        element = angular.element('<div entry="entry"></div>');
+        $compile(element)($rootScope);
+        $rootScope.$digest();
+        scope = element.isolateScope();
     });
 
     afterEach(function() {
         sandbox.restore();
-    });
-
-    it('should two way bind entry', function() {
-        $rootScope.entry = 'Out => In';
-        $rootScope.$digest();
-        expect(scope.entry).to.equal('Out => In');
-
-        scope.entry = 'In => Out';
-        $rootScope.$digest();
-        expect($rootScope.entry).to.equal('In => Out');
     });
 
     describe('on load', function() {

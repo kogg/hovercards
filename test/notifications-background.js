@@ -1,18 +1,23 @@
-'use strict';
+var chai      = require('chai');
+var sinon     = require('sinon');
+var sinonChai = require('sinon-chai');
+var expect    = chai.expect;
+chai.use(sinonChai);
+
+require('./chrome');
+
+var notificationsBackground = require('../app/scripts/notifications-background');
 
 describe('notifications-background', function() {
     var sandbox = sinon.sandbox.create();
 
-    beforeEach(function(done) {
-        require(['notifications-background'], function(notificationsBackground) {
-            sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            sandbox.stub(chrome.tabs, 'sendMessage');
-            sandbox.stub(chrome.storage.sync, 'get');
-            sandbox.stub(chrome.storage.sync, 'set');
-            chrome.storage.sync.get.yields({ });
-            notificationsBackground.init();
-            done();
-        });
+    beforeEach(function() {
+        sandbox.stub(chrome.runtime.onMessage, 'addListener');
+        sandbox.stub(chrome.tabs, 'sendMessage');
+        sandbox.stub(chrome.storage.sync, 'get');
+        sandbox.stub(chrome.storage.sync, 'set');
+        chrome.storage.sync.get.yields({ });
+        notificationsBackground();
     });
 
     afterEach(function() {

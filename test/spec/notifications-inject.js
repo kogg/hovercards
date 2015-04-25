@@ -1,19 +1,17 @@
-'use strict';
+var $ = require('jquery');
 
 describe('notifications-inject', function() {
     var sandbox = sinon.sandbox.create();
     var body;
 
-    beforeEach(function(done) {
-        require(['notifications-inject'], function(notifications_inject) {
-            sandbox.useFakeTimers();
-            sandbox.stub(chrome.i18n, 'getMessage');
-            sandbox.stub(chrome.runtime.onMessage, 'addListener');
-            chrome.i18n.getMessage.withArgs('sometype_notification').returns('Some Notification Text');
-            body = $('<div id="body"></div>');
-            notifications_inject.on(body);
-            done();
-        });
+    beforeEach(function() {
+        var notifications_inject = require('./scripts/notifications-inject');
+        sandbox.useFakeTimers();
+        sandbox.stub(chrome.i18n, 'getMessage');
+        sandbox.stub(chrome.runtime.onMessage, 'addListener');
+        chrome.i18n.getMessage.withArgs('sometype_notification').returns('Some Notification Text');
+        body = $('<div id="body"></div>');
+        notifications_inject(body);
     });
 
     afterEach(function() {

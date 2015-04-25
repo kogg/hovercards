@@ -1,5 +1,3 @@
-'use strict';
+var trigger_inject = require('./trigger-inject');
 
-require(['trigger-inject'], function(trigger_inject) {
-    trigger_inject.on('html');
-});
+trigger_inject.on('html');

@@ -1,5 +1,3 @@
-'use strict';
-
 describe('people-directive', function() {
     var sandbox = sinon.sandbox.create();
     var element;
@@ -7,60 +5,26 @@ describe('people-directive', function() {
     var $rootScope;
     var scope;
 
-    beforeEach(function(done) {
-        require(['people-directive'], function() {
-            done();
-        });
+    before(function() {
+        var app = angular.module('app', []);
+        app.directive('people', require('../../app/scripts/people-directive'));
     });
     beforeEach(module('app'));
     beforeEach(inject(function(_$compile_, _$rootScope_) {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
     }));
-    beforeEach(function(done) {
-        require(['angular'], function(angular) {
-            sandbox.useFakeServer();
+    beforeEach(function() {
+        sandbox.useFakeServer();
 
-            element = angular.element('<div people="people" requests="requests" selected-index="selectedIndex"></div>');
-            $compile(element)($rootScope);
-            $rootScope.$digest();
-            scope = element.isolateScope();
-            done();
-        });
+        element = angular.element('<div people="people" requests="requests" selected-index="selectedIndex"></div>');
+        $compile(element)($rootScope);
+        $rootScope.$digest();
+        scope = element.isolateScope();
     });
 
     afterEach(function() {
         sandbox.restore();
-    });
-
-    it('should two way bind people', function() {
-        $rootScope.people = 'Out => In';
-        $rootScope.$digest();
-        expect(scope.people).to.equal('Out => In');
-
-        scope.people = 'In => Out';
-        $rootScope.$digest();
-        expect($rootScope.people).to.equal('In => Out');
-    });
-
-    it('should two way bind requests', function() {
-        $rootScope.requests = ['Out => In'];
-        $rootScope.$digest();
-        expect(scope.requests).to.deep.equal(['Out => In']);
-
-        scope.requests = ['In => Out'];
-        $rootScope.$digest();
-        expect($rootScope.requests).to.deep.equal(['In => Out']);
-    });
-
-    it('should two way bind selectedIndex', function() {
-        $rootScope.selectedIndex = 'Out => In';
-        $rootScope.$digest();
-        expect(scope.selectedIndex).to.equal('Out => In');
-
-        scope.selectedIndex = 'In => Out';
-        $rootScope.$digest();
-        expect($rootScope.selectedIndex).to.equal('In => Out');
     });
 
     describe('on requests', function() {
