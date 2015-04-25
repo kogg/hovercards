@@ -293,6 +293,13 @@ b i {
 	left: 0;
 	width: 100%;
 }
+.comment-close {
+	height: 48px;
+	overflow: hidden;
+}
+.comment-close p,.comment-close .child{
+	display: none;
+}
 .comment .col-10 {
 	padding-left: 16px;
 }
