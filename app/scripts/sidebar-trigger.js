@@ -1,4 +1,4 @@
-module.exports = function triggerBackgroundInit() {
+module.exports = function sidebarTrigger() {
     return function(tabId, request) {
         switch (request.msg) {
             case 'ready':
