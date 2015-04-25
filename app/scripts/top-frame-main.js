@@ -11,9 +11,12 @@ sidebar_inject(hovercards_container, 'body', 'html');
 state_manager();
 
 var sidebar_trigger = require('./sidebar-trigger')();
+var sidebar_frame;
 window.addEventListener('message', function(event) {
-    console.log('event', event);
-    sidebar_trigger(event.data, function(trigger) {
-        console.log('trigger', trigger);
+    if (event && event.data && event.data.msg === 'ready') {
+        sidebar_frame = event.source;
+    }
+    sidebar_trigger(event.data, function(msg) {
+        sidebar_frame.postMessage(msg, '*');
     });
 }, false);
