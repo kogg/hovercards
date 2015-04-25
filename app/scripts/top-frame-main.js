@@ -1,11 +1,5 @@
-// Notifications
 var $ = require('jquery');
 var hovercards_container = $('<div class="hovercards-container"></div>').appendTo('html');
-
-var notifications_inject = require('./notifications-inject');
-notifications_inject(hovercards_container);
-
-// Sidebar
 
 var sidebar_obj = require('./sidebar-inject')(hovercards_container, 'body', 'html', function(msg) {
     window.postMessage(msg, '*');
