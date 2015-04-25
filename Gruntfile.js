@@ -6,7 +6,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         browserify: {
-            main: {
+            js: {
                 files: {
                     'dist/scripts/background-main.js': 'app/scripts/background-main.js',
                     'dist/scripts/everywhere-main.js': 'app/scripts/everywhere-main.js',
@@ -52,28 +52,35 @@ module.exports = function (grunt) {
                 }
             }
         },
+        uglify: {
+            js: {
+                files: {
+                    'dist/scripts/background-main.js': 'dist/scripts/background-main.js',
+                    'dist/scripts/everywhere-main.js': 'dist/scripts/everywhere-main.js',
+                    'dist/scripts/sidebar-main.js':    'dist/scripts/sidebar-main.js',
+                    'dist/scripts/top-frame-main.js':  'dist/scripts/top-frame-main.js'
+                }
+            }
+        },
         watch: {
             options: {
                 atBegin: true,
                 interrupt: true
             },
             non_js: {
-                files: ['app/**/*', '!app/scripts/**'],
-                tasks: ['copy:non_js']
+                files: ['app/**/*', '!app/**/*.js'],
+                tasks: ['dist:non_js']
             },
             js: {
-                files: ['app/scripts/**'],
-                tasks: ['browserify:main']
+                files: ['app/**/*.js'],
+                tasks: ['dist:js']
             }
         }
     });
 
-    grunt.registerTask('test', [
-        'connect:browser_tests',
-        'mocha:browser_tests'
-    ]);
-
-    grunt.registerTask('develop', [
-        'concurrent'
-    ]);
+    grunt.registerTask('develop',     ['concurrent:develop']);
+    grunt.registerTask('dist:js',     ['browserify:js']);
+    grunt.registerTask('dist:non_js', ['copy:non_js']);
+    grunt.registerTask('pkg',         ['dist:non_js', 'dist:js', 'uglify:js']);
+    grunt.registerTask('test',        ['connect:browser_tests', 'mocha:browser_tests']);
 };
