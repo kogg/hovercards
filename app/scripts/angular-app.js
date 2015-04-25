@@ -8,12 +8,10 @@ var app = angular.module('app', [require('angular-animate'),
                                  require('./discussion-components'),
                                  require('./people-components'),
                                  require('./more-content-components'),
-                                 require('./common-components')]);
+                                 require('./common-components'),
+                                 require('./youtube-components')]);
 
-app.directive('error',                   require('./error-directive'));
-app.directive('readmore',                require('./readmore-directive'));
-app.directive('sortable',                require('./sortable-directive'));
-app.directive('youtubeChannelSubscribe', require('./youtube-channel-subscribe-directive'));
+app.directive('error', require('./error-directive'));
 
 app.animation('.slide-animation', require('./slide-animation'));
 
