@@ -2,16 +2,20 @@ var $                 = require('jquery');
 var embedded_trigger  = require('./embedded-trigger');
 var longpress_trigger = require('./longpress-trigger');
 
+function sendMessage(msg) {
+    window.top.postMessage(msg, '*');
+}
+
 exports.on = function(inject_into) {
     inject_into = $(inject_into);
 
     longpress_trigger.on(inject_into, 'a[href]', function(link) {
         return exports.nullify_bad_url(exports.relative_to_absolute(link.attr('href')));
-    });
+    }, sendMessage);
 
     longpress_trigger.on(inject_into, 'a[data-href]', function(link) {
         return exports.nullify_bad_url(exports.relative_to_absolute(link.data('href')));
-    });
+    }, sendMessage);
 
     embedded_trigger.on(inject_into, 'embed[src]', function(embed) {
         return exports.nullify_bad_url(exports.relative_to_absolute(embed.attr('src')));

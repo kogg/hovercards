@@ -12,6 +12,7 @@ state_manager();
 
 var sidebar_trigger = require('./sidebar-trigger')();
 window.addEventListener('message', function(event) {
+    console.log('event', event);
     sidebar_trigger(event.data, function(trigger) {
         console.log('trigger', trigger);
     });

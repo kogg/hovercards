@@ -8,7 +8,6 @@ describe('longpress-trigger', function() {
     beforeEach(function() {
         longpress_trigger = require('./scripts/longpress-trigger');
         sandbox.useFakeTimers();
-        sandbox.stub(window.top, 'postMessage');
         sandbox.stub(longpress_trigger, 'isActive');
     });
 
@@ -20,6 +19,7 @@ describe('longpress-trigger', function() {
     describe('.on', function() {
         var obj;
         var get_url_with_args;
+        var sendMessage;
 
         beforeEach(function() {
             body = $('<div id="body"></div>');
@@ -29,7 +29,7 @@ describe('longpress-trigger', function() {
                 return obj.is(_obj);
             }, 'is obj'));
             get_url_with_args.returns(obj.attr('href'));
-            longpress_trigger.on(body, '#obj', get_url);
+            longpress_trigger.on(body, '#obj', get_url, sendMessage = sandbox.spy());
         });
 
         describe('on mousedown', function() {
@@ -113,7 +113,7 @@ describe('longpress-trigger', function() {
                 obj.trigger('longpress', ['URL']);
                 longpress_trigger.isActive.returns(true);
 
-                expect(window.top.postMessage).to.have.been.calledWith({ msg: 'activate', url: 'URL' }, '*');
+                expect(sendMessage).to.have.been.calledWith({ msg: 'activate', url: 'URL' });
             });
 
             it('should have pointer-events:none && cursor:default', function() {
@@ -155,10 +155,10 @@ describe('longpress-trigger', function() {
         });
 
         describe('on mouseenter', function() {
-            it('should send longpressed', function() {
+            it('should send hovered', function() {
                 obj.mouseenter();
 
-                expect(window.top.postMessage).to.have.been.calledWith({ msg: 'hovered' }, '*');
+                expect(sendMessage).to.have.been.calledWith({ msg: 'hovered' });
             });
         });
     });
