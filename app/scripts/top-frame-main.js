@@ -1,11 +1,11 @@
 var $ = require('jquery');
 
 var notifications_inject = require('./notifications-inject');
-var sidebar_inject       = require('./sidebar-inject');
 
 var hovercards_container = $('<div class="hovercards-container"></div>').appendTo('html');
 notifications_inject(hovercards_container);
-sidebar_inject(hovercards_container, 'body', 'html');
+
+var sidebar_obj = require('./sidebar-inject')(hovercards_container, 'body', 'html');
 
 var sidebar_trigger = require('./sidebar-trigger')();
 var sidebar_frame;
@@ -15,5 +15,6 @@ window.addEventListener('message', function(event) {
     }
     sidebar_trigger(event.data, function(msg) {
         sidebar_frame.postMessage(msg, '*');
+        sidebar_obj.trigger('sidebar.msg', [msg]);
     });
 }, false);

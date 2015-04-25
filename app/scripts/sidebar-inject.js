@@ -5,7 +5,7 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable) {
     body = $(body);
     dbl_clickable = $(dbl_clickable)
         .dblclick(function() {
-            chrome.runtime.sendMessage({ msg: 'hide' });
+            window.postMessage({ msg: 'hide' }, '*');
         });
 
     var obj = $('<div class="hovercards-sidebar"></div>')
@@ -16,6 +16,23 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable) {
                 return;
             }
             obj.hide();
+        })
+        .on('sidebar.msg', function(e, request) {
+            switch (request.msg) {
+                case 'load':
+                    obj
+                        .show()
+                        .removeClass('hovercards-sidebar-leave')
+                        .addClass('hovercards-sidebar-enter');
+                    window.postMessage({ msg: 'loaded' }, '*');
+                    break;
+                case 'hide':
+                    obj
+                        .removeClass('hovercards-sidebar-enter')
+                        .addClass('hovercards-sidebar-leave');
+                    window.postMessage({ msg: 'hidden' }, '*');
+                    break;
+            }
         });
 
     $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
@@ -35,26 +52,8 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable) {
             if (e.which !== 1) {
                 return;
             }
-            chrome.runtime.sendMessage({ msg: 'hide' });
+            window.postMessage({ msg: 'hide' }, '*');
         });
-
-    chrome.runtime.onMessage.addListener(function(request) {
-        switch (request.msg) {
-            case 'load':
-                obj
-                    .show()
-                    .removeClass('hovercards-sidebar-leave')
-                    .addClass('hovercards-sidebar-enter');
-                chrome.runtime.sendMessage({ msg: 'loaded' });
-                break;
-            case 'hide':
-                obj
-                    .removeClass('hovercards-sidebar-enter')
-                    .addClass('hovercards-sidebar-leave');
-                chrome.runtime.sendMessage({ msg: 'hidden' });
-                break;
-        }
-    });
 
     return obj;
 };
