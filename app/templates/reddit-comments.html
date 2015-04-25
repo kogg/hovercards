@@ -6,7 +6,7 @@
 		<b class="ng-binding"><i class="md md-access-time"></i>Jan 17, 1970</b>
 	</div>
 </div>
-<div ng-class="{ multithread: discussions[index.d].selected === 0 }"></div>
-<div class="comment row" ng-class="{ multithread: discussions[index.d].selected === $index + 1 }" ng-include="'templates/reddit-comment-child.html'" ng-repeat="comment in discussions[index.d].comments" ng-click="discussions[index.d].selected = $index"></div>
+<div ng-class="{ multithread: discussion.selected === 0 }"></div>
+<div class="comment row" ng-class="{ multithread: discussion.selected === $index + 1 }" ng-include="'templates/reddit-comment-child.html'" ng-repeat="comment in discussion.comments" ng-click="discussion.selected = $index"></div>
 	<div ng-include="'templates/reddit-comment-child.html'"></div>
 </div>

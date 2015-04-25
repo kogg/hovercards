@@ -4,7 +4,8 @@ var angular = require('angular');
 var app = angular.module('app', [require('angular-animate'),
                                  require('angular-sanitize'),
                                  require('angular-inview/angular-inview') && 'angular-inview',
-                                 require('./content-components')]);
+                                 require('./content-components'),
+                                 require('./discussion-components')]);
 
 app.directive('discussions', require('./discussions-directive'));
 app.directive('entry',       require('./entry-directive'));
