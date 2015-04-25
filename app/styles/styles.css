@@ -571,6 +571,9 @@ b i {
 	clear: both;
 	padding:8px 0 0 8px;
 }
+.child-close p {
+	display: none;
+}
 .child-comment {
 	border-left:1px dotted rgba(0,0,0,.2);
 	padding: 8px 0 8px 8px;
