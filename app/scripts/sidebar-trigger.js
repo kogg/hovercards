@@ -1,5 +1,9 @@
 module.exports = function sidebarTrigger() {
-    return function(tabId, request) {
+    return function(tabId, request, sendMessage) {
+        if (!request) {
+            return;
+        }
+        sendMessage = sendMessage || function() {};
         switch (request.msg) {
             case 'ready':
                 chrome.tabs.sendMessage(tabId, { msg: 'set', value: { ready: true } });
@@ -7,7 +11,7 @@ module.exports = function sidebarTrigger() {
                     if (!url) {
                         return;
                     }
-                    chrome.tabs.sendMessage(tabId, { msg: 'load', url: url });
+                    sendMessage(tabId, { msg: 'load', url: url });
                 });
                 break;
             case 'activate':
@@ -24,7 +28,7 @@ module.exports = function sidebarTrigger() {
                         if (!ready) {
                             return;
                         }
-                        chrome.tabs.sendMessage(tabId, msg);
+                        sendMessage(tabId, msg);
                     });
                 });
                 break;
@@ -34,7 +38,7 @@ module.exports = function sidebarTrigger() {
                     if (!ready) {
                         return;
                     }
-                    chrome.tabs.sendMessage(tabId, { msg: 'hide' });
+                    sendMessage(tabId, { msg: 'hide' });
                 });
                 break;
         }

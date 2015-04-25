@@ -13,7 +13,6 @@ describe('sidebar-trigger', function() {
     var sidebar_trigger;
 
     beforeEach(function() {
-        sandbox.stub(chrome.runtime.onMessage, 'addListener');
         sandbox.stub(chrome.tabs, 'sendMessage');
         chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(undefined);
         chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields(undefined);
@@ -24,83 +23,59 @@ describe('sidebar-trigger', function() {
         sandbox.restore();
     });
 
-    describe('on ready', function() {
-        it('should set ready', function() {
-            sidebar_trigger('TAB_ID', { msg: 'ready' });
+    it('should not send anything on activate', function() {
+        var spy = sandbox.spy();
+        sidebar_trigger('TAB_ID', { msg: 'activate', url: 'URL' }, spy);
 
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { ready: true } });
-        });
-
-        it('should not send load', function() {
-            sidebar_trigger('TAB_ID', { msg: 'ready' });
-
-            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', sinon.match.has('msg', 'load'));
-        });
-
-        it('should send load if sent is set', function() {
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields('URL');
-            sidebar_trigger('TAB_ID', { msg: 'ready' });
-
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', url: 'URL' });
-        });
+        expect(spy).to.not.have.been.called;
     });
 
-    describe('on activate', function() {
-        it('should set sent', function() {
-            sidebar_trigger('TAB_ID', { msg: 'activate', url: 'URL' });
+    it('should not send anything on hide', function() {
+        var spy = sandbox.spy();
+        sidebar_trigger('TAB_ID', { msg: 'hide' }, spy);
 
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { sent: 'URL' } });
-        });
-
-        it('should not send anything', function() {
-            sidebar_trigger('TAB_ID', { msg: 'activate', url: 'URL' });
-
-            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', sinon.match.has('msg', 'load'));
-            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', sinon.match.has('msg', 'hide'));
-        });
-
-        it('should send load if ready is set', function() {
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(true);
-            sidebar_trigger('TAB_ID', { msg: 'activate', url: 'URL' });
-
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'load', url: 'URL' });
-        });
-
-        it('should send hide if ready is set & sent === URL', function() {
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(true);
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields('URL');
-            sidebar_trigger('TAB_ID', { msg: 'activate', url: 'URL' });
-
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
-        });
-
-        it('should unset sent if ready is set & sent === URL', function() {
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(true);
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields('URL');
-            sidebar_trigger('TAB_ID', { msg: 'activate', url: 'URL' });
-
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { sent: null } });
-        });
+        expect(spy).to.not.have.been.called;
     });
 
-    describe('on hide', function() {
-        it('should unset sent', function() {
-            sidebar_trigger('TAB_ID', { msg: 'hide' });
+    it('should not send anything on ready', function() {
+        var spy = sandbox.spy();
+        sidebar_trigger('TAB_ID', { msg: 'ready' }, spy);
 
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'set', value: { sent: null } });
-        });
+        expect(spy).to.not.have.been.called;
+    });
 
-        it('should not send hide', function() {
-            sidebar_trigger('TAB_ID', { msg: 'hide' });
+    it('should send load on ready & activate', function() {
+        var spy = sandbox.spy();
+        sidebar_trigger('TAB_ID', { msg: 'ready' });
+        chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(true); // FIXME
+        sidebar_trigger('TAB_ID', { msg: 'activate', url: 'URL' }, spy);
 
-            expect(chrome.tabs.sendMessage).not.to.have.been.calledWith('TAB_ID', sinon.match.has('msg', 'hide'));
-        });
+        expect(spy).to.have.been.calledWith('TAB_ID', { msg: 'load', url: 'URL' });
+    });
 
-        it('should send hide if ready is set', function() {
-            chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(true);
-            sidebar_trigger('TAB_ID', { msg: 'hide' });
+    it('should send load on activate & ready', function() {
+        var spy = sandbox.spy();
+        sidebar_trigger('TAB_ID', { msg: 'activate', url: 'URL' });
+        chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'sent' }).yields('URL'); // FIXME
+        sidebar_trigger('TAB_ID', { msg: 'ready' }, spy);
 
-            expect(chrome.tabs.sendMessage).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
-        });
+        expect(spy).to.have.been.calledWith('TAB_ID', { msg: 'load', url: 'URL' });
+    });
+
+    it('should send hide on ready & hide', function() {
+        var spy = sandbox.spy();
+        sidebar_trigger('TAB_ID', { msg: 'ready' });
+        chrome.tabs.sendMessage.withArgs('TAB_ID', { msg: 'get', value: 'ready' }).yields(true); // FIXME
+        sidebar_trigger('TAB_ID', { msg: 'hide' }, spy);
+
+        expect(spy).to.have.been.calledWith('TAB_ID', { msg: 'hide' });
+    });
+
+    it('should not send hide on hide & ready', function() {
+        var spy = sandbox.spy();
+        sidebar_trigger('TAB_ID', { msg: 'hide' });
+        sidebar_trigger('TAB_ID', { msg: 'ready' }, spy);
+
+        expect(spy).to.not.have.been.called;
     });
 });
