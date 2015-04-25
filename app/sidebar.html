@@ -11,7 +11,7 @@
 				<div class="colored"></div>
 			</div>
 		</div>
-		<div class="fade-out-animation" people="people" requests="entry.accounts" selected-index="indexP" ng-if="entry">
+		<div ng-controller="PeopleController" ng-if="entry">
 			<div class="cards">
 				<div ng-controller="ContentController">
 					<div class="card bounce-in-animation" ng-if="content.$resolved">
@@ -26,7 +26,7 @@
 				</div>
 
 				<div ng-controller="DiscussionController">
-					<div class="card bounce-in-animation" ng-if="entry.discussions">
+					<div class="card bounce-in-animation" ng-if=":: discussion.$resolved || undefined">
 						<div class="comment-top">
 							<div class="row">
 								<div class="col-9">
@@ -64,27 +64,31 @@
 					</div>
 				</div>
 
-				<div class="card bounce-in-animation" ng-if="people">
-					<div ng-repeat="person in people" ng-click="indexP = $index">
+				<div class="card bounce-in-animation" ng-if="people.length">
+					<div ng-repeat="person in people" ng-click="entry.selectedPerson = person" ng-if="!people.$err">
 						<div ng-include="'templates/'+ person.selectedAccount.type + '.html'"></div>
+					</div>
+
+					<div error ng-if="people.$err" ng-switch="people.$err.status">
+						<span ng-switch-default>There was a problem with the discussion!</span>
 					</div>
 				</div>
 			</div>
 			<div class="network-menu">
-				<div class="network-menu-container" ng-class="'network-menu-size-' + people[indexP].accounts.length" ng-if="people[indexP].accounts.length">
-					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * people[indexP].menuOffset) || 0) + 'px' }" ng-repeat="account in people[indexP].accounts" ng-click="people[indexP].selectedAccount = account">
-						<span ng-class="account == people[indexP].selectedAccount && 'active'">{{ account.type | copy }}</span>
+				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length" ng-if="entry.selectedPerson.accounts.length">
+					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
+						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.type | copy }}</span>
 					</div>
 				</div>
-				<div ng-show="people[indexP].menuOffset" ng-click="people[indexP].menuOffset = (people[indexP].menuOffset || 0) - 3">Left</div>
-				<div ng-show="people[indexP].menuOffset + 3 < people[indexP].accounts.length" ng-click="people[indexP].menuOffset = (people[indexP].menuOffset || 0) + 3">Right</div>
+				<div ng-show="entry.selectedPerson.menuOffset" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) - 3">Left</div>
+				<div ng-show="entry.selectedPerson.menuOffset + 3 < entry.selectedPerson.accounts.length" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) + 3">Right</div>
 			</div>
 
-			<div class="social-profile" ng-style="!at_page_bottom && { overflow: 'hidden' }" ng-if="people[indexP].selectedAccount">
-				<div ng-if="people[indexP].selectedAccount.description">
-					<p class="social-profile-description" readmore="people[indexP].selectedAccount.description | htmlify" style="max-height: 100px"></p>
+			<div class="social-profile" ng-style="!at_page_bottom && { overflow: 'hidden' }" ng-if="entry.selectedPerson.selectedAccount">
+				<div ng-if="entry.selectedPerson.selectedAccount.description">
+					<p class="social-profile-description" readmore="entry.selectedPerson.selectedAccount.description | htmlify" style="max-height: 100px"></p>
 				</div>
-				<div more-content="moreContent" request="people[indexP].selectedAccount" ng-if="people[indexP].selectedAccount">
+				<div more-content="moreContent" request="entry.selectedPerson.selectedAccount" ng-if="entry.selectedPerson.selectedAccount">
 					<div ng-if="moreContent">
 						<div ng-include="'templates/' + moreContent.type + '.html'"></div>
 					</div>
