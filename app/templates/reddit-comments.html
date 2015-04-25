@@ -6,4 +6,4 @@
 	<a href="">This is what happens when you leave the fridge door open</a>
 	<span class="reddit-votes">&middot; 891 points</span>
 </div>
-<div class="comment row" ng-include="'templates/reddit-comment-child.html'" ng-repeat="(key, comment) in discussion.comments"></div>
+<div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit-comment-child.html'" ng-repeat="comment in discussion.comments"></div>
