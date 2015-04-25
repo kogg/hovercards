@@ -1,7 +1,7 @@
 <div class="content-cards">
 	<div ng-repeat="video in moreContent.videos" class="col-6 content-cards-blocks">
 		<div class="content-cards-blocks-holder">
-		<img src="{{ video.image }}">
+		<img ng-src="{{ video.image }}">
 		<div class="content-cards-blocks-holder-description">
 			<p readmore="video.name" style="max-height: 40px">{{ video.name }}</p>
 			<b>{{ video.date | date}}</b>

@@ -5,19 +5,19 @@
 	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
 </head>
 <body>
-	<div class="loader">
-	  <div class="colored"></div>
-	</div>
 	<div class="ng-cloak" entry="entry" ng-cloak>
+		<div class="loader" ng-show="entry.loading">
+			<div class="colored"></div>
+		</div>
 		<div class="fade-out-animation" people="people" requests="entry.accounts" selected-index="indexP" ng-if="entry">
 			<div class="cards">
-				<div content="content" request="entry.content" ng-if="entry.content">
-					<div class="card bounce-in-animation" ng-if="content">
-						<div ng-include="'templates/'+ content.type + '.html'" ng-if="!content.err"></div>
+				<div ng-controller="ContentController">
+					<div class="card bounce-in-animation" ng-if="content.$resolved">
+						<div ng-include="'templates/'+ content.type + '.html'" ng-if="content.$resolved && !content.$err"></div>
 						<!-- TODO Figure out what triggers the people content to load -->
-						<div ng-init="entry.accounts = content.accounts" ng-if="!content.err"></div>
+						<div ng-init="entry.accounts = content.accounts" ng-if="!content.$err"></div>
 
-						<div error ng-switch="content.err.code" ng-if="content.err.code">
+						<div error ng-switch="content.$err.status" ng-if="content.$err">
 							<span ng-switch-default>There was a problem with the content!</span>
 						</div>
 					</div>

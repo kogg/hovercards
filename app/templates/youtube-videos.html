@@ -2,7 +2,7 @@
 	<a data-load="https://www.youtube.com/watch?v={{ video.id }}" ng-repeat="video in moreContent.videos" ng-class="{ 'content-list-selected': video.id===entry.content.id }" class="content-list-link">
 		<div class="row">
 			<div class="col-5">
-				<img src="{{ video.image }}">
+				<img ng-src="{{ video.image }}">
 			</div>
 			<div class="col-7">
 				<p readmore="video.name" style="max-height: 40px">{{ video.name }}</p>
