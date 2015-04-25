@@ -1,10 +1,8 @@
-<a data-load="https://www.reddit.com/user/{{ ::comment.channel.id }}">{{ ::comment.author.id }}</a><a></a>
-<span class="reddit-votes">&middot; {{ ::comment.score }} points</span>
-<p readmore="::comment.description | htmlify" style="max-height: 170px"></p>
-<div>
-	<b><i class="md md-forum"></i>33 Replys</b>
-	<b><i class="md md-access-time"></i>{{ ::comment.date | date }}</b>
+<div class="user-context">
+	<a data-load="https://www.reddit.com/user/{{ ::comment.channel.id }}">{{ ::comment.author.id }}</a><a></a>
+	<span class="reddit-votes">+{{ ::comment.score }} <span class="hidden-date">&middot; 3d</span><!--{{ ::comment.date | date }}--></span>
 </div>
+<p readmore="::comment.description | htmlify" style="max-height: 170px"></p>
 <div class="child" ng-repeat="comment in comment.comments">
 	<div class="child-comment">
 		<div ng-include="'templates/reddit-comment-child.html'"></div>
