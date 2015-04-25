@@ -16,7 +16,7 @@ describe('entry-directive', function() {
     }));
     beforeEach(function() {
         sandbox.useFakeTimers();
-        sandbox.stub(chrome.runtime.onMessage, 'addListener');
+        sandbox.stub(window, 'addEventListener');
 
         element = angular.element('<div entry="entry"></div>');
         $compile(element)($rootScope);
@@ -32,7 +32,7 @@ describe('entry-directive', function() {
         it('should empty entry', function() {
             $rootScope.entry = 'Something';
             $rootScope.$digest();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'URL' });
+            window.addEventListener.yield({ data: { msg: 'load', url: 'URL' } });
             $rootScope.$digest();
 
             expect($rootScope.entry).not.to.exist;
@@ -40,7 +40,7 @@ describe('entry-directive', function() {
 
         describe('youtube video URLs', function() {
             it('should identify www.youtube.com/watch?v=VIDEO_ID in 100ms', function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://www.youtube.com/watch?v=VIDEO_ID' });
+                window.addEventListener.yield({ data: { msg: 'load', url: 'https://www.youtube.com/watch?v=VIDEO_ID' } });
                 $rootScope.$digest();
                 sandbox.clock.tick(100);
                 $rootScope.$digest();
@@ -52,7 +52,7 @@ describe('entry-directive', function() {
             });
 
             it('should identify m.youtube.com/watch?v=VIDEO_ID in 100ms', function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://m.youtube.com/watch?v=VIDEO_ID' });
+                window.addEventListener.yield({ data: { msg: 'load', url: 'https://m.youtube.com/watch?v=VIDEO_ID' } });
                 $rootScope.$digest();
                 sandbox.clock.tick(100);
                 $rootScope.$digest();
@@ -64,7 +64,7 @@ describe('entry-directive', function() {
             });
 
             it('should identify www.youtube.com/v/VIDEO_ID in 100ms', function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://www.youtube.com/v/VIDEO_ID' });
+                window.addEventListener.yield({ data: { msg: 'load', url: 'https://www.youtube.com/v/VIDEO_ID' } });
                 $rootScope.$digest();
                 sandbox.clock.tick(100);
                 $rootScope.$digest();
@@ -76,7 +76,7 @@ describe('entry-directive', function() {
             });
 
             it('should identify www.youtube.com/embed/VIDEO_ID in 100ms', function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://www.youtube.com/embed/VIDEO_ID' });
+                window.addEventListener.yield({ data: { msg: 'load', url: 'https://www.youtube.com/embed/VIDEO_ID' } });
                 $rootScope.$digest();
                 sandbox.clock.tick(100);
                 $rootScope.$digest();
@@ -88,7 +88,7 @@ describe('entry-directive', function() {
             });
 
             it('should identify www.youtu.be/VIDEO_ID in 100ms', function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://www.youtu.be/VIDEO_ID' });
+                window.addEventListener.yield({ data: { msg: 'load', url: 'https://www.youtu.be/VIDEO_ID' } });
                 $rootScope.$digest();
                 sandbox.clock.tick(100);
                 $rootScope.$digest();
@@ -102,7 +102,7 @@ describe('entry-directive', function() {
 
         describe('youtube channel URLs', function() {
             it('should identify www.youtube.com/channel/CHANNEL_ID in 100ms', function() {
-                chrome.runtime.onMessage.addListener.yield({ msg: 'load', url: 'https://www.youtube.com/channel/CHANNEL_ID' });
+                window.addEventListener.yield({ data: { msg: 'load', url: 'https://www.youtube.com/channel/CHANNEL_ID' } });
                 $rootScope.$digest();
                 sandbox.clock.tick(100);
                 $rootScope.$digest();
@@ -117,7 +117,7 @@ describe('entry-directive', function() {
         it('should empty entry', function() {
             $rootScope.entry = 'Something';
             $rootScope.$digest();
-            chrome.runtime.onMessage.addListener.yield({ msg: 'hide' });
+            window.addEventListener.yield({ data: { msg: 'hide' } });
             $rootScope.$digest();
 
             expect($rootScope.entry).not.to.exist;

@@ -1,6 +1,6 @@
 var $ = require('jquery');
 
-exports.on = function(body, selector, get_url) {
+exports.on = function(body, selector, get_url, sendMessage) {
     body = $(body);
 
     body.on('mousedown', selector, function(e) {
@@ -33,7 +33,7 @@ exports.on = function(body, selector, get_url) {
     });
 
     body.on('longpress', selector, function(e, url) {
-        chrome.runtime.sendMessage({ msg: 'activate', url: url });
+        sendMessage({ msg: 'activate', url: url });
         var obj = $(this);
         var initialPointerEvents = obj.css('pointer-events');
         var initialCursor = obj.css('cursor');
@@ -64,7 +64,7 @@ exports.on = function(body, selector, get_url) {
         if (!url) {
             return;
         }
-        chrome.runtime.sendMessage({ msg: 'hovered' });
+        sendMessage({ msg: 'hovered' });
     });
 };
 

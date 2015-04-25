@@ -16,7 +16,8 @@ module.exports = function() {
             entry: '='
         },
         link: function($scope) {
-            chrome.runtime.onMessage.addListener(function(request) {
+            window.addEventListener('message', function(event) {
+                var request = event.data;
                 switch(request.msg) {
                     case 'load':
                         $scope.$apply(function() {
@@ -64,7 +65,7 @@ module.exports = function() {
                         });
                         break;
                 }
-            });
+            }, false);
         }
     };
 };

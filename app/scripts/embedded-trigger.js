@@ -1,7 +1,7 @@
 var $                 = require('jquery');
 var longpress_trigger = require('./longpress-trigger');
 
-exports.on = function(body, selector, get_url, fullscreenable) {
+exports.on = function(body, selector, get_url, sendMessage, fullscreenable) {
     body = $(body);
     var trigger = exports.trigger;
     if (!exports.trigger) { // FIXME I don't like this at all
@@ -22,11 +22,11 @@ exports.on = function(body, selector, get_url, fullscreenable) {
             trigger.hide();
         });
         trigger.click(function() {
-            chrome.runtime.sendMessage({ msg: 'activate', url: trigger.data('hovercards-url') });
+            sendMessage({ msg: 'activate', url: trigger.data('hovercards-url') });
         });
         longpress_trigger.on(body, 'div.hovercards-embedded-trigger', function() {
             return trigger.data('hovercards-url');
-        });
+        }, sendMessage);
     }
     body.on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', selector, function() {
         if (exports.is_fullscreen($(this))) {

@@ -3,4 +3,4 @@ var angular = require('angular');
 
 angular.bootstrap(document, [require('./angular-app').name]);
 
-chrome.runtime.sendMessage({ msg: 'ready' });
+window.top.postMessage({ msg: 'ready' }, '*');
