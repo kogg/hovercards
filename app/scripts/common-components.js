@@ -1,4 +1,5 @@
 var angular = require('angular');
+var moment  = require('moment');
 
 module.exports = angular.module('hovercardsCommonComponents', [require('angular-sanitize')])
     .directive('clickActivate', function() {
@@ -79,6 +80,36 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
             } else if (number < 1000000000000) {
                 return parseFloat(Math.floor(number / 10000000) / 100).toFixed(2) + 'b';
             }
+        };
+    })
+    .filter('timeSince', function() {
+        return function(time) {
+            moment.locale('en');
+            return moment(time).fromNow();
+        };
+    })
+    .filter('timeSinceAbbr', function() {
+        moment.locale('en-since-abbrev', {
+            relativeTime: {
+                future: '%s',
+                past:   '%s',
+                s:      's',
+                m:      '%d m',
+                mm:     '%d m',
+                h:      '%d h',
+                hh:     '%d h',
+                d:      '%d d',
+                dd:     '%d d',
+                M:      '%d M',
+                MM:     '%d M',
+                y:      '%d y',
+                yy:     '%d y'
+            }
+        });
+
+        return function(time) {
+            moment.locale('en-since-abbrev');
+            return moment(time).fromNow();
         };
     })
     .filter('trustresourceurl', ['$sce', function($sce) {
