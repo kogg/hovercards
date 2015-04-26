@@ -10,7 +10,7 @@ module.exports = angular.module('hovercardsMoreContentComponents', [require('ang
             $scope.moreContent = (function() {
                 $scope.entry.loading = ($scope.entry.loading || 0) + 1;
 
-                var moreContent = moreContentService.get(request);
+                var moreContent = moreContentService.get({ type: request.type, id: request.id });
                 moreContent.$promise
                     .catch(function(err) {
                         moreContent.$err = err;
