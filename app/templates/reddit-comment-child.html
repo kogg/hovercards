@@ -1,6 +1,6 @@
 <div class="user-context">
 	<a ng-click="comment.close=!comment.close" ><i class="md md-play-arrow down-arrow"></i></a>
-	<a click-activate="https://www.reddit.com/user/{{ ::comment.channel.id }}">{{ ::comment.author.id }}</a>
+	<a click-activate="https://www.reddit.com/user/{{ ::comment.author.id }}">{{ ::comment.author.id }}</a>
 	<span class="reddit-votes">+{{ ::comment.score }} <span class="hidden-date">&middot; 3d</span><!--{{ ::comment.date | date }}--></span>
 </div>
 <p readmore="::comment.description | htmlify" style="max-height: 170px"></p>

@@ -10,7 +10,7 @@ module.exports = angular.module('hovercardsContentComponents', [require('angular
             $scope.content = (function() {
                 $scope.entry.loading = ($scope.entry.loading || 0) + 1;
 
-                var content = contentService.get(request);
+                var content = contentService.get({ type: request.type, id: request.id });
                 content.$promise
                     .catch(function(err) {
                         content.$err = err;
