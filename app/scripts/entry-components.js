@@ -53,7 +53,6 @@ module.exports = angular.module('hovercardsEntryComponents', [])
                                 });
                                 break;
                             case 'reddit.com':
-                                console.log('hey');
                                 if (uri.directory() === '/user') {
                                     $scope.$apply(function() {
                                         $scope.entry = { accounts: [{ type: 'reddit-user', id: uri.filename() }] };
