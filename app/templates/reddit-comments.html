@@ -1,9 +1,10 @@
+<!--
 <div class="reddit-title">
-	<div>
+	<div class="user-context">
 		<b>/r/videos</b>
-		<b><i class="md md-access-time"></i>Jan 17, 1970</b>
+		<span class="reddit-votes ng-binding">+1075 <span class="hidden-date">· 3d</span></span>
 	</div>
 	<a href="">This is what happens when you leave the fridge door open</a>
-	<span class="reddit-votes">&middot; 891 points</span>
 </div>
+-->
 <div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit-comment-child.html'" ng-repeat="comment in discussion.comments"></div>
