@@ -12,7 +12,7 @@
 
 <div class="card-text">
 	<div class="video-title">
-	<b class="youtube-color"><i class="md md-access-time"></i>{{ ::content.date | date }}</b>
+	<b class="youtube-color"><i class="md md-access-time"></i>{{ ::content.date | timeSince }}</b>
 		<a href="https://www.youtube.com/watch?v={{ ::content.id }}" target="_blank" ng-click="$event.stopPropagation()">{{ ::content.name }}</a>
 	</div>
 	<div ng-if="::content.description" class="card-description">
