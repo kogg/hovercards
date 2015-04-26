@@ -293,11 +293,37 @@ b i {
 	left: 0;
 	width: 100%;
 }
+.comment-close {
+	height: 48px;
+	overflow: hidden;
+}
+.comment-close .user-context a {
+	color: #727272
+}
+.comment-close p,.comment-close .child{
+	display: none;
+}
+.down-arrow {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.comment-close .down-arrow {
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
 .comment .col-10 {
 	padding-left: 16px;
+	padding-top: 2px;
 }
-.comment .user-context {
+.user-context {
 	position: relative;
+}
+.user-context a:last-of-type {
+	padding-right: 36px;
+}
+.user-context i {
+	position: relative;
+	top: -1.5px;
 }
 .comment-top {
 	border: 1px solid rgba(0,0,0,.15);
@@ -373,6 +399,11 @@ b i {
 	display: inline-block;
 	margin-top: 5px;
 	color: #727272;
+}
+.comment p b {
+	font-weight: bold;
+	font-size: 15px;
+	margin:0;	
 }
 .comment b:hover {
 	cursor: pointer;
@@ -533,7 +564,8 @@ b i {
     	background: rgba(0,0,0,0.1)
     } 
  
-} 
+}
+
 /*Reddit titles*/
 .reddit-title {
 	padding: 16px;
@@ -542,10 +574,10 @@ b i {
 	background: white;
 }
 .reddit-title a {
-	color: #2196F3;
   text-decoration: none;
   font-size: 16px;
-  font-weight:400;
+  color: #000;
+  font-weight: 500;
 }
 .reddit-title a:hover {
 	text-decoration: underline;
@@ -563,6 +595,16 @@ b i {
 .child {
 	clear: both;
 	padding:8px 0 0 8px;
+}
+.child-close p {
+	display: none;
+}
+.child-close .down-arrow {
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.child-close .user-context a {
+	color: #727272
 }
 .child-comment {
 	border-left:1px dotted rgba(0,0,0,.2);
