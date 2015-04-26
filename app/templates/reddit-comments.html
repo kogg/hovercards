@@ -1,8 +1,8 @@
 <div class="reddit-title">
 	<div class="user-context">
-        <b>/r/{{:: discussion.subreddit }}</b>
-        <span class="reddit-votes ng-binding">+{{:: discussion.score }} <span class="hidden-date">· {{:: discussion.date | timeSinceAbbr }}</span></span>
+		<b>/r/{{:: discussion.subreddit }}</b>
+		<span class="reddit-votes ng-binding">+{{:: discussion.score }} <span class="hidden-date">· {{:: discussion.date | timeSinceAbbr }}</span></span>
 	</div>
-    <a ng-href="https://www.reddit.com/r/{{:: discussion.subreddit}}/{{:: discussion.id }}" target="_blank">{{:: discussion.name }}</a>
+	<a ng-href="https://www.reddit.com/r/{{:: discussion.subreddit}}/{{:: discussion.id }}" target="_blank">{{:: discussion.name }}</a>
 </div>
 <div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit-comment-child.html'" ng-repeat="comment in discussion.comments"></div>
