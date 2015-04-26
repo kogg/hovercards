@@ -52,6 +52,14 @@ module.exports = angular.module('hovercardsEntryComponents', [])
                                     $scope.entry = content_entry('youtube-video', uri.filename());
                                 });
                                 break;
+                            case 'reddit.com':
+                                console.log('hey');
+                                if (uri.directory() === '/user') {
+                                    $scope.$apply(function() {
+                                        $scope.entry = { accounts: [{ type: 'reddit-user', id: uri.filename() }] };
+                                    });
+                                }
+                                break;
                         }
                     }, 100);
                     break;

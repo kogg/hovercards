@@ -90,6 +90,16 @@ describe('entry-components', function() {
                 expect($scope.entry.accounts).to.be.contain({ type: 'youtube-channel', id: 'CHANNEL_ID' });
             });
         });
+
+        describe('reddit user URLs', function() {
+            it('should identify www.reddit.com/user/USER_ID in 100ms', function() {
+                window.addEventListener.yield({ data: { msg: 'load', url: 'https://www.reddit.com/user/USER_ID' } });
+                sandbox.clock.tick(100);
+
+                expect($scope.entry.accounts).to.be.an('array');
+                expect($scope.entry.accounts).to.be.contain({ type: 'reddit-user', id: 'USER_ID' });
+            });
+        });
     });
 
     describe('on hide', function() {
