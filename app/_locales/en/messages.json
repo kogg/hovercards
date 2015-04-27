@@ -7,18 +7,6 @@
         "message": "Description of Hover Cards",
         "description": "The description of the application"
     },
-    "firsthover_notification": {
-        "message": "You just hovered over a Link! <b>Click and hold</b> it or <b>press shift</b> while hovering over it to activate Hover Cards!",
-        "description": "The text of the notification when hovering over a link for the first time"
-    },
-    "firstload_notification": {
-        "message": "You just activated Hover Cards! To close it, <b>double click the page</b> or <b>click the \"x\"</b> button!",
-        "description": "The text of the notification when the sidebar is loaded for the first time"
-    },
-    "firsthide_notification": {
-        "message": "Look for Carlito in the <b>omnibar!</b> He will let you know when you are able to activate Hover Cards!",
-        "description": "The text of the notification when the sidebar is hidden for the first time"
-    },
     "youtube_channel": {
         "message": "Youtube"
     },
