@@ -2,19 +2,6 @@ var angular = require('angular');
 var moment  = require('moment');
 
 module.exports = angular.module('hovercardsCommonComponents', [require('angular-sanitize')])
-    .directive('clickActivate', function() {
-        return {
-            restrict: 'A',
-            scope: {
-                clickActivate: '@'
-            },
-            link: function($scope, $element) {
-                $element.on('click', function() {
-                    window.top.postMessage({ msg: 'activate', url: $scope.clickActivate }, '*');
-                });
-            }
-        };
-    })
     .directive('readmore', function() {
         require('dotdotdot');
 
