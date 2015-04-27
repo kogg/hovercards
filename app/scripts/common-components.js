@@ -1,5 +1,4 @@
 var angular = require('angular');
-var moment  = require('moment');
 
 module.exports = angular.module('hovercardsCommonComponents', [require('angular-sanitize')])
     .directive('readmore', function() {
@@ -52,7 +51,7 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
     .filter('copy', function() {
         return function(messagename) {
             if (!messagename) {
-                return messagename;
+                return '';
             }
             return chrome.i18n.getMessage(messagename.replace(/\-/g, '_')) || messagename;
         };
@@ -67,16 +66,23 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
                 return parseFloat(Math.floor(number / 10000) / 100).toFixed(2) + 'm';
             } else if (number < 1000000000000) {
                 return parseFloat(Math.floor(number / 10000000) / 100).toFixed(2) + 'b';
+            } else {
+                return 0;
             }
         };
     })
     .filter('timeSince', function() {
+        var moment  = require('moment');
         return function(time) {
+            if (!time) {
+                return '';
+            }
             moment.locale('en');
             return moment(time).fromNow();
         };
     })
     .filter('timeSinceAbbr', function() {
+        var moment  = require('moment');
         moment.locale('en-since-abbrev', {
             relativeTime: {
                 future: '%s',
@@ -96,12 +102,18 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
         });
 
         return function(time) {
+            if (!time) {
+                return '';
+            }
             moment.locale('en-since-abbrev');
             return moment(time).fromNow();
         };
     })
     .filter('trustresourceurl', ['$sce', function($sce) {
         return function(url) {
+            if (!url) {
+                return '';
+            }
             return $sce.trustAsResourceUrl(url);
         };
     }])

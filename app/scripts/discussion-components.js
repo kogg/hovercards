@@ -4,10 +4,9 @@ module.exports = angular.module('hovercardsDiscussionComponents', [require('angu
     .controller('DiscussionController', ['$scope', 'discussionService', function($scope, discussionService) {
         $scope.$watch('entry.discussion', function(request) {
             if (!request) {
-                $scope.discussion = null;
                 return null;
             }
-            $scope.discussion = (function() {
+            $scope.loading_discussion = (function() {
                 $scope.entry.loading = ($scope.entry.loading || 0) + 1;
 
                 var discussion = discussionService.get({ type: request.type, id: request.id });
@@ -17,6 +16,11 @@ module.exports = angular.module('hovercardsDiscussionComponents', [require('angu
                     })
                     .finally(function() {
                         $scope.entry.loading--;
+                        if ($scope.loading_discussion !== discussion) {
+                            return;
+                        }
+                        $scope.discussion = $scope.loading_discussion;
+                        $scope.loading_discussion = null;
                     });
 
                 return discussion;
