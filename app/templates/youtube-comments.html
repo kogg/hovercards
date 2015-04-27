@@ -1,14 +1,14 @@
 <div ng-repeat="comment in discussion.comments" class="comment row">
 	<div class="col-2">
-		<a click-activate="https://www.youtube.com/channel/{{ comment.channel.id }}">
-			<div class="comment-image" ng-style="::comment.channel.image && { 'background-image': 'url(' + comment.channel.image + ')'}"></div>
+		<a click-activate="https://www.youtube.com/channel/{{:: comment.channel.id }}">
+			<div class="comment-image" ng-style=":: comment.channel.image && { 'background-image': 'url(' + comment.channel.image + ')'}"></div>
 		</a>
 	</div>
 	<div class="col-10">
 		<div class="user-context">
-			<a click-activate="https://www.youtube.com/channel/{{ comment.channel.id }}">{{ ::comment.channel.name }}</a>
-			<span class="youtube-color reddit-votes"><i class="md md-access-time"></i> {{ ::comment.date | timeSinceAbbr }}</span>
+			<a click-activate="https://www.youtube.com/channel/{{:: comment.channel.id }}">{{:: comment.channel.name }}</a>
+			<span class="youtube-color reddit-votes"><i class="md md-access-time"></i> {{:: comment.date | timeSinceAbbr }}</span>
 		</div>
-		<p readmore="::comment.description | htmlify" style="max-height: 170px"></p>
+		<p ng-bind-html=":: comment.description" readmore=":: comment.description" style="max-height: 100px"></p>
 	</div>
 </div>

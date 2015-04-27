@@ -16,7 +16,7 @@
 		<a href="https://www.youtube.com/watch?v={{ ::content.id }}" target="_blank" ng-click="$event.stopPropagation()">{{ ::content.name }}</a>
 	</div>
 	<div ng-if="::content.description" class="card-description">
-		<p readmore="::content.description | htmlify" style="max-height: 50px"></p>
+		<p ng-bind-html=":: content.description | linky:'-blank'" readmore=":: content.description" style="max-height: 50px"></p>
 	</div>
 </div>
 <div class="card-stats row">

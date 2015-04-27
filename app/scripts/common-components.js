@@ -15,35 +15,41 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
             }
         };
     })
-    .directive('readmore', ['$sanitize', function($sanitize) {
+    .directive('readmore', function() {
         require('dotdotdot');
 
         return {
             restrict: 'A',
             scope: {
-                text: '=readmore'
+                readmore: '='
             },
             link: function($scope, $element) {
-                $element.html($sanitize($scope.text + ' <span class="read-more">Read More</span>'));
-                $element.dotdotdot({
-                    after: 'span.read-more',
-                    callback: function(isTruncated) {
-                        var link = $element.find('span.read-more');
-                        if (!isTruncated) {
-                            link.remove();
-                            return;
-                        }
-                        $element.append(link); // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
-                        link.click(function() {
-                            $element.trigger('destroy');
-                            $element.css('max-height', 'none');
-                            $element.html($sanitize($scope.text));
-                        });
+                $scope.$watch('readmore', function(readmore) {
+                    if (!readmore) {
+                        return;
                     }
+                    var html = $element.html();
+                    angular.element('<span class="read-more">Read More</span>').appendTo($element);
+                    $element.dotdotdot({
+                        after: 'span.read-more',
+                        callback: function(isTruncated) {
+                            var link = $element.find('.read-more');
+                            if (!isTruncated) {
+                                link.remove();
+                                return;
+                            }
+                            $element.append(link); // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
+                            link.click(function() {
+                                $element.trigger('destroy');
+                                $element.css('max-height', 'none');
+                                $element.html(html);
+                            });
+                        }
+                    });
                 });
             }
         };
-    }])
+    })
     .directive('sortable', function() {
         require('jquery-ui/sortable');
         require('jquery-ui/droppable');
@@ -64,11 +70,6 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
             return chrome.i18n.getMessage(messagename.replace(/\-/g, '_')) || messagename;
         };
     })
-    .filter('htmlify', ['$filter', function($filter) {
-        return function(content) {
-            return $filter('linky')(content, '_blank');
-        };
-    }])
     .filter('numsmall', function() {
         return function(number) {
             if (number < 10000) {
