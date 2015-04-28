@@ -34,14 +34,14 @@ longpress_trigger.on(html, 'a[data-href]', function(link) {
     return nullify_bad_url(relative_to_absolute(link.data('href')));
 }, sendMessage);
 
-embedded_trigger.on(html, 'embed[src]', function(embed) {
+embedded_trigger(html, 'embed[src]', function(embed) {
     return nullify_bad_url(relative_to_absolute(embed.attr('src')));
 }, sendMessage);
 
-embedded_trigger.on(html, 'object[data]', function(object) {
+embedded_trigger(html, 'object[data]', function(object) {
     return nullify_bad_url(relative_to_absolute(object.attr('data')));
 }, sendMessage);
 
-embedded_trigger.on(html, 'div#player div.html5-video-player', function() {
+embedded_trigger(html, 'div#player div.html5-video-player', function() {
     return document.URL;
 }, sendMessage, true);
