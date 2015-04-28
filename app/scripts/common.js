@@ -10,22 +10,22 @@ exports.identify_url = function(url) {
                     if (uri.filename() === 'watch') {
                         var query = uri.search(true);
                         if (query.v) {
-                            return { type: 'content', thing: { type: 'youtube-video', id: query.v } };
+                            return { type: 'content', content: { type: 'youtube-video', id: query.v } };
                         }
                     }
                     break;
                 case '/v':
                 case '/embed':
-                    return { type: 'content', thing: { type: 'youtube-video', id: uri.filename() } };
+                    return { type: 'content', content: { type: 'youtube-video', id: uri.filename() } };
                 case '/channel':
-                    return { type: 'account', thing: [{ type: 'youtube-channel', id: uri.filename() }] };
+                    return { type: 'accounts', accounts: [{ type: 'youtube-channel', id: uri.filename() }] };
             }
             break;
         case 'youtu.be':
-            return { type: 'content', thing: { type: 'youtube-video', id: uri.filename() } };
+            return { type: 'content', content: { type: 'youtube-video', id: uri.filename() } };
         case 'reddit.com':
             if (uri.directory() === '/user') {
-                return { type: 'account', thing: [{ type: 'reddit-user', id: uri.filename() }] };
+                return { type: 'accounts', accounts: [{ type: 'reddit-user', id: uri.filename() }] };
             }
             break;
     }
