@@ -86,7 +86,7 @@
 
 			<div class="social-profile" ng-style="!entry.at_page_bottom && { overflow: 'hidden' }" ng-if="entry.selectedPerson.selectedAccount">
 				<div ng-if="entry.selectedPerson.selectedAccount.description">
-					<p class="social-profile-description" readmore="entry.selectedPerson.selectedAccount.description | htmlify" style="max-height: 100px"></p>
+					<p class="social-profile-description" ng-bind-html="entry.selectedPerson.selectedAccount.description | linky" readmore="entry.selectedPerson.selectedAccount.description" style="max-height: 100px"></p>
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
 					<div ng-if="moreContent.$resolved">
@@ -106,5 +106,6 @@
 	<link rel="stylesheet" href="styles/subscribe-fix-style.css">
 	<script src="https://apis.google.com/js/platform.js"></script>
 	<script src="scripts/sidebar-main.js"></script>
+	<script src="scripts/everywhere-main.js"></script>
 </body>
 </html>

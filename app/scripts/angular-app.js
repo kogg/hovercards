@@ -13,6 +13,4 @@ var app = angular.module('app', [require('angular-animate'),
 
 app.directive('error', require('./error-directive'));
 
-app.animation('.slide-animation', require('./slide-animation'));
-
 module.exports = app;

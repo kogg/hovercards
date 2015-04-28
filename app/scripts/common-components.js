@@ -1,49 +1,41 @@
 var angular = require('angular');
-var moment  = require('moment');
 
 module.exports = angular.module('hovercardsCommonComponents', [require('angular-sanitize')])
-    .directive('clickActivate', function() {
-        return {
-            restrict: 'A',
-            scope: {
-                clickActivate: '@'
-            },
-            link: function($scope, $element) {
-                $element.on('click', function() {
-                    window.top.postMessage({ msg: 'activate', url: $scope.clickActivate }, '*');
-                });
-            }
-        };
-    })
-    .directive('readmore', ['$sanitize', function($sanitize) {
+    .directive('readmore', function() {
         require('dotdotdot');
 
         return {
             restrict: 'A',
             scope: {
-                text: '=readmore'
+                readmore: '='
             },
             link: function($scope, $element) {
-                $element.html($sanitize($scope.text + ' <span class="read-more">Read More</span>'));
-                $element.dotdotdot({
-                    after: 'span.read-more',
-                    callback: function(isTruncated) {
-                        var link = $element.find('span.read-more');
-                        if (!isTruncated) {
-                            link.remove();
-                            return;
-                        }
-                        $element.append(link); // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
-                        link.click(function() {
-                            $element.trigger('destroy');
-                            $element.css('max-height', 'none');
-                            $element.html($sanitize($scope.text));
-                        });
+                $scope.$watch('readmore', function(readmore) {
+                    if (!readmore) {
+                        return;
                     }
+                    var html = $element.html();
+                    angular.element('<span class="read-more">Read More</span>').appendTo($element);
+                    $element.dotdotdot({
+                        after: 'span.read-more',
+                        callback: function(isTruncated) {
+                            var link = $element.find('.read-more');
+                            if (!isTruncated) {
+                                link.remove();
+                                return;
+                            }
+                            $element.append(link); // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
+                            link.click(function() {
+                                $element.trigger('destroy');
+                                $element.css('max-height', 'none');
+                                $element.html(html);
+                            });
+                        }
+                    });
                 });
             }
         };
-    }])
+    })
     .directive('sortable', function() {
         require('jquery-ui/sortable');
         require('jquery-ui/droppable');
@@ -59,16 +51,11 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
     .filter('copy', function() {
         return function(messagename) {
             if (!messagename) {
-                return messagename;
+                return '';
             }
             return chrome.i18n.getMessage(messagename.replace(/\-/g, '_')) || messagename;
         };
     })
-    .filter('htmlify', ['$filter', function($filter) {
-        return function(content) {
-            return $filter('linky')(content, '_blank');
-        };
-    }])
     .filter('numsmall', function() {
         return function(number) {
             if (number < 10000) {
@@ -79,16 +66,23 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
                 return parseFloat(Math.floor(number / 10000) / 100).toFixed(2) + 'm';
             } else if (number < 1000000000000) {
                 return parseFloat(Math.floor(number / 10000000) / 100).toFixed(2) + 'b';
+            } else {
+                return 0;
             }
         };
     })
     .filter('timeSince', function() {
+        var moment  = require('moment');
         return function(time) {
+            if (!time) {
+                return '';
+            }
             moment.locale('en');
             return moment(time).fromNow();
         };
     })
     .filter('timeSinceAbbr', function() {
+        var moment  = require('moment');
         moment.locale('en-since-abbrev', {
             relativeTime: {
                 future: '%s',
@@ -108,13 +102,35 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
         });
 
         return function(time) {
+            if (!time) {
+                return '';
+            }
             moment.locale('en-since-abbrev');
             return moment(time).fromNow();
         };
     })
     .filter('trustresourceurl', ['$sce', function($sce) {
         return function(url) {
+            if (!url) {
+                return '';
+            }
             return $sce.trustAsResourceUrl(url);
         };
     }])
+    .animation('.slide-animation', function() {
+        return {
+            beforeAddClass: function(element, className, done) {
+                if (className !== 'ng-hide') {
+                    return done();
+                }
+                element.slideUp(500, done);
+            },
+            removeClass: function(element, className, done) {
+                if (className !== 'ng-hide') {
+                    return done();
+                }
+                element.slideDown(500, done);
+            }
+        };
+    })
     .name;

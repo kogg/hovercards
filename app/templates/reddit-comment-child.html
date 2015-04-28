@@ -1,9 +1,9 @@
 <div class="user-context">
 	<a ng-click="comment.close=!comment.close" ><i class="md md-play-arrow down-arrow"></i></a>
-	<a click-activate="https://www.reddit.com/user/{{ ::comment.author.id }}">{{ ::comment.author.id }}</a>
+	<a ng-href="https://www.reddit.com/user/{{ ::comment.author.id }}">{{ ::comment.author.id }}</a>
 	<span class="reddit-votes">+{{ ::comment.score }} <span class="hidden-date">&middot; {{ ::comment.date | timeSinceAbbr  }}</span></span>
 </div>
-<p readmore="::comment.description | htmlify" style="max-height: 170px"></p>
+<p ng-bind-html=":: comment.description" readmore=":: comment.description" style="max-height: 170px">{{:: comment.description }}</p>
 <div class="child" ng-repeat="comment in comment.comments">
 	<div class="child-comment" ng-class="{ 'child-close': comment.close }">
 		<div ng-include="'templates/reddit-comment-child.html'"></div>
