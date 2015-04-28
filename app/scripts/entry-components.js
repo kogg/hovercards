@@ -1,14 +1,4 @@
-var URI = require('URIjs/src/URI');
-
-function content_entry(type, id) {
-    var entry = { content: { type: type, id: id } };
-
-    if (type === 'youtube-video') {
-        entry.discussions = [{ type: 'youtube-comments', id: id }, { type: 'reddit-comments', id: 'youtube_' + id }];
-    }
-
-    return entry;
-}
+var common = require('./common');
 
 module.exports = angular.module('hovercardsEntryComponents', [])
     .controller('EntryController', ['$scope', function($scope) {
@@ -20,46 +10,9 @@ module.exports = angular.module('hovercardsEntryComponents', [])
                         $scope.entry = null;
                     });
                     setTimeout(function() {
-                        var uri = URI(request.url);
-                        switch (uri.domain()) {
-                            case 'youtube.com':
-                                switch (uri.directory()) {
-                                    case '/':
-                                        if (uri.filename() === 'watch') {
-                                            var query = uri.search(true);
-                                            if (query.v) {
-                                                $scope.$apply(function() {
-                                                    $scope.entry = content_entry('youtube-video', query.v);
-                                                });
-                                            }
-                                        }
-                                        break;
-                                    case '/v':
-                                    case '/embed':
-                                        $scope.$apply(function() {
-                                            $scope.entry = content_entry('youtube-video', uri.filename());
-                                        });
-                                        break;
-                                    case '/channel':
-                                        $scope.$apply(function() {
-                                            $scope.entry = { accounts: [{ type: 'youtube-channel', id: uri.filename() }] };
-                                        });
-                                        break;
-                                }
-                                break;
-                            case 'youtu.be':
-                                $scope.$apply(function() {
-                                    $scope.entry = content_entry('youtube-video', uri.filename());
-                                });
-                                break;
-                            case 'reddit.com':
-                                if (uri.directory() === '/user') {
-                                    $scope.$apply(function() {
-                                        $scope.entry = { accounts: [{ type: 'reddit-user', id: uri.filename() }] };
-                                    });
-                                }
-                                break;
-                        }
+                        $scope.$apply(function() {
+                            $scope.entry = common.identify_url(request.url);
+                        });
                     }, 100);
                     break;
                 case 'hide':
