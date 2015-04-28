@@ -1,4 +1,5 @@
 var $                 = require('jquery');
+var common            = require('./common');
 var embedded_trigger  = require('./embedded-trigger');
 var longpress_trigger = require('./longpress-trigger');
 
@@ -6,42 +7,24 @@ function sendMessage(msg) {
     window.top.postMessage(msg, '*');
 }
 
-function nullify_bad_url(url) {
-    if (url.match(/^javascript:.*/)) {
-        return null;
-    }
-    return url;
-}
-
-function relative_to_absolute(url) {
-    var a = document.createElement('a');
-    a.href = url;
-    url = a.href;
-    a.href = '';
-    if (a.remove) {
-        a.remove();
-    }
-    return url;
-}
-
 var html = $('html');
 
-longpress_trigger.on(html, 'a[href]', function(link) {
-    return nullify_bad_url(relative_to_absolute(link.attr('href')));
+longpress_trigger(html, 'a[href]', function(link) {
+    return common.nullify_bad_url(common.relative_to_absolute(link.attr('href')));
 }, sendMessage);
 
-longpress_trigger.on(html, 'a[data-href]', function(link) {
-    return nullify_bad_url(relative_to_absolute(link.data('href')));
+longpress_trigger(html, 'a[data-href]', function(link) {
+    return common.nullify_bad_url(common.relative_to_absolute(link.data('href')));
 }, sendMessage);
 
-embedded_trigger.on(html, 'embed[src]', function(embed) {
-    return nullify_bad_url(relative_to_absolute(embed.attr('src')));
+embedded_trigger(html, 'embed[src]', function(embed) {
+    return common.nullify_bad_url(common.relative_to_absolute(embed.attr('src')));
 }, sendMessage);
 
-embedded_trigger.on(html, 'object[data]', function(object) {
-    return nullify_bad_url(relative_to_absolute(object.attr('data')));
+embedded_trigger(html, 'object[data]', function(object) {
+    return common.nullify_bad_url(common.relative_to_absolute(object.attr('data')));
 }, sendMessage);
 
-embedded_trigger.on(html, 'div#player div.html5-video-player', function() {
+embedded_trigger(html, 'div#player div.html5-video-player', function() {
     return document.URL;
 }, sendMessage, true);
