@@ -91,9 +91,7 @@ p, p a, .card-text .card-description p a, .card-description-padding p a, .commen
 	font-size: 15px;
 	color: #727272;
 }
-p br {
-	display: none;
-}
+
 .card-description p {
 	margin-top: 5.5px;
 }
@@ -152,11 +150,9 @@ b i {
 	font-size: 16px;
 	font-weight: 500
 }
-
-.card-stats .col-4 {
+.card-stats .col-4, .card-stats .col-6 {
 	padding: 9.5px 8px 9.5px 16px;
 }
-
 .profile-right a, .card-text a {
 	text-decoration: none;
 	font-size: 16px;
@@ -241,6 +237,10 @@ b i {
 	border-right:1px solid rgba(0,0,0,.15);
 	overflow-y: scroll;
 }
+.text-post {
+	border-radius: 3px 3px;
+	border-top:1px solid rgba(0,0,0,.15);
+}
 .video-cta {
 	position: absolute;
 	right: 16px;
@@ -302,11 +302,19 @@ b i {
 }
 .user-context div a {
 	font-size: 14px;
+	max-width: 135px;
+	display: inline-block;
 	padding-right: 2px !important;
+}
+.user-context div b {
+  margin-bottom: 0;
+  display: inline-block;
+  top: -3px;
+  position: relative;
 }
 .user-context div {
 	position: relative;
-	margin-bottom: 8px;
+	margin-bottom: 4px;
 }
 .comment-close p,.comment-close .child{
 	display: none;
@@ -598,6 +606,36 @@ b i {
 }
 .reddit-title b:nth-of-type(2) {
   margin-left: 8px;
+}
+/*reddit specific formatting*/
+.md ol, .md ul {
+  padding-left: 20px;
+}
+.md ol li, .md ul li {
+	color:#727272;
+	font-size: 14px;
+}
+.md pre, .md table  {
+  background: rgba(0, 0, 0, 0.02);
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+  margin: 8px 0;
+  font-size: 12px;
+  width: 100%;
+}
+.md blockquote {
+  border-left: 2px solid rgba(0,0,0,.15);
+  padding-left: 8px;
+  border: none;
+}
+.md table {
+	border-collapse:collapse;
+	background: transparent;
+}
+.md table td, .md table th {
+	padding:8px;
+	border:1px solid rgba(0,0,0,.1);
 }
 /*Comment Childs*/
 .child {
