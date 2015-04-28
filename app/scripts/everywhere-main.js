@@ -26,11 +26,11 @@ function relative_to_absolute(url) {
 
 var html = $('html');
 
-longpress_trigger.on(html, 'a[href]', function(link) {
+longpress_trigger(html, 'a[href]', function(link) {
     return nullify_bad_url(relative_to_absolute(link.attr('href')));
 }, sendMessage);
 
-longpress_trigger.on(html, 'a[data-href]', function(link) {
+longpress_trigger(html, 'a[data-href]', function(link) {
     return nullify_bad_url(relative_to_absolute(link.data('href')));
 }, sendMessage);
 

@@ -4,29 +4,25 @@ describe('embedded-trigger', function() {
     var sandbox = sinon.sandbox.create();
     var body;
     var embedded_trigger;
-    var obj;
-    var get_url;
     var get_url_with_args;
+    var obj;
     var sendMessage;
 
     beforeEach(function() {
         embedded_trigger = require('./scripts/embedded-trigger');
-    });
-
-    afterEach(function() {
-        sandbox.restore();
-        body.remove();
-    });
-
-    beforeEach(function() {
         body = $('<div id="body"></div>');
         obj = $('<embed id="obj" src="URL">').appendTo(body);
-        get_url = sandbox.stub();
+        var get_url = sandbox.stub();
         get_url_with_args = get_url.withArgs(sinon.match(function(_obj) {
             return obj.is(_obj);
         }, 'is obj'));
         get_url_with_args.returns(obj.attr('src'));
         embedded_trigger(body, '#obj', get_url, sendMessage = sandbox.spy());
+    });
+
+    afterEach(function() {
+        sandbox.restore();
+        body.remove();
     });
 
     describe('trigger element', function() {

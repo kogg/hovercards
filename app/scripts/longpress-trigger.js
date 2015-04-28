@@ -1,6 +1,7 @@
-var $ = require('jquery');
+var $      = require('jquery');
+var common = require('./common');
 
-exports.on = function(body, selector, get_url, sendMessage) {
+module.exports = function(body, selector, get_url, sendMessage) {
     body = $(body);
 
     body.on('mousedown', selector, function(e) {
@@ -41,7 +42,7 @@ exports.on = function(body, selector, get_url, sendMessage) {
         obj.css('cursor', 'default');
 
         var interval = setInterval(function() {
-            if (exports.isActive(obj)) {
+            if (common.is_active(obj)) {
                 return;
             }
             clearInterval(interval);
@@ -66,8 +67,4 @@ exports.on = function(body, selector, get_url, sendMessage) {
         }
         sendMessage({ msg: 'hovered' });
     });
-};
-
-exports.isActive = function(obj) {
-    return obj.is(':active');
 };
