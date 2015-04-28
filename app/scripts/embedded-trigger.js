@@ -1,11 +1,14 @@
 var $                 = require('jquery');
+var common            = require('./common');
 var longpress_trigger = require('./longpress-trigger');
 
-exports.on = function(body, selector, get_url, sendMessage, fullscreenable) {
+var offset = { top: 30, left: 0 };
+
+module.exports = function(body, selector, get_url, sendMessage, fullscreenable) {
     body = $(body);
-    var trigger = exports.trigger;
-    if (!exports.trigger) { // FIXME I don't like this at all
-        trigger = exports.trigger = $('<div class="hovercards-embedded-trigger"></div>').appendTo(body);
+    var trigger = body.find('.hovercards-embedded-trigger');
+    if (!trigger.length) { // FIXME I don't like this at all
+        trigger = $('<div class="hovercards-embedded-trigger"></div>').appendTo(body);
         trigger.hide();
         trigger.mouseenter(function() {
             trigger.show();
@@ -29,9 +32,9 @@ exports.on = function(body, selector, get_url, sendMessage, fullscreenable) {
         }, sendMessage);
     }
     body.on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', selector, function() {
-        if (exports.is_fullscreen($(this))) {
+        if (common.is_fullscreen($(this))) {
             trigger.show();
-            trigger.offset(exports.offset);
+            trigger.offset(offset);
         } else {
             trigger.hide();
         }
@@ -44,7 +47,7 @@ exports.on = function(body, selector, get_url, sendMessage, fullscreenable) {
         }
         trigger.show();
         var obj_offset = obj.offset();
-        trigger.offset({ top: obj_offset.top + exports.offset.top, left: obj_offset.left + exports.offset.left });
+        trigger.offset({ top: obj_offset.top + offset.top, left: obj_offset.left + offset.left });
         trigger.data('hovercards-url', url);
         trigger.data('hovercards-obj', obj); // FIXME I REALLY DON'T LIKE THIS
         if (fullscreenable) {
@@ -64,10 +67,3 @@ exports.on = function(body, selector, get_url, sendMessage, fullscreenable) {
         trigger.hide();
     });
 };
-
-exports.is_fullscreen = function(element) {
-    var dom = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement;
-    return dom && element.is(dom);
-};
-
-exports.offset = { top: 30, left: 0 };
