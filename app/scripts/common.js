@@ -1,15 +1,5 @@
 var URI = require('URIjs/src/URI');
 
-function content_entry(type, id) {
-    var entry = { content: { type: type, id: id } };
-
-    if (type === 'youtube-video') {
-        entry.discussions = [{ type: 'youtube-comments', id: id }, { type: 'reddit-comments', id: 'youtube_' + id }];
-    }
-
-    return entry;
-}
-
 exports.identify_url = function(url) {
     var uri = URI(url);
 
@@ -20,22 +10,22 @@ exports.identify_url = function(url) {
                     if (uri.filename() === 'watch') {
                         var query = uri.search(true);
                         if (query.v) {
-                            return content_entry('youtube-video', query.v);
+                            return { type: 'content', thing: { type: 'youtube-video', id: query.v } };
                         }
                     }
                     break;
                 case '/v':
                 case '/embed':
-                    return content_entry('youtube-video', uri.filename());
+                    return { type: 'content', thing: { type: 'youtube-video', id: uri.filename() } };
                 case '/channel':
-                    return { accounts: [{ type: 'youtube-channel', id: uri.filename() }] };
+                    return { type: 'account', thing: [{ type: 'youtube-channel', id: uri.filename() }] };
             }
             break;
         case 'youtu.be':
-            return content_entry('youtube-video', uri.filename());
+            return { type: 'content', thing: { type: 'youtube-video', id: uri.filename() } };
         case 'reddit.com':
             if (uri.directory() === '/user') {
-                return { accounts: [{ type: 'reddit-user', id: uri.filename() }] };
+                return { type: 'account', thing: [{ type: 'reddit-user', id: uri.filename() }] };
             }
             break;
     }
