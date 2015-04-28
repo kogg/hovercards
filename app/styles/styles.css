@@ -174,7 +174,9 @@ b i {
 .youtube-color {
 	color: #F44336
 }
-
+.reddit-color {
+	color: #cee3f8;
+}
 /*Profile Cards*/
 .profile-top {
 	background: #fff;
@@ -194,6 +196,9 @@ b i {
 	height: 100px;
 	background-position: center;
 	border-radius: 2px 0 0 0;
+}
+.reddit-profile {
+	background-image: url('../images/reddit-profile-image.jpg');
 }
 .profile-right {
 	padding: 16px;
