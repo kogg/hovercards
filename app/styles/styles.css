@@ -300,6 +300,14 @@ b i {
 .comment-close .user-context a {
 	color: #727272
 }
+.user-context div a {
+	font-size: 14px;
+	padding-right: 2px !important;
+}
+.user-context div {
+	position: relative;
+	margin-bottom: 8px;
+}
 .comment-close p,.comment-close .child{
 	display: none;
 }
