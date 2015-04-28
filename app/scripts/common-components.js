@@ -88,16 +88,16 @@ module.exports = angular.module('hovercardsCommonComponents', [require('angular-
                 future: '%s',
                 past:   '%s',
                 s:      's',
-                m:      '%d m',
-                mm:     '%d m',
-                h:      '%d h',
-                hh:     '%d h',
-                d:      '%d d',
-                dd:     '%d d',
-                M:      '%d M',
-                MM:     '%d M',
-                y:      '%d y',
-                yy:     '%d y'
+                m:      '%dm',
+                mm:     '%dm',
+                h:      '%dh',
+                hh:     '%dh',
+                d:      '%dd',
+                dd:     '%dd',
+                M:      '%dM',
+                MM:     '%dM',
+                y:      '%dy',
+                yy:     '%dy'
             }
         });
 
