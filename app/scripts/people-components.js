@@ -3,11 +3,11 @@ var oboe = require('oboe');
 
 module.exports = angular.module('hovercardsPeopleComponents', [require('angular-resource')])
     .controller('PeopleController', ['$scope', 'peopleService', function($scope, peopleService) {
-        $scope.$watchGroup('entry.accounts', function(requests) {
+        $scope.$watch('entry.accounts', function(requests) {
             $scope.entry.selectedPerson = null;
             if (!requests) {
                 $scope.data.people = null;
-                return null;
+                return;
             }
 
             $scope.data.loading = ($scope.data.loading || 0) + 1;
