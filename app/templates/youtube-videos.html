@@ -1,5 +1,5 @@
 <div class="content-list">
-	<a ng-href="https://www.youtube.com/watch?v={{ video.id }}" ng-repeat="video in moreContent.videos" ng-class="{ 'content-list-selected': video.id===entry.content.id }" class="content-list-link">
+	<a ng-href="https://www.youtube.com/watch?v={{ video.id }}" ng-repeat="video in data.moreContent.videos" ng-class="{ 'content-list-selected': video.id===entry.content.id }" class="content-list-link">
 		<div class="row">
 			<div class="col-5">
 				<img ng-src="{{ video.image }}">

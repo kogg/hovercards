@@ -7,7 +7,7 @@ module.exports = angular.module('hovercardsDiscussionComponents', [require('angu
                 return null;
             }
             $scope.loading_discussion = (function() {
-                $scope.entry.loading = ($scope.entry.loading || 0) + 1;
+                $scope.data.loading = ($scope.data.loading || 0) + 1;
 
                 var discussion = discussionService.get({ type: request.type, id: request.id });
                 discussion.$promise
@@ -15,11 +15,11 @@ module.exports = angular.module('hovercardsDiscussionComponents', [require('angu
                         discussion.$err = err;
                     })
                     .finally(function() {
-                        $scope.entry.loading--;
+                        $scope.data.loading--;
                         if ($scope.loading_discussion !== discussion) {
                             return;
                         }
-                        $scope.discussion = $scope.loading_discussion;
+                        $scope.data.discussion = $scope.loading_discussion;
                         $scope.loading_discussion = null;
                     });
 
@@ -31,7 +31,7 @@ module.exports = angular.module('hovercardsDiscussionComponents', [require('angu
             if (!requests) {
                 return;
             }
-            $scope.entry.discussion = $scope.entry.discussions[0];
+            $scope.entry.discussion = $scope.entry.discussion || $scope.entry.discussions[0];
         });
     }])
     .factory('discussionService', ['$resource', function($resource) {

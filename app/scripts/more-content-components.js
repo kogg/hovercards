@@ -4,11 +4,11 @@ module.exports = angular.module('hovercardsMoreContentComponents', [require('ang
     .controller('MoreContentController', ['$scope', 'moreContentService', function($scope, moreContentService) {
         $scope.$watch('entry.selectedPerson.selectedAccount', function(request) {
             if (!request) {
-                $scope.moreContent = null;
+                $scope.data.moreContent = null;
                 return null;
             }
-            $scope.moreContent = (function() {
-                $scope.entry.loading = ($scope.entry.loading || 0) + 1;
+            $scope.data.moreContent = (function() {
+                $scope.data.loading = ($scope.data.loading || 0) + 1;
 
                 var moreContent = moreContentService.get({ type: request.type, id: request.id });
                 moreContent.$promise
@@ -16,7 +16,7 @@ module.exports = angular.module('hovercardsMoreContentComponents', [require('ang
                         moreContent.$err = err;
                     })
                     .finally(function() {
-                        $scope.entry.loading--;
+                        $scope.data.loading--;
                     });
 
                 return moreContent;

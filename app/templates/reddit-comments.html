@@ -1,11 +1,11 @@
 <div class="reddit-title">
 	<div class="user-context">
 		<div>
-			<a ng-href="https://www.reddit.com/user/PopeSleepy" class="ng-binding ellipsis" href="https://www.reddit.com/user/PopeSleepy" target="_blank">{{:: discussion.author.id }}</a>
-			<b>&middot; /r/{{:: discussion.subreddit }}</b>
-			<span class="reddit-votes ng-binding">+{{:: discussion.score }} <span class="hidden-date">· {{:: discussion.date | timeSinceAbbr }}</span></span>
+			<a ng-href="https://www.reddit.com/user/PopeSleepy" class="ng-binding ellipsis" href="https://www.reddit.com/user/PopeSleepy" target="_blank">{{:: data.discussion.author.id }}</a>
+			<b>&middot; /r/{{:: data.discussion.subreddit }}</b>
+			<span class="reddit-votes ng-binding">+{{:: data.discussion.score }} <span class="hidden-date">· {{:: data.discussion.date | timeSinceAbbr }}</span></span>
 		</div>
 	</div>
-	<a ng-href="https://www.reddit.com/r/{{:: discussion.subreddit}}/{{:: discussion.id }}">{{:: discussion.name }}</a>
+	<a ng-href="https://www.reddit.com/r/{{:: data.discussion.subreddit}}/{{:: data.discussion.id }}">{{:: data.discussion.name }}</a>
 </div>
-<div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit-comment-child.html'" ng-repeat="comment in discussion.comments"></div>
+<div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit-comment-child.html'" ng-repeat="comment in data.discussion.comments"></div>

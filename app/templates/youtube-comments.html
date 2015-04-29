@@ -1,4 +1,4 @@
-<div ng-repeat="comment in discussion.comments" class="comment row">
+<div ng-repeat="comment in data.discussion.comments" class="comment row">
 	<div class="col-2">
 		<a ng-href="https://www.youtube.com/channel/{{:: comment.channel.id }}">
 			<div class="comment-image" ng-style=":: comment.channel.image && { 'background-image': 'url(' + comment.channel.image + ')'}"></div>
