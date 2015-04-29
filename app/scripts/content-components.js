@@ -4,11 +4,11 @@ module.exports = angular.module('hovercardsContentComponents', [require('angular
     .controller('ContentController', ['$scope', 'contentService', function($scope, contentService) {
         $scope.$watch('entry.content', function(request) {
             if (!request) {
-                $scope.content = null;
+                $scope.data.content = null;
                 return null;
             }
-            $scope.content = (function() {
-                $scope.entry.loading = ($scope.entry.loading || 0) + 1;
+            $scope.data.content = (function() {
+                $scope.data.loading = ($scope.data.loading || 0) + 1;
 
                 var content = contentService.get({ type: request.type, id: request.id });
                 content.$promise
@@ -16,7 +16,7 @@ module.exports = angular.module('hovercardsContentComponents', [require('angular
                         content.$err = err;
                     })
                     .finally(function() {
-                        $scope.entry.loading--;
+                        $scope.data.loading--;
                     });
 
                 return content;

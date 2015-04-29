@@ -3,25 +3,25 @@ var oboe = require('oboe');
 
 module.exports = angular.module('hovercardsPeopleComponents', [require('angular-resource')])
     .controller('PeopleController', ['$scope', 'peopleService', function($scope, peopleService) {
-        $scope.$watch('entry.accounts', function(requests) {
+        $scope.$watchGroup('entry.accounts', function(requests) {
             $scope.entry.selectedPerson = null;
             if (!requests) {
-                $scope.people = null;
+                $scope.data.people = null;
                 return null;
             }
 
-            $scope.entry.loading = ($scope.entry.loading || 0) + 1;
-            $scope.people = (function() {
+            $scope.data.loading = ($scope.data.loading || 0) + 1;
+            $scope.data.people = (function() {
                 var people = peopleService.get(requests);
                 people.$promise
                     .then(null, null, function(person) {
                         $scope.entry.selectedPerson = $scope.entry.selectedPerson || person;
                     })
                     .catch(function(err) {
-                        $scope.people.$err = err;
+                        $scope.data.people.$err = err;
                     })
                     .finally(function() {
-                        $scope.entry.loading--;
+                        $scope.data.loading--;
                     });
 
                 return people;
@@ -29,11 +29,17 @@ module.exports = angular.module('hovercardsPeopleComponents', [require('angular-
         });
     }])
     .factory('peopleService', ['$q', function($q) {
+        var aborts = [];
+
         return { get: function(requests, success, failure) {
             var people = [];
             var deferred = $q.defer();
 
-            var aborts = [];
+            aborts.forEach(function(abort) {
+                abort();
+            });
+            aborts = [];
+
             requests.forEach(function(request) {
                 aborts.push(oboe('https://hovercards.herokuapp.com/v1/' + request.type + '/' + request.id)
                     .node('!.{type id}', function(account) {
@@ -93,9 +99,6 @@ module.exports = angular.module('hovercardsPeopleComponents', [require('angular-
             people.$promise
                 .finally(function() {
                     people.$resolved = true;
-                    aborts.forEach(function(abort) {
-                        abort();
-                    });
                 });
 
             return people;

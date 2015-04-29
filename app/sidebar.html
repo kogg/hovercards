@@ -5,21 +5,19 @@
 	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
 </head>
 <body>
-	<div class="ng-cloak" ng-cloak ng-controller="EntryController">
-		<div class="fade-out-animation" ng-if="entry.loading">
-			<div class="loader" ng-show="entry.loading">
+    <div class="ng-cloak" ng-cloak ng-controller="EntryController" ng-init="data = {}">
+		<div class="fade-out-animation" ng-if="data.loading">
+			<div class="loader" ng-show="data.loading">
 				<div class="colored"></div>
 			</div>
 		</div>
 		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry">
 			<div class="cards ">
 				<div ng-controller="ContentController">
-					<div class="card bounce-in-animation" ng-if="content.$resolved">
-						<div ng-include="'templates/'+ content.type + '.html'" ng-if="!content.$err"></div>
-						<div ng-init="(entry.maybe_accounts = (entry.maybe_accounts || []).concat(content.accounts)) && (entry.at_page_bottom = false)" ng-if="!content.$err"></div>
-						<div ng-init="(entry.accounts = (entry.accounts || []).concat(entry.maybe_accounts)) && (entry.maybe_accounts = false)" ng-if="entry.maybe_accounts && entry.at_page_bottom"></div>
+					<div class="card bounce-in-animation" ng-if="data.content.$resolved">
+						<div ng-include="'templates/'+ data.content.type + '.html'" ng-if="!data.content.$err"></div>
 
-						<div error ng-if="content.$err" ng-switch="content.$err.status">
+						<div error ng-if="data.content.$err" ng-switch="data.content.$err.status">
 							<span ng-switch-default>There was a problem with the content!</span>
 						</div>
 					</div>
@@ -64,12 +62,12 @@
 					</div>
 				</div>
 
-				<div class="card bounce-in-animation" ng-if="people.length">
-					<div ng-repeat="person in people" ng-click="entry.selectedPerson = person" ng-if="!people.$err">
+				<div class="card bounce-in-animation" ng-if="data.people.length">
+					<div ng-repeat="person in data.people" ng-click="entry.selectedPerson = person" ng-if="!data.people.$err">
 						<div ng-include="'templates/'+ person.selectedAccount.type + '.html'"></div>
 					</div>
 
-					<div error ng-if="people.$err" ng-switch="people.$err.status">
+					<div error ng-if="data.people.$err" ng-switch="data.people.$err.status">
 						<span ng-switch-default>There was a problem with the people!</span>
 					</div>
 				</div>
@@ -84,15 +82,15 @@
 				<div ng-show="entry.selectedPerson.menuOffset + 3 < entry.selectedPerson.accounts.length" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) + 3">Right</div>
 			</div>
 
-			<div class="social-profile" ng-style="!entry.at_page_bottom && { overflow: 'hidden' }" ng-if="entry.selectedPerson.selectedAccount">
+			<div class="social-profile" ng-style="!at.page_bottom && { overflow: 'hidden' }" ng-if="entry.selectedPerson.selectedAccount">
 				<div ng-if="entry.selectedPerson.selectedAccount.description">
 					<p class="social-profile-description" ng-bind-html="entry.selectedPerson.selectedAccount.description | linky" readmore="entry.selectedPerson.selectedAccount.description" style="max-height: 100px"></p>
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
-					<div ng-if="moreContent.$resolved">
-						<div ng-include="'templates/' + moreContent.type + '.html'" ng-if="!moreContent.$err"></div>
+					<div ng-if="data.moreContent.$resolved">
+						<div ng-include="'templates/' + data.moreContent.type + '.html'" ng-if="!data.moreContent.$err"></div>
 
-						<div error ng-if="moreContent.$err" ng-switch="moreContent.$err.status">
+						<div error ng-if="data.moreContent.$err" ng-switch="data.moreContent.$err.status">
 							<span ng-switch-default>There was a problem with the more content!</span>
 						</div>
 					</div>
@@ -100,7 +98,7 @@
 			</div>
 		</div>
 
-		<div in-view="entry.at_page_bottom=$inview" style="height: 1px;"></div>
+		<div in-view="at.page_bottom=$inview" style="height: 1px;"></div>
 	</div>
 
 	<link rel="stylesheet" href="styles/subscribe-fix-style.css">
