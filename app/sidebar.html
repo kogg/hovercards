@@ -24,14 +24,14 @@
 				</div>
 
 				<div ng-controller="DiscussionController">
-					<div class="card bounce-in-animation" ng-if=":: discussion.$resolved || undefined">
+					<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || undefined">
 						<div class="comment-top">
 							<div class="row">
 								<div class="col-9">
-									<span>{{ discussion.type | copy }}</span>
+									<span>{{ data.discussion.type | copy }}</span>
 								</div>
 								<div class="col-3">
-									<span>{{ discussion.count | numsmall }}</span>
+									<span>{{ data.discussion.count | numsmall }}</span>
 									<i class="md md-more-vert" ng-click="showMenu = !showMenu"></i>
 								</div>
 							</div>
@@ -54,9 +54,9 @@
 							</div>
 						</div>
 
-						<div ng-include="'templates/'+ discussion.type + '.html'" ng-if="discussion.$resolved && !discussion.$err"></div>
+						<div ng-include="'templates/'+ data.discussion.type + '.html'" ng-if="data.discussion.$resolved && !data.discussion.$err"></div>
 
-						<div error ng-if="discussion.$err" ng-switch="discussion.$err.status">
+						<div error ng-if="data.discussion.$err" ng-switch="data.discussion.$err.status">
 							<span ng-switch-default>There was a problem with the discussion!</span>
 						</div>
 					</div>
