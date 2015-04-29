@@ -1,22 +1,22 @@
 <div class="card-text text-post">
 	<div>
-	<b><i class="md md-access-time"></i>{{ ::content.date | timeSince }} &middot; {{ ::comment.date | timeSinceAbbr  }}</b>
-		<a ng-href="https://www.youtube.com/watch?v={{ ::content.id }}">{{ ::content.name }}</a>
+	<b><i class="md md-access-time"></i>{{ ::data.content.date | timeSince }} &middot; {{ ::data.content.date | timeSinceAbbr  }}</b>
+		<a ng-href="https://www.youtube.com/watch?v={{ ::data.content.id }}">{{ ::data.content.name }}</a>
 	</div>
-	<div ng-if="::content.description" class="card-description">
-		<p ng-bind-html=":: content.description | linky" readmore=":: content.description" style="max-height: 50px"></p>
+	<div ng-if="::data.content.description" class="card-description">
+		<p ng-bind-html=":: data.content.description | linky" readmore=":: data.content.description" style="max-height: 50px"></p>
 	</div>
 </div>
 <div class="card-stats row">
 	<div class="col-6">
 		<b>Points</b>
-		<span>{{ ::content.views | numsmall }}</span>
+		<span>{{ ::data.content.views | numsmall }}</span>
 	</div>
 	<div class="col-6">
 		<b>Votes</b>
-		<span>{{ ::content.likes | numsmall }}</span>
+		<span>{{ ::data.content.likes | numsmall }}</span>
 	</div>
 </div>
-<div class="percent-bar" ng-if="::content.likes + content.dislikes">
-	<div class="percent-bar-good" ng-style="::(content.likes + content.dislikes) && { width: (100 * content.likes / (content.likes + content.dislikes)) + '%' }"></div>
+<div class="percent-bar" ng-if="::data.content.likes + data.content.dislikes">
+	<div class="percent-bar-good" ng-style="::(data.content.likes + data.content.dislikes) && { width: (100 * data.content.likes / (data.content.likes + data.content.dislikes)) + '%' }"></div>
 </div>

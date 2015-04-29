@@ -50,9 +50,5 @@ module.exports = angular.module('hovercardsEntryComponents', [])
                 $scope.entry.accounts = $scope.data.discussion.accounts;
             }
         });
-
-        $scope.$watchCollection('entry', function(entry) {
-            console.log('entry', entry);
-        });
     }])
     .name;
