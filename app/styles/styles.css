@@ -101,9 +101,13 @@ p a, .card-text .card-description p a, .card-description-padding p a, .comment-c
 .comment-content p a:hover{
 	text-decoration: underline;
 }
-p .read-more {
+.read-more {
 	text-decoration: underline;
 	cursor: pointer;
+  line-height: 19px;
+  font-weight: 400;
+  font-size: 15px;
+  color: #727272;
 }
 .card-description-padding {
 	padding: 16px;
@@ -632,7 +636,6 @@ b i {
 .md blockquote {
   border-left: 2px solid rgba(0,0,0,.15);
   padding-left: 8px;
-  border: none;
 }
 .md table {
 	border-collapse:collapse;
@@ -907,7 +910,7 @@ b i {
 	}
 }
 
-.fade-out-animation.ng-leave {
+.fade-out-animation.ng-leave, .fade-out-animation.ng-hide {
 	-webkit-animation-duration: .8s;
 	animation-duration: .8s;
 	-webkit-animation-fill-mode: both;
@@ -931,51 +934,38 @@ b i {
 	-webkit-transition: all .45s ease-in-out;
 	transition: all .45s ease-in-out;
 }
-.fade-animation.ng-hide {
-	opacity: 0;
-}
+
 /*loading animation*/
 .loader, .colored {
-  width: 100%;
   height: 4px;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 10;
-  position: fixed;
+  z-index: 100 !important;
   margin: 0 auto;
 }
 
 .loader {
-  -webkit-animation: colors 3s linear infinite;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  background: #b2ccf5;
+  position: fixed;
 }
 
 .colored {
-  -webkit-animation: colorsmv 3s linear infinite;
+  position: absolute;
+  width: 220px;
+  left: -320px;
+  background: #3685f9;
+  margin: 0;
+  -webkit-animation: colorsmv .76s linear infinite;
 }
 
 @-webkit-keyframes colorsmv {
-  0%    { width: 0;    background: #F44336; }
-  25%   { width: 100%; background: #F44336; }
-  25.1% { width: 0;    background: #3F51B5; }
-  50%   { width: 100%; background: #3F51B5; }
-  50.1% { width: 0;    background: #FFB900; }
-  75%   { width: 100%; background: #FFB900; }
-  75.1% { width: 0;    background: #4CAF50; }
-  100%  { width: 100%; background: #4CAF50; }
+  0%    { -webkit-transform: translateX(0px);}
+  100%  { -webkit-transform: translateX(720px);}
 }
 
-@-webkit-keyframes colors {
-  0%    { background: #4CAF50; }
-  25%   { background: #4CAF50; }
-  25.1% { background: #F44336; }
-  50%   { background: #F44336; }
-  50.1% { background: #3F51B5; }
-  75%   { background: #3F51B5; }
-  75.1% { background: #FFB900; }
-  100%  { background: #FFB900; }
-}
 
 
 
