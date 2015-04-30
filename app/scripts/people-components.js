@@ -1,7 +1,7 @@
 var angular = require('angular');
 var oboe = require('oboe');
 
-module.exports = angular.module('hovercardsPeopleComponents', [require('angular-resource')])
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('angular-resource')])
     .controller('PeopleController', ['$scope', 'peopleService', function($scope, peopleService) {
         $scope.$watch('entry.accounts', function(requests) {
             $scope.entry.selectedPerson = null;
@@ -41,7 +41,7 @@ module.exports = angular.module('hovercardsPeopleComponents', [require('angular-
             aborts = [];
 
             requests.forEach(function(request) {
-                aborts.push(oboe('https://hovercards.herokuapp.com/v1/' + request.type + '/' + request.id)
+                aborts.push(oboe('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/' + request.type + '/' + request.id)
                     .node('!.{type id}', function(account) {
                         // Get IDs from account
                         var connected_accounts_ids = (account.connected || []).map(function(account) {

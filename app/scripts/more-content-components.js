@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = angular.module('hovercardsMoreContentComponents', [require('angular-resource')])
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'MoreContentComponents', [require('angular-resource')])
     .controller('MoreContentController', ['$scope', 'moreContentService', function($scope, moreContentService) {
         $scope.$watch('entry.selectedPerson.selectedAccount', function(request) {
             if (!request) {
@@ -24,7 +24,7 @@ module.exports = angular.module('hovercardsMoreContentComponents', [require('ang
         });
     }])
     .factory('moreContentService', ['$resource', function($resource) {
-        return $resource('https://hovercards.herokuapp.com/v1/:type/:id/content');
+        return $resource('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/:type/:id/content');
     }])
     .name;
 
