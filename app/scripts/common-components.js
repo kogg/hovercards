@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = angular.module('hovercardsCommonComponents', [require('angular-sanitize')])
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize')])
     .directive('readmore', function() {
         require('dotdotdot');
 

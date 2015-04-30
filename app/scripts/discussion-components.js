@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = angular.module('hovercardsDiscussionComponents', [require('angular-resource')])
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('angular-resource')])
     .controller('DiscussionController', ['$scope', 'discussionService', function($scope, discussionService) {
         $scope.$watch('entry.discussion', function(request) {
             if (!request) {
@@ -35,6 +35,6 @@ module.exports = angular.module('hovercardsDiscussionComponents', [require('angu
         });
     }])
     .factory('discussionService', ['$resource', function($resource) {
-        return $resource('https://hovercards.herokuapp.com/v1/:type/:id');
+        return $resource('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/:type/:id');
     }])
     .name;

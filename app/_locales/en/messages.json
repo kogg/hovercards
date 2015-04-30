@@ -1,10 +1,14 @@
 {
     "app_name": {
-        "message": "Hover Cards",
+        "message": "YoCards",
         "description": "The name of the application"
     },
+    "app_short_name": {
+        "message": "yocards",
+        "description": "The short name of the application"
+    },
     "app_description": {
-        "message": "Description of Hover Cards",
+        "message": "Description of YoCards",
         "description": "The description of the application"
     },
     "youtube_channel": {

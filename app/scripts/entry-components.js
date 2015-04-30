@@ -1,6 +1,6 @@
 var common = require('./common');
 
-module.exports = angular.module('hovercardsEntryComponents', [])
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [])
     .controller('EntryController', ['$scope', function($scope) {
         window.addEventListener('message', function(event) {
             var request = event.data;
