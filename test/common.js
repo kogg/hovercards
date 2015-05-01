@@ -20,9 +20,9 @@ describe('common', function() {
 
         describe('youtube video URLs', function() {
             afterEach(function() {
-                expect(result).to.have.deep.property('type',       'content');
-                expect(result).to.have.deep.property('content.type', 'youtube-video');
-                expect(result).to.have.deep.property('content.id',   'VIDEO_ID');
+                expect(result).to.have.deep.property('api',  'youtube');
+                expect(result).to.have.deep.property('type', 'content');
+                expect(result).to.have.deep.property('id',   'VIDEO_ID');
             });
 
             it('should identify www.youtube.com/watch?v=VIDEO_ID', function() {
@@ -48,9 +48,9 @@ describe('common', function() {
 
         describe('youtube channel URLs', function() {
             afterEach(function() {
-                expect(result).to.have.deep.property('type', 'accounts');
-                expect(result.accounts).to.be.an('array');
-                expect(result.accounts).to.be.contain({ type: 'youtube-channel', id: 'CHANNEL_ID' });
+                expect(result).to.have.deep.property('api',  'youtube');
+                expect(result).to.have.deep.property('type', 'account');
+                expect(result).to.have.deep.property('id',   'CHANNEL_ID');
             });
 
             it('should identify www.youtube.com/channel/CHANNEL_ID in 100ms', function() {
@@ -60,9 +60,9 @@ describe('common', function() {
 
         describe('reddit user URLs', function() {
             afterEach(function() {
-                expect(result).to.have.deep.property('type', 'accounts');
-                expect(result.accounts).to.be.an('array');
-                expect(result.accounts).to.be.contain({ type: 'reddit-user', id: 'USER_ID' });
+                expect(result).to.have.deep.property('api',  'reddit');
+                expect(result).to.have.deep.property('type', 'account');
+                expect(result).to.have.deep.property('id',   'USER_ID');
             });
 
             it('should identify www.reddit.com/user/USER_ID in 100ms', function() {
