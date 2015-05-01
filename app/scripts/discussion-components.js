@@ -9,7 +9,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             $scope.loading_discussion = (function() {
                 $scope.data.loading = ($scope.data.loading || 0) + 1;
 
-                var discussion = discussionService.get({ type: request.type, id: request.id });
+                var discussion = discussionService.get(request);
                 discussion.$promise
                     .catch(function(err) {
                         discussion.$err = err;
@@ -35,6 +35,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
         });
     }])
     .factory('discussionService', ['$resource', function($resource) {
-        return $resource('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/:type/:id');
+        return $resource('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/:api/:type');
     }])
     .name;

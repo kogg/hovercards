@@ -1,8 +1,8 @@
 var angular = require('angular');
-var oboe = require('oboe');
+// var oboe = require('oboe');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('angular-resource')])
-    .controller('PeopleController', ['$scope', 'peopleService', function($scope, peopleService) {
+    .controller('PeopleController', ['$scope', '$q', 'accountService', function($scope, $q, accountService) {
         $scope.$watch('entry.accounts', function(requests) {
             $scope.entry.selectedPerson = null;
             if (!requests) {
@@ -12,50 +12,24 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
 
             $scope.data.loading = ($scope.data.loading || 0) + 1;
             $scope.data.people = (function() {
-                var people = peopleService.get(requests);
-                people.$promise
-                    .then(null, null, function(person) {
-                        $scope.entry.selectedPerson = $scope.entry.selectedPerson || person;
-                    })
-                    .catch(function(err) {
-                        $scope.data.people.$err = err;
-                    })
-                    .finally(function() {
-                        $scope.data.loading--;
-                    });
-
-                return people;
-            }());
-        });
-    }])
-    .factory('peopleService', ['$q', function($q) {
-        var aborts = [];
-
-        return { get: function(requests, success, failure) {
-            var people = [];
-            var deferred = $q.defer();
-
-            aborts.forEach(function(abort) {
-                abort();
-            });
-            aborts = [];
-
-            requests.forEach(function(request) {
-                aborts.push(oboe('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/' + request.type + '/' + request.id)
-                    .node('!.{type id}', function(account) {
+                var people = [];
+                var done_account_ids = {};
+                people.$resolved = false;
+                people.$promise = $q.all(requests.map(function get_account(request) {
+                    var account = accountService.get(request);
+                    return account.$promise.then(function(account) {
                         // Get IDs from account
                         var connected_accounts_ids = (account.connected || []).map(function(account) {
-                            return account.type + '/' + account.id;
+                            return [account.api, account.type, account.id].join('/');
                         });
-                        connected_accounts_ids.push(account.type + '/' + account.id);
+                        var account_id = [account.api, account.type, account.id].join('/');
+                        connected_accounts_ids.push(account_id);
+                        done_account_ids[account_id] = true;
 
                         // Find all people who have those IDs
                         var people_to_merge = [];
                         people.forEach(function(person) {
-                            var isConnected = connected_accounts_ids.some(function(account_id) {
-                                return person.connected_accounts_ids[account_id];
-                            });
-                            if (!isConnected) {
+                            if (!connected_accounts_ids.some(function(account_id) { return person.connected_accounts_ids[account_id]; })) {
                                 return;
                             }
                             people_to_merge.push(person);
@@ -66,9 +40,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         for (var i = 1; i < people_to_merge.length; i++) {
                             var other_person = people_to_merge[i];
                             person.accounts = person.accounts.concat(other_person.accounts);
-                            for (var account_id in other_person.connected_accounts_ids) {
-                                person.connected_accounts_ids[account_id] = true;
-                            }
+                            angular.extend(person.connected_accounts_ids, other_person.connected_accounts_ids);
                             people.splice(people.indexOf(other_person), 1);
                         }
                         if (!person) {
@@ -82,26 +54,24 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             person.connected_accounts_ids[account_id] = true;
                         });
                         person.selectedAccount = person.selectedAccount || account;
-                        deferred.notify(person);
-                    })
-                    .done(function() {
-                        deferred.resolve(people);
-                    })
-                    .fail(function() {
-                        deferred.reject();
-                    })
-                    .abort);
-            });
+                        if ($scope.data.people === people) {
+                            $scope.entry.selectedPerson = $scope.entry.selectedPerson || person;
+                        }
 
-            people.$resolved = false;
-            people.$promise = deferred.promise;
-            people.$promise.then(success, failure);
-            people.$promise
+                        return $q.all((account.connected || []).filter(function(account) {
+                            return done_account_ids[[account.api, account.type, account.id].join('/')];
+                        }).map(get_account));
+                    });
+                }))
                 .finally(function() {
                     people.$resolved = true;
+                    $scope.data.loading--;
                 });
-
-            return people;
-        } };
+                return people;
+            }());
+        });
+    }])
+    .factory('accountService', ['$resource', function($resource) {
+        return $resource('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/:api/:type');
     }])
     .name;

@@ -10,7 +10,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'More
             $scope.data.moreContent = (function() {
                 $scope.data.loading = ($scope.data.loading || 0) + 1;
 
-                var moreContent = moreContentService.get({ type: request.type, id: request.id });
+                var moreContent = moreContentService.get({ api: request.api, type: 'more_content', id: request.id });
                 moreContent.$promise
                     .catch(function(err) {
                         moreContent.$err = err;
@@ -24,7 +24,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'More
         });
     }])
     .factory('moreContentService', ['$resource', function($resource) {
-        return $resource('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/:type/:id/content');
+        return $resource('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/:api/:type');
     }])
     .name;
 
