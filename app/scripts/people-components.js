@@ -1,8 +1,7 @@
 var angular = require('angular');
-// var oboe = require('oboe');
 
-module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('angular-resource')])
-    .controller('PeopleController', ['$scope', '$q', 'accountService', function($scope, $q, accountService) {
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
+    .controller('PeopleController', ['$scope', '$q', 'serverService', function($scope, $q, serverService) {
         $scope.$watch('entry.accounts', function(requests) {
             $scope.entry.selectedPerson = null;
             if (!requests) {
@@ -16,7 +15,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 var done_account_ids = {};
                 people.$resolved = false;
                 people.$promise = $q.all(requests.map(function get_account(request) {
-                    var account = accountService.get(request);
+                    var account = serverService.get(request);
                     return account.$promise.then(function(account) {
                         // Get IDs from account
                         var connected_accounts_ids = (account.connected || []).map(function(account) {
@@ -63,6 +62,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         }).map(get_account));
                     });
                 }))
+                .catch(function(err) {
+                    people.$err = err;
+                })
                 .finally(function() {
                     people.$resolved = true;
                     $scope.data.loading--;
@@ -70,8 +72,5 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 return people;
             }());
         });
-    }])
-    .factory('accountService', ['$resource', function($resource) {
-        return $resource('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/:api/:type');
     }])
     .name;

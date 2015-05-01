@@ -1,7 +1,7 @@
 var angular = require('angular');
 
-module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('angular-resource')])
-    .controller('DiscussionController', ['$scope', 'discussionService', function($scope, discussionService) {
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('./service-components')])
+    .controller('DiscussionController', ['$scope', 'serverService', function($scope, serverService) {
         $scope.$watch('entry.discussion', function(request) {
             if (!request) {
                 return null;
@@ -9,7 +9,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             $scope.loading_discussion = (function() {
                 $scope.data.loading = ($scope.data.loading || 0) + 1;
 
-                var discussion = discussionService.get(request);
+                var discussion = serverService.get(request);
                 discussion.$promise
                     .catch(function(err) {
                         discussion.$err = err;
@@ -33,8 +33,5 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             }
             $scope.entry.discussion = $scope.entry.discussion || $scope.entry.discussions[0];
         });
-    }])
-    .factory('discussionService', ['$resource', function($resource) {
-        return $resource('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/:api/:type');
     }])
     .name;
