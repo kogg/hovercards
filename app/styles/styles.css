@@ -885,6 +885,35 @@ b i {
 .content-cards-blocks-holder-description span {
 	display: none !important;
 }
+/*reddit content list*/
+.content-list .reddit-title {
+	padding: 0;
+	border: none;
+}
+.content-list .reddit-votes {
+	top: -7px;
+}
+.reddit-profile-posts {
+	padding: 16px 20px;
+	border-bottom: 1px solid rgba(0,0,0,0.15)
+}
+.reddit-profile-posts:first-of-type {
+	padding-top: 8px
+}
+.reddit-profile-posts .child-comment {
+	margin-top: 8px;
+}
+.thumbnail {
+	width: 42px;
+	height: 42px;
+	margin-right: 16px;
+	float: left;
+	position: relative;
+	top: 2px;
+	background-position: center;
+	background-size: cover;
+	background: pink
+}
 /* ANIMATIONS */
 
 .bounce-in-animation.ng-enter {
