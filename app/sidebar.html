@@ -15,7 +15,7 @@
 			<div class="cards ">
 				<div ng-controller="ContentController">
 					<div class="card bounce-in-animation" ng-if="data.content.$resolved">
-						<div ng-include="'templates/'+ data.content.type + '.html'" ng-if="!data.content.$err"></div>
+						<div ng-include="'templates/' + data.content.api + '_content.html'" ng-if="!data.content.$err"></div>
 
 						<div error ng-if="data.content.$err" ng-switch="data.content.$err.status">
 							<span ng-switch-default>There was a problem with the content!</span>
@@ -53,7 +53,7 @@
 								</ul>
 							</div>
 						</div>
-						<div ng-include="'templates/'+ data.discussion.type + '.html'" ng-if="data.discussion.$resolved && !data.discussion.$err"></div>
+						<div ng-include="'templates/' + data.discussion.api + '_discussion.html'" ng-if="data.discussion.$resolved && !data.discussion.$err"></div>
 
 						<div error ng-if="data.discussion.$err" ng-switch="data.discussion.$err.status">
 							<span ng-switch-default>There was a problem with the discussion!</span>
@@ -63,7 +63,7 @@
 
 				<div class="card bounce-in-animation" ng-if="data.people.length">
 					<div ng-repeat="person in data.people" ng-click="entry.selectedPerson = person" ng-if="!data.people.$err">
-						<div ng-include="'templates/'+ person.selectedAccount.type + '.html'"></div>
+						<div ng-include="'templates/' + person.selectedAccount.api + '_account.html'"></div>
 					</div>
 
 					<div error ng-if="data.people.$err" ng-switch="data.people.$err.status">
@@ -87,7 +87,7 @@
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
 					<div ng-if="data.moreContent.$resolved">
-						<div ng-include="'templates/' + data.moreContent.type + '.html'" ng-if="!data.moreContent.$err"></div>
+						<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'" ng-if="!data.moreContent.$err"></div>
 
 						<div error ng-if="data.moreContent.$err" ng-switch="data.moreContent.$err.status">
 							<span ng-switch-default>There was a problem with the more content!</span>

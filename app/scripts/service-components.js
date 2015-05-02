@@ -2,7 +2,8 @@ var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ServiceComponents', [require('angular-resource')])
     .factory('serverService', ['$resource', '$q', function($resource, $q) {
-        var resource = $resource('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/:api/:type');
+        // var resource = $resource('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/:api/:type');
+        var resource = $resource('http://localhost:5000/v1/:api/:type');
         var client_calls = { };
 
         return { get: function(params, success, failure) {
