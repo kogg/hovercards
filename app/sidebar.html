@@ -82,6 +82,7 @@
 			</div>
 
 			<div class="social-profile" ng-style="!at.page_bottom && { overflow: 'hidden' }" ng-if="entry.selectedPerson.selectedAccount || true">
+				<!--Replied to text post || posted text post-->
 				<div ng-if="entry.selectedPerson.selectedAccount.description">
 					<p class="social-profile-description" ng-bind-html="entry.selectedPerson.selectedAccount.description | linky" readmore="entry.selectedPerson.selectedAccount.description" style="max-height: 100px"></p>
 				</div>
