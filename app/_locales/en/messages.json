@@ -11,13 +11,16 @@
         "message": "Description of YoCards",
         "description": "The description of the application"
     },
-    "youtube_channel": {
+    "youtube": {
         "message": "Youtube"
     },
-    "youtube_comments": {
+    "youtube_discussion": {
         "message": "Youtube Comments"
     },
-    "reddit_comments": {
+    "reddit": {
+        "message": "Reddit"
+    },
+    "reddit_discussion": {
         "message": "Reddit Discussion"
     }
 }
