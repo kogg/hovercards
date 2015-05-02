@@ -1,10 +1,10 @@
 <div class="profile-top row">
 	<div class="profile-left col-4">
-		<div class="profile-image reddit-profile"></div>
+		<div class="profile-image" style="background-image:url({{ ::person.selectedAccount.image }})"></div>
 	</div>
 	<div class="profile-right col-8">
-		<b class="reddit-color"><i class="md md-mode-edit"></i> Posted By:</b>
-		<a ng-href="https://www.youtube.com/channel/{{ ::person.selectedAccount.id }}" class="ellipsis" ng-click="$event.stopPropagation()">{{ ::person.selectedAccount.name }}</a>
+		<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
+		<a ng-href="https://www.youtube.com/channel/{{ ::person.selectedAccount.id }}" class="ellipsis">{{ ::person.selectedAccount.name }}</a>
 		<div class="profile-cta">
 			<div youtube-channel-subscribe youtube-channel-id="::person.selectedAccount.id" subscribed-offset="offset"></div>
 		</div>
@@ -13,15 +13,15 @@
 
 <div class="card-stats row">
 	<div class="col-4">
-		<b>Link Karma</b>
+		<b>Subscribers</b>
 		<span>{{ person.selectedAccount.subscribers + offset | numsmall }}</span>
 	</div>
 	<div class="col-4">
-		<b>Cmnt Karma</b>
+		<b>Uploads</b>
 		<span>{{ ::person.selectedAccount.videos | numsmall }}</span>
 	</div>
 	<div class="col-4">
-		<b>Account Age</b>
+		<b>Video Views</b>
 		<span>{{ ::person.selectedAccount.views | numsmall }}</span>
 	</div>
 </div>
