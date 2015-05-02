@@ -1,0 +1,24 @@
+<div class="profile-top row">
+	<div class="profile-left col-4">
+		<div class="profile-image reddit-profile"></div>
+	</div>
+	<div class="profile-right col-8">
+		<b class="reddit-color"><i class="md md-mode-edit"></i> Posted By:</b>
+		<a ng-href="https://www.reddit.com/user/{{ ::person.selectedAccount.id }}" class="ellipsis">{{ ::person.selectedAccount.id }}</a>
+	</div>
+</div>
+
+<div class="card-stats row">
+	<div class="col-4">
+		<b>Link Karma</b>
+		<span>{{ person.selectedAccount.link_karma | numsmall }}</span>
+	</div>
+	<div class="col-4">
+		<b>Cmnt Karma</b>
+		<span>{{ ::person.selectedAccount.comment_karma | numsmall }}</span>
+	</div>
+	<div class="col-4">
+		<b>Account Age</b>
+		<span>{{ ::person.selectedAccount.date | timeSinceAbbr }}</span>
+	</div>
+</div>

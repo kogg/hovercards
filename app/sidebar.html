@@ -12,10 +12,10 @@
 			</div>
 		</div>
 		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry">
-			<div class="cards ">
+			<div class="cards">
 				<div ng-controller="ContentController">
 					<div class="card bounce-in-animation" ng-if="data.content.$resolved">
-						<div ng-include="'templates/'+ data.content.type + '.html'" ng-if="!data.content.$err"></div>
+						<div ng-include="'templates/' + data.content.api + '_content.html'" ng-if="!data.content.$err"></div>
 
 						<div error ng-if="data.content.$err" ng-switch="data.content.$err.status">
 							<span ng-switch-default>There was a problem with the content!</span>
@@ -28,7 +28,7 @@
 						<div class="comment-top">
 							<div class="row">
 								<div class="col-9">
-									<span>{{ data.discussion.type | copy }}</span>
+									<span>{{ data.discussion.api + '_discussion' | copy }}</span>
 								</div>
 								<div class="col-3">
 									<span>{{ data.discussion.count | numsmall }}</span>
@@ -48,12 +48,12 @@
 								</div>
 								<ul id="sortable" sortable>
 									<li class="ui-state-default" ng-class="{ selected: entry.discussion === discussion_choice }" ng-click="entry.discussion = discussion_choice" ng-repeat="discussion_choice in entry.discussions">
-										<span>{{ discussion_choice.type | copy }}</span>
+										<span>{{ discussion_choice.api + '_discussion' | copy }}</span>
 									</li>
 								</ul>
 							</div>
 						</div>
-						<div ng-include="'templates/'+ data.discussion.type + '.html'" ng-if="data.discussion.$resolved && !data.discussion.$err"></div>
+						<div ng-include="'templates/' + data.discussion.api + '_discussion.html'" ng-if="data.discussion.$resolved && !data.discussion.$err"></div>
 
 						<div error ng-if="data.discussion.$err" ng-switch="data.discussion.$err.status">
 							<span ng-switch-default>There was a problem with the discussion!</span>
@@ -63,7 +63,7 @@
 
 				<div class="card bounce-in-animation" ng-if="data.people.length">
 					<div ng-repeat="person in data.people" ng-click="entry.selectedPerson = person" ng-if="!data.people.$err">
-						<div ng-include="'templates/'+ person.selectedAccount.type + '.html'"></div>
+						<div ng-include="'templates/' + person.selectedAccount.api + '_account.html'"></div>
 					</div>
 
 					<div error ng-if="data.people.$err" ng-switch="data.people.$err.status">
@@ -74,7 +74,7 @@
 			<div class="network-menu">
 				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length" ng-if="entry.selectedPerson.accounts.length">
 					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
-						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.type | copy }}</span>
+						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.api | copy }}</span>
 					</div>
 				</div>
 				<div ng-show="entry.selectedPerson.menuOffset" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) - 3">Left</div>
@@ -87,7 +87,7 @@
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
 					<div ng-if="data.moreContent.$resolved">
-						<div ng-include="'templates/' + data.moreContent.type + '.html'" ng-if="!data.moreContent.$err"></div>
+						<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'" ng-if="!data.moreContent.$err"></div>
 
 						<div error ng-if="data.moreContent.$err" ng-switch="data.moreContent.$err.status">
 							<span ng-switch-default>There was a problem with the more content!</span>

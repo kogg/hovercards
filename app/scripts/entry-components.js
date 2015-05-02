@@ -15,7 +15,17 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                         var identity = common.identify_url(request.url);
                         $scope.$apply(function() {
                             $scope.entry = {};
-                            $scope.entry[identity.type] = identity[identity.type];
+                            switch (identity.type) {
+                                case 'content':
+                                    $scope.entry.content = identity;
+                                    break;
+                                case 'discussion':
+                                    $scope.entry.discussions = [identity];
+                                    break;
+                                case 'account':
+                                    $scope.entry.accounts = [identity];
+                                    break;
+                            }
                         });
                     }, 100);
                     break;

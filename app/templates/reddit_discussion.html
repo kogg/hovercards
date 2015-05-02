@@ -8,4 +8,4 @@
 	</div>
 	<a ng-href="https://www.reddit.com/r/{{:: data.discussion.subreddit}}/{{:: data.discussion.id }}">{{:: data.discussion.name }}</a>
 </div>
-<div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit-comment-child.html'" ng-repeat="comment in data.discussion.comments"></div>
+<div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit_discussion_comment.html'" ng-repeat="comment in data.discussion.comments"></div>
