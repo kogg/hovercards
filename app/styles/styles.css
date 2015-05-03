@@ -312,6 +312,7 @@ b i {
 .user-context div {
 	max-width: 200px;
 	display: inline-block;
+	color: #727272
 }
 .user-context div a {
 	font-size: 14px;
@@ -328,8 +329,8 @@ b i {
 	position: relative;
 	margin-bottom: 4px;
 }
-.comment-close p,.comment-close .child{
-	display: none;
+.comment-close p,.comment-close .child, .comment-close div + div .md *, .comment-close div + div .md, .comment-close .read-more{
+	display: none !important;
 }
 .down-arrow {
   -webkit-transform: rotate(90deg);
@@ -345,6 +346,7 @@ b i {
 }
 .user-context {
 	position: relative;
+	margin-bottom: 5px;
 }
 .user-context a:last-of-type {
 	padding-right: 36px;
@@ -620,6 +622,13 @@ b i {
   margin-left: 8px;
 }
 /*reddit specific formatting*/
+.comment div + div div.md {
+	vertical-align: inherit;
+	display: inline
+}
+.comment div + div div.md * {
+	display: inline
+}
 .md ol, .md ul {
   padding-left: 20px;
 }
@@ -653,8 +662,8 @@ b i {
 	clear: both;
 	padding:8px 0 0 8px;
 }
-.child-close p {
-	display: none;
+.child-close div div.md {
+	display: none !important;
 }
 .child-close .down-arrow {
   -webkit-transform: rotate(0deg);
