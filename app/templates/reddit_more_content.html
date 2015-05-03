@@ -6,6 +6,8 @@
                 <span class="reddit-votes">+{{:: thing.score }} <span class="hidden-date">· {{:: thing.date | timeSince }}</span></span>
             </div>
             <a ng-href="https://www.reddit.com/r/{{:: thing.subreddit }}/{{:: thing.post.id }}">{{:: thing.post.name }}</a>
+        </div>
+        <div>
             <div class="child-comment"><p ng-bind-html=":: thing.description" readmore=":: thing.description" style="max-height: 170px"></p></div>
         </div>
     </div>
