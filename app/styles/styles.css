@@ -310,17 +310,18 @@ b i {
 	color: #727272
 }
 .user-context div {
-	max-width: 135px;
-	s
+	max-width: 200px;
+	display: inline-block;
 }
 .user-context div a {
 	font-size: 14px;
+	display: inline;
 	padding-right: 2px !important;
 }
 .user-context div b {
   margin-bottom: 0;
-  display: inline-block;
-  top: -3px;
+  display: inline;
+  top: -1px;
   position: relative;
 }
 .user-context div {
@@ -674,7 +675,7 @@ b i {
   font-size: 12px;
   position: absolute;
   right: -7px;
-  top: -5px;
+  top: -6px;
   color: #727272;
   padding: 7px;
   cursor: default;
