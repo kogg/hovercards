@@ -309,10 +309,12 @@ b i {
 .comment-close .user-context a {
 	color: #727272
 }
+.user-context div {
+	max-width: 135px;
+	s
+}
 .user-context div a {
 	font-size: 14px;
-	max-width: 135px;
-	display: inline-block;
 	padding-right: 2px !important;
 }
 .user-context div b {
