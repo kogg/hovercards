@@ -1,38 +1,22 @@
-<!--Replied to text post || posted text post-->
-<div class="content-list reddit-profile-posts">
-	<div class="reddit-title">
-		<div class="user-context">
-			<b>Replied to post in /r/videos</b>
-			<span class="reddit-votes">+420 <span class="hidden-date">· 3d</span></span>
-		</div>
-		<a href="">Take note web designers, this is what every user covering a website.</a>
-		<div class="child-comment">
-			<p>dude ur not even a real web designer, do u even have a dribbble, why r u on this subreddit lol haha dude</p>
-		</div>
-	</div>
-</div>
-<!--Posted link -->
-<div class="content-list reddit-profile-posts">
-	<div class="reddit-title">
-		<div class="user-context">
-			<b>Posted in /r/videos</b>
-			<span class="reddit-votes">+420 <span class="hidden-date">· 3d</span></span>
-		</div>
-		<div class="thumbnail" ng-style=":: comment.channel.image && { 'background-image': 'url(' + comment.channel.image + ')'}"></div>
-		<a href="">Take note web designers, this is what every user covering a website.</a>
-	</div>
-</div>
-<!--Replied to link post-->
-<div class="content-list reddit-profile-posts">
-	<div class="reddit-title">
-		<div class="user-context">
-			<b>Replied to post in /r/videos</b>
-			<span class="reddit-votes">+420 <span class="hidden-date">· 3d</span></span>
-		</div>
-		<div class="thumbnail" ng-style=":: comment.channel.image && { 'background-image': 'url(' + comment.channel.image + ')'}"></div>
-		<a href="">Take note web designers, this is what every user covering a website.</a>
-		<div class="child-comment">
-			<p>dude ur not even a real web designer, do u even have a dribbble, why r u on this subreddit lol haha dude</p>
-		</div>
-	</div>
+<div ng-repeat="thing in data.moreContent.content">
+    <div class="content-list reddit-profile-posts" ng-if="thing.type === 'comment'">
+        <div class="reddit-title">
+            <div class="user-context">
+                <b>Replied to post in /r/{{:: thing.subreddit }}</b>
+                <span class="reddit-votes">+{{:: thing.score }} <span class="hidden-date">· {{:: thing.date | timeSince }}</span></span>
+            </div>
+            <a ng-href="https://www.reddit.com/r/{{:: thing.subreddit }}/{{:: thing.post.id }}">{{:: thing.post.name }}</a>
+            <div class="child-comment"><p ng-bind-html=":: thing.description" readmore=":: comment.description" style="max-height: 170px"></p></div>
+        </div>
+    </div>
+    <div class="content-list reddit-profile-posts" ng-if="thing.type === 'post'">
+        <div class="reddit-title">
+            <div class="user-context">
+                <b>Posted in /r/{{:: thing.subreddit }}</b>
+                <span class="reddit-votes">+{{:: thing.score }} <span class="hidden-date">· {{:: thing.date | timeSince }}</span></span>
+            </div>
+            <div class="thumbnail" ng-if="thing.image" ng-style=":: { 'background-image': 'url(' + thing.image + ')'}"></div>
+            <a ng-href="https://www.reddit.com/r/{{:: thing.subreddit }}/{{:: thing.id }}">{{:: thing.name }}</a>
+        </div>
+    </div>
 </div>
