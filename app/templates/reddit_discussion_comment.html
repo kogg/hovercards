@@ -6,6 +6,6 @@
 <div ng-bind-html=":: comment.description" readmore=":: comment.description" style="max-height: 170px">{{:: comment.description }}</div>
 <div class="child" ng-repeat="comment in comment.comments">
 	<div class="child-comment" ng-class="{ 'child-close': comment.close }">
-		<div ng-include="'templates/reddit-comment-child.html'"></div>
+		<div ng-include="'templates/reddit_discussion_comment.html'"></div>
 	</div>
 </div>
