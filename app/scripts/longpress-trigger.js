@@ -58,13 +58,4 @@ module.exports = function(body, selector, get_url, sendMessage) {
             e.stopImmediatePropagation();
         });
     });
-
-    body.on('mouseenter', selector, function() {
-        var obj = $(this);
-        var url = get_url(obj);
-        if (!url) {
-            return;
-        }
-        sendMessage({ msg: 'hovered' });
-    });
 };

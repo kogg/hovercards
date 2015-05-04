@@ -155,12 +155,4 @@ describe('longpress-trigger', function() {
             obj.trigger($.Event('click', { which: 2 }));
         });
     });
-
-    describe('on mouseenter', function() {
-        it('should send hovered', function() {
-            obj.mouseenter();
-
-            expect(sendMessage).to.have.been.calledWith({ msg: 'hovered' });
-        });
-    });
 });
