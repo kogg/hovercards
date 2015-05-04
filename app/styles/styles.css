@@ -179,7 +179,7 @@ b i {
 	color: #F44336
 }
 .reddit-color {
-	color: #cee3f8;
+	color: #ff4601;
 }
 /*Profile Cards*/
 .profile-top {
@@ -567,34 +567,9 @@ b i {
 
 .ui-state-highlight {
 	height: 50px;
-	-webkit-animation: colorflux 2.5s infinite;
-	animation: colorflux 2.5s infinite;
+	border:2px dashed rgba(0,0,0,.15);
+	background: #e5e5e5 !important;
 } 
-
-@-webkit-keyframes colorflux { 
-    0% { 
-      background: rgba(0,0,0,0.1);
-    } 
-    50% { 
-      background: rgba(0,0,0,0)
-    }
-    100% {
-    	background: rgba(0,0,0,0.1)
-    } 
-} 
-
-@keyframes colorflux { 
-		0% { 
-      background: rgba(0,0,0,0.1);
-    } 
-    50% { 
-      background: rgba(0,0,0,0)
-    }
-    100% {
-    	background: rgba(0,0,0,0.1)
-    } 
- 
-}
 
 /*Reddit titles*/
 .reddit-title {
@@ -602,6 +577,7 @@ b i {
 	border:1px solid rgba(0,0,0,.15);
 	border-top: none;
 	background: white;
+	overflow: hidden;
 }
 .reddit-title a {
   text-decoration: none;
@@ -615,7 +591,7 @@ b i {
 .reddit-title b {
   margin-top: 0;
   display: inline-block;
-  margin-bottom: 5px;
+  margin-bottom: 0px;
   color: #727272;
 }
 .reddit-title b:nth-of-type(2) {
@@ -626,7 +602,14 @@ b i {
 	vertical-align: inherit;
 	display: inline
 }
-.comment div + div div.md * {
+.child-comment .md a {
+	text-decoration: none
+}
+.child-comment .md a:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+.comment div + div div.md p {
 	display: inline
 }
 .md ol, .md ul {
@@ -798,7 +781,35 @@ b i {
 /*content list*/
 .content-list {
 	padding: 0px 20px;
-}
+  -webkit-animation-duration: .8s;
+  animation-duration: .8s;
+  -webkit-animation-fill-mode: both; 
+  animation-fill-mode: both; 
+	-webkit-animation-name: fadeIn; 
+	animation-name: fadeIn; 
+} 
+
+@-webkit-keyframes fadeIn { 
+    0% {
+    	opacity: 0;
+    	-webkit-transform: translatey(100px);
+    }
+    100% {
+    	opacity: 1;
+    	-webkit-transform: translatey(0px);
+    }
+} 
+@keyframes fadeIn { 
+    0% {
+    	opacity: 0;
+    	transform: translatey(100px);
+    }
+    100% {
+    	opacity: 1;
+    	transform: translatey(0px);
+    }
+} 
+
 .content-list-link {
 	margin-bottom: 8px;
 	display: block;
@@ -909,22 +920,19 @@ b i {
 	padding: 16px 20px;
 	border-bottom: 1px solid rgba(0,0,0,0.15)
 }
-.reddit-profile-posts:first-of-type {
-	padding-top: 8px
-}
 .reddit-profile-posts .child-comment {
 	margin-top: 8px;
 }
 .thumbnail {
-	width: 42px;
-	height: 42px;
+	background-color: #cee3f8;
+	width: 50px;
+	height: 50px;
 	margin-right: 16px;
 	float: left;
 	position: relative;
 	top: 2px;
 	background-position: center;
 	background-size: cover;
-	background: pink
 }
 /* ANIMATIONS */
 
