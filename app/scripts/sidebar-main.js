@@ -6,6 +6,5 @@ angular.bootstrap(document, [require('./angular-app').name]);
 window.top.postMessage({ msg: 'ready' }, '*');
 
 $('body').on('mousedown', 'a[href]', function() {
-    console.log('happens');
     $(this).attr('target', '_blank');
 });
