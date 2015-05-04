@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ServiceComponents', [])
-    .factory('serverService', ['$q', function($q) {
+    .factory('apiService', ['$q', function($q) {
         return { get: function(params, success, failure) {
             var object = {};
             var deferred = $q.defer();
