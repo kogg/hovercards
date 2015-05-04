@@ -1,6 +1,8 @@
 {
-  "name": "HoverCards",
+  "name": "YoCardsExt",
+  "description": "",
   "version": "0.0.2",
+  "repository": "cameronrohani/YoCardsExt",
   "reporter": "List",
   "scripts": {
     "postinstall": "bower install",
