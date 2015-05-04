@@ -26,6 +26,11 @@ exports.identify_url = function(url) {
         case 'reddit.com':
             if (uri.directory() === '/user') {
                 return { api: 'reddit', type: 'account', id: uri.filename() };
+            } else {
+                var match = uri.directory().match(/^\/r\/[^/]+\/comments(\/([^/]+))?/);
+                if (match) {
+                    return { api: 'reddit', type: 'discussion', id: match[2] || uri.filename() };
+                }
             }
             break;
     }

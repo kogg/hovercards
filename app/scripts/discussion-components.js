@@ -31,7 +31,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             if (!requests) {
                 return;
             }
-            $scope.entry.discussion = $scope.entry.discussion || $scope.entry.discussions[0];
+            $scope.entry.discussion = $scope.entry.discussion || requests[0];
         });
     }])
     .name;

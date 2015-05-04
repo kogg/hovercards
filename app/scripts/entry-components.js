@@ -15,6 +15,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                         var identity = common.identify_url(request.url);
                         $scope.$apply(function() {
                             $scope.entry = {};
+                            if (!identity) {
+                                return;
+                            }
                             switch (identity.type) {
                                 case 'content':
                                     $scope.entry.content = identity;
