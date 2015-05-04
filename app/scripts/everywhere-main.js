@@ -11,11 +11,11 @@ var html = $('html');
 
 longpress(html, 'a[href]:not([data-href])', function(link) {
     return common.nullify_bad_url(common.relative_to_absolute(link.attr('href')));
-}, sendMessage);
+});
 
 longpress(html, 'a[data-href]', function(link) {
     return common.nullify_bad_url(common.relative_to_absolute(link.data('href')));
-}, sendMessage);
+});
 
 html.on('longpress', function(e, url) {
     window.top.postMessage({ msg: 'activate', url: url }, '*');
