@@ -2,7 +2,7 @@ var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('./service-components')])
     .controller('DiscussionController', ['$scope', 'serverService', function($scope, serverService) {
-        $scope.$watch('entry.discussion', function(request) {
+        $scope.$watch('entry.discussion || entry.discussions[0]', function(request) {
             if (!request) {
                 return null;
             }
@@ -25,13 +25,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
 
                 return discussion;
             }());
-        });
-
-        $scope.$watch('entry.discussions', function(requests) {
-            if (!requests) {
-                return;
-            }
-            $scope.entry.discussion = $scope.entry.discussion || requests[0];
         });
     }])
     .name;

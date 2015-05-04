@@ -1,9 +1,10 @@
 var URI = require('URIjs/src/URI');
 
 exports.identify_url = function(url) {
+    url = (url || '').replace(/\/$/, '');
     var uri = URI(url);
 
-    switch (uri.domain()) {
+    switch (uri.domain().replace(/^www\./, '')) {
         case 'youtube.com':
             switch (uri.directory()) {
                 case '/':

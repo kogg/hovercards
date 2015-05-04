@@ -47,7 +47,7 @@
 									</div>
 								</div>
 								<ul id="sortable" sortable>
-									<li class="ui-state-default" ng-class="{ selected: entry.discussion === discussion_choice }" ng-click="entry.discussion = discussion_choice" ng-repeat="discussion_choice in entry.discussions">
+									<li class="ui-state-default" ng-class="{ selected: (entry.discussion || entry.discussions[0]) === discussion_choice }" ng-click="entry.discussion = discussion_choice" ng-repeat="discussion_choice in entry.discussions">
 										<span>{{ discussion_choice.api + '_discussion' | copy }}</span>
 									</li>
 								</ul>
@@ -81,8 +81,7 @@
 				<div ng-show="entry.selectedPerson.menuOffset + 3 < entry.selectedPerson.accounts.length" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) + 3">Right</div>
 			</div>
 
-			<div class="social-profile" ng-style="!at.page_bottom && { overflow: 'hidden' }" ng-if="entry.selectedPerson.selectedAccount || true">
-				<!--Replied to text post || posted text post-->
+			<div class="social-profile" ng-style="!at.page_bottom && { overflow: 'hidden' }" ng-if="entry.selectedPerson.selectedAccount">
 				<div ng-if="entry.selectedPerson.selectedAccount.description">
 					<p class="social-profile-description" ng-bind-html="entry.selectedPerson.selectedAccount.description | linky" readmore="entry.selectedPerson.selectedAccount.description" style="max-height: 100px"></p>
 				</div>

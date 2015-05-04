@@ -2,7 +2,7 @@ var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
     .controller('PeopleController', ['$scope', '$q', 'serverService', function($scope, $q, serverService) {
-        $scope.$watch('entry.accounts', function(requests) {
+        $scope.$watchCollection('entry.accounts', function(requests) {
             $scope.entry.selectedPerson = null;
             if (!requests) {
                 $scope.data.people = null;
