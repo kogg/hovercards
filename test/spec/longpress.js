@@ -1,15 +1,15 @@
 var $ = require('jquery');
 
-describe('longpress-trigger', function() {
+describe('longpress', function() {
     var sandbox = sinon.sandbox.create();
     var body;
     var get_url_with_args;
-    var longpress_trigger;
+    var longpress;
     var obj;
     var sendMessage;
 
     beforeEach(function() {
-        longpress_trigger = require('./scripts/longpress-trigger');
+        longpress = require('./scripts/longpress');
         sandbox.useFakeTimers();
     });
 
@@ -26,7 +26,7 @@ describe('longpress-trigger', function() {
             return obj.is(_obj);
         }, 'is obj'));
         get_url_with_args.returns(obj.attr('href'));
-        longpress_trigger(body, '#obj', get_url, sendMessage = sandbox.spy());
+        longpress(body, '#obj', get_url, sendMessage = sandbox.spy());
     });
 
     describe('on mousedown', function() {
@@ -110,13 +110,6 @@ describe('longpress-trigger', function() {
     });
 
     describe('on longpress', function() {
-        it('should send activate', function() {
-            obj.trigger('longpress', ['URL']);
-            sandbox.stub(require('./scripts/common'), 'is_active').returns(true);
-
-            expect(sendMessage).to.have.been.calledWith({ msg: 'activate', url: 'URL' });
-        });
-
         it('should have pointer-events:none && cursor:default', function() {
             obj.trigger('longpress', ['URL']);
             sandbox.stub(require('./scripts/common'), 'is_active').returns(true);
@@ -153,14 +146,6 @@ describe('longpress-trigger', function() {
                 done();
             });
             obj.trigger($.Event('click', { which: 2 }));
-        });
-    });
-
-    describe('on mouseenter', function() {
-        it('should send hovered', function() {
-            obj.mouseenter();
-
-            expect(sendMessage).to.have.been.calledWith({ msg: 'hovered' });
         });
     });
 });

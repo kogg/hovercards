@@ -1,7 +1,7 @@
-var $                 = require('jquery');
-var common            = require('./common');
-var embedded_trigger  = require('./embedded-trigger');
-var longpress_trigger = require('./longpress-trigger');
+var $                = require('jquery');
+var common           = require('./common');
+var embedded_trigger = require('./embedded-trigger');
+var longpress        = require('./longpress');
 
 function sendMessage(msg) {
     window.top.postMessage(msg, '*');
@@ -9,13 +9,17 @@ function sendMessage(msg) {
 
 var html = $('html');
 
-longpress_trigger(html, 'a[href]', function(link) {
+longpress(html, 'a[href]:not([data-href])', function(link) {
     return common.nullify_bad_url(common.relative_to_absolute(link.attr('href')));
-}, sendMessage);
+});
 
-longpress_trigger(html, 'a[data-href]', function(link) {
+longpress(html, 'a[data-href]', function(link) {
     return common.nullify_bad_url(common.relative_to_absolute(link.data('href')));
-}, sendMessage);
+});
+
+html.on('longpress', function(e, url) {
+    window.top.postMessage({ msg: 'activate', url: url }, '*');
+});
 
 embedded_trigger(html, 'embed[src]', function(embed) {
     return common.nullify_bad_url(common.relative_to_absolute(embed.attr('src')));
