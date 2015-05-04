@@ -1,6 +1,6 @@
-var $                 = require('jquery');
-var common            = require('./common');
-var longpress_trigger = require('./longpress-trigger');
+var $         = require('jquery');
+var common    = require('./common');
+var longpress = require('./longpress');
 
 var offset = { top: 30, left: 0 };
 
@@ -27,9 +27,9 @@ module.exports = function(body, selector, get_url, sendMessage, fullscreenable) 
         trigger.click(function() {
             sendMessage({ msg: 'activate', url: trigger.data('hovercards-url') });
         });
-        longpress_trigger(body, 'div.hovercards-embedded-trigger', function() {
+        longpress(body, 'div.hovercards-embedded-trigger', function() {
             return trigger.data('hovercards-url');
-        }, sendMessage);
+        });
     }
     body.on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', selector, function() {
         if (common.is_fullscreen($(this))) {
