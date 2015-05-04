@@ -1,4 +1,4 @@
-var common = require('./common');
+var network_urls = require('YoCardsApiCalls/network-urls');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [])
     .controller('EntryController', ['$scope', function($scope) {
@@ -12,7 +12,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                         $scope.data  = {};
                     });
                     setTimeout(function() {
-                        var identity = common.identify_url(request.url);
+                        var identity = network_urls(request.url);
                         $scope.$apply(function() {
                             $scope.entry = {};
                             if (!identity) {
