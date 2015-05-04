@@ -68,6 +68,15 @@ describe('common', function() {
                 expect(result).to.have.deep.property('type', 'account');
                 expect(result).to.have.deep.property('id',   'CHANNEL_ID');
             });
+
+            it('should identify www.youtube.com/user/USER_ID', function() {
+                result = common.identify_url('https://www.youtube.com/user/USER_ID');
+
+                expect(result).to.have.deep.property('api',  'youtube');
+                expect(result).to.have.deep.property('type', 'account');
+                expect(result).to.have.deep.property('id',   'USER_ID');
+                expect(result).to.have.deep.property('as',   'legacy_username');
+            });
         });
 
         describe('reddit comments URLs', function() {

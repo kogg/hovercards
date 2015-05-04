@@ -20,6 +20,8 @@ exports.identify_url = function(url) {
                     return { api: 'youtube', type: 'content', id: uri.filename() };
                 case '/channel':
                     return { api: 'youtube', type: 'account', id: uri.filename() };
+                case '/user':
+                    return { api: 'youtube', type: 'account', id: uri.filename(), as: 'legacy_username' };
             }
             break;
         case 'youtu.be':
