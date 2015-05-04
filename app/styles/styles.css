@@ -567,34 +567,9 @@ b i {
 
 .ui-state-highlight {
 	height: 50px;
-	-webkit-animation: colorflux 2.5s infinite;
-	animation: colorflux 2.5s infinite;
+	border:2px dashed rgba(0,0,0,.15);
+	background: #e5e5e5 !important;
 } 
-
-@-webkit-keyframes colorflux { 
-    0% { 
-      background: rgba(0,0,0,0.1);
-    } 
-    50% { 
-      background: rgba(0,0,0,0)
-    }
-    100% {
-    	background: rgba(0,0,0,0.1)
-    } 
-} 
-
-@keyframes colorflux { 
-		0% { 
-      background: rgba(0,0,0,0.1);
-    } 
-    50% { 
-      background: rgba(0,0,0,0)
-    }
-    100% {
-    	background: rgba(0,0,0,0.1)
-    } 
- 
-}
 
 /*Reddit titles*/
 .reddit-title {
@@ -634,7 +609,7 @@ b i {
 	text-decoration: underline;
 	cursor: pointer;
 }
-.comment div + div div.md * {
+.comment div + div div.md p {
 	display: inline
 }
 .md ol, .md ul {
@@ -806,7 +781,35 @@ b i {
 /*content list*/
 .content-list {
 	padding: 0px 20px;
-}
+  -webkit-animation-duration: .8s;
+  animation-duration: .8s;
+  -webkit-animation-fill-mode: both; 
+  animation-fill-mode: both; 
+	-webkit-animation-name: fadeIn; 
+	animation-name: fadeIn; 
+} 
+
+@-webkit-keyframes fadeIn { 
+    0% {
+    	opacity: 0;
+    	-webkit-transform: translatey(100px);
+    }
+    100% {
+    	opacity: 1;
+    	-webkit-transform: translatey(0px);
+    }
+} 
+@keyframes fadeIn { 
+    0% {
+    	opacity: 0;
+    	transform: translatey(100px);
+    }
+    100% {
+    	opacity: 1;
+    	transform: translatey(0px);
+    }
+} 
+
 .content-list-link {
 	margin-bottom: 8px;
 	display: block;
@@ -921,6 +924,7 @@ b i {
 	margin-top: 8px;
 }
 .thumbnail {
+	background-color: #cee3f8;
 	width: 50px;
 	height: 50px;
 	margin-right: 16px;
