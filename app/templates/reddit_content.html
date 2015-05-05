@@ -1,0 +1,22 @@
+<div class="card-text text-post">
+	<div>
+	<b><i class="md md-access-time"></i>{{ ::data.content.date | timeSince }}</b>
+		<a ng-href="https://www.reddit.com/r/{{ ::data.content.subreddit }}/comments/{{:: data.content.id }}">{{ ::data.content.name }}</a>
+	</div>
+	<div ng-if="::data.content.description" class="card-description">
+		<p ng-bind-html=":: data.content.description" readmore=":: data.content.description" style="max-height: 50px"></p>
+	</div>
+</div>
+<div class="card-stats row">
+	<div class="col-6">
+		<b>Points</b>
+		<span>{{:: data.content.score | numsmall }}</span>
+	</div>
+	<div class="col-6">
+		<b>Votes</b>
+		<span>{{:: data.content.up_ratio | percent }}</span>
+	</div>
+</div>
+<div class="percent-bar" ng-if=":: data.content.up_ratio">
+	<div class="percent-bar-good" ng-style=":: data.content.up_ratio && { width: (data.content.up_ratio | percent) }"></div>
+</div>

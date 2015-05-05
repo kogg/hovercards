@@ -71,6 +71,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     })
+    .filter('percent', ['$filter', function($filter) {
+        return function(ratio) {
+            return $filter('number')(100 * ratio) + '%';
+        };
+    }])
     .filter('timeSince', function() {
         var moment  = require('moment');
         return function(time) {
