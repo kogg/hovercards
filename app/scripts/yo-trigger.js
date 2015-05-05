@@ -30,6 +30,7 @@ module.exports = function(body, selector, get_url) {
                 .offset({ left: e.pageX - 8, top: obj.offset().top - 15 })
                 .click(function() {
                     trigger.trigger('yo', [url]);
+                    trigger.addClass('yo-notify-clicked');
                 })
                 .hover(function() {
                     clearTimeout(remove_trigger_timeout);
@@ -40,7 +41,7 @@ module.exports = function(body, selector, get_url) {
                     }, 2000);
                 })
                 .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
-                    if (e.originalEvent.animationName !== 'yofadeOut') {
+                    if (e.originalEvent.animationName !== 'yofadeOut' && e.originalEvent.animationName !== 'yohasbeepressedlol') {
                         return;
                     }
                     clearTimeout(remove_trigger_timeout);
