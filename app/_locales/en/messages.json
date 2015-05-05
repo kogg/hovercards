@@ -17,10 +17,16 @@
     "youtube_discussion": {
         "message": "Youtube Comments"
     },
+    "youtube_account": {
+        "message": "Youtube Channel"
+    },
     "reddit": {
         "message": "Reddit"
     },
     "reddit_discussion": {
         "message": "Reddit Discussion"
+    },
+    "reddit_account": {
+        "message": "Reddit User"
     }
 }

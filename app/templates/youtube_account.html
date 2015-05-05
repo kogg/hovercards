@@ -3,7 +3,9 @@
 		<div class="profile-image" style="background-image:url({{ ::person.selectedAccount.image }})"></div>
 	</div>
 	<div class="profile-right col-8">
-		<b class="youtube-color"><i class="md  md-videocam"></i> Uploaded By:</b>
+		<b class="youtube-color"><i class="md md-videocam"></i>{{:: ((data.content.author.api    === 'youtube' && data.content.author.id === person.selectedAccount.id) ||
+		                                                             (data.discussion.author.api === 'youtube' && data.discussion.author.id === person.selectedAccount.id))
+		                                                             ? 'Uploaded By' : ('youtube_account' | copy) }}:</b>
 		<a ng-href="https://www.youtube.com/channel/{{ ::person.selectedAccount.id }}" class="ellipsis">{{ ::person.selectedAccount.name }}</a>
 		<div class="profile-cta">
 			<div youtube-channel-subscribe youtube-channel-id="::person.selectedAccount.id" subscribed-offset="offset"></div>
