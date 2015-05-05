@@ -1,12 +1,13 @@
 .hovercards-embedded-trigger {
-	width: 19px !important;
-	height: 37.5px !important;
 	z-index: 2147483647 !important;
-	background-image:url('chrome-extension://__MSG_@@extension_id__/images/carlito-video-clicker.png') !important;
-	background-size: auto 100% !important;
-	background-position: center !important;
+	width: 16px !important;
+	height: 16px !important;
+	background-color: #F44336 !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png') !important;
 	background-repeat: no-repeat !important;
-	opacity: .7;
+	background-size: 66% !important;
+	background-position: center !important;
+	border-radius: 50% !important;
 	position: absolute !important;
 	-webkit-animation-duration: .3s;
 	animation-duration: .3s;
@@ -17,30 +18,30 @@
 }
 
 @-webkit-keyframes bounceInLeft {
-	0% {
-		opacity: 0;
-		background-position: -20px center;
-	}
-	100% {
-		background-position: center;
-		opacity: .7;
-	}
+  0% {
+  	opacity: 0;
+  	-webkit-transform: scale(.5);
+  }
+  100% {
+  	opacity: 1;
+  	-webkit-transform: scale(1);
+  }
 }
 
 @keyframes bounceInLeft {
-	0% {
-		opacity: 0;
-		background-position: -20px center;
-	}
-	100% {
-		background-position: center;
-		opacity: .7;
-	}
-}
+  0% {
+  	opacity: 0;
+  	transform: scale(.5);
+  }
+  100% {
+  	opacity: 1;
+  	transform: scale(1);
+  }
+} 
 .hovercards-embedded-trigger:hover {
 	cursor: pointer !important;
 	opacity: 1;
 }
 .hovercards-embedded-trigger-fullscreenable {
-	background-image:url('chrome-extension://__MSG_@@extension_id__/images/carlito-video-clicker-fs.png') !important;
+	background-image:url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png') !important;
 }

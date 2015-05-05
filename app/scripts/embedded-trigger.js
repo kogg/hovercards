@@ -2,7 +2,7 @@ var $         = require('jquery');
 var common    = require('./common');
 var longpress = require('./longpress');
 
-var offset = { top: 30, left: 0 };
+var offset = { top: 32, left: 8 };
 
 module.exports = function(body, selector, get_url, sendMessage, fullscreenable) {
     body = $(body);

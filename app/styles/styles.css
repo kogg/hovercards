@@ -362,7 +362,7 @@ b i {
 	background: #fff;
 }
 .comment-top .row {
-	padding: 15px 13px 15px 16px;
+	padding: 15px 10px 15px 16px;
 }
 .comment-top span {
 	color: #000;
@@ -567,7 +567,7 @@ b i {
 
 .ui-state-highlight {
 	height: 50px;
-	border:2px dashed rgba(0,0,0,.15);
+	border:1px dashed rgba(0,0,0,.15);
 	background: #e5e5e5 !important;
 } 
 
@@ -604,6 +604,9 @@ b i {
 }
 .child-comment .md a {
 	text-decoration: none
+}
+.child-comment div.md, .child-comment .md p {
+	display: inline;
 }
 .child-comment .md a:hover {
 	text-decoration: underline;
@@ -645,7 +648,7 @@ b i {
 	clear: both;
 	padding:8px 0 0 8px;
 }
-.child-close div div.md {
+.child-close div div.md, .child-close .read-more {
 	display: none !important;
 }
 .child-close .down-arrow {
@@ -817,6 +820,7 @@ b i {
 .content-list img {
 	width: 100%;
 	max-width: 125px;
+	max-height: 71px;
 	border: 1px solid rgba(0,0,0,.15)
 }
 .content-list .row:hover {
@@ -919,6 +923,9 @@ b i {
 .reddit-profile-posts {
 	padding: 16px 20px;
 	border-bottom: 1px solid rgba(0,0,0,0.15)
+}
+.reddit-profiles:last-of-type .reddit-profile-posts {
+	border-bottom: none
 }
 .reddit-profile-posts .child-comment {
 	margin-top: 8px;
