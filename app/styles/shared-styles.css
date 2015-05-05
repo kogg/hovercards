@@ -1,0 +1,70 @@
+.yo-notify  {
+	content: "";
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	background-color: #F44336;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png');
+	background-repeat: no-repeat;
+	background-size: 66%;
+	background-position: center;
+	border-radius: 50%;
+	z-index: 2;
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-name: yofadeIn;
+	animation-name: yofadeIn;
+}
+
+@-webkit-keyframes yofadeIn { 
+    0% {
+    	opacity: 0;
+    	-webkit-transform: scale(.5);
+    }
+    100% {
+    	opacity: 1;
+    	-webkit-transform: scale(1);
+    }
+} 
+@keyframes yofadeIn { 
+    0% {
+    	opacity: 0;
+    	transform: scale(.5);
+    }
+    100% {
+    	opacity: 1;
+    	transform: scale(1);
+    }
+} 
+.yo-notify-exit {
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-name: yofadeout;
+	animation-name: yofadeout;
+
+}
+
+@-webkit-keyframes yofadeIn { 
+    0% {
+    	opacity: 1;
+    	-webkit-transform: scale(1);
+    }
+    100% {
+    	opacity: 0;
+    	-webkit-transform: scale(.5);
+    }
+} 
+@keyframes yofadeIn { 
+    0% {
+    	opacity: 1;
+    	transform: scale(1);
+    }
+    100% {
+    	opacity: 0;
+    	transform: scale(.5);
+    }
+} 

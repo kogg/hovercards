@@ -1,5 +1,5 @@
 <div class="card-text text-post">
-	<div>
+	<div class="user-context-container">
 		<div class="user-context">
 			<div class="ellipsis">
 				<a ng-href="https://www.reddit.com/user/{{:: data.content.author.id }}">{{:: data.content.author.id }}</a> <b>· /r/{{:: data.content.subreddit }}</b>
@@ -9,7 +9,7 @@
 		<a ng-href="https://www.reddit.com/r/{{ ::data.content.subreddit }}/comments/{{:: data.content.id }}">{{ ::data.content.name }}</a>
 	</div>
 	<div ng-if="::data.content.description" class="card-description">
-		<p ng-bind-html=":: data.content.description" readmore=":: data.content.description" style="max-height: 50px"></p>
+		<div ng-bind-html=":: data.content.description" readmore=":: data.content.description" style="max-height: 100px"></div>
 	</div>
 </div>
 <div class="card-stats row">
