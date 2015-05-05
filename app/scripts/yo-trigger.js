@@ -26,7 +26,7 @@ module.exports = function(body, selector, get_url) {
             var remove_trigger_timeout;
             var trigger = $('<div class="yo-notify">Yo</div>')
                 .appendTo(body)
-                .offset({ left: e.pageX, top: e.pageY })
+                .offset({ left: e.pageX, top: e.pageY - 40 })
                 .click(function() {
                     trigger.trigger('yo', [url]);
                 })
