@@ -20,13 +20,14 @@ module.exports = function(body, selector, get_url) {
             return;
         }
 
-        obj.data('has-yo', true);
-
         var create_trigger_timeout = setTimeout(function() {
+            obj.data('has-yo', true);
+
             var remove_trigger_timeout;
-            var trigger = $('<div class="yo-notify">Yo</div>')
+            var trigger = $('<div class="yo-notify"></div>')
                 .appendTo(body)
-                .offset({ left: e.pageX, top: e.pageY - 40 })
+                .addClass('yo-notify-' + identity.api)
+                .offset({ left: e.pageX - 8, top: obj.offset().top - 15 })
                 .click(function() {
                     trigger.trigger('yo', [url]);
                 })
@@ -36,7 +37,7 @@ module.exports = function(body, selector, get_url) {
                 }, function() {
                     remove_trigger_timeout = setTimeout(function() {
                         trigger.addClass('yo-notify-exit');
-                    }, 1000);
+                    }, 2000);
                 })
                 .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
                     if (e.originalEvent.animationName !== 'yofadeOut') {
@@ -49,7 +50,7 @@ module.exports = function(body, selector, get_url) {
 
             remove_trigger_timeout = setTimeout(function() {
                 trigger.addClass('yo-notify-exit');
-            }, 1000);
+            }, 2000);
         }, 500);
 
         obj.one('mouseleave', function() {
