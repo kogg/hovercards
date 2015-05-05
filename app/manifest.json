@@ -30,6 +30,7 @@
                 "https://*/*"
             ],
             "css": [
+                "styles/shared-styles.css",
                 "styles/dom-styles.css"
             ],
             "js": [
