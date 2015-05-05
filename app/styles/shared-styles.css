@@ -23,6 +23,11 @@
 	background-color: #cee2f8 !important;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-black.png') !important;
 }
+.yo-notify:hover {
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
+	cursor: pointer
+}
+
 @-webkit-keyframes yofadeIn { 
     0% {
     	opacity: 0;
@@ -71,4 +76,32 @@
     	opacity: 0;
     	transform: scale(.5);
     }
+}
+.yo-notify-clicked {
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-name: yohasbeenpressedlol;
+	animation-name: yohasbeenpressedlol;
+}
+@-webkit-keyframes yohasbeenpressedlol { 
+    0% {
+    	opacity: 1;
+    	-webkit-transform: scale(1);
+    }
+    100% {
+    	opacity: 0;
+    	-webkit-transform: scale(1.5);
+    }
 } 
+@keyframes yohasbeenpressedlol { 
+    0% {
+    	opacity: 1;
+    	transform: scale(1);
+    }
+    100% {
+    	opacity: 0;
+    	transform: scale(1.5);
+    }
+}
