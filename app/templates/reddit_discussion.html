@@ -1,4 +1,4 @@
-<div class="reddit-title">
+<div class="reddit-title" ng-if="data.content.api !== 'reddit' || data.content.id !== data.discussion.id">
 	<div class="user-context">
 		<div class="ellipsis">
 			<a ng-href="https://www.reddit.com/user/{{:: data.discussion.author.id }}" class="ng-binding" href="https://www.reddit.com/user/PopeSleepy" target="_blank">{{:: data.discussion.author.id }}</a>

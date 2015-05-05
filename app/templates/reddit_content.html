@@ -2,10 +2,9 @@
 	<div>
 		<div class="user-context">
 			<div class="ellipsis">
-				<a ng-href="https://www.reddit.com/user/Kentont911" class="ng-binding" href="https://www.reddit.com/user/Kentont911" target="_blank">Kentont911</a>
-				<b class="ng-binding">· /r/AskReddit</b>
+				<a ng-href="https://www.reddit.com/user/{{:: data.content.author.id }}">{{:: data.content.author.id }}</a> <b>· /r/{{:: data.content.subreddit }}</b>
 			</div>
-			<span class="reddit-votes ng-binding">10h</span>
+			<span class="reddit-votes">{{:: data.content.date | timeSinceAbbr }}</span>
 		</div>
 		<a ng-href="https://www.reddit.com/r/{{ ::data.content.subreddit }}/comments/{{:: data.content.id }}">{{ ::data.content.name }}</a>
 	</div>
