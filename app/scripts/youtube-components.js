@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = angular.module('hovercardsYoutubeComponents', [])
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'YoutubeComponents', [])
     .directive('youtubeChannelSubscribe', function() {
         return {
             restrict: 'A',

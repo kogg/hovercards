@@ -1,4 +1,4 @@
-var common = require('./common');
+var network_urls = require('YoCardsApiCalls/network-urls');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [])
     .controller('EntryController', ['$scope', function($scope) {
@@ -12,10 +12,14 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                         $scope.data  = {};
                     });
                     setTimeout(function() {
-                        var identity = common.identify_url(request.url);
+                        var identity = network_urls(request.url);
                         $scope.$apply(function() {
                             $scope.entry = {};
-                            switch (identity.type) {
+                            if (!identity) {
+                                return;
+                            }
+                            $scope.entry.type = identity.type;
+                            switch ($scope.entry.type) {
                                 case 'content':
                                     $scope.entry.content = identity;
                                     break;
@@ -41,24 +45,37 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
             if (!$scope.data.content || !$scope.data.content.$resolved) {
                 return;
             }
-            if ($scope.data.content.accounts && !$scope.entry.accounts) {
-                $scope.entry.accounts = $scope.data.content.accounts;
-            }
-            if ($scope.data.content.discussions && !$scope.entry.discussions) {
-                $scope.entry.discussions = $scope.data.content.discussions;
-            }
+
+            $scope.entry.discussions = ($scope.entry.discussions || []);
+            ($scope.data.content.discussions || []).forEach(function(discussion) {
+                if (!$scope.entry.discussions.some(function(entry_discussion) { return discussion.api === entry_discussion.api; })) {
+                    $scope.entry.discussions.push(discussion);
+                }
+            });
+
+            $scope.entry.accounts = ($scope.entry.accounts || []);
+            ($scope.data.content.accounts || []).forEach(function(account) {
+                if (!$scope.entry.accounts.some(function(entry_account) { return account.api  === entry_account.api &&
+                                                                                 account.id   === entry_account.id; })) {
+                    $scope.entry.accounts.push(account);
+                }
+            });
         });
 
         $scope.$watch('data.discussion.$resolved', function() {
-            if (!$scope.data.discussion || !$scope.data.discussion.$resolved) {
+            if (!$scope.data.discussion || !$scope.data.discussion.$resolved || $scope.entry.type !== 'discussion') {
                 return;
             }
-            if ($scope.data.discussion.content && !$scope.entry.content) {
-                $scope.entry.content = $scope.data.discussion.content;
-            }
-            if ($scope.data.discussion.accounts && !$scope.entry.accounts) {
-                $scope.entry.accounts = $scope.data.discussion.accounts;
-            }
+
+            $scope.entry.content = $scope.entry.content || $scope.data.discussion.content;
+
+            $scope.entry.accounts = ($scope.entry.accounts || []);
+            ($scope.data.discussion.accounts || []).forEach(function(account) {
+                if (!$scope.entry.accounts.some(function(entry_account) { return account.api  === entry_account.api &&
+                                                                                 account.id   === entry_account.id; })) {
+                    $scope.entry.accounts.push(account);
+                }
+            });
         });
     }])
     .name;

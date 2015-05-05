@@ -3,9 +3,9 @@
         <div class="reddit-title">
             <div class="user-context">
                 <b>Replied to post in /r/{{:: thing.subreddit }}</b>
-                <span class="reddit-votes">+{{:: thing.score }} <span class="hidden-date">· {{:: thing.date | timeSince }}</span></span>
+                <span class="reddit-votes">{{:: thing.score | score }} <span class="hidden-date">· {{:: thing.date | timeSince }}</span></span>
             </div>
-            <a ng-href="https://www.reddit.com/r/{{:: thing.subreddit }}/{{:: thing.post.id }}">{{:: thing.post.name }}</a>
+            <a ng-href="https://www.reddit.com/r/{{:: thing.subreddit }}/comments/{{:: thing.post.id }}">{{:: thing.post.name }}</a>
         </div>
         <div>
             <div class="child-comment"><p ng-bind-html=":: thing.description" readmore=":: thing.description" style="max-height: 170px"></p></div>
@@ -15,10 +15,10 @@
         <div class="reddit-title">
             <div class="user-context">
                 <b>Posted in /r/{{:: thing.subreddit }}</b>
-                <span class="reddit-votes">+{{:: thing.score }} <span class="hidden-date">· {{:: thing.date | timeSince }}</span></span>
+                <span class="reddit-votes">{{:: thing.score | score }} <span class="hidden-date">· {{:: thing.date | timeSince }}</span></span>
             </div>
             <div class="thumbnail" ng-if="thing.image" ng-style=":: { 'background-image': 'url(' + thing.image + ')'}"></div>
-            <a ng-href="https://www.reddit.com/r/{{:: thing.subreddit }}/{{:: thing.id }}">{{:: thing.name }}</a>
+            <a ng-href="https://www.reddit.com/r/{{:: thing.subreddit }}/comments/{{:: thing.id }}">{{:: thing.name }}</a>
         </div>
     </div>
 </div>

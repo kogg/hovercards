@@ -1,36 +1,3 @@
-var URI = require('URIjs/src/URI');
-
-exports.identify_url = function(url) {
-    var uri = URI(url);
-
-    switch (uri.domain()) {
-        case 'youtube.com':
-            switch (uri.directory()) {
-                case '/':
-                    if (uri.filename() === 'watch') {
-                        var query = uri.search(true);
-                        if (query.v) {
-                            return { api: 'youtube', type: 'content', id: query.v };
-                        }
-                    }
-                    break;
-                case '/v':
-                case '/embed':
-                    return { api: 'youtube', type: 'content', id: uri.filename() };
-                case '/channel':
-                    return { api: 'youtube', type: 'account', id: uri.filename() };
-            }
-            break;
-        case 'youtu.be':
-            return { api: 'youtube', type: 'content', id: uri.filename() };
-        case 'reddit.com':
-            if (uri.directory() === '/user') {
-                return { api: 'reddit', type: 'account', id: uri.filename() };
-            }
-            break;
-    }
-};
-
 exports.is_active = function(obj) {
     return obj.is(':active');
 };

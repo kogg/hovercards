@@ -4,8 +4,8 @@
 			<a ng-href="https://www.reddit.com/user/{{:: data.discussion.author.id }}" class="ng-binding" href="https://www.reddit.com/user/PopeSleepy" target="_blank">{{:: data.discussion.author.id }}</a>
 			<b>&middot; /r/{{:: data.discussion.subreddit }}</b>
 		</div>
-			<span class="reddit-votes ng-binding">+{{:: data.discussion.score }} <span class="hidden-date">· {{:: data.discussion.date | timeSinceAbbr }}</span></span>
+			<span class="reddit-votes ng-binding">{{:: data.discussion.score | score }} <span class="hidden-date">· {{:: data.discussion.date | timeSinceAbbr }}</span></span>
 	</div>
-	<a ng-href="https://www.reddit.com/r/{{:: data.discussion.subreddit}}/{{:: data.discussion.id }}">{{:: data.discussion.name }}</a>
+	<a ng-href="https://www.reddit.com/r/{{:: data.discussion.subreddit}}/comments/{{:: data.discussion.id }}">{{:: data.discussion.name }}</a>
 </div>
 <div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit_discussion_comment.html'" ng-repeat="comment in data.discussion.comments"></div>

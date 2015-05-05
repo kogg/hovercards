@@ -1,8 +1,8 @@
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
-    .controller('PeopleController', ['$scope', '$q', 'serverService', function($scope, $q, serverService) {
-        $scope.$watch('entry.accounts', function(requests) {
+    .controller('PeopleController', ['$scope', '$q', 'apiService', function($scope, $q, apiService) {
+        $scope.$watchCollection('entry.accounts', function(requests) {
             $scope.entry.selectedPerson = null;
             if (!requests) {
                 $scope.data.people = null;
@@ -15,7 +15,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 var done_account_ids = {};
                 people.$resolved = false;
                 people.$promise = $q.all(requests.map(function get_account(request) {
-                    var account = serverService.get(request);
+                    var account = apiService.get(request);
                     return account.$promise.then(function(account) {
                         // Get IDs from account
                         var connected_accounts_ids = (account.connected || []).map(function(account) {
