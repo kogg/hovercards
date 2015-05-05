@@ -1,6 +1,12 @@
 <div class="card-text text-post">
 	<div>
-	<b><i class="md md-access-time"></i>{{ ::data.content.date | timeSince }}</b>
+		<div class="user-context">
+			<div class="ellipsis">
+				<a ng-href="https://www.reddit.com/user/Kentont911" class="ng-binding" href="https://www.reddit.com/user/Kentont911" target="_blank">Kentont911</a>
+				<b class="ng-binding">· /r/AskReddit</b>
+			</div>
+			<span class="reddit-votes ng-binding">10h</span>
+		</div>
 		<a ng-href="https://www.reddit.com/r/{{ ::data.content.subreddit }}/comments/{{:: data.content.id }}">{{ ::data.content.name }}</a>
 	</div>
 	<div ng-if="::data.content.description" class="card-description">

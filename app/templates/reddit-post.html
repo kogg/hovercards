@@ -1,0 +1,28 @@
+<div class="card-text text-post">
+	<div>
+		<div class="user-context">
+			<div class="ellipsis">
+				<a ng-href="https://www.reddit.com/user/Kentont911" class="ng-binding" href="https://www.reddit.com/user/Kentont911" target="_blank">Kentont911</a>
+				<b class="ng-binding">· /r/AskReddit</b>
+			</div>
+			<span class="reddit-votes ng-binding">+1887 <span class="hidden-date ng-binding">· 10h</span></span>
+		</div>
+		<a ng-href="https://www.youtube.com/watch?v={{ ::data.content.id }}">{{ ::data.content.name }}</a>
+	</div>
+	<div ng-if="::data.content.description" class="card-description">
+		<p ng-bind-html=":: data.content.description | linky" readmore=":: data.content.description" style="max-height: 50px"></p>
+	</div>
+</div>
+<div class="card-stats row">
+	<div class="col-6">
+		<b>Points</b>
+		<span>{{ ::data.content.views | numsmall }}</span>
+	</div>
+	<div class="col-6">
+		<b>Upvoted</b>
+		<span>{{ ::data.content.likes | numsmall }}</span>
+	</div>
+</div>
+<div class="percent-bar" ng-if="::data.content.likes + data.content.dislikes">
+	<div class="percent-bar-good" ng-style="::(data.content.likes + data.content.dislikes) && { width: (100 * data.content.likes / (data.content.likes + data.content.dislikes)) + '%' }"></div>
+</div>
