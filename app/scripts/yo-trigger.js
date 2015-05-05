@@ -41,7 +41,7 @@ module.exports = function(body, selector, get_url) {
                     }, 2000);
                 })
                 .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
-                    if (e.originalEvent.animationName !== 'yofadeOut' && e.originalEvent.animationName !== 'yohasbeepressedlol') {
+                    if (e.originalEvent.animationName !== 'yofadeOut' && e.originalEvent.animationName !== 'yohasbeenpressedlol') {
                         return;
                     }
                     clearTimeout(remove_trigger_timeout);
