@@ -1,14 +1,14 @@
 .yo-notify  {
-	content: "";
-	position: absolute;
-	width: 16px;
-	height: 16px;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png');
-	background-repeat: no-repeat;
-	background-size: 66%;
-	background-position: center;
-	border-radius: 50%;
-	z-index: 2;
+	content: "" !important;
+	position: absolute !important;
+	width: 16px !important;
+	height: 16px !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png') !important;
+	background-repeat: no-repeat !important;
+	background-size: 66% !important;
+	background-position: center !important;
+	border-radius: 50% !important;
+	z-index: 2 !important;
 	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
 	-webkit-animation-fill-mode: both;
@@ -17,11 +17,11 @@
 	animation-name: yofadeIn;
 }
 .yo-notify-youtube {
-	background-color: #F44336;
+	background-color: #F44336 !important;
 }
 .yo-notify-reddit {
-	background-color: #cee2f8;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-black.png');
+	background-color: #cee2f8 !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-black.png') !important;
 }
 @-webkit-keyframes yofadeIn { 
     0% {
