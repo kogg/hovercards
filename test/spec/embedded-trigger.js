@@ -57,7 +57,7 @@ describe('embedded-trigger', function() {
             obj.mouseenter();
             body.find('.hovercards-embedded-trigger').click();
 
-            expect(sendMessage).to.have.been.calledWith({ msg: 'activate', url: 'URL' });
+            expect(sendMessage).to.have.been.calledWith('URL');
         });
     });
 

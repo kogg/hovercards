@@ -25,7 +25,7 @@ module.exports = function(body, selector, get_url, sendMessage, fullscreenable) 
             trigger.hide();
         });
         trigger.click(function() {
-            sendMessage({ msg: 'activate', url: trigger.data('hovercards-url') });
+            sendMessage(trigger.data('hovercards-url'));
         });
         longpress(body, 'div.hovercards-embedded-trigger', function() {
             return trigger.data('hovercards-url');
