@@ -309,6 +309,9 @@ b i {
 .comment-close .user-context a {
 	color: #727272
 }
+.user-context-container {
+	padding-bottom: 5.5px;
+}
 .user-context div {
 	max-width: 200px;
 	display: inline-block;
@@ -328,6 +331,9 @@ b i {
 .user-context div {
 	position: relative;
 	margin-bottom: 4px;
+}
+.user-context-container .user-context div {
+	margin-bottom: 0
 }
 .comment-close p,.comment-close .child, .comment-close div + div .md *, .comment-close div + div .md, .comment-close .read-more{
 	display: none !important;
@@ -605,7 +611,7 @@ b i {
 .child-comment .md a {
 	text-decoration: none
 }
-.child-comment div.md, .child-comment .md p {
+.child-comment div.md, .child-comment .md p, .card-description div.md p, .card-description div.md {
 	display: inline;
 }
 .child-comment .md a:hover {
