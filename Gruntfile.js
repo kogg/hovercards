@@ -36,8 +36,9 @@ module.exports = function (grunt) {
         copy: {
             non_js: {
                 files: [
-                    { expand: true, cwd: 'app/', src: ['**', '!scripts/**'], dest: 'dist/' },
-                    { expand: true, cwd: 'node_modules/angular/', src: ['angular-csp.css'], dest: 'dist/styles/' }
+                    { expand: true, cwd: 'app/',                               src: ['**', '!scripts/**'], dest: 'dist/' },
+                    { expand: true, cwd: 'node_modules/angular/',              src: ['angular-csp.css'],   dest: 'dist/styles/' },
+                    { expand: true, cwd: 'node_modules/slick-carousel/slick/', src: ['slick.css'],         dest: 'dist/styles/' }
                 ]
             }
         },

@@ -1,12 +1,13 @@
 <html ng-csp>
 <head>
 	<link rel="stylesheet" href="styles/angular-csp.css">
+	<link rel="stylesheet" href="styles/slick.css">
 	<link rel="stylesheet" href="styles/shared-styles.css">
 	<link rel="stylesheet" href="styles/styles.css">
 	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
 </head>
 <body>
-    <div class="ng-cloak" ng-cloak ng-controller="EntryController" ng-init="data = {}">
+	<div class="ng-cloak" ng-cloak ng-controller="EntryController" ng-init="data = {}">
 		<div class="fade-out-animation" ng-show="data.loading">
 			<div class="loader" ng-show="data.loading">
 				<div class="colored"></div>
@@ -63,9 +64,7 @@
 				</div>
 
 				<div class="card bounce-in-animation" ng-if="data.people.length">
-					<div ng-repeat="person in data.people" ng-click="entry.selectedPerson = person" ng-if="!data.people.$err">
-						<div ng-include="'templates/' + person.selectedAccount.api + '_account.html'"></div>
-					</div>
+					<div people-carousel="data.people" current="entry.selectedPerson" ng-if="!data.people.$err"></div>
 
 					<div error ng-if="data.people.$err" ng-switch="data.people.$err.status">
 						<span ng-switch-default>There was a problem with the people!</span>
