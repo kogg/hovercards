@@ -11,8 +11,8 @@
 	z-index: 99999999999999 !important;
 	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
+	-webkit-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
 	-webkit-animation-name: yofadeIn;
 	animation-name: yofadeIn;
 }
@@ -43,17 +43,12 @@
     	transform: scale(1);
     }
 } 
-.yo-notify-youtube:hover {
-	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115) !important;
-	cursor: pointer !important;
-	transform: scale(1.5) !important;
-	-webkit-transform: scale(1.5) !important;
-}
+
 .yo-notify-exit {
 	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
+	-webkit-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
 	-webkit-animation-name: yofadeOut;
 	animation-name: yofadeOut;
 }
@@ -81,8 +76,8 @@
 .yo-notify-clicked {
 	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
+	-webkit-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
 	-webkit-animation-name: yohasbeenpressedlol;
 	animation-name: yohasbeenpressedlol;
 	box-shadow:none !important;
@@ -113,4 +108,12 @@
     	opacity: 0;
     	-webkit-transform: scale(4.5);
     }
+}
+.yo-notify-hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115) !important;
+    cursor: pointer !important;
+    width: 16px !important;
+    height: 16px !important;
+    transform: scale(1.5) !important;
+    -webkit-transform: scale(1.5) !important;
 }
