@@ -17,7 +17,7 @@
                 <b>Posted in /r/{{:: thing.subreddit }}</b>
                 <span class="reddit-votes">{{:: thing.score | score }} <span class="hidden-date">· {{:: thing.date | timeSince }}</span></span>
             </div>
-            <div class="thumbnail" ng-if="thing.image" ng-style=":: { 'background-image': 'url(' + thing.image + ')'}"></div>
+            <div class="thumbnail" ng-class=":: (thing.image.indexOf('http') === -1) && ('thumbnail-' + thing.image)" ng-if="thing.image" ng-style=":: (thing.image.indexOf('http') === 0) && { 'background-image': 'url(' + thing.image + ')'}"></div>
             <a ng-href="https://www.reddit.com/r/{{:: thing.subreddit }}/comments/{{:: thing.id }}">{{:: thing.name }}</a>
         </div>
     </div>
