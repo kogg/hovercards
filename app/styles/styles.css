@@ -843,10 +843,8 @@ b i {
 	width: 100%;
 	max-width: 125px;
 	max-height: 71px;
+	min-height: 71px;
 	border: 1px solid rgba(0,0,0,.15)
-}
-.content-list .row:hover {
-	background: #f6f6f6;
 }
 .content-list .row .col-7 {
 	padding: 8px 8px 8px 12px;
