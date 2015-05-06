@@ -91,7 +91,12 @@ p, p a, .card-text .card-description p a, .card-description-padding p a, .commen
 	font-size: 15px;
 	color: #727272;
 }
-
+hr {
+  border: 0;
+  height: 1px;
+  background:rgba(0, 0, 0, 0.15);
+  margin:8px 0;
+}
 .card-description p {
 	margin-top: 5.5px;
 }
@@ -625,8 +630,11 @@ b i {
   padding-left: 20px;
 }
 .md ol li, .md ul li {
-	color:#727272;
-	font-size: 14px;
+	line-height: 19px;
+  font-weight: 400;
+  font-size: 15px;
+  color: #727272;
+  margin:8px 0;
 }
 .md pre, .md table  {
   background: rgba(0, 0, 0, 0.02);
@@ -648,6 +656,12 @@ b i {
 .md table td, .md table th {
 	padding:8px;
 	border:1px solid rgba(0,0,0,.1);
+}
+.md h1, .md h2, .md h3, .md h4, .md h5, .md h6 {
+	display: inline
+}
+.md p + blockquote {
+	margin:8px 0;
 }
 /*Comment Childs*/
 .child {
