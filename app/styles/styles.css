@@ -128,6 +128,9 @@ b i {
 	min-width: 300px;
 	position: relative;
 }
+.people-card {
+	min-width: 308px
+}
 .card-more {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 	-webkit-transition: all .4s ease-in-out;
@@ -1036,7 +1039,16 @@ b i {
   margin: 0;
   -webkit-animation: colorsmv .76s linear infinite;
 }
-
+/*slick track*/
+.slick-list {
+	overflow: visible;
+}
+.slick-list .slick-slide {
+	margin-right: 8px;
+}
+.slick-list .slick-slide:last-of-type {
+	margin-right: 0
+}
 @-webkit-keyframes colorsmv {
   0%    { -webkit-transform: translateX(0px);}
   100%  { -webkit-transform: translateX(720px);}

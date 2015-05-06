@@ -95,7 +95,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                     }
                     if (data && data.length) {
                         data.forEach(function(person, index) {
-                            var element = '<div ng-init="person=data[' + index  + ']" style="width: 300px; height: 157px;"><div ng-include="\'templates/\' + person.selectedAccount.api + \'_account.html\'"></div></div>';
+                            var element = '<div ng-init="person=data[' + index  + ']" style="height: 157px;"><div ng-include="\'templates/\' + person.selectedAccount.api + \'_account.html\'"></div></div>';
                             $element.slick('slickAdd', $compile(element)($scope.$new()));
                         });
                     }
