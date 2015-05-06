@@ -20,14 +20,25 @@ module.exports = function(body, selector, get_url) {
             return;
         }
 
+        var mouse = { };
+
+        function get_mouse(e) {
+            mouse.x = e.pageX;
+            mouse.y = e.pageY;
+        }
+
+        get_mouse(e);
+        obj.on('mousemove', get_mouse);
+
         var create_trigger_timeout = setTimeout(function() {
+            obj.off('mousemove', get_mouse);
             obj.data('has-yo', true);
 
             var remove_trigger_timeout;
             var trigger = $('<div class="yo-notify"></div>')
                 .appendTo(body)
                 .addClass('yo-notify-' + identity.api)
-                .offset({ left: e.pageX - 8, top: obj.offset().top - 15 })
+                .offset({ left: Math.max(4, mouse.x - 8), top: Math.max(4, ((obj.height() <= 40) ? obj.offset().top - 16 : mouse.y - 20)) })
                 .click(function() {
                     trigger.trigger('yo', [url]);
                     trigger.addClass('yo-notify-clicked');
@@ -57,6 +68,7 @@ module.exports = function(body, selector, get_url) {
         }, 500);
 
         obj.one('mouseleave', function() {
+            obj.off('mousemove', get_mouse);
             clearTimeout(create_trigger_timeout);
         });
     });
