@@ -592,7 +592,7 @@ b i {
 }
 .reddit-title a {
   text-decoration: none;
-  font-size: 16px;
+  font-size: 14px;
   color: #000;
   font-weight: 500;
 }
@@ -647,6 +647,7 @@ b i {
 }
 .md blockquote {
   border-left: 2px solid rgba(0,0,0,.15);
+  margin-bottom: 8px;
   padding-left: 8px;
 }
 .md table {
@@ -660,6 +661,7 @@ b i {
 .md h1, .md h2, .md h3, .md h4, .md h5, .md h6 {
 	display: inline
 }
+
 .md p + blockquote {
 	margin:8px 0;
 }
@@ -944,6 +946,9 @@ b i {
 	padding: 16px 20px;
 	border-bottom: 1px solid rgba(0,0,0,0.15)
 }
+.reddit-profile-posts .md p {
+	font-size: 14px;
+}
 .reddit-profiles:last-of-type .reddit-profile-posts {
 	border-bottom: none
 }
@@ -960,6 +965,15 @@ b i {
 	top: 2px;
 	background-position: center;
 	background-size: cover;
+}
+.thumbnail-self {
+	background-image: url('../images/reddit-self.jpg');
+}
+.thumbnail-default {
+	background-image: url('../images/reddit-default.jpg');
+}
+.thumbnail-nsfw {
+	background-image: url('../images/reddit-nsfw.jpg');
 }
 /* ANIMATIONS */
 
