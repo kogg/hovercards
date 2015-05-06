@@ -64,7 +64,8 @@
 				</div>
 
 				<div class="card bounce-in-animation people-card" ng-if="data.people.length">
-					<div people-carousel="data.people" current="entry.selectedPerson" ng-if="!data.people.$err"></div>
+					<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="!data.people.$err && data.people.length === 1"></div>
+					<div people-carousel="data.people" current="entry.selectedPerson" ng-if="!data.people.$err && data.people.length > 1"></div>
 
 					<div error ng-if="data.people.$err" ng-switch="data.people.$err.status">
 						<span ng-switch-default>There was a problem with the people!</span>

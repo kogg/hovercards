@@ -81,7 +81,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 current: '='
             },
             link: function($scope, $element) {
-                $element.slick({ arrows: false, centerMode: true, centerPadding: 0, dots: true, focusOnSelect: true, infinite: false, slidesToShow: 1 });
+                $element.slick({ arrows: false, centerMode: true, centerPadding: 0, focusOnSelect: true, infinite: false, slidesToShow: 1 });
                 $element.on('afterChange', function(event, slick, index) {
                     $scope.$apply(function() {
                         $scope.current = $scope.data[index];
