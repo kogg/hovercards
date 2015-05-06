@@ -857,6 +857,9 @@ b i {
   font-weight: 500;
   text-decoration: none;
 }
+.content-list .row .col-5 a {
+	display: block;
+}
 .content-list .row .col-7 a:hover {
 	cursor: pointer;
 	text-decoration: underline;
@@ -967,12 +970,24 @@ b i {
 }
 .thumbnail-self {
 	background-image: url('../images/reddit-self.jpg');
+	background-size: 100%;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-color: #FFF;
 }
 .thumbnail-default {
 	background-image: url('../images/reddit-default.jpg');
+	background-size: 100%;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-color: #FFF;
 }
 .thumbnail-nsfw {
 	background-image: url('../images/reddit-nsfw.jpg');
+	background-size: 100%;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-color: #FFF;
 }
 /* ANIMATIONS */
 
