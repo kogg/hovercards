@@ -851,14 +851,15 @@ b i {
 .content-list .row .col-7 {
 	padding: 8px 8px 8px 12px;
 }
-.content-list .row .col-7 p {
+.content-list .row .col-7 a {
 	color: #212121;
 	margin-top: 0;
 	padding-top: 0px;
   font-size: 14px;
   font-weight: 500;
+  text-decoration: none;
 }
-.content-list .row .col-7 p:hover {
+.content-list .row .col-7 a:hover {
 	cursor: pointer;
 	text-decoration: underline;
 }

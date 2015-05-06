@@ -1,13 +1,15 @@
 <div class="content-list">
-	<a ng-href="https://www.youtube.com/watch?v={{ video.id }}" ng-repeat="video in data.moreContent.videos" ng-class="{ 'content-list-selected': video.id===entry.content.id }" class="content-list-link">
+	<div ng-repeat="video in data.moreContent.videos" ng-class="{ 'content-list-selected': video.id===entry.content.id }" class="content-list-link">
 		<div class="row">
 			<div class="col-5">
-				<img ng-src="{{ video.image }}">
+				<a ng-href="https://www.youtube.com/watch?v={{ video.id }}">
+					<img ng-src="{{ video.image }}">
+				</a>
 			</div>
 			<div class="col-7">
-				<p readmore="video.name" style="max-height: 40px">{{ video.name }}</p>
+				<p><a ng-href="https://www.youtube.com/watch?v={{ video.id }}" readmore="video.name" style="max-height: 40px">{{ video.name }}</a></p>
 				<b><i class="md md-access-time"></i> {{ video.date | timeSince }}</b>
 			</div>
 		</div>
-	</a>
+	</div>
 </div>
