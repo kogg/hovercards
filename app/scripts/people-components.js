@@ -1,4 +1,5 @@
 var angular = require('angular');
+require('slick-carousel');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
     .controller('PeopleController', ['$scope', '$q', 'apiService', function($scope, $q, apiService) {
@@ -72,5 +73,35 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 return people;
             }());
         });
+    }])
+    .directive('peopleCarousel', ['$compile', function($compile) {
+        return {
+            scope: {
+                data: '=peopleCarousel',
+                current: '='
+            },
+            link: function($scope, $element) {
+                $element.slick({ arrows: false, centerMode: true, centerPadding: 0, dots: true, focusOnSelect: true, infinite: false, slidesToShow: 1 });
+                $element.on('afterChange', function(event, slick, index) {
+                    $scope.$apply(function() {
+                        $scope.current = $scope.data[index];
+                    });
+                });
+                $scope.$watchCollection('data', function(data, oldData) {
+                    if (oldData && oldData.length && data !== oldData) {
+                        oldData.forEach(function() {
+                            $element.slick('slickRemove', 0);
+                        });
+                    }
+                    if (data && data.length) {
+                        data.forEach(function(person, index) {
+                            var element = '<div ng-init="person=data[' + index  + ']" style="width: 300px; height: 157px;"><div ng-include="\'templates/\' + person.selectedAccount.api + \'_account.html\'"></div></div>';
+                            $element.slick('slickAdd', $compile(element)($scope.$new()));
+                        });
+                    }
+                    $scope.current = data[$element.slick('slickCurrentSlide') || 0];
+                });
+            }
+        };
     }])
     .name;
