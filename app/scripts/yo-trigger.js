@@ -34,8 +34,10 @@ module.exports = function(body, selector, get_url) {
                 })
                 .hover(function() {
                     clearTimeout(remove_trigger_timeout);
+                    trigger.addClass('yo-notify-hover');
                     trigger.removeClass('yo-notify-exit');
                 }, function() {
+                    trigger.removeClass('yo-notify-hover');
                     remove_trigger_timeout = setTimeout(function() {
                         trigger.addClass('yo-notify-exit');
                     }, 2000);
