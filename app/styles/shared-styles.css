@@ -9,10 +9,9 @@
 	background-position: center !important;
 	border-radius: 50% !important;
 	z-index: 99999999999999 !important;
+    -webkit-transition:all .15s ease-in-out;
 	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
-	-webkit-animation-fill-mode: forwards;
-	animation-fill-mode: forwards;
 	-webkit-animation-name: yofadeIn;
 	animation-name: yofadeIn;
 }
@@ -86,7 +85,7 @@
 @-webkit-keyframes yohasbeenpressedlol { 
     0% {
     	opacity: 1;
-    	-webkit-transform: scale(1);
+        -webkit-transform: scale(1.5);
     }
     60% {
     	-webkit-transform: scale(4.5);
@@ -99,7 +98,7 @@
 @keyframes yohasbeenpressedlol { 
     0% {
     	opacity: 1;
-    	transform: scale(1);
+    	transform: scale(1.5);
     }
     60% {
     	transform: scale(4.5);
@@ -110,6 +109,7 @@
     }
 }
 .yo-notify-hover {
+    -webkit-transition:all .15s ease-in-out;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115) !important;
     cursor: pointer !important;
     width: 16px !important;
