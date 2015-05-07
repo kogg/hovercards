@@ -46,6 +46,10 @@ module.exports = function(body, selector, get_url) {
             })
             .mouseleave(function() {
                 trigger.removeClass('yo-notify-hover');
+                clearTimeout(trigger.data('yo-trigger-timeout'));
+                trigger.data('yo-trigger-timeout', setTimeout(function() {
+                    trigger.addClass('yo-notify-exit');
+                }, 3000));
             })
             .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
                 if (e.originalEvent.animationName !== 'yofadeOut' && e.originalEvent.animationName !== 'yohasbeenpressedlol') {
