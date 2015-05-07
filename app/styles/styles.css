@@ -874,8 +874,6 @@ b i {
 	display: block;
 	border: 1px solid rgba(0,0,0,.15);
 	border-radius: 3px;
-	cursor: pointer;
-	pointer-events: none;
 }
 .content-list-selected img {
 	border:none;
@@ -883,10 +881,6 @@ b i {
 }
 .content-list-selected .row:hover {
 	background: transparent;
-}
-.content-list-selected .row p:hover {
-	cursor: pointer;
-	pointer-events: none;
 }
 .content-list .row .col-7 span {
 	display: none !important
