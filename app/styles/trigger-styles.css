@@ -18,25 +18,25 @@
 }
 
 @-webkit-keyframes bounceInLeft {
-  0% {
-  	opacity: 0;
-  	-webkit-transform: scale(.5);
-  }
-  100% {
-  	opacity: 1;
-  	-webkit-transform: scale(1);
-  }
+	0% {
+		opacity: 0;
+		-webkit-transform: scale(.5);
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform: scale(1);
+	}
 }
 
 @keyframes bounceInLeft {
-  0% {
-  	opacity: 0;
-  	-webkit-transform: scale(.5);
-  }
-  100% {
-  	opacity: 1;
-  	transform: scale(1);
-  }
+	0% {
+		opacity: 0;
+		-webkit-transform: scale(.5);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
 } 
 .hovercards-embedded-trigger:hover {
 	cursor: pointer !important;
@@ -46,7 +46,7 @@
 	background-image:url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png') !important;
 }
 
-.yo-notify  {
+.yo-notify {
 	content: "" !important;
 	position: absolute !important;
 	width: 16px !important;
@@ -57,10 +57,9 @@
 	background-position: center !important;
 	border-radius: 50% !important;
 	z-index: 99999999999999 !important;
+	-webkit-transition:all .15s ease-in-out;
 	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
-	-webkit-animation-fill-mode: forwards;
-	animation-fill-mode: forwards;
 	-webkit-animation-name: yofadeIn;
 	animation-name: yofadeIn;
 }
@@ -72,24 +71,24 @@
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-black.png') !important;
 }
 @-webkit-keyframes yofadeIn { 
-    0% {
-    	opacity: 0;
-    	-webkit-transform: scale(.5);
-    }
-    100% {
-    	opacity: 1;
-    	-webkit-transform: scale(1);
-    }
+	0% {
+		opacity: 0;
+		-webkit-transform: scale(.5);
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform: scale(1);
+	}
 } 
 @keyframes yofadeIn { 
-    0% {
-    	opacity: 0;
-    	transform: scale(.5);
-    }
-    100% {
-    	opacity: 1;
-    	transform: scale(1);
-    }
+	0% {
+		opacity: 0;
+		transform: scale(.5);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
 } 
 
 .yo-notify-exit {
@@ -102,24 +101,24 @@
 }
 
 @-webkit-keyframes yofadeOut { 
-    0% {
-    	opacity: 1;
-    	-webkit-transform: scale(1);
-    }
-    100% {
-    	opacity: 0;
-    	-webkit-transform: scale(.5);
-    }
+	0% {
+		opacity: 1;
+		-webkit-transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale(.5);
+	}
 } 
 @keyframes yofadeOut { 
-    0% {
-    	opacity: 1;
-    	transform: scale(1);
-    }
-    100% {
-    	opacity: 0;
-    	transform: scale(.5);
-    }
+	0% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(.5);
+	}
 }
 .yo-notify-clicked {
 	-webkit-animation-duration: .4s;
@@ -132,36 +131,37 @@
 	cursor: default !important;
 }
 @-webkit-keyframes yohasbeenpressedlol { 
-    0% {
-    	opacity: 1;
-    	-webkit-transform: scale(1);
-    }
-    60% {
-    	-webkit-transform: scale(4.5);
-    }
-    100% {
-    	opacity: 0;
-    	-webkit-transform: scale(4.5);
-    }
+	0% {
+		opacity: 1;
+		-webkit-transform: scale(1.5);
+	}
+	60% {
+		-webkit-transform: scale(4.5);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale(4.5);
+	}
 } 
 @keyframes yohasbeenpressedlol { 
-    0% {
-    	opacity: 1;
-    	transform: scale(1);
-    }
-    60% {
-    	transform: scale(4.5);
-    }
-    100% {
-    	opacity: 0;
-    	-webkit-transform: scale(4.5);
-    }
+	0% {
+		opacity: 1;
+		transform: scale(1.5);
+	}
+	60% {
+		transform: scale(4.5);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale(4.5);
+	}
 }
 .yo-notify-hover {
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115) !important;
-    cursor: pointer !important;
-    width: 16px !important;
-    height: 16px !important;
-    transform: scale(1.5) !important;
-    -webkit-transform: scale(1.5) !important;
+	-webkit-transition:all .15s ease-in-out;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115) !important;
+	cursor: pointer !important;
+	width: 16px !important;
+	height: 16px !important;
+	transform: scale(1.5) !important;
+	-webkit-transform: scale(1.5) !important;
 }
