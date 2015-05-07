@@ -362,10 +362,7 @@ b i {
 .user-context a:last-of-type {
 	padding-right: 36px;
 }
-.user-context i {
-	position: relative;
-	top: -1.5px;
-}
+
 .comment-top {
 	border: 1px solid rgba(0,0,0,.15);
 	border-top-left-radius: 3px !important;
@@ -499,6 +496,9 @@ b i {
   background-repeat: no-repeat;
   overflow: hidden;
 }
+#sortable li:hover {
+	background-color: #fbfbfb
+}
 #sortable li b {
 	position: absolute;
 	height: 50px;
@@ -506,6 +506,7 @@ b i {
 	display: block;
 	left: 0;
 	top: 0;
+	z-index: 2;
 }
 #sortable li b:hover {
 	cursor: -webkit-grab !important
@@ -615,6 +616,13 @@ b i {
   color: #000;
   font-weight: 500;
 }
+.card .reddit-title a {
+	font-size: 16px !important;
+}
+.card .reddit-title .user-context a {
+	font-size: 14px !important;
+}
+
 .reddit-title a:hover {
 	text-decoration: underline;
 }
@@ -632,13 +640,15 @@ b i {
 	vertical-align: inherit;
 	display: inline
 }
-.child-comment .md a {
-	text-decoration: none
+.md a {
+	text-decoration: none;
+	color: #2196F3;
+	font-weight: normal;
 }
 .child-comment div.md, .child-comment .md p, .card-description div.md p, .card-description div.md {
 	display: inline;
 }
-.child-comment .md a:hover {
+.md a:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
@@ -1085,7 +1095,8 @@ b i {
 }
 /*slick track*/
 .card .slick-slider {
-	min-width: 308px
+	min-width: 308px;
+	position:relative;
 }
 .slick-list {
 	overflow: visible;
@@ -1095,6 +1106,28 @@ b i {
 }
 .slick-list .slick-slide:last-of-type {
 	margin-right: 0
+}
+.slick-slide {
+	position: relative;
+}
+.slick-slide:before {
+  content: "";
+  position: absolute;
+  margin-left: -24px;
+  height: 100%;
+  width: 36px;
+  z-index: 2;
+  right: -24px;
+}
+.slick-center:before {
+	display: none;
+}
+.slick-center + div:before {
+  left: 0;
+  z-index: 3;
+}
+.slick-slide:before {
+	cursor: pointer
 }
 /*circle ripple*/
 .rippleblack {
