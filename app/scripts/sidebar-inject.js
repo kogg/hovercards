@@ -1,15 +1,10 @@
 var $ = require('jquery');
 
 module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, sendMessage) {
-    inject_into = $(inject_into);
     body = $(body);
-    dbl_clickable = $(dbl_clickable)
-        .dblclick(function() {
-            sendMessage({ msg: 'hide' });
-        });
 
     var obj = $('<div class="hovercards-sidebar"></div>')
-        .appendTo(inject_into)
+        .appendTo($(inject_into))
         .hide()
         .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
             if (e.originalEvent.animationName !== 'slide-out-hovercards') {
@@ -35,7 +30,7 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
             }
         });
 
-    $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+    var iframe = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .prop('src', chrome.extension.getURL('sidebar.html'))
         .prop('frameborder', '0')
@@ -53,6 +48,15 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
                 return;
             }
             sendMessage({ msg: 'hide' });
+        });
+
+    $(dbl_clickable)
+        .dblclick(function() {
+            sendMessage({ msg: 'hide' });
+        })
+        .on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', function() {
+            console.log('hey', iframe.get(0) === (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement));
+            obj.toggleClass('yocards-fullscreen-sidebar', iframe.get(0) === (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement));
         });
 
     return obj;
