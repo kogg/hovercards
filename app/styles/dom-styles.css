@@ -73,7 +73,9 @@
 	color: black !important;
 	cursor: pointer !important;
 }
-
+.yocards-fullscreen-sidebar {
+	width: 100% !important
+}
 
 
 
