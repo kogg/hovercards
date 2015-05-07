@@ -53,11 +53,14 @@ describe('embedded-trigger', function() {
             expect(body.find('.hovercards-embedded-trigger')).to.have.css('display', 'none');
         });
 
-        it('should send activate on click after obj mouseenter', function() {
+        it('should send activate on click after obj mouseenter', function(done) {
+            body.on('yo', function(e, url) {
+                expect(url).to.equal('URL');
+                done();
+            });
+
             obj.mouseenter();
             body.find('.hovercards-embedded-trigger').click();
-
-            expect(sendMessage).to.have.been.calledWith('URL');
         });
     });
 

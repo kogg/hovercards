@@ -4,7 +4,7 @@ var longpress = require('./longpress');
 
 var offset = { top: 32, left: 8 };
 
-module.exports = function(body, selector, get_url, sendMessage, fullscreenable) {
+module.exports = function(body, selector, get_url) {
     body = $(body);
     var trigger = body.find('.hovercards-embedded-trigger');
     if (!trigger.length) { // FIXME I don't like this at all
@@ -26,7 +26,7 @@ module.exports = function(body, selector, get_url, sendMessage, fullscreenable) 
                 trigger.hide();
             })
             .click(function() {
-                sendMessage(trigger.data('hovercards-url'));
+                trigger.trigger('yo', [trigger.data('hovercards-url')]);
             });
         longpress(body, 'div.hovercards-embedded-trigger', function() {
             return trigger.data('hovercards-url');
@@ -52,8 +52,7 @@ module.exports = function(body, selector, get_url, sendMessage, fullscreenable) 
             trigger
                 .offset({ top: obj_offset.top + offset.top, left: obj_offset.left + offset.left })
                 .data('hovercards-url', url)
-                .data('hovercards-obj', obj) // FIXME I REALLY DON'T LIKE THIS
-                .toggleClass('hovercards-embedded-trigger-fullscreenable', fullscreenable);
+                .data('hovercards-obj', obj); // FIXME I REALLY DON'T LIKE THIS
         }
     });
     body.on('mouseleave', selector, function(e) {
