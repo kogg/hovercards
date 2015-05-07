@@ -6,7 +6,13 @@ module.exports = function(body, selector, get_url) {
 
     body.on('mouseenter', selector, function(e) {
         var obj = $(this);
-        if (obj.data('has-yo')) {
+        var trigger;
+        if (obj.data('yo-trigger')) {
+            trigger = obj.data('yo-trigger');
+            clearTimeout(trigger.data('yo-trigger-timeout'));
+            trigger.data('yo-trigger-timeout', setTimeout(function() {
+                trigger.addClass('yo-notify-exit');
+            }, 2000));
             return;
         }
 
@@ -32,10 +38,8 @@ module.exports = function(body, selector, get_url) {
 
         var create_trigger_timeout = setTimeout(function() {
             obj.off('mousemove', get_mouse);
-            obj.data('has-yo', true);
 
-            var remove_trigger_timeout;
-            var trigger = $('<div class="yo-notify"></div>')
+            obj.data('yo-trigger', trigger = $('<div class="yo-notify"></div>')
                 .appendTo(body)
                 .addClass('yo-notify-' + identity.api)
                 .offset({ left: Math.max(4, mouse.x - 8), top: Math.max(4, ((obj.height() <= 40) ? obj.offset().top - 16 : mouse.y - 20)) })
@@ -43,28 +47,31 @@ module.exports = function(body, selector, get_url) {
                     trigger.trigger('yo', [url]);
                     trigger.addClass('yo-notify-clicked');
                 })
-                .hover(function() {
-                    clearTimeout(remove_trigger_timeout);
+                .mouseenter(function() {
+                    clearTimeout(trigger.data('yo-trigger-timeout'));
+                    trigger.removeData('yo-trigger-timeout');
                     trigger.addClass('yo-notify-hover');
                     trigger.removeClass('yo-notify-exit');
-                }, function() {
+                })
+                .mouseleave(function() {
                     trigger.removeClass('yo-notify-hover');
-                    remove_trigger_timeout = setTimeout(function() {
+                    clearTimeout(trigger.data('yo-trigger-timeout'));
+                    trigger.data('yo-trigger-timeout', setTimeout(function() {
                         trigger.addClass('yo-notify-exit');
-                    }, 2000);
+                    }, 2000));
                 })
                 .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
                     if (e.originalEvent.animationName !== 'yofadeOut' && e.originalEvent.animationName !== 'yohasbeenpressedlol') {
                         return;
                     }
-                    clearTimeout(remove_trigger_timeout);
+                    clearTimeout(trigger.data('yo-trigger-timeout'));
                     trigger.remove();
-                    obj.data('has-yo', false);
-                });
+                    obj.removeData('yo-trigger');
+                }));
 
-            remove_trigger_timeout = setTimeout(function() {
+            trigger.data('yo-trigger-timeout', setTimeout(function() {
                 trigger.addClass('yo-notify-exit');
-            }, 2000);
+            }, 2000));
         }, 500);
 
         obj.one('mouseleave', function() {
