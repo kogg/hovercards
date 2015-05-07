@@ -1,48 +1,3 @@
-.hovercards-embedded-trigger {
-	z-index: 2147483647 !important;
-	width: 16px !important;
-	height: 16px !important;
-	background-color: #F44336 !important;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png') !important;
-	background-repeat: no-repeat !important;
-	background-size: 66% !important;
-	background-position: center !important;
-	border-radius: 50% !important;
-	position: absolute !important;
-	-webkit-animation-duration: .3s;
-	animation-duration: .3s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-	-webkit-animation-name: bounceInLeft;
-	animation-name: bounceInLeft;
-}
-
-@-webkit-keyframes bounceInLeft {
-	0% {
-		opacity: 0;
-		-webkit-transform: scale(.5);
-	}
-	100% {
-		opacity: 1;
-		-webkit-transform: scale(1);
-	}
-}
-
-@keyframes bounceInLeft {
-	0% {
-		opacity: 0;
-		-webkit-transform: scale(.5);
-	}
-	100% {
-		opacity: 1;
-		transform: scale(1);
-	}
-} 
-.hovercards-embedded-trigger:hover {
-	cursor: pointer !important;
-	opacity: 1;
-}
-
 .yo-notify {
 	content: "" !important;
 	position: absolute !important;
@@ -53,12 +8,18 @@
 	background-size: 66% !important;
 	background-position: center !important;
 	border-radius: 50% !important;
-	z-index: 99999999999999 !important;
+	z-index: 2147483647 !important;
 	-webkit-transition:all .15s ease-in-out;
 	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
 	-webkit-animation-name: yofadeIn;
 	animation-name: yofadeIn;
+}
+.yo-notify-embedded {
+	-webkit-animation-duration: .3s;
+	animation-duration: .3s;
+	-webkit-animation-name: yofaddedIn;
+	animation-name: yofaddedIn;
 }
 .yo-notify-youtube {
 	background-color: #F44336 !important;
@@ -85,6 +46,22 @@
 	100% {
 		opacity: 1;
 		transform: scale(1);
+	}
+} 
+@-webkit-keyframes yofaddedIn { 
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+} 
+@keyframes yofaddedIn { 
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
 	}
 } 
 
