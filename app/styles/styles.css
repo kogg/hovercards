@@ -492,7 +492,26 @@ b i {
 	position: relative;
 	margin-bottom:2px;
 	border-radius: 3px;
-	height: 50px !important
+	background-image: url('../images/grabbable.png');
+	height: 50px !important;
+	background-size: auto 42%;
+  background-position: 05px center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+#sortable li b {
+	position: absolute;
+	height: 50px;
+	width: 16px;
+	display: block;
+	left: 0;
+	top: 0;
+}
+#sortable li b:hover {
+	cursor: -webkit-grab !important
+}
+#sortable li b:active 	{
+	cursor: -webkit-grabbing !important
 }
 #sortable li:last-of-type {
 	margin-bottom:0
@@ -503,9 +522,9 @@ b i {
 #sortable li:hover {
 	cursor: pointer !important;
 }
-#sortable li:active {
+.dragging-list {
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
-	background: white;
+	background-color: white;
 	-ms-transform: rotate(2deg);
 	-webkit-transform: rotate(2deg);
 	transform: rotate(2deg);
@@ -1077,7 +1096,91 @@ b i {
 .slick-list .slick-slide:last-of-type {
 	margin-right: 0
 }
+/*circle ripple*/
+.rippleblack {
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.2s;
+}
+.rippleblack:active {
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  transition-delay: 0s;
+}
 
+.circle {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%; 
+  -webkit-animation: scale-circle 2.5s;
+  -moz-animation: scale-circle 2.5s;
+  -o-animation: scale-circle 2.5s;
+  -ms-animation: scale-circle 2.5s;
+  animation: scale-circle 2.5s;
+}
+.rippleblack .circle {
+  background: rgba(0,0,0,.4)
+}
+@-webkit-keyframes scale-circle {
+  from {
+    transform: scale(.2);
+    -webkit-transform: scale(.2);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(100);
+    -webkit-transform: scale(100);
+    opacity: 0;
+  }
+}
+@-moz-keyframes scale-circle {
+  from {
+    transform: scale(.2);
+    -moz-transform: scale(.2);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(100);
+    -moz-transform: scale(100);
+    opacity: 0;
+  }
+}
+@-o-keyframes scale-circle {
+  from {
+    transform: scale(.2);
+    -o-transform: scale(.2);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(100);
+    -o-transform: scale(100);
+    opacity: 0;
+  }
+}
+@-ms-keyframes scale-circle {
+  from {
+    transform: scale(.2);
+    -ms-transform: scale(.2);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(100);
+    -ms-transform: scale(100);
+    opacity: 0;
+  }
+}
+@keyframes scale-circle {
+  from {
+    transform: scale(.2);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(100);
+    opacity: 0;
+  }
+}
 
 
 

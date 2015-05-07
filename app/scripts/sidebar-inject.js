@@ -30,7 +30,7 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
             }
         });
 
-    var iframe = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+    $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .prop('src', chrome.extension.getURL('sidebar.html'))
         .prop('frameborder', '0')
@@ -53,14 +53,6 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
     $(dbl_clickable)
         .dblclick(function() {
             sendMessage({ msg: 'hide' });
-        })
-        .on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', function() {
-            var is_iframe = (iframe.get(0) === (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement));
-            obj.toggleClass('yocards-fullscreen-sidebar', is_iframe);
-            body.toggleClass('yocards-remove-margin', is_iframe);
-            if (is_iframe) {
-                obj.attr('style', 'height: ' + screen.height + 'px !important');
-            }
         });
 
     return obj;
