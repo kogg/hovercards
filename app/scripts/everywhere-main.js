@@ -36,6 +36,11 @@ embedded_trigger(html, 'div#player div.html5-video-player', function() {
 
 html.on('longpress', function(e, url) {
     window.top.postMessage({ msg: 'activate', url: url }, '*');
+    var trigger = $(e.target).data('yo-trigger');
+    if (trigger) {
+        trigger.addClass('yo-notify-clicked');
+        clearTimeout(trigger.data('yo-trigger-timeout'));
+    }
 });
 
 html.on('yo', function(e, url) {
