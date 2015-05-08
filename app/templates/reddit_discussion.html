@@ -1,4 +1,8 @@
-<div class="reddit-title" ng-if="data.content.api !== 'reddit' || data.content.id !== data.discussion.id">
+<div class="no-comments" ng-if="!data.discussion.comments.length || !data.discussion.count">
+	<p>Oh no, no one has posted this on Reddit! <a href="#">Post it first</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></p>
+</div>
+
+<div class="reddit-title" ng-if="data.discussion.comments.length && data.discussion.count && (data.content.api !== 'reddit' || data.content.id !== data.discussion.id)">
 	<div class="user-context">
 		<div class="ellipsis">
 			<a ng-href="https://www.reddit.com/user/{{:: data.discussion.author.id }}" class="ng-binding" href="https://www.reddit.com/user/PopeSleepy" target="_blank">{{:: data.discussion.author.id }}</a>

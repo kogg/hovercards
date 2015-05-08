@@ -34,10 +34,10 @@
 								</div>
 								<div class="col-3">
 									<span>{{ data.discussion.count | numsmall }}</span>
-									<i class="md md-more-vert" ng-click="showMenu = !showMenu"></i>
+									<i class="md md-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>
 								</div>
 							</div>
-							<div class="menu" ng-show="showMenu">
+							<div class="menu" ng-show="entry.showMenu">
 								<div class="menu-description" stored="hide_menu_description" name="hide-menu-description" ng-show="!hide_menu_description">
 									<div class="row">
 										<div class="col-10">
@@ -55,12 +55,6 @@
 									</li>
 								</ul>
 							</div>
-						</div>
-						<div class="no-comments">
-							<!--
-							<p>Oh no, no one has posted this on Reddit! <a href="#">Post on reddit </a> &middot; <a href="#">or look at Youtube comments!</a></p>
-							-->
-							<p>Oh no, there's no comments on this video! <a href="#">Comment on it </a> &middot; <a href="#">or look on Reddit!</a></p>
 						</div>
 						<div ng-include="'templates/' + data.discussion.api + '_discussion.html'" ng-if="data.discussion.$resolved && !data.discussion.$err"></div>
 
