@@ -1148,11 +1148,11 @@ b i {
 
 .loader {
   width: 100%;
-  left: 0;
   right: 0;
   top: 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  background: #b2ccf5;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: #B2CCF5;
   position: fixed;
 }
 
