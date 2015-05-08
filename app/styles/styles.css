@@ -327,11 +327,19 @@ b i {
 	display: inline;
 	padding-right: 2px !important;
 }
-.user-context div b {
+.user-context div b a, .reddit-title .user-context b a  {
   margin-bottom: 0;
   display: inline;
   top: -1px;
   position: relative;
+	font-size: 12px !important;
+	color: #2196F3
+}
+.reddit-title .user-context b a {
+	top: 0
+}
+.user-context div b {
+	display: inline
 }
 .user-context div {
 	position: relative;
@@ -658,7 +666,9 @@ b i {
 .card .reddit-title .user-context a {
 	font-size: 14px !important;
 }
-
+.card .reddit-title .user-context div b a {
+	font-size: 12px !important;
+}
 .reddit-title a:hover {
 	text-decoration: underline;
 }
