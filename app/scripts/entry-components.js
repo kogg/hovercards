@@ -12,7 +12,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                         $scope.data  = {};
                     });
                     setTimeout(function() {
-                        var identity = network_urls(request.url);
+                        var identity = network_urls.identify(request.url);
                         $scope.$apply(function() {
                             $scope.entry = {};
                             if (!identity) {

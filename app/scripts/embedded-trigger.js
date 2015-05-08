@@ -23,7 +23,7 @@ module.exports = function(body, selector, get_url) {
             return;
         }
 
-        var identity = network_urls(url);
+        var identity = network_urls.identify(url);
         if (!identity) {
             return;
         }
