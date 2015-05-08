@@ -35,6 +35,6 @@ chrome.storage.local.get('user_id', function(obj) {
     });
 });
 
-chrome.browserAction.onClicked.addListener(function() {
-    console.log(arguments);
+chrome.browserAction.onClicked.addListener(function(tab) {
+    chrome.tabs.executeScript(tab.id, { code: 'window.top.postMessage({ msg: \'activate\', url: \'' + tab.url + '\' }, \'*\');' });
 });
