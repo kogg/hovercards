@@ -1,7 +1,9 @@
 <div class="video-top">
 	<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
 		<div class="youtube-video" ng-if="playing">
-			<iframe width="100%" height="100%" ng-src="{{ 'https://www.youtube.com/embed/' + data.content.id + '?autoplay=1' | trustresourceurl }}" frameborder="0" allowfullscreen="" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            <object data="https://www.youtube.com/v/{{ data.content.id }}?autoplay=1&fs=1&noyo=1" width="100%" height="100%" type="application/x-shockwave-flash">
+                <param name="allowFullScreen" value="true"></param>
+            </object>
 		</div>
 
 	</div>

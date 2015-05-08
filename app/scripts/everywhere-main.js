@@ -26,7 +26,7 @@ embedded_trigger(html, 'embed[src]', function(embed) {
     return common.nullify_bad_url(common.relative_to_absolute(embed.attr('src')));
 });
 
-embedded_trigger(html, 'object[data]', function(object) {
+embedded_trigger(html, 'object[data]:not([data*="noyo=1"])', function(object) {
     return common.nullify_bad_url(common.relative_to_absolute(object.attr('data')));
 });
 
