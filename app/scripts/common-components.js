@@ -93,6 +93,34 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     })
+    .directive('stored', function() {
+        return {
+            retrict: 'A',
+            scope: {
+                stored: '=',
+                name: '@',
+                default: '=?'
+            },
+            link: function($scope) {
+                $scope.stored = $scope.default;
+                chrome.storage.sync.get($scope.name, function(obj) {
+                    $scope.$watch('stored', function(val, oldVal) {
+                        if (val === oldVal) {
+                            return;
+                        }
+                        var obj = {};
+                        obj[$scope.name] = val;
+                        chrome.storage.sync.set(obj);
+                    });
+                    if ($scope.name in obj) {
+                        $scope.stored = obj[$scope.name];
+                    } else {
+                        $scope.stored = $scope.default;
+                    }
+                });
+            }
+        };
+    })
     .filter('copy', function() {
         return function(messagename) {
             if (!messagename) {

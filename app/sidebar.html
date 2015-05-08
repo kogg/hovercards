@@ -38,12 +38,12 @@
 								</div>
 							</div>
 							<div class="menu" ng-show="showMenu">
-								<div class="menu-description">
+								<div class="menu-description" stored="hide_menu_description" name="hide-menu-description" ng-show="!hide_menu_description">
 									<div class="row">
 										<div class="col-10">
 											<p>Drag your favourite comment community to the top, and we'll show it to you first next time!</p>
 										</div>
-										<div class="col-2">
+										<div class="col-2" ng-click="hide_menu_description = true">
 											<i class="md md-close"></i>
 										</div>
 									</div>
