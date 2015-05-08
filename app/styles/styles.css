@@ -952,6 +952,9 @@ b i {
 	padding: 8px 8px 8px 12px;
 }
 .content-list .row .col-7 a {
+	text-decoration: none;
+}
+.content-list .row .col-7 a p {
 	color: #212121;
 	margin-top: 0;
 	padding-top: 0px;
@@ -962,7 +965,7 @@ b i {
 .content-list .row .col-5 a {
 	display: block;
 }
-.content-list .row .col-7 a:hover {
+.content-list .row .col-7 a p:hover {
 	cursor: pointer;
 	text-decoration: underline;
 }
