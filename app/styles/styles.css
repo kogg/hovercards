@@ -38,7 +38,7 @@ html,body {
 .fullscreen-active {
 
 }
-.fullscreen-active + div {
+.fullscreen-active > div {
 	max-width: 340px;
 	float: right;
 }
