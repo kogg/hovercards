@@ -84,7 +84,7 @@
 
 		<div class="social-profile" ng-style="!at.page_bottom && { overflow: 'hidden' }" ng-if="entry.selectedPerson.selectedAccount">
 			<div ng-if="entry.selectedPerson.selectedAccount.description">
-				<p class="social-profile-description" ng-bind-html="entry.selectedPerson.selectedAccount.description | linky" readmore="entry.selectedPerson.selectedAccount.description" style="max-height: 100px"></p>
+				<p class="social-profile-description" readmore="entry.selectedPerson.selectedAccount.description | linky" style="max-height: 100px"></p>
 			</div>
 			<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
 				<div ng-if="data.moreContent.$resolved">

@@ -8,7 +8,7 @@
 			<a ng-href="{{:: thing.content | generateUrl }}">{{:: thing.content.name }}</a>
 		</div>
 		<div>
-			<div class="child-comment"><p ng-bind-html=":: thing.description" readmore=":: thing.description" style="max-height: 170px"></p></div>
+			<div class="child-comment"><p readmore=":: thing.description" style="max-height: 50px"></p></div>
 		</div>
 	</div>
 	<div class="content-list reddit-profile-posts" ng-if="thing.type === 'content'">
@@ -19,6 +19,9 @@
 			</div>
 			<div class="thumbnail" ng-class=":: (thing.image.indexOf('http') === -1) && ('thumbnail-' + thing.image)" ng-if="thing.image" ng-style=":: (thing.image.indexOf('http') === 0) && { 'background-image': 'url(' + thing.image + ')'}"></div>
 			<a ng-href="{{:: thing | generateUrl }}">{{:: thing.name }}</a>
+		</div>
+		<div ng-if=":: thing.description">
+			<div class="child-comment"><p readmore=":: thing.description" style="max-height: 50px"></p></div>
 		</div>
 	</div>
 </div>

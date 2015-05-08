@@ -1,41 +1,43 @@
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize')])
-    .directive('readmore', function() {
+    .directive('readmore', ['$sanitize', function($sanitize) {
         require('dotdotdot');
 
         return {
             restrict: 'A',
             scope: {
-                readmore: '='
+                text: '=readmore'
             },
             link: function($scope, $element) {
-                $scope.$watch('readmore', function(readmore) {
-                    if (!readmore) {
+                $scope.$watch('text', function(text) {
+                    $element.html($sanitize(text || ''));
+                    if (!text) {
                         return;
                     }
-                    var html = $element.html();
-                    angular.element('<span class="read-more">Read More</span>').appendTo($element);
+                    $element.append('<span class="read-more">Read More</span>');
                     $element.dotdotdot({
                         after: 'span.read-more',
                         callback: function(isTruncated) {
-                            var link = $element.find('.read-more');
+                            var read_more = $element.find('.read-more');
                             if (!isTruncated) {
-                                link.remove();
+                                read_more.remove();
                                 return;
                             }
-                            $element.append(link); // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
-                            link.click(function() {
-                                $element.trigger('destroy');
-                                $element.css('max-height', 'none');
-                                $element.html(html);
-                            });
+                            read_more
+                                .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
+                                .click(function() {
+                                    $element
+                                        .trigger('destroy')
+                                        .css('max-height', 'none')
+                                        .html(text);
+                                });
                         }
                     });
                 });
             }
         };
-    })
+    }])
     .directive('sortable', function() {
         require('jquery-ui/sortable');
         require('jquery-ui/droppable');
