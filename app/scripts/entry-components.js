@@ -42,7 +42,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
         }, false);
 
         $scope.$watch('data.content.$resolved', function() {
-            if (!$scope.data.content || !$scope.data.content.$resolved) {
+            if (!$scope.data.content || !$scope.data.content.$resolved || !$scope.entry) {
                 return;
             }
 
@@ -68,7 +68,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
         });
 
         $scope.$watch('data.discussion.$resolved', function() {
-            if (!$scope.data.discussion || !$scope.data.discussion.$resolved || $scope.entry.type !== 'discussion') {
+            if (!$scope.data.discussion || !$scope.data.discussion.$resolved || !$scope.entry || $scope.entry.type !== 'discussion') {
                 return;
             }
 
