@@ -56,6 +56,9 @@
 								</ul>
 							</div>
 						</div>
+						<div class="no-comments">
+							<p>Oh no, there's no comments on this video! <a href="#">Comment on it </a> &middot; <a href="#">or look on Reddit!</a></p>
+						</div>
 						<div ng-include="'templates/' + data.discussion.api + '_discussion.html'" ng-if="data.discussion.$resolved && !data.discussion.$err"></div>
 
 						<div error ng-if="data.discussion.$err" ng-switch="data.discussion.$err.status">
