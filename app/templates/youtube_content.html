@@ -1,4 +1,5 @@
-<div class="video-top">
+<div class="video-top fullscreen-trigger">
+	<div class="exit-fullscreen">exit fullscreen</div>
 	<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
 		<div class="youtube-video" ng-if="playing">
             <object data="https://www.youtube.com/v/{{ data.content.id }}?autoplay=1&fs=1&noyo=1" width="100%" height="100%" type="application/x-shockwave-flash">

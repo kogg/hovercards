@@ -34,6 +34,40 @@ html,body {
 	overflow-x:hidden;
 	position: relative;
 }
+/*fullscreen mode*/
+.fullscreen-active {
+
+}
+.fullscreen-active > div {
+	max-width: 340px;
+	float: right;
+}
+.fullscreen-active .fullscreen-trigger {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: -webkit-calc(100% - 340px);
+  height: 100%;
+}
+.fullscreen-active .fullscreen-trigger * {
+	height: 100%
+}
+.fullscreen-active .card-text {
+	border-radius: 3px 3px 0 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.15)
+}
+.exit-fullscreen {
+	width: 100px;
+	height: 100px !important;
+	position: absolute;
+	background: pink;
+	left: 0;
+	top: 0;
+	display: none;
+}
+.fullscreen-active .fullscreen-trigger:hover .exit-fullscreen {
+	display: block;
+}
 .card-container {
 	width: 300px;
 	margin:50px auto;
@@ -64,15 +98,6 @@ html,body {
 .col-10 {width:83.33333333%}
 .col-11 {width:91.66666666%}
 .col-12 {width:100.000000000%}
-
-
-.cards {
-	max-width: 340px;
-	width: 100%;
-	top: 0px;
-	position: relative;
-	padding: 0 20px 0;
-}
 
 /*default cards*/
 b, a, p, span {
@@ -126,6 +151,7 @@ b i {
 .card {
 	margin-top: 16px;
 	min-width: 300px;
+	padding: 0 20px;
 	position: relative;
 }
 .card-more {
@@ -291,7 +317,7 @@ b i {
   border-radius: 0 0 2px 2px;
   background: #F44336;
   overflow: hidden;
-  left: 1px;
+  left: 21px;
 }
 .percent-bar-good {
 	background: #4CAF50;
@@ -709,20 +735,20 @@ b i {
   font-weight: 400;
   font-size: 15px;
   color: #727272;
-  margin:8px 0;
+  /*margin:8px 0;*/
 }
 .md pre, .md table  {
   background: rgba(0, 0, 0, 0.02);
   padding: 8px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 3px;
-  margin: 8px 0;
+  /*margin: 8px 0;*/
   font-size: 12px;
   width: 100%;
 }
 .md blockquote {
   border-left: 2px solid rgba(0,0,0,.15);
-  margin-bottom: 8px;
+  /*margin-bottom: 8px;*/
   padding-left: 8px;
 }
 .md table {
@@ -738,7 +764,7 @@ b i {
 }
 
 .md p + blockquote {
-	margin:8px 0;
+	/*margin:8px 0;*/
 }
 /*Comment Childs*/
 .child {

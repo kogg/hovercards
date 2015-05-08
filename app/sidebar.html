@@ -14,86 +14,84 @@
 			</div>
 		</div>
 		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && !entry.err">
-			<div class="cards">
-				<div ng-controller="ContentController">
-					<div class="card bounce-in-animation" ng-if="data.content.$resolved">
-						<div ng-include="'templates/' + data.content.api + '_content.html'" ng-if="!data.content.$err"></div>
+			<div ng-controller="ContentController">
+				<div class="card bounce-in-animation" ng-if="data.content.$resolved">
+					<div ng-include="'templates/' + data.content.api + '_content.html'" ng-if="!data.content.$err"></div>
 
-						<div error ng-if="data.content.$err" ng-switch="data.content.$err.status">
-							<span ng-switch-default>There was a problem with the content!</span>
-						</div>
+					<div error ng-if="data.content.$err" ng-switch="data.content.$err.status">
+						<span ng-switch-default>There was a problem with the content!</span>
 					</div>
 				</div>
+			</div>
 
-				<div ng-controller="DiscussionController">
-					<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || undefined">
-						<div class="comment-top">
-							<div class="row">
-								<div class="col-9">
-									<span>{{ data.discussion.api + '_discussion' | copy }}</span>
-								</div>
-								<div class="col-3">
-									<span>{{ data.discussion.count | numsmall }}</span>
-									<i class="md md-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>
-								</div>
+			<div ng-controller="DiscussionController">
+				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || undefined">
+					<div class="comment-top">
+						<div class="row">
+							<div class="col-9">
+								<span>{{ data.discussion.api + '_discussion' | copy }}</span>
 							</div>
-							<div class="menu" ng-show="entry.showMenu">
-								<div class="menu-description" stored="hide_menu_description" name="hide-menu-description" ng-show="!hide_menu_description">
-									<div class="row">
-										<div class="col-10">
-											<p>Drag your favourite comment community to the top, and we'll show it to you first next time!</p>
-										</div>
-										<div class="col-2" ng-click="hide_menu_description = true">
-											<i class="md md-close"></i>
-										</div>
+							<div class="col-3">
+								<span>{{ data.discussion.count | numsmall }}</span>
+								<i class="md md-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>
+							</div>
+						</div>
+						<div class="menu" ng-show="entry.showMenu">
+							<div class="menu-description" stored="hide_menu_description" name="hide-menu-description" ng-show="!hide_menu_description">
+								<div class="row">
+									<div class="col-10">
+										<p>Drag your favourite comment community to the top, and we'll show it to you first next time!</p>
+									</div>
+									<div class="col-2" ng-click="hide_menu_description = true">
+										<i class="md md-close"></i>
 									</div>
 								</div>
-								<ul id="sortable" sortable stored="order" name="order" default="[]">
-									<li class="ui-state-default rippleblack" ng-class="{ selected: (entry.discussion || entry.discussions[0]) === discussion_choice }" ng-click="entry.discussion = discussion_choice" ng-repeat="discussion_choice in entry.discussions">
-										<b ng-click="$event.stopPropagation();"></b>
-										<span>{{ discussion_choice.api + '_discussion' | copy }}</span>
-									</li>
-								</ul>
 							</div>
-						</div>
-						<div ng-include="'templates/' + data.discussion.api + '_discussion.html'" ng-if="data.discussion.$resolved && !data.discussion.$err"></div>
-
-						<div error ng-if="data.discussion.$err" ng-switch="data.discussion.$err.status">
-							<span ng-switch-default>There was a problem with the discussion!</span>
+							<ul id="sortable" sortable stored="order" name="order" default="[]">
+								<li class="ui-state-default rippleblack" ng-class="{ selected: (entry.discussion || entry.discussions[0]) === discussion_choice }" ng-click="entry.discussion = discussion_choice" ng-repeat="discussion_choice in entry.discussions">
+									<b ng-click="$event.stopPropagation();"></b>
+									<span>{{ discussion_choice.api + '_discussion' | copy }}</span>
+								</li>
+							</ul>
 						</div>
 					</div>
-				</div>
+					<div ng-include="'templates/' + data.discussion.api + '_discussion.html'" ng-if="data.discussion.$resolved && !data.discussion.$err"></div>
 
-				<div class="card bounce-in-animation people-card" ng-if="data.people.length">
-					<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="!data.people.$err && data.people.length === 1"></div>
-					<div people-carousel="data.people" current="entry.selectedPerson" ng-if="!data.people.$err && data.people.length > 1"></div>
-
-					<div error ng-if="data.people.$err" ng-switch="data.people.$err.status">
-						<span ng-switch-default>There was a problem with the people!</span>
+					<div error ng-if="data.discussion.$err" ng-switch="data.discussion.$err.status">
+						<span ng-switch-default>There was a problem with the discussion!</span>
 					</div>
 				</div>
 			</div>
-			<div class="network-menu">
-				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length" ng-if="entry.selectedPerson.accounts.length">
-					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
-						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.api | copy }}</span>
-					</div>
+
+			<div class="card bounce-in-animation people-card" ng-if="data.people.length">
+				<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="!data.people.$err && data.people.length === 1"></div>
+				<div people-carousel="data.people" current="entry.selectedPerson" ng-if="!data.people.$err && data.people.length > 1"></div>
+
+				<div error ng-if="data.people.$err" ng-switch="data.people.$err.status">
+					<span ng-switch-default>There was a problem with the people!</span>
 				</div>
-				<div ng-show="entry.selectedPerson.menuOffset" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) - 3">Left</div>
-				<div ng-show="entry.selectedPerson.menuOffset + 3 < entry.selectedPerson.accounts.length" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) + 3">Right</div>
 			</div>
-
-			<div class="social-profile" ng-style="!at.page_bottom && { overflow: 'hidden' }" ng-if="entry.selectedPerson.selectedAccount">
-				<div ng-if="entry.selectedPerson.selectedAccount.description">
-					<p class="social-profile-description" readmore="entry.selectedPerson.selectedAccount.description | linky" style="max-height: 100px"></p>
+		</div>
+		<div class="network-menu">
+			<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length" ng-if="entry.selectedPerson.accounts.length">
+				<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
+					<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.api | copy }}</span>
 				</div>
-				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
-					<div ng-if="data.moreContent.$resolved">
-						<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'" ng-if="!data.moreContent.$err"></div>
+			</div>
+			<div ng-show="entry.selectedPerson.menuOffset" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) - 3">Left</div>
+			<div ng-show="entry.selectedPerson.menuOffset + 3 < entry.selectedPerson.accounts.length" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) + 3">Right</div>
+		</div>
 
-						<div error ng-if="data.moreContent.$err" ng-switch="data.moreContent.$err.status">
-							<span ng-switch-default>There was a problem with the more content!</span>
-						</div>
+		<div class="social-profile" ng-style="!at.page_bottom && { overflow: 'hidden' }" ng-if="entry.selectedPerson.selectedAccount">
+			<div ng-if="entry.selectedPerson.selectedAccount.description">
+				<p class="social-profile-description" readmore="entry.selectedPerson.selectedAccount.description | linky" style="max-height: 100px"></p>
+			</div>
+			<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
+				<div ng-if="data.moreContent.$resolved">
+					<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'" ng-if="!data.moreContent.$err"></div>
+
+					<div error ng-if="data.moreContent.$err" ng-switch="data.moreContent.$err.status">
+						<span ng-switch-default>There was a problem with the more content!</span>
 					</div>
 				</div>
 			</div>

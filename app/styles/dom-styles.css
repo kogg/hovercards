@@ -82,7 +82,10 @@
 	border: 0 !important;
 	padding: 0 !important
 }
-
+.yocards-fullscreen {
+	width: 100% !important;
+	border-left: none !important
+}
 
 
 
