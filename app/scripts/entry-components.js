@@ -52,6 +52,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                     $scope.entry.discussions.push(discussion);
                 }
             });
+            chrome.storage.sync.get('order', function(obj) {
+                $scope.entry.discussions.sort(function(a, b) {
+                    return obj.order.indexOf(a.api) - obj.order.indexOf(b.api);
+                });
+            });
 
             $scope.entry.accounts = ($scope.entry.accounts || []);
             ($scope.data.content.accounts || []).forEach(function(account) {

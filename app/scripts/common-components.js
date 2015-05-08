@@ -43,7 +43,41 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         return {
             restrict: 'A',
             link: function($scope, $element) {
-                $element.sortable({ placeholder: 'ui-state-highlight' });
+                chrome.storage.sync.get('order', function(obj) {
+                    $scope.order = obj.order || [];
+                });
+
+                $scope.$watchCollection('order', function(order, oldOrder) {
+                    if (!order || order === oldOrder) {
+                        return;
+                    }
+                    console.log(order);
+                    chrome.storage.sync.set({ order: order });
+                });
+
+                $element.sortable({ axis:        'y',
+                                    handle:      'b',
+                                    placeholder: 'ui-state-highlight',
+                                    update:      function(event, ui) {
+                                        var before = ui.item.prevAll('li').map(function() {
+                                            return angular.element(this).scope().discussion_choice.api;
+                                        }).toArray();
+                                        var after = ui.item.nextAll('li').map(function() {
+                                            return angular.element(this).scope().discussion_choice.api;
+                                        }).toArray();
+                                        var current = angular.element(ui.item).scope().discussion_choice.api;
+
+                                        $scope.$apply(function() {
+                                            $scope.order.sort(function(a, b) {
+                                                var a_val = (a === current) ? 0 : ((before.indexOf(a) !== -1) ? -1 : ((after.indexOf(a) !== -1) ? 1 : 'idk'));
+                                                var b_val = (b === current) ? 0 : ((before.indexOf(b) !== -1) ? -1 : ((after.indexOf(b) !== -1) ? 1 : 'idk'));
+                                                if (a_val === 'idk' || b_val === 'idk') {
+                                                    return 0;
+                                                }
+                                                return a_val - b_val;
+                                            });
+                                        });
+                                    } });
                 $element.disableSelection();
             }
         };
