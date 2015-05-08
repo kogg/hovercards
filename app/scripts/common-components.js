@@ -74,6 +74,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                             return api;
                                         }).toArray();
                                         var current = angular.element(ui.item).scope().discussion_choice.api;
+                                        if ($scope.order.indexOf(current) === -1) {
+                                            $scope.order.push(current);
+                                        }
 
                                         $scope.$apply(function() {
                                             $scope.order.sort(function(a, b) {
