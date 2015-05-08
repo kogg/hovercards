@@ -9,7 +9,7 @@
 		<a ng-href="{{:: data.content | generateUrl }}">{{ ::data.content.name }}</a>
 	</div>
 	<div ng-if="::data.content.description" class="card-description">
-		<div ng-bind-html=":: data.content.description" readmore=":: data.content.description" style="max-height: 100px"></div>
+		<div readmore=":: data.content.description" style="max-height: 100px"></div>
 	</div>
 </div>
 <div class="card-stats row">

@@ -13,6 +13,6 @@
 			<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name }}</a>
 			<span class="youtube-color reddit-votes">{{:: comment.date | timeSinceAbbr }}</span>
 		</div>
-		<p ng-bind-html=":: comment.description" readmore=":: comment.description" style="max-height: 100px"></p>
+		<p readmore=":: comment.description" style="max-height: 100px"></p>
 	</div>
 </div>
