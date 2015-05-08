@@ -43,10 +43,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         return {
             restrict: 'A',
             link: function($scope, $element) {
-                $scope.$watchCollection('order', function(order) {
-                    console.log(order);
-                });
-
                 $element.sortable({ axis:        'y',
                                     handle:      'b',
                                     placeholder: 'ui-state-highlight',
