@@ -34,3 +34,7 @@ chrome.storage.local.get('user_id', function(obj) {
         return true;
     });
 });
+
+chrome.browserAction.onClicked.addListener(function() {
+    console.log(arguments);
+});
