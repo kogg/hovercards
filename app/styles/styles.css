@@ -152,6 +152,7 @@ b i {
 	margin-top: 16px;
 	min-width: 300px;
 	padding: 0 20px;
+	overflow: hidden;
 	position: relative;
 }
 .card-more {
