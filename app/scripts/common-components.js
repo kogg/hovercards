@@ -60,10 +60,18 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                     placeholder: 'ui-state-highlight',
                                     update:      function(event, ui) {
                                         var before = ui.item.prevAll('li').map(function() {
-                                            return angular.element(this).scope().discussion_choice.api;
+                                            var api = angular.element(this).scope().discussion_choice.api;
+                                            if ($scope.order.indexOf(api) === -1) {
+                                                $scope.order.push(api);
+                                            }
+                                            return api;
                                         }).toArray();
                                         var after = ui.item.nextAll('li').map(function() {
-                                            return angular.element(this).scope().discussion_choice.api;
+                                            var api = angular.element(this).scope().discussion_choice.api;
+                                            if ($scope.order.indexOf(api) === -1) {
+                                                $scope.order.push(api);
+                                            }
+                                            return api;
                                         }).toArray();
                                         var current = angular.element(ui.item).scope().discussion_choice.api;
 
