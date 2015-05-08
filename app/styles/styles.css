@@ -455,7 +455,7 @@ b i {
 	clear: both;
 }
 .menu-description {
-	background: #fcf5e1;
+	background: #FFF9C4;
 	border-top: 1px solid rgba(0,0,0,.15);
 }
 .menu-description p {
@@ -601,7 +601,43 @@ b i {
 	border:1px dashed rgba(0,0,0,.15);
 	background: #e5e5e5 !important;
 } 
-
+/*No Comments*/
+.no-comments {	
+	background:#DCEDC8;
+	border: 1px solid rgba(0,0,0,0.15);
+	border-top:none;
+	padding: 16px;
+	border-radius: 0 0 3px 3px;
+	padding-left: 77px;
+	background-image: url('../images/error-transparent.png');
+	background-repeat: no-repeat;
+  background-size: 42px;
+  background-position: 16px 16px;
+  position: relative;
+}
+.no-comments p a:after {
+	content: "";
+	background: #DCEDC8;
+	height: 100%;
+	top: 0;
+	left: 0;
+	width:72px;
+	background-image: url('../images/happy-transparent.png');
+	background-repeat: no-repeat;
+  background-size: 42px;
+  background-position: 16px 16px;
+  position: absolute;
+  display: none;
+}
+.no-comments p a:after:hover {
+	display: block;
+}
+.no-comments p a {
+	text-decoration: none;
+}
+.no-comments p a:hover {
+	text-decoration: underline;
+}
 /*Reddit titles*/
 .reddit-title {
 	padding: 16px;
