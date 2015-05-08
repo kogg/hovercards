@@ -20,5 +20,8 @@
 			<div class="thumbnail" ng-class=":: (thing.image.indexOf('http') === -1) && ('thumbnail-' + thing.image)" ng-if="thing.image" ng-style=":: (thing.image.indexOf('http') === 0) && { 'background-image': 'url(' + thing.image + ')'}"></div>
 			<a ng-href="{{:: thing | generateUrl }}">{{:: thing.name }}</a>
 		</div>
+		<div ng-if=":: thing.description">
+			<div class="child-comment"><p readmore=":: thing.description" style="max-height: 170px"></p></div>
+		</div>
 	</div>
 </div>
