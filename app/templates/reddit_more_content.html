@@ -8,7 +8,7 @@
 			<a ng-href="{{:: thing.content | generateUrl }}">{{:: thing.content.name }}</a>
 		</div>
 		<div>
-			<div class="child-comment"><p readmore=":: thing.description" style="max-height: 170px"></p></div>
+			<div class="child-comment"><p readmore=":: thing.description" style="max-height: 50px"></p></div>
 		</div>
 	</div>
 	<div class="content-list reddit-profile-posts" ng-if="thing.type === 'content'">
@@ -21,7 +21,7 @@
 			<a ng-href="{{:: thing | generateUrl }}">{{:: thing.name }}</a>
 		</div>
 		<div ng-if=":: thing.description">
-			<div class="child-comment"><p readmore=":: thing.description" style="max-height: 170px"></p></div>
+			<div class="child-comment"><p readmore=":: thing.description" style="max-height: 50px"></p></div>
 		</div>
 	</div>
 </div>
