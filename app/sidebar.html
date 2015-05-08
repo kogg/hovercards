@@ -13,7 +13,7 @@
 				<div class="colored"></div>
 			</div>
 		</div>
-		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry">
+		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && !entry.err">
 			<div class="cards">
 				<div ng-controller="ContentController">
 					<div class="card bounce-in-animation" ng-if="data.content.$resolved">
@@ -98,6 +98,10 @@
 				</div>
 			</div>
 		</div>
+
+        <div ng-if="entry && entry.err">
+            Something went wrong!
+        </div>
 
 		<div in-view="at.page_bottom=$inview" style="height: 1px;"></div>
 	</div>

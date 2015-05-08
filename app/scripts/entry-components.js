@@ -16,6 +16,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                         $scope.$apply(function() {
                             $scope.entry = {};
                             if (!identity) {
+                                $scope.entry.err = 'something';
                                 return;
                             }
                             $scope.entry.type = identity.type;
