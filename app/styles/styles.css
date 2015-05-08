@@ -280,7 +280,7 @@ b i {
 	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0)
 }
 .playing {
-	-webkit-transform: rotate(360deg) scale(0);
+	-webkit-transform: scale(1.5);
 	opacity: 0;
 }
 .percent-bar {
@@ -629,7 +629,7 @@ b i {
   position: absolute;
   display: none;
 }
-.no-comments p a:after:hover {
+.no-comments p a:hover:after {
 	display: block;
 }
 .no-comments p a {
