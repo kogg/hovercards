@@ -43,16 +43,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         return {
             restrict: 'A',
             link: function($scope, $element) {
-                chrome.storage.sync.get('order', function(obj) {
-                    $scope.order = obj.order || [];
-                });
-
-                $scope.$watchCollection('order', function(order, oldOrder) {
-                    if (!order || order === oldOrder) {
-                        return;
-                    }
+                $scope.$watchCollection('order', function(order) {
                     console.log(order);
-                    chrome.storage.sync.set({ order: order });
                 });
 
                 $element.sortable({ axis:        'y',
@@ -111,7 +103,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         var obj = {};
                         obj[$scope.name] = val;
                         chrome.storage.sync.set(obj);
-                    });
+                    }, true);
                     if ($scope.name in obj) {
                         $scope.stored = obj[$scope.name];
                     } else {

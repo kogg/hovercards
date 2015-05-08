@@ -48,7 +48,7 @@
 										</div>
 									</div>
 								</div>
-								<ul id="sortable" sortable>
+								<ul id="sortable" sortable stored="order" name="order" default="[]">
 									<li class="ui-state-default rippleblack" ng-class="{ selected: (entry.discussion || entry.discussions[0]) === discussion_choice }" ng-click="entry.discussion = discussion_choice" ng-repeat="discussion_choice in entry.discussions">
 										<b ng-click="$event.stopPropagation();"></b>
 										<span>{{ discussion_choice.api + '_discussion' | copy }}</span>
