@@ -1,20 +1,20 @@
 <div class="no-comments" ng-if="!data.discussion.name">
-	<p>Oh no, no one has posted this on Reddit! <a href="#">Post it first</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></p>
+	<p>Oh no, no one has posted this on Reddit! <a ng-href="http://www.reddit.com/submit?url={{:: ((data.content || data.discussion) | generateUrl) }}">Post it first</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></p>
 </div>
 
 <div class="reddit-title" ng-if="data.discussion.name && (data.content.api !== 'reddit' || data.content.id !== data.discussion.id)">
 	<div class="user-context">
 		<div class="ellipsis">
-			<a ng-href="https://www.reddit.com/user/{{:: data.discussion.author.id }}" class="ng-binding" href="https://www.reddit.com/user/PopeSleepy" target="_blank">{{:: data.discussion.author.id }}</a>
+			<a ng-href="{{:: data.discussion.author | generateUrl }}">{{:: data.discussion.author.id }}</a>
 			<b>&middot; <a ng-href="https://www.reddit.com/r/{{:: data.discussion.subreddit }}">/r/{{:: data.discussion.subreddit }}</a></b>
 		</div>
 		<span class="reddit-votes ng-binding">{{:: data.discussion.score | score }} <span class="hidden-date">· {{:: data.discussion.date | timeSinceAbbr }}</span></span>
 	</div>
-	<a ng-href="https://www.reddit.com/r/{{:: data.discussion.subreddit}}/comments/{{:: data.discussion.id }}">{{:: data.discussion.name }}</a>
+	<a ng-href="{{:: data.discussion | generateUrl }}">{{:: data.discussion.name }}</a>
 </div>
 
 <div class="no-comments" ng-if="data.discussion.name && !data.discussion.comments.length">
-	<p>Oh no, no one has commented on this! <a ng-href="https://www.reddit.com/r/{{:: data.discussion.subreddit}}/comments/{{:: data.discussion.id }}">Be the first to comment</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></p>
+	<p>Oh no, no one has commented on this! <a ng-href="{{:: data.discussion | generateUrl }}">Be the first to comment</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></p>
 </div>
 
 <div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit_discussion_comment.html'" ng-repeat="comment in data.discussion.comments"></div>

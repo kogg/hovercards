@@ -117,6 +117,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             return chrome.i18n.getMessage(messagename.replace(/\-/g, '_')) || messagename;
         };
     })
+    .filter('generateUrl', function() {
+        var network_urls = require('YoCardsApiCalls/network-urls');
+
+        return network_urls.generate;
+    })
     .filter('numsmall', function() {
         return function(number) {
             if (number < 10000) {
@@ -183,20 +188,4 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             return $sce.trustAsResourceUrl(url);
         };
     }])
-    .animation('.slide-animation', function() {
-        return {
-            beforeAddClass: function(element, className, done) {
-                if (className !== 'ng-hide') {
-                    return done();
-                }
-                element.slideUp(500, done);
-            },
-            removeClass: function(element, className, done) {
-                if (className !== 'ng-hide') {
-                    return done();
-                }
-                element.slideDown(500, done);
-            }
-        };
-    })
     .name;

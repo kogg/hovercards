@@ -1,6 +1,6 @@
 <div class="user-context">
 	<a ng-click="comment.close=!comment.close" ><i class="md md-play-arrow down-arrow"></i></a>
-	<a ng-href="https://www.reddit.com/user/{{ ::comment.author.id }}">{{ ::comment.author.id }}</a>
+	<a ng-href="{{:: comment.author | generateUrl }}">{{ ::comment.author.id }}</a>
 	<span class="reddit-votes">{{ ::comment.score | score }} <span class="hidden-date">&middot; {{ ::comment.date | timeSinceAbbr  }}</span></span>
 </div>
 <div ng-bind-html=":: comment.description" readmore=":: comment.description" style="max-height: 170px">{{:: comment.description }}</div>

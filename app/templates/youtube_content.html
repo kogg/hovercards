@@ -15,7 +15,7 @@
 <div class="card-text">
 	<div class="video-title">
 	<b class="youtube-color"><i class="md md-access-time"></i>{{ ::data.content.date | timeSince }}</b>
-		<a ng-href="https://www.youtube.com/watch?v={{ ::data.content.id }}">{{ ::data.content.name }}</a>
+		<a ng-href="{{:: data.content | generateUrl }}">{{ ::data.content.name }}</a>
 	</div>
 	<div ng-if="::data.content.description" class="card-description">
 		<p ng-bind-html=":: data.content.description | linky" readmore=":: data.content.description" style="max-height: 50px"></p>

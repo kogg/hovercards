@@ -2,11 +2,11 @@
 	<div class="user-context-container">
 		<div class="user-context">
 			<div class="ellipsis">
-				<a ng-href="https://www.reddit.com/u/{{:: data.content.author.id }}">{{:: data.content.author.id }}</a> <b>· <a ng-href="https://www.reddit.com/r/{{:: data.content.subreddit }}">/r/{{:: data.content.subreddit }}</a></b>
+				<a ng-href="{{:: data.content.author | generateUrl }}">{{:: data.content.author.id }}</a> <b>· <a ng-href="https://www.reddit.com/r/{{:: data.content.subreddit }}">/r/{{:: data.content.subreddit }}</a></b>
 			</div>
 			<span class="reddit-votes">{{:: data.content.date | timeSinceAbbr }}</span>
 		</div>
-		<a ng-href="https://www.reddit.com/r/{{ ::data.content.subreddit }}/comments/{{:: data.content.id }}">{{ ::data.content.name }}</a>
+		<a ng-href="{{:: data.content | generateUrl }}">{{ ::data.content.name }}</a>
 	</div>
 	<div ng-if="::data.content.description" class="card-description">
 		<div ng-bind-html=":: data.content.description" readmore=":: data.content.description" style="max-height: 100px"></div>
