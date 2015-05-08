@@ -29,6 +29,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                 .click(function() {
                                     $element
                                         .trigger('destroy')
+                                        .css('max-height', 'none')
                                         .html(text);
                                 });
                         }
