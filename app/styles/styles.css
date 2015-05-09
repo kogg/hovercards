@@ -251,6 +251,10 @@ b i {
 	bottom: 16px;
 }
 
+.people-card-space {
+    height: 157px;
+}
+
 /*Video Cards*/
 
 .video-card {
@@ -848,6 +852,7 @@ b i {
 /*Network Menu*/
 .network-menu {
 	padding: 0 20px;
+	height: 48px;
 }
 .network-menu-container {
 	overflow: hidden;
