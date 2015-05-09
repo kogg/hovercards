@@ -38,6 +38,27 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     }])
+    .directive('scrollPeriodically', ['$interval', function($interval) {
+        return {
+            scope: {
+                doWhile: '=scrollPeriodically'
+            },
+            link: function($scope) {
+                var interval;
+                $scope.$watch('!!doWhile', function(doIt) {
+                    if (doIt) {
+                        interval = $interval(function() {
+                            angular.element(window).scroll();
+                            console.log('forced scroll');
+                        }, 1000);
+                    } else if (interval) {
+                        $interval.cancel(interval);
+                        interval = null;
+                    }
+                });
+            }
+        };
+    }])
     .directive('sortable', function() {
         require('jquery-ui/sortable');
         require('jquery-ui/droppable');
