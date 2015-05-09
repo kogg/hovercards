@@ -1,5 +1,7 @@
 var network_urls = require('YoCardsApiCalls/network-urls');
 
+var extension_id = chrome.i18n.getMessage('@@extension_id');
+
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [])
     .controller('EntryController', ['$scope', '$timeout', function($scope, $timeout) {
         $scope.at  = {};
@@ -47,7 +49,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
             if (fullscreen === oldFullscreen) {
                 return;
             }
-            window.top.postMessage({ msg: 'yocards-fullscreen', value: fullscreen }, '*');
+            window.top.postMessage({ msg: extension_id + '-fullscreen', value: fullscreen }, '*');
         });
 
         $scope.$watch('data.content.$resolved', function() {

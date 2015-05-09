@@ -4,6 +4,8 @@ var embedded_trigger = require('./embedded-trigger');
 var longpress        = require('./longpress');
 var yo_trigger       = require('./yo-trigger');
 
+var extension_id = chrome.i18n.getMessage('@@extension_id');
+
 var html = $('html');
 
 longpress(html, 'a[href]:not([href*="noyo=1"]):not([data-href])', function(link) {
@@ -42,10 +44,10 @@ if (window.top !== window) {
 
 html.on('longpress', function(e, url) {
     window.top.postMessage({ msg: 'activate', url: url }, '*');
-    var trigger = $(e.target).data('yo-trigger');
+    var trigger = $(e.target).data(extension_id + '-yo-trigger');
     if (trigger) {
-        trigger.addClass('yo-notify-clicked');
-        clearTimeout(trigger.data('yo-trigger-timeout'));
+        trigger.addClass(extension_id + '-yo-notify-clicked');
+        clearTimeout(trigger.data(extension_id + '-yo-trigger-timeout'));
     }
 });
 

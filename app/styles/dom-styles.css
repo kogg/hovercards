@@ -1,8 +1,8 @@
-.hovercards-container {
+.__MSG_@@extension_id__-container {
 	z-index: 2147483647 !important;
 	position: relative !important;
 }
-.hovercards-sidebar {
+.__MSG_@@extension_id__-sidebar {
 	position: fixed !important;
 	width: 340px !important;
 	height: 100% !important;
@@ -14,41 +14,41 @@
 	-webkit-transform: translateX(375px) translateZ(0);
 }
 
-.hovercards-sidebar-enter {
+.__MSG_@@extension_id__-sidebar-enter {
 	-webkit-animation-duration: .65s !important;
 	animation-duration: .65s !important;
 	-webkit-animation-fill-mode: both !important;
-	-webkit-animation-name: slide-in-hovercards !important;
+	-webkit-animation-name: slide-in-__MSG_@@extension_id__ !important;
 }
-@-webkit-keyframes slide-in-hovercards {
+@-webkit-keyframes slide-in-__MSG_@@extension_id__ {
 	0% {
 	}
 	100% {
 		-webkit-transform: translateX(0px) translateZ(0);
 	}
 }
-.hovercards-sidebar-leave {
+.__MSG_@@extension_id__-sidebar-leave {
 	-webkit-transform: translateX(0px) translateZ(0);
 	-webkit-animation-duration: .65s !important;
 	animation-duration: .65s !important;
 	-webkit-animation-fill-mode: both !important;
-	-webkit-animation-name: slide-out-hovercards !important;
+	-webkit-animation-name: slide-out-__MSG_@@extension_id__ !important;
 }
-@-webkit-keyframes slide-out-hovercards {
+@-webkit-keyframes slide-out-__MSG_@@extension_id__ {
 	0% {
 	}
 	100% {
 		-webkit-transform: translateX(375px) translateZ(0);
 	}
 }
-.hovercards-sidebar iframe {
+.__MSG_@@extension_id__-sidebar iframe {
 	position: absolute !important;
 	height: 100% !important;
 	border: none !important;
 	width:100% !important;
 	left: 0px !important
 }
-.hovercards-sidebar-close-button {
+.__MSG_@@extension_id__-sidebar-close-button {
 	content: "x" !important;
 	font-weight: thin !important;
 	font-family: sans-serif !important;
@@ -66,23 +66,23 @@
 	transition: all 0.3s ease !important;
 }
 
-.hovercards-sidebar-close-button:after {
+.__MSG_@@extension_id__-sidebar-close-button:after {
 	content: 'x';
 }
-.hovercards-sidebar-close-button:hover {
+.__MSG_@@extension_id__-sidebar-close-button:hover {
 	color: black !important;
 	cursor: pointer !important;
 }
-.yocards-fullscreen-sidebar {
+.__MSG_@@extension_id__-fullscreen-sidebar {
 	width: 100% !important;
 	border-left: none !important
 }
-.yocards-remove-margin {
+.__MSG_@@extension_id__-remove-margin {
 	margin: 0 !important;
 	border: 0 !important;
 	padding: 0 !important
 }
-.yocards-fullscreen {
+.__MSG_@@extension_id__-fullscreen {
 	width: 100% !important;
 	border-left: none !important
 }
