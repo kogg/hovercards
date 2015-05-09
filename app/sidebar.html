@@ -64,7 +64,7 @@
 			</div>
 
 			<div class="people-card-space" in-view="at.people=$inview" scroll-periodically="!data.people.length">
-				<div class="card bounce-in-animation people-card" ng-if="data.people.length" ng-class="{ 'people-card-fixed': !at.content && !at.discussion }">
+				<div class="card bounce-in-animation people-card" ng-if="data.people.length" ng-class="{ 'people-card-fixed': entry.type === 'account' || (!at.content && !at.discussion) }">
 					<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="!data.people.$err && data.people.length === 1"></div>
 					<div people-carousel="data.people" current="entry.selectedPerson" ng-if="!data.people.$err && data.people.length > 1"></div>
 
@@ -75,7 +75,7 @@
 			</div>
 		</div>
 		<div class="network-menu-space">
-			<div class="network-menu" ng-class="{ 'network-menu-fixed': !at.content && !at.discussion }">
+			<div class="network-menu" ng-class="{ 'network-menu-fixed': entry.type === 'account' || (!at.content && !at.discussion) }">
 				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length" ng-if="entry.selectedPerson.accounts.length">
 					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
 						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.api | copy }}</span>
