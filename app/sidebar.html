@@ -72,7 +72,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="network-menu">
+		<div class="network-menu" ng-if="data.people.length">
 			<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length" ng-if="entry.selectedPerson.accounts.length">
 				<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
 					<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.api | copy }}</span>

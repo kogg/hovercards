@@ -2,8 +2,28 @@ var angular = require('angular');
 require('slick-carousel');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
-    .controller('PeopleController', ['$scope', '$q', 'apiService', function($scope, $q, apiService) {
-        $scope.$watchCollection('entry.accounts', function(requests) {
+    .controller('PeopleController', ['$scope', '$timeout', '$q', 'apiService', function($scope, $timeout, $q, apiService) {
+        /* check to see if all the things we want to load are out of our way. Also, give them time to animate or whatever */
+        var other_things_loaded = $scope.$watch('(!entry.content || data.content.$resolved) && (!(entry.discussion || entry.discussions[0]) || data.discussion.$resolved)', function(value) {
+            if (!value) {
+                return;
+            }
+            $timeout(function() {
+                angular.element(window).scroll();
+                $scope.other_things_loaded = true;
+                other_things_loaded();
+            }, 100);
+        });
+        /* Check to see if we hit the bottom once we've waited for everything and forced a scroll */
+        var can_have_people = $scope.$watch('other_things_loaded && at.page_bottom', function(value) {
+            if (!value) {
+                return;
+            }
+            $scope.can_have_people = true;
+            can_have_people();
+        });
+        /* Load people once we're allowed to */
+        $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
             $scope.entry.selectedPerson = null;
             if (!requests) {
                 $scope.data.people = null;
