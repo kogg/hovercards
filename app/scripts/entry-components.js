@@ -54,17 +54,21 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                 return;
             }
 
-            $scope.entry.discussions = ($scope.entry.discussions || []);
-            ($scope.data.content.discussions || []).forEach(function(discussion) {
-                if (!$scope.entry.discussions.some(function(entry_discussion) { return discussion.api === entry_discussion.api; })) {
-                    $scope.entry.discussions.push(discussion);
-                }
-            });
-            chrome.storage.sync.get('order', function(obj) {
-                $scope.entry.discussions.sort(function(a, b) {
-                    return obj.order.indexOf(a.api) - obj.order.indexOf(b.api);
+            if ($scope.data.content.discussions && $scope.data.content.discussions.length) {
+                $scope.entry.discussions = ($scope.entry.discussions || []);
+                chrome.storage.sync.get('order', function(obj) {
+                    $scope.$apply(function() {
+                        ($scope.data.content.discussions || []).forEach(function(discussion) {
+                            if (!$scope.entry.discussions.some(function(entry_discussion) { return discussion.api === entry_discussion.api; })) {
+                                $scope.entry.discussions.push(discussion);
+                            }
+                        });
+                        $scope.entry.discussions.sort(function(a, b) {
+                            return obj.order.indexOf(a.api) - obj.order.indexOf(b.api);
+                        });
+                    });
                 });
-            });
+            }
 
             $scope.entry.accounts = ($scope.entry.accounts || []);
             ($scope.data.content.accounts || []).forEach(function(account) {
