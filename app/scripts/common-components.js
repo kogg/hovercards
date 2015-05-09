@@ -49,7 +49,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                     if (doIt) {
                         interval = $interval(function() {
                             angular.element(window).scroll();
-                            console.log('forced scroll');
                         }, 1000);
                     } else if (interval) {
                         $interval.cancel(interval);
