@@ -5,7 +5,7 @@
 </div>
 <div readmore=":: comment.description" style="max-height: 170px"></div>
 <div class="child" ng-repeat="comment in comment.comments">
-	<div class="child-comment" ng-class="{ 'child-close': comment.close }">
+	<div class="child-comment" ng-class="{ 'child-close': comment.close, 'selected-comment': comment.id === (entry.discussion || entry.discussions[0]).focus.id }">
 		<div ng-include="'templates/reddit_discussion_comment.html'"></div>
 	</div>
 </div>
