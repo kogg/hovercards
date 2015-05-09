@@ -1,9 +1,7 @@
 var $            = require('jquery');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
-var offset = { top: 32, left: 8 };
-
-module.exports = function(body, selector, get_url) {
+module.exports = function(body, selector, offset, get_url) {
     body = $(body);
 
     body.on('mousemove', selector, function () {
