@@ -1,4 +1,4 @@
-.yo-notify {
+.__MSG_@@extension_id__-yo-notify {
 	content: "" !important;
 	position: absolute !important;
 	width: 16px !important;
@@ -12,23 +12,23 @@
 	-webkit-transition:all .15s ease-in-out;
 	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
-	-webkit-animation-name: yofadeIn;
-	animation-name: yofadeIn;
+	-webkit-animation-name: __MSG_@@extension_id__-yo-notify-fadein;
+	animation-name: __MSG_@@extension_id__-yo-notify-fadein;
 }
-.yo-notify-embedded {
+.__MSG_@@extension_id__-yo-notify-embedded {
 	-webkit-animation-duration: .3s;
 	animation-duration: .3s;
 	-webkit-animation-name: yofaddedIn;
 	animation-name: yofaddedIn;
 }
-.yo-notify-youtube {
+.__MSG_@@extension_id__-yo-notify-youtube {
 	background-color: #F44336 !important;
 }
-.yo-notify-reddit {
+.__MSG_@@extension_id__-yo-notify-reddit {
 	background-color: #cee2f8 !important;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-black.png') !important;
 }
-@-webkit-keyframes yofadeIn { 
+@-webkit-keyframes __MSG_@@extension_id__-yo-notify-fadein { 
 	0% {
 		opacity: 0;
 		-webkit-transform: scale(.5);
@@ -38,7 +38,7 @@
 		-webkit-transform: scale(1);
 	}
 } 
-@keyframes yofadeIn { 
+@keyframes __MSG_@@extension_id__-yo-notify-fadein { 
 	0% {
 		opacity: 0;
 		transform: scale(.5);
@@ -65,16 +65,16 @@
 	}
 } 
 
-.yo-notify-exit {
+.__MSG_@@extension_id__-yo-notify-exit {
 	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
 	-webkit-animation-fill-mode: forwards;
 	animation-fill-mode: forwards;
-	-webkit-animation-name: yofadeOut;
-	animation-name: yofadeOut;
+	-webkit-animation-name: __MSG_@@extension_id__-yo-notify-fadeout;
+	animation-name: __MSG_@@extension_id__-yo-notify-fadeout;
 }
 
-@-webkit-keyframes yofadeOut { 
+@-webkit-keyframes __MSG_@@extension_id__-yo-notify-fadeout { 
 	0% {
 		opacity: 1;
 		-webkit-transform: scale(1);
@@ -84,7 +84,7 @@
 		-webkit-transform: scale(.5);
 	}
 } 
-@keyframes yofadeOut { 
+@keyframes __MSG_@@extension_id__-yo-notify-fadeout { 
 	0% {
 		opacity: 1;
 		transform: scale(1);
@@ -94,17 +94,17 @@
 		transform: scale(.5);
 	}
 }
-.yo-notify-clicked {
+.__MSG_@@extension_id__-yo-notify-clicked {
 	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
 	-webkit-animation-fill-mode: forwards;
 	animation-fill-mode: forwards;
-	-webkit-animation-name: yohasbeenpressedlol;
-	animation-name: yohasbeenpressedlol;
+	-webkit-animation-name: __MSG_@@extension_id__-yo-notify-grow;
+	animation-name: __MSG_@@extension_id__-yo-notify-grow;
 	box-shadow:none !important;
 	cursor: default !important;
 }
-@-webkit-keyframes yohasbeenpressedlol { 
+@-webkit-keyframes __MSG_@@extension_id__-yo-notify-grow { 
 	0% {
 		opacity: 1;
 		-webkit-transform: scale(1.5);
@@ -117,7 +117,7 @@
 		-webkit-transform: scale(4.5);
 	}
 } 
-@keyframes yohasbeenpressedlol { 
+@keyframes __MSG_@@extension_id__-yo-notify-grow { 
 	0% {
 		opacity: 1;
 		transform: scale(1.5);
@@ -130,7 +130,7 @@
 		-webkit-transform: scale(4.5);
 	}
 }
-.yo-notify-hover {
+.__MSG_@@extension_id__-yo-notify-hover {
 	-webkit-transition:all .15s ease-in-out;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115) !important;
 	cursor: pointer !important;
