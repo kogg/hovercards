@@ -80,7 +80,7 @@ describe('sidebar-inject', function() {
         var closeButton;
 
         beforeEach(function() {
-            closeButton = sidebarObj.children('div.hovercards-sidebar-close-button');
+            closeButton = sidebarObj.children('div.' + chrome.i18n.getMessage('@@extension_id') + '-sidebar-close-button');
         });
 
         it('should exist', function() {

@@ -1,13 +1,16 @@
 var $ = require('jquery');
 
+var extension_id = chrome.i18n.getMessage('@@extension_id');
+
 module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, sendMessage) {
     body = $(body);
 
-    var obj = $('<div class="hovercards-sidebar"></div>')
+    var obj = $('<div></div>')
         .appendTo($(inject_into))
+        .addClass(extension_id + '-sidebar')
         .hide()
         .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
-            if (e.originalEvent.animationName !== 'slide-out-hovercards') {
+            if (e.originalEvent.animationName !== 'slide-out-' + extension_id) {
                 return;
             }
             obj.hide();
@@ -17,24 +20,24 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
                 case 'load':
                     obj
                         .show()
-                        .removeClass('hovercards-sidebar-leave')
-                        .addClass('hovercards-sidebar-enter');
+                        .removeClass(extension_id + '-sidebar-leave')
+                        .addClass(extension_id + '-sidebar-enter');
                     sendMessage({ msg: 'loaded' });
                     break;
                 case 'hide':
                     obj
-                        .removeClass('hovercards-sidebar-enter')
-                        .addClass('hovercards-sidebar-leave');
+                        .removeClass(extension_id + '-sidebar-enter')
+                        .addClass(extension_id + '-sidebar-leave');
                     sendMessage({ msg: 'hidden' });
                     break;
             }
         });
 
     window.addEventListener('message', function(event) {
-        if (!event || !event.data || event.data.msg !== 'yocards-fullscreen') {
+        if (!event || !event.data || event.data.msg !== extension_id + '-fullscreen') {
             return;
         }
-        obj.toggleClass('yocards-fullscreen', event.data.value || false);
+        obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
     }, false);
 
     $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
@@ -48,8 +51,9 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
             body.css('overflow', 'auto');
         });
 
-    $('<div class="hovercards-sidebar-close-button"></div>')
+    $('<div></div>')
         .appendTo(obj)
+        .addClass(extension_id + '-sidebar-close-button')
         .click(function(e) {
             if (e.which !== 1) {
                 return;
