@@ -1308,7 +1308,7 @@ b i {
 /* Fixed Shit */
 .people-card-fixed, .network-menu-fixed {
     position: fixed;
-    width: 100%;
+    width: 340px;
     z-index: 97687896769896789768;
 }
 .people-card-fixed {
