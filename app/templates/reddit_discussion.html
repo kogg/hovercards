@@ -2,7 +2,7 @@
 	<p>Oh no, no one has posted this on Reddit! <a ng-href="http://www.reddit.com/submit?url={{:: ((data.content || data.discussion) | generateUrl) }}">Post it first</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></p>
 </div>
 
-<div class="reddit-title" ng-if="data.discussion.name && (data.content.api !== 'reddit' || data.content.id !== data.discussion.id)">
+<div class="reddit-title" ng-if="data.discussion.name && (entry.content.api !== 'reddit' || entry.content.id !== data.discussion.id)">
 	<div class="user-context">
 		<div class="ellipsis">
 			<a ng-href="{{:: data.discussion.author | generateUrl }}">{{:: data.discussion.author.id }}</a>
