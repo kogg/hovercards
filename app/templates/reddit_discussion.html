@@ -17,4 +17,4 @@
 	<p>Oh no, no one has commented on this! <a ng-href="{{:: data.discussion | generateUrl }}">Be the first to comment</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></p>
 </div>
 
-<div class="comment row" ng-class="{ 'comment-close': comment.close, 'selected-comment': comment.id === (entry.discussion || entry.discussions[0]).focus.id }" ng-include="'templates/reddit_discussion_comment.html'" ng-repeat="comment in data.discussion.comments"></div>
+<div class="comment row" ng-class="{ 'comment-close': comment.close, 'selected-comment': comment.id === data.discussion.focus.id }" ng-include="'templates/reddit_discussion_comment.html'" ng-repeat="comment in data.discussion.comments"></div>
