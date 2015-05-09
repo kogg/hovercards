@@ -101,7 +101,7 @@
 			Something went wrong!
 		</div>
 
-		<div in-view="at.page_bottom=$inview" scroll-periodically="!data.people.length" style="height: 1px;"></div>
+		<div in-view="at.page_bottom=$inview" scroll-periodically="!data.people.length" ng-style="{ height: ((data.people.length) ? '1px' : '100%') }"></div>
 	</div>
 
 	<link rel="stylesheet" href="styles/subscribe-fix-style.css">
