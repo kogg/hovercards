@@ -57,16 +57,13 @@ html,body {
 	border-top: 1px solid rgba(0, 0, 0, 0.15)
 }
 .exit-fullscreen {
-	width: 100px;
-	height: 100px !important;
-	position: absolute;
-	background: pink;
-	left: 0;
-	top: 0;
 	display: none;
 }
-.fullscreen-active .fullscreen-trigger:hover .exit-fullscreen {
+.fullscreen-active .exit-fullscreen {
 	display: block;
+}
+.fullscreen-active .video-top-underlay {
+	display: block !important;
 }
 .fullscreen-active .video-top {
 	border:none;
@@ -260,12 +257,15 @@ b i {
 
 }
 
-.video-top {
+.video-top, .video-top-underlay {
 	height: 168px;
 	border:1px solid rgba(0,0,0,.15);
 	border-bottom: none;
 	border-radius: 3px 3px 0 0;
 	position: relative;
+}
+.video-top-underlay {
+	display: none;
 }
 .video-image {
 	height: 168px;
@@ -288,7 +288,7 @@ b i {
 	border-radius: 3px 3px;
 	border-top:1px solid rgba(0,0,0,.15);
 }
-.video-cta {
+.video-cta, .exit-fullscreen {
 	position: absolute;
 	right: 16px;
 	bottom: -25px;
@@ -305,11 +305,11 @@ b i {
 	-webkit-transform: rotate(0deg) scale(1);
 	-webkit-transition: box-shadow .2s ease-in-out, transform .5s ease-in-out, opacity .5s ease-in-out;
 }
-.video-cta:hover {
+.video-cta:hover, .exit-fullscreen:hover {
 	cursor: pointer;
 	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0.24)
 }
-.video-cta:active {
+.video-cta:active, .exit-fullscreen:active {
 	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0)
 }
 .button-vanish {
