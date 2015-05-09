@@ -155,7 +155,6 @@ b i {
 	margin-top: 16px;
 	min-width: 300px;
 	padding: 0 20px;
-	overflow: hidden;
 	position: relative;
 }
 .card-more {
@@ -562,12 +561,12 @@ b i {
 #sortable li:hover {
 	cursor: pointer !important;
 }
-.dragging-list {
+.ui-sortable-helper {
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
 	background-color: white;
-	-ms-transform: rotate(2deg);
-	-webkit-transform: rotate(2deg);
-	transform: rotate(2deg);
+	-ms-transform: rotate(2.5deg);
+	-webkit-transform: rotate(2.5deg);
+	transform: rotate(2.5deg);
   border-top: none;
   z-index: 2;
   cursor: -webkit-grabbing !important
