@@ -906,8 +906,8 @@ b i {
 .social-profile {
 	background: white;
 	overflow: scroll;
-	height: calc(100% - 222px);
-	height: -webkit-calc(100% - 222px);
+	max-height: calc(100% - 222px);
+	max-height: -webkit-calc(100% - 222px);
 	padding: 20px 0px;
 }
 .social-profile-description {
