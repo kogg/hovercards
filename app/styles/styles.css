@@ -152,6 +152,7 @@ b i {
 	margin-top: 16px;
 	min-width: 300px;
 	padding: 0 20px;
+	overflow: hidden;
 	position: relative;
 }
 .card-more {
@@ -952,6 +953,9 @@ b i {
 	padding: 8px 8px 8px 12px;
 }
 .content-list .row .col-7 a {
+	text-decoration: none;
+}
+.content-list .row .col-7 a p {
 	color: #212121;
 	margin-top: 0;
 	padding-top: 0px;
@@ -962,7 +966,7 @@ b i {
 .content-list .row .col-5 a {
 	display: block;
 }
-.content-list .row .col-7 a:hover {
+.content-list .row .col-7 a p:hover {
 	cursor: pointer;
 	text-decoration: underline;
 }
@@ -1144,11 +1148,11 @@ b i {
 
 .loader {
   width: 100%;
-  left: 0;
   right: 0;
   top: 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  background: #b2ccf5;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: #B2CCF5;
   position: fixed;
 }
 
