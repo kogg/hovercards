@@ -68,6 +68,9 @@ html,body {
 .fullscreen-active .fullscreen-trigger:hover .exit-fullscreen {
 	display: block;
 }
+.fullscreen-active .video-top {
+	border:none;
+}
 .card-container {
 	width: 300px;
 	margin:50px auto;
@@ -309,6 +312,7 @@ b i {
 .button-vanish {
 	-webkit-transform: scale(1.5);
 	opacity: 0;
+	pointer-events:none;
 }
 .percent-bar {
   position: absolute;
@@ -1154,6 +1158,7 @@ b i {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   background: #B2CCF5;
   position: fixed;
+  max-width: 340px;
 }
 
 .colored {
