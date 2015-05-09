@@ -6,8 +6,8 @@
 	<link rel="stylesheet" href="styles/styles.css">
 	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
 </head>
-<body>
-	<div class="ng-cloak" ng-cloak ng-controller="EntryController" ng-init="data = {}">
+<body class="ng-cloak" ng-cloak ng-controller="EntryController" ng-class="{ 'fullscreen-active': entry.fullscreen }">
+	<div>
 		<div class="fade-out-animation" ng-show="data.loading">
 			<div class="loader" ng-show="data.loading">
 				<div class="colored"></div>
@@ -97,9 +97,9 @@
 			</div>
 		</div>
 
-        <div ng-if="entry && entry.err">
-            Something went wrong!
-        </div>
+		<div ng-if="entry && entry.err">
+			Something went wrong!
+		</div>
 
 		<div in-view="at.page_bottom=$inview" style="height: 1px;"></div>
 	</div>

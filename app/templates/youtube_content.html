@@ -1,15 +1,18 @@
 <div class="video-top fullscreen-trigger">
-	<div class="exit-fullscreen">exit fullscreen</div>
+	<div class="exit-fullscreen" ng-click="entry.fullscreen=false;">exit fullscreen</div>
 	<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
 		<div class="youtube-video" ng-if="playing">
-            <object data="https://www.youtube.com/v/{{ data.content.id }}?autoplay=1&fs=1&noyo=1" width="100%" height="100%" type="application/x-shockwave-flash">
-                <param name="allowFullScreen" value="true"></param>
-            </object>
+			<object data="https://www.youtube.com/v/{{ data.content.id }}?autoplay=1&fs=1&noyo=1" width="100%" height="100%" type="application/x-shockwave-flash">
+				<param name="allowFullScreen" value="true"></param>
+			</object>
 		</div>
 
 	</div>
-	<div class="video-cta" ng-click="playing=true;" ng-class="{ playing: playing }">
-		<i class="md  md-play-arrow"></i>
+	<div class="video-cta" ng-click="playing=true;" ng-class="{ 'button-vanish': playing }">
+		<i class="md md-play-arrow"></i>
+	</div>
+	<div class="video-cta" ng-click="entry.fullscreen=true;" ng-if="playing" ng-style="{ display: entry.fullscreen ? 'none' : 'block' }">
+		<i class="md md-fullscreen"></i>
 	</div>
 </div>
 

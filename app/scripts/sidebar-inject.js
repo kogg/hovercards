@@ -30,6 +30,13 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
             }
         });
 
+    window.addEventListener('message', function(event) {
+        if (!event || !event.data || event.data.msg !== 'yocards-fullscreen') {
+            return;
+        }
+        obj.toggleClass('yocards-fullscreen', event.data.value || false);
+    }, false);
+
     $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .prop('src', chrome.extension.getURL('sidebar.html'))

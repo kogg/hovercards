@@ -305,7 +305,7 @@ b i {
 .video-cta:active {
 	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0)
 }
-.playing {
+.button-vanish {
 	-webkit-transform: scale(1.5);
 	opacity: 0;
 }
