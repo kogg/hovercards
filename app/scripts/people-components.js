@@ -15,7 +15,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             }, 100);
         });
         /* Check to see if we hit the bottom once we've waited for everything and forced a scroll */
-        var can_have_people = $scope.$watch('at.page_bottom && other_things_loaded', function(value) {
+        var can_have_people = $scope.$watch('at.people && other_things_loaded', function(value) {
             if (!value) {
                 return;
             }
