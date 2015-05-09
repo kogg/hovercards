@@ -249,6 +249,7 @@ b i {
 
 .people-card-space {
     height: 157px;
+	margin-top: 16px;
 }
 
 /*Video Cards*/
@@ -850,7 +851,11 @@ b i {
 }
 /*Network Menu*/
 .network-menu {
+    background-color: #f6f6f6;
 	padding: 0 20px;
+	height: 48px;
+}
+.network-menu-space {
 	height: 48px;
 }
 .network-menu-container {
@@ -1300,7 +1305,20 @@ b i {
   }
 }
 
-
+/* Fixed Shit */
+.people-card-fixed, .network-menu-fixed {
+    position: fixed;
+    width: 100%;
+    z-index: 97687896769896789768;
+}
+.people-card-fixed {
+    background-color: #f6f6f6;
+    padding-top: 16px;
+    top: -16px;
+}
+.network-menu-fixed {
+    top: 173px;
+}
 
 
 

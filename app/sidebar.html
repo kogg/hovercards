@@ -14,7 +14,7 @@
 			</div>
 		</div>
 		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && !entry.err">
-			<div ng-controller="ContentController">
+			<div ng-controller="ContentController" in-view="at.content=$inview">
 				<div class="card bounce-in-animation" ng-if="data.content.$resolved">
 					<div ng-include="'templates/' + data.content.api + '_content.html'" ng-if="!data.content.$err"></div>
 
@@ -24,7 +24,7 @@
 				</div>
 			</div>
 
-			<div ng-controller="DiscussionController">
+			<div ng-controller="DiscussionController" in-view="at.discussion=$inview">
 				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || undefined">
 					<div class="comment-top">
 						<div class="row">
@@ -64,7 +64,7 @@
 			</div>
 
 			<div class="people-card-space" in-view="at.people=$inview" scroll-periodically="!data.people.length">
-				<div class="card bounce-in-animation people-card" ng-if="data.people.length">
+				<div class="card bounce-in-animation people-card" ng-if="data.people.length" ng-class="{ 'people-card-fixed': !at.content && !at.discussion }">
 					<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="!data.people.$err && data.people.length === 1"></div>
 					<div people-carousel="data.people" current="entry.selectedPerson" ng-if="!data.people.$err && data.people.length > 1"></div>
 
@@ -74,17 +74,19 @@
 				</div>
 			</div>
 		</div>
-		<div class="network-menu">
-			<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length" ng-if="entry.selectedPerson.accounts.length">
-				<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
-					<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.api | copy }}</span>
+		<div class="network-menu-space">
+			<div class="network-menu" ng-class="{ 'network-menu-fixed': !at.content && !at.discussion }">
+				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length" ng-if="entry.selectedPerson.accounts.length">
+					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
+						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.api | copy }}</span>
+					</div>
 				</div>
+				<div ng-show="entry.selectedPerson.menuOffset" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) - 3">Left</div>
+				<div ng-show="entry.selectedPerson.menuOffset + 3 < entry.selectedPerson.accounts.length" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) + 3">Right</div>
 			</div>
-			<div ng-show="entry.selectedPerson.menuOffset" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) - 3">Left</div>
-			<div ng-show="entry.selectedPerson.menuOffset + 3 < entry.selectedPerson.accounts.length" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) + 3">Right</div>
 		</div>
 
-		<div class="social-profile" ng-style="!at.page_bottom && { overflow: 'hidden' }">
+		<div class="social-profile">
 			<div ng-if="entry.selectedPerson.selectedAccount.description">
 				<p class="social-profile-description" readmore="entry.selectedPerson.selectedAccount.description | linky" style="max-height: 100px"></p>
 			</div>
@@ -102,8 +104,6 @@
 		<div ng-if="entry && entry.err">
 			Something went wrong!
 		</div>
-
-		<div in-view="at.page_bottom=$inview" style="1px"></div>
 	</div>
 
 	<link rel="stylesheet" href="styles/subscribe-fix-style.css">

@@ -2,6 +2,7 @@ var network_urls = require('YoCardsApiCalls/network-urls');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [])
     .controller('EntryController', ['$scope', '$timeout', function($scope, $timeout) {
+        $scope.at  = {};
         window.addEventListener('message', function(event) {
             var request = event.data;
             // TODO Determine if this is our request and not someone else's
