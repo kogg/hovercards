@@ -96,30 +96,28 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
     }])
     .directive('peopleCarousel', ['$compile', function($compile) {
         return {
-            scope: {
-                data: '=peopleCarousel',
-                current: '='
-            },
             link: function($scope, $element) {
                 $element.slick({ arrows: false, centerMode: true, centerPadding: 0, focusOnSelect: true, infinite: false, slidesToShow: 1 });
                 $element.on('afterChange', function(event, slick, index) {
                     $scope.$apply(function() {
-                        $scope.current = $scope.data[index];
+                        $scope.entry.selectedPerson = $scope.data.people[index];
                     });
                 });
-                $scope.$watchCollection('data', function(data, oldData) {
-                    if (oldData && oldData.length && data !== oldData) {
-                        oldData.forEach(function() {
+                $scope.$watchCollection('data.people', function(people, oldPeople) {
+                    if (oldPeople && oldPeople.length && people !== oldPeople) {
+                        oldPeople.forEach(function() {
                             $element.slick('slickRemove', 0);
                         });
                     }
-                    if (data && data.length) {
-                        data.forEach(function(person, index) {
-                            var element = '<div ng-init="person=data[' + index  + ']" style="height: 157px;"><div ng-include="\'templates/\' + person.selectedAccount.api + \'_account.html\'"></div></div>';
-                            $element.slick('slickAdd', $compile(element)($scope.$new()));
+                    if (people && people.length) {
+                        people.forEach(function(person) {
+                            var element = '<div style="height: 157px;"><div ng-include="\'templates/\' + person.selectedAccount.api + \'_account.html\'"></div></div>';
+                            var scope = $scope.$new();
+                            scope.person = person;
+                            $element.slick('slickAdd', $compile(element)(scope));
                         });
                     }
-                    $scope.current = data[$element.slick('slickCurrentSlide') || 0];
+                    $scope.entry.selectedPerson = (people && people[$element.slick('slickCurrentSlide') || 0]) || null;
                 });
             }
         };
