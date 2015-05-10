@@ -45,6 +45,16 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
             }
         }, false);
 
+        angular.element(document).keydown(function(e) {
+            if (e.which !== 27 || !$scope.entry.fullscreen) {
+                return;
+            }
+            $scope.$apply(function() {
+                $scope.entry.fullscreen = false;
+            });
+            e.stopImmediatePropagation();
+        });
+
         $scope.$watch('entry.fullscreen', function(fullscreen, oldFullscreen) {
             if (fullscreen === oldFullscreen) {
                 return;
