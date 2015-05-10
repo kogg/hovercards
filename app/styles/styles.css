@@ -416,10 +416,10 @@ b i {
 	padding: 15px 10px 15px 16px;
 }
 .comment-top span {
-	color: #000;
-	text-decoration: none;
-	font-size: 16px;
-	font-weight: 500;
+	color: #727272;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
 }
 .comment-top .col-3 {
 	text-align: right;
@@ -429,7 +429,7 @@ b i {
 	color:#727272;
 	top: -1.5px;
 	position: relative;
-	font-size: 20px;
+	font-size: 14px;
 }
 .comment-top .col-3 i:hover {
 	cursor: pointer;
@@ -562,6 +562,8 @@ b i {
 }
 #sortable li span {
 	color: #727272;
+	font-size: 16px;
+	font-weight: 500
 }
 #sortable li:hover {
 	cursor: pointer !important;
@@ -715,6 +717,102 @@ b i {
 }
 .reddit-title b:nth-of-type(2) {
   margin-left: 8px;
+}
+/*reddit header*/
+.reddit-header {
+	padding-right: 6px;
+	position: relative;
+}
+.reddit-header a {
+	text-decoration: none;
+  font-size: 16px;
+  color: #000;
+  font-weight: 500;
+  display: inline-block;
+  padding-top:5.5px;
+  position: relative;
+  z-index: 2;
+}
+.reddit-header a:hover {
+	text-decoration: underline;
+}
+.reddit-header-cover {
+	background: white;
+	position: absolute;
+	top: -32px;
+	width: 298px;
+	left: -16px;
+	display: none;
+	height: calc(100% + 42px);
+	height: -webkit-calc(100% + 42px);
+	-webkit-animation-duration: .4s;
+  animation-duration: .4s;
+  -webkit-animation-fill-mode: both; 
+  animation-fill-mode: both; 
+	-webkit-animation-name: headerfadeIn; 
+	animation-name: headerfadeIn; 
+} 
+.reddit-header .reddit-votes {
+	right: -1px;
+}
+@-webkit-keyframes headerfadeIn { 
+    0% {
+    	opacity: 0;
+    }
+    100% {
+    	opacity: 1;
+    }
+} 
+@keyframes headerfadeIn { 
+    0% {
+    	opacity: 0;
+    }
+    100% {
+    	opacity: 1;
+    }
+} 
+
+.reddit-header:hover .reddit-header-cover {
+	display: block;
+}
+.reddit-header .user-context {
+	display: none;
+	position: absolute;
+	width: 100%;
+	top: -16px;
+	opacity: 0;
+	-webkit-animation-duration: .8s;
+  animation-duration: .8s;
+  -webkit-animation-fill-mode: both; 
+  animation-fill-mode: both;
+	-webkit-animation-name: headerfadeIndelay; 
+	animation-name: headerfadeIndelay; 
+} 
+
+@-webkit-keyframes headerfadeIndelay { 
+    0% {
+    	opacity: 0;
+    }
+    50% {
+    	opacity: 0;
+    }
+    100% {
+    	opacity: 1;
+    }
+} 
+@keyframes headerfadeIndelay { 
+    0% {
+    	opacity: 0;
+    }
+    50% {
+    	opacity: 0;
+    }
+    100% {
+    	opacity: 1;
+    }
+} 
+.reddit-header:hover .user-context {
+	display: block;
 }
 /*reddit specific formatting*/
 .comment div + div div.md {
@@ -1309,6 +1407,7 @@ b i {
 .people-card-fixed, .network-menu-fixed {
     position: fixed;
     width: 100%;
+    max-width: 340px;
     z-index: 97687896769896789768;
 }
 .people-card-fixed {

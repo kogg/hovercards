@@ -24,17 +24,21 @@
 				</div>
 			</div>
 
-			<div ng-controller="DiscussionController" in-view="at.discussion=$inview">
+			<div ng-controller="DiscussionController" in-view="at.discussion=$inview" in-view-options="{offsetBottom:100,offsetTop:0}">
 				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || undefined">
 					<div class="comment-top">
 						<div class="row">
 							<div class="col-9">
-								<span>{{ data.discussion.api + '_discussion' | copy }}</span>
+								<span>{{ data.discussion.api + '_discussion' | copy }} ({{ data.discussion.count | numsmall }})</span>
 							</div>
 							<div class="col-3">
-								<span>{{ data.discussion.count | numsmall }}</span>
 								<i class="md md-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>
 							</div>
+
+							<div class="col-12">
+								<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'" ng-if="data.discussion.$resolved && !data.discussion.$err && data.discussion.api === 'reddit'"></div>
+							</div>
+
 						</div>
 						<div class="menu" ng-show="entry.showMenu">
 							<div class="menu-description" stored="hide_menu_description" name="hide-menu-description" ng-show="!hide_menu_description">
