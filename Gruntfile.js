@@ -5,14 +5,22 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        to_browserify: {
+            'dist/scripts/background-main.js': 'app/scripts/background-main.js',
+            'dist/scripts/everywhere-main.js': 'app/scripts/everywhere-main.js',
+            'dist/scripts/sidebar-main.js':    'app/scripts/sidebar-main.js',
+            'dist/scripts/top-frame-main.js':  'app/scripts/top-frame-main.js'
+        },
         browserify: {
             js: {
-                files: {
-                    'dist/scripts/background-main.js': 'app/scripts/background-main.js',
-                    'dist/scripts/everywhere-main.js': 'app/scripts/everywhere-main.js',
-                    'dist/scripts/sidebar-main.js':    'app/scripts/sidebar-main.js',
-                    'dist/scripts/top-frame-main.js':  'app/scripts/top-frame-main.js'
-                }
+                files: '<%= to_browserify %>'
+            },
+            js_watchify: {
+                options: {
+                    keepAlive: true,
+                    watch: true
+                },
+                files: '<%= to_browserify %>'
             }
         },
         concurrent: {
@@ -20,7 +28,7 @@ module.exports = function (grunt) {
                 logConcurrentOutput: true
             },
             develop: {
-                tasks: ['watch:non_js', 'watch:js']
+                tasks: ['watch:non_js', 'browserify:js_watchify']
             }
         },
         connect: {
@@ -55,12 +63,7 @@ module.exports = function (grunt) {
         },
         uglify: {
             js: {
-                files: {
-                    'dist/scripts/background-main.js': 'dist/scripts/background-main.js',
-                    'dist/scripts/everywhere-main.js': 'dist/scripts/everywhere-main.js',
-                    'dist/scripts/sidebar-main.js':    'dist/scripts/sidebar-main.js',
-                    'dist/scripts/top-frame-main.js':  'dist/scripts/top-frame-main.js'
-                }
+                files: '<%= to_browserify %>'
             }
         },
         watch: {
@@ -71,10 +74,6 @@ module.exports = function (grunt) {
             non_js: {
                 files: ['app/**/*', '!app/**/*.js'],
                 tasks: ['dist:non_js']
-            },
-            js: {
-                files: ['app/**/*.js'],
-                tasks: ['dist:js']
             }
         }
     });
