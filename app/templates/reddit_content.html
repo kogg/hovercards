@@ -6,7 +6,7 @@
 			</div>
 			<span class="reddit-votes">{{:: data.content.date | timeSinceAbbr }}</span>
 		</div>
-		<a ng-href="{{:: data.content | generateUrl }}">{{ ::data.content.name }}</a>
+		<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{ ::data.content.name }}</a>
 	</div>
 	<div ng-if="::data.content.description" class="card-description">
 		<div readmore=":: data.content.description" cutoff-height="100"></div>

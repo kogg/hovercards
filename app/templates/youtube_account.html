@@ -6,7 +6,7 @@
 		<b class="youtube-color"><i class="md md-videocam"></i>{{:: ((data.content.author.api    === 'youtube' && data.content.author.id === person.selectedAccount.id) ||
 		                                                             (data.discussion.author.api === 'youtube' && data.discussion.author.id === person.selectedAccount.id))
 		                                                             ? 'Uploaded By' : ('youtube_account' | copy) }}:</b>
-		<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis">{{:: person.selectedAccount.name }}</a>
+		<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{:: person.selectedAccount.name }}</a>
 		<div class="profile-cta">
 			<div youtube-channel-subscribe youtube-channel-id=":: person.selectedAccount.id" subscribed-offset="offset"></div>
 		</div>
