@@ -143,7 +143,7 @@ p a, .card-text .card-description p a, .card-description-padding p a, .comment-c
 	padding: 16px;
 	border-top:1px solid rgba(0,0,0,.15)
 }
-b i {
+b i, .iconic-push {
 	position: relative;
 	top: -1px;
 	margin-right: 3px;
@@ -414,6 +414,18 @@ b i {
 }
 .comment-top .row {
 	padding: 15px 10px 15px 16px;
+}
+.comment-top .row .col-9 {
+	position: relative;
+}
+.comment-top .row .col-9:after {
+  content: "";
+  position: absolute;
+  left: -16px;
+  width: 298px;
+  bottom: -9px;
+  height: 11px;
+  z-index: 9;
 }
 .comment-top span {
 	color: #727272;
@@ -722,6 +734,19 @@ b i {
 .reddit-header {
 	padding-right: 6px;
 	position: relative;
+}
+.reddit-header:after {
+  content: "";
+  position: absolute;
+  left: -16px;
+  width: 298px;
+  top: -2px;
+  height: 11px;
+  z-index: 10;
+  display: none;
+}
+.reddit-header:hover:after {
+	display: block;
 }
 .reddit-header a {
 	text-decoration: none;
