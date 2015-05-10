@@ -9,8 +9,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Yout
                 offset: '=subscribedOffset'
             },
             link: function($scope, $element) {
+                var gapi = require('gapi');
+
                 $scope.offset = 0;
-                /* global gapi */
                 gapi.ytsubscribe.render($element[0], { channelid: $scope.id,
                                                        layout:    'default',
                                                        count:     'hidden',
