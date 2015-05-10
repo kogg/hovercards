@@ -22,7 +22,7 @@ $(function() {
         .css({
           top: yPos - 15,
           left: xPos - 15
-        }) 
+        })
         .appendTo($(this));
 
       window.setTimeout(function(){

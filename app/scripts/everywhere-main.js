@@ -4,6 +4,13 @@ var embedded_trigger = require('./embedded-trigger');
 var longpress        = require('./longpress');
 var yo_trigger       = require('./yo-trigger');
 
+$(document).keydown(function(e) {
+    if (e.which !== 27) {
+        return;
+    }
+    window.top.postMessage({ msg: 'hide' }, '*');
+});
+
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
 var html = $('html');
