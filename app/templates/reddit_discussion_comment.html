@@ -3,7 +3,7 @@
 	<a ng-href="{{:: comment.author | generateUrl }}" ng-class="{ op: comment.author.id === data.discussion.author.id }">{{ ::comment.author.id }}</a>
 	<span class="reddit-votes">{{ ::comment.score | score }} <span class="hidden-date">&middot; {{ ::comment.date | timeSinceAbbr  }}</span></span>
 </div>
-<div readmore=":: comment.description" style="max-height: 170px"></div>
+<div readmore=":: comment.description" cutoff-height="170"></div>
 <div class="child" ng-repeat="comment in comment.comments">
 	<div class="child-comment" ng-class="{ 'child-close': comment.close, 'selected-comment': comment.id === data.discussion.focus.id }">
 		<div ng-include="'templates/reddit_discussion_comment.html'"></div>

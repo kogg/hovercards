@@ -7,7 +7,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         return {
             restrict: 'A',
             scope: {
-                text: '=readmore'
+                text: '=readmore',
+                cutoffHeight: '@?'
             },
             link: function($scope, $element) {
                 $scope.$watch('text', function(text) {
@@ -18,6 +19,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                     $element.append('<span class="read-more">Read More</span>');
                     $element.dotdotdot({
                         after: 'span.read-more',
+                        height: Number($scope.cutoffHeight),
                         callback: function(isTruncated) {
                             var read_more = $element.find('.read-more');
                             if (!isTruncated) {
@@ -29,8 +31,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                 .click(function() {
                                     $element
                                         .trigger('destroy')
-                                        .css('max-height', 'none')
-                                        .html(text);
+                                        .html($scope.text);
                                 });
                         }
                     });

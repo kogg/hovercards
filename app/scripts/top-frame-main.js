@@ -1,7 +1,10 @@
 var $ = require('jquery');
-var hovercards_container = $('<div class="hovercards-container"></div>').appendTo('body');
 
-var sidebar_obj = require('./sidebar-inject')(hovercards_container, 'body', document, function(msg) {
+var container = $('<div></div>')
+    .appendTo('body')
+    .addClass(chrome.i18n.getMessage('@@extension_id') + '-container');
+
+var sidebar_obj = require('./sidebar-inject')(container, 'body', document, function(msg) {
     window.postMessage(msg, '*');
 });
 

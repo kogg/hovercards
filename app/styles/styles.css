@@ -842,20 +842,20 @@ b i {
   font-weight: 400;
   font-size: 15px;
   color: #727272;
-  /*margin:8px 0;*/
+  margin:8px 0;
 }
 .md pre, .md table  {
   background: rgba(0, 0, 0, 0.02);
   padding: 8px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 3px;
-  /*margin: 8px 0;*/
+  margin: 8px 0;
   font-size: 12px;
   width: 100%;
 }
 .md blockquote {
   border-left: 2px solid rgba(0,0,0,.15);
-  /*margin-bottom: 8px;*/
+  margin-bottom: 8px;
   padding-left: 8px;
 }
 .md table {
@@ -871,7 +871,7 @@ b i {
 }
 
 .md p + blockquote {
-	/*margin:8px 0;*/
+	margin:8px 0;
 }
 /*Comment Childs*/
 .child {
