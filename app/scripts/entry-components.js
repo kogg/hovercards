@@ -29,6 +29,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                     break;
                                 case 'discussion':
                                     $scope.entry.discussions = [identity];
+                                    $scope.entry.discussion = identity;
                                     break;
                                 case 'account':
                                     $scope.entry.accounts = [identity];
