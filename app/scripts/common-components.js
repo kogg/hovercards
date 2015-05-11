@@ -167,11 +167,29 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
     }])
     .filter('timeSince', function() {
         var moment  = require('moment');
+        moment.locale('en-since', {
+            relativeTime: {
+                future: 'in %s',
+                past:   '%s ago',
+                s:  'seconds',
+                m:  '1 minute',
+                mm: '%d minutes',
+                h:  '1 hour',
+                hh: '%d hours',
+                d:  '1 day',
+                dd: '%d days',
+                M:  '1 month',
+                MM: '%d months',
+                y:  '1 year',
+                yy: '%d years'
+            }
+        });
+
         return function(time) {
             if (!time) {
                 return '';
             }
-            moment.locale('en');
+            moment.locale('en-since');
             return moment(time).fromNow();
         };
     })
