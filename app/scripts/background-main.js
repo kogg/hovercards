@@ -22,8 +22,9 @@ chrome.storage.local.get('user_id', function(obj) {
                 sendMessage([err, result]);
             });
         } else {
-            request.user = obj.user_id;
-            $.get('https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/' + api + '/' + type, request)
+            $.ajax({ url:     'https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/' + api + '/' + type,
+                     data:    request,
+                     headers: { user: obj.user_id} })
                 .done(function(data) {
                     sendMessage([null, data]);
                 })
