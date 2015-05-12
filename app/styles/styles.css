@@ -60,7 +60,7 @@ html,body {
 	padding-bottom: 0;
 }
 .card-text .card-description {
-	padding-top:5.5px;
+	padding-top:5px;
 }
 .fullscreen-active .video-top-underlay {
 	display: block !important;
@@ -106,7 +106,7 @@ b, a, p, span {
 b {
 	display: block;
 	font-weight: 700;
-	margin-bottom: 5.5px;
+	margin-bottom: 5px;
 	font-size:12px;
 	color:#727272;
 }
@@ -202,13 +202,7 @@ b i, .iconic-push {
 .profile-right a:hover, .card-text a:hover {
 	text-decoration: underline;
 }
-/*Color Palette*/
-.youtube-color {
-	color: #F44336
-}
-.reddit-color {
-	color: #ff4601;
-}
+
 /*Profile Cards*/
 .profile {
 	position: relative;
@@ -392,7 +386,7 @@ b i, .iconic-push {
 	color: #727272
 }
 .user-context-container {
-	padding-bottom: 5.5px;
+	padding-bottom: 5px;
 }
 .user-context div {
 	max-width: 200px;
@@ -779,7 +773,7 @@ b i, .iconic-push {
 .reddit-header {
 	padding-right: 6px;
 	position: relative;
-	padding-top:5.5px;
+	padding-top:5px;
 }
 .reddit-header-container {
 	display: inline;
@@ -807,7 +801,7 @@ b i, .iconic-push {
   color: #000;
   font-weight: 500;
   display: inline;
-  padding-top:5.5px;
+  padding-top:5px;
   position: relative;
   z-index: 2;
 }
@@ -1131,9 +1125,24 @@ b i, .iconic-push {
 	min-height: -webkit-calc(100% - 222px);
 }
 .social-profile-description {
-	text-align: center;
 	position: relative;
-	padding-bottom: 16px;
+	padding: 0 20px 16px 20px
+}
+.social-profile-description-container {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-top: none;
+  border-radius: 0 0 3px 3px;
+  padding: 0 16px 16px 16px;
+}
+.social-profile-description-container-header {
+	padding: 16px;
+}
+.social-profile-description .comment-top {
+	border-radius: 3px 3px 0 0;
+	border-bottom: none;
+}
+.social-profile-description .comment-top .row {
+	padding:15px 10px 5px 16px
 }
 /*content list*/
 .content-list {
@@ -1177,22 +1186,23 @@ b i, .iconic-push {
 .content-list .row .col-7 {
 	padding: 8px 8px 8px 12px;
 }
-.content-list .row .col-7 a {
+.content-list .row .col-7  a {
 	text-decoration: none;
+	display: inline
 }
-.content-list .row .col-7 a p {
+.content-list .row .col-7 a {
 	color: #212121;
 	margin-top: 0;
 	padding-top: 0px;
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
+  display: inline
 }
 .content-list .row .col-5 a {
 	display: block;
 }
-.content-list .row .col-7 a p:hover {
-	cursor: pointer;
+.content-list .row .col-7 a:hover {
 	text-decoration: underline;
 }
 .content-list .row .col-7 b {
@@ -1517,8 +1527,13 @@ b i, .iconic-push {
   }
 }
 
-/* Fixed Shit */
-
+/*Color Palette*/
+.youtube-color {
+	color: #F44336 !important
+}
+.reddit-color {
+	color: #ff4601 !important
+}
 
 
 

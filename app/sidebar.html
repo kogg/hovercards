@@ -92,7 +92,18 @@
 		<div class="social-profile-space">
 			<div class="social-profile" ng-if="data.people.length">
 				<div ng-if="entry.selectedPerson.selectedAccount.description">
-					<p class="social-profile-description" readmore="entry.selectedPerson.selectedAccount.description | linky" cutoff-height="100"></p>
+					<div class="social-profile-description">
+							<div class="comment-top">
+								<div class="row">
+									<div class="col-12">
+										<span class="ng-binding youtube-color"><i class="md md-person iconic-push"></i>Channel Description</span>
+									</div>
+								</div>
+							</div>
+						<div class="social-profile-description-container">
+							<p readmore="entry.selectedPerson.selectedAccount.description | linky" cutoff-height="100"></p>
+						</div>
+					</div>
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
 					<div ng-if="data.moreContent.$resolved">
