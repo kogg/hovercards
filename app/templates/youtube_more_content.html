@@ -1,4 +1,4 @@
-<div class="content-list">
+<div class="content-list" ng-if="!data.moreContent.$err">
 	<div ng-repeat="video in data.moreContent.content" ng-class="{ 'content-list-selected': video.id===entry.content.id }" class="content-list-link">
 		<div class="row">
 			<div class="col-5">
@@ -13,3 +13,5 @@
 		</div>
 	</div>
 </div>
+
+<div ng-messages="data.moreContent.$err" ng-messages-include="templates/exceptions.html"></div>

@@ -1,18 +1,19 @@
 require('jquery');
 var angular = require('angular');
 
-var app = angular.module('app', [require('angular-animate'),
-                                 require('angular-inview/angular-inview') && 'angular-inview',
-                                 require('./entry-components'),
-                                 require('./content-components'),
-                                 require('./discussion-components'),
-                                 require('./people-components'),
-                                 require('./more-content-components'),
-                                 require('./common-components'),
+module.exports = angular.module('app', [// Dependencies
+                                        require('angular-animate'),
+                                        require('angular-inview/angular-inview') && 'angular-inview',
+                                        require('angular-messages'),
 
-                                 require('./reddit-components'),
-                                 require('./youtube-components')]);
+                                        // Our Components
+                                        require('./entry-components'),
+                                        require('./content-components'),
+                                        require('./discussion-components'),
+                                        require('./people-components'),
+                                        require('./more-content-components'),
+                                        require('./common-components'),
 
-app.directive('error', require('./error-directive'));
-
-module.exports = app;
+                                        // API Specific Components
+                                        require('./reddit-components'),
+                                        require('./youtube-components')]);

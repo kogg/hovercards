@@ -1,8 +1,4 @@
-<div class="no-comments" ng-if="!data.discussion.comments.length || !data.discussion.count">
-	<p>Oh no, no one has commented on this! <a ng-href="{{:: data.discussion | generateUrl }}">Be the first to comment</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></p>
-</div>
-
-<div ng-repeat="comment in data.discussion.comments" class="comment row" ng-if="data.discussion.count">
+<div ng-repeat="comment in data.discussion.comments" class="comment row" ng-if="!data.discussion.$err">
 	<div class="col-2">
 		<a ng-href="{{:: comment.author | generateUrl }}">
 			<div class="comment-image" ng-style=":: comment.author.image && { 'background-image': 'url(' + comment.author.image + ')'}"></div>
@@ -14,5 +10,11 @@
 			<span class="youtube-color reddit-votes">{{:: comment.date | timeSinceAbbr }}</span>
 		</div>
 		<p readmore=":: comment.description" cutoff-height="100"></p>
+	</div>
+</div>
+
+<div ng-messages="data.discussion.$err" ng-messages-include="templates/exceptions.html">
+	<div class="no-comments" ng-message="empty-content">
+		<p>Oh no, no one has commented on this! <a ng-href="{{:: data.discussion | generateUrl }}">Be the first to comment</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></p>
 	</div>
 </div>

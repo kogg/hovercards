@@ -1,4 +1,4 @@
-<div ng-repeat="thing in data.moreContent.content" class="reddit-profiles">
+<div ng-repeat="thing in data.moreContent.content" class="reddit-profiles" ng-if="!data.moreContent.$err">
 	<div class="content-list reddit-profile-posts" ng-if="thing.type === 'comment'">
 		<div class="reddit-title">
 			<div class="user-context">
@@ -25,3 +25,5 @@
 		</div>
 	</div>
 </div>
+
+<div ng-messages="data.moreContent.$err" ng-messages-include="templates/exceptions.html"></div>

@@ -20,15 +20,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                             $scope.entry = (function() {
                                 var entry = {};
 
-                                var got_something = false;
+                                var got_something;
+                                var last_err;
                                 $q.all([{ api: 'reddit', type: 'url', id: request.url }].map(function(request) {
                                     $scope.data.loading = ($scope.data.loading || 0) + 1;
 
                                     return apiService.get(request).$promise
                                         .then(function(thing) {
-                                            if (!thing) {
-                                                return;
-                                            }
                                             got_something = true;
                                             switch (thing.type) {
                                                 case 'content':
@@ -44,14 +42,19 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                                     break;
                                             }
                                         })
+                                        .catch(function(err) {
+                                            last_err = err;
+                                            return null;
+                                        })
                                         .finally(function() {
                                             $scope.data.loading--;
                                         });
-                                })).catch(function(err) {
-                                    entry.$err = err;
-                                    if (!got_something) {
-                                        entry.$err = entry.$err || 'empty';
+                                }))
+                                .then(function() {
+                                    if (got_something) {
+                                        return;
                                     }
+                                    entry.$err = last_err || { 'bad-input': true };
                                 });
 
                                 return entry;
