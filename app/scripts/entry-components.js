@@ -3,7 +3,7 @@ var network_urls = require('YoCardsApiCalls/network-urls');
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [require('./service-components')])
-    .controller('EntryController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
+    .controller('EntryController', ['$scope', '$timeout', '$q', 'apiService', function($scope, $timeout, $q, apiService) {
         $scope.at  = {};
         window.addEventListener('message', function(event) {
             var request = event.data;
@@ -18,24 +18,21 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                         var identity = network_urls.identify(request.url);
                         if (!identity) {
                             $scope.entry = (function() {
-                                $scope.data.loading = ($scope.data.loading || 0) + 1;
-
                                 var entry = {};
 
                                 var got_something = false;
-                                apiService.get({ api: null, type: 'url', id: request.url }).$promise
-                                    .then(null,
-                                        function(err) {
-                                            entry.$err = err;
-                                        },
-                                        function(thing) {
+                                $q.all([{ api: 'reddit', type: 'url', id: request.url }].map(function(request) {
+                                    $scope.data.loading = ($scope.data.loading || 0) + 1;
+
+                                    return apiService.get(request).$promise
+                                        .then(function(thing) {
                                             if (!thing) {
                                                 return;
                                             }
                                             got_something = true;
                                             switch (thing.type) {
                                                 case 'content':
-                                                    entry.content = thing;
+                                                    entry.content = entry.content || thing;
                                                     break;
                                                 case 'discussion':
                                                     entry.discussions = $scope.entry.discussions || [];
@@ -47,12 +44,15 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                                     break;
                                             }
                                         })
-                                    .finally(function() {
-                                        $scope.data.loading--;
-                                        if (!got_something) {
-                                            entry.$err = entry.$err || 'error';
-                                        }
-                                    });
+                                        .finally(function() {
+                                            $scope.data.loading--;
+                                        });
+                                })).catch(function(err) {
+                                    entry.$err = err;
+                                    if (!got_something) {
+                                        entry.$err = entry.$err || 'empty';
+                                    }
+                                });
 
                                 return entry;
                             }());
