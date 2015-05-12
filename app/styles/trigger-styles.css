@@ -95,8 +95,8 @@
 	}
 }
 .__MSG_@@extension_id__-yo-notify-clicked {
-	-webkit-animation-duration: .4s;
-	animation-duration: .4s;
+	-webkit-animation-duration: .6s;
+	animation-duration: .6s;
 	-webkit-animation-fill-mode: forwards;
 	animation-fill-mode: forwards;
 	-webkit-animation-name: __MSG_@@extension_id__-yo-notify-grow;
@@ -110,11 +110,11 @@
 		-webkit-transform: scale(1.5);
 	}
 	60% {
-		-webkit-transform: scale(4.5);
+		-webkit-transform: scale(3.5);
 	}
 	100% {
 		opacity: 0;
-		-webkit-transform: scale(4.5);
+		-webkit-transform: scale(3.5);
 	}
 } 
 @keyframes __MSG_@@extension_id__-yo-notify-grow { 
@@ -123,11 +123,11 @@
 		transform: scale(1.5);
 	}
 	60% {
-		transform: scale(4.5);
+		transform: scale(3.5);
 	}
 	100% {
 		opacity: 0;
-		-webkit-transform: scale(4.5);
+		-webkit-transform: scale(3.5);
 	}
 }
 .__MSG_@@extension_id__-yo-notify-hover {

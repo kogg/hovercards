@@ -27,18 +27,4 @@
 			</div>
 		</div>
 	</div>
-	<div class="profile-card-mini">
-		<div class="row">
-			<div class="profile-left col-2">
-				<div class="profile-image reddit-profile"></div>
-			</div>
-			<div class="profile-right col-10">
-				<b class="reddit-color"><i class="md md-mode-edit"></i>{{:: ((data.content.author.api    === 'reddit' && data.content.author.id === person.selectedAccount.id) ||
-				                                                             (data.discussion.author.api === 'reddit' && data.discussion.author.id === person.selectedAccount.id))
-				                                                             ? 'Posted By' : ('reddit_account' | copy) }}:</b>
-				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ ::person.selectedAccount.id }}</a>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>

@@ -253,32 +253,7 @@ b i, .iconic-push {
 	overflow: hidden;
 }
 
-/*mini profile cards*/
-.profile-card-mini {
-	position: absolute;
-	bottom: 32px;
-	border:1px solid rgba(0,0,0,.15);
-	background: white;
-	padding: 8px 16px;
-	border-radius: 3px;
-	width: 100%;
-}
-.profile-card-mini .profile-right {
-	height: auto;
-	padding: 0 0 0 16px;
-}
-.profile-card-mini .profile-left {
-	background: none;
-}
-.profile-card-mini .profile-image {
-	width: 42px;
-  height: 42px;
-  border-radius: 50px;
-  background-image: url('/images/missing-image.png');
-  background-size: 100%;
-  background-position: center;
-  position: relative;
-}
+
 /*Video Cards*/
 
 .video-card {
@@ -375,6 +350,21 @@ b i, .iconic-push {
 	left: 0;
 	width: 100%;
 }
+.comment .user-context span.ellipsis {
+	display: inline-block;
+  width: -webkit-calc(100% - 70px);
+}
+.comment span.youtube-ellipsis {
+	display: inline-block;
+  width: -webkit-calc(100% - 30px) !important;	
+}
+.comment .user-context a i {
+	position: relative;
+	top:-4px;
+}
+.comment .user-context {
+	margin-bottom: 1px;
+}
 .comment-container {
 	position: relative;
 }
@@ -438,9 +428,6 @@ b i, .iconic-push {
 	position: relative;
 	margin-bottom: 5px;
 }
-.user-context a:last-of-type {
-	padding-right: 36px;
-}
 
 .comment-top {
 	border: 1px solid rgba(0,0,0,.15);
@@ -458,7 +445,7 @@ b i, .iconic-push {
   content: "";
   position: absolute;
   left: -16px;
-  width: 298px;
+  width: 297px;
   bottom: -9px;
   height: 11px;
   z-index: 9;
@@ -785,7 +772,7 @@ b i, .iconic-push {
   content: "";
   position: absolute;
   left: -16px;
-  width: 298px;
+  width: 297px;
   top: -2px;
   height: 11px;
   z-index: 10;
@@ -948,14 +935,9 @@ b i, .iconic-push {
 }
 .op:after {
 	content: " (OP)";
-	display:inline-block;
   color: #727272;
-  text-decoration: none;
-  margin-left: 2px;
   font-size: 12px;
   font-weight: 600;
-	position: relative;
-	top: -1px;
 }
 .selected-comment {
 	position: relative;
@@ -984,7 +966,7 @@ b i, .iconic-push {
 	clear: both;
 	padding:8px 0 0 8px;
 }
-.child-close div div.md, .child-close .read-more {
+.child-close div div.md, .child-close .read-more, .child-close .child {
 	display: none !important;
 }
 .child-close .down-arrow {
@@ -1428,7 +1410,7 @@ b i, .iconic-push {
   margin-left: -24px;
   height: 100%;
   width: 36px;
-  z-index: 2;
+  z-index: 3;
   right: -24px;
 }
 .slick-center:before {
