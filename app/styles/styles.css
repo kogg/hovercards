@@ -378,6 +378,9 @@ b i, .iconic-push {
 	left: 0;
 	width: 100%;
 }
+.comment-container {
+	position: relative;
+}
 .comment-close {
 	height: 48px;
 	overflow: hidden;
@@ -956,6 +959,28 @@ b i, .iconic-push {
   font-weight: 600;
 	position: relative;
 	top: -1px;
+}
+.selected-comment {
+	position: relative;
+	z-index: 2;
+}
+.selected-comment + div {
+	position: relative;
+}
+.selected-comment + div .md, .selected-comment + div .read-more {
+	position: relative;
+	z-index: 2;
+}
+.selected-comment + div:after {
+  content: "";
+  position: absolute;
+  height: -webkit-calc(100% + 36px);
+  width: -webkit-calc(100% + 19px);
+  left: -10px;
+  top: -30px;
+  border: 1px solid #D9D9D9;
+  background: #FFF;
+  border-radius: 3px;
 }
 /*Comment Childs*/
 .child {
