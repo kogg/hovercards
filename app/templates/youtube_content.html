@@ -16,7 +16,7 @@
 	<div class="video-cta" ng-click="entry.fullscreen=true;" ng-if="playing" ng-class="{ 'button-vanish': entry.fullscreen }">
 		<i class="md md-fullscreen"></i>
 	</div>
-	<div class="video-cta" ng-click="entry.fullscreen=false;" ng-class="{ 'button-vanish': !entry.fullscreen }">
+	<div class="video-cta" ng-click="entry.fullscreen=false;" ng-if="playing" ng-class="{ 'button-vanish': !entry.fullscreen }">
 		<i class="md md-fullscreen-exit"></i>
 	</div>
 </div>

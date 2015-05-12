@@ -333,10 +333,8 @@ b i, .iconic-push {
 	background: #F44336;
 	color: white;
 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-	z-index: 2;
+	z-index: 3;
 	position: absolute;
-	-webkit-transform: rotate(0deg) scale(1);
-	-webkit-transition: box-shadow .2s ease-in-out, transform .5s ease-in-out, opacity .5s ease-in-out;
 }
 .video-cta:hover {
 	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0.24);
@@ -345,9 +343,18 @@ b i, .iconic-push {
 .video-cta:active {
 }
 .button-vanish {
+	pointer-events:none;
+	opacity: 0;
+    z-index: 2;
+}
+.button-vanish-add {
+	-webkit-transition: box-shadow .2s ease-in-out, transform .5s ease-in-out, opacity .5s ease-in-out;
+	-webkit-transform: scale(1);
+	opacity: 1;
+}
+.button-vanish-add.button-vanish-add-active {
 	-webkit-transform: scale(1.5);
 	opacity: 0;
-	pointer-events:none;
 }
 .percent-bar {
   position: absolute;
