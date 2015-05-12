@@ -89,11 +89,11 @@
         cursor:default;
     }
     60% {
-    	-webkit-transform: scale(4.5);
+    	-webkit-transform: scale(3);
     }
     100% {
     	opacity: 0;
-    	-webkit-transform: scale(4.5);
+    	-webkit-transform: scale(3);
     }
 } 
 @keyframes yohasbeenpressedlol { 
@@ -103,19 +103,19 @@
         cursor:default;
     }
     60% {
-    	transform: scale(4.5);
+    	transform: scale(3);
     }
     100% {
     	opacity: 0;
-    	-webkit-transform: scale(4.5);
+    	-webkit-transform: scale(3);
     }
 }
 .yo-notify-hover {
     -webkit-transition:all .15s ease-in-out;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115) !important;
     cursor: pointer;
-    width: 16px !important;
-    height: 16px !important;
+    width: 12px !important;
+    height: 12px !important;
     transform: scale(1.5) !important;
     -webkit-transform: scale(1.5) !important;
 }
