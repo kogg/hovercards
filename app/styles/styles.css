@@ -213,6 +213,13 @@ b i, .iconic-push {
 	color: #ff4601;
 }
 /*Profile Cards*/
+.profile {
+	position: relative;
+}
+.profile-card {
+	position: relative;
+	z-index: 2;
+}
 .profile-top {
 	background: #fff;
 	border-left:1px solid rgba(0,0,0,.15);
@@ -233,7 +240,7 @@ b i, .iconic-push {
 	border-radius: 2px 0 0 0;
 }
 .reddit-profile {
-	background-image: url('../images/reddit-profile-image.jpg');
+	background-image: url('../images/reddit-profile-image.jpg') !important;
 }
 .profile-right {
 	padding: 16px;
@@ -248,10 +255,39 @@ b i, .iconic-push {
 }
 
 .people-card-space {
-    height: 157px;
+  height: 157px;
 	margin-top: 16px;
 }
+.people-card {
+	overflow: hidden;
+}
 
+/*mini profile cards*/
+.profile-card-mini {
+	position: absolute;
+	bottom: 32px;
+	border:1px solid rgba(0,0,0,.15);
+	background: white;
+	padding: 8px 16px;
+	border-radius: 3px;
+	width: 100%;
+}
+.profile-card-mini .profile-right {
+	height: auto;
+	padding: 0 0 0 16px;
+}
+.profile-card-mini .profile-left {
+	background: none;
+}
+.profile-card-mini .profile-image {
+	width: 42px;
+  height: 42px;
+  border-radius: 50px;
+  background-image: url('/images/missing-image.png');
+  background-size: 100%;
+  background-position: center;
+  position: relative;
+}
 /*Video Cards*/
 
 .video-card {
@@ -1031,6 +1067,7 @@ b i, .iconic-push {
 	left:25%;
 }
 /*Social Profile */
+
 .social-profile {
 	background: white;
 	overflow: scroll;
@@ -1429,21 +1466,6 @@ b i, .iconic-push {
 }
 
 /* Fixed Shit */
-.people-card-fixed, .network-menu-fixed {
-    position: fixed;
-    width: 100%;
-    max-width: 340px;
-    z-index: 97687896769896789768;
-}
-.people-card-fixed {
-    background-color: #f6f6f6;
-    padding-top: 16px;
-    top: -16px;
-}
-.network-menu-fixed {
-    top: 173px;
-}
-
 
 
 

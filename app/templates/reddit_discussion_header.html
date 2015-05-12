@@ -6,6 +6,7 @@
 			<b>&middot; <a ng-href="https://www.reddit.com/r/{{:: data.discussion.subreddit }}">/r/{{:: data.discussion.subreddit }}</a></b>
 		</div>
 		<span class="reddit-votes">{{:: data.discussion.score | score }} <span class="hidden-date">· {{:: data.discussion.date | timeSinceAbbr }}</span></span>
+		<i class="md md-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>
 	</div>
 	<a class="no-yo" ng-href="{{ data.discussion | generateUrl }}">{{:: data.discussion.name }}</a>
 </div>
