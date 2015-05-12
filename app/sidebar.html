@@ -14,7 +14,7 @@
 			</div>
 		</div>
 		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && !entry.$err">
-			<div ng-controller="ContentController" in-view="at.content=$inview">
+			<div ng-controller="ContentController">
 				<div class="card bounce-in-animation" ng-if="data.content.$resolved">
 					<div ng-include="'templates/' + data.content.api + '_content.html'" ng-if="!data.content.$err"></div>
 
@@ -24,7 +24,7 @@
 				</div>
 			</div>
 
-			<div ng-controller="DiscussionController" in-view="at.discussion=$inview" in-view-options="{offsetBottom:100,offsetTop:0}">
+			<div ng-controller="DiscussionController">
 				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || undefined">
 					<div class="comment-top">
 						<div class="row">
