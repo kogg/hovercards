@@ -19,6 +19,10 @@ chrome.storage.local.get('user_id', function(obj) {
 
         if (client_side_calls[api] && client_side_calls[api][type]) {
             client_side_calls[api][type](request, function(err, result) {
+                err = err || (!result && { status: 404 });
+                if (err) {
+                    return sendMessage([err]);
+                }
                 sendMessage([err, result]);
             });
         } else {
