@@ -515,6 +515,9 @@ b i, .iconic-push {
 	text-decoration: underline;
 	cursor: pointer
 }
+.comment a:hover:after {
+	text-decoration: none;
+}
 .comment p {
 	margin-top: 5px;
 }
@@ -770,8 +773,15 @@ b i, .iconic-push {
 .reddit-header {
 	padding-right: 6px;
 	position: relative;
+	padding-top:5.5px;
 }
-.reddit-header:after {
+.reddit-header-container {
+	display: inline;
+}
+.reddit-header-container:hover {
+	display: block;
+}
+.reddit-header-container:after {
   content: "";
   position: absolute;
   left: -16px;
@@ -781,20 +791,21 @@ b i, .iconic-push {
   z-index: 10;
   display: none;
 }
-.reddit-header:hover:after {
+.reddit-header-container:hover:after {
 	display: block;
 }
-.reddit-header a {
+
+.reddit-header-container a {
 	text-decoration: none;
   font-size: 16px;
   color: #000;
   font-weight: 500;
-  display: inline-block;
+  display: inline;
   padding-top:5.5px;
   position: relative;
   z-index: 2;
 }
-.reddit-header a:hover {
+.reddit-header-container a:hover {
 	text-decoration: underline;
 }
 .reddit-header-cover {
@@ -813,7 +824,7 @@ b i, .iconic-push {
 	-webkit-animation-name: headerfadeIn; 
 	animation-name: headerfadeIn; 
 } 
-.reddit-header .reddit-votes {
+.reddit-header-container .reddit-votes {
 	right: -1px;
 }
 @-webkit-keyframes headerfadeIn { 
@@ -833,10 +844,10 @@ b i, .iconic-push {
     }
 } 
 
-.reddit-header:hover .reddit-header-cover {
+.reddit-header-container:hover .reddit-header-cover {
 	display: block;
 }
-.reddit-header .user-context {
+.reddit-header-container .user-context {
 	display: none;
 	position: absolute;
 	width: 100%;
@@ -871,8 +882,9 @@ b i, .iconic-push {
     100% {
     	opacity: 1;
     }
-} 
-.reddit-header:hover .user-context {
+}
+
+.reddit-header-container:hover .user-context {
 	display: block;
 }
 /*reddit specific formatting*/
@@ -933,6 +945,17 @@ b i, .iconic-push {
 
 .md p + blockquote {
 	margin:8px 0;
+}
+.op:after {
+	content: " (OP)";
+	display:inline-block;
+  color: #727272;
+  text-decoration: none;
+  margin-left: 2px;
+  font-size: 12px;
+  font-weight: 600;
+	position: relative;
+	top: -1px;
 }
 /*Comment Childs*/
 .child {
