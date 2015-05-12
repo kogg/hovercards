@@ -89,16 +89,18 @@
 			</div>
 		</div>
 
-		<div class="social-profile">
-			<div ng-if="entry.selectedPerson.selectedAccount.description">
-				<p class="social-profile-description" readmore="entry.selectedPerson.selectedAccount.description | linky" cutoff-height="100"></p>
-			</div>
-			<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
-				<div ng-if="data.moreContent.$resolved">
-					<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'" ng-if="!data.moreContent.$err"></div>
+		<div class="social-profile-space">
+			<div class="social-profile" ng-if="data.people.length">
+				<div ng-if="entry.selectedPerson.selectedAccount.description">
+					<p class="social-profile-description" readmore="entry.selectedPerson.selectedAccount.description | linky" cutoff-height="100"></p>
+				</div>
+				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
+					<div ng-if="data.moreContent.$resolved">
+						<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'" ng-if="!data.moreContent.$err"></div>
 
-					<div error ng-if="data.moreContent.$err" ng-switch="data.moreContent.$err.status">
-						<span ng-switch-default>There was a problem with the more content!</span>
+						<div error ng-if="data.moreContent.$err" ng-switch="data.moreContent.$err.status">
+							<span ng-switch-default>There was a problem with the more content!</span>
+						</div>
 					</div>
 				</div>
 			</div>

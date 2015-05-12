@@ -56,8 +56,12 @@ html,body {
 	border-radius: 3px 3px 0 0;
 	border-top: 1px solid rgba(0, 0, 0, 0.15)
 }
-
-
+.card-text .user-context-container {
+	padding-bottom: 0;
+}
+.card-text .card-description {
+	padding-top:5.5px;
+}
 .fullscreen-active .video-top-underlay {
 	display: block !important;
 }
@@ -117,9 +121,6 @@ hr {
   height: 1px;
   background:rgba(0, 0, 0, 0.15);
   margin:8px 0;
-}
-.card-description p {
-	margin-top: 5.5px;
 }
 p a, .card-text .card-description p a, .card-description-padding p a, .comment-content p a {
 	color: #2196F3;
@@ -1120,20 +1121,25 @@ b i, .iconic-push {
 
 .social-profile {
 	background: white;
+	padding: 20px 0px;
+	min-height: calc(100% - 222px);
+	min-height: -webkit-calc(100% - 222px);
+}
+.social-profile-space {
 	overflow: scroll;
 	min-height: calc(100% - 222px);
 	min-height: -webkit-calc(100% - 222px);
-	padding: 20px 0px;
 }
 .social-profile-description {
-	padding: 0px 20px 20px 20px;
 	text-align: center;
+	position: relative;
+	padding-bottom: 16px;
 }
 /*content list*/
 .content-list {
 	padding: 0px 20px;
-  -webkit-animation-duration: .8s;
-  animation-duration: .8s;
+  -webkit-animation-duration: .5s;
+  animation-duration: .5s;
   -webkit-animation-fill-mode: both; 
   animation-fill-mode: both; 
 	-webkit-animation-name: fadeIn; 
@@ -1143,21 +1149,17 @@ b i, .iconic-push {
 @-webkit-keyframes fadeIn { 
     0% {
     	opacity: 0;
-    	-webkit-transform: translatey(100px);
     }
     100% {
     	opacity: 1;
-    	-webkit-transform: translatey(0px);
     }
 } 
 @keyframes fadeIn { 
     0% {
     	opacity: 0;
-    	transform: translatey(100px);
     }
     100% {
     	opacity: 1;
-    	transform: translatey(0px);
     }
 } 
 
