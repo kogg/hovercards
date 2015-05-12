@@ -2,8 +2,8 @@ var network_urls = require('YoCardsApiCalls/network-urls');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
-module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [])
-    .controller('EntryController', ['$scope', '$timeout', function($scope, $timeout) {
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [require('./service-components')])
+    .controller('EntryController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
         $scope.at  = {};
         window.addEventListener('message', function(event) {
             var request = event.data;
@@ -16,26 +16,61 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                     });
                     $timeout(function() {
                         var identity = network_urls.identify(request.url);
-                        $scope.$apply(function() {
-                            $scope.entry = {};
-                            if (!identity) {
-                                $scope.entry.err = 'something';
-                                return;
-                            }
-                            $scope.entry.type = identity.type;
-                            switch ($scope.entry.type) {
-                                case 'content':
-                                    $scope.entry.content = identity;
-                                    break;
-                                case 'discussion':
-                                    $scope.entry.discussions = [identity];
-                                    $scope.entry.discussion = identity;
-                                    break;
-                                case 'account':
-                                    $scope.entry.accounts = [identity];
-                                    break;
-                            }
-                        });
+                        if (!identity) {
+                            $scope.entry = (function() {
+                                $scope.data.loading = ($scope.data.loading || 0) + 1;
+
+                                var entry = {};
+
+                                var got_something = false;
+                                apiService.get({ api: null, type: 'url', id: request.url }).$promise
+                                    .then(null,
+                                        function(err) {
+                                            entry.$err = err;
+                                        },
+                                        function(thing) {
+                                            if (!thing) {
+                                                return;
+                                            }
+                                            got_something = true;
+                                            switch (thing.type) {
+                                                case 'content':
+                                                    entry.content = thing;
+                                                    break;
+                                                case 'discussion':
+                                                    entry.discussions = $scope.entry.discussions || [];
+                                                    entry.discussions.push(thing);
+                                                    break;
+                                                case 'account':
+                                                    entry.accounts = $scope.entry.accounts || [];
+                                                    entry.accounts.push(thing);
+                                                    break;
+                                            }
+                                        })
+                                    .finally(function() {
+                                        $scope.data.loading--;
+                                        if (!got_something) {
+                                            entry.$err = entry.$err || 'error';
+                                        }
+                                    });
+
+                                return entry;
+                            }());
+                            return;
+                        }
+                        $scope.entry = { type: identity.type };
+                        switch ($scope.entry.type) {
+                            case 'content':
+                                $scope.entry.content = identity;
+                                break;
+                            case 'discussion':
+                                $scope.entry.discussions = [identity];
+                                $scope.entry.discussion = identity;
+                                break;
+                            case 'account':
+                                $scope.entry.accounts = [identity];
+                                break;
+                        }
                     }, 100);
                     break;
                 case 'hide':
