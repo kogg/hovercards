@@ -29,6 +29,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                     break;
                                 case 'discussion':
                                     $scope.entry.discussions = [identity];
+                                    $scope.entry.discussion = identity;
                                     break;
                                 case 'account':
                                     $scope.entry.accounts = [identity];
@@ -70,6 +71,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
             if ($scope.data.content.discussions && $scope.data.content.discussions.length) {
                 $scope.entry.discussions = ($scope.entry.discussions || []);
                 chrome.storage.sync.get('order', function(obj) {
+                    obj.order = obj.order || [];
                     $scope.$apply(function() {
                         ($scope.data.content.discussions || []).forEach(function(discussion) {
                             if (!$scope.entry.discussions.some(function(entry_discussion) { return discussion.api === entry_discussion.api; })) {
