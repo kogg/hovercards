@@ -6,17 +6,17 @@
 			</object>
 		</div>
 	</div>
-	<div class="video-cta" ng-click="playing=true;" ng-class="{ 'button-vanish': playing }">
-		<i class="md md-play-arrow"></i>
-	</div>
-	<div class="video-cta" ng-click="entry.fullscreen=true;" ng-if="playing" ng-style="{ display: entry.fullscreen ? 'none' : 'block' }">
-		<i class="md md-fullscreen"></i>
-	</div>
 </div>
 
 <div class="video-top-underlay">
 	<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }"></div>
-	<div class="exit-fullscreen" ng-click="entry.fullscreen=false;" >
+	<div class="video-cta" ng-click="playing=true;" ng-class="{ 'button-vanish': playing }">
+		<i class="md md-play-arrow"></i>
+	</div>
+	<div class="video-cta" ng-click="entry.fullscreen=true;" ng-if="playing" ng-class="{ 'button-vanish': entry.fullscreen }">
+		<i class="md md-fullscreen"></i>
+	</div>
+	<div class="video-cta" ng-click="entry.fullscreen=false;" ng-class="{ 'button-vanish': !entry.fullscreen }">
 		<i class="md md-fullscreen-exit"></i>
 	</div>
 </div>

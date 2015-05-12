@@ -56,12 +56,8 @@ html,body {
 	border-radius: 3px 3px 0 0;
 	border-top: 1px solid rgba(0, 0, 0, 0.15)
 }
-.exit-fullscreen {
-	display: none;
-}
-.fullscreen-active .exit-fullscreen {
-	display: block;
-}
+
+
 .fullscreen-active .video-top-underlay {
 	display: block !important;
 }
@@ -293,7 +289,6 @@ b i, .iconic-push {
 .video-card {
 
 }
-
 .video-top, .video-top-underlay {
 	height: 168px;
 	border:1px solid rgba(0,0,0,.15);
@@ -301,8 +296,9 @@ b i, .iconic-push {
 	border-radius: 3px 3px 0 0;
 	position: relative;
 }
-.video-top-underlay {
-	display: none;
+.video-top {
+	position: absolute;
+	z-index: 2;
 }
 .video-image {
 	height: 168px;
@@ -325,8 +321,7 @@ b i, .iconic-push {
 	border-radius: 3px 3px;
 	border-top:1px solid rgba(0,0,0,.15);
 }
-.video-cta, .exit-fullscreen {
-	position: absolute;
+.video-cta {
 	right: 16px;
 	bottom: -25px;
 	width: 46px;
@@ -339,15 +334,15 @@ b i, .iconic-push {
 	color: white;
 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 	z-index: 2;
+	position: absolute;
 	-webkit-transform: rotate(0deg) scale(1);
 	-webkit-transition: box-shadow .2s ease-in-out, transform .5s ease-in-out, opacity .5s ease-in-out;
 }
-.video-cta:hover, .exit-fullscreen:hover {
+.video-cta:hover {
+	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0.24);
 	cursor: pointer;
-	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0.24)
 }
-.video-cta:active, .exit-fullscreen:active {
-	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0)
+.video-cta:active {
 }
 .button-vanish {
 	-webkit-transform: scale(1.5);
