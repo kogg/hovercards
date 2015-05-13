@@ -31,7 +31,7 @@
 								<i class="md md-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>
 							</div>
 
-							<div class="col-12" ng-if="!data.discussion.$err && data.discussion.api === 'reddit'">
+							<div class="col-12" ng-if="data.discussion.api === 'reddit'">
 								<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'"></div>
 							</div>
 
