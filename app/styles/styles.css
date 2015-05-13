@@ -790,7 +790,6 @@ b i, .iconic-push {
   color: #000;
   font-weight: 500;
   display: inline;
-  padding-top:5px;
   position: relative;
   z-index: 2;
 }
