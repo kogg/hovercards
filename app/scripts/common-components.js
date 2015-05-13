@@ -59,51 +59,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     }])
-    .directive('sortable', function() {
-        require('jquery-ui/sortable');
-        require('jquery-ui/droppable');
-
-        return {
-            restrict: 'A',
-            link: function($scope, $element) {
-                $element.sortable({ axis:        'y',
-                                    handle:      'b',
-                                    placeholder: 'ui-state-highlight',
-                                    update:      function(event, ui) {
-                                        var before = ui.item.prevAll('li').map(function() {
-                                            var api = angular.element(this).scope().discussion_choice.api;
-                                            if ($scope.order.indexOf(api) === -1) {
-                                                $scope.order.push(api);
-                                            }
-                                            return api;
-                                        }).toArray();
-                                        var after = ui.item.nextAll('li').map(function() {
-                                            var api = angular.element(this).scope().discussion_choice.api;
-                                            if ($scope.order.indexOf(api) === -1) {
-                                                $scope.order.push(api);
-                                            }
-                                            return api;
-                                        }).toArray();
-                                        var current = angular.element(ui.item).scope().discussion_choice.api;
-                                        if ($scope.order.indexOf(current) === -1) {
-                                            $scope.order.push(current);
-                                        }
-
-                                        $scope.$apply(function() {
-                                            $scope.order.sort(function(a, b) {
-                                                var a_val = (a === current) ? 0 : ((before.indexOf(a) !== -1) ? -1 : ((after.indexOf(a) !== -1) ? 1 : 'idk'));
-                                                var b_val = (b === current) ? 0 : ((before.indexOf(b) !== -1) ? -1 : ((after.indexOf(b) !== -1) ? 1 : 'idk'));
-                                                if (a_val === 'idk' || b_val === 'idk') {
-                                                    return 0;
-                                                }
-                                                return a_val - b_val;
-                                            });
-                                        });
-                                    } });
-                $element.disableSelection();
-            }
-        };
-    })
     .directive('stored', function() {
         return {
             retrict: 'A',
@@ -138,9 +93,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         };
     })
     .filter('generateUrl', function() {
-        var network_urls = require('YoCardsApiCalls/network-urls');
-
-        return network_urls.generate;
+        return require('YoCardsApiCalls/network-urls').generate;
     })
     .filter('numsmall', function() {
         return function(number) {
@@ -218,12 +171,4 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             return moment(time).fromNow();
         };
     })
-    .filter('trustresourceurl', ['$sce', function($sce) {
-        return function(url) {
-            if (!url) {
-                return '';
-            }
-            return $sce.trustAsResourceUrl(url);
-        };
-    }])
     .name;

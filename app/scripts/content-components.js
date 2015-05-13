@@ -5,7 +5,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
         $scope.$watch('entry.content', function(request) {
             if (!request) {
                 $scope.data.content = null;
-                return null;
+                return;
             }
             $scope.data.content = (function() {
                 $scope.data.loading = ($scope.data.loading || 0) + 1;

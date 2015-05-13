@@ -5,7 +5,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'More
         $scope.$watch('entry.selectedPerson.selectedAccount', function(request) {
             if (!request) {
                 $scope.data.moreContent = null;
-                return null;
+                return;
             }
             $scope.data.moreContent = (function() {
                 $scope.data.loading = ($scope.data.loading || 0) + 1;
