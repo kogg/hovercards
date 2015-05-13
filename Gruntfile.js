@@ -63,7 +63,12 @@ module.exports = function (grunt) {
         },
         uglify: {
             js: {
-                files: '<%= to_browserify %>'
+                files: {
+                    'dist/scripts/background-main.js': 'dist/scripts/background-main.js',
+                    'dist/scripts/everywhere-main.js': 'dist/scripts/everywhere-main.js',
+                    'dist/scripts/sidebar-main.js':    'dist/scripts/sidebar-main.js',
+                    'dist/scripts/top-frame-main.js':  'dist/scripts/top-frame-main.js'
+                }
             }
         },
         watch: {
