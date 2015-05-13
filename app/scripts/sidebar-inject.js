@@ -1,4 +1,5 @@
-var $ = require('jquery');
+var $      = require('jquery');
+var common = require('./common');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
@@ -8,6 +9,7 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
     var obj = $('<div></div>')
         .appendTo($(inject_into))
         .addClass(extension_id + '-sidebar')
+        .width(340)
         .hide()
         .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
             if (e.originalEvent.animationName !== 'slide-out-' + extension_id) {
@@ -46,9 +48,11 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         .prop('frameborder', '0')
         .mouseenter(function() {
             body.css('overflow', 'hidden');
+            obj.width(340 + common.get_scrollbar_width());
         })
         .mouseleave(function() {
             body.css('overflow', 'auto');
+            obj.width(340);
         });
 
     $('<div></div>')
