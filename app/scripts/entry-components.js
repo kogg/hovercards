@@ -148,23 +148,4 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
             });
         });
     }])
-    .controller('OverflowController', ['$scope', function($scope) {
-        $scope.scrolling = { overflow: 'hidden' };
-        window.addEventListener('message', function(event) {
-            var request = event.data;
-            // TODO Determine if this is our request and not someone else's
-            switch(request.msg) {
-                case 'mouseenter':
-                    $scope.$apply(function() {
-                        $scope.scrolling.overflow = 'auto';
-                    });
-                    break;
-                case 'mouseleave':
-                    $scope.$apply(function() {
-                        $scope.scrolling.overflow = 'hidden';
-                    });
-                    break;
-            }
-        });
-    }])
     .name;
