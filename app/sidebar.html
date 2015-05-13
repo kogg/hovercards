@@ -67,7 +67,7 @@
 						<div people-carousel ng-if="data.people.length > 1"></div>
 					</div>
 
-					<div ng-messages="data.people.$err" ng-messages-include="templates/exceptions.html"></div>
+					<div ng-messages="data.people.$err" ng-messages-include="templates/people_exceptions.html"></div>
 				</div>
 			</div>
 		</div>
@@ -102,14 +102,14 @@
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
 					<div ng-if="data.moreContent.$resolved">
-						<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'" ng-if="!data.moreContent.$err"></div>
+						<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div ng-messages="entry.$err" ng-messages-include="templates/exceptions.html"></div>
+	<div ng-messages="entry.$err" ng-messages-include="templates/entry_exceptions.html"></div>
 
 	<link rel="stylesheet" href="styles/subscribe-fix-style.css">
 	<script src="https://apis.google.com/js/platform.js"></script>

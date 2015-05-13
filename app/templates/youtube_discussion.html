@@ -15,8 +15,7 @@
 	</div>
 </div>
 
-<div ng-messages="data.discussion.$err" ng-messages-include="templates/exceptions.html">
-	<div class="no-comments" ng-message="empty-content">
-		<p>Oh no, no one has commented on this! <a ng-href="{{:: data.discussion | generateUrl }}">Be the first to comment</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></p>
-	</div>
+
+<div class="no-comments" ng-if="data.discussion.$err">
+	<p ng-messages="data.discussion.$err" ng-messages-include="templates/discussion_exceptions.html"></p>
 </div>

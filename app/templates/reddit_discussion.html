@@ -1,10 +1,7 @@
 <div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit_discussion_comment.html'" ng-repeat="comment in data.discussion.comments" ng-if="!data.discussion.$err"></div>
 
-<div ng-messages="data.discussion.$err" ng-messages-include="templates/exceptions.html">
-	<div class="no-comments" ng-message="no-content">
-		<p>Oh no, no one has posted this on Reddit! <a ng-href="http://www.reddit.com/submit?url={{:: ((data.content || data.discussion) | generateUrl) }}">Post it first</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></p>
-	</div>
-	<div class="no-comments" ng-message="empty-content">
-		<p>Oh no, no one has commented on this! <a ng-href="{{:: data.discussion | generateUrl }}">Be the first to comment</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></p>
-	</div>
+<div class="no-comments" ng-if="data.discussion.$err">
+	<p ng-messages="data.discussion.$err" ng-messages-include="templates/discussion_exceptions.html">
+		<span ng-message="no-content">No one has posted this on Reddit! <a ng-href="http://www.reddit.com/submit?url={{:: ((data.content || data.discussion) | generateUrl) }}" class="no-yo">Be the first</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></span>
+	</p>
 </div>
