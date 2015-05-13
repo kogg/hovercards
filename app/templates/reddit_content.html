@@ -5,7 +5,7 @@
 				<div class="ellipsis">
 					<a ng-href="{{:: data.content.author | generateUrl }}">{{:: data.content.author.id }}</a> <b>· <a ng-href="https://www.reddit.com/r/{{:: data.content.subreddit }}">/r/{{:: data.content.subreddit }}</a></b>
 				</div>
-				<span class="reddit-votes">{{:: data.content.date | timeSinceAbbr }}</span>
+				<span class="reddit-votes">{{:: data.content.date | timeSince:true }}</span>
 			</div>
 			<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{ ::data.content.name }}</a>
 		</div>
