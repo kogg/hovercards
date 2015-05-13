@@ -134,17 +134,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                 yy: '%d years'
             }
         });
-
-        return function(time) {
-            if (!time) {
-                return '';
-            }
-            moment.locale('en-since');
-            return moment(time).fromNow();
-        };
-    })
-    .filter('timeSinceAbbr', function() {
-        var moment  = require('moment');
         moment.locale('en-since-abbrev', {
             relativeTime: {
                 future: '%s',
@@ -163,11 +152,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         });
 
-        return function(time) {
+        return function(time, abbrev) {
             if (!time) {
-                return '';
+                return;
             }
-            moment.locale('en-since-abbrev');
+            moment.locale(abbrev ? 'en-since-abbrev' : 'en-since');
             return moment(time).fromNow();
         };
     })

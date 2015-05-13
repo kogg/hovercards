@@ -9,7 +9,7 @@
 			<span class="ellipsis youtube-ellipsis">
 				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name }}</a>
 			</span>
-			<span class="reddit-votes">{{:: comment.date | timeSinceAbbr }}</span>
+			<span class="reddit-votes">{{:: comment.date | timeSince:true }}</span>
 		</div>
 		<p readmore=":: comment.description" cutoff-height="100"></p>
 	</div>
