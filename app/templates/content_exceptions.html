@@ -1,6 +1,6 @@
 <!-- Serious Errors -->
 <span ng-message="our-problem">Oh no! {{ 'app_name' | copy }} is having problems right now.</span>
-<span ng-message="dependency-down">It looks like they're down...</span>
+<span ng-message="dependency-down">Oh no! {{ ((data.content.api || entry.content.api) | copy) || 'One of our dependencies' }} is having problems right now.</span>
 
 <!-- Errors -->
 <span ng-message="bad-input">This input be bad, yo</span>
