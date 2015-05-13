@@ -1,0 +1,17 @@
+<div class="content-list" ng-if="!data.moreContent.$err">
+	<div ng-repeat="video in data.moreContent.content" ng-class="{ 'content-list-selected': video.id===entry.content.id }" class="content-list-link">
+		<div class="row">
+			<div class="col-5">
+				<a ng-href="{{:: video | generateUrl }}">
+					<img ng-src="{{:: video.image }}">
+				</a>
+			</div>
+			<div class="col-7">
+					<a ng-href="{{:: video | generateUrl }}" cutoff-height="40" readmore=":: video.name"></a>
+				<b><i class="md md-access-time"></i> {{:: video.date | timeSince }}</b>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div ng-messages="data.moreContent.$err" ng-messages-include="templates/more_content_exceptions.html"></div>

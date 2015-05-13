@@ -2,59 +2,90 @@
 
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
-    require('time-grunt')(grunt);
 
     grunt.initConfig({
-        jshint: {
-            options: {
-                jshintrc: true,
-                reporter: require('jshint-stylish')
+        pkg: grunt.file.readJSON('package.json'),
+        to_browserify: {
+            'dist/scripts/background-main.js': 'app/scripts/background-main.js',
+            'dist/scripts/everywhere-main.js': 'app/scripts/everywhere-main.js',
+            'dist/scripts/sidebar-main.js':    'app/scripts/sidebar-main.js',
+            'dist/scripts/top-frame-main.js':  'app/scripts/top-frame-main.js'
+        },
+        browserify: {
+            js: {
+                files: '<%= to_browserify %>'
             },
-            all: [
-                'Gruntfile.js',
-                'app/scripts/{,*/}*.js',
-                'test/spec/{,*/}*.js'
-            ]
+            js_watchify: {
+                options: {
+                    keepAlive: true,
+                    watch: true
+                },
+                files: '<%= to_browserify %>'
+            }
+        },
+        concurrent: {
+            options: {
+                logConcurrentOutput: true
+            },
+            develop: {
+                tasks: ['watch:non_js', 'browserify:js_watchify']
+            }
         },
         connect: {
-            options: {
-                hostname: 'localhost'
-            },
-            test: {
+            browser_tests: {
                 options: {
+                    hostname: 'localhost',
                     port: 9500,
                     open: false,
-                    base: ['test', 'app']
+                    base: ['test', 'app', '.']
                 }
-            },
-            testBrowser: {
-                options: {
-                    port: 9750,
-                    open: true,
-                    keepalive: true,
-                    base: ['test', 'app']
-                }
+            }
+        },
+        copy: {
+            non_js: {
+                files: [
+                    { expand: true, cwd: 'app/',                               src: ['**', '!scripts/**'], dest: 'dist/' },
+                    { expand: true, cwd: 'node_modules/angular/',              src: ['angular-csp.css'],   dest: 'dist/styles/' },
+                    { expand: true, cwd: 'node_modules/slick-carousel/slick/', src: ['slick.css'],         dest: 'dist/styles/' }
+                ]
             }
         },
         mocha: {
-            all: {
+            browser_tests: {
                 options: {
                     run: true,
-                    urls: ['http://localhost:<%= connect.test.options.port %>/index.html'],
+                    urls: ['http://localhost:<%= connect.browser_tests.options.port %>/index.html'],
                     log: true,
-                    reporter: 'Nyan'
+                    logErrors: true,
+                    reporter: '<%= pkg.reporter %>'
                 }
             }
         },
+        uglify: {
+            js: {
+                files: {
+                    'dist/scripts/background-main.js': 'dist/scripts/background-main.js',
+                    'dist/scripts/everywhere-main.js': 'dist/scripts/everywhere-main.js',
+                    'dist/scripts/sidebar-main.js':    'dist/scripts/sidebar-main.js',
+                    'dist/scripts/top-frame-main.js':  'dist/scripts/top-frame-main.js'
+                }
+            }
+        },
+        watch: {
+            options: {
+                atBegin: true,
+                interrupt: true
+            },
+            non_js: {
+                files: ['app/**/*', '!app/**/*.js'],
+                tasks: ['dist:non_js']
+            }
+        }
     });
 
-    grunt.registerTask('test', [
-        'jshint',
-        'connect:test',
-        'mocha'
-    ]);
-
-    grunt.registerTask('test:browser', [
-        'connect:testBrowser'
-    ]);
+    grunt.registerTask('develop',     ['concurrent:develop']);
+    grunt.registerTask('dist:js',     ['browserify:js']);
+    grunt.registerTask('dist:non_js', ['copy:non_js']);
+    grunt.registerTask('pkg',         ['dist:non_js', 'dist:js', 'uglify:js']);
+    grunt.registerTask('test',        ['connect:browser_tests', 'mocha:browser_tests']);
 };

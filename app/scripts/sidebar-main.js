@@ -1,22 +1,34 @@
-'use strict';
+var $       = require('jquery');
+var angular = require('angular');
 
-require(['layout-directive',
-         'card-directive',
-         'load-directive',
-         'readmore-directive',
-         'youtube-channel-subscribe-directive',
-         'copy-filter',
-         'htmlify-filter',
-         'numsmall-filter',
-         'trust-resource-url-filter',
-         'slide-animation'], function() {
-    angular.bootstrap(document, ['app']);
+angular.bootstrap(document, [require('./angular-app').name]);
+
+window.top.postMessage({ msg: 'ready' }, '*');
+
+$('body').on('mousedown', 'a[href]', function() {
+    $(this).attr('target', '_blank');
 });
 
-require(['hotkey-trigger'], function(hotkeyTrigger) {
-    hotkeyTrigger.on('body');
-});
+$(function() {
+  function materialripple() {
+    $('body').on('click', '.rippleblack', function (event) {
+      var $div = $('<div/>'),
+          btnOffset = $(this).offset(),
+          xPos = event.pageX - btnOffset.left,
+          yPos = event.pageY - btnOffset.top;
 
-require(['domReady!'], function() {
-    chrome.runtime.sendMessage({ msg: 'ready' });
+      $div
+        .addClass('circle')
+        .css({
+          top: yPos - 15,
+          left: xPos - 15
+        })
+        .appendTo($(this));
+
+      window.setTimeout(function(){
+        $div.remove();
+      }, 2000);
+    });
+  }
+  materialripple();
 });

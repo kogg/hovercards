@@ -1,31 +1,35 @@
 {
     "name": "__MSG_app_name__",
-    "version": "0.0.2",
+    "short_name": "__MSG_app_short_name__",
+    "version": "0.1.0",
     "manifest_version": 2,
     "description": "__MSG_app_description__",
     "default_locale": "en",
     "permissions": [
+        "activeTab",
         "storage"
     ],
     "icons": {
-        "16": "images/icon-16.png",
-        "128": "images/icon-128.png"
+        "16": "images/yocards-logo-16.png",
+        "128": "images/yocards-logo-128.png"
     },
-    "content_security_policy": "script-src 'self' https://apis.google.com https://cdn.supportkit.io; object-src 'self'",
+    "content_security_policy": "script-src 'self' https://apis.google.com https://cdn.supportkit.io; object-src 'self' https://www.youtube.com",
     "web_accessible_resources": [
         "sidebar.html",
-        "images/hovercards-notification.gif",
+        "images/carlito-video-clicker.png",
+        "images/carlito-video-clicker-fs.png",
+        "images/yo-white.png",
+        "images/yo-black.png",
         "images/youtube-notification.gif"
     ],
-    "background": {
-        "page": "background.html"
-    },
-    "page_action": {
-        "default_title": "__MSG_app_name__",
+    "browser_action": {
         "default_icon": {
-            "19": "images/omni-default-19.png",
-            "38": "images/omni-default-38.png"
+            "19": "images/yocards-logo-19.png",
+            "38": "images/yocards-logo-38.png"
         }
+    },
+    "background": {
+        "scripts": ["scripts/background-main.js"]
     },
     "content_scripts": [
         {
@@ -37,64 +41,19 @@
                 "styles/dom-styles.css"
             ],
             "js": [
-                "bower_components/purl/purl.js",
-                "bower_components/requirejs/require.js",
-                "scripts/config.js",
-                "bower_components/jquery/dist/jquery.js",
-                "scripts/hover-trigger.js",
-                "scripts/notifications-inject.js",
-                "scripts/sidebar-inject.js",
-                "scripts/state-manager.js",
-                "scripts/youtube-video-bind-triggers-on-player.js",
-                "scripts/youtube-video-bind-triggers.js",
                 "scripts/top-frame-main.js"
             ],
             "all_frames": false
         },
         {
             "matches": [
-                "http://www.youtube.com/embed/*",
-                "https://www.youtube.com/embed/*",
-                "http://www.youtube-nocookie.com/embed/*",
-                "https://www.youtube-nocookie.com/embed/*"
-            ],
-            "js": [
-                "bower_components/purl/purl.js",
-                "bower_components/requirejs/require.js",
-                "scripts/config.js",
-                "bower_components/jquery/dist/jquery.js",
-                "scripts/hover-trigger.js",
-                "scripts/youtube-video-bind-triggers-on-player.js",
-                "scripts/youtube-video-iframe-main.js"
-            ],
-            "all_frames": true
-        },
-        {
-            "matches": [
-                "https://attachment.fbsbx.com/external_iframe.php"
-            ],
-            "js": [
-                "bower_components/purl/purl.js",
-                "bower_components/requirejs/require.js",
-                "scripts/config.js",
-                "bower_components/jquery/dist/jquery.js",
-                "scripts/hover-trigger.js",
-                "scripts/youtube-video-bind-triggers-on-player.js",
-                "scripts/youtube-video-bind-triggers.js",
-                "scripts/facebook-youtube-video-iframe-main.js"
-            ],
-            "all_frames": true
-        },
-        {
-            "matches": [
                 "http://*/*",
                 "https://*/*"
             ],
+            "css": [
+                "styles/trigger-styles.css"
+            ],
             "js": [
-                "bower_components/requirejs/require.js",
-                "scripts/config.js",
-                "bower_components/jquery/dist/jquery.js",
-                "scripts/hotkey-trigger.js",
                 "scripts/everywhere-main.js"
             ],
             "all_frames": true

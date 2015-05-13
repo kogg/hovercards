@@ -1,0 +1,21 @@
+<div ng-repeat="comment in data.discussion.comments" class="comment row" ng-if="!data.discussion.$err">
+	<div class="col-2">
+		<a ng-href="{{:: comment.author | generateUrl }}">
+			<div class="comment-image" ng-style=":: comment.author.image && { 'background-image': 'url(' + comment.author.image + ')'}"></div>
+		</a>
+	</div>
+	<div class="col-10">
+		<div class="user-context">
+			<span class="ellipsis youtube-ellipsis">
+				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name }}</a>
+			</span>
+			<span class="reddit-votes">{{:: comment.date | timeSince:true }}</span>
+		</div>
+		<p readmore=":: comment.description" cutoff-height="100"></p>
+	</div>
+</div>
+
+
+<div class="no-comments" ng-if="data.discussion.$err">
+	<p ng-messages="data.discussion.$err" ng-messages-include="templates/discussion_exceptions.html"></p>
+</div>

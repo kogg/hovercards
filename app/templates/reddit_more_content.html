@@ -1,0 +1,29 @@
+<div ng-repeat="thing in data.moreContent.content" class="reddit-profiles" ng-if="!data.moreContent.$err">
+	<div class="content-list reddit-profile-posts" ng-if="thing.type === 'comment'">
+		<div class="reddit-title">
+			<div class="user-context">
+				<b>Replied to post in <a ng-href="https://www.reddit.com/r/{{:: thing.subreddit }}">/r/{{:: thing.subreddit }}</a></b>
+				<span class="reddit-votes">{{:: thing.score | score }} <span class="hidden-date">· {{:: thing.date | timeSince:true }}</span></span>
+			</div>
+			<a ng-href="{{:: thing.content | generateUrl }}">{{:: thing.content.name }}</a>
+		</div>
+		<div>
+			<div class="child-comment"><p readmore=":: thing.description" cutoff-height="50"></p></div>
+		</div>
+	</div>
+	<div class="content-list reddit-profile-posts" ng-if="thing.type === 'content'">
+		<div class="reddit-title">
+			<div class="user-context">
+				<b>Posted in <a ng-href="https://www.reddit.com/r/{{:: thing.subreddit }}">/r/{{:: thing.subreddit }}</a></b>
+				<span class="reddit-votes">{{:: thing.score | score }} <span class="hidden-date">· {{:: thing.date | timeSince:true }}</span></span>
+			</div>
+			<div class="thumbnail" ng-class=":: (thing.image.indexOf('http') === -1) && ('thumbnail-' + thing.image)" ng-if="thing.image" ng-style=":: (thing.image.indexOf('http') === 0) && { 'background-image': 'url(' + thing.image + ')'}"></div>
+			<a ng-href="{{:: thing | generateUrl }}">{{:: thing.name }}</a>
+		</div>
+		<div ng-if=":: thing.description">
+			<div class="child-comment"><p readmore=":: thing.description" cutoff-height="50"></p></div>
+		</div>
+	</div>
+</div>
+
+<div ng-messages="data.moreContent.$err" ng-messages-include="templates/more_content_exceptions.html"></div>

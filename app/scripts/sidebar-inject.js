@@ -1,63 +1,70 @@
-'use strict';
+var $ = require('jquery');
 
-define('sidebar-inject', ['jquery'], function($) {
-    return {
-        on: function sidebarInjectOn(body) {
-            body = $(body)
-                .dblclick(function() {
-                    chrome.runtime.sendMessage({ msg: 'hide' });
-                });
+var extension_id = chrome.i18n.getMessage('@@extension_id');
 
-            var obj = $('<div class="hovercards-sidebar"></div>')
-                .appendTo(body)
-                .hide()
-                .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
-                    if (e.originalEvent.animationName !== 'slide-out-hovercards') {
-                        return;
-                    }
-                    obj.hide();
-                });
+module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, sendMessage) {
+    body = $(body);
 
-            $('<iframe></iframe>')
-                .appendTo(obj)
-                .prop('src', chrome.extension.getURL('sidebar.html'))
-                .prop('frameborder', '0')
-                .mouseenter(function() {
-                    body.css('overflow', 'hidden');
-                })
-                .mouseleave(function() {
-                    body.css('overflow', 'auto');
-                });
+    var obj = $('<div></div>')
+        .appendTo($(inject_into))
+        .addClass(extension_id + '-sidebar')
+        .hide()
+        .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
+            if (e.originalEvent.animationName !== 'slide-out-' + extension_id) {
+                return;
+            }
+            obj.hide();
+        })
+        .on('sidebar.msg', function(e, request) {
+            switch (request.msg) {
+                case 'load':
+                    obj
+                        .show()
+                        .removeClass(extension_id + '-sidebar-leave')
+                        .addClass(extension_id + '-sidebar-enter');
+                    sendMessage({ msg: 'loaded' });
+                    break;
+                case 'hide':
+                    obj
+                        .removeClass(extension_id + '-sidebar-enter')
+                        .addClass(extension_id + '-sidebar-leave');
+                    sendMessage({ msg: 'hidden' });
+                    break;
+            }
+        });
 
-            $('<div class="hovercards-sidebar-close-button"></div>')
-                .appendTo(obj)
-                .click(function(e) {
-                    if (e.which !== 1) {
-                        return;
-                    }
-                    chrome.runtime.sendMessage({ msg: 'hide' });
-                });
-
-
-            chrome.runtime.onMessage.addListener(function(request) {
-                switch (request.msg) {
-                    case 'load':
-                        obj
-                            .show()
-                            .removeClass('hovercards-sidebar-leave')
-                            .addClass('hovercards-sidebar-enter');
-                        chrome.runtime.sendMessage({ msg: 'loaded' });
-                        break;
-                    case 'hide':
-                        obj
-                            .removeClass('hovercards-sidebar-enter')
-                            .addClass('hovercards-sidebar-leave');
-                        chrome.runtime.sendMessage({ msg: 'hidden' });
-                        break;
-                }
-            });
-
-            return obj;
+    window.addEventListener('message', function(event) {
+        if (!event || !event.data || event.data.msg !== extension_id + '-fullscreen') {
+            return;
         }
-    };
-});
+        obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
+    }, false);
+
+    $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+        .appendTo(obj)
+        .prop('src', chrome.extension.getURL('sidebar.html'))
+        .prop('frameborder', '0')
+        .mouseenter(function() {
+            body.css('overflow', 'hidden');
+        })
+        .mouseleave(function() {
+            body.css('overflow', 'auto');
+        });
+
+    $('<div></div>')
+        .appendTo(obj)
+        .addClass(extension_id + '-sidebar-close-button')
+        .click(function(e) {
+            if (e.which !== 1) {
+                return;
+            }
+            sendMessage({ msg: 'hide' });
+        });
+
+    $(dbl_clickable)
+        .dblclick(function() {
+            sendMessage({ msg: 'hide' });
+        });
+
+    return obj;
+};

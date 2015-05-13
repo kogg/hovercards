@@ -1,5 +1,19 @@
-'use strict';
+require('jquery');
+var angular = require('angular');
 
-define(['domReady!', 'jquery', 'angular', 'angular-animate', 'angular-sanitize'], function(ignore, $, angular) {
-    return angular.module('app', ['ngAnimate', 'ngSanitize']);
-});
+module.exports = angular.module('app', [// Dependencies
+                                        require('angular-animate'),
+                                        require('angular-inview/angular-inview') && 'angular-inview',
+                                        require('angular-messages'),
+
+                                        // Our Components
+                                        require('./entry-components'),
+                                        require('./content-components'),
+                                        require('./discussion-components'),
+                                        require('./people-components'),
+                                        require('./more-content-components'),
+                                        require('./common-components'),
+
+                                        // API Specific Components
+                                        require('./reddit-components'),
+                                        require('./youtube-components')]);

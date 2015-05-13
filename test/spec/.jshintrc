@@ -1,8 +1,10 @@
 {
-    "extends": "../../.jshintrc",
+    "extends": "../.jshintrc",
     "expr": true,
     "mocha": true,
     "globals": {
+        "angular": true,
+        "chrome": true,
         "expect": true,
         "inject": true,
         "should": true,

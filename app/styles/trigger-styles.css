@@ -1,0 +1,141 @@
+.__MSG_@@extension_id__-yo-notify {
+	content: "" !important;
+	position: absolute !important;
+	width: 16px !important;
+	height: 16px !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png') !important;
+	background-repeat: no-repeat !important;
+	background-size: 66% !important;
+	background-position: center !important;
+	border-radius: 50% !important;
+	z-index: 2147483647 !important;
+	-webkit-transition:all .15s ease-in-out;
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
+	-webkit-animation-name: __MSG_@@extension_id__-yo-notify-fadein;
+	animation-name: __MSG_@@extension_id__-yo-notify-fadein;
+}
+.__MSG_@@extension_id__-yo-notify-embedded {
+	-webkit-animation-duration: .3s;
+	animation-duration: .3s;
+	-webkit-animation-name: yofaddedIn;
+	animation-name: yofaddedIn;
+}
+.__MSG_@@extension_id__-yo-notify-youtube {
+	background-color: #F44336 !important;
+}
+.__MSG_@@extension_id__-yo-notify-reddit {
+	background-color: #cee2f8 !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-black.png') !important;
+}
+@-webkit-keyframes __MSG_@@extension_id__-yo-notify-fadein { 
+	0% {
+		opacity: 0;
+		-webkit-transform: scale(.5);
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform: scale(1);
+	}
+} 
+@keyframes __MSG_@@extension_id__-yo-notify-fadein { 
+	0% {
+		opacity: 0;
+		transform: scale(.5);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+} 
+@-webkit-keyframes yofaddedIn { 
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+} 
+@keyframes yofaddedIn { 
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+} 
+
+.__MSG_@@extension_id__-yo-notify-exit {
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
+	-webkit-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
+	-webkit-animation-name: __MSG_@@extension_id__-yo-notify-fadeout;
+	animation-name: __MSG_@@extension_id__-yo-notify-fadeout;
+}
+
+@-webkit-keyframes __MSG_@@extension_id__-yo-notify-fadeout { 
+	0% {
+		opacity: 1;
+		-webkit-transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale(.5);
+	}
+} 
+@keyframes __MSG_@@extension_id__-yo-notify-fadeout { 
+	0% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(.5);
+	}
+}
+.__MSG_@@extension_id__-yo-notify-clicked {
+	-webkit-animation-duration: .6s;
+	animation-duration: .6s;
+	-webkit-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
+	-webkit-animation-name: __MSG_@@extension_id__-yo-notify-grow;
+	animation-name: __MSG_@@extension_id__-yo-notify-grow;
+	box-shadow:none !important;
+	cursor: default !important;
+}
+@-webkit-keyframes __MSG_@@extension_id__-yo-notify-grow { 
+	0% {
+		opacity: 1;
+		-webkit-transform: scale(1.5);
+	}
+	60% {
+		-webkit-transform: scale(3.5);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale(3.5);
+	}
+} 
+@keyframes __MSG_@@extension_id__-yo-notify-grow { 
+	0% {
+		opacity: 1;
+		transform: scale(1.5);
+	}
+	60% {
+		transform: scale(3.5);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale(3.5);
+	}
+}
+.__MSG_@@extension_id__-yo-notify-hover {
+	-webkit-transition:all .15s ease-in-out;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115) !important;
+	cursor: pointer !important;
+	width: 16px !important;
+	height: 16px !important;
+	transform: scale(1.5) !important;
+	-webkit-transform: scale(1.5) !important;
+}

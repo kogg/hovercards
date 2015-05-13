@@ -1,50 +1,54 @@
-.hovercards-sidebar {
+.__MSG_@@extension_id__-container {
+	z-index: 2147483647 !important;
+	position: relative !important;
+}
+.__MSG_@@extension_id__-sidebar {
 	position: fixed !important;
 	width: 340px !important;
 	height: 100% !important;
 	top:0px !important;
 	background: #EFEFEF !important;
-	z-index: 999999999999999 !important;
-	box-shadow:-1px 0px 2px 0px rgba(0, 0, 0, 0.25) !important;
+	z-index: 0 !important;
+	border-left: 1px solid rgba(0,0,0,.06) !important;
 	right: 0;
 	-webkit-transform: translateX(375px) translateZ(0);
 }
 
-.hovercards-sidebar-enter {
+.__MSG_@@extension_id__-sidebar-enter {
 	-webkit-animation-duration: .65s !important;
 	animation-duration: .65s !important;
 	-webkit-animation-fill-mode: both !important;
-	-webkit-animation-name: slide-in-hovercards !important;
+	-webkit-animation-name: slide-in-__MSG_@@extension_id__ !important;
 }
-@-webkit-keyframes slide-in-hovercards {
+@-webkit-keyframes slide-in-__MSG_@@extension_id__ {
 	0% {
 	}
 	100% {
 		-webkit-transform: translateX(0px) translateZ(0);
 	}
 }
-.hovercards-sidebar-leave {
+.__MSG_@@extension_id__-sidebar-leave {
 	-webkit-transform: translateX(0px) translateZ(0);
 	-webkit-animation-duration: .65s !important;
 	animation-duration: .65s !important;
 	-webkit-animation-fill-mode: both !important;
-	-webkit-animation-name: slide-out-hovercards !important;
+	-webkit-animation-name: slide-out-__MSG_@@extension_id__ !important;
 }
-@-webkit-keyframes slide-out-hovercards {
+@-webkit-keyframes slide-out-__MSG_@@extension_id__ {
 	0% {
 	}
 	100% {
 		-webkit-transform: translateX(375px) translateZ(0);
 	}
 }
-.hovercards-sidebar iframe {
+.__MSG_@@extension_id__-sidebar iframe {
 	position: absolute !important;
 	height: 100% !important;
 	border: none !important;
 	width:100% !important;
 	left: 0px !important
 }
-.hovercards-sidebar-close-button {
+.__MSG_@@extension_id__-sidebar-close-button {
 	content: "x" !important;
 	font-weight: thin !important;
 	font-family: sans-serif !important;
@@ -55,113 +59,32 @@
 	height: 40px !important;
 	border-radius: 3px 0 0 3px !important;
 	background:#bfbfbf !important;
-	top: 20px !important;
+	top: 16px !important;
 	left: -35px !important; 
 	position: absolute !important;
-	color: rgba(0,0,0,.6) !important;
+	color: rgba(255,255,255,.9) !important;
 	transition: all 0.3s ease !important;
 }
 
-.hovercards-sidebar-close-button:after {
+.__MSG_@@extension_id__-sidebar-close-button:after {
 	content: 'x';
 }
-.hovercards-sidebar-close-button:hover {
-	background: #aa30dd !important;
-	color: white !important;
+.__MSG_@@extension_id__-sidebar-close-button:hover {
+	color: black !important;
 	cursor: pointer !important;
 }
-/*Notification*/
-.hovercards-notifications-container {
-	position: fixed !important;
-	top: 16px !important;
-	right: 20px !important;
-	z-index: 999999999999999999 !important;
-	width: 300px !important;
+.__MSG_@@extension_id__-fullscreen-sidebar {
+	width: 100% !important;
+	border-left: none !important
 }
-.hovercards-row {
-	overflow: auto !important
-	-webkit-transition: all .4s ease-in-out !important;
-	position: relative !important;
-	top: 0 !important;
+.__MSG_@@extension_id__-remove-margin {
+	margin: 0 !important;
+	border: 0 !important;
+	padding: 0 !important
 }
-.hovercards-notification {
-	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24) !important;
-	border-radius: 3px !important;
-	overflow: hidden !important;
-	width: 300px !important;
-	margin-bottom: 16px !important;
-	position: absolute !important;
-	font-family: sans-serif !important;
-	-webkit-transform: translateX(375px) translateZ(0);
-	-webkit-animation-duration: 1s !important;
-	animation-duration: 1s !important;
-	-webkit-animation-fill-mode: both !important;
-	-webkit-animation-name: slide-in-hovercards-notification !important;
-}
-
-@-webkit-keyframes slide-in-hovercards-notification {
-	0% {
-		-webkit-transform: translateX(375px) translateZ(0);
-		opacity: 0
-	}
-	60% {
-		-webkit-transform: translateX(-16px) translateZ(0);
-	}
-	80% {
-		-webkit-transform: translateX(8px) translateZ(0);
-	}
-	100% {
-		-webkit-transform: translateX(0px) translateZ(0);
-		opacity: 1
-	}
-}
-
-.hovercards-notification:hover {
-	transform:translateX(0px) translateZ(0) scale(1.05) !important;
-	transform:translateX(0px) translateZ(0) scale(1.05) !important;
-	cursor: pointer;
-	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !important;
-}
-.hovercards-notification-exit-animation {
-	-webkit-animation-duration: .65s !important;
-	animation-duration: .65s !important;
-	-webkit-animation-fill-mode: both !important;
-	-webkit-animation-name: slide-out-hovercards-notification !important;
-}
-@-webkit-keyframes slide-out-hovercards-notification {
-	0% {
-		-webkit-transform: translateX(0px) translateZ(0);
-	}
-	100% {
-		-webkit-transform: translateX(375px) translateZ(0);
-		opacity: 1
-	}
-}
-.hovercards-notification-image {
-	float: left !important;
-	width: 20% !important;
-	height: 100px !important;
-	line-height: 100px !important;
-	background:#F9F9F9 !important;
-	background-size: 100% !important;
-	background-position: center !important;
-	background-repeat: no-repeat !important;
-	text-align: center;
-}
-.hovercards-notification-text {
-	float: left !important;
-	width: 80% !important;
-	padding: 16px !important;
-	height: 100px !important;
-	background: white !important;
-	box-sizing: border-box !important;
-	box-sizing: -webkit-border-box !important;
-}
-.hovercards-notification-text p {
-	color:#757575 !important;
-	font-size: 14px !important;
-	line-height: 18px !important;
-	margin:0 !important;
+.__MSG_@@extension_id__-fullscreen {
+	width: 100% !important;
+	border-left: none !important
 }
 
 

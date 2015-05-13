@@ -1,17 +1,22 @@
-'use strict';
+var $ = require('jquery');
 
-require(['sidebar-inject'], function(sidebarInject) {
-    sidebarInject.on('body');
+var container = $('<div></div>')
+    .appendTo('body')
+    .addClass(chrome.i18n.getMessage('@@extension_id') + '-container');
+
+var sidebar_obj = require('./sidebar-inject')(container, 'body', document, function(msg) {
+    window.postMessage(msg, '*');
 });
 
-require(['youtube-video-bind-triggers'], function(youtubeVideoBindTriggers) {
-    youtubeVideoBindTriggers.on('body');
+var sidebar_frame;
+var sidebar_trigger = require('./sidebar-trigger')(function(msg) {
+    sidebar_frame.postMessage(msg, '*');
+    sidebar_obj.trigger('sidebar.msg', [msg]);
 });
 
-require(['state-manager'], function(stateManager) {
-    stateManager.init();
-});
-
-require(['notifications-inject'], function(notificationsInject) {
-    notificationsInject.on('body');
-});
+window.addEventListener('message', function(event) {
+    if (event && event.data && event.data.msg === 'ready') {
+        sidebar_frame = event.source;
+    }
+    sidebar_trigger(event.data);
+}, false);

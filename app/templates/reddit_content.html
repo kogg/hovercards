@@ -1,0 +1,31 @@
+<div ng-if="!data.content.$err">
+	<div class="card-text text-post">
+		<div class="user-context-container">
+			<div class="user-context">
+				<div class="ellipsis">
+					<a ng-href="{{:: data.content.author | generateUrl }}">{{:: data.content.author.id }}</a> <b>· <a ng-href="https://www.reddit.com/r/{{:: data.content.subreddit }}">/r/{{:: data.content.subreddit }}</a></b>
+				</div>
+				<span class="reddit-votes">{{:: data.content.date | timeSince:true }}</span>
+			</div>
+			<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{ ::data.content.name }}</a>
+		</div>
+		<div ng-if="::data.content.description" class="card-description">
+			<div readmore=":: data.content.description" cutoff-height="100"></div>
+		</div>
+	</div>
+	<div class="card-stats row">
+		<div class="col-6">
+			<b>Points</b>
+			<span>{{:: data.content.score | numsmall }}</span>
+		</div>
+		<div class="col-6">
+			<b>Votes</b>
+			<span>{{:: data.content.up_ratio | percent }}</span>
+		</div>
+	</div>
+	<div class="percent-bar" ng-if=":: data.content.up_ratio">
+		<div class="percent-bar-good" ng-style=":: data.content.up_ratio && { width: (data.content.up_ratio | percent) }"></div>
+	</div>
+</div>
+
+<div ng-messages="data.content.$err" ng-messages-include="templates/content_exceptions.html"></div>
