@@ -1,4 +1,4 @@
-<html ng-csp ng-style="{ overflow: (global.overflow) ? 'auto' : 'hidden' }" ng-init="global = {}">
+<html ng-csp>
 <head>
 	<link rel="stylesheet" href="styles/angular-csp.css">
 	<link rel="stylesheet" href="styles/slick.css">
@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="styles/styles.css">
 	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
 </head>
-<body class="ng-cloak" ng-cloak ng-controller="EntryController" ng-class="{ 'fullscreen-active': entry.fullscreen }" ng-style="{ overflow: (global.overflow) ? 'auto' : 'hidden' }" ng-mouseenter="global.overflow=true" ng-mouseleave="global.overflow=false">
+<body class="ng-cloak" ng-cloak ng-controller="EntryController" ng-class="{ 'fullscreen-active': entry.fullscreen }">
 	<div>
 		<div class="fade-out-animation" ng-show="data.loading">
 			<div class="loader">
