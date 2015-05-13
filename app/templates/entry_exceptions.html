@@ -4,7 +4,18 @@
 
 <!-- Errors -->
 <span ng-message="bad-input">This input be bad, yo</span>
-<span ng-message="no-content">We couldn't find anything here!</span>
+<div  ng-message="no-content" class="yocards-error-container">
+	<div class="yocards-error-image"></div>
+	<div class="yocards-error-text">
+		<span><b>Error! Error!</b>We searched all over, but couldn't find anything here</span>
+		<div class="yocards-error-option">
+			<a href="#">Give us feedback</a>
+		</div>
+		<div class="yocards-error-option">
+			<a href="#">Send us an angry tweet</a>
+		</div>
+	</div>
+</div>
 
 <!-- Exceptions -->
 <span ng-message="empty-content">This is empty!</span>

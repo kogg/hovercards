@@ -434,6 +434,7 @@ b i, .iconic-push {
 	border-top-left-radius: 3px !important;
   border-top-right-radius: 3px !important;
 	background: #fff;
+	overflow: hidden;
 }
 .comment-top .row {
 	padding: 15px 10px 15px 16px;
@@ -524,7 +525,7 @@ b i, .iconic-push {
 	font-size: 15px;
 	margin:0;	
 }
-.comment b:hover {
+.comment a:hover {
 	cursor: pointer;
 	text-decoration: underline;
 }
@@ -1001,17 +1002,16 @@ b i, .iconic-push {
 	display: inline;
 }
 /*Error Cards*/
-
-.hovercards-error-container {
+.yocards-error-container {
 	border: 1px solid rgba(0,0,0,.15);
 	border-radius: 3px;
 	overflow: hidden;
 	position: relative;
 }
-.hovercards-error-image {
-	width: 20%;
+.yocards-error-image {
+	width: 33.333333%;
 	line-height: 100px;
-	background:#F9F9F9;
+	background:#FF4F29;
 	background-size: 100%;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -1020,20 +1020,44 @@ b i, .iconic-push {
 	top: 0;
 	height: 100%;
 	overflow: hidden;
+	background-image: url('../images/error.png');
 	background-size: 100%;
-	background-position: center;
+	background-position: center bottom -2px;
 	background-repeat: no-repeat;
 	border-right: none;
 }
 
-.hovercards-error-text {
+.yocards-error-text {
 	float: right;
 	border-left: none;
-	width: 80%;
-	padding: 16px;
+	width: 66.666666%;
 	border-radius: 0px 3px 3px 0px;
 	overflow: hidden;
+	text-decoration: none;
+  font-size: 14px;
+  color: #727272;
+  font-weight: 400;
 	background: white;
+}
+.yocards-error-text span {
+	display: block;
+	padding: 16px
+}
+.yocards-error-text b {
+	color: #FF4F29
+}
+.yocards-error-option {
+	padding: 12px 16px;
+	border-top: 1px solid rgba(0,0,0,.15);
+}
+.yocards-error-option a {
+	color: #2196F3;
+  font-weight: 400;
+  font-size: 14px;
+  text-decoration: none;
+}
+.yocards-error-option a:hover {
+	text-decoration: underline;
 }
 /*Network Menu*/
 .network-menu {

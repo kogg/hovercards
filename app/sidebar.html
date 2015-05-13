@@ -108,8 +108,9 @@
 			</div>
 		</div>
 	</div>
-
-	<div ng-messages="entry.$err" ng-messages-include="templates/entry_exceptions.html"></div>
+	<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err">
+		<div ng-messages="entry.$err" ng-messages-include="templates/entry_exceptions.html"></div>
+	</div>
 
 	<link rel="stylesheet" href="styles/subscribe-fix-style.css">
 	<script src="https://apis.google.com/js/platform.js"></script>
