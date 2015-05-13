@@ -285,7 +285,6 @@ b i, .iconic-push {
 	background: #fff;
 	border-left:1px solid rgba(0,0,0,.15);
 	border-right:1px solid rgba(0,0,0,.15);
-	overflow-y: scroll;
 }
 .text-post {
 	border-radius: 3px 3px;
@@ -330,7 +329,8 @@ b i, .iconic-push {
   position: absolute;
   bottom: 1px;
   height: 3px;
-  width: 298px;
+  width: calc(100% - 42px);
+  width: -webkit-calc(100% - 42px);
   border-radius: 0 0 2px 2px;
   background: #F44336;
   overflow: hidden;
@@ -438,6 +438,7 @@ b i, .iconic-push {
 }
 .comment-top .row {
 	padding: 15px 10px 15px 16px;
+	overflow: hidden;
 }
 .comment-top .row .col-9 {
 	position: relative;
@@ -563,7 +564,7 @@ b i, .iconic-push {
 	width: 100%;
 	border:2px solid #e5e5e5;
 	background:#e5e5e5;
-	overflow-y:scroll;
+	overflow-y:hidden;
 }
 #sortable li {
 	padding: 15px 16px;
@@ -1126,7 +1127,6 @@ b i, .iconic-push {
 	min-height: -webkit-calc(100% - 222px);
 }
 .social-profile-space {
-	overflow: scroll;
 	min-height: calc(100% - 222px);
 	min-height: -webkit-calc(100% - 222px);
 }
