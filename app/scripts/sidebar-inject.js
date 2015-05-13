@@ -46,21 +46,17 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         .appendTo(obj)
         .prop('src', chrome.extension.getURL('sidebar.html'))
         .prop('frameborder', '0')
-        .css('overflow', 'hidden')
-        .prop('scrolling', 'no')
         .mouseenter(function() {
-            $(this).css('overflow', 'auto');
-            $(this).prop('scrolling', 'auto');
             body.css('overflow', 'hidden');
             obj.width(340 + common.get_scrollbar_width());
             $('html').css('padding-right', '+=' + common.get_scrollbar_width());
+            this.contentWindow.postMessage({ msg: 'mouseenter' }, '*');
         })
         .mouseleave(function() {
-            $(this).css('overflow', 'hidden');
-            $(this).prop('scrolling', 'no');
             body.css('overflow', 'auto');
             obj.width(340);
             $('html').css('padding-right', '-=' + common.get_scrollbar_width());
+            this.contentWindow.postMessage({ msg: 'mouseleave' }, '*');
         });
 
     $('<div></div>')
