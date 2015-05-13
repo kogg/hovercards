@@ -12,6 +12,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'More
 
                 var moreContent = apiService.get({ api: request.api, type: 'more_content', id: request.id });
                 moreContent.$promise
+                    .then(function() {
+                        if (!moreContent.content || !moreContent.content.length) {
+                            moreContent.$err = { 'empty-content': true };
+                        }
+                    })
                     .catch(function(err) {
                         moreContent.$err = err;
                     })

@@ -134,10 +134,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
     })
     .filter('copy', function() {
         return function(messagename) {
-            if (!messagename) {
-                return '';
-            }
-            return chrome.i18n.getMessage(messagename.replace(/\-/g, '_')) || messagename;
+            return chrome.i18n.getMessage((messagename || '').replace(/\-/g, '_')) || null;
         };
     })
     .filter('generateUrl', function() {

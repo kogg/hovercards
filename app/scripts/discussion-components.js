@@ -11,6 +11,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
 
                 var discussion = apiService.get(request);
                 discussion.$promise
+                    .then(function() {
+                        if (!discussion.comments || !discussion.comments.length) {
+                            discussion.$err = { 'empty-content': true };
+                        }
+                    })
                     .catch(function(err) {
                         discussion.$err = err;
                     })

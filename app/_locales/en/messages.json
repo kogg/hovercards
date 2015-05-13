@@ -1,32 +1,12 @@
 {
-    "app_name": {
-        "message": "YoCards",
-        "description": "The name of the application"
-    },
-    "app_short_name": {
-        "message": "yocards",
-        "description": "The short name of the application"
-    },
-    "app_description": {
-        "message": "Description of YoCards",
-        "description": "The description of the application"
-    },
-    "youtube": {
-        "message": "Youtube"
-    },
-    "youtube_discussion": {
-        "message": "Youtube Comments"
-    },
-    "youtube_account": {
-        "message": "Youtube Channel"
-    },
-    "reddit": {
-        "message": "Reddit"
-    },
-    "reddit_discussion": {
-        "message": "Reddit Discussion"
-    },
-    "reddit_account": {
-        "message": "Reddit User"
-    }
+    "app_name":        { "message": "YoCards" },
+    "app_short_name":  { "message": "yocards" },
+    "app_description": { "message": "Description of YoCards" },
+
+    "youtube":            { "message": "Youtube" },
+    "youtube_discussion": { "message": "Youtube Comments" },
+    "youtube_account":    { "message": "Youtube Channel" },
+    "reddit":             { "message": "Reddit" },
+    "reddit_discussion":  { "message": "Reddit Comments" },
+    "reddit_account":     { "message": "Reddit User" }
 }
