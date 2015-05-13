@@ -1,4 +1,4 @@
-<html ng-csp ng-controller="OverflowController" ng-style="{ overflow: scrolling.overflow }">
+<html ng-csp>
 <head>
 	<link rel="stylesheet" href="styles/angular-csp.css">
 	<link rel="stylesheet" href="styles/slick.css">
@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="styles/styles.css">
 	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
 </head>
-<body class="ng-cloak" ng-cloak ng-controller="EntryController" ng-class="{ 'fullscreen-active': entry.fullscreen }" ng-style="{ overflow: scrolling.overflow }">
+<body class="ng-cloak" ng-cloak ng-controller="EntryController" ng-class="{ 'fullscreen-active': entry.fullscreen }">
 	<div>
 		<div class="fade-out-animation" ng-show="data.loading">
 			<div class="loader">
@@ -73,7 +73,7 @@
 		</div>
 
 		<div class="network-menu-space" ng-if="!entry.$err">
-			<div class="network-menu" ng-if="entry.selectedPerson.accounts.length">
+			<div class="network-menu">
 				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length">
 					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
 						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.api | copy }}</span>
@@ -85,7 +85,7 @@
 		</div>
 
 		<div class="social-profile-space" ng-if="!entry.$err">
-			<div class="social-profile" ng-if="entry.selectedPerson.selectedAccount">
+			<div class="social-profile" ng-if="data.people.length">
 				<div ng-if="entry.selectedPerson.selectedAccount.description">
 					<div class="social-profile-description">
 						<div class="comment-top">
