@@ -1,7 +1,7 @@
 var $ = require('jquery');
 
 var container = $('<div></div>')
-    .appendTo('body')
+    .appendTo('html')
     .addClass(chrome.i18n.getMessage('@@extension_id') + '-container');
 
 var sidebar_obj = require('./sidebar-inject')(container, 'body', document, function(msg) {
