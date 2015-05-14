@@ -42,26 +42,35 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
     }, false);
 
-    $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+    var iframe = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
-        .prop('src', chrome.extension.getURL('sidebar.html'))
-        .prop('frameborder', '0')
-        .css('overflow', 'hidden')
-        .prop('scrolling', 'no')
+        .attr('src', chrome.extension.getURL('sidebar.html'))
+        .attr('frameborder', '0')
         .mouseenter(function() {
-            $(this).css('overflow', 'auto');
-            $(this).prop('scrolling', 'auto');
             body.css('overflow', 'hidden');
-            obj.width(340 + common.get_scrollbar_width());
-            $('html').css('padding-right', '+=' + common.get_scrollbar_width());
+            if (common.get_scrollbar_width()) {
+                iframe
+                    .css('overflow', 'auto')
+                    .attr('scrolling', 'auto');
+                obj.width(340 + common.get_scrollbar_width());
+                $('html').css('padding-right', '+=' + common.get_scrollbar_width());
+            }
         })
         .mouseleave(function() {
-            $(this).css('overflow', 'hidden');
-            $(this).prop('scrolling', 'no');
             body.css('overflow', 'auto');
-            obj.width(340);
-            $('html').css('padding-right', '-=' + common.get_scrollbar_width());
+            if (common.get_scrollbar_width()) {
+                iframe
+                    .css('overflow', 'hidden')
+                    .attr('scrolling', 'no');
+                obj.width(340);
+                $('html').css('padding-right', '-=' + common.get_scrollbar_width());
+            }
         });
+    if (common.get_scrollbar_width()) {
+        iframe
+            .css('overflow', 'hidden')
+            .attr('scrolling', 'no');
+    }
 
     $('<div></div>')
         .appendTo(obj)
