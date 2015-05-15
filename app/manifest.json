@@ -1,36 +1,8 @@
 {
     "name": "__MSG_app_name__",
     "short_name": "__MSG_app_short_name__",
-    "version": "0.1.1",
-    "manifest_version": 2,
     "description": "__MSG_app_description__",
-    "default_locale": "en",
-    "permissions": [
-        "activeTab",
-        "storage"
-    ],
-    "icons": {
-        "16": "images/yocards-logo-16.png",
-        "128": "images/yocards-logo-128.png"
-    },
-    "content_security_policy": "script-src 'self' https://apis.google.com https://cdn.supportkit.io; object-src 'self' https://www.youtube.com",
-    "web_accessible_resources": [
-        "sidebar.html",
-        "images/carlito-video-clicker.png",
-        "images/carlito-video-clicker-fs.png",
-        "images/yo-white.png",
-        "images/yo-black.png",
-        "images/youtube-notification.gif"
-    ],
-    "browser_action": {
-        "default_icon": {
-            "19": "images/yocards-logo-19.png",
-            "38": "images/yocards-logo-38.png"
-        }
-    },
-    "background": {
-        "scripts": ["scripts/background-main.js"]
-    },
+    "version": "0.1.1",
     "content_scripts": [
         {
             "matches": [
@@ -58,5 +30,32 @@
             ],
             "all_frames": true
         }
-    ]
+    ],
+    "background": {
+        "scripts": ["scripts/background-main.js"]
+    },
+    "browser_action": {
+        "default_icon": {
+            "19": "images/yocards-logo-19.png",
+            "38": "images/yocards-logo-38.png"
+        }
+    },
+    "icons": {
+        "16": "images/yocards-logo-16.png",
+        "128": "images/yocards-logo-128.png"
+    },
+    "web_accessible_resources": [
+        "sidebar.html",
+        "images/yo-white.png",
+        "images/yo-black.png"
+    ],
+    "permissions": [
+        "activeTab",
+        "identity",
+        "identity.email",
+        "storage"
+    ],
+    "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self' https://www.youtube.com",
+    "default_locale": "en",
+    "manifest_version": 2
 }
