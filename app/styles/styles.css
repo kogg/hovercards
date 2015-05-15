@@ -359,6 +359,7 @@ b i, .iconic-push {
 }
 .comment span.youtube-ellipsis {
 	display: inline-block;
+	margin-left: 0px !important;
   width: -webkit-calc(100% - 30px) !important;	
 }
 .comment .user-context a i {
