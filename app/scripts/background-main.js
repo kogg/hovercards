@@ -1,12 +1,13 @@
 var $     = require('jquery');
+var URI   = require('URIjs/src/URI');
 var async = require('async');
 
 var endpoint = 'https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1';
 // var endpoint = 'http://localhost:5000/v1';
 
 function get_user(api, callback) {
-    chrome.storage.sync.get(api + '-user', function(obj) {
-        if (!obj || !obj[api + '-user']) {
+    chrome.storage.sync.get(api + '_user', function(obj) {
+        if (!obj || !obj[api + '_user']) {
             return chrome.identity.getProfileUserInfo(function(user) {
                 if (chrome.runtime.lastError) {
                     return callback(chrome.runtime.lastError);
@@ -14,7 +15,7 @@ function get_user(api, callback) {
                 callback(null, user.id);
             });
         }
-        callback(null, obj[api + '-user']);
+        callback(null, obj[api + '_user']);
     });
 }
 
@@ -53,10 +54,10 @@ async.parallel({
             chrome.identity.launchWebAuthFlow({ url: endpoint + '/' + api + '/authenticate', interactive: true },
                 function(redirect_url) {
                     if (chrome.runtime.lastError) {
-                        return callback(chrome.runtime.lastError);
+                        return callback($.extend({ status: 401 }, chrome.runtime.lastError));
                     }
                     var obj = {};
-                    obj[api + '-user'] = redirect_url; // FIXME Parse the URL for the token
+                    obj[api + '_user'] = URI(redirect_url).search(true).user;
                     chrome.storage.sync.set(obj, function() {
                         if (chrome.runtime.lastError) {
                             return callback(chrome.runtime.lastError);

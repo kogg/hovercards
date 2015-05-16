@@ -2,7 +2,7 @@ var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ServiceComponents', [])
     .factory('apiService', ['$q', function($q) {
-        var errors = { 0: 'our-problem', 400: 'bad-input', 404: 'no-content', 502: 'dependency-down' };
+        var errors = { 0: 'our-problem', 400: 'bad-input', 401: 'unauthorized', 404: 'no-content', 502: 'dependency-down' };
 
         return { get: function(params, success, failure) {
             var deferred = $q.defer();
