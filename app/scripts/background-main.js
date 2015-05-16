@@ -1,56 +1,88 @@
 var $     = require('jquery');
 var async = require('async');
 
-var user_id;
-async.detectSeries([chrome.identity.getProfileUserInfo, chrome.storage.local.get],
-    function(fn, callback) {
-        fn(function(obj) {
-            if (chrome.runtime.lastError) {
-                console.error('error', chrome.runtime.lastError);
-                return callback(false);
-            }
-            user_id = obj.id;
-            callback(!!user_id);
-        });
-    },
-    function(got_one) {
-        if (!got_one) {
-            console.log('couldn\'t get an id');
+var endpoint = 'https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1';
+// var endpoint = 'http://localhost:5000/v1';
+
+function get_user(api, callback) {
+    chrome.storage.sync.get(api + '-user', function(obj) {
+        if (!obj || !obj[api + '-user']) {
+            return chrome.identity.getProfileUserInfo(function(user) {
+                if (chrome.runtime.lastError) {
+                    return callback(chrome.runtime.lastError);
+                }
+                callback(null, user.id);
+            });
         }
-        console.log(user_id);
-        var client_side_calls = {
-            reddit: require('YoCardsAPICalls/reddit')({ key: 'fNtoQI4_wDq21w', user: user_id })
+        callback(null, obj[api + '-user']);
+    });
+}
+
+async.parallel({
+    reddit: function(callback) {
+        get_user('reddit', function(err, user) {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, require('YoCardsAPICalls/reddit')({ key: 'fNtoQI4_wDq21w', user: user }));
+        });
+    }
+}, function(err, client_side_calls) {
+    if (err) {
+        return console.error(err);
+    }
+    chrome.runtime.onMessage.addListener(function(request, sender, _sendMessage) {
+        var callback = function(err, val) {
+            _sendMessage([err, val]);
         };
+        request = $.extend({}, request);
+        var api  = request.api;
+        var type = request.type;
+        delete request.api;
+        delete request.type;
 
-        chrome.runtime.onMessage.addListener(function(request, sender, sendMessage) {
-            request = $.extend({}, request);
-            var api  = request.api;
-            var type = request.type;
-            delete request.api;
-            delete request.type;
-
-            if (client_side_calls[api] && client_side_calls[api][type]) {
-                client_side_calls[api][type](request, function(err, result) {
-                    err = err || (!result && { status: 404 });
-                    if (err) {
-                        return sendMessage([err]);
+        if (client_side_calls[api] && client_side_calls[api][type]) {
+            client_side_calls[api][type](request, function(err, result) {
+                err = err || (!result && { status: 404 });
+                if (err) {
+                    return callback(err);
+                }
+                callback(err, result);
+            });
+        } else if (type === 'auth') {
+            chrome.identity.launchWebAuthFlow({ url: endpoint + '/' + api + '/authenticate', interactive: true },
+                function(redirect_url) {
+                    if (chrome.runtime.lastError) {
+                        return callback(chrome.runtime.lastError);
                     }
-                    sendMessage([err, result]);
+                    var obj = {};
+                    obj[api + '-user'] = redirect_url; // FIXME Parse the URL for the token
+                    chrome.storage.sync.set(obj, function() {
+                        if (chrome.runtime.lastError) {
+                            return callback(chrome.runtime.lastError);
+                        }
+                        callback();
+                    });
                 });
-            } else {
-                $.ajax({ url:     'https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1/' + api + '/' + type,
+        } else {
+            get_user(api, function(err, user) {
+                if (err) {
+                    return callback(err);
+                }
+                $.ajax({ url:     endpoint + '/' + api + '/' + type,
                          data:    request,
-                         headers: { user: user_id } })
+                         headers: { user: user } })
                     .done(function(data) {
-                        sendMessage([null, data]);
+                        callback(null, data);
                     })
                     .fail(function(err) {
-                        sendMessage([err]);
+                        callback(err);
                     });
-            }
-            return true;
-        });
+            });
+        }
+        return true;
     });
+});
 
 chrome.browserAction.onClicked.addListener(function(tab) {
     chrome.tabs.executeScript(tab.id, { code: 'window.top.postMessage({ msg: \'activate\', url: \'' + tab.url + '\' }, \'*\');' });
