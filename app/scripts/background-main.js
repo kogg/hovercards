@@ -2,8 +2,8 @@ var $     = require('jquery');
 var URI   = require('URIjs/src/URI');
 var async = require('async');
 
-// var endpoint = 'https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1';
-var endpoint = 'http://localhost:5000/v1';
+var endpoint = 'https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1';
+// var endpoint = 'http://localhost:5000/v1';
 
 function get_user(api, callback) {
     var user;
