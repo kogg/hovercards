@@ -49,9 +49,7 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         .mouseenter(function() {
             body.css('overflow', 'hidden');
             if (common.get_scrollbar_width()) {
-                iframe
-                    .css('overflow', 'auto')
-                    .attr('scrolling', 'auto');
+                iframe.get(0).contentWindow.postMessage({ msg: 'mouseenter' }, '*');
                 obj.width(340 + common.get_scrollbar_width());
                 $('html').css('padding-right', '+=' + common.get_scrollbar_width());
             }
@@ -59,18 +57,11 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         .mouseleave(function() {
             body.css('overflow', 'auto');
             if (common.get_scrollbar_width()) {
-                iframe
-                    .css('overflow', 'hidden')
-                    .attr('scrolling', 'no');
+                iframe.get(0).contentWindow.postMessage({ msg: 'mouseleave' }, '*');
                 obj.width(340);
                 $('html').css('padding-right', '-=' + common.get_scrollbar_width());
             }
         });
-    if (common.get_scrollbar_width()) {
-        iframe
-            .css('overflow', 'hidden')
-            .attr('scrolling', 'no');
-    }
 
     $('<div></div>')
         .appendTo(obj)
