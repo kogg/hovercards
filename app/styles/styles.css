@@ -526,6 +526,7 @@ b i, .iconic-push {
 	color: #2196F3;
 	font-weight: 400;
   font-size: 15px;
+  margin-left: 3px
 }
 .comment b {
 	margin-bottom: 0;
