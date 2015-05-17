@@ -2,7 +2,7 @@ var angular = require('angular');
 require('slick-carousel');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
-    .controller('PeopleController', ['$scope', '$timeout', '$q', 'apiService', function($scope, $timeout, $q, apiService) {
+    .controller('PeopleController', ['$scope', '$interval', '$timeout', '$q', 'apiService', function($scope, $interval, $timeout, $q, apiService) {
         var others_exist_watcher = $scope.$watch('entry.type', function(type) {
             if (!type) {
                 return;
@@ -12,6 +12,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 $scope.can_have_people = true;
                 return;
             }
+
+            var interval = $interval(function() {
+                angular.element(window).scroll();
+            }, 100);
 
             /* check to see if all the things we want to load are out of our way. Also, give them time to animate or whatever */
             var other_things_loaded_watcher = $scope.$watch('data.content.$resolved && data.discussion.$resolved', function(other_things_loaded) {
@@ -31,6 +35,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         can_have_people_watcher();
 
                         $scope.can_have_people = true;
+                        $interval.cancel(interval);
                     });
                 }, 300);
             });
