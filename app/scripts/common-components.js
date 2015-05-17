@@ -6,7 +6,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             restrict: 'A',
             scope: {
                 api: '=authorize',
-                err: '=',
                 onAuthorized: '&'
             },
             link: function($scope, $element) {
@@ -21,11 +20,22 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             .$promise
                             .then(function() {
                                 $scope.onAuthorized();
-                            })
-                            .catch(function(err) {
-                                $scope.err = err;
                             });
                     });
+                });
+            }
+        };
+    }])
+    .directive('loading', ['apiService', function(apiService) {
+        return {
+            restrict: 'A',
+            scope: {
+                loading: '='
+            },
+            link: function($scope) {
+                $scope.promises = apiService.loading;
+                $scope.$watch('!!promises.length', function(loading) {
+                    $scope.loading = loading;
                 });
             }
         };
@@ -99,6 +109,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             link: function($scope) {
                 $scope.stored = $scope.default;
                 chrome.storage.sync.get($scope.name, function(obj) {
+                    $scope.$apply(function() {
+                        $scope.stored = ($scope.name in obj) ? obj[$scope.name] : $scope.default;
+                    });
                     $scope.$watch('stored', function(val, oldVal) {
                         if (val === oldVal) {
                             return;
@@ -107,11 +120,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         obj[$scope.name] = val;
                         chrome.storage.sync.set(obj);
                     }, true);
-                    if ($scope.name in obj) {
-                        $scope.stored = obj[$scope.name];
-                    } else {
-                        $scope.stored = $scope.default;
-                    }
                 });
             }
         };
@@ -135,7 +143,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             } else if (number < 1000000000000) {
                 return parseFloat(Math.floor(number / 10000000) / 100).toFixed(2) + 'b';
             } else {
-                return 0;
+                return number;
             }
         };
     })

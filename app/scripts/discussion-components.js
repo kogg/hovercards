@@ -6,30 +6,39 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             if (!request) {
                 return;
             }
-            $scope.loading_discussion = (function() {
-                $scope.data.loading = ($scope.data.loading || 0) + 1;
+            $scope.loading_discussion = apiService.get(request);
+            $scope.loading_discussion
+                .$promise
+                .then(function(discussion) {
+                    if (!discussion.comments || !discussion.comments.length) {
+                        discussion.$err = { 'empty-content': true };
+                    }
+                });
+        });
 
-                var discussion = apiService.get(request);
-                discussion.$promise
-                    .then(function() {
-                        if (!discussion.comments || !discussion.comments.length) {
-                            discussion.$err = { 'empty-content': true };
-                        }
-                    })
-                    .catch(function(err) {
-                        discussion.$err = err;
-                    })
-                    .finally(function() {
-                        $scope.data.loading--;
-                        if ($scope.loading_discussion !== discussion) {
-                            return;
-                        }
-                        $scope.data.discussion = $scope.loading_discussion;
-                        $scope.loading_discussion = null;
-                    });
+        $scope.$watch('loading_discussion.$resolved', function(resolved) {
+            if (!resolved) {
+                return;
+            }
+            $scope.data.discussion = $scope.loading_discussion;
+        });
 
-                return discussion;
-            }());
+        $scope.$watch('data && data.discussion.$resolved && entry && data.discussion', function(discussion) {
+            if (!discussion) {
+                return;
+            }
+
+            $scope.entry.content = $scope.entry.content || discussion.content;
+
+            if (discussion.accounts && discussion.accounts.length && $scope.entry.type === 'discussion') {
+                $scope.entry.accounts = ($scope.entry.accounts || []);
+                (discussion.accounts || []).forEach(function(account) {
+                    if (!$scope.entry.accounts.some(function(entry_account) { return account.api  === entry_account.api &&
+                                                                                     account.id   === entry_account.id; })) {
+                        $scope.entry.accounts.push(account);
+                    }
+                });
+            }
         });
     }])
     .directive('sortable', function() {
