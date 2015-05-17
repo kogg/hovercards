@@ -1,0 +1,5 @@
+<div ng-if="!data.content.$err">
+	<pre>{{ data.content | json }}</pre>
+</div>
+
+<div ng-messages="data.content.$err" ng-messages-include="templates/content_exceptions.html"></div>

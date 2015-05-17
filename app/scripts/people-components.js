@@ -25,7 +25,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
         /* Load people once we're allowed to */
         $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
             $scope.entry.selectedPerson = null;
-            if (!requests) {
+            if (!requests || !requests.length) {
                 $scope.data.people = null;
                 return;
             }
