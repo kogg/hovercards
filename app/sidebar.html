@@ -16,7 +16,7 @@
 		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && !entry.$err">
 			<div ng-controller="ContentController">
 				<div class="card bounce-in-animation" ng-if="data.content.$resolved">
-					<div ng-include="'templates/' + (data.content.api || entry.content.api) + '_content.html'"></div>
+					<div ng-include="'templates/' + (data.content.api || entry.content.api) + '_content.html'" autoscroll="entry.type === 'content'"></div>
 				</div>
 			</div>
 
@@ -56,14 +56,14 @@
 						</div>
 					</div>
 
-					<div ng-include="'templates/' + (data.discussion.api || entry.discussion.api || entry.discussions[0].api) + '_discussion.html'" ng-if="data.discussion.$resolved"></div>
+					<div ng-include="'templates/' + (data.discussion.api || entry.discussion.api || entry.discussions[0].api) + '_discussion.html'" ng-if="data.discussion.$resolved" autoscroll="entry.type === 'dicussion'"></div>
 				</div>
 			</div>
 
 			<div class="people-card-space" in-view="view.at.people=$inview">
 				<div class="card bounce-in-animation people-card" ng-if="data.people.length || data.people.$resolved">
 					<div ng-if="!data.people.$err">
-						<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="data.people.length === 1"></div>
+						<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="data.people.length === 1" autoscroll="entry.type === 'account'"></div>
 						<div people-carousel ng-if="data.people.length > 1"></div>
 					</div>
 
