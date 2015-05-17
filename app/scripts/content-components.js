@@ -8,6 +8,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                 return;
             }
             $scope.reload = function() {
+                $scope.view.fullscreen = false;
                 $scope.data.content = apiService.get(request);
             };
             $scope.reload();

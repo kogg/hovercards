@@ -28,7 +28,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                     angular.element(window).scroll();
 
                     /* Check to see if we hit the bottom once we've waited for everything and forced a scroll */
-                    var can_have_people_watcher = $scope.$watch('at.people', function(value) {
+                    var can_have_people_watcher = $scope.$watch('view.at.people', function(value) {
                         if (!value) {
                             return;
                         }
