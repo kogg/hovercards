@@ -9,7 +9,7 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
     var obj = $('<div></div>')
         .appendTo($(inject_into))
         .addClass(extension_id + '-sidebar')
-        .width(340)
+        .width(340 + common.get_scrollbar_width())
         .hide()
         .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
             if (e.originalEvent.animationName !== 'slide-out-' + extension_id) {
@@ -42,24 +42,32 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
     }, false);
 
-    $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+    function prevent_handler(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    var iframe = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
         .attr('frameborder', '0')
         .mouseenter(function() {
-            body.css('overflow', 'hidden');
-            if (common.get_scrollbar_width()) {
-                obj.width(340 + common.get_scrollbar_width());
-                $('html').css('padding-right', '+=' + common.get_scrollbar_width());
-            }
+            $(window).on('mousewheel', prevent_handler);
         })
         .mouseleave(function() {
-            body.css('overflow', 'auto');
-            if (common.get_scrollbar_width()) {
-                obj.width(340);
-                $('html').css('padding-right', '-=' + common.get_scrollbar_width());
-            }
+            $(window).off('mousewheel', prevent_handler);
         });
+    if (!common.get_scrollbar_width()) {
+        var body_overflow;
+        iframe
+            .mouseenter(function() {
+                body_overflow = body.css('overflow');
+                body.css('overflow', 'hidden');
+            })
+            .mouseleave(function() {
+                body.css('overflow', body_overflow);
+            });
+    }
 
     $('<div></div>')
         .appendTo(obj)

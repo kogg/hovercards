@@ -1,4 +1,4 @@
-var angular      = require('angular');
+var angular = require('angular');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
