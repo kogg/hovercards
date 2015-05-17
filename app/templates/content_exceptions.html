@@ -5,7 +5,7 @@
 <!-- Errors -->
 <span ng-message="bad-input">This input be bad, yo</span>
 <span ng-message="no-content">We couldn't find anything here!</span>
-<span ng-message="unauthorized">{{ ((data.content.api || entry.content.api) | copy) || 'This content' }} needs you to be authorized to see it. <a authorize=":: data.content.api || entry.content.api" err=":: data.content.$err" on-authorized="reload()">Authorize it here</a>!</span>
+<span ng-message="unauthorized">{{ ((data.content.api || entry.content.api) | copy) || 'This content' }} needs you to be authorized to see it. <a authorize=":: data.content.api || entry.content.api" on-authorized="reload()">Authorize it here</a>!</span>
 
 <!-- Exceptions -->
 <span ng-message="empty-content">This is empty!</span>

@@ -30,7 +30,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 return;
             }
 
-            $scope.data.loading = ($scope.data.loading || 0) + 1;
             $scope.data.people = (function() {
                 var people = [];
                 var done_account_ids = {};
@@ -39,7 +38,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 people.$resolved = false;
                 people.$promise = $q.all(requests.map(function get_account(request) {
                     var account = apiService.get(request);
-                    return account.$promise
+                    return account
+                        .$promise
                         .then(function(account) {
                             got_something = true;
                             // Get IDs from account
@@ -98,7 +98,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 })
                 .finally(function() {
                     people.$resolved = true;
-                    $scope.data.loading--;
                 });
 
                 return people;

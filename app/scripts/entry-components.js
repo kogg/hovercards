@@ -23,9 +23,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                 var got_something;
                                 var last_err;
                                 $q.all([{ api: 'reddit', type: 'url', id: request.url }].map(function(request) {
-                                    $scope.data.loading = ($scope.data.loading || 0) + 1;
-
-                                    return apiService.get(request).$promise
+                                    return apiService.get(request)
+                                        .$promise
                                         .then(function(thing) {
                                             got_something = true;
                                             switch (thing.type) {
@@ -45,9 +44,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                         .catch(function(err) {
                                             last_err = err;
                                             return null;
-                                        })
-                                        .finally(function() {
-                                            $scope.data.loading--;
                                         });
                                 }))
                                 .then(function() {

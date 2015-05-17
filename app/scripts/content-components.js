@@ -8,20 +8,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                 return;
             }
             $scope.reload = function() {
-                $scope.data.content = (function() {
-                    $scope.data.loading = ($scope.data.loading || 0) + 1;
-
-                    var content = apiService.get(request);
-                    content.$promise
-                        .catch(function(err) {
-                            content.$err = err;
-                        })
-                        .finally(function() {
-                            $scope.data.loading--;
-                        });
-
-                    return content;
-                }());
+                $scope.data.content = apiService.get(request);
             };
             $scope.reload();
         });
