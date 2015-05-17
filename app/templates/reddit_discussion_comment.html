@@ -1,6 +1,6 @@
 <div class="comment-container">
 	<div class="user-context" ng-class="{ 'selected-comment': comment.id === data.discussion.focus.id }">
-		<a ng-click="comment.close=!comment.close" ><i class="md md-play-arrow down-arrow"></i></a>
+		<a class="comment-close-button" ng-click="comment.close=!comment.close" ><i class="md md-play-arrow down-arrow"></i></a>
 		<span class="ellipsis">
 			<a ng-href="{{:: comment.author | generateUrl }}" ng-class="{ op: comment.author.id === data.discussion.author.id }">{{ ::comment.author.id }}</a>
 		</span>

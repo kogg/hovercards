@@ -54,7 +54,8 @@ html,body {
 }
 .fullscreen-active .card-text {
 	border-radius: 3px 3px 0 0;
-	border-top: 1px solid rgba(0, 0, 0, 0.15)
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	overflow-x:auto;
 }
 .card-text .user-context-container {
 	padding-bottom: 0;
@@ -285,6 +286,7 @@ b i, .iconic-push {
 	background: #fff;
 	border-left:1px solid rgba(0,0,0,.15);
 	border-right:1px solid rgba(0,0,0,.15);
+	overflow-x:auto;
 }
 .text-post {
 	border-radius: 3px 3px;
@@ -352,18 +354,20 @@ b i, .iconic-push {
 }
 .comment .user-context span.ellipsis {
 	display: inline-block;
+	margin-left: 15px;
   width: -webkit-calc(100% - 70px);
 }
 .comment span.youtube-ellipsis {
 	display: inline-block;
+	margin-left: 0px !important;
   width: -webkit-calc(100% - 30px) !important;	
 }
 .comment .user-context a i {
 	position: relative;
-	top:-4px;
+	line-height: 24px
 }
 .comment .user-context {
-	margin-bottom: 1px;
+	margin-bottom: 5px;
 }
 .comment-container {
 	position: relative;
@@ -371,6 +375,14 @@ b i, .iconic-push {
 .comment-close {
 	height: 48px;
 	overflow: hidden;
+}
+.comment-close-button {
+	position: absolute;
+  width: 24px;
+  top: -4px;
+  height: 24px;
+  text-align: center;
+  left: -7px;
 }
 .comment-close .user-context a {
 	color: #727272
@@ -913,6 +925,9 @@ b i, .iconic-push {
   margin: 8px 0;
   font-size: 12px;
   width: 100%;
+}
+.md pre {
+	overflow-x: scroll;	
 }
 .md blockquote {
   border-left: 2px solid rgba(0,0,0,.15);
