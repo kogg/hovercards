@@ -24,7 +24,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                         })
                         .then(function(obj) {
                             angular.extend(object, obj);
-                            return obj;
+                            return object;
                         }, function(err) {
                             object.$err = err;
                             return $q.reject(err);
@@ -44,5 +44,44 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
         };
 
         return service;
+    }])
+    .directive('authorize', ['apiService', function(apiService) {
+        return {
+            restrict: 'A',
+            scope: {
+                api: '=authorize',
+                onAuthorized: '&'
+            },
+            link: function($scope, $element) {
+                var handler = angular.noop;
+                $scope.$watch('api', function(api) {
+                    $element.unbind('click', handler);
+                    if (!api) {
+                        return;
+                    }
+                    $element.click(handler = function() {
+                        apiService.get({ api: api, type: 'auth' })
+                            .$promise
+                            .then(function() {
+                                $scope.onAuthorized();
+                            });
+                    });
+                });
+            }
+        };
+    }])
+    .directive('loading', ['apiService', function(apiService) {
+        return {
+            restrict: 'A',
+            scope: {
+                loading: '='
+            },
+            link: function($scope) {
+                $scope.promises = apiService.loading;
+                $scope.$watch('!!promises.length', function(loading) {
+                    $scope.loading = loading;
+                });
+            }
+        };
     }])
     .name;

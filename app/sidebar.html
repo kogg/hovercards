@@ -1,4 +1,4 @@
-<html ng-csp>
+<html ng-csp ng-controller="ViewController" ng-style="{ 'overflow-y': view.overflow }">
 <head>
 	<link rel="stylesheet" href="styles/angular-csp.css">
 	<link rel="stylesheet" href="styles/slick.css">
@@ -6,8 +6,8 @@
 	<link rel="stylesheet" href="styles/styles.css">
 	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
 </head>
-<body class="ng-cloak" ng-cloak ng-controller="EntryController" ng-class="{ 'fullscreen-active': entry.fullscreen }">
-	<div>
+<body class="ng-cloak" ng-cloak ng-class="{ 'fullscreen-active': view.fullscreen }">
+	<div ng-controller="EntryController">
 		<div class="fade-out-animation" ng-show="loading" loading="loading">
 			<div class="loader">
 				<div class="colored"></div>
@@ -60,7 +60,7 @@
 				</div>
 			</div>
 
-			<div class="people-card-space" in-view="at.people=$inview" scroll-periodically="!data.people.length">
+			<div class="people-card-space" in-view="view.at.people=$inview">
 				<div class="card bounce-in-animation people-card" ng-if="data.people.length || data.people.$resolved">
 					<div ng-if="!data.people.$err">
 						<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="data.people.length === 1"></div>
@@ -107,9 +107,10 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err">
-		<div ng-messages="entry.$err" ng-messages-include="templates/entry_exceptions.html"></div>
+
+		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err">
+			<div ng-messages="entry.$err" ng-messages-include="templates/entry_exceptions.html"></div>
+		</div>
 	</div>
 
 	<link rel="stylesheet" href="styles/subscribe-fix-style.css">

@@ -1,10 +1,9 @@
+var angular      = require('angular');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
-var extension_id = chrome.i18n.getMessage('@@extension_id');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [require('./service-components')])
     .controller('EntryController', ['$scope', '$timeout', '$q', 'apiService', function($scope, $timeout, $q, apiService) {
-        $scope.at  = {};
         window.addEventListener('message', function(event) {
             var request = event.data;
             // TODO Determine if this is our request and not someone else's
@@ -79,22 +78,5 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                     break;
             }
         }, false);
-
-        angular.element(document).keydown(function(e) {
-            if (e.which !== 27 || !$scope.entry || !$scope.entry.fullscreen) {
-                return;
-            }
-            $scope.$apply(function() {
-                $scope.entry.fullscreen = false;
-            });
-            e.stopImmediatePropagation();
-        });
-
-        $scope.$watch('entry.fullscreen', function(fullscreen, oldFullscreen) {
-            if (fullscreen === oldFullscreen) {
-                return;
-            }
-            window.top.postMessage({ msg: extension_id + '-fullscreen', value: fullscreen }, '*');
-        });
     }])
     .name;

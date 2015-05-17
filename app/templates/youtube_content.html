@@ -14,10 +14,10 @@
 		<div class="video-cta" ng-click="playing=true;" ng-class="{ 'button-vanish': playing }">
 			<i class="md md-play-arrow"></i>
 		</div>
-		<div class="video-cta" ng-click="entry.fullscreen=true;" ng-if="playing" ng-class="{ 'button-vanish': entry.fullscreen }">
+		<div class="video-cta" ng-click="view.fullscreen=true;" ng-if="playing" ng-class="{ 'button-vanish': view.fullscreen }">
 			<i class="md md-fullscreen"></i>
 		</div>
-		<div class="video-cta" ng-click="entry.fullscreen=false;" ng-if="playing" ng-class="{ 'button-vanish': !entry.fullscreen }">
+		<div class="video-cta" ng-click="view.fullscreen=false;" ng-if="playing" ng-class="{ 'button-vanish': !view.fullscreen }">
 			<i class="md md-fullscreen-exit"></i>
 		</div>
 	</div>
