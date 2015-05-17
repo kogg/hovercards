@@ -22,6 +22,24 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             }
             $scope.data.discussion = $scope.loading_discussion;
         });
+
+        $scope.$watch('data && data.discussion.$resolved && entry && data.discussion', function(discussion) {
+            if (!discussion) {
+                return;
+            }
+
+            $scope.entry.content = $scope.entry.content || discussion.content;
+
+            if (discussion.accounts && discussion.accounts.length && $scope.entry.type === 'discussion') {
+                $scope.entry.accounts = ($scope.entry.accounts || []);
+                (discussion.accounts || []).forEach(function(account) {
+                    if (!$scope.entry.accounts.some(function(entry_account) { return account.api  === entry_account.api &&
+                                                                                     account.id   === entry_account.id; })) {
+                        $scope.entry.accounts.push(account);
+                    }
+                });
+            }
+        });
     }])
     .directive('sortable', function() {
         require('jquery-ui/sortable');

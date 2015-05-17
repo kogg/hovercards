@@ -81,7 +81,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
         }, false);
 
         angular.element(document).keydown(function(e) {
-            if (e.which !== 27 || !$scope.entry.fullscreen) {
+            if (e.which !== 27 || !$scope.entry || !$scope.entry.fullscreen) {
                 return;
             }
             $scope.$apply(function() {
@@ -95,53 +95,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                 return;
             }
             window.top.postMessage({ msg: extension_id + '-fullscreen', value: fullscreen }, '*');
-        });
-
-        $scope.$watch('data.content.$resolved', function() {
-            if (!$scope.data || !$scope.data.content || !$scope.data.content.$resolved || !$scope.entry) {
-                return;
-            }
-
-            if ($scope.data.content.discussions && $scope.data.content.discussions.length) {
-                $scope.entry.discussions = ($scope.entry.discussions || []);
-                chrome.storage.sync.get('order', function(obj) {
-                    obj.order = obj.order || [];
-                    $scope.$apply(function() {
-                        ($scope.data.content.discussions || []).forEach(function(discussion) {
-                            if (!$scope.entry.discussions.some(function(entry_discussion) { return discussion.api === entry_discussion.api; })) {
-                                $scope.entry.discussions.push(discussion);
-                            }
-                        });
-                        $scope.entry.discussions.sort(function(a, b) {
-                            return obj.order.indexOf(a.api) - obj.order.indexOf(b.api);
-                        });
-                    });
-                });
-            }
-
-            $scope.entry.accounts = ($scope.entry.accounts || []);
-            ($scope.data.content.accounts || []).forEach(function(account) {
-                if (!$scope.entry.accounts.some(function(entry_account) { return account.api  === entry_account.api &&
-                                                                                 account.id   === entry_account.id; })) {
-                    $scope.entry.accounts.push(account);
-                }
-            });
-        });
-
-        $scope.$watch('data.discussion.$resolved', function() {
-            if (!$scope.data || !$scope.data.discussion || !$scope.data.discussion.$resolved || !$scope.entry || $scope.entry.type !== 'discussion') {
-                return;
-            }
-
-            $scope.entry.content = $scope.entry.content || $scope.data.discussion.content;
-
-            $scope.entry.accounts = ($scope.entry.accounts || []);
-            ($scope.data.discussion.accounts || []).forEach(function(account) {
-                if (!$scope.entry.accounts.some(function(entry_account) { return account.api  === entry_account.api &&
-                                                                                 account.id   === entry_account.id; })) {
-                    $scope.entry.accounts.push(account);
-                }
-            });
         });
     }])
     .name;

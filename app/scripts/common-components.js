@@ -109,7 +109,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             link: function($scope) {
                 $scope.stored = $scope.default;
                 chrome.storage.sync.get($scope.name, function(obj) {
-                    $scope.apply(function() {
+                    $scope.$apply(function() {
                         $scope.stored = ($scope.name in obj) ? obj[$scope.name] : $scope.default;
                     });
                     $scope.$watch('stored', function(val, oldVal) {

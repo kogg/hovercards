@@ -3,28 +3,40 @@ require('slick-carousel');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
     .controller('PeopleController', ['$scope', '$timeout', '$q', 'apiService', function($scope, $timeout, $q, apiService) {
-        /* check to see if all the things we want to load are out of our way. Also, give them time to animate or whatever */
-        $scope.other_things_loaded = 0;
-        $scope.$watch('(!entry.content || data.content.$resolved) && (!(entry.discussions || entry.discussion || entry.discussions[0]) || data.discussion.$resolved)', function(value) {
-            if (!value) {
+        var others_exist_watcher = $scope.$watch('entry.type', function(type) {
+            if (!type) {
                 return;
             }
-            $timeout(function() {
-                angular.element(window).scroll();
-                $scope.other_things_loaded++;
-            }, 100);
-        });
-        /* Check to see if we hit the bottom once we've waited for everything and forced a scroll */
-        var can_have_people = $scope.$watch('at.people && other_things_loaded', function(value) {
-            if (!value) {
+            others_exist_watcher();
+            if (type === 'account') {
+                $scope.can_have_people = true;
                 return;
             }
-            $scope.can_have_people = true;
-            can_have_people();
+
+            /* check to see if all the things we want to load are out of our way. Also, give them time to animate or whatever */
+            var other_things_loaded_watcher = $scope.$watch('data.content.$resolved && data.discussion.$resolved', function(other_things_loaded) {
+                if (!other_things_loaded) {
+                    return;
+                }
+                other_things_loaded_watcher();
+
+                $timeout(function() {
+                    angular.element(window).scroll();
+
+                    /* Check to see if we hit the bottom once we've waited for everything and forced a scroll */
+                    var can_have_people_watcher = $scope.$watch('at.people', function(value) {
+                        if (!value) {
+                            return;
+                        }
+                        can_have_people_watcher();
+
+                        $scope.can_have_people = true;
+                    });
+                }, 300);
+            });
         });
-        /* Load people once we're allowed to */
+
         $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
-            $scope.entry.selectedPerson = null;
             if (!requests || !requests.length) {
                 $scope.data.people = null;
                 return;
@@ -33,7 +45,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             $scope.data.people = (function() {
                 var people = [];
                 var done_account_ids = {};
-                var got_something;
                 var last_err;
                 people.$resolved = false;
                 people.$promise = $q.all(requests.map(function get_account(request) {
@@ -41,7 +52,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                     return account
                         .$promise
                         .then(function(account) {
-                            got_something = true;
                             // Get IDs from account
                             var connected_accounts_ids = (account.connected || []).map(function(account) {
                                 return [account.api, account.type, account.id].join('/');
@@ -91,7 +101,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         });
                 }))
                 .then(function() {
-                    if (got_something) {
+                    if (people.length) {
                         return;
                     }
                     people.$err = last_err || { 'bad-input': true };
