@@ -17,7 +17,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
 
             chrome.runtime.sendMessage(params, function(response) {
                 if (!response) {
-                    return deferred.reject();
+                    return deferred.reject({ 'our-problem': true });
                 }
                 if (response[0]) {
                     response[0][errors[response[0].status] || errors[0]] = true;
