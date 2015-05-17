@@ -1,6 +1,35 @@
 var angular = require('angular');
 
-module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize')])
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize'), require('./service-components')])
+    .directive('authorize', ['apiService', function(apiService) {
+        return {
+            restrict: 'A',
+            scope: {
+                api: '=authorize',
+                err: '=',
+                onAuthorized: '&'
+            },
+            link: function($scope, $element) {
+                var handler = angular.noop;
+                $scope.$watch('api', function(api) {
+                    $element.unbind('click', handler);
+                    if (!api) {
+                        return;
+                    }
+                    $element.click(handler = function() {
+                        apiService.get({ api: api, type: 'auth' })
+                            .$promise
+                            .then(function() {
+                                $scope.onAuthorized();
+                            })
+                            .catch(function(err) {
+                                $scope.err = err;
+                            });
+                    });
+                });
+            }
+        };
+    }])
     .directive('readmore', ['$sanitize', function($sanitize) {
         require('dotdotdot');
 

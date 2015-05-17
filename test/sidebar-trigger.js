@@ -6,7 +6,7 @@ chai.use(sinonChai);
 
 require('./chrome');
 
-var SidebarTrigger = require('../app/scripts/sidebar-trigger');
+var sidebarTrigger = require('../app/scripts/sidebar-trigger');
 
 describe('sidebar-trigger', function() {
     var sandbox = sinon.sandbox.create();
@@ -14,7 +14,7 @@ describe('sidebar-trigger', function() {
     var spy;
 
     beforeEach(function() {
-        sidebar_trigger = SidebarTrigger(spy = sandbox.spy());
+        sidebar_trigger = sidebarTrigger(spy = sandbox.spy());
     });
 
     afterEach(function() {
