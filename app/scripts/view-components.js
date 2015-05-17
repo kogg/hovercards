@@ -24,23 +24,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'View
             }
             window.top.postMessage({ msg: extension_id + '-fullscreen', value: fullscreen }, '*');
         });
-
-        /* mouseenter/mouseleave logic */
-        $scope.view.overflow = 'hidden';
-        window.addEventListener('message', function(event) {
-            switch (event.data.msg) {
-                case 'mouseenter':
-                    $scope.$apply(function() {
-                        $scope.view.overflow = 'scroll';
-                    });
-                    break;
-                case 'mouseleave':
-                    $scope.$apply(function() {
-                        $scope.view.overflow = 'hidden';
-                    });
-                    break;
-            }
-        }, false);
     }])
     .name;
 
