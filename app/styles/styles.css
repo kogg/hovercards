@@ -1404,15 +1404,19 @@ b i, .iconic-push {
 
 .loader {
   width: 100%;
-  right: 0;
+  left: 0;
   top: 0;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   background: #B2CCF5;
   position: fixed;
-  max-width: 340px;
+  width: 100%;
 }
-
+.fullscreen-active .loader {
+	width: 340px;
+	right: 0;
+	left: auto
+}
 .colored {
   position: absolute;
   width: 220px;
