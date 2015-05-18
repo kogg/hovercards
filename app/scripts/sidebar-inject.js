@@ -9,7 +9,7 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
     var obj = $('<div></div>')
         .appendTo($(inject_into))
         .addClass(extension_id + '-sidebar')
-        .width(340 + common.get_scrollbar_width())
+        .width(340)
         .hide()
         .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
             if (e.originalEvent.animationName !== 'slide-out-' + extension_id) {
@@ -42,31 +42,34 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
     }, false);
 
-    function prevent_handler(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-
     var iframe = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
         .attr('frameborder', '0')
         .mouseenter(function() {
-            $(window).on('mousewheel', prevent_handler);
+            body.css('overflow', 'hidden');
+            if (common.get_scrollbar_width()) {
+                iframe
+                    .css('overflow', 'auto')
+                    .attr('scrolling', 'auto');
+                obj.width(340 + common.get_scrollbar_width());
+                $('html').css('padding-right', '+=' + common.get_scrollbar_width());
+            }
         })
         .mouseleave(function() {
-            $(window).off('mousewheel', prevent_handler);
+            body.css('overflow', 'auto');
+            if (common.get_scrollbar_width()) {
+                iframe
+                    .css('overflow', 'hidden')
+                    .attr('scrolling', 'no');
+                obj.width(340);
+                $('html').css('padding-right', '-=' + common.get_scrollbar_width());
+            }
         });
-    if (!common.get_scrollbar_width()) {
-        var body_overflow;
+    if (common.get_scrollbar_width()) {
         iframe
-            .mouseenter(function() {
-                body_overflow = body.css('overflow');
-                body.css('overflow', 'hidden');
-            })
-            .mouseleave(function() {
-                body.css('overflow', body_overflow);
-            });
+            .css('overflow', 'hidden')
+            .attr('scrolling', 'no');
     }
 
     $('<div></div>')
