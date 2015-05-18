@@ -25,7 +25,7 @@
 					<div class="comment-top">
 						<div class="row">
 							<div class="col-9">
-								<span><i class="md md-forum iconic-push"></i>{{ (data.discussion.api || entry.discussion.api || entry.discussions[0].api) + '_discussion' | copy }} ({{ data.discussion.count | numsmall }})</span>
+								<span><i class="md md-forum iconic-push"></i>{{ (data.discussion.api || entry.discussion.api || entry.discussions[0].api) + '_discussion' | copy }} <span ng-if="data.discussion.count">({{ data.discussion.count | numsmall }})</span></span>
 							</div>
 							<div class="col-3">
 								<i class="md md-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>
