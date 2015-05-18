@@ -42,13 +42,14 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
     }, false);
 
-    $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+    var iframe = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
         .attr('frameborder', '0')
         .mouseenter(function() {
             body.css('overflow', 'hidden');
             if (common.get_scrollbar_width()) {
+                iframe.get(0).contentWindow.postMessage({ msg: 'mouseenter' }, '*');
                 obj.width(340 + common.get_scrollbar_width());
                 $('html').css('padding-right', '+=' + common.get_scrollbar_width());
             }
@@ -56,6 +57,7 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         .mouseleave(function() {
             body.css('overflow', 'auto');
             if (common.get_scrollbar_width()) {
+                iframe.get(0).contentWindow.postMessage({ msg: 'mouseleave' }, '*');
                 obj.width(340);
                 $('html').css('padding-right', '-=' + common.get_scrollbar_width());
             }
