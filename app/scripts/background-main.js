@@ -53,6 +53,7 @@ async.parallel({
         var type = request.type;
         delete request.api;
         delete request.type;
+        delete request.author;
 
         if (client_side_calls[api] && client_side_calls[api][type]) {
             client_side_calls[api][type](request, function(err, result) {
