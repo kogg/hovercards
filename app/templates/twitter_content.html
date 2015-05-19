@@ -1,5 +1,27 @@
 <div ng-if="!data.content.$err">
-	<pre>{{ data.content | json }}</pre>
-</div>
-
+	<div class="card-text text-post">
+			<div class="user-context-container">
+				<div class="user-context">
+					<div class="ellipsis">
+						<a ng-href="">{{:: data.content.author.id }}</a> <b>· <a ng-href="">/r/{{:: data.content.subreddit }}</a></b>
+					</div>
+					<span class="reddit-votes">3h</span>
+				</div>
+				<a ng-href="" class="no-yo">{{ ::data.content.name }}</a>
+			</div>
+			<div class="card-description">
+				<p readmore=":: data.content.description" cutoff-height="100"></p>
+			</div>
+		</div>
+		<div class="card-stats row">
+			<div class="col-6">
+				<b>Retweets</b>
+				<span>{{:: data.content.score | numsmall }}</span>
+			</div>
+			<div class="col-6">
+				<b>Favourites</b>
+				<span>{{:: data.content.up_ratio | percent }}</span>
+			</div>
+		</div>
+	</div>
 <div ng-messages="data.content.$err" ng-messages-include="templates/content_exceptions.html"></div>
