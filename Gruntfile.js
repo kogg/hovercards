@@ -63,6 +63,11 @@ module.exports = function (grunt) {
         },
         uglify: {
             js: {
+                options: {
+                    compress: {
+                        drop_console: true
+                    }
+                },
                 files: {
                     'dist/scripts/background-main.js': 'dist/scripts/background-main.js',
                     'dist/scripts/everywhere-main.js': 'dist/scripts/everywhere-main.js',
