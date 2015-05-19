@@ -3,10 +3,13 @@
     "app_short_name":  { "message": "yocards" },
     "app_description": { "message": "Description of YoCards" },
 
-    "youtube":            { "message": "Youtube" },
-    "youtube_discussion": { "message": "Youtube Comments" },
-    "youtube_account":    { "message": "Youtube Channel" },
     "reddit":             { "message": "Reddit" },
     "reddit_discussion":  { "message": "Reddit Comments" },
-    "reddit_account":     { "message": "Reddit User" }
+    "reddit_account":     { "message": "Reddit User" },
+    "twitter":            { "message": "Twitter" },
+    "twitter_discussion": { "message": "Tweets" },
+    "twitter_account":    { "message": "Twitter User" },
+    "youtube":            { "message": "Youtube" },
+    "youtube_discussion": { "message": "Youtube Comments" },
+    "youtube_account":    { "message": "Youtube Channel" }
 }
