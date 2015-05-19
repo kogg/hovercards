@@ -1017,17 +1017,17 @@ b i, .iconic-push {
 .reddit-votes:hover .hidden-date {
 	display: inline;
 }
-/*Error Cards*/
-.yocards-error-container {
+
+/*Message Cards*/
+.yocards-message-container {
 	border: 1px solid rgba(0,0,0,.15);
 	border-radius: 3px;
 	overflow: hidden;
 	position: relative;
 }
-.yocards-error-image {
+.yocards-message-image {
 	width: 33.333333%;
 	line-height: 100px;
-	background:#FF4F29;
 	background-size: 100%;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -1036,14 +1036,13 @@ b i, .iconic-push {
 	top: 0;
 	height: 100%;
 	overflow: hidden;
-	background-image: url('../images/error.png');
 	background-size: 100%;
 	background-position: center bottom -2px;
 	background-repeat: no-repeat;
 	border-right: none;
 }
 
-.yocards-error-text {
+.yocards-message-text {
 	float: right;
 	border-left: none;
 	width: 66.666666%;
@@ -1055,29 +1054,45 @@ b i, .iconic-push {
   font-weight: 500;
 	background: white;
 }
-.yocards-error-text span {
+.yocards-message-text span {
 	display: block;
 	padding: 16px
 }
-.yocards-error-text b {
-	color: #FF4F29
-}
-.yocards-error-option {
+.yocards-message-option {
 	padding: 12px 16px;
 	border-top: 1px solid rgba(0,0,0,.15);
 }
-.yocards-error-option a {
+.yocards-message-option a {
 	color: #2196F3;
   font-weight: 400;
   font-size: 14px;
   text-decoration: none;
 }
-.yocards-error-option a:hover {
+.yocards-message-option a:hover {
 	text-decoration: underline;
+	cursor: pointer;
+}
+/*message type*/
+.error-message .yocards-message-text b {
+	color: #FF4F29
+}
+.error-message .yocards-message-image {
+	background:#FF4F29;
+	background-image: url('../images/error.png');
+}
+.twitter-message .yocards-message-text b {
+	color: #55acee
+}
+.twitter-message .yocards-message-image {
+	background:#55acee;
+	background-image: url('../images/Twitter_logo_white.png');
+	background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 /*Network Menu*/
 .network-menu {
-    background-color: #f6f6f6;
+  background-color: #f6f6f6;
 	padding: 0 20px;
 	height: 48px;
 }
