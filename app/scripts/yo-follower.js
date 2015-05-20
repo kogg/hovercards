@@ -17,6 +17,7 @@ module.exports = function(body, selector, get_url) {
                     return;
                 }
                 body.off('mousemove', follower.follow);
+                body.off('scroll', follower.follow);
                 follower
                     .setIdentity(null)
                     .hide();
@@ -66,6 +67,7 @@ module.exports = function(body, selector, get_url) {
             .setIdentity(identity)
             .follow(e);
         body.on('mousemove', follower.follow);
+        body.on('scroll', follower.follow);
         obj.one('mouseleave', function() {
             follower.toggleClasses(false, identity);
         });

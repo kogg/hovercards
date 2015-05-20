@@ -151,6 +151,7 @@
 .__MSG_@@extension_id__-yo-follower {
 	background-color: pink !important;
 	height: 50px !important;
+	pointer-events: none;
 	position: absolute !important;
 	width: 50px !important;
 	z-index: 2147483647 !important;
