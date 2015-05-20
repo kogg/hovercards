@@ -151,13 +151,11 @@
 .__MSG_@@extension_id__-yo-follower {
 	pointer-events: none;
 	position: absolute !important;
-	height: 8px !important;
-	width: 8px !important;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png') !important;
-	background-repeat: no-repeat !important;
-	background-size: 60% !important;
-	background-position: center !important;
+	height: 6px !important;
+	width: 6px !important;
 	border-radius: 50%;
+	border:1px solid rgba(0,0,0,.6);
+	box-shadow: 0 1px 8px -2px #000, inset 0 0 0px 1px #fff;
 	z-index: 2147483647 !important;
 }
 .__MSG_@@extension_id__-yo-follower-enter {
@@ -167,8 +165,8 @@
 	animation-name: __MSG_@@extension_id__-yo-follower-fadein;
 }
 .__MSG_@@extension_id__-yo-follower-exit {
-	-webkit-animation-duration: .1s;
-	animation-duration: .1s;
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
 	-webkit-animation-name: __MSG_@@extension_id__-yo-follower-fadeout;
 	animation-name: __MSG_@@extension_id__-yo-follower-fadeout;
 }
@@ -205,7 +203,6 @@
 }
 @-webkit-keyframes __MSG_@@extension_id__-yo-follower-fadeout {
 	0% {
-		opacity: 1;
 	}
 	100% {
 		opacity: 0;
@@ -213,7 +210,6 @@
 }
 @keyframes __MSG_@@extension_id__-yo-follower-fadeout {
 	0% {
-		opacity: 1;
 	}
 	100% {
 		opacity: 0;

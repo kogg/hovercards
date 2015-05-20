@@ -44,7 +44,7 @@ module.exports = function(body, selector, get_url) {
                 clearTimeout(timeout);
                 timeout = setTimeout(function() {
                     toggle(false);
-                }, 1000);
+                }, 2000);
             }
         };
 
