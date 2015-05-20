@@ -166,11 +166,14 @@
 	-webkit-animation-name: __MSG_@@extension_id__-yo-follower-fadeout;
 	animation-name: __MSG_@@extension_id__-yo-follower-fadeout;
 }
-.__MSG_@@extension_id__-yo-follower-youtube {
-	background-color: #F44336 !important;
-}
 .__MSG_@@extension_id__-yo-follower-reddit {
 	background-color: #cee2f8 !important;
+}
+.__MSG_@@extension_id__-yo-follower-twitter {
+	background-color: #55acee !important;
+}
+.__MSG_@@extension_id__-yo-follower-youtube {
+	background-color: #F44336 !important;
 }
 @-webkit-keyframes __MSG_@@extension_id__-yo-follower-fadein {
 	0% {
