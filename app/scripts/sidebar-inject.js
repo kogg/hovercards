@@ -47,7 +47,7 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         e.stopPropagation();
     }
 
-    $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+    var iframe = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
         .attr('frameborder', '0')
@@ -57,6 +57,17 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         .mouseleave(function() {
             $(window).off('mousewheel', prevent_handler);
         });
+    if (!common.get_scrollbar_width()) {
+        var body_overflow;
+        iframe
+            .mouseenter(function() {
+                body_overflow = body.css('overflow');
+                body.css('overflow', 'hidden');
+            })
+            .mouseleave(function() {
+                body.css('overflow', body_overflow);
+            });
+    }
 
     $('<div></div>')
         .appendTo(obj)
