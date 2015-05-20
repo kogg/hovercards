@@ -29,7 +29,8 @@ module.exports = function(body, selector, get_url) {
             }
             follower
                 .toggleClass(extension_id + '-yo-follower-enter', state)
-                .toggleClass(extension_id + '-yo-follower-exit', !state);
+                .toggleClass(extension_id + '-yo-follower-exit', !state)
+                .removeClass(extension_id + '-yo-follower-longpressed');
         };
 
         var over_object = false;
@@ -48,23 +49,33 @@ module.exports = function(body, selector, get_url) {
             }
         };
 
+        var longpress = function() {
+            toggle(true);
+            follower
+                .removeClass(extension_id + '-yo-follower-exit')
+                .addClass(extension_id + '-yo-follower-longpressed');
+            clearTimeout(timeout);
+        };
+
         var enter = function(e, identity) {
             over_object = true;
             setIdentity(identity);
             mousemove(e);
             body.on('mousemove', mousemove);
             body.on('scroll', mousemove);
+            $(e.currentTarget).on('longpress', longpress);
             return follower;
         };
 
-        var leave = function() {
+        var leave = function(e) {
             over_object = false;
             toggle(false);
+            $(e.currentTarget).off('longpress', longpress);
             return follower;
         };
 
         follower.on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
-            if (e.originalEvent.animationName !== extension_id + '-yo-follower-fadeout') {
+            if (e.originalEvent.animationName !== extension_id + '-yo-follower-fadeout' && e.originalEvent.animationName !== extension_id + '-yo-follower-growfade') {
                 return;
             }
             if (!over_object) {
