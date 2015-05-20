@@ -2,7 +2,7 @@
 	<div class="context-top youtube-context-top">
 		<div class="row">
 			<div class="col-9">
-				<span><i class="md md-videocam iconic-push"></i>Uploaded by <a href="#">PoopHead123</a></span>
+				<span><i class="md md-videocam iconic-push"></i>Uploaded by <a ng-href="{{:: data.content.author | generateUrl }}">{{:: data.content.author.name || data.content.author.id }}</a></span>
 			</div>
 			<div class="col-3">
 				<span>{{:: data.content.date | timeSince:true }}</span>
