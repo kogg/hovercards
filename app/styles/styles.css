@@ -531,6 +531,13 @@ b i, .iconic-push {
   font-size: 12px;
   font-weight: 600;
 }
+.context-top span a {
+	color: #727272;
+	text-decoration: none;
+}
+.context-top span a:hover {
+	text-decoration: underline;
+}
 .context-top .col-3 {
 	text-align: right;
 	position: relative;
@@ -1587,6 +1594,7 @@ b i, .iconic-push {
 .reddit-color {
 	color: #ff4601 !important
 }
+
 
 
 

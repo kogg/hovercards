@@ -150,11 +150,14 @@
 
 .__MSG_@@extension_id__-yo-follower {
 	pointer-events: none;
+	-webkit-box-sizing: border-box !important;
+	-moz-box-sizing: border-box !important;
+	box-sizing: border-box !important;
 	position: absolute !important;
-	height: 6px !important;
-	width: 6px !important;
-	border-radius: 50%;
-	border:1px solid rgba(0,0,0,.6);
+	height: 8px !important;
+	width: 8px !important;
+	border:1px solid black;
+	border-radius: 4px;
 	box-shadow: 0 1px 8px -2px #000, inset 0 0 0px 1px #fff;
 	z-index: 2147483647 !important;
 }
@@ -176,6 +179,7 @@
 	-webkit-animation-name: __MSG_@@extension_id__-yo-follower-growfade;
 	animation-name: __MSG_@@extension_id__-yo-follower-growfade;
 }
+
 .__MSG_@@extension_id__-yo-follower-reddit {
 	background-color: #cee2f8 !important;
 }
@@ -185,6 +189,7 @@
 .__MSG_@@extension_id__-yo-follower-youtube {
 	background-color: #F44336 !important;
 }
+
 @-webkit-keyframes __MSG_@@extension_id__-yo-follower-fadein {
 	0% {
 		opacity: 0;
