@@ -31,7 +31,7 @@ html,body {
 	font-family: "Roboto", sans-serif;
 	font-weight: normal;
 	-webkit-font-smoothing: antialiased;
-	overflow:hidden;
+	overflow-x:hidden;
 	position: relative;
 }
 /*fullscreen mode*/
