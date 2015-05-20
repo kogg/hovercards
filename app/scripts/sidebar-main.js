@@ -1,6 +1,4 @@
 var $       = require('jquery');
-require('perfect-scrollbar/jquery')($);
-$('body').perfectScrollbar();
 var angular = require('angular');
 
 angular.bootstrap(document, [require('./angular-app').name]);

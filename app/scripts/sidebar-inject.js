@@ -1,4 +1,5 @@
-var $ = require('jquery');
+var $      = require('jquery');
+var common = require('./common');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
@@ -41,10 +42,41 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
     }, false);
 
-    $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+    var initial_body_overflow;
+    var initial_html_overflow;
+    var iframe = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
-        .attr('frameborder', '0');
+        .attr('frameborder', '0')
+        .mouseenter(function() {
+            initial_body_overflow = body.css('overflow-y');
+            body.css('overflow-y', 'hidden');
+            initial_html_overflow = $('html').css('overflow-y');
+            $('html').css('overflow-y', 'hidden');
+            if (common.get_scrollbar_width()) {
+                iframe
+                    .css('overflow', 'auto')
+                    .attr('scrolling', 'auto');
+                obj.width(340 + common.get_scrollbar_width());
+                $('html').css('padding-right', '+=' + common.get_scrollbar_width());
+            }
+        })
+        .mouseleave(function() {
+            body.css('overflow-y', initial_body_overflow);
+            $('html').css('overflow-y', initial_html_overflow);
+            if (common.get_scrollbar_width()) {
+                iframe
+                    .css('overflow', 'hidden')
+                    .attr('scrolling', 'no');
+                obj.width(340);
+                $('html').css('padding-right', '-=' + common.get_scrollbar_width());
+            }
+        });
+    if (common.get_scrollbar_width()) {
+        iframe
+            .css('overflow', 'hidden')
+            .attr('scrolling', 'no');
+    }
 
     $('<div></div>')
         .appendTo(obj)
