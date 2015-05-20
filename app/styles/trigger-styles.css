@@ -153,6 +153,7 @@
 	height: 50px !important;
 	position: absolute !important;
 	width: 50px !important;
+	z-index: 2147483647 !important;
 }
 .__MSG_@@extension_id__-yo-follower-enter {
 	-webkit-animation-duration: .4s;
