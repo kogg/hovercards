@@ -139,3 +139,73 @@
 	transform: scale(1.5) !important;
 	-webkit-transform: scale(1.5) !important;
 }
+
+
+
+
+
+
+
+
+
+.__MSG_@@extension_id__-yo-follower {
+	background-color: pink !important;
+	height: 50px !important;
+	pointer-events: none;
+	position: absolute !important;
+	width: 50px !important;
+	z-index: 2147483647 !important;
+}
+.__MSG_@@extension_id__-yo-follower-enter {
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
+	-webkit-animation-name: __MSG_@@extension_id__-yo-follower-fadein;
+	animation-name: __MSG_@@extension_id__-yo-follower-fadein;
+}
+.__MSG_@@extension_id__-yo-follower-exit {
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
+	-webkit-animation-name: __MSG_@@extension_id__-yo-follower-fadeout;
+	animation-name: __MSG_@@extension_id__-yo-follower-fadeout;
+}
+.__MSG_@@extension_id__-yo-follower-reddit {
+	background-color: #cee2f8 !important;
+}
+.__MSG_@@extension_id__-yo-follower-twitter {
+	background-color: #55acee !important;
+}
+.__MSG_@@extension_id__-yo-follower-youtube {
+	background-color: #F44336 !important;
+}
+@-webkit-keyframes __MSG_@@extension_id__-yo-follower-fadein {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes __MSG_@@extension_id__-yo-follower-fadein {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@-webkit-keyframes __MSG_@@extension_id__-yo-follower-fadeout {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes __MSG_@@extension_id__-yo-follower-fadeout {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
