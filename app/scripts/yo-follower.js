@@ -24,8 +24,8 @@ module.exports = function(body, selector, get_url) {
             });
         follower.follow = function(e) {
             follower
-                .css('left', e.pageX)
-                .css('top',  e.pageY + 20);
+                .css('left', e.pageX - 10)
+                .css('top',  e.pageY + 15);
             return follower;
         };
         follower.setIdentity = function(identity) {
