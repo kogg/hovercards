@@ -172,6 +172,12 @@
 	-webkit-animation-name: __MSG_@@extension_id__-yo-follower-fadeout;
 	animation-name: __MSG_@@extension_id__-yo-follower-fadeout;
 }
+.__MSG_@@extension_id__-yo-follower-longpressed {
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
+	-webkit-animation-name: __MSG_@@extension_id__-yo-follower-growfade;
+	animation-name: __MSG_@@extension_id__-yo-follower-growfade;
+}
 .__MSG_@@extension_id__-yo-follower-reddit {
 	background-color: #cee2f8 !important;
 }
@@ -217,5 +223,25 @@
 	}
 	100% {
 		opacity: 0;
+	}
+}
+@-webkit-keyframes __MSG_@@extension_id__-yo-follower-growfade {
+	0% {
+		opacity: 1;
+		-webkit-transform: scale(1.5);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale(3);
+	}
+}
+@keyframes __MSG_@@extension_id__-yo-follower-growfade {
+	0% {
+		opacity: 1;
+		transform: scale(1.5);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(3);
 	}
 }
