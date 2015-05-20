@@ -9,7 +9,7 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
     var obj = $('<div></div>')
         .appendTo($(inject_into))
         .addClass(extension_id + '-sidebar')
-        .width(340)
+        .width(340 + common.get_scrollbar_width())
         .hide()
         .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
             if (e.originalEvent.animationName !== 'slide-out-' + extension_id) {
@@ -42,40 +42,31 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
     }, false);
 
-    var initial_body_overflow;
-    var initial_html_overflow;
+    function prevent_handler(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
     var iframe = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
         .attr('frameborder', '0')
         .mouseenter(function() {
-            initial_body_overflow = body.css('overflow-y');
-            body.css('overflow-y', 'hidden');
-            initial_html_overflow = $('html').css('overflow-y');
-            $('html').css('overflow-y', 'hidden');
-            if (common.get_scrollbar_width()) {
-                iframe
-                    .css('overflow', 'auto')
-                    .attr('scrolling', 'auto');
-                obj.width(340 + common.get_scrollbar_width());
-                $('html').css('padding-right', '+=' + common.get_scrollbar_width());
-            }
+            $(window).on('mousewheel', prevent_handler);
         })
         .mouseleave(function() {
-            body.css('overflow-y', initial_body_overflow);
-            $('html').css('overflow-y', initial_html_overflow);
-            if (common.get_scrollbar_width()) {
-                iframe
-                    .css('overflow', 'hidden')
-                    .attr('scrolling', 'no');
-                obj.width(340);
-                $('html').css('padding-right', '-=' + common.get_scrollbar_width());
-            }
+            $(window).off('mousewheel', prevent_handler);
         });
-    if (common.get_scrollbar_width()) {
+    if (!common.get_scrollbar_width()) {
+        var body_overflow;
         iframe
-            .css('overflow', 'hidden')
-            .attr('scrolling', 'no');
+            .mouseenter(function() {
+                body_overflow = body.css('overflow');
+                body.css('overflow', 'hidden');
+            })
+            .mouseleave(function() {
+                body.css('overflow', body_overflow);
+            });
     }
 
     $('<div></div>')
