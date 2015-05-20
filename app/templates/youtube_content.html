@@ -1,4 +1,14 @@
 <div ng-if="!data.content.$err">
+	<div class="context-top youtube-context-top">
+		<div class="row">
+			<div class="col-9">
+				<span><i class="md md-videocam iconic-push"></i>Uploaded by <a href="#">PoopHead123</a></span>
+			</div>
+			<div class="col-3">
+				<span>{{:: data.content.date | timeSince:true }}</span>
+			</div>
+		</div>
+	</div>
 	<div class="video-top fullscreen-trigger">
 		<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
 			<div class="youtube-video" ng-if="playing">
@@ -24,7 +34,6 @@
 
 	<div class="card-text">
 		<div class="video-title">
-		<b class="youtube-color"><i class="md md-access-time"></i>{{ ::data.content.date | timeSince }}</b>
 			<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{ ::data.content.name }}</a>
 		</div>
 		<div ng-if="::data.content.description" class="card-description">

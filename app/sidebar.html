@@ -22,7 +22,7 @@
 
 			<div ng-controller="DiscussionController">
 				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || undefined">
-					<div class="comment-top">
+					<div class="context-top">
 						<div class="row">
 							<div class="col-9">
 								<span><i class="md md-forum iconic-push"></i>{{ (data.discussion.api || entry.discussion.api || entry.discussions[0].api) + '_discussion' | copy }} <span ng-if="data.discussion.count">({{ data.discussion.count | numsmall }})</span></span>
@@ -88,7 +88,7 @@
 			<div class="social-profile" ng-if="data.people.length">
 				<div ng-if="entry.selectedPerson.selectedAccount.description">
 					<div class="social-profile-description">
-						<div class="comment-top">
+						<div class="context-top">
 							<div class="row">
 								<div class="col-12">
 									<span class="youtube-color"><i class="md md-person iconic-push"></i>More About {{ entry.selectedPerson.selectedAccount.name }}</span>
