@@ -41,10 +41,21 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
     }, false);
 
+    var prevent_everything = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
     $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
-        .attr('frameborder', '0');
+        .attr('frameborder', '0')
+        .mouseenter(function() {
+            $(window).on('mousewheel', prevent_everything);
+        })
+        .mouseleave(function() {
+            $(window).off('mousewheel', prevent_everything);
+        });
 
     $('<div></div>')
         .appendTo(obj)

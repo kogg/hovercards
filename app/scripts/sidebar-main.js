@@ -1,9 +1,10 @@
 var $       = require('jquery');
 var angular = require('angular');
-var common  = require('common');
+var common  = require('./common');
 
 if (common.get_scrollbar_width()) {
     require('perfect-scrollbar/jquery')($);
+    $('html,body').css('overflow', 'hidden');
     $('body').perfectScrollbar();
 }
 
