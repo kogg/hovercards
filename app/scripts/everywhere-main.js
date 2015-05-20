@@ -2,7 +2,7 @@ var $                = require('jquery');
 var common           = require('./common');
 var embedded_trigger = require('./embedded-trigger');
 var longpress        = require('./longpress');
-var yo_trigger       = require('./yo-trigger');
+var yo_follower      = require('./yo-follower');
 
 $(document).keydown(function(e) {
     if (e.which !== 27) {
@@ -23,11 +23,11 @@ longpress(html, 'a[data-href]', function(link) {
     return common.nullify_bad_url(common.relative_to_absolute(link.data('href')));
 });
 
-yo_trigger(html, 'a[href]:not([data-href]):not(.no-yo)', function(link) {
+yo_follower(html, 'a[href]:not([data-href]):not(.no-yo)', function(link) {
     return common.nullify_bad_url(common.relative_to_absolute(link.attr('href')));
 });
 
-yo_trigger(html, 'a[data-href]:not(.no-yo)', function(link) {
+yo_follower(html, 'a[data-href]:not(.no-yo)', function(link) {
     return common.nullify_bad_url(common.relative_to_absolute(link.attr('href')));
 });
 

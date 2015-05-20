@@ -3,6 +3,7 @@ var network_urls = require('YoCardsApiCalls/network-urls');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
+/* DEPRECATED */
 module.exports = function(body, selector, get_url) {
     body = $(body);
 
