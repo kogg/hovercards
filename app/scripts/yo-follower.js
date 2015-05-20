@@ -11,24 +11,9 @@ module.exports = function(body, selector, get_url) {
         follower = $('<div></div>')
             .appendTo(body)
             .addClass(extension_id + '-yo-follower')
-            .hide()
-            .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
-                if (e.originalEvent.animationName !== extension_id + '-yo-follower-fadeout') {
-                    return;
-                }
-                body.off('mousemove', follower.follow);
-                body.off('scroll', follower.follow);
-                follower
-                    .setIdentity(null)
-                    .hide();
-            });
-        follower.follow = function(e) {
-            follower
-                .css('left', e.pageX)
-                .css('top',  e.pageY + 20);
-            return follower;
-        };
-        follower.setIdentity = function(identity) {
+            .hide();
+
+        var setIdentity = function(identity) {
             if (follower.api) {
                 follower.removeClass(extension_id + '-yo-follower-' + follower.api);
             }
@@ -36,16 +21,61 @@ module.exports = function(body, selector, get_url) {
                 follower.api = identity.api;
                 follower.addClass(extension_id + '-yo-follower-' + follower.api);
             }
-            return follower;
         };
-        follower.toggleClasses = function(state, identity) {
+
+        var toggle = function(state) {
+            if (state) {
+                follower.show();
+            }
             follower
                 .toggleClass(extension_id + '-yo-follower-enter', state)
                 .toggleClass(extension_id + '-yo-follower-exit', !state);
-            follower.setIdentity(identity);
+        };
+
+        var over_object = false;
+        var timeout;
+
+        var mousemove = function(e) {
+            follower
+                .css('left', e.pageX)
+                .css('top',  e.pageY + 20);
+            if (over_object) {
+                toggle(true);
+                clearTimeout(timeout);
+                timeout = setTimeout(function() {
+                    toggle(false);
+                }, 1000);
+            }
+        };
+
+        var enter = function(e, identity) {
+            over_object = true;
+            setIdentity(identity);
+            mousemove(e);
+            body.on('mousemove', mousemove);
+            body.on('scroll', mousemove);
             return follower;
         };
-        follower.toggleClasses(false);
+
+        var leave = function() {
+            over_object = false;
+            toggle(false);
+            return follower;
+        };
+
+        follower.on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
+            if (e.originalEvent.animationName !== extension_id + '-yo-follower-fadeout') {
+                return;
+            }
+            if (!over_object) {
+                body.off('mousemove', mousemove);
+                body.off('scroll', mousemove);
+            }
+            follower.hide();
+        });
+
+        toggle(false);
+
         body.data(extension_id + '-yo-follower', follower);
     }
 
@@ -61,15 +91,7 @@ module.exports = function(body, selector, get_url) {
             return;
         }
 
-        follower
-            .show()
-            .toggleClasses(true)
-            .setIdentity(identity)
-            .follow(e);
-        body.on('mousemove', follower.follow);
-        body.on('scroll', follower.follow);
-        obj.one('mouseleave', function() {
-            follower.toggleClasses(false, identity);
-        });
+        enter(e, identity);
+        obj.one('mouseleave', leave);
     });
 };
