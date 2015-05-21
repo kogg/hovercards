@@ -1,5 +1,4 @@
-var $      = require('jquery');
-var common = require('./common');
+var $ = require('jquery');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
@@ -9,7 +8,7 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
     var obj = $('<div></div>')
         .appendTo($(inject_into))
         .addClass(extension_id + '-sidebar')
-        .width(340 + common.get_scrollbar_width())
+        .width(340)
         .hide()
         .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
             if (e.originalEvent.animationName !== 'slide-out-' + extension_id) {
@@ -42,20 +41,20 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
     }, false);
 
-    function prevent_handler(e) {
+    var prevent_everything = function(e) {
         e.preventDefault();
         e.stopPropagation();
-    }
+    };
 
     $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
         .attr('frameborder', '0')
         .mouseenter(function() {
-            $(window).on('mousewheel', prevent_handler);
+            $(window).on('mousewheel', prevent_everything);
         })
         .mouseleave(function() {
-            $(window).off('mousewheel', prevent_handler);
+            $(window).off('mousewheel', prevent_everything);
         });
 
     $('<div></div>')
