@@ -1,11 +1,11 @@
 <div ng-if="!data.content.$err">
-	<div class="context-top">
+	<div class="context-top context-top-youtube">
 		<div class="row">
-			<div class="col-9">
-				<span><i class="md md-videocam iconic-push"></i>Uploaded by <a ng-href="{{:: data.content.author | generateUrl }}">{{:: data.content.author.name || data.content.author.id }}</a></span>
+			<div class="col-11">
+				<span>Uploaded by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
 			</div>
-			<div class="col-3">
-				<span>{{:: data.content.date | timeSince:true }}</span>
+			<div class="col-1">
+				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
 			</div>
 		</div>
 	</div>
