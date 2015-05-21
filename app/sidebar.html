@@ -108,7 +108,7 @@
 		</div>
 
 		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err">
-			<div ng-messages="entry.$err" ng-messages-include="templates/entry_exceptions.html"></div>
+			<div err="entry.$err" type="entry" entry="entry"></div>
 		</div>
 	</div>
 
