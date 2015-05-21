@@ -1,0 +1,18 @@
+<span ng-messages="err">
+	<!-- OVERRIDES -->
+	<span ng-transclude></span>
+
+	<!-- SERIOUS ERRORS -->
+	<span ng-message="our-problem">Oh no! {{:: 'app_name' | copy }} is having problems right now.</span>
+	<span ng-message="dependency-down">Oh no! {{ (api | copy) || 'One of our dependencies' }} is having problems right now.</span>
+
+	<!-- ERRORS -->
+	<span ng-message="bad-input">This input be bad, yo</span>
+	<span ng-message="no-content">We couldn't find anything here!</span>
+	<span ng-message="unauthorized">
+		<span><b><i class="md md-input"></i>Sign in required!</b>We're sorry but you must authorize {{:: 'app_name' | copy }} with your {{ api | copy }} account to see this content!</span>
+		<div class="yocards-message-option">
+			<a authorize="api" on-authorized="reload()">Authorize {{ api }}</a>
+		</div>
+	</span>
+</span>
