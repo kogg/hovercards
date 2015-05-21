@@ -568,11 +568,11 @@ b i, .iconic-push {
 .context-top-text-only + div {
 	padding: 0px 16px 16px 16px
 }
-.context-top .col-11 span a:first-of-type {
-	color: #000
-}
 .context-top .col-11 span a:last-of-type {
 	color: #2196F3
+}
+.context-top .col-11 span a:first-of-type {
+	color: #000
 }
 .context-top-youtube {
 	background-image: url('../images/YouTube-icon-full_color.png');
