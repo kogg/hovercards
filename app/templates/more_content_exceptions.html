@@ -1,9 +1,11 @@
 <div class="yocards-message-container error-message {{ (err.unauthorized || err['dependency-down']) ? api + '-message' : '' }}">
 	<div class="yocards-message-image"></div>
 	<div class="yocards-message-text" err="err" api="{{ api }}" type="default" entry="entry">
-		<!-- OVERRIDES -->
 		<span ng-transclude></span>
 
-		<span ng-message="empty-content">There's nothing here!</span>
+		<!-- ERRORS -->
+		<span ng-message="empty-content">
+			<span class="yocards-message-content"><b><i class="md md-input"></i>No Content</b>It looks like there's nothing here.</span>
+		</span>
 	</div>
 </div>
