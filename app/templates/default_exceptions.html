@@ -12,15 +12,15 @@
 
 	<!-- ERRORS -->
 	<span ng-message="bad-input">
-		<span class="yocards-message-content"><b><i class="md md-input"></i>Bad Content</b>This input be bad, yo!</span>
+		<span class="yocards-message-content"><b><i class="md md-error"></i>Bad Content</b>This input be bad, yo!</span>
 	</span>
 
 	<span ng-message="no-content">
-		<span class="yocards-message-content"><b><i class="md md-input"></i>Nothing Here</b>We couldn't find anything here!</span>
+		<span class="yocards-message-content"><b><i class="md md-error"></i>Nothing Here</b>We couldn't find anything here!</span>
 	</span>
 
 	<span ng-message="unauthorized">
-		<span class="yocards-message-content"><b><i class="md md-input"></i>Sign in Required</b>We're sorry but you must authorize {{:: 'app_name' | copy }} with your {{ api | copy }} account to see this!</span>
+		<span class="yocards-message-content"><b><i class="md md-error"></i>Sign in Required</b>We're sorry but you must authorize {{:: 'app_name' | copy }} with your {{ api | copy }} account to see this!</span>
 		<div class="yocards-message-option">
 			<a authorize="api" on-authorized="reload()">Sign into {{ api | copy }}</a>
 		</div>

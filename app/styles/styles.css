@@ -52,8 +52,6 @@ html,body {
 	height: 100%
 }
 .fullscreen-active .card-text {
-	border-radius: 3px 3px 0 0;
-	border-top: 1px solid rgba(0, 0, 0, 0.15);
 	overflow-x:auto;
 }
 .card-text .user-context-container {
@@ -738,16 +736,10 @@ b i, .iconic-push {
 } 
 /*No Comments*/
 .no-comments {	
-	background:#DCEDC8;
+	background:#fff;
 	border: 1px solid rgba(0,0,0,0.15);
 	border-top:none;
-	padding: 16px;
 	border-radius: 0 0 3px 3px;
-	padding-left: 77px;
-	background-image: url('../images/error-transparent.png');
-	background-repeat: no-repeat;
-  background-size: 42px;
-  background-position: 16px 16px;
   position: relative;
 }
 .no-comments p a:after {
@@ -1066,7 +1058,9 @@ b i, .iconic-push {
 	overflow: hidden;
 	position: relative;
 }
-
+.social-profile .yocards-message-container {
+	margin:0 20px;
+}
 .yocards-message-image {
 	width: 33.333333%;
 	line-height: 100px;
@@ -1100,6 +1094,16 @@ b i, .iconic-push {
 	display: block;
 	padding: 16px
 }
+.yocards-message-content {
+	padding: 16px 16px 14px 16px;
+	display: block;
+}
+.yocards-message-content  {
+  line-height: 19px;
+  font-weight: 400;
+  font-size: 15px;
+  color: #727272;
+}
 .yocards-message-option {
 	padding: 12px 16px;
 	border-top: 1px solid rgba(0,0,0,.15);
@@ -1121,6 +1125,9 @@ b i, .iconic-push {
 .error-message .yocards-message-image {
 	background:#FF4F29;
 	background-image: url('../images/error.png');
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: bottom -1px left;
 }
 .twitter-message .yocards-message-text b {
 	color: #55acee

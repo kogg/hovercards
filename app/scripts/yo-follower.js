@@ -38,8 +38,8 @@ module.exports = function(body, selector, get_url) {
 
         var mousemove = function(e) {
             follower
-                .css('left', e.pageX - 10)
-                .css('top',  e.pageY + 15);
+                .css('left', e.clientX - 10)
+                .css('top',  e.clientY + 15);
             if (over_object) {
                 toggle(true);
                 clearTimeout(timeout);
@@ -62,7 +62,6 @@ module.exports = function(body, selector, get_url) {
             setIdentity(identity);
             mousemove(e);
             body.on('mousemove', mousemove);
-            body.on('scroll', mousemove);
             $(e.currentTarget).on('longpress', longpress);
             return follower;
         };
@@ -80,7 +79,6 @@ module.exports = function(body, selector, get_url) {
             }
             if (!over_object) {
                 body.off('mousemove', mousemove);
-                body.off('scroll', mousemove);
             }
             follower.hide();
         });
