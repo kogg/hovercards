@@ -1,21 +1,7 @@
-<!-- Serious Errors -->
-<span ng-message="our-problem">Oh no! {{ 'app_name' | copy }} is having problems right now.</span>
-<span ng-message="dependency-down">Oh no! {{ ((data.content.api || entry.content.api) | copy) || 'One of our dependencies' }} is having problems right now.</span>
-
-<!-- Errors -->
-<span ng-message="bad-input">This input be bad, yo</span>
-<span ng-message="no-content">We couldn't find anything here!</span>
-
-<div  ng-message="unauthorized" class="yocards-message-container {{ data.content.api || entry.content.api }}-message">
+<div class="yocards-message-container {{ (err.unauthorized || err['dependency-down']) ? api + '-message' : '' }}">
 	<div class="yocards-message-image"></div>
-	<div class="yocards-message-text">
-		<span><b><i class="md md-input"></i>Sign in required!</b>{{ ((data.content.api || entry.content.api) | copy) || 'We\'re sorry but' }}  you must authorize YoCards with your {{ data.content.api || entry.content.api }} account to see this content!</span>
-		<div class="yocards-message-option">
-			<a authorize=":: data.content.api || entry.content.api" on-authorized="reload()">Authorize {{ data.content.api || entry.content.api }}</a>
-		</div>
+	<div class="yocards-message-text" err="err" api="{{ api }}" type="default" entry="entry">
+		<!-- OVERRIDES -->
+		<span ng-transclude></span>
 	</div>
 </div>
-
-
-<!-- Exceptions -->
-<span ng-message="empty-content">This is empty!</span>

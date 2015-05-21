@@ -8,7 +8,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
             loading: [],
             get: function(params) {
                 var object = {
-                    $resolved: false,
                     $promise:
                         $q(function(resolve, reject) {
                             chrome.runtime.sendMessage(params, function(response) {

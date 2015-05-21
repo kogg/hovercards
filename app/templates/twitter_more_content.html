@@ -2,4 +2,4 @@
 	<pre>{{ data.moreContent | json }}</pre>
 </div>
 
-<div ng-messages="data.moreContent.$err" ng-messages-include="templates/more_content_exceptions.html"></div>
+<div ng-if="data.moreContent.$err" err="data.moreContent.$err" api="twitter" type="more_content" entry="entry"></div>

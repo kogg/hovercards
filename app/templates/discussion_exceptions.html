@@ -1,11 +1,15 @@
-<!-- Serious Errors -->
-<span ng-message="our-problem">Oh no! {{ 'app_name' | copy }} is having problems right now.</span>
-<span ng-message="dependency-down">Oh no! {{ ((data.discussion.api || entry.discussion.api || entry.discussions[0].api) | copy) || 'One of our dependencies' }} is having problems right now.</span>
+<div class="no-comments">
+	<p>
+		<span err="err" api="{{ api }}" type="default" entry="entry">
+			<!-- OVERRIDES -->
+			<span ng-transclude></span>
 
-<!-- Errors -->
-<span ng-message="bad-input">This input be bad, yo</span>
-<span ng-message="no-content">We couldn't find anything here!</span>
-<span ng-message="unauthorized">{{ ((data.discussion.api || entry.discussion.api || entry.discussions[0].api) | copy) || 'This content' }} needs you to be authorized to see it. <a authorize=":: data.discussion.api || entry.discussion.api || entry.discussions[0].api" err=":: data.discussion.$err" on-authorized="reload()">Authorize it here</a>!</span>
+			<!-- ERRORS -->
+			<span ng-message="empty-content">It looks like there are no comments on this. <a ng-href="{{:: data.discussion | generateUrl }}" class="no-yo">Be the first to comment</a></span>
+		</span>
 
-<!-- Exceptions -->
-<div ng-message="empty-content">It looks like there are no comments on this. <a ng-href="{{:: data.discussion | generateUrl }}" class="no-yo">Be the first to comment</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></div>
+		<span ng-if="entry.discussions.length > 1">
+			See what people are saying on <a ng-click="entry.showMenu=true">other networks!</a>
+		</span>
+	</p>
+</div>

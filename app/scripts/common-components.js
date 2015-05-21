@@ -1,6 +1,20 @@
 var angular = require('angular');
 
-module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize')])
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize'), require('angular-messages')])
+    .directive('err', [function() {
+        return {
+            restrict: 'A',
+            scope: {
+                err: '=',
+                api: '@',
+                entry: '='
+            },
+            transclude: true,
+            templateUrl: function(element, attr) {
+                return 'templates/' + attr.type + '_exceptions.html';
+            }
+        };
+    }])
     .directive('readmore', ['$sanitize', function($sanitize) {
         require('dotdotdot');
 
@@ -66,8 +80,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         };
     })
     .filter('copy', function() {
-        return function(messagename) {
-            return chrome.i18n.getMessage((messagename || '').replace(/\-/g, '_')) || (console.warn('"' + messagename + '" does not have copy') && null);
+        return function() {
+            var string = chrome.i18n.getMessage((arguments[0] || '').replace(/\-/g, '_'), Array.prototype.slice.call(arguments, 1));
+            if (!string) {
+                console.warn('"' + arguments[0] + '" does not have copy');
+            }
+            return string;
         };
     })
     .filter('generateUrl', function() {

@@ -4,7 +4,6 @@ var angular = require('angular');
 module.exports = angular.module('app', [// Dependencies
                                         require('angular-animate'),
                                         require('angular-inview/angular-inview') && 'angular-inview',
-                                        require('angular-messages'),
 
                                         // Application Components
                                         require('./view-components'),

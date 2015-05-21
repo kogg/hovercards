@@ -16,6 +16,4 @@
 </div>
 
 
-<div class="no-comments" ng-if="data.discussion.$err">
-	<p ng-messages="data.discussion.$err" ng-messages-include="templates/discussion_exceptions.html"></p>
-</div>
+<div ng-if="data.discussion.$err" err="data.discussion.$err" api="youtube" type="discussion" entry="entry"></div>

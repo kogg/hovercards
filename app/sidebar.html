@@ -22,7 +22,7 @@
 			</div>
 
 			<div ng-controller="DiscussionController">
-				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || undefined">
+				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved">
 					<div class="context-top">
 						<div class="row">
 							<div class="col-9">
@@ -103,7 +103,7 @@
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
 					<div ng-if="data.moreContent.$resolved">
-						<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'"></div>
+						<div ng-include="'templates/' + (data.moreContent.api || entry.selectedPerson.selectedAccount.api) + '_more_content.html'"></div>
 					</div>
 				</div>
 			</div>

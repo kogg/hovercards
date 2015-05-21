@@ -28,4 +28,4 @@
 	</div>
 </div>
 
-<div ng-messages="data.content.$err" ng-messages-include="templates/content_exceptions.html"></div>
+<div ng-if="data.content.$err" err="data.content.$err" api="reddit" type="content" entry="entry"></div>
