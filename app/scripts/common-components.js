@@ -66,8 +66,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         };
     })
     .filter('copy', function() {
-        return function(messagename) {
-            return chrome.i18n.getMessage((messagename || '').replace(/\-/g, '_')) || (console.warn('"' + messagename + '" does not have copy') && null);
+        return function() {
+            var string = chrome.i18n.getMessage((arguments[0] || '').replace(/\-/g, '_'), Array.prototype.slice.call(arguments, 1));
+            if (!string) {
+                console.warn('"' + arguments[0] + '" does not have copy');
+            }
+            return string;
         };
     })
     .filter('generateUrl', function() {
