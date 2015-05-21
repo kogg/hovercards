@@ -10,8 +10,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
             switch(request.msg) {
                 case 'load':
                     $scope.$apply(function() {
-                        $scope.entry = null;
-                        $scope.data  = {};
+                        $scope.entry           = null;
+                        $scope.data            = {};
+                        $scope.view.fullscreen = false;
                     });
                     $timeout(function() {
                         var identity = network_urls.identify(request.url);
