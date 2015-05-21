@@ -2,13 +2,13 @@ var $       = require('jquery');
 var angular = require('angular');
 var common  = require('./common');
 
+angular.bootstrap(document, [require('./angular-app').name]);
+
 if (common.get_scrollbar_width()) {
     require('perfect-scrollbar/jquery')($);
     $('html,body').css('overflow', 'hidden');
     $('body').perfectScrollbar();
 }
-
-angular.bootstrap(document, [require('./angular-app').name]);
 
 window.top.postMessage({ msg: 'ready' }, '*');
 
