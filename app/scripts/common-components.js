@@ -6,8 +6,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             restrict: 'A',
             scope: {
                 err: '=',
-                api: '@',
-                entry: '='
+                api: '@?',
+                entry: '=?'
             },
             transclude: true,
             templateUrl: function(element, attr) {

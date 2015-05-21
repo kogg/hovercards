@@ -1,14 +1,14 @@
-<!-- Serious Errors -->
-<span ng-message="our-problem">Oh no! {{ 'app_name' | copy }} is having problems right now.</span>
-<span ng-message="dependency-down">Oh no! One of our dependencies is having problems right now.</span>
-
-<!-- Errors -->
-<span ng-message="bad-input">This input be bad, yo</span>
-
-<div  ng-message="no-content" class="yocards-message-container error-message">
+<div class="yocards-message-container error-message {{ (err.unauthorized || err['dependency-down']) ? api + '-message' : '' }}">
 	<div class="yocards-message-image"></div>
 	<div class="yocards-message-text">
-		<span><b><i class="md md-error"></i>Error! Error!</b>We searched all over, but couldn't find anything here</span>
+		<span err="err" api="{{ api }}" type="default" entry="entry">
+			<!-- OVERRIDES -->
+			<span ng-transclude></span>
+
+			<span ng-message="no-content">
+				<span class="yocards-message-content"><b><i class="md md-error"></i>Error! Error!</b>We searched all over, but couldn't find anything here</span>
+			</span>
+		</span>
 		<div class="yocards-message-option">
 			<a href="#">Give us feedback</a>
 		</div>

@@ -46,6 +46,16 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         e.stopPropagation();
     };
 
+    $('<div></div>')
+        .appendTo(obj)
+        .addClass(extension_id + '-sidebar-close-button')
+        .click(function(e) {
+            if (e.which !== 1) {
+                return;
+            }
+            sendMessage({ msg: 'hide' });
+        });
+
     $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
@@ -55,16 +65,6 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
         })
         .mouseleave(function() {
             $(window).off('mousewheel', prevent_everything);
-        });
-
-    $('<div></div>')
-        .appendTo(obj)
-        .addClass(extension_id + '-sidebar-close-button')
-        .click(function(e) {
-            if (e.which !== 1) {
-                return;
-            }
-            sendMessage({ msg: 'hide' });
         });
 
     $(dbl_clickable)

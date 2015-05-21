@@ -1096,7 +1096,7 @@ b i, .iconic-push {
   font-weight: 500;
 	background: white;
 }
-.yocards-message-text span {
+.yocards-message-text .yocards-message-content {
 	display: block;
 	padding: 16px
 }

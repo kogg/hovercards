@@ -59,10 +59,17 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                         return;
                     }
                     $element.click(handler = function() {
+                        $element.unbind('click', handler);
                         apiService.get({ api: api, type: 'auth' })
                             .$promise
                             .then(function() {
                                 $scope.onAuthorized();
+                            })
+                            .catch(function() {
+                                if ($scope.api !== api) {
+                                    return;
+                                }
+                                $element.click(handler);
                             });
                     });
                 });
