@@ -285,7 +285,9 @@ b i, .iconic-push {
 	border-bottom:none;
 	overflow-x:auto;
 }
-
+.card-text .video-title {
+	max-width: 222px;
+}
 .video-cta {
 	right: 16px;
 	bottom: -25px;
