@@ -51,11 +51,10 @@
 	left: 0px !important
 }
 .__MSG_@@extension_id__-sidebar-close-button {
-	content: "x" !important;
 	font-weight: thin !important;
-	font-family: sans-serif !important;
+	font-family: arial !important;
 	line-height: 44px !important;
-	font-size: 16px !important;
+	font-size: 19px !important;
 	text-align: center !important;
 	width: 35px !important;
 	height: 44px !important;
@@ -64,6 +63,7 @@
 	top: 17.5px !important;
 	left: -35px !important; 
 	position: absolute !important;
+	font-weight: 500 !important;
 	border: 1px solid rgba(0,0,0,.06) !important;
 	border-right: none !important;
 	color: rgba(255,255,255,.9) !important;
@@ -71,7 +71,11 @@
 }
 
 .__MSG_@@extension_id__-sidebar-close-button:after {
-	content: 'x';
+	content: '+';
+	-ms-transform: rotate(45deg) !important;
+	-webkit-transform: rotate(45deg) !important;
+	transform: rotate(45deg) !important;
+	display: inline-block;
 	color:#727272;
 }
 .__MSG_@@extension_id__-sidebar-close-button:hover {

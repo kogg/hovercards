@@ -260,7 +260,7 @@ b i, .iconic-push {
 
 }
 .video-top, .video-top-underlay {
-	height: 168px;
+	height: 169px;
 	border:1px solid rgba(0,0,0,.15);
 	border-top: none;
 	position: relative;
@@ -1066,6 +1066,7 @@ b i, .iconic-push {
 	overflow: hidden;
 	position: relative;
 }
+
 .yocards-message-image {
 	width: 33.333333%;
 	line-height: 100px;
