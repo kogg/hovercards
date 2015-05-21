@@ -154,11 +154,10 @@
 	-moz-box-sizing: border-box !important;
 	box-sizing: border-box !important;
 	position: absolute !important;
-	height: 8px !important;
-	width: 8px !important;
-	border:1px solid black;
-	border-radius: 4px;
-	box-shadow: 0 1px 8px -2px #000, inset 0 0 0px 1px #fff;
+	height: 12px !important;
+	width: 12px !important;
+	border-radius: 50%;
+	/*, inset 0 0 0px 1px #fff;*/
 	z-index: 2147483647 !important;
 }
 .__MSG_@@extension_id__-yo-follower-enter {
@@ -182,6 +181,9 @@
 
 .__MSG_@@extension_id__-yo-follower-reddit {
 	background-color: #cee2f8 !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png');
+	background-position: center;
+	background-size: 100%;
 }
 .__MSG_@@extension_id__-yo-follower-twitter {
 	background-color: #55acee !important;

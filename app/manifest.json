@@ -47,7 +47,8 @@
     "web_accessible_resources": [
         "sidebar.html",
         "images/yo-white.png",
-        "images/yo-black.png"
+        "images/yo-black.png",
+        "images/Reddit-icon-full_color.png"
     ],
     "permissions": [
         "activeTab",
