@@ -12,7 +12,7 @@
 	<span ng-message="unauthorized">
 		<span class="yocards-message-content"><b><i class="md md-input"></i>Sign in required!</b>We're sorry but you must authorize {{:: 'app_name' | copy }} with your {{ api | copy }} account to see this content!</span>
 		<div class="yocards-message-option">
-			<a authorize="api" on-authorized="reload()">Authorize {{ api }}</a>
+			<a authorize="api" on-authorized="reload()">Authorize {{ api | copy }}</a>
 		</div>
 	</span>
 </span>
