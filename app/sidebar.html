@@ -100,7 +100,7 @@
 					</div>
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
-					<div ng-if="data.moreContent.$resolved">
+					<div ng-if="data.moreContent.$resolved || data.moreContent.$err">
 						<div ng-include="'templates/' + (data.moreContent.api || entry.selectedPerson.selectedAccount.api) + '_more_content.html'"></div>
 					</div>
 				</div>
