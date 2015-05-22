@@ -22,7 +22,7 @@
 			</div>
 
 			<div ng-controller="DiscussionController">
-				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved">
+				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || data.discussion.$err">
 					<div class="context-top context-top-{{ (data.discussion.api || entry.discussion.api || entry.discussions[0].api) }}">
 						<div class="row">
 							<div class="col-11">
@@ -31,7 +31,7 @@
 							<div class="col-1">
 								<i class="md md-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>
 							</div>
-							<div class="col-12" ng-if="data.discussion.api === 'reddit'">
+							<div class="col-12" ng-if="(data.discussion.$resolved || data.discussion.$err) && data.discussion.api === 'reddit'">
 								<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'"></div>
 							</div>
 						</div>
@@ -55,7 +55,7 @@
 						</div>
 					</div>
 
-					<div ng-include="'templates/' + (data.discussion.api || entry.discussion.api || entry.discussions[0].api) + '_discussion.html'" ng-if="data.discussion.$resolved" autoscroll="entry.type === 'dicussion'"></div>
+					<div ng-include="'templates/' + (data.discussion.api || entry.discussion.api || entry.discussions[0].api) + '_discussion.html'" ng-if="data.discussion.$resolved || data.discussion.$err" autoscroll="entry.type === 'dicussion'"></div>
 				</div>
 			</div>
 

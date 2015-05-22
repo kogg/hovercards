@@ -16,11 +16,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                 });
         });
 
-        $scope.$watch('loading_discussion.$resolved', function(resolved) {
-            if (!resolved) {
+        $scope.$watch('loading_discussion.$resolved || loading_discussion.$err', function(show_loading_discussion) {
+            if (!show_loading_discussion) {
                 return;
             }
             $scope.data.discussion = $scope.loading_discussion;
+            $scope.loading_discussion = null;
         });
 
         $scope.$watch('data && data.discussion.$resolved && entry && data.discussion', function(discussion) {
