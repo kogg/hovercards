@@ -1,7 +1,9 @@
 <span ng-messages="err">
 	<span ng-transclude></span>
 
+
 	<!-- SERIOUS ERRORS -->
+
 	<span ng-message="our-problem">
 		<span class="yocards-message-content"><b><i class="md md-input"></i>{{ 'app_name' | copy }} Issue</b>Oh no! {{:: 'app_name' | copy }} is having problems right now.</span>
 	</span>
@@ -10,7 +12,9 @@
 		<span class="yocards-message-content"><b><i class="md md-input"></i>{{ (api | copy) || 'Dependency' }} Issues</b>Oh no! {{ (api | copy) || 'One of our dependencies' }} is having problems right now.</span>
 	</span>
 
+
 	<!-- ERRORS -->
+
 	<span ng-message="bad-input">
 		<span class="yocards-message-content"><b><i class="md md-error"></i>Bad Content</b>This input be bad, yo!</span>
 	</span>
@@ -24,5 +28,12 @@
 		<div class="yocards-message-option">
 			<a authorize="api" on-authorized="reload()">Sign into {{ api | copy }}</a>
 		</div>
+	</span>
+
+
+    <!-- WARNINGS -->
+
+	<span ng-message="still-waiting">
+        <span class="yocards-message-content"><b><i class="md md-error"></i>Still Waiting...</b>Wow, {{ api | copy }} is sure taking its time!</span>
 	</span>
 </span>

@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ServiceComponents', [])
-    .factory('apiService', ['$q', function($q) {
+    .factory('apiService', ['$timeout', '$q', function($timeout, $q) {
         var errors = { 0: 'our-problem', 400: 'bad-input', 401: 'unauthorized', 404: 'no-content', 502: 'dependency-down' };
 
         var service = {
@@ -10,7 +10,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                 var object = {
                     $promise:
                         $q(function(resolve, reject) {
+                            var timeout = $timeout(function() {
+                                object.$err = { 'still-waiting': true };
+                            }, 5000);
                             chrome.runtime.sendMessage(params, function(response) {
+                                $timeout.cancel(timeout);
+                                object.$err = null;
                                 if (!response) {
                                     return reject({ 'our-problem': true });
                                 }
