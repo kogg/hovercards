@@ -13,10 +13,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 return;
             }
 
-            var interval = $interval(function() {
-                angular.element(window).scroll();
-            }, 100);
-
             /* check to see if all the things we want to load are out of our way. Also, give them time to animate or whatever */
             var other_things_loaded_watcher = $scope.$watch('data.content.$resolved && data.discussion.$resolved', function(other_things_loaded) {
                 if (!other_things_loaded) {
@@ -27,15 +23,19 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 $timeout(function() {
                     angular.element(window).scroll();
 
+                    var interval = $interval(function() {
+                        angular.element(window).scroll();
+                    }, 100);
+
                     /* Check to see if we hit the bottom once we've waited for everything and forced a scroll */
                     var can_have_people_watcher = $scope.$watch('view.at.people', function(value) {
                         if (!value) {
                             return;
                         }
+                        $interval.cancel(interval);
                         can_have_people_watcher();
 
                         $scope.can_have_people = true;
-                        $interval.cancel(interval);
                     });
                 }, 300);
             });
