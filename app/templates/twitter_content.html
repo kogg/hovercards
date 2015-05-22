@@ -1,5 +1,5 @@
 <div ng-if="!data.content.$err">
-	<div class="context-top context-top-twitter context-top-text-only">
+	<div class="context-top context-top-twitter">
 		<div class="row">
 			<div class="col-11">
 				<span><a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a> aka <a ng-href="{{:: data.content.author | generateUrl }}">@{{:: data.content.author.id }}</a></span>
@@ -9,8 +9,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="video-top" ng-if=":: data.content.image">
-		<div class="video-image" ng-style=":: { 'background-image': 'url(' + data.content.image + ')' }"></div>
+	<div class="content-top" ng-if=":: data.content.image">
+		<img src="{{:: data.content.image }}">
 	</div>
 	<div class="card-text text-post">
 		<div class="card-description">

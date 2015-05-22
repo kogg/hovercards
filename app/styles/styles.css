@@ -32,6 +32,7 @@ html,body {
 	font-weight: normal;
 	-webkit-font-smoothing: antialiased;
 	position: relative;
+	overflow-x:hidden;
 }
 /*fullscreen mode*/
 .fullscreen-active {
@@ -387,7 +388,7 @@ b i, .iconic-push {
 	padding-bottom: 5px;
 }
 .user-context div {
-	max-width: 250px;
+	max-width: 220px;
 	padding-left: 22px;
 	display: inline-block;
 	color: #727272
@@ -862,6 +863,7 @@ b i, .iconic-push {
 } 
 .reddit-header-container .reddit-votes {
 	right: -7px;
+	top: -5px;
 }
 @-webkit-keyframes headerfadeIn { 
     0% {
@@ -1047,7 +1049,12 @@ b i, .iconic-push {
   display: inline-block;
 }
 .hidden-date {
-	display: none;
+	display: inline
+}
+.hidden-date a {
+	color: #727272;
+	font-size: 12px !important;
+	font-weight: 700;
 }
 .reddit-votes:hover .hidden-date {
 	display: inline;
@@ -1107,7 +1114,7 @@ b i, .iconic-push {
   color: #727272;
 }
 .yocards-message-option {
-	padding: 12px 16px;
+	padding: 16px;
 	border-top: 1px solid rgba(0,0,0,.15);
 }
 .yocards-message-option a {
@@ -1230,6 +1237,12 @@ b i, .iconic-push {
 }
 .social-profile-description .context-top .row {
 	padding:15px 10px 5px 16px;
+}
+/*content top*/
+.content-top img {
+	width: 100%;
+	border:1px solid rgba(0,0,0,.15);
+	border-top: none
 }
 /*content list*/
 .content-list {
