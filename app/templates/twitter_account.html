@@ -9,6 +9,10 @@
 				                                                              (data.discussion.author.api === 'twitter' && data.discussion.author.id === person.selectedAccount.id))
 				                                                              ? 'Tweeted By' : ('twitter_account' | copy) }}:</b>
 				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{:: person.selectedAccount.name }}</a>
+
+				<div class="profile-cta">
+					<a ng-href="https://twitter.com/intent/follow?screen_name={{:: person.selectedAccount.id }}">Follow</a>
+				</div>
 			</div>
 		</div>
 
