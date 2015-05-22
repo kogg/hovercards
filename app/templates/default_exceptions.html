@@ -34,6 +34,6 @@
     <!-- WARNINGS -->
 
 	<span ng-message="still-waiting">
-        <span class="yocards-message-content"><b><i class="md md-error"></i>Still Waiting...</b>Wow, {{ api | copy }} is sure taking its time!</span>
+        <span class="yocards-message-content"><b><i class="md md-error"></i>Still Waiting...</b>Wow, {{ (api | copy) || 'this' }} is sure taking its time!</span>
 	</span>
 </span>
