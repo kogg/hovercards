@@ -57,7 +57,7 @@ async.parallel({
 
         if (client_side_calls[api] && client_side_calls[api][type]) {
             client_side_calls[api][type](request, function(err, result) {
-                console.info(api, type, request, err, result);
+                console.info(api, type, request, '\nError', err, '\nResult', result);
                 callback(err || (!result && { status: 404 }), result);
             });
         } else if (type === 'auth') {
@@ -86,11 +86,11 @@ async.parallel({
                              data:    request,
                              headers: { user: user } })
                         .done(function(data) {
-                            console.info(api, type, request, null, data);
+                            console.info(api, type, request, '\nError', null, '\nResult', data);
                             callback(null, data);
                         })
                         .fail(function(err) {
-                            console.info(api, type, request, err, null);
+                            console.info(api, type, request, '\nError', err, '\nResult', null);
                             callback(err);
                         });
                 }
