@@ -50,13 +50,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             $scope.data.people = (function() {
                 var people = [];
                 var done_account_ids = {};
-                var last_err;
                 people.$resolved = false;
                 people.$promise = $q.all(requests.map(function get_account(request) {
                     var account = apiService.get(request);
                     return account
                         .$promise
                         .then(function(account) {
+                            people.$err = null;
                             // Get IDs from account
                             var connected_accounts_ids = (account.connected || []).map(function(account) {
                                 return [account.api, account.type, account.id].join('/');
@@ -102,14 +102,18 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             }).map(get_account));
                         })
                         .catch(function(err) {
-                            last_err = err;
+                            if (people.length || people.$err) {
+                                return;
+                            }
+                            err.api = request.api;
+                            people.$err = err;
                         });
                 }))
                 .then(function() {
-                    if (people.length) {
+                    if (people.length || people.$err) {
                         return;
                     }
-                    people.$err = last_err || { 'bad-input': true };
+                    people.$err = { 'bad-input': true };
                 })
                 .finally(function() {
                     people.$resolved = true;
