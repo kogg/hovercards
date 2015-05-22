@@ -44,11 +44,11 @@ async.parallel({
     if (err) {
         return console.error(err);
     }
-    chrome.runtime.onMessage.addListener(function(request, sender, _sendMessage) {
+    chrome.runtime.onMessage.addListener(function(original_request, sender, _sendMessage) {
         var callback = function(err, val) {
             _sendMessage([err, val]);
         };
-        request = $.extend({}, request);
+        var request = $.extend({}, original_request);
         var api  = request.api;
         var type = request.type;
         delete request.api;
@@ -57,6 +57,7 @@ async.parallel({
 
         if (client_side_calls[api] && client_side_calls[api][type]) {
             client_side_calls[api][type](request, function(err, result) {
+                console.info(api, type, request, err, result);
                 callback(err || (!result && { status: 404 }), result);
             });
         } else if (type === 'auth') {
@@ -85,9 +86,11 @@ async.parallel({
                              data:    request,
                              headers: { user: user } })
                         .done(function(data) {
+                            console.info(api, type, request, null, data);
                             callback(null, data);
                         })
                         .fail(function(err) {
+                            console.info(api, type, request, err, null);
                             callback(err);
                         });
                 }

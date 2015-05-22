@@ -105,7 +105,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             } else if (number < 1000000000000) {
                 return parseFloat(Math.floor(number / 10000000) / 100).toFixed(2) + 'b';
             } else {
-                return number;
+                return 'N/A';
             }
         };
     })
