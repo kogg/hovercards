@@ -57,8 +57,13 @@ async.parallel({
 
         if (client_side_calls[api] && client_side_calls[api][type]) {
             client_side_calls[api][type](request, function(err, result) {
-                console.info(api, type, request, '\nError', err, '\nResult', result);
-                callback(err || (!result && { status: 404 }), result);
+                err = err || (!result && { status: 404 });
+                if (err) {
+                    console.warn(api, type, request, '\nError', err);
+                } else {
+                    console.info(api, type, request, '\nResult', result);
+                }
+                callback(err, result);
             });
         } else if (type === 'auth') {
             async.waterfall([
@@ -86,11 +91,11 @@ async.parallel({
                              data:    request,
                              headers: { user: user } })
                         .done(function(data) {
-                            console.info(api, type, request, '\nError', null, '\nResult', data);
+                            console.info(api, type, request, '\nResult', data);
                             callback(null, data);
                         })
                         .fail(function(err) {
-                            console.info(api, type, request, '\nError', err, '\nResult', null);
+                            console.warn(api, type, request, '\nError', err);
                             callback(err);
                         });
                 }
