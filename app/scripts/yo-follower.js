@@ -13,16 +13,6 @@ module.exports = function(body, selector, get_url) {
             .addClass(extension_id + '-yo-follower')
             .hide();
 
-        var setIdentity = function(identity) {
-            if (follower.api) {
-                follower.removeClass(extension_id + '-yo-follower-' + follower.api);
-            }
-            if (identity && identity.api) {
-                follower.api = identity.api;
-                follower.addClass(extension_id + '-yo-follower-' + follower.api);
-            }
-        };
-
         var toggle = function(state) {
             if (state) {
                 follower.show();
@@ -33,20 +23,12 @@ module.exports = function(body, selector, get_url) {
                 .removeClass(extension_id + '-yo-follower-longpressed');
         };
 
-        var over_object = false;
         var timeout;
 
         var mousemove = function(e) {
             follower
                 .css('left', e.clientX - 10)
                 .css('top',  e.clientY + 15);
-            if (over_object) {
-                toggle(true);
-                clearTimeout(timeout);
-                timeout = setTimeout(function() {
-                    toggle(false);
-                }, 2000);
-            }
         };
 
         var longpress = function() {
@@ -54,21 +36,32 @@ module.exports = function(body, selector, get_url) {
             follower
                 .removeClass(extension_id + '-yo-follower-exit')
                 .addClass(extension_id + '-yo-follower-longpressed');
+            body.off('mousemove', mousemove);
             clearTimeout(timeout);
         };
 
         var enter = function(e, identity) {
-            over_object = true;
-            setIdentity(identity);
-            mousemove(e);
             body.on('mousemove', mousemove);
             $(e.currentTarget).on('longpress', longpress);
+            if (follower.api) {
+                follower.removeClass(extension_id + '-yo-follower-' + follower.api);
+            }
+            if (identity && identity.api) {
+                follower.api = identity.api;
+                follower.addClass(extension_id + '-yo-follower-' + follower.api);
+            }
+            timeout = setTimeout(function() {
+                toggle(true);
+                timeout = setTimeout(function() {
+                    toggle(false);
+                }, 2000);
+            }, 400);
             return follower;
         };
 
         var leave = function(e) {
-            over_object = false;
             toggle(false);
+            clearTimeout(timeout);
             $(e.currentTarget).off('longpress', longpress);
             return follower;
         };
@@ -76,9 +69,6 @@ module.exports = function(body, selector, get_url) {
         follower.on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
             if (e.originalEvent.animationName !== extension_id + '-yo-follower-fadeout' && e.originalEvent.animationName !== extension_id + '-yo-follower-growfade') {
                 return;
-            }
-            if (!over_object) {
-                body.off('mousemove', mousemove);
             }
             follower.hide();
         });

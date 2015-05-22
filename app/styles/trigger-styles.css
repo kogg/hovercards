@@ -164,8 +164,8 @@
 	z-index: 2147483647 !important;
 }
 .__MSG_@@extension_id__-yo-follower-enter {
-	-webkit-animation-duration: .8s;
-	animation-duration: .8s;
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
 	-webkit-animation-name: __MSG_@@extension_id__-yo-follower-fadein;
 	animation-name: __MSG_@@extension_id__-yo-follower-fadein;
 }
@@ -196,18 +196,12 @@
 	0% {
 		opacity: 0;
 	}
-	50% {
-		opacity: 0;
-	}
 	100% {
 		opacity: 1;
 	}
 }
 @keyframes __MSG_@@extension_id__-yo-follower-fadein {
 	0% {
-		opacity: 0;
-	}
-	50% {
 		opacity: 0;
 	}
 	100% {
