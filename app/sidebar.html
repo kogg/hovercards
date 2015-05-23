@@ -71,7 +71,7 @@
 			</div>
 		</div>
 
-        <div class="people-card-space" ng-if="!entry || entry.$err"><!-- DO NOT GET RID OF THIS! WHEN THE OTHER people-card-space VANISHES, THIS KEEPS THE BACKGROUND COLORS FROM FLICKERING --></div>
+		<div class="people-card-space" ng-if="!entry"><!-- DO NOT GET RID OF THIS! WHEN THE OTHER people-card-space VANISHES, THIS KEEPS THE BACKGROUND COLORS FROM FLICKERING --></div>
 
 		<div class="network-menu-space" ng-if="!entry.$err">
 			<div class="network-menu fade-in-animation" ng-if="entry.selectedPerson.accounts.length">

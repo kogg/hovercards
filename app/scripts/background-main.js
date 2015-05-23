@@ -14,7 +14,11 @@ function get_user(api, callback) {
             });
         },
         function(callback) {
-            var user = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+            var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var user = '';
+            for (var i = 0; i < 25; i++) {
+                user += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
             var obj = {};
             obj[api + '_user'] = user;
             chrome.storage.sync.set(obj, function() {
