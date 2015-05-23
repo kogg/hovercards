@@ -104,21 +104,24 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
     .filter('generateUrl', function() {
         return require('YoCardsApiCalls/network-urls').generate;
     })
-    .filter('numsmall', function() {
+    .filter('numsmall', ['$filter', function($filter) {
+        var suffixes = { 1000: 'k', 1000000: 'm', 1000000000: 'b', 1000000000000: 't' };
         return function(number) {
-            if (number < 10000) {
-                return number + '';
-            } else if (number < 1000000) {
-                return Math.floor(number / 1000) + 'k';
-            } else if (number < 1000000000) {
-                return parseFloat(Math.floor(number / 10000) / 100).toFixed(2) + 'm';
-            } else if (number < 1000000000000) {
-                return parseFloat(Math.floor(number / 10000000) / 100).toFixed(2) + 'b';
-            } else {
+            if (isNaN(number)) {
                 return 'N/A';
+            } else {
+                var digits = Math.ceil(Math.log10(number + 0.5));
+                if (digits < 5) {
+                    return $filter('number')(number);
+                } else {
+                    var three_digits_less = Math.pow(10, Math.floor(digits - 3));
+                    var nearest_three_digit = Math.pow(10, 3 * Math.floor((digits - 1) / 3));
+                    number = three_digits_less * Math.round(number / three_digits_less) / nearest_three_digit;
+                    return number + suffixes[nearest_three_digit];
+                }
             }
         };
-    })
+    }])
     .filter('percent', ['$filter', function($filter) {
         return function(ratio) {
             return $filter('number')(100 * ratio) + '%';
