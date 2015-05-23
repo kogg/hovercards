@@ -1,5 +1,22 @@
 <div ng-if="!data.moreContent.$err">
-	<pre>{{ data.moreContent | json }}</pre>
+	<div class="comment row">
+		<div class="col-2">
+			<a ng-href="{{:: comment.author | generateUrl }}">
+				<div class="comment-image" ng-style=":: comment.author.image && { 'background-image': 'url(' + comment.author.image + ')'}"></div>
+			</a>
+		</div>
+		<div class="col-10">
+			<div class="user-context">
+				<span>
+					<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name }}</a>
+				</span>
+				<span class="reddit-votes">{{:: comment.date | timeSince:true }}</span>
+			</div>
+			<p readmore=":: comment.description" cutoff-height="100"></p>
+		</div>
+	</div>
 </div>
+
+<pre>{{ data.moreContent | json }}</pre>
 
 <div ng-if="data.moreContent.$err" err="data.moreContent.$err" api="twitter" type="more_content" entry="entry"></div>

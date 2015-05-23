@@ -1049,7 +1049,7 @@ b i, .iconic-push {
   display: inline-block;
 }
 .hidden-date {
-	display: inline
+	display: none
 }
 .hidden-date a {
 	color: #727272;
