@@ -3,6 +3,7 @@ var angular = require('angular');
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ServiceComponents', [])
     .factory('apiService', ['$timeout', '$q', function($timeout, $q) {
         var errors = { 0: 'our-problem', 400: 'bad-input', 401: 'unauthorized', 404: 'no-content', 502: 'dependency-down' };
+        var api_specific_errors = { 'unauthorized': true, 'dependency-down': true };
 
         var service = {
             loading: [],
@@ -11,16 +12,18 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                     $promise:
                         $q(function(resolve, reject) {
                             var timeout = $timeout(function() {
-                                object.$err = { 'still-waiting': true };
+                                object.$err = { 'still-waiting': true, 'api-specific': true };
                             }, 5000);
                             chrome.runtime.sendMessage(params, function(response) {
                                 $timeout.cancel(timeout);
-                                object.$err = null;
+                                delete object.$err;
                                 if (!response) {
                                     return reject({ 'our-problem': true });
                                 }
                                 if (response[0]) {
-                                    response[0][errors[response[0].status] || errors[0]] = true;
+                                    var error_type = errors[response[0].status] || errors[0];
+                                    response[0][error_type] = true;
+                                    response[0]['api-specific'] = api_specific_errors[error_type];
                                     return reject(response[0]);
                                 }
                                 return resolve(response[1]);

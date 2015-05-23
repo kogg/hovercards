@@ -95,7 +95,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 };
 
                 var timeout = $timeout(function() {
-                    people.$err = { 'still-waiting': true, api: ((requests.length === 1) && requests[0].api) || null };
+                    // HACKY SHIM SHAM
+                    people.$err = { 'still-waiting': true, 'api-specific': true, api: ((requests.length === 1) && requests[0].api) || null };
                 }, 5000);
 
                 people.$promise = $q.all(requests.map(function get_account(request) {

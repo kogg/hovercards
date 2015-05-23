@@ -1,4 +1,4 @@
-<div class="yocards-message-container error-message {{ (err.unauthorized || err['dependency-down']) ? api + '-message' : '' }}">
+<div class="yocards-message-container error-message" ng-class="err['api-specific'] ? api + '-message' : ''">
 	<div class="yocards-message-image"></div>
 	<div class="yocards-message-text" err="err" api="{{ api }}" type="default" entry="entry">
 		<span ng-transclude></span>

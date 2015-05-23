@@ -21,7 +21,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                 var entry = {};
 
                                 var got_something;
-                                var last_err;
+                                var first_err;
                                 $q.all([{ api: 'reddit', type: 'url', id: request.url }].map(function(request) {
                                     return apiService.get(request)
                                         .$promise
@@ -42,7 +42,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                             }
                                         })
                                         .catch(function(err) {
-                                            last_err = err;
+                                            err.api = request.api;
+                                            first_err = first_err || err;
                                             return null;
                                         });
                                 }))
@@ -50,7 +51,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                     if (got_something) {
                                         return;
                                     }
-                                    entry.$err = last_err || { 'bad-input': true };
+                                    entry.$err = first_err || { 'bad-input': true };
                                 });
 
                                 return entry;
