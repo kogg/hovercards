@@ -1412,9 +1412,12 @@ b i, .iconic-push {
 /*twitter content list*/
 .twitter-content-list .comment {
   border-radius: 0;
-  padding: 16px 20px;
+  padding: 16px 20px 0px;
   border-radius: 0;
   border: none;
+}
+.twitter-content-list .comment:last-of-type {
+	padding-bottom: 36px;
 }
 /* ANIMATIONS */
 
@@ -1650,6 +1653,9 @@ b i, .iconic-push {
 /*Color Palette*/
 .youtube-color {
 	color: #F44336 !important
+}
+.twitter-color {
+	color: #4099FF !important
 }
 .reddit-color {
 	color: #ff4601 !important
