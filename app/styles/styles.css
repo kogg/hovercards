@@ -1257,7 +1257,6 @@ b i, .iconic-push {
 .content-list {
 	padding: 0px 20px;
 } 
-
 .content-list-link {
 	margin-bottom: 8px;
 	display: block;
@@ -1409,6 +1408,13 @@ b i, .iconic-push {
   background-position: top center;
   background-repeat: no-repeat;
   background-color: #FFF;
+}
+/*twitter content list*/
+.twitter-content-list .comment {
+  border-radius: 0;
+  padding: 16px 20px;
+  border-radius: 0;
+  border: none;
 }
 /* ANIMATIONS */
 
