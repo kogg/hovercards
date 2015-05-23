@@ -2,7 +2,7 @@ var $ = require('jquery');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
-module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, sendMessage) {
+module.exports = function sidebarInjectOn(inject_into, body, clickable, sendMessage) {
     body = $(body);
 
     var obj = $('<div></div>')
@@ -67,8 +67,8 @@ module.exports = function sidebarInjectOn(inject_into, body, dbl_clickable, send
             $(window).off('mousewheel', prevent_everything);
         });
 
-    $(dbl_clickable)
-        .dblclick(function() {
+    $(clickable)
+        .click(function() {
             sendMessage({ msg: 'hide' });
         });
 
