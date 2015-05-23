@@ -1256,29 +1256,6 @@ b i, .iconic-push {
 /*content list*/
 .content-list {
 	padding: 0px 20px;
-  -webkit-animation-duration: .5s;
-  animation-duration: .5s;
-  -webkit-animation-fill-mode: both; 
-  animation-fill-mode: both; 
-	-webkit-animation-name: fadeIn; 
-	animation-name: fadeIn; 
-} 
-
-@-webkit-keyframes fadeIn { 
-    0% {
-    	opacity: 0;
-    }
-    100% {
-    	opacity: 1;
-    }
-} 
-@keyframes fadeIn { 
-    0% {
-    	opacity: 0;
-    }
-    100% {
-    	opacity: 1;
-    }
 } 
 
 .content-list-link {
@@ -1458,6 +1435,30 @@ b i, .iconic-push {
 	}
 }
 
+.fade-in-animation.ng-enter {
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn;
+}
+@-webkit-keyframes fadeIn { 
+    0% {
+    	opacity: 0;
+    }
+    100% {
+    	opacity: 1;
+    }
+} 
+@keyframes fadeIn { 
+    0% {
+    	opacity: 0;
+    }
+    100% {
+    	opacity: 1;
+    }
+} 
 .fade-out-animation.ng-leave, .fade-out-animation.ng-hide {
 	-webkit-animation-duration: .8s;
 	animation-duration: .8s;
