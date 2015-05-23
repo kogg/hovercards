@@ -116,6 +116,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             if (people.length || people.$err) {
                                 return;
                             }
+                            $timeout.cancel(timeout);
                             err.api = request.api;
                             people.$err = err;
                         });
