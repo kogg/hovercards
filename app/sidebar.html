@@ -71,8 +71,10 @@
 			</div>
 		</div>
 
+        <div class="people-card-space" ng-if="!entry || entry.$err"><!-- DO NOT GET RID OF THIS! WHEN THE OTHER people-card-space VANISHES, THIS KEEPS THE BACKGROUND COLORS FROM FLICKERING --></div>
+
 		<div class="network-menu-space" ng-if="!entry.$err">
-			<div class="network-menu" ng-if="entry.selectedPerson.accounts.length">
+			<div class="network-menu fade-in-animation" ng-if="entry.selectedPerson.accounts.length">
 				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length">
 					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
 						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.api | copy }}</span>
@@ -84,8 +86,8 @@
 		</div>
 
 		<div class="social-profile-space" ng-if="!entry.$err">
-			<div class="social-profile" ng-if="data.people.length">
-				<div ng-if="entry.selectedPerson.selectedAccount.description">
+			<div class="social-profile">
+				<div class="fade-in-animation" ng-if="entry.selectedPerson.selectedAccount.description">
 					<div class="social-profile-description">
 						<div class="context-top">
 							<div class="row">
@@ -100,7 +102,7 @@
 					</div>
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
-					<div ng-if="data.moreContent.$resolved || data.moreContent.$err" class="fade-in-animation">
+					<div class="fade-in-animation" ng-if="data.moreContent.$resolved || data.moreContent.$err">
 						<div ng-include="'templates/' + (data.moreContent.api || entry.selectedPerson.selectedAccount.api) + '_more_content.html'"></div>
 					</div>
 				</div>
