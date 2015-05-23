@@ -20,8 +20,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             restrict: 'A',
             link: function($scope, $element, $attr) {
                 $element.click(function() {
-                    // var viewportwidth = document.documentElement.clientWidth;
-                    $window.open($attr.popup, 'popup', 'height=300,width=640,left=' + ($window.screen.width - 990) + ',top=100');
+                    $window.open($attr.popup, 'popup', 'height=300,width=640,left=' + ($window.screen.width - 990) + ',top=70');
                 });
             }
         };
