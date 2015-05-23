@@ -11,7 +11,7 @@
 				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{:: person.selectedAccount.name }} @{{:: person.selectedAccount.id }}</a>
 
 				<div class="profile-cta">
-					<a ng-href="https://twitter.com/intent/follow?screen_name={{:: person.selectedAccount.id }}">Follow</a>
+					<a popup="https://twitter.com/intent/follow?screen_name={{:: person.selectedAccount.id }}">Follow</a>
 				</div>
 			</div>
 		</div>
