@@ -10,7 +10,7 @@
 				<span>
 					<a ng-href="{{:: tweet.author | generateUrl }}">{{:: tweet.author.name }}</a>
 				</span>
-				<span class="reddit-votes">{{:: comment.date | timeSince:true }}</span>
+				<span class="reddit-votes">{{:: tweet.date | timeSince:true }}</span>
 			</div>
 			<p ng-bind-html=":: tweet.description"></p>
 		</div>
