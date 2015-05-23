@@ -53,7 +53,6 @@
     "permissions": [
         "activeTab",
         "identity",
-        "identity.email",
         "storage"
     ],
     "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self' https://www.youtube.com",

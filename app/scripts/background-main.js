@@ -14,8 +14,11 @@ function get_user(api, callback) {
             });
         },
         function(callback) {
-            chrome.identity.getProfileUserInfo(function(user) {
-                callback(chrome.runtime.lastError, user.id);
+            var user = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+            var obj = {};
+            obj[api + '_user'] = user;
+            chrome.storage.sync.set(obj, function() {
+                callback(chrome.runtime.lastError, user);
             });
         }
     ], function(fn, callback) {
