@@ -48,13 +48,7 @@ module.exports = function sidebarInjectOn(inject_into, body, clickable, sendMess
 
     $('<div></div>')
         .appendTo(obj)
-        .addClass(extension_id + '-sidebar-close-button')
-        .click(function(e) {
-            if (e.which !== 1) {
-                return;
-            }
-            sendMessage({ msg: 'hide' });
-        });
+        .addClass(extension_id + '-sidebar-close-button');
 
     $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
@@ -68,7 +62,10 @@ module.exports = function sidebarInjectOn(inject_into, body, clickable, sendMess
         });
 
     $(clickable)
-        .click(function() {
+        .click(function(e) {
+            if (e.which !== 1) {
+                return;
+            }
             sendMessage({ msg: 'hide' });
         });
 
