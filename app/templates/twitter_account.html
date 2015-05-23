@@ -7,8 +7,8 @@
 			<div class="profile-right col-8">
 				<b class="twitter-color"><i class="md md-mode-edit"></i>{{:: ((data.content.author.api    === 'twitter' && data.content.author.id === person.selectedAccount.id) ||
 				                                                              (data.discussion.author.api === 'twitter' && data.discussion.author.id === person.selectedAccount.id))
-				                                                              ? 'Tweeted By' : ('twitter_account' | copy) }}:</b>
-				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{:: person.selectedAccount.name }} @{{:: person.selectedAccount.id }}</a>
+				                                                              ? 'Tweets By' : ('twitter_account' | copy) }}: @{{:: person.selectedAccount.id }}</b>
+				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{:: person.selectedAccount.name }}</a>
 
 				<div class="profile-cta">
 					<a ng-href="https://twitter.com/intent/follow?screen_name={{:: person.selectedAccount.id }}">Follow</a>

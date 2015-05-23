@@ -865,6 +865,12 @@ b i, .iconic-push {
 	right: -7px;
 	top: -5px;
 }
+.reddit-votes a {
+	color: #727272;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+}
 @-webkit-keyframes headerfadeIn { 
     0% {
     	opacity: 0;
@@ -1412,15 +1418,17 @@ b i, .iconic-push {
 /*twitter content list*/
 .twitter-content-list .comment {
   border-radius: 0;
-  padding: 16px 20px 0px;
+  padding: 16px 20px;
   border-radius: 0;
   border: none;
+  border-bottom: 1px solid rgba(0,0,0,.15)
 }
 .twitter-content-list .comment:first-of-type {
 	padding-top: 8px
 }
 .twitter-content-list .comment:last-of-type {
 	padding-bottom: 36px;
+	border-bottom: none
 }
 /* ANIMATIONS */
 
