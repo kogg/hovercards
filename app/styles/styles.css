@@ -1239,6 +1239,15 @@ b i, .iconic-push {
 	padding:15px 10px 5px 16px;
 }
 /*content top*/
+.content-top {
+	max-height: 301px;
+	transition:all .4s ease-in-out;
+  overflow: hidden;
+}
+.content-top:hover {
+	max-height: inherit;
+	overflow: visible;
+}
 .content-top img {
 	width: 100%;
 	border:1px solid rgba(0,0,0,.15);
