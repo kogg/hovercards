@@ -1416,6 +1416,9 @@ b i, .iconic-push {
   border-radius: 0;
   border: none;
 }
+.twitter-content-list .comment:first-of-type {
+	padding-top: 8px
+}
 .twitter-content-list .comment:last-of-type {
 	padding-bottom: 36px;
 }

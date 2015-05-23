@@ -1,14 +1,14 @@
 <div class="twitter-content-list" ng-if="!data.moreContent.$err">
 	<div class="comment row" ng-repeat="tweet in data.moreContent.content">
 		<div class="col-2">
-			<a ng-href="{{:: tweet.author | generateUrl }}">
+			<a ng-href="{{:: tweet.author | generateUrl }}" class="no-yo">
 				<div class="comment-image" ng-style=":: tweet.author.image && { 'background-image': 'url(' + tweet.author.image + ')'}"></div>
 			</a>
 		</div>
 		<div class="col-10">
 			<div class="user-context">
 				<span>
-					<a ng-href="{{:: tweet.author | generateUrl }}">{{:: tweet.author.name }}</a>
+					<a ng-href="{{:: tweet.author | generateUrl }}" class="no-yo">{{:: tweet.author.name }}</a>
 				</span>
 				<span class="reddit-votes">{{:: comment.date | timeSince:true }}</span>
 			</div>
