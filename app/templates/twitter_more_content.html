@@ -1,22 +1,20 @@
 <div class="twitter-content-list" ng-if="!data.moreContent.$err">
-	<div class="comment row">
+	<div class="comment row" ng-repeat="tweet in data.moreContent.content">
 		<div class="col-2">
-			<a ng-href="{{:: comment.author | generateUrl }}">
-				<div class="comment-image" ng-style=":: comment.author.image && { 'background-image': 'url(' + comment.author.image + ')'}"></div>
+			<a ng-href="{{:: tweet.author | generateUrl }}">
+				<div class="comment-image" ng-style=":: tweet.author.image && { 'background-image': 'url(' + tweet.author.image + ')'}"></div>
 			</a>
 		</div>
 		<div class="col-10">
 			<div class="user-context">
 				<span>
-					<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name }}</a>
+					<a ng-href="{{:: tweet.author | generateUrl }}">{{:: tweet.author.name }}</a>
 				</span>
 				<span class="reddit-votes">{{:: comment.date | timeSince:true }}</span>
 			</div>
-			<p></p>
+			<p ng-bind-html=":: tweet.description"></p>
 		</div>
 	</div>
 </div>
-
-<pre>{{ data.moreContent | json }}</pre>
 
 <div ng-if="data.moreContent.$err" err="data.moreContent.$err" api="twitter" type="more_content" entry="entry"></div>
