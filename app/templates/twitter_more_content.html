@@ -1,7 +1,7 @@
 <div class="twitter-content-list" ng-if="!data.moreContent.$err">
 	<div class="comment row" ng-repeat="tweet in data.moreContent.content">
 		<div class="col-12" ng-if=":: tweet.retweet">
-			<span><i class="md md-autorenew"></i>Retweeted By <a ng-href="{{:: tweet.retweet.author | generateUrl }}" class="no-yo">{{:: tweet.retweet.author.name }}</a></span>
+			<span><i class="md md-autorenew"></i><a ng-href="{{:: tweet.retweet.author | generateUrl }}" class="no-yo">{{:: tweet.retweet.author.name }}</a> retweeted</span>
 		</div>
 		<div class="col-2">
 			<a ng-href="{{:: tweet.author | generateUrl }}" class="no-yo">
