@@ -15,7 +15,7 @@
 	<div class="card-text text-post">
 		<div class="card-description">
 			<p readmore=":: data.content.description" cutoff-height="100"></p>
-			<div class="response row" ng-if=":: data.content.replied_to ">
+			<div class="response" ng-if=":: data.content.replied_to ">
 				<div class="col-10">
 					<b>In response to <a ng-href="{{:: data.content.replied_to.author | generateUrl }}">{{:: data.content.replied_to.author.name }}</a>'s tweet:</b>
 				</div>
