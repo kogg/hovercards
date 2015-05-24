@@ -15,16 +15,16 @@
 	<div class="card-text text-post">
 		<div class="card-description">
 			<p readmore=":: data.content.description" cutoff-height="100"></p>
-			<div class="response row">
+			<div class="response row" ng-if=":: data.content.replied_to ">
 				<div class="col-10">
-					<b>In response to <a href="#">poopface</a>'s tweet:</b>
+					<b>In response to <a ng-href="{{:: data.content.replied_to.author | generateUrl }}">{{:: data.content.replied_to.author.name }}</a>'s tweet:</b>
 				</div>
 				<div class="col-2">
-					<b><a href="#">2h</a></b>
+					<b><a ng-href="{{:: data.content.replied_to | generateUrl }}">{{:: data.content.replied_to.date | timeSince:true }}</a></b>
 				</div>
-				<p>test 2</p>
-				<div class="image-container">
-					<img src="">
+				<p ng-bind-html=":: data.content.replied_to.description"></p>
+				<div class="image-container" ng-if=":: data.content.replied_to.image">
+					<img ng-src="{{:: data.content.replied_to.image }}">
 				</div>
 			</div>
 		</div>
