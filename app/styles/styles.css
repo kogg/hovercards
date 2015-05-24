@@ -27,20 +27,23 @@
 }
 
 html,body {
-	background: #f6f6f6;
 	font-family: "Roboto", sans-serif;
 	font-weight: normal;
 	-webkit-font-smoothing: antialiased;
 	position: relative;
 	overflow-x:hidden;
 }
+body {
+	background:#f6f6f6
+}
 /*fullscreen mode*/
 .fullscreen-active {
-
+	background: transparent !important;
 }
 .fullscreen-active > div {
 	max-width: 340px;
 	float: right;
+	background: #f6f6f6;
 }
 .fullscreen-active .fullscreen-trigger {
   position: fixed;
@@ -280,6 +283,7 @@ b i, .iconic-push {
 	padding: 16px;
 	position: relative;
 	height: 100px;
+	overflow: hidden;
 }
 
 .profile-cta {
@@ -1329,10 +1333,16 @@ b i, .iconic-push {
 	max-height: 301px;
 	transition:all .4s ease-in-out;
   overflow: hidden;
+  cursor: -moz-zoom-in; 
+  cursor: -webkit-zoom-in; 
+  cursor: zoom-in;
 }
 .content-top:hover {
 	max-height: inherit;
 	overflow: visible;
+  cursor: -moz-zoom-in; 
+  cursor: -webkit-zoom-in; 
+  cursor: zoom-in;
 }
 .content-top img {
 	width: 100%;
@@ -1640,7 +1650,32 @@ b i, .iconic-push {
   margin: 0;
   -webkit-animation: colorsmv .76s linear infinite;
 }
-
+.fullscreen-image {
+	display: none;
+	position: fixed;
+  width: -webkit-calc(100% - 340px);
+  width: calc(100% - 340px);
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  background: #292F33;
+  background: rgba(0, 0, 0, 0.8);
+	cursor: -moz-zoom-out; 
+  cursor: -webkit-zoom-out; 
+  cursor: zoom-out;
+}
+.fullscreen-active .fullscreen-image {
+	display: block;
+}
+.fullscreen-active .fullscreen-image img {
+	width: auto;
+	position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 @-webkit-keyframes colorsmv {
   0%    { -webkit-transform: translateX(0px);}
   100%  { -webkit-transform: translateX(720px);}

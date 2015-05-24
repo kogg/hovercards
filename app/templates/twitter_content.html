@@ -2,15 +2,18 @@
 	<div class="context-top context-top-twitter">
 		<div class="row">
 			<div class="col-10">
-				<span><a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a> aka <a ng-href="{{:: data.content.author | generateUrl }}">@{{:: data.content.author.id }}</a></span>
+				<span>Tweeted By: <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
 			</div>
 			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
 			</div>
 		</div>
 	</div>
-	<div class="content-top" ng-if=":: data.content.image">
+	<div class="content-top" ng-if=":: data.content.image" ng-click="view.fullscreen=true;">
 		<img ng-src="{{:: data.content.image }}">
+	</div>
+	<div class="fullscreen-image" ng-click="view.fullscreen=false;">
+		<img ng-src="{{:: data.content.image }}" ng-click="view.fullscreen=false;">
 	</div>
 	<div class="card-text text-post">
 		<div class="card-description">
