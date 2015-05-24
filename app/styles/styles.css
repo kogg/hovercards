@@ -70,6 +70,22 @@ html,body {
 .response b a {
 	font-size: 12px;
 }
+.response .col-2 {
+	text-align: right;
+}
+.response .col-2 a {
+	color: #727272
+}
+.response-image-container {
+	max-height: 232px;
+	overflow: hidden;
+}
+.response img {
+	width: 100%;
+}
+.response .response-image-container:hover {
+	max-height: inherit;
+}
 .fullscreen-active .video-top-underlay {
 	display: block !important;
 }
