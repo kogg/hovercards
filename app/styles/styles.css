@@ -64,6 +64,9 @@ body {
 .card-text .card-description {
 	padding-top:5px;
 }
+.context-top-twitter + .card-text .card-description {
+	padding-top: 0px
+}
 .card-text .card-description .response {
   margin-top: 16px;
   position: relative;
@@ -1373,32 +1376,34 @@ b i, .iconic-push {
 	min-height: 71px;
 	border: 1px solid rgba(0,0,0,.15)
 }
-.content-list .row .col-7 {
-	padding: 8px 8px 8px 12px;
+.content-list .row .col-8 {
+	padding: 19px 16px;
 }
-.content-list .row .col-7  a {
+.content-list .row .col-8  a {
 	text-decoration: none;
 	display: inline
 }
-.content-list .row .col-7 a {
+.content-list .row .col-8 a {
 	color: #212121;
 	margin-top: 0;
 	padding-top: 0px;
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
-  display: inline
+  word-wrap: break-word;
+  display: table-cell;
+  vertical-align: middle;
+
 }
 .content-list .row .col-5 a {
 	display: block;
 }
-.content-list .row .col-7 a:hover {
+.content-list .row .col-8 a:hover {
 	text-decoration: underline;
 }
-.content-list .row .col-7 b {
-	margin-bottom: 0;
-	margin-top: 3px;
+.content-list .row .col-8 b {
 	color: #727272;
+	margin-bottom: 0;
 	cursor: default;
 }
 .content-list-selected {
@@ -1413,8 +1418,12 @@ b i, .iconic-push {
 .content-list-selected .row:hover {
 	background: transparent;
 }
-.content-list .row .col-7 span {
+.content-list .row .col-8 span {
 	display: none !important
+}
+.content-list .col-2 {
+	text-align: right;
+	line-height: 32px;
 }
 /*content cards*/
 .content-cards {
@@ -1513,6 +1522,20 @@ b i, .iconic-push {
   background-position: top center;
   background-repeat: no-repeat;
   background-color: #FFF;
+}
+/*youtube content list*/
+.youtube-content-list .row .col-4 {
+	width: 100px;
+}
+.youtube-content-list .row .col-4 a, .youtube-content-list .row .col-4 a {
+	display: block;
+}
+.youtube-content-list .row .col-8 {
+	width: 198px;
+}
+.youtube-content-list .row .col-8 .col-10 {
+  display: table;
+  height: 32px;
 }
 /*twitter content list*/
 .twitter-content-list .comment {

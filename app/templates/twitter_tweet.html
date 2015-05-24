@@ -14,8 +14,13 @@
 		<span class="reddit-votes"><a ng-href="{{:: tweet | generateUrl }}">{{:: tweet.date | timeSince:true }}</a></span>
 	</div>
 	<p ng-bind-html=":: tweet.description"></p>
-	<div class="comment-image-container" ng-if="::tweet.image">
+	<div class="comment-image-container" ng-if="::tweet.image" ng-click="view.fullscreen=!view.fullscreen">
 		<img ng-src="{{:: tweet.image }}:small">
 	</div>
+	<!--
+	<div class="fullscreen-image" ng-if="view.fullscreen" ng-click="view.fullscreen=false">
+		<img ng-src="{{:: tweet.image }}:large">
+	</div>
+-->
 	<p class="mini-stats"><span><i class="md md-autorenew"></i> {{:: tweet.retweets }}</span> <span><i class="md md-stars"></i> {{:: tweet.favorites }}</span></p>
 </div>
