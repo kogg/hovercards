@@ -1,10 +1,10 @@
 <div ng-if="!data.content.$err">
 	<div class="context-top context-top-reddit">
 		<div class="row">
-			<div class="col-11">
+			<div class="col-10">
 				<span><a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a> in <a ng-href="https://www.reddit.com/r/{{:: data.content.subreddit }}">/r/{{:: data.content.subreddit }}</a></span>
 			</div>
-			<div class="col-1">
+			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
 			</div>
 		</div>
