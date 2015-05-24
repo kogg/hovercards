@@ -1473,7 +1473,7 @@ b i, .iconic-push {
   border-radius: 3px;
   margin-bottom: 8px;
 }
-.twitter-content-list .col-12 span {
+.twitter-content-list .col-12 span, .twitter-content-list .col-12 span a {
 	color: #727272;
   text-decoration: none;
   font-size: 12px;
