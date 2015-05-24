@@ -1,5 +1,8 @@
 <div class="twitter-content-list" ng-if="!data.moreContent.$err">
 	<div class="comment row" ng-repeat="tweet in data.moreContent.content">
+		<div class="col-12">
+			<span><i class="md md-autorenew"></i>Retweeted By {{:: tweet.author.name }}</span>
+		</div>
 		<div class="col-2">
 			<a ng-href="{{:: tweet.author | generateUrl }}" class="no-yo">
 				<div class="comment-image" ng-style=":: tweet.author.image && { 'background-image': 'url(' + tweet.author.image + ')'}"></div>
@@ -13,7 +16,10 @@
 				<span class="reddit-votes"><a ng-href="{{:: tweet | generateUrl }}">{{:: tweet.date | timeSince:true }}</a></span>
 			</div>
 			<p ng-bind-html=":: tweet.description"></p>
-			<p class="mini-stats"><span><i class="md md-stars"></i> {{:: tweet.favorites }}</span><span><i class="md md-autorenew"></i> {{:: tweet.retweets }}</span></p>
+			<div class="comment-image-container">
+				<img ng-if="::tweet.image" ng-src="{{:: tweet.image }}">
+			</div>
+			<p class="mini-stats"><span><i class="md md-autorenew"></i> {{:: tweet.retweets }}</span> <span><i class="md md-stars"></i> {{:: tweet.favorites }}</span></p>
 		</div>
 	</div>
 </div>
