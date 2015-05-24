@@ -71,7 +71,7 @@ module.exports = function sidebarInjectOn(inject_into, body, clickable, sendMess
             }
             var obj = $(e.target);
             var cursor = obj.css('cursor');
-            if (cursor !== 'default' && (cursor !== 'auto' || obj.is('a,input,textarea,video,embed,object,button,audio,label'))) {
+            if (cursor !== 'default' && (cursor !== 'auto' || obj.closest('a,input,textarea,video,embed,object,button,audio,label').length)) {
                 return;
             }
             sendMessage({ msg: 'hide' });
