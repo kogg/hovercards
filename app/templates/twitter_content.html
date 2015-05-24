@@ -9,11 +9,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="content-top" ng-if=":: data.content.image" ng-click="view.fullscreen=true;">
+	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen }" ng-if=":: data.content.image" ng-click="view.fullscreen=!view.fullscreen">
 		<img ng-src="{{:: data.content.image }}">
 	</div>
-	<div class="fullscreen-image" ng-click="view.fullscreen=false;">
-		<img ng-src="{{:: data.content.image }}" ng-click="view.fullscreen=false;">
+	<div class="fullscreen-image" ng-if="view.fullscreen" ng-click="view.fullscreen=false">
+		<img ng-src="{{:: data.content.image }}">
 	</div>
 	<div class="card-text text-post">
 		<div class="card-description">
