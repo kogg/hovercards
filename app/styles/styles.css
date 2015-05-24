@@ -1509,6 +1509,16 @@ b i, .iconic-push {
 	color:#5D9040;
 	margin-right: 3px;
 }
+.twitter-verified {
+	background-image: url('../images/twitter-verified.png');
+	width: 19px;
+	height: 19px;
+	display: inline-block;
+	background-position: center;
+	background-size: 90%;
+	position: absolute;
+  margin-left: 4px;
+}
 /* ANIMATIONS */
 
 .bounce-in-animation.ng-enter {
