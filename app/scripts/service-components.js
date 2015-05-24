@@ -2,8 +2,15 @@ var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ServiceComponents', [])
     .factory('apiService', ['$timeout', '$q', function($timeout, $q) {
-        var errors = { 0: 'our-problem', 400: 'bad-input', 401: 'unauthorized', 404: 'no-content', 502: 'dependency-down' };
-        var api_specific_errors = { 'unauthorized': true, 'dependency-down': true };
+        var errors = { 0:   'our-problem',
+                       400: 'bad-input',
+                       401: 'unauthorized',
+                       404: 'no-content',
+                       501: 'not-implemented',
+                       502: 'dependency-down' };
+        var api_specific_errors = { 'dependency-down': true,
+                                    'not-implemented': true,
+                                    'unauthorized':    true };
 
         var service = {
             loading: [],
