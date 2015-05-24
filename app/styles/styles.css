@@ -581,10 +581,11 @@ b i, .iconic-push {
 .comment-image-container {
 	max-height: 234px;
 	overflow: hidden;
+	margin: 8px 0;
+  border-radius: 6px;
 }
 .comment img {
 	width: 100%;
-	margin:8px 0;
 }
 /*context top*/
 .context-top {
@@ -1336,10 +1337,21 @@ b i, .iconic-push {
   cursor: -webkit-zoom-in; 
   cursor: zoom-in;
 }
+
 .content-top:hover {
   cursor: -moz-zoom-in; 
   cursor: -webkit-zoom-in; 
   cursor: zoom-in;
+}
+.content-top-active {
+  cursor: -moz-zoom-out; 
+  cursor: -webkit-zoom-out; 
+  cursor: zoom-out;
+}
+.content-top-active:hover {
+  cursor: -moz-zoom-out; 
+  cursor: -webkit-zoom-out; 
+  cursor: zoom-out;
 }
 .content-top img {
 	width: 100%;
