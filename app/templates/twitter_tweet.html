@@ -15,7 +15,7 @@
 	</div>
 	<p ng-bind-html=":: tweet.description"></p>
 	<div class="comment-image-container" ng-if="::tweet.image">
-		<img ng-src="{{:: tweet.image }}">
+		<img ng-src="{{:: tweet.image }}:small">
 	</div>
 	<p class="mini-stats"><span><i class="md md-autorenew"></i> {{:: tweet.retweets }}</span> <span><i class="md md-stars"></i> {{:: tweet.favorites }}</span></p>
 </div>

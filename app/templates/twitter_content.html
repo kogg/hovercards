@@ -10,7 +10,7 @@
 		</div>
 	</div>
 	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen }" ng-if=":: data.content.image" ng-click="view.fullscreen=!view.fullscreen">
-		<img ng-src="{{:: data.content.image }}">
+		<img ng-src="{{:: data.content.image }}:small">
 	</div>
 	<div class="fullscreen-image" ng-if="view.fullscreen" ng-click="view.fullscreen=false">
 		<img ng-src="{{:: data.content.image }}">
@@ -27,7 +27,7 @@
 				</div>
 				<p ng-bind-html=":: data.content.replied_to.description"></p>
 				<div class="response-image-container" ng-if=":: data.content.replied_to.image">
-					<img ng-src="{{:: data.content.replied_to.image }}">
+					<img ng-src="{{:: data.content.replied_to.image }}:small">
 				</div>
 			</div>
 		</div>
