@@ -62,7 +62,8 @@ html,body {
 	padding-top:5px;
 }
 .card-text .card-description .response {
-	padding: 16px;
+	padding: 8px;
+	background: rgba(0, 0, 0, 0.02);
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 3px;
   margin-top: 8px;
@@ -79,6 +80,7 @@ html,body {
 .response-image-container {
 	max-height: 232px;
 	overflow: hidden;
+	margin-top: 8px;
 }
 .response img {
 	width: 100%;

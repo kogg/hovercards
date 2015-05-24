@@ -23,7 +23,7 @@
 					<b><a ng-href="{{:: data.content.replied_to | generateUrl }}">{{:: data.content.replied_to.date | timeSince:true }}</a></b>
 				</div>
 				<p ng-bind-html=":: data.content.replied_to.description"></p>
-				<div class="image-container" ng-if=":: data.content.replied_to.image">
+				<div class="response-image-container" ng-if=":: data.content.replied_to.image">
 					<img ng-src="{{:: data.content.replied_to.image }}">
 				</div>
 			</div>
