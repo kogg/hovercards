@@ -62,20 +62,37 @@ html,body {
 	padding-top:5px;
 }
 .card-text .card-description .response {
-	padding: 8px;
+  margin-top: 16px;
+  position: relative;
+  margin-bottom: 8px;
+}
+.card-text .card-description .response:after {
+	content: "";
+	position: absolute;
+	top: -8px;
+	left: -8px;
 	background: rgba(0, 0, 0, 0.02);
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 3px;
-  margin-top: 8px;
+  width: -webkit-calc(100% + 16px);
+  height: -webkit-calc(100% + 16px);
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  z-index: 0;
 }
 .response b a {
 	font-size: 12px;
+}
+.response .col-10, .response .col-2 {
+	z-index: 20;
+	position: relative;
 }
 .response .col-2 {
 	text-align: right;
 }
 .response .col-2 a {
-	color: #727272
+	color: #727272;
+	font-weight: bold;
 }
 .response-image-container {
 	max-height: 232px;
