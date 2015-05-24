@@ -242,8 +242,22 @@ b i, .iconic-push {
 	position: absolute;
 	overflow: hidden;
 	bottom: 16px;
+	cursor: pointer;
 }
-
+.profile-cta a.profile-cta-twitter {
+  background-color: #59adec;
+  color: #FFF;
+  line-height: 24px;
+  padding: 0px 8px;
+  font-size: 12px;
+  border-radius: 3px;
+  min-width: 86px;
+  background-image: url('../images/Twitter-icon-full_color.png');
+  background-size: auto 90%;
+  background-repeat: no-repeat;
+  padding-left: 35px;
+  background-position: 8px center
+}
 .people-card-space {
   height: 157px;
 	margin-top: 16px;
@@ -481,7 +495,6 @@ b i, .iconic-push {
 	color: #2196F3;
 	font-weight: 400;
   font-size: 15px;
-  margin-left: 3px
 }
 .comment b {
 	margin-bottom: 0;
@@ -501,6 +514,18 @@ b i, .iconic-push {
 .comment b:nth-of-type(2) {
 	margin-left: 8px;
 }
+.mini-stats span{
+	color: #727272;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+.mini-stats span:first-of-type i {
+	color: #fdab42
+}
+.mini-stats span:last-of-type i {
+	color: #5d9040
+}
 /*context top*/
 .context-top {
 	border: 1px solid rgba(0,0,0,.15);
@@ -516,7 +541,7 @@ b i, .iconic-push {
 	overflow: hidden;
 	padding: 16px;
 }
-.context-top .row .col-11 {
+.context-top .row .col-10, .context-top .row .col-11 {
 	padding-left: 22px;
 }
 .context-top .row .col-9 {
@@ -544,7 +569,7 @@ b i, .iconic-push {
 .context-top span a:hover {
 	text-decoration: underline;
 }
-.context-top .col-3, .context-top .col-1 {
+.context-top .col-3, .context-top .col-1, .context-top .col-2 {
 	text-align: right;
 	position: relative;
 	float: right !important;
@@ -569,10 +594,10 @@ b i, .iconic-push {
 .context-top-text-only + div {
 	padding: 0px 16px 16px 16px
 }
-.context-top .col-11 span a:last-of-type {
+.context-top .col-10 span a:last-of-type {
 	color: #2196F3
 }
-.context-top .col-11 span a:first-of-type {
+.context-top .col-10 span a:first-of-type {
 	color: #000
 }
 .context-top-youtube {
