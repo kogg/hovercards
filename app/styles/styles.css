@@ -61,6 +61,15 @@ html,body {
 .card-text .card-description {
 	padding-top:5px;
 }
+.card-text .card-description .response {
+	padding: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+  margin-top: 8px;
+}
+.response b a {
+	font-size: 12px;
+}
 .fullscreen-active .video-top-underlay {
 	display: block !important;
 }
@@ -971,7 +980,6 @@ b i, .iconic-push {
 /*reddit specific formatting*/
 .comment div + div div.md {
 	vertical-align: inherit;
-	display: inline
 }
 .md a {
 	text-decoration: none;
@@ -1461,7 +1469,7 @@ b i, .iconic-push {
   border-bottom: 1px solid rgba(0,0,0,.15)
 }
 .twitter-content-list .comment:first-of-type {
-	padding-top: 8px
+	padding-top: 0px
 }
 .twitter-content-list .comment:last-of-type {
 	padding-bottom: 36px;
