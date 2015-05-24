@@ -1331,15 +1331,12 @@ b i, .iconic-push {
 /*content top*/
 .content-top {
 	max-height: 301px;
-	transition:all .4s ease-in-out;
   overflow: hidden;
   cursor: -moz-zoom-in; 
   cursor: -webkit-zoom-in; 
   cursor: zoom-in;
 }
 .content-top:hover {
-	max-height: inherit;
-	overflow: visible;
   cursor: -moz-zoom-in; 
   cursor: -webkit-zoom-in; 
   cursor: zoom-in;
@@ -1653,6 +1650,7 @@ b i, .iconic-push {
 .fullscreen-image {
 	display: none;
 	position: fixed;
+	-webkit-transform: translateZ(0);
   width: -webkit-calc(100% - 340px);
   width: calc(100% - 340px);
   height: 100%;
