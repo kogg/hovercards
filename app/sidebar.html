@@ -35,7 +35,7 @@
 								<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'"></div>
 							</div>
 						</div>
-						<div class="menu" ng-show="entry.showMenu">
+						<div class="menu" ng-show="entry.showMenu" stored="order" name="order" default="[]">
 							<div class="menu-description" stored="hide_menu_description" name="hide-menu-description" ng-show="!hide_menu_description">
 								<div class="row">
 									<div class="col-10">
@@ -46,8 +46,8 @@
 									</div>
 								</div>
 							</div>
-							<ul id="sortable" sortable stored="order" name="order" default="[]">
-								<li class="ui-state-default rippleblack" ng-class="{ selected: (entry.discussion || entry.discussions[0]) === discussion_choice }" ng-click="entry.discussion = discussion_choice" ng-repeat="discussion_choice in entry.discussions">
+							<ul id="sortable" sortable="entry.discussions" sorted="discussion_choices" order="order">
+								<li class="ui-state-default rippleblack" ng-class="{ selected: (entry.discussion || entry.discussions[0]) === discussion_choice }" ng-click="entry.discussion = discussion_choice" ng-repeat="discussion_choice in discussion_choices">
 									<b ng-click="$event.stopPropagation();"></b>
 									<span>{{ discussion_choice.api + '_discussion' | copy }}</span>
 								</li>

@@ -48,31 +48,54 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
 
         return {
             restrict: 'A',
+            scope: {
+                unsorted: '=sortable',
+                sorted:   '=',
+                order:    '=?'
+            },
             link: function($scope, $element) {
+                $scope.order = $scope.order || [];
+                function sort_by_order() {
+                    console.log('resort with order', $scope.order);
+                    $scope.sorted.sort(function(a, b) {
+                        return $scope.order.indexOf(a.api) - $scope.order.indexOf(b.api);
+                    });
+                }
+                $scope.$watch('unsorted', function() {
+                    $scope.sorted = [];
+                    ($scope.unsorted || []).forEach(function(item, i) {
+                        $scope.sorted[i] = item;
+                    });
+                    sort_by_order();
+                }, true);
+                $scope.$watch('order', function() {
+                    sort_by_order();
+                }, true);
                 $element.sortable({ axis:        'y',
                                     handle:      'b',
                                     placeholder: 'ui-state-highlight',
                                     update:      function(event, ui) {
-                                        var before = ui.item.prevAll('li').map(function() {
-                                            var api = angular.element(this).scope().discussion_choice.api;
-                                            if ($scope.order.indexOf(api) === -1) {
-                                                $scope.order.push(api);
-                                            }
-                                            return api;
-                                        }).toArray();
-                                        var after = ui.item.nextAll('li').map(function() {
-                                            var api = angular.element(this).scope().discussion_choice.api;
-                                            if ($scope.order.indexOf(api) === -1) {
-                                                $scope.order.push(api);
-                                            }
-                                            return api;
-                                        }).toArray();
-                                        var current = angular.element(ui.item).scope().discussion_choice.api;
-                                        if ($scope.order.indexOf(current) === -1) {
-                                            $scope.order.push(current);
-                                        }
-
                                         $scope.$apply(function() {
+                                            // FIXME Stop directly using discussion_choice in here. There has to be a better way
+                                            var before = ui.item.prevAll('li').map(function() {
+                                                var api = angular.element(this).scope().discussion_choice.api;
+                                                if ($scope.order.indexOf(api) === -1) {
+                                                    $scope.order.push(api);
+                                                }
+                                                return api;
+                                            }).toArray();
+                                            var after = ui.item.nextAll('li').map(function() {
+                                                var api = angular.element(this).scope().discussion_choice.api;
+                                                if ($scope.order.indexOf(api) === -1) {
+                                                    $scope.order.push(api);
+                                                }
+                                                return api;
+                                            }).toArray();
+                                            var current = angular.element(ui.item).scope().discussion_choice.api;
+                                            if ($scope.order.indexOf(current) === -1) {
+                                                $scope.order.push(current);
+                                            }
+
                                             $scope.order.sort(function(a, b) {
                                                 var a_val = (a === current) ? 0 : ((before.indexOf(a) !== -1) ? -1 : ((after.indexOf(a) !== -1) ? 1 : 'idk'));
                                                 var b_val = (b === current) ? 0 : ((before.indexOf(b) !== -1) ? -1 : ((after.indexOf(b) !== -1) ? 1 : 'idk'));
