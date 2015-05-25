@@ -1,7 +1,6 @@
 var angular      = require('angular');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
-
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [require('./service-components')])
     .controller('EntryController', ['$scope', '$timeout', '$q', 'apiService', function($scope, $timeout, $q, apiService) {
         window.addEventListener('message', function(event) {
@@ -22,8 +21,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
 
                                 var got_something;
                                 var first_err;
-                                $q.all([{ api: 'reddit', type: 'url', id: request.url }].map(function(request) {
-                                    return apiService.get(request)
+                                $q.all(['reddit', 'twitter'].map(function(api) {
+                                    return apiService.get({ api: api, type: 'url', id: request.url })
                                         .$promise
                                         .then(function(thing) {
                                             got_something = true;
@@ -43,7 +42,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                             }
                                         })
                                         .catch(function(err) {
-                                            err.api = request.api;
+                                            err.api = api;
                                             first_err = first_err || err;
                                             return null;
                                         });
