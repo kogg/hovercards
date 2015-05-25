@@ -14,7 +14,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
             $scope.reload();
         });
 
-        $scope.$watch('data.content.$resolved && entry && data.content', function(content) {
+        $scope.$watch('data.content.$resolved && entry && entry.type !== "url" && data.content', function(content) {
             if (!content) {
                 return;
             }
