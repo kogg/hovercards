@@ -1374,6 +1374,7 @@ b i, .iconic-push {
 	max-width: 125px;
 	max-height: 71px;
 	min-height: 71px;
+	border-radius: 3px;
 	border: 1px solid rgba(0,0,0,.15)
 }
 .content-list .row .col-8 {
