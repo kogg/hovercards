@@ -32,8 +32,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                                     entry.content = entry.content || thing;
                                                     break;
                                                 case 'discussion':
-                                                    entry.discussions = $scope.entry.discussions || [];
-                                                    entry.discussions.push(thing);
+                                                    entry.discussions = $scope.entry.discussions || {};
+                                                    entry.discussions[thing.api] = entry.discussions[thing.api] || thing;
                                                     break;
                                                 case 'account':
                                                     entry.accounts = $scope.entry.accounts || [];
@@ -64,8 +64,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                 $scope.entry.content = identity;
                                 break;
                             case 'discussion':
-                                $scope.entry.discussions = [identity];
-                                $scope.entry.discussion = identity;
+                                $scope.entry.discussions = {};
+                                $scope.entry.discussions[identity.api] = identity;
+                                $scope.entry.desired_discussion_api = identity.api;
                                 break;
                             case 'account':
                                 $scope.entry.accounts = [identity];

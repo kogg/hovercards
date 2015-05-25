@@ -2,11 +2,35 @@ var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('./service-components')])
     .controller('DiscussionController', ['$scope', 'apiService', function($scope, apiService) {
-        $scope.$watch('entry.discussion || entry.discussions[0]', function(request) {
-            if (!request) {
+        $scope.$watch('entry.discussions', function(requests) {
+            if (!requests) {
                 return;
             }
-            $scope.loading_discussion = apiService.get(request);
+            $scope.entry.discussion_apis = Object.keys(requests);
+            if ($scope.order && $scope.order.length) {
+                $scope.entry.discussion_apis.sort(function(a, b) {
+                    return $scope.order.indexOf(a) - $scope.order.indexOf(b);
+                });
+            }
+        }, true);
+
+        $scope.$watch('order', function(order) {
+            if (!order || !order.length) {
+                return;
+            }
+            if ($scope.entry.discussion_apis && $scope.entry.discussion_apis.length) {
+                $scope.entry.discussion_apis.sort(function(a, b) {
+                    return order.indexOf(a) - order.indexOf(b);
+                });
+            }
+        }, true);
+
+        $scope.$watch('entry.desired_discussion_api || entry.discussion_apis[0]', function(api) {
+            if (!api || !$scope.entry.discussions || !$scope.entry.discussions[api]) {
+                return;
+            }
+            $scope.entry.discussion_api = api;
+            $scope.loading_discussion = apiService.get($scope.entry.discussions[api]);
             $scope.loading_discussion
                 .$promise
                 .then(function(discussion) {
@@ -24,7 +48,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             $scope.loading_discussion = null;
         });
 
-        $scope.$watch('data && data.discussion.$resolved && entry && data.discussion', function(discussion) {
+        $scope.$watch('data.discussion.$resolved && entry && data.discussion', function(discussion) {
             if (!discussion) {
                 return;
             }
@@ -48,31 +72,36 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
 
         return {
             restrict: 'A',
+            scope: {
+                items: '=sortable',
+                order: '=?'
+            },
             link: function($scope, $element) {
                 $element.sortable({ axis:        'y',
                                     handle:      'b',
                                     placeholder: 'ui-state-highlight',
                                     update:      function(event, ui) {
-                                        var before = ui.item.prevAll('li').map(function() {
-                                            var api = angular.element(this).scope().discussion_choice.api;
-                                            if ($scope.order.indexOf(api) === -1) {
-                                                $scope.order.push(api);
-                                            }
-                                            return api;
-                                        }).toArray();
-                                        var after = ui.item.nextAll('li').map(function() {
-                                            var api = angular.element(this).scope().discussion_choice.api;
-                                            if ($scope.order.indexOf(api) === -1) {
-                                                $scope.order.push(api);
-                                            }
-                                            return api;
-                                        }).toArray();
-                                        var current = angular.element(ui.item).scope().discussion_choice.api;
-                                        if ($scope.order.indexOf(current) === -1) {
-                                            $scope.order.push(current);
-                                        }
-
                                         $scope.$apply(function() {
+                                            // FIXME Stop directly using discussion_api in here. There has to be a better way
+                                            var before = ui.item.prevAll('li').map(function() {
+                                                var api = angular.element(this).scope().discussion_api;
+                                                if ($scope.order.indexOf(api) === -1) {
+                                                    $scope.order.push(api);
+                                                }
+                                                return api;
+                                            }).toArray();
+                                            var after = ui.item.nextAll('li').map(function() {
+                                                var api = angular.element(this).scope().discussion_api;
+                                                if ($scope.order.indexOf(api) === -1) {
+                                                    $scope.order.push(api);
+                                                }
+                                                return api;
+                                            }).toArray();
+                                            var current = angular.element(ui.item).scope().discussion_api;
+                                            if ($scope.order.indexOf(current) === -1) {
+                                                $scope.order.push(current);
+                                            }
+
                                             $scope.order.sort(function(a, b) {
                                                 var a_val = (a === current) ? 0 : ((before.indexOf(a) !== -1) ? -1 : ((after.indexOf(a) !== -1) ? 1 : 'idk'));
                                                 var b_val = (b === current) ? 0 : ((before.indexOf(b) !== -1) ? -1 : ((after.indexOf(b) !== -1) ? 1 : 'idk'));

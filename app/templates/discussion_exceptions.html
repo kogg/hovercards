@@ -6,12 +6,12 @@
 		<span ng-message="empty-content">
 			<span class="yocards-message-content"><b><i class="md md-error"></i>No Comments</b>It looks like there are no comments on this.</span>
 			<div class="yocards-message-option">
-				<a ng-href="{{:: (entry.discussion || entry.discussions[0]) | generateUrl }}" class="no-yo">Be the first to comment</a>
+				<a ng-href="{{:: entry.discussions[api] | generateUrl }}" class="no-yo">Be the first to comment</a>
 			</div>
 		</span>
 	</span>
 
-	<div class="yocards-message-option" ng-if="entry.discussions.length > 1">
+	<div class="yocards-message-option" ng-if="entry.discussion_apis.length > 1">
 		<a ng-click="entry.showMenu=true">Check out other networks</a>
 	</div>
 </div>
