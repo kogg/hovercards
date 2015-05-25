@@ -8,13 +8,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'More
                 return;
             }
             $scope.data.moreContent = apiService.get({ api: request.api, type: 'more_content', id: request.id });
-            $scope.data.moreContent
-                .$promise
-                .then(function(moreContent) {
-                    if (!moreContent.content || !moreContent.content.length) {
-                        moreContent.$err = { 'empty-content': true };
-                    }
-                });
         });
     }])
     .name;

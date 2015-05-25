@@ -2,7 +2,7 @@ var angular      = require('angular');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [require('./service-components')])
-    .controller('EntryController', ['$scope', '$timeout', '$q', 'apiService', function($scope, $timeout, $q, apiService) {
+    .controller('EntryController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
         window.addEventListener('message', function(event) {
             var request = event.data;
             // TODO Determine if this is our request and not someone else's
@@ -15,62 +15,61 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                     });
                     $timeout(function() {
                         var identity = network_urls.identify(request.url);
-                        if (!identity) {
-                            $scope.entry = (function() {
-                                var entry = { type: 'url' };
+                        if (identity) {
+                            $scope.entry = { type: identity.type };
+                            switch ($scope.entry.type) {
+                                case 'content':
+                                    $scope.entry.content = identity;
+                                    break;
+                                case 'discussion':
+                                    $scope.entry.discussions = {};
+                                    $scope.entry.discussions[identity.api] = identity;
+                                    $scope.entry.desired_discussion_api = identity.api;
+                                    break;
+                                case 'account':
+                                    $scope.entry.accounts = [identity];
+                                    break;
+                            }
+                        } else {
+                            var entry = { discussions: {}, type: 'url', desired_discussion_api: 'url', showMenu: true };
+                            var data  = { discussions: {} };
 
-                                var got_something;
-                                var first_err;
-                                $q.all(['reddit', 'twitter'].map(function(api) {
-                                    return apiService.get({ api: api, type: 'url', id: request.url })
-                                        .$promise
-                                        .then(function(thing) {
-                                            got_something = true;
-                                            delete thing.$promise;
-                                            switch (thing.type) {
-                                                case 'content':
-                                                    entry.content = entry.content || thing;
-                                                    break;
-                                                case 'discussion':
-                                                    entry.discussions = $scope.entry.discussions || {};
-                                                    entry.discussions[thing.api] = entry.discussions[thing.api] || thing;
-                                                    break;
-                                                case 'account':
-                                                    entry.accounts = $scope.entry.accounts || [];
-                                                    entry.accounts.push(thing);
-                                                    break;
-                                            }
-                                        })
-                                        .catch(function(err) {
-                                            err.api = api;
-                                            first_err = first_err || err;
-                                            return null;
-                                        });
-                                }))
-                                .then(function() {
-                                    if (got_something) {
-                                        return;
-                                    }
-                                    entry.$err = first_err || { 'bad-input': true };
+                            var apis = ['reddit', 'twitter'];
+
+                            apis.forEach(function(api) {
+                                entry.discussions[api] = { api: api, type: 'discussion' };
+                                data.discussions[api]  = apiService.get({ api: api, type: 'url', id: request.url });
+                            });
+
+                            chrome.storage.sync.get('order', function(obj) {
+                                var order = obj.order || [];
+                                apis.sort(function(a, b) {
+                                    return order.indexOf(a) - order.indexOf(b);
                                 });
 
-                                return entry;
-                            }());
-                            return;
-                        }
-                        $scope.entry = { type: identity.type };
-                        switch ($scope.entry.type) {
-                            case 'content':
-                                $scope.entry.content = identity;
-                                break;
-                            case 'discussion':
-                                $scope.entry.discussions = {};
-                                $scope.entry.discussions[identity.api] = identity;
-                                $scope.entry.desired_discussion_api = identity.api;
-                                break;
-                            case 'account':
-                                $scope.entry.accounts = [identity];
-                                break;
+                                function check_api(i) {
+                                    if (apis.length === i) {
+                                        entry.$err = { 'bad-input': true };
+                                        return;
+                                    }
+                                    var api = apis[i];
+                                    data.discussions[api]
+                                        .$promise
+                                        .then(function() {
+                                            if (entry.desired_discussion_api !== 'url') {
+                                                return;
+                                            }
+                                            entry.desired_discussion_api = api;
+                                        })
+                                        .catch(function() {
+                                            check_api(i + 1);
+                                        });
+                                }
+                                check_api(0);
+                            });
+
+                            $scope.entry = entry;
+                            $scope.data = data;
                         }
                     }, 100);
                     break;

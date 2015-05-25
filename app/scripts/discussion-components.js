@@ -32,13 +32,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             if (!$scope.data.discussions || !$scope.data.discussions[api]) {
                 $scope.data.discussions = $scope.data.discussions || {};
                 $scope.data.discussions[api] = apiService.get($scope.entry.discussions[api]);
-                $scope.data.discussions[api]
-                    .$promise
-                    .then(function(discussion) {
-                        if (!discussion.comments || !discussion.comments.length) {
-                            discussion.$err = { 'empty-content': true };
-                        }
-                    });
             }
             $scope.entry.discussion_api = api;
         });

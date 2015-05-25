@@ -38,6 +38,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                         })
                         .then(function(obj) {
                             angular.extend(object, obj);
+                            if (params.type in { discussion: true, more_content: true } && (!object.comments || !object.comments.length)) {
+                                object.$err = { 'empty-content': true };
+                                return $q.reject(object.$err);
+                            }
                             return object;
                         }, function(err) {
                             object.$err = err;

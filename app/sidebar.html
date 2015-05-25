@@ -21,7 +21,7 @@
 				</div>
 			</div>
 
-			<div stored="order" name="order" default="[]">
+			<div stored="order" name="order" default="['youtube', 'twitter', 'reddit']">
 				<div ng-controller="DiscussionController">
 					<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || data.discussion.$err">
 						<div class="context-top context-top-{{ (data.discussion.api || entry.discussion_api) }}">
