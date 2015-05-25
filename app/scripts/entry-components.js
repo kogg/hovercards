@@ -18,7 +18,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                         var identity = network_urls.identify(request.url);
                         if (!identity) {
                             $scope.entry = (function() {
-                                var entry = {};
+                                var entry = { type: 'url' };
 
                                 var got_something;
                                 var first_err;
@@ -27,6 +27,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                         .$promise
                                         .then(function(thing) {
                                             got_something = true;
+                                            delete thing.$promise;
                                             switch (thing.type) {
                                                 case 'content':
                                                     entry.content = entry.content || thing;

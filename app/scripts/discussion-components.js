@@ -55,7 +55,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
 
             $scope.entry.content = $scope.entry.content || discussion.content;
 
-            if (discussion.accounts && discussion.accounts.length && $scope.entry.type === 'discussion') {
+            if (discussion.accounts && discussion.accounts.length && ($scope.entry.type === 'discussion' || $scope.entry.type === 'url')) {
                 $scope.entry.accounts = ($scope.entry.accounts || []);
                 (discussion.accounts || []).forEach(function(account) {
                     if (!$scope.entry.accounts.some(function(entry_account) { return account.api  === entry_account.api &&
