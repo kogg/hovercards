@@ -64,6 +64,27 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         };
     }])
     .directive('stored', function() {
+        function equals(a, b) {
+            if (a === b) {
+                return true;
+            }
+            if (Array.isArray(a)) {
+                if (!Array.isArray(b)) {
+                    return false;
+                }
+                if (a.length !== b.length) {
+                    return false;
+                }
+                for (var i = 0; i < a.length; a++) {
+                    if (!equals(a[i], b[i])) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
         return {
             retrict: 'A',
             scope: {
@@ -83,8 +104,20 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         }
                         var obj = {};
                         obj[$scope.name] = val;
+                        console.log('set storage', $scope.name, 'to', val);
                         chrome.storage.sync.set(obj);
                     }, true);
+                });
+                chrome.storage.onChanged.addListener(function(changes, area_name) {
+                    if (area_name !== 'sync' || !($scope.name in changes)) {
+                        return;
+                    }
+                    $scope.$apply(function() {
+                        if (!equals($scope.stored, changes[$scope.name].newValue)) {
+                            console.log('set scope', $scope.name, 'to', changes[$scope.name].newValue);
+                            $scope.stored = changes[$scope.name].newValue;
+                        }
+                    });
                 });
             }
         };
