@@ -47,10 +47,10 @@
 										</div>
 									</div>
 								</div>
-								<ul id="sortable" sortable="entry.discussion_apis" order="order">
-									<li class="ui-state-default rippleblack" ng-class="{ selected: entry.discussion_api === discussion_api }" ng-click="entry.desired_discussion_api = discussion_api" ng-repeat="discussion_api in entry.discussion_apis">
+								<ul id="sortable" sortable="order">
+									<li ng-class="{ selected: entry.discussion_api === api, rippleblack: entry.discussions[api], disabled: !entry.discussions[api], loaded: data.discussions[api].$resolved, failed: data.discussions[api].$err && data.discussions[api].$resolved, loading: data.discussion[api] && !data.discussions[api].$resolved }" ng-click="entry.desired_discussion_api = entry.discussions[api] ? api : entry.desired_discussion_api" ng-repeat="api in order">
 										<b ng-click="$event.stopPropagation();"></b>
-										<span>{{ discussion_api + '_discussion' | copy }}</span>
+										<span>{{ api + '_discussion' | copy }}</span>
 									</li>
 								</ul>
 							</div>

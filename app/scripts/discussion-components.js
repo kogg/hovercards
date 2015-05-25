@@ -68,42 +68,20 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
         return {
             restrict: 'A',
             scope: {
-                items: '=sortable',
-                order: '=?'
+                items: '=sortable'
             },
             link: function($scope, $element) {
                 $element.sortable({ axis:        'y',
                                     handle:      'b',
                                     placeholder: 'ui-state-highlight',
-                                    update:      function(event, ui) {
+                                    update:      function() {
                                         $scope.$apply(function() {
-                                            // FIXME Stop directly using discussion_api in here. There has to be a better way
-                                            var before = ui.item.prevAll('li').map(function() {
-                                                var api = angular.element(this).scope().discussion_api;
-                                                if ($scope.order.indexOf(api) === -1) {
-                                                    $scope.order.push(api);
-                                                }
-                                                return api;
-                                            }).toArray();
-                                            var after = ui.item.nextAll('li').map(function() {
-                                                var api = angular.element(this).scope().discussion_api;
-                                                if ($scope.order.indexOf(api) === -1) {
-                                                    $scope.order.push(api);
-                                                }
-                                                return api;
-                                            }).toArray();
-                                            var current = angular.element(ui.item).scope().discussion_api;
-                                            if ($scope.order.indexOf(current) === -1) {
-                                                $scope.order.push(current);
-                                            }
-
-                                            $scope.order.sort(function(a, b) {
-                                                var a_val = (a === current) ? 0 : ((before.indexOf(a) !== -1) ? -1 : ((after.indexOf(a) !== -1) ? 1 : 'idk'));
-                                                var b_val = (b === current) ? 0 : ((before.indexOf(b) !== -1) ? -1 : ((after.indexOf(b) !== -1) ? 1 : 'idk'));
-                                                if (a_val === 'idk' || b_val === 'idk') {
-                                                    return 0;
-                                                }
-                                                return a_val - b_val;
+                                            var item_pos = {};
+                                            $element.find('li').each(function(i) {
+                                                item_pos[$scope.items[angular.element(this).scope().$index]] = i;
+                                            });
+                                            $scope.items.sort(function(a, b) {
+                                                return item_pos[a] - item_pos[b];
                                             });
                                         });
                                     } });
