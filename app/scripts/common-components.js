@@ -108,7 +108,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         chrome.storage.sync.set(obj);
                     }, true);
                 });
-                chrome.storage.onChanged.addListener(function(changes, area_name) {
+                function onStorageChanged(changes, area_name) {
                     if (area_name !== 'sync' || !($scope.name in changes)) {
                         return;
                     }
@@ -118,6 +118,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             $scope.stored = changes[$scope.name].newValue;
                         }
                     });
+                }
+                chrome.storage.onChanged.addListener(onStorageChanged);
+                $scope.$on('$destroy', function() {
+                    chrome.storage.onChanged.removeListener(onStorageChanged);
                 });
             }
         };
