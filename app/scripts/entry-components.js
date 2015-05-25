@@ -31,7 +31,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                     break;
                             }
                         } else {
-                            var entry = { discussions: {}, type: 'url', desired_discussion_api: 'url', showMenu: true };
+                            var entry = { discussions: {}, type: 'url', desired_discussion_api: 'url' };
                             var data  = { discussions: {} };
 
                             var apis = ['reddit', 'twitter'];
