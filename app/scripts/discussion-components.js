@@ -29,23 +29,25 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             if (!api || !$scope.entry.discussions || !$scope.entry.discussions[api]) {
                 return;
             }
+            if (!$scope.data.discussions || !$scope.data.discussions[api]) {
+                $scope.data.discussions = $scope.data.discussions || {};
+                $scope.data.discussions[api] = apiService.get($scope.entry.discussions[api]);
+                $scope.data.discussions[api]
+                    .$promise
+                    .then(function(discussion) {
+                        if (!discussion.comments || !discussion.comments.length) {
+                            discussion.$err = { 'empty-content': true };
+                        }
+                    });
+            }
             $scope.entry.discussion_api = api;
-            $scope.loading_discussion = apiService.get($scope.entry.discussions[api]);
-            $scope.loading_discussion
-                .$promise
-                .then(function(discussion) {
-                    if (!discussion.comments || !discussion.comments.length) {
-                        discussion.$err = { 'empty-content': true };
-                    }
-                });
         });
 
-        $scope.$watch('loading_discussion.$resolved || loading_discussion.$err', function(show_loading_discussion) {
-            if (!show_loading_discussion) {
+        $scope.$watch('(data.discussions[entry.discussion_api].$resolved || data.discussions[entry.discussion_api].$err) && data.discussions[entry.discussion_api]', function(discussion) {
+            if (!discussion) {
                 return;
             }
-            $scope.data.discussion = $scope.loading_discussion;
-            $scope.loading_discussion = null;
+            $scope.data.discussion = discussion;
         });
 
         $scope.$watch('data.discussion.$resolved && entry && data.discussion', function(discussion) {
