@@ -73,7 +73,7 @@ module.exports = function sidebarInjectOn(inject_into, body, clickable, sendMess
         }
         var obj = $(e.target);
         var cursor = obj.css('cursor');
-        if (always_dont_hide[cursor] || (!always_hide[cursor] && (cursor !== 'auto' || obj.closest('a,input,textarea,video,embed,object,button,audio,label').length))) {
+        if (always_dont_hide[cursor] || (!always_hide[cursor] && (cursor !== 'auto' || obj.closest('a,input,textarea,video,embed,object,button,audio,label,.ytp-progress-bar-container *, .conversation *').length))) {
             return;
         }
         sendMessage({ msg: 'hide' });
