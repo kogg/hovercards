@@ -64,18 +64,7 @@ module.exports = function sidebarInjectOn(inject_into, body, clickable, sendMess
             $(window).off('mousewheel', prevent_everything);
         });
 
-    var always_dont_hide = { text: true };
-    var always_hide      = { default: true };
-
-    $(clickable).click(function(e) {
-        if (e.which !== 1) {
-            return;
-        }
-        var obj = $(e.target);
-        var cursor = obj.css('cursor');
-        if (always_dont_hide[cursor] || (!always_hide[cursor] && (cursor !== 'auto' || obj.closest('a,input,textarea,video,embed,object,button,audio,label,.ytp-progress-bar-container *, .conversation *').length))) {
-            return;
-        }
+    $(clickable).dblclick(function() {
         sendMessage({ msg: 'hide' });
     });
 
