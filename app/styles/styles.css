@@ -196,6 +196,7 @@ b i, .iconic-push {
 }
 .card {
 	margin-top: 16px;
+	margin-bottom: 16px;
 	min-width: 300px;
 	padding: 0 20px;
 	position: relative;
@@ -1374,7 +1375,7 @@ b i, .iconic-push {
 	max-width: 125px;
 	max-height: 71px;
 	min-height: 71px;
-	border-radius: 3px;
+	border-radius: 3px; 
 	border: 1px solid rgba(0,0,0,.15)
 }
 .content-list .row .col-8 {
@@ -1553,19 +1554,19 @@ b i, .iconic-push {
 	padding-bottom: 36px;
 	border-bottom: none
 }
-.twitter-content-list .col-12 {
+.retweet {
 	padding: 16px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 3px;
   margin-bottom: 8px;
 }
-.twitter-content-list .col-12 span, .twitter-content-list .col-12 span a {
+.retweet span, .retweet span a {
 	color: #727272;
   text-decoration: none;
   font-size: 12px;
   font-weight: 600;
 }
-.twitter-content-list .col-12 span i {
+.retweet span i {
 	color:#5D9040;
 	margin-right: 3px;
 }
