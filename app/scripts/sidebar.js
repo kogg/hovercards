@@ -37,10 +37,6 @@ module.exports = function sidebar() {
             $(window).off('mousewheel', prevent_everything);
         });
 
-    $(document).dblclick(function() {
-        sidebar_message({ msg: 'hide' });
-    });
-
     window.addEventListener('message', function(event) {
         if (!event || !event.data) {
             return;
@@ -52,6 +48,15 @@ module.exports = function sidebar() {
         sidebar_message(event.data, event.source);
     }, false);
 
+    function dblclick_for_sidebar() {
+        if (document.selection && document.selection.empty) {
+            document.selection.empty();
+        } else if (window.getSelection) {
+            window.getSelection().removeAllRanges();
+        }
+        sidebar_message({ msg: 'hide' });
+    }
+
     var sidebar_frame;
 
     function sendMessage(msg) {
@@ -62,12 +67,14 @@ module.exports = function sidebar() {
                     .show()
                     .removeClass(extension_id + '-sidebar-leave')
                     .addClass(extension_id + '-sidebar-enter');
+                $(document).on('dblclick', dblclick_for_sidebar);
                 sidebar_message({ msg: 'loaded' });
                 break;
             case 'hide':
                 obj
                     .removeClass(extension_id + '-sidebar-enter')
                     .addClass(extension_id + '-sidebar-leave');
+                $(document).off('dblclick', dblclick_for_sidebar);
                 sidebar_message({ msg: 'hidden' });
                 break;
         }
