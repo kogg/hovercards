@@ -2,7 +2,7 @@ var $ = require('jquery');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
-module.exports = function sidebarInjectOn(inject_into, sendMessage) {
+module.exports = function sidebarInjectOn(inject_into) {
 
     var obj = $('<div></div>')
         .appendTo($(inject_into))
@@ -22,13 +22,13 @@ module.exports = function sidebarInjectOn(inject_into, sendMessage) {
                         .show()
                         .removeClass(extension_id + '-sidebar-leave')
                         .addClass(extension_id + '-sidebar-enter');
-                    sendMessage({ msg: 'loaded' });
+                    window.postMessage({ msg: 'loaded' }, '*');
                     break;
                 case 'hide':
                     obj
                         .removeClass(extension_id + '-sidebar-enter')
                         .addClass(extension_id + '-sidebar-leave');
-                    sendMessage({ msg: 'hidden' });
+                    window.postMessage({ msg: 'hidden' }, '*');
                     break;
             }
         });
@@ -40,17 +40,17 @@ module.exports = function sidebarInjectOn(inject_into, sendMessage) {
         obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
     }, false);
 
-    var prevent_everything = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    };
-
     $('<div></div>')
         .appendTo(obj)
         .addClass(extension_id + '-sidebar-close-button')
         .click(function() {
-            sendMessage({ msg: 'hide' });
+            window.postMessage({ msg: 'hide' }, '*');
         });
+
+    var prevent_everything = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    };
 
     $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
@@ -64,7 +64,7 @@ module.exports = function sidebarInjectOn(inject_into, sendMessage) {
         });
 
     $(document).dblclick(function() {
-        sendMessage({ msg: 'hide' });
+        window.postMessage({ msg: 'hide' }, '*');
     });
 
     var sidebar_frame;
