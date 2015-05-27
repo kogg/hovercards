@@ -2,10 +2,9 @@ var $ = require('jquery');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
-module.exports = function sidebarInjectOn(inject_into) {
+module.exports = function sidebarInjectOn() {
 
     var obj = $('<div></div>')
-        .appendTo($(inject_into))
         .addClass(extension_id + '-sidebar')
         .width(340)
         .hide()
