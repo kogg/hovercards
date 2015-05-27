@@ -2,8 +2,7 @@ var $ = require('jquery');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
-module.exports = function sidebarInjectOn() {
-
+module.exports = function sidebar() {
     var obj = $('<div></div>')
         .addClass(extension_id + '-sidebar')
         .width(340)
@@ -13,43 +12,19 @@ module.exports = function sidebarInjectOn() {
                 return;
             }
             obj.hide();
-        })
-        .on('sidebar.msg', function(e, request) {
-            switch (request.msg) {
-                case 'load':
-                    obj
-                        .show()
-                        .removeClass(extension_id + '-sidebar-leave')
-                        .addClass(extension_id + '-sidebar-enter');
-                    window.postMessage({ msg: 'loaded' }, '*');
-                    break;
-                case 'hide':
-                    obj
-                        .removeClass(extension_id + '-sidebar-enter')
-                        .addClass(extension_id + '-sidebar-leave');
-                    window.postMessage({ msg: 'hidden' }, '*');
-                    break;
-            }
         });
-
-    window.addEventListener('message', function(event) {
-        if (!event || !event.data || event.data.msg !== extension_id + '-fullscreen') {
-            return;
-        }
-        obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
-    }, false);
 
     $('<div></div>')
         .appendTo(obj)
         .addClass(extension_id + '-sidebar-close-button')
         .click(function() {
-            window.postMessage({ msg: 'hide' }, '*');
+            sidebar_message({ msg: 'hide' });
         });
 
-    var prevent_everything = function(e) {
+    function prevent_everything(e) {
         e.preventDefault();
         e.stopPropagation();
-    };
+    }
 
     $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
@@ -63,61 +38,78 @@ module.exports = function sidebarInjectOn() {
         });
 
     $(document).dblclick(function() {
-        window.postMessage({ msg: 'hide' }, '*');
+        sidebar_message({ msg: 'hide' });
     });
 
-    var sidebar_frame;
-    var sidebar_trigger = (function sidebarTrigger(sendMessage) {
-        var ready;
-        var url;
-
-        return function(request) {
-            if (!request) {
-                return;
-            }
-            sendMessage = sendMessage || function() {};
-            switch (request.msg) {
-                case 'ready':
-                    ready = true;
-                    if (!url) {
-                        return;
-                    }
-                    sendMessage({ msg: 'load', url: url });
-                    break;
-                case 'activate':
-                    var msg;
-                    if (request.url !== url) {
-                        msg = { msg: 'load', url: request.url };
-                        url = request.url;
-                    } else {
-                        msg = { msg: 'hide' };
-                        url = null;
-                    }
-                    if (!ready) {
-                        return;
-                    }
-                    sendMessage(msg);
-                    break;
-                case 'hide':
-                    url = null;
-                    if (!ready) {
-                        return;
-                    }
-                    sendMessage({ msg: 'hide' });
-                    break;
-            }
-        };
-    }(function(msg) {
-        sidebar_frame.postMessage(msg, '*');
-        obj.trigger('sidebar.msg', [msg]);
-    }));
-
     window.addEventListener('message', function(event) {
-        if (event && event.data && event.data.msg === 'ready') {
-            sidebar_frame = event.source;
+        if (!event || !event.data) {
+            return;
         }
-        sidebar_trigger(event.data);
+        if (event.data.msg === extension_id + '-fullscreen') {
+            obj.toggleClass(extension_id + '-fullscreen', event.data.value || false);
+            return;
+        }
+        sidebar_message(event.data, event.source);
     }, false);
+
+    var sidebar_frame;
+
+    function sendMessage(msg) {
+        sidebar_frame.postMessage(msg, '*');
+        switch (msg.msg) {
+            case 'load':
+                obj
+                    .show()
+                    .removeClass(extension_id + '-sidebar-leave')
+                    .addClass(extension_id + '-sidebar-enter');
+                sidebar_message({ msg: 'loaded' });
+                break;
+            case 'hide':
+                obj
+                    .removeClass(extension_id + '-sidebar-enter')
+                    .addClass(extension_id + '-sidebar-leave');
+                sidebar_message({ msg: 'hidden' });
+                break;
+        }
+    }
+
+    var url;
+
+    function sidebar_message(request, frame) {
+        if (!request) {
+            return;
+        }
+        switch (request.msg) {
+            case 'ready':
+                sidebar_frame = frame;
+                if (!url) {
+                    return;
+                }
+                sendMessage({ msg: 'load', url: url });
+                break;
+            case 'activate':
+                var msg;
+                if (request.url !== url) {
+                    msg = { msg: 'load', url: request.url };
+                    url = request.url;
+                } else {
+                    msg = { msg: 'hide' };
+                    url = null;
+                }
+                if (!sidebar_frame) {
+                    return;
+                }
+                sendMessage(msg);
+                break;
+            case 'hide':
+                url = null;
+                if (!sidebar_frame) {
+                    return;
+                }
+                sendMessage({ msg: 'hide' });
+                break;
+        }
+    }
 
     return obj;
 };
