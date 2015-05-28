@@ -40,7 +40,7 @@ module.exports = function(body, selector, get_url) {
             clearTimeout(timeout);
         };
 
-        var enter = function(e, identity) {
+        body.data(extension_id + '-yo-follower-enter', function(e, identity) {
             body.on('mousemove', mousemove);
             $(e.currentTarget).on('longpress', longpress);
             if (follower.api) {
@@ -57,14 +57,14 @@ module.exports = function(body, selector, get_url) {
                 }, 2000);
             }, 400);
             return follower;
-        };
+        });
 
-        var leave = function(e) {
+        body.data(extension_id + '-yo-follower-leave', function(e) {
             toggle(false);
             clearTimeout(timeout);
             $(e.currentTarget).off('longpress', longpress);
             return follower;
-        };
+        });
 
         follower.on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
             if (e.originalEvent.animationName !== extension_id + '-yo-follower-fadeout' && e.originalEvent.animationName !== extension_id + '-yo-follower-growfade') {
@@ -77,6 +77,8 @@ module.exports = function(body, selector, get_url) {
 
         body.data(extension_id + '-yo-follower', follower);
     }
+    var enter = body.data(extension_id + '-yo-follower-enter');
+    var leave = body.data(extension_id + '-yo-follower-leave');
 
     body.on('mouseenter', selector, function(e) {
         var obj = $(this);

@@ -15,7 +15,7 @@ var extension_id = chrome.i18n.getMessage('@@extension_id');
 
 var html = $('html');
 
-longpress(html, 'a[href]:not([data-href])', function(link) {
+longpress(html, 'a[href]:not([data-href],[data-expanded-url])', function(link) {
     return common.massage_url(link.attr('href'));
 });
 
@@ -23,12 +23,20 @@ longpress(html, 'a[data-href]', function(link) {
     return common.massage_url(link.data('href'));
 });
 
-yo_follower(html, 'a[href]:not([data-href]):not(.no-yo)', function(link) {
+longpress(html, 'a[data-expanded-url]', function(link) {
+    return common.massage_url(link.data('expanded-url'));
+});
+
+yo_follower(html, 'a[href]:not([data-href],[data-expanded-url],.no-yo)', function(link) {
     return common.massage_url(link.attr('href'));
 });
 
 yo_follower(html, 'a[data-href]:not(.no-yo)', function(link) {
-    return common.massage_url(link.attr('href'));
+    return common.massage_url(link.data('href'));
+});
+
+yo_follower(html, 'a[data-expanded-url]:not(.no-yo)', function(link) {
+    return common.massage_url(link.data('expanded-url'));
 });
 
 embedded_trigger(html, 'embed[src]:not(.no-yo)', { top: 32, left: 8 }, function(embed) {
