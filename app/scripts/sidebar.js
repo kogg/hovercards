@@ -1,4 +1,5 @@
-var $ = require('jquery');
+var $            = require('jquery');
+var network_urls = require('YoCardsApiCalls/network-urls');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
@@ -59,9 +60,9 @@ module.exports = function sidebar() {
 
     var sidebar_frame;
 
-    function sendMessage(msg) {
-        sidebar_frame.postMessage(msg, '*');
-        switch (msg.msg) {
+    function sendMessage(message) {
+        sidebar_frame.postMessage(message, '*');
+        switch (message.msg) {
             case 'load':
                 obj
                     .show()
@@ -80,7 +81,7 @@ module.exports = function sidebar() {
         }
     }
 
-    var url;
+    var identity;
 
     function sidebar_message(request, frame) {
         if (!request) {
@@ -89,19 +90,39 @@ module.exports = function sidebar() {
         switch (request.msg) {
             case 'ready':
                 sidebar_frame = frame;
-                if (!url) {
+                if (!identity) {
                     return;
                 }
-                sendMessage({ msg: 'load', url: url });
+                sendMessage({ msg: 'load', identity: identity });
                 break;
             case 'activate':
+                var possible_identity = network_urls.identify(request.url);
+                if (!possible_identity) {
+                    possible_identity = { type: 'url', id: request.url };
+                }
+                var equal = (function(identity_1, identity_2) {
+                    if (!identity_1 || !identity_2) {
+                        return false;
+                    }
+                    var keys_1 = Object.keys(identity_1);
+                    var keys_2 = Object.keys(identity_2);
+                    if (keys_1.length !== keys_2.length) {
+                        return false;
+                    }
+                    for (var i in keys_1) {
+                        if (identity_1[keys_1[i]] !== identity_2[keys_2[i]]) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }(possible_identity, identity));
                 var msg;
-                if (request.url !== url) {
-                    msg = { msg: 'load', url: request.url };
-                    url = request.url;
-                } else {
+                if (equal) {
                     msg = { msg: 'hide' };
-                    url = null;
+                    identity = null;
+                } else {
+                    msg = { msg: 'load', identity: possible_identity };
+                    identity = possible_identity;
                 }
                 if (!sidebar_frame) {
                     return;
@@ -109,7 +130,7 @@ module.exports = function sidebar() {
                 sendMessage(msg);
                 break;
             case 'hide':
-                url = null;
+                identity = null;
                 if (!sidebar_frame) {
                     return;
                 }
