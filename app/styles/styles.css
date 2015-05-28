@@ -1566,6 +1566,9 @@ b i, .iconic-push {
   font-size: 12px;
   font-weight: 600;
 }
+.retweet span a {
+	color: black
+}
 .retweet span i {
 	color:#5D9040;
 	margin-right: 3px;
