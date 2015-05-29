@@ -5,10 +5,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
         var errors = { 0:   'our-problem',
                        400: 'bad-input',
                        401: 'unauthorized',
+                       403: 'forbidden',
                        404: 'no-content',
                        501: 'not-implemented',
                        502: 'dependency-down' };
         var api_specific_errors = { 'dependency-down': true,
+                                    'forbidden':       true,
                                     'not-implemented': true,
                                     'unauthorized':    true };
 

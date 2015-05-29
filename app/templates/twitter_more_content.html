@@ -2,4 +2,8 @@
 	<div class="comment row" ng-repeat="tweet in data.moreContent.content" ng-include="'templates/twitter_tweet.html'"></div>
 </div>
 
-<div ng-if="data.moreContent.$err" err="data.moreContent.$err" api="twitter" type="more_content" entry="entry"></div>
+<div ng-if="data.moreContent.$err" err="data.moreContent.$err" api="twitter" type="more_content" entry="entry">
+	<span ng-message="forbidden">
+		<span class="yocards-message-content"><b><i class="md md-error"></i>Protected Tweets</b><a ng-href="{{:: entry.selectedPerson.selectedAccount | generateUrl }}">{{:: entry.selectedPerson.selectedAccount.name }}</a> has set his tweets to be protected. You'll need him to follow you to see these!</span>
+	</span>
+</div>
