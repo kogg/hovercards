@@ -1629,7 +1629,7 @@ b i, .iconic-push {
 	}
 }
 
-.fade-in-animation.ng-enter {
+.fade-in-animation.ng-enter, .fade-in-animation.ng-hide-remove {
 	-webkit-animation-duration: 1s;
 	animation-duration: 1s;
 	-webkit-animation-fill-mode: both;
