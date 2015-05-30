@@ -1333,6 +1333,27 @@ b i, .iconic-push {
 .social-profile-description .context-top .row {
 	padding:15px 10px 5px 16px;
 }
+.social-profile-description-container .social-profile-description-morecontent .col-12:last-of-type {
+	margin-top: 5px;
+}
+.social-profile-description-morecontent {
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(0,0,0,.15)
+}
+.social-profile-description-morecontent span {
+	color: #727272;
+}
+.social-profile-description-morecontent span a {
+	color: #2196F3;
+	text-decoration: none;
+}
+.social-profile-description-morecontent span a:hover {
+	text-decoration: underline;
+}
 /*content top*/
 .content-top {
 	max-height: 301px;
