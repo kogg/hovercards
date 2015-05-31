@@ -55,7 +55,7 @@ embedded_trigger(html, html, 'div#player div.html5-video-player', { top: 32, lef
 $(document).ready(function () {
     $('iframe.twitter-tweet:not([src])').each(function() {
         var offset = $(this).offset();
-        offset.top += 32;
+        offset.top += 8;
         offset.left += 8;
         embedded_trigger($(this).contents().find('html'), html, 'body', offset, function(iframe_body) {
             return iframe_body.find('blockquote').attr('cite');
