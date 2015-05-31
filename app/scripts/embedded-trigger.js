@@ -3,10 +3,11 @@ var network_urls = require('YoCardsApiCalls/network-urls');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
-module.exports = function(body, selector, offset, get_url) {
-    body = $(body);
+module.exports = function(listen_on, inject_into, selector, offset, get_url) {
+    listen_on   = $(listen_on);
+    inject_into = $(inject_into);
 
-    body.on('mousemove', selector, function () {
+    listen_on.on('mousemove', selector, function () {
         var obj = $(this);
         var trigger;
         if (obj.data(extension_id + '-yo-trigger')) {
@@ -31,7 +32,7 @@ module.exports = function(body, selector, offset, get_url) {
         var obj_offset = obj.offset();
 
         obj.data(extension_id + '-yo-trigger', trigger = $('<div></div>')
-            .appendTo(body)
+            .appendTo(inject_into)
             .addClass(extension_id + '-yo-notify')
             .addClass(extension_id + '-yo-notify-embedded')
             .addClass(extension_id + '-yo-notify-' + identity.api)
@@ -67,7 +68,7 @@ module.exports = function(body, selector, offset, get_url) {
         }, 3000));
     });
 
-    body.on('mouseleave', selector, function (e) {
+    listen_on.on('mouseleave', selector, function (e) {
         var obj = $(this);
         if (!obj.data(extension_id + '-yo-trigger')) {
             return;

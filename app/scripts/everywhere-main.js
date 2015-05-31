@@ -39,20 +39,32 @@ yo_follower(html, 'a[data-expanded-url]:not(.no-yo)', function(link) {
     return common.massage_url(link.data('expanded-url'));
 });
 
-embedded_trigger(html, 'embed[src]:not(.no-yo)', { top: 32, left: 8 }, function(embed) {
+embedded_trigger(html, html, 'embed[src]:not(.no-yo)', { top: 32, left: 8 }, function(embed) {
     return common.massage_url(embed.attr('src'));
 });
 
-embedded_trigger(html, 'object[data]:not(.no-yo)', { top: 32, left: 8 }, function(object) {
+embedded_trigger(html, html, 'object[data]:not(.no-yo)', { top: 32, left: 8 }, function(object) {
     return common.massage_url(object.attr('data'));
 });
 
-embedded_trigger(html, 'div#player div.html5-video-player', { top: 32, left: 8 }, function() {
+embedded_trigger(html, html, 'div#player div.html5-video-player', { top: 32, left: 8 }, function() {
     return document.URL;
 });
 
+/* Twitter Embeds */
+$(document).ready(function () {
+    $('iframe.twitter-tweet:not([src])').each(function() {
+        var offset = $(this).offset();
+        offset.top += 32;
+        offset.left += 8;
+        embedded_trigger($(this).contents().find('html'), html, 'body', offset, function(iframe_body) {
+            return iframe_body.find('blockquote').attr('cite');
+        });
+    });
+});
+
 if (window.top !== window) {
-    embedded_trigger(html, 'body', { top: 8, left: 8 }, function() {
+    embedded_trigger(html, html, 'body', { top: 8, left: 8 }, function() {
         return (document.URL.indexOf('redditmedia.com') !== -1) && document.URL;
     });
 }
