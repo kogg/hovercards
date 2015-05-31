@@ -24,6 +24,9 @@
 .__MSG_@@extension_id__-yo-notify-youtube {
 	background-color: #F44336 !important;
 }
+.__MSG_@@extension_id__-yo-notify-twitter {
+	background-color: #55ACEE !important;
+}
 .__MSG_@@extension_id__-yo-notify-reddit {
 	background-color: #cee2f8 !important;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-black.png') !important;
