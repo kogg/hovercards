@@ -104,6 +104,25 @@ describe('people-directive', function() {
                 .to.have.property('selectedAccount', $rootScope.data.accounts['second-api/account/SECOND_ID']);
         });
 
+        it('should sort people by the accounts order, not the order they loaded', function() {
+            $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
+            $rootScope.entry.accounts.push({ api: 'second-api', type: 'account', id: 'SECOND_ID' });
+            $rootScope.$digest();
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'second-api', type: 'account', id: 'SECOND_ID' })
+                .yield([null, { api: 'second-api', type: 'account', id: 'SECOND_ID' }]);
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID' }]);
+            $rootScope.$digest();
+
+            expect($rootScope.data.people[0])
+                .to.have.property('selectedAccount', $rootScope.data.accounts['first-api/account/FIRST_ID']);
+
+            expect($rootScope.data.people[1])
+                .to.have.property('selectedAccount', $rootScope.data.accounts['second-api/account/SECOND_ID']);
+        });
+
         it('should merge people that are connected to a new account', function() {
             $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
             $rootScope.entry.accounts.push({ api: 'second-api', type: 'account', id: 'SECOND_ID' });
