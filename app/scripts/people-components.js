@@ -1,3 +1,4 @@
+var _       = require('underscore');
 var angular = require('angular');
 require('slick-carousel');
 
@@ -54,7 +55,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
 
             $scope.data.accounts = (function(accounts) {
                 $scope.data.people = (function(people) {
-                    requests.forEach(function load_account_into(request) {
+                    _.each(requests, function load_account_into(request) {
                         var key = request_to_string(request);
                         if (accounts[key]) {
                             return;
@@ -64,9 +65,33 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             .$promise
                             .then(function(account) {
                                 if (account.connected) {
-                                    account.connected.forEach(load_account_into);
+                                    _.each(account.connected, load_account_into);
                                 }
-                                people.push({ accounts: [account], selectedAccount: account });
+                                var account_ids = _.chain(account.connected)
+                                                   .map(request_to_string)
+                                                   .push(key)
+                                                   .uniq()
+                                                   .value();
+                                var person = _.chain(people)
+                                              .filter(function(person) {
+                                                  return _.some(person.account_ids, function(account_id) {
+                                                      return _.contains(account_ids, account_id);
+                                                  });
+                                              })
+                                              .reduce(function(person, person_to_merge) {
+                                                  person.accounts    = _.union(person.accounts,    person_to_merge.accounts);
+                                                  person.account_ids = _.union(person.account_ids, person_to_merge.account_ids);
+                                                  people.splice(_.indexOf(people, person_to_merge), 1);
+                                                  return person;
+                                              })
+                                              .value();
+                                if (!person) {
+                                    person = { accounts: [], account_ids: [] };
+                                    people.push(person);
+                                }
+                                person.accounts        = _.union(person.accounts,    [account]);
+                                person.account_ids     = _.union(person.account_ids, account_ids);
+                                person.selectedAccount = person.selectedAccount || account;
                                 return account;
                             });
                     });

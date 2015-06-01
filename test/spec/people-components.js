@@ -103,6 +103,68 @@ describe('people-directive', function() {
             expect($rootScope.data.people[1])
                 .to.have.property('selectedAccount', $rootScope.data.accounts['second-api/account/SECOND_ID']);
         });
+
+        it('should merge people that are connected to a new account', function() {
+            $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
+            $rootScope.entry.accounts.push({ api: 'second-api', type: 'account', id: 'SECOND_ID' });
+            $rootScope.entry.accounts.push({ api: 'third-api', type: 'account', id: 'THIRD_ID' });
+            $rootScope.$digest();
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID',
+                                connected: [{ api: 'third-api', type: 'account', id: 'THIRD_ID' }] }]);
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'second-api', type: 'account', id: 'SECOND_ID' })
+                .yield([null, { api: 'second-api', type: 'account', id: 'SECOND_ID',
+                                connected: [{ api: 'third-api', type: 'account', id: 'THIRD_ID' }] }]);
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'third-api', type: 'account', id: 'THIRD_ID' })
+                .yield([null, { api: 'third-api', type: 'account', id: 'THIRD_ID' }]);
+            $rootScope.$digest();
+
+            expect($rootScope.data)
+                .to.have.property('people')
+                    .that.has.length(1);
+
+            expect($rootScope.data.people[0])
+                .to.have.property('accounts')
+                    .that.contains($rootScope.data.accounts['first-api/account/FIRST_ID'])
+                    .and.contains($rootScope.data.accounts['second-api/account/SECOND_ID'])
+                    .and.contains($rootScope.data.accounts['third-api/account/THIRD_ID']);
+            expect($rootScope.data.people[0])
+                .to.have.property('selectedAccount', $rootScope.data.accounts['first-api/account/FIRST_ID']);
+        });
+
+        it('should merge people that are connected by a new account', function() {
+            $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
+            $rootScope.entry.accounts.push({ api: 'second-api', type: 'account', id: 'SECOND_ID' });
+            $rootScope.entry.accounts.push({ api: 'third-api', type: 'account', id: 'THIRD_ID' });
+            $rootScope.$digest();
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID' }]);
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'second-api', type: 'account', id: 'SECOND_ID' })
+                .yield([null, { api: 'second-api', type: 'account', id: 'SECOND_ID' }]);
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'third-api', type: 'account', id: 'THIRD_ID' })
+                .yield([null, { api: 'third-api', type: 'account', id: 'THIRD_ID',
+                                connected: [{ api: 'first-api', type: 'account', id: 'FIRST_ID' },
+                                            { api: 'second-api', type: 'account', id: 'SECOND_ID' }] }]);
+            $rootScope.$digest();
+
+            expect($rootScope.data)
+                .to.have.property('people')
+                    .that.has.length(1);
+
+            expect($rootScope.data.people[0])
+                .to.have.property('accounts')
+                    .that.contains($rootScope.data.accounts['first-api/account/FIRST_ID'])
+                    .and.contains($rootScope.data.accounts['second-api/account/SECOND_ID'])
+                    .and.contains($rootScope.data.accounts['third-api/account/THIRD_ID']);
+            expect($rootScope.data.people[0])
+                .to.have.property('selectedAccount', $rootScope.data.accounts['first-api/account/FIRST_ID']);
+        });
     });
 
     /*
