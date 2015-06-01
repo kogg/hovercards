@@ -29,42 +29,74 @@ describe('people-directive', function() {
         });
 
         it('should load account', function() {
-            $rootScope.entry.accounts.push({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' });
+            $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
             $rootScope.$digest();
-            expect($rootScope.data).to.have.property('accounts').that.has.property('some-api/first-account/FIRST_ID');
-            expect($rootScope.data.accounts['some-api/first-account/FIRST_ID']).not.to.have.property('$resolved');
+            expect($rootScope.data).to.have.property('accounts').that.has.property('first-api/account/FIRST_ID');
+            expect($rootScope.data.accounts['first-api/account/FIRST_ID']).not.to.have.property('$resolved');
             chrome.runtime.sendMessage
-                .withArgs({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' })
-                .yield([null, { api: 'some-api', type: 'first-account', id: 'FIRST_ID', key: 'value' }]);
+                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID', key: 'value' }]);
             $rootScope.$digest();
-            expect($rootScope.data.accounts['some-api/first-account/FIRST_ID']).to.have.property('$resolved', true);
-            expect($rootScope.data.accounts['some-api/first-account/FIRST_ID']).to.have.property('key', 'value');
+            expect($rootScope.data.accounts['first-api/account/FIRST_ID']).to.have.property('$resolved', true);
+            expect($rootScope.data.accounts['first-api/account/FIRST_ID']).to.have.property('key', 'value');
         });
 
         it('should not load the same account twice', function() {
-            $rootScope.entry.accounts.push({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' });
+            $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
             $rootScope.$digest();
             chrome.runtime.sendMessage
-                .withArgs({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' })
-                .yield([null, { api: 'some-api', type: 'first-account', id: 'FIRST_ID', key: 'value' }]);
+                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID', key: 'value' }]);
             $rootScope.$digest();
-            expect($rootScope.data.accounts['some-api/first-account/FIRST_ID']).to.have.property('$resolved', true);
-            $rootScope.entry.accounts.push({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' });
+            expect($rootScope.data.accounts['first-api/account/FIRST_ID']).to.have.property('$resolved', true);
+            $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
             $rootScope.$digest();
-            expect($rootScope.data.accounts['some-api/first-account/FIRST_ID']).to.have.property('$resolved', true);
+            expect($rootScope.data.accounts['first-api/account/FIRST_ID']).to.have.property('$resolved', true);
         });
 
         it('should load accounts that are connected', function() {
-            $rootScope.entry.accounts.push({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' });
+            $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
             $rootScope.$digest();
             chrome.runtime.sendMessage
-                .withArgs({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' })
-                .yield([null, { api: 'some-api', type: 'first-account', id: 'FIRST_ID',
-                                connected: [{ api: 'some-api', type: 'second-account', id: 'SECOND_ID' },
-                                            { api: 'some-api', type: 'third-account',  id: 'THIRD_ID' }] }]);
+                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID',
+                                connected: [{ api: 'second-api', type: 'account', id: 'SECOND_ID' },
+                                            { api: 'third-api',  type: 'account', id: 'THIRD_ID' }] }]);
             $rootScope.$digest();
-            expect($rootScope.data).to.have.property('accounts').that.has.property('some-api/second-account/SECOND_ID');
-            expect($rootScope.data).to.have.property('accounts').that.has.property('some-api/third-account/THIRD_ID');
+            expect($rootScope.data).to.have.property('accounts').that.has.property('second-api/account/SECOND_ID');
+            expect($rootScope.data).to.have.property('accounts').that.has.property('third-api/account/THIRD_ID');
+        });
+    });
+
+    describe('constructing people', function() {
+        beforeEach(function() {
+            $rootScope.can_have_people = true;
+            $rootScope.entry.accounts = [];
+            sandbox.stub(chrome.runtime, 'sendMessage');
+        });
+
+        it('should use accounts to make people', function() {
+            $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
+            $rootScope.entry.accounts.push({ api: 'second-api', type: 'account', id: 'SECOND_ID' });
+            $rootScope.$digest();
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID' }]);
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'second-api', type: 'account', id: 'SECOND_ID' })
+                .yield([null, { api: 'second-api', type: 'account', id: 'SECOND_ID' }]);
+            $rootScope.$digest();
+            expect($rootScope.data)
+                .to.have.property('people')
+                    .that.has.length(2);
+            expect($rootScope.data.people[0])
+                .to.have.property('accounts')
+                    .that.has.property('first-api')
+                        .that.equals($rootScope.data.accounts['first-api/account/FIRST_ID']);
+            expect($rootScope.data.people[1])
+                .to.have.property('accounts')
+                    .that.has.property('second-api')
+                        .that.equals($rootScope.data.accounts['second-api/account/SECOND_ID']);
         });
     });
 

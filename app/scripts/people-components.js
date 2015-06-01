@@ -47,26 +47,34 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
 
         $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
             if (!requests || !requests.length) {
+                $scope.data.accounts = null;
                 $scope.data.people = null;
                 return;
             }
 
             $scope.data.accounts = (function(accounts) {
-                requests.forEach(function load_account_into(request) {
-                    var key = request_to_string(request);
-                    if (accounts[key]) {
-                        return;
-                    }
-                    accounts[key] = apiService.get(request);
-                    accounts[key]
-                        .$promise
-                        .then(function(account) {
-                            if (!account.connected) {
-                                return;
-                            }
-                            account.connected.forEach(load_account_into);
-                        });
-                });
+                $scope.data.people = (function(people) {
+                    requests.forEach(function load_account_into(request) {
+                        var key = request_to_string(request);
+                        if (accounts[key]) {
+                            return;
+                        }
+                        accounts[key] = apiService.get(request);
+                        accounts[key]
+                            .$promise
+                            .then(function(account) {
+                                if (account.connected) {
+                                    account.connected.forEach(load_account_into);
+                                }
+                                var person = { accounts: {} };
+                                person.accounts[account.api] = account;
+                                people.push(person);
+                                return account;
+                            });
+                    });
+
+                    return people;
+                }($scope.data.people || []));
 
                 return accounts;
             }($scope.data.accounts || {}));
