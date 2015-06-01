@@ -31,9 +31,7 @@ describe('people-directive', function() {
         it('should load account', function() {
             $rootScope.entry.accounts.push({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' });
             $rootScope.$digest();
-            expect($rootScope.data)
-                .to.have.property('accounts')
-                    .that.has.property('some-api/first-account/FIRST_ID');
+            expect($rootScope.data).to.have.property('accounts').that.has.property('some-api/first-account/FIRST_ID');
             expect($rootScope.data.accounts['some-api/first-account/FIRST_ID']).not.to.have.property('$resolved');
             chrome.runtime.sendMessage
                 .withArgs({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' })
@@ -54,6 +52,19 @@ describe('people-directive', function() {
             $rootScope.entry.accounts.push({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' });
             $rootScope.$digest();
             expect($rootScope.data.accounts['some-api/first-account/FIRST_ID']).to.have.property('$resolved', true);
+        });
+
+        it('should load accounts that are connected', function() {
+            $rootScope.entry.accounts.push({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' });
+            $rootScope.$digest();
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' })
+                .yield([null, { api: 'some-api', type: 'first-account', id: 'FIRST_ID',
+                                connected: [{ api: 'some-api', type: 'second-account', id: 'SECOND_ID' },
+                                            { api: 'some-api', type: 'third-account',  id: 'THIRD_ID' }] }]);
+            $rootScope.$digest();
+            expect($rootScope.data).to.have.property('accounts').that.has.property('some-api/second-account/SECOND_ID');
+            expect($rootScope.data).to.have.property('accounts').that.has.property('some-api/third-account/THIRD_ID');
         });
     });
 
