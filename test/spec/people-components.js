@@ -93,19 +93,15 @@ describe('people-directive', function() {
 
             expect($rootScope.data.people[0])
                 .to.have.property('accounts')
-                    .that.has.property(0)
-                        .that.equals($rootScope.data.accounts['first-api/account/FIRST_ID']);
+                    .that.contains($rootScope.data.accounts['first-api/account/FIRST_ID']);
             expect($rootScope.data.people[0])
-                .to.have.property('selectedAccount')
-                    .that.equals($rootScope.data.accounts['first-api/account/FIRST_ID']);
+                .to.have.property('selectedAccount', $rootScope.data.accounts['first-api/account/FIRST_ID']);
 
             expect($rootScope.data.people[1])
                 .to.have.property('accounts')
-                    .that.has.property(0)
-                        .that.equals($rootScope.data.accounts['second-api/account/SECOND_ID']);
+                    .that.contains($rootScope.data.accounts['second-api/account/SECOND_ID']);
             expect($rootScope.data.people[1])
-                .to.have.property('selectedAccount')
-                    .that.equals($rootScope.data.accounts['second-api/account/SECOND_ID']);
+                .to.have.property('selectedAccount', $rootScope.data.accounts['second-api/account/SECOND_ID']);
         });
     });
 
