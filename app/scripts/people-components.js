@@ -41,6 +41,30 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             });
         });
 
+        function request_to_string(request) {
+            return [request.api, request.type, request.id].join('/');
+        }
+
+        $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
+            if (!requests || !requests.length) {
+                $scope.data.people = null;
+                return;
+            }
+
+            $scope.data.accounts = (function(accounts) {
+                requests.forEach(function(request) {
+                    var key = request_to_string(request);
+                    if (accounts[key]) {
+                        return;
+                    }
+                    accounts[key] = apiService.get(request);
+                });
+
+                return accounts;
+            }($scope.data.accounts || {}));
+        });
+
+        /*
         $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
             if (!requests || !requests.length) {
                 $scope.data.people = null;
@@ -134,6 +158,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 return people;
             }());
         });
+        */
     }])
     .directive('peopleCarousel', ['$compile', function($compile) {
         return {

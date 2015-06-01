@@ -9,10 +9,9 @@ describe('people-directive', function() {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
         $rootScope.entry = {};
+        $rootScope.data = {};
     }));
     beforeEach(function() {
-        sandbox.useFakeServer();
-
         element = angular.element('<div ng-controller=PeopleController></div>');
         $compile(element)($rootScope);
         $rootScope.$digest();
@@ -22,6 +21,43 @@ describe('people-directive', function() {
         sandbox.restore();
     });
 
+    describe('loading accounts', function() {
+        beforeEach(function() {
+            $rootScope.can_have_people = true;
+            $rootScope.entry.accounts = [];
+            sandbox.stub(chrome.runtime, 'sendMessage');
+        });
+
+        it('should load account', function() {
+            $rootScope.entry.accounts.push({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' });
+            $rootScope.$digest();
+            expect($rootScope.data)
+                .to.have.property('accounts')
+                    .that.has.property('some-api/first-account/FIRST_ID');
+            expect($rootScope.data.accounts['some-api/first-account/FIRST_ID']).not.to.have.property('$resolved');
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' })
+                .yield([null, { api: 'some-api', type: 'first-account', id: 'FIRST_ID', key: 'value' }]);
+            $rootScope.$digest();
+            expect($rootScope.data.accounts['some-api/first-account/FIRST_ID']).to.have.property('$resolved', true);
+            expect($rootScope.data.accounts['some-api/first-account/FIRST_ID']).to.have.property('key', 'value');
+        });
+
+        it('should not load the same account twice', function() {
+            $rootScope.entry.accounts.push({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' });
+            $rootScope.$digest();
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' })
+                .yield([null, { api: 'some-api', type: 'first-account', id: 'FIRST_ID', key: 'value' }]);
+            $rootScope.$digest();
+            expect($rootScope.data.accounts['some-api/first-account/FIRST_ID']).to.have.property('$resolved', true);
+            $rootScope.entry.accounts.push({ api: 'some-api', type: 'first-account', id: 'FIRST_ID' });
+            $rootScope.$digest();
+            expect($rootScope.data.accounts['some-api/first-account/FIRST_ID']).to.have.property('$resolved', true);
+        });
+    });
+
+    /*
     describe('on requests', function() {
         beforeEach(function() {
             sandbox.server.respondWith('GET', 'https://hovercards.herokuapp.com/v1/first-account/FIRST_ID',
@@ -149,4 +185,5 @@ describe('people-directive', function() {
             expect($rootScope.people[0].accounts).to.contain({ type: 'second-account', id: 'SECOND_ID', connected: [{ type: 'third-account',  id: 'THIRD_ID' }] });
         });
     });
+    */
 });
