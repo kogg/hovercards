@@ -1,19 +1,29 @@
-<div class="yocards-message-container error-message" ng-class="err['api-specific'] ? api + '-message' : ''">
-	<div class="yocards-message-image"></div>
-	<div class="yocards-message-text">
-		<span err="err" api="{{ api }}" type="default" entry="entry">
-			<span ng-transclude></span>
+<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err">
+	<div class="yocards-message-container error-message" ng-class="err['api-specific'] ? api + '-message' : ''">
+		<div class="yocards-message-image"></div>
+		<div class="yocards-message-text">
+			<span err="err" api="{{ api }}" type="default" entry="entry">
+				<span ng-transclude></span>
 
-			<!-- ERRORS -->
-			<span ng-message="no-content">
-				<span class="yocards-message-content"><b><i class="md md-error"></i>Error! Error!</b>We searched all over, but couldn't find anything here</span>
+				<!-- ERRORS -->
+				<span ng-message="no-content">
+					<span class="yocards-message-content"><b><i class="md md-error"></i>Error! Error!</b>We searched all over, but couldn't find anything here</span>
+				</span>
 			</span>
-		</span>
-		<div class="yocards-message-option">
-			<a href="#">Give us feedback</a>
+			<div class="yocards-message-option">
+				<a href="#">Give us feedback</a>
+			</div>
+			<div class="yocards-message-option">
+				<a href="#">Send us an angry tweet</a>
+			</div>
 		</div>
-		<div class="yocards-message-option">
-			<a href="#">Send us an angry tweet</a>
+	</div>
+</div>
+
+<div ng-repeat="person_to_load in [{ api: 'reddit', type: 'account', id: 'yocards' }, { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }, { api: 'twitter', type: 'account', id: 'hovercards' }]" ng-if="entry.$err">
+	<div ng-controller="AccountShimController" class="people-card-space" in-view="inview=$inview" ng-if="!person.selectedAccount.$err">
+		<div class="card bounce-in-animation" ng-if="person.selectedAccount.$resolved">
+			<div ng-include="'templates/' + person.selectedAccount.api + '_account.html'"></div>
 		</div>
 	</div>
 </div>
