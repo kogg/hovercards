@@ -68,6 +68,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                                 }
                                 var person = { accounts: {} };
                                 person.accounts[account.api] = account;
+                                person.selectedAccount = account;
                                 people.push(person);
                                 return account;
                             });

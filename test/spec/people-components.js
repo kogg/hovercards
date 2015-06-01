@@ -86,17 +86,26 @@ describe('people-directive', function() {
                 .withArgs({ api: 'second-api', type: 'account', id: 'SECOND_ID' })
                 .yield([null, { api: 'second-api', type: 'account', id: 'SECOND_ID' }]);
             $rootScope.$digest();
+
             expect($rootScope.data)
                 .to.have.property('people')
                     .that.has.length(2);
+
             expect($rootScope.data.people[0])
                 .to.have.property('accounts')
                     .that.has.property('first-api')
                         .that.equals($rootScope.data.accounts['first-api/account/FIRST_ID']);
+            expect($rootScope.data.people[0])
+                .to.have.property('selectedAccount')
+                    .that.equals($rootScope.data.accounts['first-api/account/FIRST_ID']);
+
             expect($rootScope.data.people[1])
                 .to.have.property('accounts')
                     .that.has.property('second-api')
                         .that.equals($rootScope.data.accounts['second-api/account/SECOND_ID']);
+            expect($rootScope.data.people[1])
+                .to.have.property('selectedAccount')
+                    .that.equals($rootScope.data.accounts['second-api/account/SECOND_ID']);
         });
     });
 
