@@ -45,24 +45,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             return [request.api, request.type, request.id].join('/');
         }
 
-        function load_account_into(request, accounts) {
-            var key = request_to_string(request);
-            if (accounts[key]) {
-                return;
-            }
-            accounts[key] = apiService.get(request);
-            accounts[key]
-                .$promise
-                .then(function(account) {
-                    if (!account.connected) {
-                        return;
-                    }
-                    account.connected.forEach(function(request) {
-                        load_account_into(request, accounts);
-                    });
-                });
-        }
-
         $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
             if (!requests || !requests.length) {
                 $scope.data.people = null;
@@ -70,8 +52,20 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             }
 
             $scope.data.accounts = (function(accounts) {
-                requests.forEach(function(request) {
-                    load_account_into(request, accounts);
+                requests.forEach(function load_account_into(request) {
+                    var key = request_to_string(request);
+                    if (accounts[key]) {
+                        return;
+                    }
+                    accounts[key] = apiService.get(request);
+                    accounts[key]
+                        .$promise
+                        .then(function(account) {
+                            if (!account.connected) {
+                                return;
+                            }
+                            account.connected.forEach(load_account_into);
+                        });
                 });
 
                 return accounts;
