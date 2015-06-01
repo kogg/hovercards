@@ -1,3 +1,4 @@
+var _       = require('underscore');
 var angular = require('angular');
 require('slick-carousel');
 
@@ -41,98 +42,73 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             });
         });
 
+        function request_to_string(request) {
+            return [request.api, request.type, request.id].join('/');
+        }
+
         $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
             if (!requests || !requests.length) {
+                $scope.data.accounts = null;
                 $scope.data.people = null;
                 return;
             }
 
-            $scope.data.people = (function() {
-                var people = [];
-                var done_account_ids = {};
-                people.$resolved = false;
-
-                var add_to_people = function(account) {
-                    // Get IDs from account
-                    var connected_accounts_ids = (account.connected || []).map(function(account) {
-                        return [account.api, account.type, account.id].join('/');
-                    });
-                    var account_id = [account.api, account.type, account.id].join('/');
-                    connected_accounts_ids.push(account_id);
-                    done_account_ids[account_id] = true;
-
-                    // Find all people who have those IDs
-                    var people_to_merge = [];
-                    people.forEach(function(person) {
-                        if (!connected_accounts_ids.some(function(account_id) { return person.connected_accounts_ids[account_id]; })) {
+            $scope.data.accounts = (function(accounts) {
+                $scope.data.people = (function(people) {
+                    _.each(requests, function load_account_into(request) {
+                        var key = request_to_string(request);
+                        if (accounts[key]) {
                             return;
                         }
-                        people_to_merge.push(person);
+                        accounts[key] = apiService.get(request);
+                        accounts[key]
+                            .$promise
+                            .then(function(account) {
+                                if (account.connected) {
+                                    _.each(account.connected, load_account_into);
+                                }
+                                var account_ids = _.chain(account.connected)
+                                                   .map(request_to_string)
+                                                   .push(key)
+                                                   .uniq()
+                                                   .value();
+                                var person = _.chain(people)
+                                              .filter(function(person) {
+                                                  return _.some(person.account_ids, function(account_id) {
+                                                      return _.contains(account_ids, account_id);
+                                                  });
+                                              })
+                                              .reduce(function(person, person_to_merge) {
+                                                  person.accounts    = _.union(person.accounts,    person_to_merge.accounts);
+                                                  person.account_ids = _.union(person.account_ids, person_to_merge.account_ids);
+                                                  person.position    = _.min([person.position,     person_to_merge.position]);
+                                                  people.splice(_.indexOf(people, person_to_merge), 1);
+                                                  return person;
+                                              })
+                                              .value();
+                                if (!person) {
+                                    person = { accounts: [], account_ids: [], position: Infinity };
+                                    people.push(person);
+                                }
+                                var position_in_entry = _.indexOf(requests, request);
+                                position_in_entry = (position_in_entry === -1) ? Infinity : position_in_entry;
+
+                                person.accounts        = _.union(person.accounts,    [account]);
+                                person.account_ids     = _.union(person.account_ids, account_ids);
+                                person.position        = _.min([person.position, position_in_entry]);
+                                person.selectedAccount = person.selectedAccount || account;
+                                people.sort(function(a, b) {
+                                    return a.position - b.position;
+                                });
+                                return account;
+                            });
                     });
 
-                    // Make, merge, or get our person
-                    var person = people_to_merge[0];
-                    for (var i = 1; i < people_to_merge.length; i++) {
-                        var other_person = people_to_merge[i];
-                        person.accounts = person.accounts.concat(other_person.accounts);
-                        angular.extend(person.connected_accounts_ids, other_person.connected_accounts_ids);
-                        people.splice(people.indexOf(other_person), 1);
-                    }
-                    if (!person) {
-                        person = { accounts: [], connected_accounts_ids: { } };
-                        people.push(person);
-                    }
+                    return people;
+                }($scope.data.people || []));
 
-                    // Give the person our account and the IDs
-                    person.accounts.push(account);
-                    connected_accounts_ids.forEach(function(account_id) {
-                        person.connected_accounts_ids[account_id] = true;
-                    });
-                    person.selectedAccount = person.selectedAccount || account;
-                    if ($scope.data.people === people) {
-                        $scope.entry.selectedPerson = $scope.entry.selectedPerson || person;
-                    }
-                };
-
-                var timeout = $timeout(function() {
-                    // HACKY SHIM SHAM
-                    people.$err = { 'still-waiting': true, 'api-specific': true, api: ((requests.length === 1) && requests[0].api) || null };
-                }, 5000);
-
-                people.$promise = $q.all(requests.map(function get_account(request) {
-                    var account = apiService.get(request);
-                    return account
-                        .$promise
-                        .then(function(account) {
-                            $timeout.cancel(timeout);
-                            people.$err = null;
-                            add_to_people(account);
-
-                            return $q.all((account.connected || []).filter(function(account) {
-                                return !done_account_ids[[account.api, account.type, account.id].join('/')];
-                            }).map(get_account));
-                        })
-                        .catch(function(err) {
-                            if (people.length || people.$err) {
-                                return;
-                            }
-                            $timeout.cancel(timeout);
-                            err.api = request.api;
-                            people.$err = err;
-                        });
-                }))
-                .then(function() {
-                    if (people.length || people.$err) {
-                        return;
-                    }
-                    people.$err = { 'bad-input': true };
-                })
-                .finally(function() {
-                    people.$resolved = true;
-                });
-
-                return people;
-            }());
+                return accounts;
+            }($scope.data.accounts || {}));
         });
     }])
     .directive('peopleCarousel', ['$compile', function($compile) {
