@@ -2,7 +2,7 @@
 	<div class="profile-card">
 		<div class="profile-top row">
 			<div class="profile-left col-4">
-				<div class="profile-image" style="background-image:url({{ ::person.selectedAccount.image }})"></div>
+				<div class="profile-image" ng-style=":: person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
 			</div>
 			<div class="profile-right col-8">
 				<b class="youtube-color"><i class="md md-videocam"></i>{{:: ((data.content.author.api    === 'youtube' && data.content.author.id === person.selectedAccount.id) ||
