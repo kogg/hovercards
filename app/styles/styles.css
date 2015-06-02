@@ -1,21 +1,21 @@
 @font-face {
 	font-family: "Roboto";
-	src: url("../fonts/roboto/Roboto-Light.ttf");
+	src: url("chrome-extension://__MSG_@@extension_id__/fonts/roboto/Roboto-Light.ttf");
 	font-weight: 300; }
 
 @font-face {
 	font-family: "Roboto";
-	src: url("../fonts/roboto/Roboto-Regular.ttf");
+	src: url("chrome-extension://__MSG_@@extension_id__/fonts/roboto/Roboto-Regular.ttf");
 	font-weight: 400; }
 
 @font-face {
 	font-family: "Roboto";
-	src: url("../fonts/roboto/Roboto-Medium.ttf");
+	src: url("chrome-extension://__MSG_@@extension_id__/fonts/roboto/Roboto-Medium.ttf");
 	font-weight: 500; }
 
 @font-face {
 	font-family: "Roboto";
-	src: url("../fonts/roboto/Roboto-Bold.ttf");
+	src: url("chrome-extension://__MSG_@@extension_id__/fonts/roboto/Roboto-Bold.ttf");
 	font-weight: 700; }
 
 *, *:before, *:after {
@@ -279,9 +279,10 @@ b i, .iconic-push {
 	height: 100px;
 	background-position: center;
 	border-radius: 2px 0 0 0;
+	background-image: url('/images/missing-image.png');
 }
 .reddit-profile {
-	background-image: url('../images/reddit-profile-image.jpg') !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/reddit-profile-image.jpg') !important;
 }
 .profile-right {
 	padding: 16px;
@@ -304,7 +305,7 @@ b i, .iconic-push {
   font-size: 12px;
   border-radius: 3px;
   min-width: 86px;
-  background-image: url('../images/Twitter-icon-full_color.png');
+  background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
   background-size: auto 90%;
   background-repeat: no-repeat;
   padding-left: 35px;
@@ -666,13 +667,13 @@ b i, .iconic-push {
 	color: #000
 }
 .context-top-youtube {
-	background-image: url('../images/YouTube-icon-full_color.png');
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
 }
 .context-top-reddit {
-	background-image: url('../images/Reddit-icon-full_color.png');
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png');
 }
 .context-top-twitter {
-	background-image: url('../images/Twitter-icon-full_color.png');
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
 }
 /*Comments Menu*/
 .menu {
@@ -713,7 +714,7 @@ b i, .iconic-push {
 	position: relative;
 	margin-bottom:2px;
 	border-radius: 3px;
-	background-image: url('../images/grabbable.png');
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/grabbable.png');
 	height: 50px !important;
 	background-size: auto 42%;
   background-position: 05px center;
@@ -842,7 +843,7 @@ b i, .iconic-push {
 	top: 0;
 	left: 0;
 	width:72px;
-	background-image: url('../images/happy-transparent.png');
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/happy-transparent.png');
 	background-repeat: no-repeat;
   background-size: 42px;
   background-position: 16px 16px;
@@ -933,7 +934,7 @@ b i, .iconic-push {
 }
 .reddit-header-cover {
 	background-color: white;
-  background-image: url('../images/Reddit-icon-full_color.png');
+  background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png');
   background-size: 16px;
   background-repeat: no-repeat;
   background-position: 16px 17px;
@@ -1228,7 +1229,7 @@ b i, .iconic-push {
 }
 .error-message .yocards-message-image {
 	background:#FF4F29;
-	background-image: url('../images/error.png');
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/error.png');
   background-size: auto 100%;
   background-repeat: no-repeat;
   background-position: bottom -1px left;
@@ -1238,7 +1239,7 @@ b i, .iconic-push {
 }
 .twitter-message .yocards-message-image {
 	background:#55acee;
-	background-image: url('../images/Twitter_logo_white.png');
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter_logo_white.png');
 	background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
@@ -1526,21 +1527,21 @@ b i, .iconic-push {
 	background-size: cover;
 }
 .thumbnail-self {
-	background-image: url('../images/reddit-self.jpg');
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/reddit-self.jpg');
 	background-size: 100%;
   background-position: top center;
   background-repeat: no-repeat;
   background-color: #FFF;
 }
 .thumbnail-default {
-	background-image: url('../images/reddit-default.jpg');
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/reddit-default.jpg');
 	background-size: 100%;
   background-position: top center;
   background-repeat: no-repeat;
   background-color: #FFF;
 }
 .thumbnail-nsfw {
-	background-image: url('../images/reddit-nsfw.jpg');
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/reddit-nsfw.jpg');
 	background-size: 100%;
   background-position: top center;
   background-repeat: no-repeat;
@@ -1595,7 +1596,7 @@ b i, .iconic-push {
 	margin-right: 3px;
 }
 .twitter-verified {
-	background-image: url('../images/twitter-verified.png');
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/twitter-verified.png');
 	width: 19px;
 	height: 19px;
 	display: inline-block;
