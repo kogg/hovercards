@@ -43,7 +43,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
         });
 
         function request_to_string(request) {
-            return [request.api, request.type, request.id].join('/');
+            return [request.api, request.type, request.id, request.as].join('/');
         }
 
         $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
