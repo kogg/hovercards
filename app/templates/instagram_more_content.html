@@ -1,6 +1,6 @@
 <div class="content-cards" ng-if="!data.moreContent.$err">
 	<div ng-repeat="post in data.moreContent.content" class="col-6 content-cards-blocks">
-		<a class="content-cards-blocks-holder" ng-href="{{:: posts | generateUrl }}">
+		<a class="content-cards-blocks-holder" ng-href="{{:: post | generateUrl }}">
 			<img ng-src="{{:: post.image }}">
 		</a>
 	</div>
