@@ -29,7 +29,9 @@
 }
 .__MSG_@@extension_id__-yo-notify-reddit {
 	background-color: #cee2f8 !important;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-black.png') !important;
+}
+.__MSG_@@extension_id__-yo-notify-instagram {
+	background-color: #517fa4 !important;
 }
 @-webkit-keyframes __MSG_@@extension_id__-yo-notify-fadein { 
 	0% {
@@ -193,7 +195,9 @@
 .__MSG_@@extension_id__-yo-follower-youtube {
 	background-color: #F44336 !important;
 }
-
+.__MSG_@@extension_id__-yo-follower-instagram {
+	background-color: #517fa4 !important;
+}
 @-webkit-keyframes __MSG_@@extension_id__-yo-follower-fadein {
 	0% {
 		opacity: 0;
