@@ -1,0 +1,13 @@
+<div class="content-cards" ng-if="!data.moreContent.$err">
+	<div ng-repeat="post in data.moreContent.content" class="col-6 content-cards-blocks">
+		<div class="content-cards-blocks-holder">
+			<img ng-src="{{:: post.image }}">
+			<div class="content-cards-blocks-holder-description">
+				<p readmore=":: post.name" cutoff-height="40"></p>
+				<b>{{:: post.date | date}}</b>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div ng-if="data.moreContent.$err" err="data.moreContent.$err" api="instagram" type="more_content" entry="entry"></div>
