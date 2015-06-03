@@ -1874,6 +1874,9 @@ b i, .iconic-push {
 .reddit-color {
 	color: #ff4601 !important
 }
+.instagram-color {
+	color: #517fa4 !important
+}
 /*scrollbar*/
 .ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
   background-color: rgba(0,0,0,.65) !important;
