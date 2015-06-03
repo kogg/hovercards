@@ -55,6 +55,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
 
             $scope.data.accounts = (function(accounts) {
                 $scope.data.people = (function(people) {
+                    var timeout = $timeout(function() {
+                        people.$err = { 'still-waiting': true, 'api-specific': true };
+                    }, 5000);
                     _.each(requests, function load_account_into(request) {
                         var key = request_to_string(request);
                         if (accounts[key]) {
@@ -64,6 +67,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         accounts[key]
                             .$promise
                             .then(function(account) {
+                                $timeout.cancel(timeout);
+                                delete people.$err;
                                 if (account.connected) {
                                     _.each(account.connected, load_account_into);
                                 }
@@ -101,6 +106,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                                     return a.position - b.position;
                                 });
                                 return account;
+                            })
+                            .catch(function(err) {
+                                if (people.length) {
+                                    return;
+                                }
+                                people.$err = err;
                             });
                     });
 

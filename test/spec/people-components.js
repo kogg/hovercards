@@ -3,11 +3,13 @@ describe('people-directive', function() {
     var element;
     var $compile;
     var $rootScope;
+    var $timeout;
 
     beforeEach(module(require('../../app/scripts/people-components')));
-    beforeEach(inject(function(_$compile_, _$rootScope_) {
+    beforeEach(inject(function(_$compile_, _$rootScope_, _$timeout_) {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
+        $timeout = _$timeout_;
         $rootScope.entry = {};
         $rootScope.data = {};
     }));
@@ -102,6 +104,75 @@ describe('people-directive', function() {
                     .that.contains($rootScope.data.accounts['second-api/account/SECOND_ID']);
             expect($rootScope.data.people[1])
                 .to.have.property('selectedAccount', $rootScope.data.accounts['second-api/account/SECOND_ID']);
+        });
+
+        it('should set timeout error until we get an account', function() {
+            $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
+            $rootScope.$digest();
+
+            expect($rootScope.data)
+                .to.have.property('people')
+                    .that.has.length(0)
+                    .and.not.to.have.property('$err');
+
+            $timeout.flush(5000);
+
+            expect($rootScope.data)
+                .to.have.property('people')
+                    .that.has.length(0)
+                    .and.to.have.property('$err')
+                        .to.have.property('still-waiting', true);
+
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID' }]);
+            $rootScope.$digest();
+
+            expect($rootScope.data)
+                .to.have.property('people')
+                    .that.has.length(1)
+                    .and.not.to.have.property('$err');
+            expect($rootScope.data.people[0])
+                .to.have.property('accounts')
+                    .that.contains($rootScope.data.accounts['first-api/account/FIRST_ID']);
+            expect($rootScope.data.people[0])
+                .to.have.property('selectedAccount', $rootScope.data.accounts['first-api/account/FIRST_ID']);
+        });
+
+        it('should set error until we get an account', function() {
+            $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
+            $rootScope.entry.accounts.push({ api: 'second-api', type: 'account', id: 'SECOND_ID' });
+            $rootScope.entry.accounts.push({ api: 'third-api', type: 'account', id: 'THIRD_ID' });
+            $rootScope.$digest();
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .yield([{ status: 400 }]);
+            $rootScope.$digest();
+
+            expect($rootScope.data)
+                .to.have.property('people')
+                    .that.has.length(0)
+                    .and.to.have.property('$err');
+
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'second-api', type: 'account', id: 'SECOND_ID' })
+                .yield([null, { api: 'second-api', type: 'account', id: 'SECOND_ID' }]);
+            $rootScope.$digest();
+
+            expect($rootScope.data)
+                .to.have.property('people')
+                    .that.has.length(1)
+                    .and.not.to.have.property('$err');
+
+            chrome.runtime.sendMessage
+                .withArgs({ api: 'third-api', type: 'account', id: 'THIRD_ID' })
+                .yield([{ status: 400 }]);
+            $rootScope.$digest();
+
+            expect($rootScope.data)
+                .to.have.property('people')
+                    .that.has.length(1)
+                    .and.not.to.have.property('$err');
         });
 
         it('should sort people by the accounts order, not the order they loaded', function() {
