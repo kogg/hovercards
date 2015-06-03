@@ -56,7 +56,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             $scope.data.accounts = (function(accounts) {
                 $scope.data.people = (function(people) {
                     var timeout = $timeout(function() {
-                        people.$err = { 'still-waiting': true, 'api-specific': true };
+                        people.$err = { 'still-waiting': true };
                     }, 5000);
                     _.each(requests, function load_account_into(request) {
                         var key = request_to_string(request);
@@ -108,6 +108,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                                 return account;
                             })
                             .catch(function(err) {
+                                $timeout.cancel(timeout);
                                 if (people.length) {
                                     return;
                                 }
