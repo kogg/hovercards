@@ -6,7 +6,7 @@
 			</div>
 			<div class="profile-right col-8">
 				<b class="instagram-color">{{:: person.selectedAccount.id }}</b>
-				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{:: person.selectedAccount.name }}</a>
+				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{:: person.selectedAccount.name || person.selectedAccount.id }}</a>
 			</div>
 		</div>
 
