@@ -1874,9 +1874,26 @@ b i, .iconic-push {
 .reddit-color {
 	color: #ff4601 !important
 }
-
-
-
+/*scrollbar*/
+.ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: rgba(0,0,0,.65) !important;
+  height: 7px !important;
+}
+.ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: rgba(0,0,0,.65) !important;
+  width: 7px !important;
+}
+.ps-container > .ps-scrollbar-y-rail {
+	right: 2px !important;
+	width: 7px !important
+}
+.ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+	height: 7px !important;
+}
+.ps-container > .ps-scrollbar-x-rail {
+	bottom: 2px !important;
+	height: 7px !important
+}
 
 
 
