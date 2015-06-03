@@ -1461,7 +1461,8 @@ b i, .iconic-push {
 	padding-left: 0
 }
 .content-cards-blocks-holder {
-	border-radius: 2px;
+	display: block;
+	border-radius: 3px;
 	overflow: hidden;
 	margin-bottom: 8px;
 	background: #f6f6f6;
@@ -1469,30 +1470,6 @@ b i, .iconic-push {
 }
 .content-cards-blocks-holder img {
 	width: 100%;
-}
-.content-cards-blocks-holder-description {
-	border-top:1px solid rgba(0,0,0,.15);
-	padding: 12px;
-}
-.content-cards-blocks-holder-description p {
-	color: #212121;
-	margin-top: 0;
-	padding-top: 0px;
-  font-size: 14px;
-  font-weight: 500;
-  min-height: 40px;
-}
-.content-cards-blocks-holder-description p:hover {
-	text-decoration: underline;
-	cursor: pointer;
-}
-.content-cards-blocks-holder-description b {
-	margin-bottom: 0;
-	margin-top: 3px;
-	color: #727272
-}
-.content-cards-blocks-holder-description span {
-	display: none !important;
 }
 /*reddit content list*/
 .content-list .reddit-title {
