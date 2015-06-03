@@ -1554,10 +1554,20 @@ b i, .iconic-push {
 	border-bottom: none
 }
 .retweet {
-	padding: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 3px;
-  margin-bottom: 8px;
+	position: absolute;
+	display: inline-block;
+	margin-top: -2px;
+	z-index: 2;
+}
+.retweet:hover {
+	display: block;
+	margin-top: -6px;
+	margin-left: -4px;
+	padding: 4px;
+}
+
+.retweet:hover span {
+	display: inline;
 }
 .retweet span, .retweet span a {
 	color: #727272;
@@ -1565,13 +1575,32 @@ b i, .iconic-push {
   font-size: 12px;
   font-weight: 600;
 }
+.retweet span {
+	position: relative;
+	z-index: 2;
+	background: white;
+  background: #FFF;
+  padding: 4px;
+  border-radius: 3px;
+  top: -2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  display: none;
+}
 .retweet span a {
 	color: black
 }
-.retweet span i {
-	color:#5D9040;
+.retweet i {
+	color:#fff;
+	background: #5D9040;
+	border-radius: 50%;
+	padding: 2px;
+	z-index: 2;
+	position: relative;
+	border:1px solid white;
 	margin-right: 3px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
+
 .twitter-verified {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/twitter-verified.png');
 	width: 19px;
