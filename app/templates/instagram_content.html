@@ -1,0 +1,38 @@
+<div ng-if="!data.content.$err">
+	<div class="context-top context-top-instagram">
+		<div class="row">
+			<div class="col-10">
+				<span>Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
+			</div>
+			<div class="col-2">
+				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
+			</div>
+		</div>
+	</div>
+	<div ng-if=":: data.content.image">
+		<img ng-src="{{:: data.content.image }}" width="300" height="300">
+	</div>
+
+	<div class="card-text">
+		<div ng-if="::data.content.description" class="card-description">
+			<p readmore=":: data.content.description | linky" cutoff-height="50"></p>
+		</div>
+	</div>
+	<div class="card-stats row">
+		<div class="col-4">
+			<b>Likes</b>
+			<span>{{:: data.content.likes | numsmall }}</span>
+		</div>
+		<div class="col-4">
+			<b>Something</b>
+			<span>???</span>
+		</div>
+		<div class="col-4">
+			<b>Something</b>
+			<span>???</span>
+		</div>
+	</div>
+</div>
+
+<div ng-if="data.content.$err" err="data.content.$err" api="instagram" type="content" entry="entry"></div>
+
