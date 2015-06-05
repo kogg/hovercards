@@ -16,7 +16,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'View
             });
         });
 
-        $scope.$watch('view.fullscreen', function(fullscreen, oldFullscreen) {
+        $scope.$watch('!!view.fullscreen', function(fullscreen, oldFullscreen) {
             if (fullscreen === oldFullscreen) {
                 return;
             }

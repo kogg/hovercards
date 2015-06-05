@@ -24,10 +24,10 @@
 		<div class="video-cta" ng-click="playing=true;" ng-class="{ 'button-vanish': playing }">
 			<i class="md md-play-arrow"></i>
 		</div>
-		<div class="video-cta" ng-click="view.fullscreen=data.content;" ng-if="playing" ng-class="{ 'button-vanish': view.fullscreen }">
+		<div class="video-cta" ng-click="view.fullscreen=data.content;" ng-if="playing" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
 			<i class="md md-fullscreen"></i>
 		</div>
-		<div class="video-cta" ng-click="view.fullscreen=null;" ng-if="playing" ng-class="{ 'button-vanish': !view.fullscreen }">
+		<div class="video-cta" ng-click="view.fullscreen=null;" ng-if="playing" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
 			<i class="md md-fullscreen-exit"></i>
 		</div>
 	</div>
