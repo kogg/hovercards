@@ -1455,6 +1455,7 @@ b i, .iconic-push {
 }
 .content-cards-blocks {
 	padding-left: 4px;
+	position: relative;
 }
 .content-cards-blocks:nth-of-type(odd) {
 	padding-right: 4px;
@@ -1470,6 +1471,17 @@ b i, .iconic-push {
 }
 .content-cards-blocks-holder img {
 	width: 100%;
+}
+.is-video:after {
+	content: "";
+	position: absolute;
+	right: 8px;
+	top: 8px;
+	width: 18px;
+	height: 18px;
+	background:url('/images/instagramvid.png');
+	background-size: 100%;
+	opacity: .92;
 }
 /*reddit content list*/
 .content-list .reddit-title {
