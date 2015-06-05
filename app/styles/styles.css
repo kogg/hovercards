@@ -675,6 +675,9 @@ b i, .iconic-push {
 .context-top-twitter {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
 }
+.context-top-instagram {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');	
+}
 /*Comments Menu*/
 .menu {
 	clear: both;
