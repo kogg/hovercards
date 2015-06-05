@@ -20,7 +20,10 @@
 	</div>
 </div>
 
-<div ng-repeat="person_to_load in [{ api: 'reddit', type: 'account', id: 'yocards' }, { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }, { api: 'twitter', type: 'account', id: 'hovercards' }, { api: 'instagram', type: 'account', id: 'yocards' }]" ng-if="entry.$err">
+<div ng-repeat="person_to_load in [{ api: 'instagram', type: 'account', id: 'yocards' },
+                                   { api: 'twitter', type: 'account', id: 'hovercards' },
+                                   { api: 'reddit', type: 'account', id: 'yocards' },
+                                   { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }]" ng-if="entry.$err">
 	<div ng-controller="AccountShimController" class="people-card-space" in-view="inview=$inview" ng-if="!person.selectedAccount.$err">
 		<div class="card bounce-in-animation" ng-if="person.selectedAccount.$resolved">
 			<div ng-include="'templates/' + person.selectedAccount.api + '_account.html'"></div>
