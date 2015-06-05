@@ -126,6 +126,39 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     })
+    .directive('video', function() {
+        return {
+            restrict: 'E',
+            scope: {
+                src: '@videoSrc'
+            },
+            link: function($scope, $element) {
+                $scope.is_playing = false;
+                $scope.$watch('src', function(src) {
+                    $element.attr('src', src);
+                });
+                $element.click(function() {
+                    $scope.$apply(function() {
+                        if ($scope.is_playing) {
+                            $element.get(0).pause();
+                        } else {
+                            $element.get(0).play();
+                        }
+                    });
+                });
+                $element.get(0).onplay = function() {
+                    $scope.$apply(function() {
+                        $scope.is_playing = true;
+                    });
+                };
+                $element.get(0).onpause = function() {
+                    $scope.$apply(function() {
+                        $scope.is_playing = false;
+                    });
+                };
+            }
+        };
+    })
     .filter('copy', function() {
         return function() {
             if (!arguments[0] || arguments[0] === '') {
