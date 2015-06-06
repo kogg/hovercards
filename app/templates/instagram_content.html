@@ -11,10 +11,10 @@
 	</div>
 
 	<!-- Video -->
-	<div ng-if=":: data.content.video">
+	<div ng-if=":: data.content.video" class="instagram-video">
 		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
-			<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
-				<div class="instagram-video" ng-if="playing">
+			<div class="video-image">
+				<div ng-if="playing">
 					<video video-src="{{:: data.content.video }}" autoplay loop></video>
 				</div>
 			</div>

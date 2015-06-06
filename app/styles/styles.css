@@ -371,11 +371,25 @@ b i, .iconic-push {
 .video-card {
 
 }
+
 .video-top, .video-top-underlay {
 	height: 169px;
 	border:1px solid rgba(0,0,0,.15);
 	border-top: none;
 	position: relative;
+}
+
+.instagram-video video, .instagram-video .video-top, .instagram-video .video-top-underlay {
+	height: 298px;
+}
+.fullscreen-active .instagram-video .video-image, .fullscreen-active .instagram-video .video-top {
+	height: 100%;
+}
+.fullscreen-active .instagram-video video {
+	margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  max-height: 100%;
 }
 .video-top {
 	position: absolute;
@@ -384,8 +398,12 @@ b i, .iconic-push {
 }
 .video-image {
 	height: 168px;
+	background: rgba(0, 0, 0, 0.8);
 	background-size: cover;
 	background-position: center;
+}
+.instagram-video .video-image {
+	height: 297px;
 }
 .youtube-video {
 	width: 100%;
