@@ -18,9 +18,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
     .directive('popup', ['$window', function($window) {
         return {
             restrict: 'A',
-            link: function($scope, $element, $attr) {
+            scope: {
+                url:  '@popup',
+                size: '=popupSize'
+            },
+            link: function($scope, $element) {
                 $element.click(function() {
-                    $window.open($attr.popup, 'popup', 'height=300,width=640,left=' + ($window.screen.width - 990) + ',top=70');
+                    $window.open($scope.url, 'popup', 'height=' + $scope.size.height + ',width=' + $scope.size.width + ',left=' + ($window.screen.width - 990) + ',top=70');
                 });
             }
         };
