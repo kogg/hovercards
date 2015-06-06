@@ -4,7 +4,7 @@
 		<span class="ellipsis">
 			<a ng-href="{{:: comment.author | generateUrl }}" ng-class="{ op: comment.author.id === data.discussion.author.id }">{{ ::comment.author.id }}</a>
 		</span>
-		<span class="reddit-votes">{{ ::comment.score | score }} <span class="hidden-date">&middot; <a ng-href="{{:: data.discussion | generateUrl }}/gibberish/{{:: comment.id }}">{{ ::comment.date | timeSince:true  }}</a></span></span>
+		<span class="time">{{ ::comment.score | score }} <span class="hidden-date">&middot; <a ng-href="{{:: data.discussion | generateUrl }}/gibberish/{{:: comment.id }}">{{ ::comment.date | timeSince:true  }}</a></span></span>
 	</div>
 	<div readmore=":: comment.description" cutoff-height="170"></div>
 	<div class="child" ng-repeat="comment in comment.comments">

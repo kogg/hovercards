@@ -331,20 +331,28 @@ b i, .iconic-push {
 	bottom: 16px;
 	cursor: pointer;
 }
-.profile-cta a.profile-cta-twitter {
-  background-color: #59adec;
+.profile-cta a {
   color: #FFF;
   line-height: 24px;
   padding: 0px 8px;
   font-size: 12px;
   border-radius: 3px;
   min-width: 86px;
-  background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
   background-size: auto 90%;
   background-repeat: no-repeat;
   padding-left: 35px;
   background-position: 8px center;
   text-decoration: none;
+}
+.profile-cta a.twitter-background {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
+}
+.profile-cta a.instagram-background {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');
+}
+.profile-cta a.reddit-background {
+	background-color: #7cb656;
+	background-image:none;
 }
 .profile-cta a.profile-cta-twitter:hover {
 	opacity: .9;
@@ -456,12 +464,10 @@ b i, .iconic-push {
 }
 .comment .user-context span.ellipsis {
 	display: inline-block;
-	margin-left: 15px;
   width: -webkit-calc(100% - 70px);
 }
-.comment span.youtube-ellipsis {
+.comment span.ellipsis {
 	display: inline-block;
-	margin-left: 0px !important;
   width: -webkit-calc(100% - 30px) !important;	
 }
 .comment .user-context a i {
@@ -485,6 +491,9 @@ b i, .iconic-push {
   height: 24px;
   text-align: center;
   left: -7px;
+}
+.comment-close-button + span {
+	margin-left: 15px;
 }
 .comment-close .user-context a {
 	color: #727272
@@ -989,11 +998,11 @@ b i, .iconic-push {
 	-webkit-animation-name: headerfadeIn; 
 	animation-name: headerfadeIn; 
 } 
-.reddit-header-container .reddit-votes {
+.reddit-header-container .time {
 	right: -7px;
 	top: -5px;
 }
-.reddit-votes a {
+.time a {
 	color: #727272;
   text-decoration: none;
   font-size: 12px;
@@ -1170,7 +1179,7 @@ b i, .iconic-push {
 .child-comment .col-12, .comment .col-12 {
 	float: none
 }
-.reddit-votes {
+.time {
 	font-weight: 700;
   font-size: 12px;
   position: absolute;
@@ -1189,7 +1198,7 @@ b i, .iconic-push {
 	font-size: 12px !important;
 	font-weight: 700;
 }
-.reddit-votes:hover .hidden-date {
+.time:hover .hidden-date {
 	display: inline;
 }
 
@@ -1526,7 +1535,7 @@ b i, .iconic-push {
 	padding: 0;
 	border: none;
 }
-.content-list .reddit-votes {
+.content-list .time {
 	top: -7px;
 }
 .reddit-profile-posts {
@@ -1927,11 +1936,17 @@ b i, .iconic-push {
 .twitter-color {
 	color: #4099FF !important
 }
+.twitter-background {
+	background-color: #59adec
+}
 .reddit-color {
 	color: #ff4601 !important
 }
 .instagram-color {
 	color: #517fa4 !important
+}
+.instagram-background {
+	background: #517fa4
 }
 /*scrollbar*/
 .ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {

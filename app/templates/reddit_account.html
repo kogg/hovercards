@@ -9,6 +9,9 @@
 				                                                             (data.discussion.author.api === 'reddit' && data.discussion.author.id === person.selectedAccount.id))
 				                                                             ? 'Posted By' : ('reddit_account' | copy) }}:</b>
 				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ ::person.selectedAccount.id }}</a>
+				<div class="profile-cta">
+					<a class="reddit-background" popup="https://reddit.com/u/{{:: person.selectedAccount.id }}">Friends</a>
+				</div>
 			</div>
 		</div>
 
