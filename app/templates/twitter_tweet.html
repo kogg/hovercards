@@ -12,7 +12,7 @@
 		<span>
 			<a ng-href="{{:: tweet.author | generateUrl }}" class="no-yo">{{:: tweet.author.name }}</a>
 		</span>
-		<span class="reddit-votes"><a ng-href="{{:: tweet | generateUrl }}">{{:: tweet.date | timeSince:true }}</a></span>
+		<span class="time"><a ng-href="{{:: tweet | generateUrl }}">{{:: tweet.date | timeSince:true }}</a></span>
 	</div>
 	<p ng-bind-html=":: tweet.description"></p>
 	<div class="comment-image-container" ng-if="::tweet.image" ng-click="view.fullscreen=(view.fullscreen === tweet) ? null : tweet">

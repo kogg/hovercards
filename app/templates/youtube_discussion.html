@@ -6,10 +6,10 @@
 	</div>
 	<div class="col-10">
 		<div class="user-context">
-			<span class="ellipsis youtube-ellipsis">
+			<span class="ellipsis">
 				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name }}</a>
 			</span>
-			<span class="reddit-votes">{{:: comment.date | timeSince:true }}</span>
+			<span class="time">{{:: comment.date | timeSince:true }}</span>
 		</div>
 		<p readmore=":: comment.description" cutoff-height="100"></p>
 	</div>
