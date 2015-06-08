@@ -379,7 +379,27 @@ b i, .iconic-push {
 	border-top: none;
 	position: relative;
 }
-
+.video-top-underlay {
+	cursor: pointer;
+}
+.play-video {
+	width: 80px;
+	height: 80px;
+	left: 0;
+	top:0;
+	margin:auto;
+	background-color: black;
+	background-image: url('/images/play-button.png');
+	background-size: 30%;
+	background-position: center;
+	opacity: .8;
+	position: relative;
+	top: 50%;
+	border-radius: 12px;
+	background-repeat: no-repeat;
+	display: none;
+  transform: translateY(-50%);
+}
 .instagram-video video, .instagram-video .video-top, .instagram-video .video-top-underlay {
 	height: 298px;
 }

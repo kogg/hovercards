@@ -20,7 +20,8 @@
 	</div>
 
 	<div class="video-top-underlay">
-		<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }" ng-click="played || ((played = true) && (playing = true))"></div>
+		<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }" ng-click="played || ((played = true) && (playing = true))">
+		</div>
 		<div class="video-cta" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
 			<i class="md md-fullscreen"></i>
 		</div>
