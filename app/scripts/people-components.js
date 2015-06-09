@@ -63,7 +63,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         if (accounts[key]) {
                             return;
                         }
-                        accounts[key] = apiService.get(request);
+                        accounts[key] = _.extend(apiService.get(request), _.pick(request, 'reason'));
                         accounts[key]
                             .$promise
                             .then(function(account) {

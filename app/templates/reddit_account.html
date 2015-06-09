@@ -5,9 +5,7 @@
 				<div class="profile-image reddit-profile"></div>
 			</div>
 			<div class="profile-right col-8">
-				<b class="reddit-color"><i class="md md-mode-edit"></i>{{:: ((data.content.author.api    === 'reddit' && data.content.author.id === person.selectedAccount.id) ||
-				                                                             (data.discussion.author.api === 'reddit' && data.discussion.author.id === person.selectedAccount.id))
-				                                                             ? 'Posted By' : ('reddit_account' | copy) }}:</b>
+				<b class="reddit-color"><i class="md md-mode-edit"></i>{{:: (person.selectedAccount.reason === 'author') ? 'Posted By' : ('reddit_account' | copy) }}:</b>
 				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ ::person.selectedAccount.id }}</a>
 				<div class="profile-cta">
 					<a class="reddit-background" popup="{{:: person.selectedAccount | generateUrl }}" popup-size="{ height: 300, width: 640 }"> &nbsp; <strong>+</strong>&nbsp; &nbsp; friends</a>

@@ -14,8 +14,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="card-text">
-		<div ng-if="::data.content.description" class="card-description">
+	<div class="card-text" ng-if="::data.content.description">
+		<div class="card-description">
 			<div readmore=":: data.content.description" cutoff-height="100"></div>
 		</div>
 	</div>
