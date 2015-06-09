@@ -424,6 +424,9 @@ b i, .iconic-push {
   transform: translateY(-50%);
   transition:all .4s ease-in-out;
 }
+.video-top-underlay .play-video.instagram-background {
+	background-color: rgba(0,0,0,0.6);
+}
 .video-top-underlay:hover .play-video.instagram-background {
 	background-color: #517fa4
 }
@@ -513,6 +516,8 @@ b i, .iconic-push {
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
   max-height: 100%;
+  max-width: -webkit-calc(100% - 340px);
+  max-width: calc(100% - 340px);
 }
 .video-top {
 	position: absolute;
@@ -1665,7 +1670,6 @@ b i, .iconic-push {
 }
 .content-cards-blocks-holder {
 	display: block;
-	border-radius: 3px;
 	overflow: hidden;
 	margin-bottom: 8px;
 	background: #f6f6f6;
