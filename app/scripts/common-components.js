@@ -207,7 +207,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             relativeTime: {
                 future: 'in %s',
                 past:   '%s ago',
-                s:  'seconds',
+                s:  '%d seconds',
                 m:  '1 minute',
                 mm: '%d minutes',
                 h:  '1 hour',
@@ -224,7 +224,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             relativeTime: {
                 future: '%s',
                 past:   '%s',
-                s:      's',
+                s:      '%ds',
                 m:      '%dm',
                 mm:     '%dm',
                 h:      '%dh',
