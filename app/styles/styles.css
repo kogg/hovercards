@@ -383,6 +383,10 @@ b i, .iconic-push {
 .profile-cta a.profile-cta-twitter:hover {
 	opacity: .9;
 }
+.people-card {
+	overflow: hidden;
+	padding-bottom: 6px;
+}
 .people-card-space {
   height: 160px;
 	margin-top: 16px;
