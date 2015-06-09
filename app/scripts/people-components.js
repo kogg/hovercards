@@ -135,18 +135,14 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 });
                 $scope.$watchCollection('data.people', function(people, oldPeople) {
                     if (oldPeople && oldPeople.length && people !== oldPeople) {
-                        oldPeople.forEach(function() {
+                        _.times(oldPeople.length, function() {
                             $element.slick('slickRemove', 0);
                         });
                     }
-                    if (people && people.length) {
-                        people.forEach(function(person) {
-                            var element = '<div style="height: 157px;"><div ng-include="\'templates/\' + person.selectedAccount.api + \'_account.html\'"></div></div>';
-                            var scope = $scope.$new();
-                            scope.person = person;
-                            $element.slick('slickAdd', $compile(element)(scope));
-                        });
-                    }
+                    _.each(people, function(person) {
+                        var element = '<div style="height: 157px;"><div ng-include="\'templates/\' + person.selectedAccount.api + \'_account.html\'"></div></div>';
+                        $element.slick('slickAdd', $compile(element)(_.extend($scope.$new(), { person: person })));
+                    });
                     $scope.entry.selectedPerson = (people && people[$element.slick('slickCurrentSlide') || 0]) || null;
                 });
             }

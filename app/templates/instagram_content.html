@@ -41,7 +41,7 @@
 
 	<div class="card-text" ng-if="::data.content.description">
 		<div class="card-description">
-			<p readmore=":: data.content.description | linky" cutoff-height="80"></p>
+			<p readmore=":: data.content.description" cutoff-height="80"></p>
 		</div>
 	</div>
 	<div class="card-stats">
@@ -51,25 +51,10 @@
 		</div>
 		<div class="col-6">
 			<b>Tags</b>
-			<a href="#" class="card-stats-tag">
-				<div class="card-stats-tag-img" style="background-image:url('https://instagramimages-a.akamaihd.net/profiles/profile_382202365_75sq_1368758417.jpg')"></div>
-				<div class="card-stats-tag-name">Bob Bobberson</div>
-			</a>
-			<a href="#" class="card-stats-tag">
-				<div class="card-stats-tag-img" style="background-image:url('https://instagramimages-a.akamaihd.net/profiles/profile_40010_75sq_1286593493.jpg')"></div>
-				<div class="card-stats-tag-name">Dragon</div>
-			</a>
-			<a href="#" class="card-stats-tag">
-				<div class="card-stats-tag-img" style="background-image:url('https://instagramimages-a.akamaihd.net/profiles/anonymousUser.jpg')"></div>
-				<div class="card-stats-tag-name">Poop Bucket</div>
-			</a>
-			<a href="#" class="card-stats-tag">
-				<div class="card-stats-tag-img" style="background-image:url('https://instagramimages-a.akamaihd.net/profiles/anonymousUser.jpg')"></div>
-				<div class="card-stats-tag-name">Defence Swag</div>
-			</a>
-			<a href="#" class="card-stats-tag">
-				<div class="card-stats-tag-img" style="background-image:url('https://instagramimages-a.akamaihd.net/profiles/anonymousUser.jpg')"></div>
-				<div class="card-stats-tag-name">Armpit Hair Hole</div>
+			<span ng-if="!(data.content.accounts | filter:{ reason: 'tag' }).length">None</span>
+			<a class="card-stats-tag" ng-href="{{:: tag | generateUrl }}" ng-repeat="tag in data.content.accounts | filter:{ reason: 'tag' }">
+				<div class="card-stats-tag-img" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
+				<div class="card-stats-tag-name">{{:: tag.name || tag.id }}</div>
 			</a>
 		</div>
 	</div>

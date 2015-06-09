@@ -1,4 +1,5 @@
 var $     = require('jquery');
+var _     = require('underscore');
 var URI   = require('URIjs/src/URI');
 var async = require('async');
 
@@ -14,10 +15,9 @@ function get_user(api, callback) {
             });
         },
         function(callback) {
-            var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             var user = '';
             for (var i = 0; i < 25; i++) {
-                user += possible.charAt(Math.floor(Math.random() * possible.length));
+                user += _.sample('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789');
             }
             var obj = {};
             obj[api + '_user'] = user;
@@ -51,33 +51,29 @@ async.parallel({
     if (err) {
         return console.error(err);
     }
-    chrome.runtime.onMessage.addListener(function(original_request, sender, _sendMessage) {
-        var callback = function(err, val) {
-            _sendMessage([err, val]);
-        };
-        var request = $.extend({}, original_request);
+    chrome.runtime.onMessage.addListener(function(request, sender, callback) {
         var api  = request.api;
         var type = request.type;
-        delete request.api;
-        delete request.type;
-        delete request.$$hashKey;
+        request = _.pick(request, 'id', 'as', 'for', 'focus');
+        callback = _.wrap(callback, function(callback, err, result) {
+            if (err) {
+                console.warn(api, type, request, '\nError', err);
+            } else {
+                console.info(api, type, request, '\nResult', result);
+            }
+            callback([err, result]);
+        });
 
         if (client_side_calls[api] && client_side_calls[api][type]) {
             client_side_calls[api][type](request, function(err, result) {
-                err = err || (!result && { status: 404 });
-                if (err) {
-                    console.warn(api, type, request, '\nError', err);
-                } else {
-                    console.info(api, type, request, '\nResult', result);
-                }
-                callback(err, result);
+                callback(err || (!result && { status: 404 }), result);
             });
         } else if (type === 'auth') {
             async.waterfall([
                 function(callback) {
                     chrome.identity.launchWebAuthFlow({ url: endpoint + '/' + api + '/authenticate', interactive: true }, function(redirect_url) {
                         if (chrome.runtime.lastError) {
-                            return callback($.extend({ status: 401 }, chrome.runtime.lastError));
+                            return callback(_.extend({ status: 401 }, chrome.runtime.lastError));
                         }
                         callback(null, URI(redirect_url).search(true).user);
                     });
@@ -98,11 +94,9 @@ async.parallel({
                              data:    request,
                              headers: { user: user } })
                         .done(function(data) {
-                            console.info(api, type, request, '\nResult', data);
                             callback(null, data);
                         })
                         .fail(function(err) {
-                            console.warn(api, type, request, '\nError', err);
                             callback(err);
                         });
                 }

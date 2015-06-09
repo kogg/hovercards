@@ -1,7 +1,18 @@
+var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [require('./service-components')])
     .controller('EntryController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
+        chrome.storage.sync.get('order', function(obj) {
+            if (!obj.order) {
+                obj.order = [];
+            }
+            var original_length = obj.order.length;
+            obj.order = _.union(obj.order, ['instagram', 'youtube', 'reddit', 'twitter']);
+            if (original_length !== obj.order.length) {
+                chrome.storage.sync.set(obj);
+            }
+        });
         window.addEventListener('message', function(event) {
             var request = event.data;
             // TODO Determine if this is our request and not someone else's
@@ -31,39 +42,34 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                 var entry = { discussions: {}, type: 'url', desired_discussion_api: 'url' };
                                 var data  = { discussions: {} };
 
-                                var apis = ['reddit', 'twitter'];
+                                var apis = _.sortBy(['reddit', 'twitter'], function(api) {
+                                    return $scope.order.indexOf(api);
+                                });
 
-                                apis.forEach(function(api) {
+                                _.each(apis, function(api) {
                                     entry.discussions[api] = { api: api, type: 'discussion' };
                                     data.discussions[api]  = apiService.get({ api: api, type: 'url', id: identity.id });
                                 });
 
-                                chrome.storage.sync.get('order', function(obj) {
-                                    var order = obj.order || [];
-                                    apis.sort(function(a, b) {
-                                        return order.indexOf(a) - order.indexOf(b);
-                                    });
-
-                                    function check_api(i) {
-                                        if (apis.length === i) {
-                                            entry.$err = { 'bad-input': true };
-                                            return;
-                                        }
-                                        var api = apis[i];
-                                        data.discussions[api]
-                                            .$promise
-                                            .then(function() {
-                                                if (entry.desired_discussion_api !== 'url') {
-                                                    return;
-                                                }
-                                                entry.desired_discussion_api = api;
-                                            })
-                                            .catch(function() {
-                                                check_api(i + 1);
-                                            });
+                                function check_api(i) {
+                                    if (apis.length === i) {
+                                        entry.$err = { 'bad-input': true };
+                                        return;
                                     }
-                                    check_api(0);
-                                });
+                                    var api = apis[i];
+                                    data.discussions[api]
+                                        .$promise
+                                        .then(function() {
+                                            if (entry.desired_discussion_api !== 'url') {
+                                                return;
+                                            }
+                                            entry.desired_discussion_api = api;
+                                        })
+                                        .catch(function() {
+                                            check_api(i + 1);
+                                        });
+                                }
+                                check_api(0);
 
                                 $scope.entry = entry;
                                 $scope.data = data;

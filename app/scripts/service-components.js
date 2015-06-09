@@ -1,3 +1,4 @@
+var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ServiceComponents', [])
@@ -52,10 +53,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                         })
                         .finally(function() {
                             object.$resolved = true;
-                            var i = service.loading.indexOf(object);
-                            if (i !== -1) {
-                                service.loading.splice(i, 1);
-                            }
+                            service.loading = _.without(service.loading, object);
                         })
                 };
                 service.loading.push(object);
@@ -105,8 +103,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                 loading: '='
             },
             link: function($scope) {
-                $scope.promises = apiService.loading;
-                $scope.$watch('!!promises.length', function(loading) {
+                $scope.service = apiService;
+                $scope.$watch('!!service.loading.length', function(loading) {
                     $scope.loading = loading;
                 });
             }

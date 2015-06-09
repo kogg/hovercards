@@ -1,3 +1,4 @@
+var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('./service-components')])
@@ -6,10 +7,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             if (!requests) {
                 return;
             }
-            $scope.entry.discussion_apis = Object.keys(requests);
+            $scope.entry.discussion_apis = _.keys(requests);
             if ($scope.order && $scope.order.length) {
-                $scope.entry.discussion_apis.sort(function(a, b) {
-                    return $scope.order.indexOf(a) - $scope.order.indexOf(b);
+                $scope.entry.discussion_apis = _.sortBy($scope.entry.discussion_apis, function(api) {
+                    return $scope.order.indexOf(api);
                 });
             }
         }, true);
@@ -19,8 +20,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                 return;
             }
             if ($scope.entry.discussion_apis && $scope.entry.discussion_apis.length) {
-                $scope.entry.discussion_apis.sort(function(a, b) {
-                    return order.indexOf(a) - order.indexOf(b);
+                $scope.entry.discussion_apis = _.sortBy($scope.entry.discussion_apis, function(api) {
+                    return order.indexOf(api);
                 });
             }
         }, true);
@@ -51,13 +52,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             $scope.entry.content = $scope.entry.content || discussion.content;
 
             if (discussion.accounts && discussion.accounts.length && ($scope.entry.type === 'discussion' || $scope.entry.type === 'url')) {
-                $scope.entry.accounts = ($scope.entry.accounts || []);
-                (discussion.accounts || []).forEach(function(account) {
-                    if (!$scope.entry.accounts.some(function(entry_account) { return account.api  === entry_account.api &&
-                                                                                     account.id   === entry_account.id; })) {
-                        $scope.entry.accounts.push(account);
-                    }
-                });
+                $scope.entry.accounts = _.chain($scope.entry.accounts)
+                                         .union(discussion.accounts)
+                                         .uniq(false, function(account) {
+                                             return account.api + '/' + account.id;
+                                         })
+                                         .value();
             }
         });
     }])

@@ -10,7 +10,7 @@
 				                                                             ? 'Posted By' : ('reddit_account' | copy) }}:</b>
 				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ ::person.selectedAccount.id }}</a>
 				<div class="profile-cta">
-					<a class="reddit-background" popup="https://reddit.com/u/{{:: person.selectedAccount.id }}" popup-size="{ height: 300, width: 640 }"> &nbsp; <strong>+</strong>&nbsp; &nbsp; friends</a>
+					<a class="reddit-background" popup="{{:: person.selectedAccount | generateUrl }}" popup-size="{ height: 300, width: 640 }"> &nbsp; <strong>+</strong>&nbsp; &nbsp; friends</a>
 				</div>
 			</div>
 		</div>
