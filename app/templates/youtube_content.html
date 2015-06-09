@@ -7,6 +7,11 @@
 			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
 			</div>
+			<div class="col-12">
+				<div class="video-title">
+					<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{ ::data.content.name }}</a>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
@@ -22,6 +27,7 @@
 	<div class="video-top-underlay">
 		<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }" ng-click="played || ((played = true) && (playing = true))">
 		</div>
+		<div class="play-video"  ng-click="played || ((played = true) && (playing = true))"></div>
 		<div class="video-cta" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
 			<i class="md md-fullscreen"></i>
 		</div>
@@ -31,9 +37,6 @@
 	</div>
 
 	<div class="card-text">
-		<div class="video-title">
-			<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{ ::data.content.name }}</a>
-		</div>
 		<div ng-if="::data.content.description" class="card-description">
 			<p readmore=":: data.content.description | linky" cutoff-height="50"></p>
 		</div>
@@ -52,9 +55,17 @@
 			<span>{{ ::data.content.dislikes | numsmall }}</span>
 		</div>
 	</div>
+	<!--
+	<div class="card-stats-mini">
+		<span><i class="md md-remove-red-eye"></i> {{ ::data.content.views | numsmall }}</span>
+		<span><i class="md md-thumb-up"></i> {{ ::data.content.likes | numsmall }}</span>
+		<span><i class="md md-thumb-down"></i> {{ ::data.content.dislikes | numsmall }}</span>
+	</div>
+	<!--
 	<div class="percent-bar" ng-if="::data.content.likes + data.content.dislikes">
 		<div class="percent-bar-good" ng-style="::(data.content.likes + data.content.dislikes) && { width: (data.content.likes / (data.content.likes + data.content.dislikes) | percent) }"></div>
 	</div>
+	-->
 </div>
 
 <div ng-if="data.content.$err" err="data.content.$err" api="youtube" type="content" entry="entry"></div>

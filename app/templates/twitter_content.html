@@ -32,6 +32,7 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="card-stats row">
 		<div class="col-6">
 			<b>Retweets</b>
@@ -41,7 +42,12 @@
 			<b>Favourites</b>
 			<span>{{:: data.content.favorites | numsmall }}</span>
 		</div>
+		<!--
+		<span><i class="md md-autorenew"></i> {{:: data.content.retweets | numsmall }}</span>
+		<span><i class="md md-stars"></i> {{:: data.content.favorites | numsmall }}</span>
+	-->
 	</div>
+
 </div>
 
 <div ng-if="data.content.$err" err="data.content.$err" api="twitter" type="content" entry="entry"></div>

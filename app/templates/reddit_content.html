@@ -7,10 +7,14 @@
 			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
 			</div>
+			<div class="col-12">
+				<div class="video-title">
+					<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{ ::data.content.name }}</a>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="card-text">
-		<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{ ::data.content.name }}</a>
 		<div ng-if="::data.content.description" class="card-description">
 			<div readmore=":: data.content.description" cutoff-height="100"></div>
 		</div>
@@ -25,9 +29,11 @@
 			<span>{{:: data.content.up_ratio | percent }}</span>
 		</div>
 	</div>
+	<!--
 	<div class="percent-bar" ng-if=":: data.content.up_ratio">
 		<div class="percent-bar-good" ng-style=":: data.content.up_ratio && { width: (data.content.up_ratio | percent) }"></div>
 	</div>
+	-->
 </div>
 
 <div ng-if="data.content.$err" err="data.content.$err" api="reddit" type="content" entry="entry"></div>
