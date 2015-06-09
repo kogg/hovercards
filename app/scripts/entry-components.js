@@ -13,6 +13,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                 chrome.storage.sync.set(obj);
             }
         });
+
+        $scope.$watch('entry.selectedPerson.selectedAccount', function(selectedAccount, oldAccount) {
+            if ($scope.view && $scope.view.fullscreen && oldAccount) {
+                $scope.view.fullscreen = null;
+            }
+        });
+
         window.addEventListener('message', function(event) {
             var request = event.data;
             // TODO Determine if this is our request and not someone else's

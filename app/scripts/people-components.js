@@ -128,6 +128,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
         return {
             link: function($scope, $element) {
                 $element.slick({ arrows: false, centerMode: true, centerPadding: 0, focusOnSelect: true, infinite: false, slidesToShow: 1 });
+                $element.on('beforeChange', function() {
+                    $scope.$apply(function() {
+                        $scope.view.fullscreen = null;
+                    });
+                });
                 $element.on('afterChange', function(event, slick, index) {
                     $scope.$apply(function() {
                         $scope.entry.selectedPerson = $scope.data.people[index];
