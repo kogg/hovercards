@@ -412,7 +412,8 @@ b i, .iconic-push {
 	left: 0;
 	top:0;
 	margin:auto;
-	background-color: #F44336;
+	background-color: rgba(0,0,0,0.6);
+	border-radius: 12px;
 	background-image: url('/images/play-button.png');
 	background-size: 20%;
 	background-position: center;
@@ -422,6 +423,12 @@ b i, .iconic-push {
 	background-repeat: no-repeat;
   transform: translateY(-50%);
   transition:all .4s ease-in-out;
+}
+.video-top-underlay:hover .play-video.instagram-background {
+	background-color: #517fa4
+}
+.video-top-underlay:hover .play-video.youtube-background {
+	background-color: #F44336
 }
 .play-video + div {
 	display: none;
