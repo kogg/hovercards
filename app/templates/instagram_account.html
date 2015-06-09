@@ -8,7 +8,7 @@
 				<b class="instagram-color">{{:: person.selectedAccount.id }}</b>
 				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{:: person.selectedAccount.name || person.selectedAccount.id }}</a>
 				<div class="profile-cta">
-					<a class="instagram-background" popup="https://instagram.com/{{:: person.selectedAccount.id }}" popup-size="{ height: 433, width: 720 }">Follow</a>
+					<a class="instagram-background" popup="{{:: person.selectedAccount | generateUrl }}" popup-size="{ height: 433, width: 720 }">Follow</a>
 				</div>
 			</div>
 		</div>
