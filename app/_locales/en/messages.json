@@ -10,7 +10,7 @@
     "reddit_discussion":    { "message": "Reddit Comments" },
     "reddit_account":       { "message": "Reddit User" },
     "twitter":              { "message": "Twitter" },
-    "twitter_discussion":   { "message": "Tweets" },
+    "twitter_discussion":   { "message": "Twitter Tweets" },
     "twitter_account":      { "message": "Twitter User" },
     "youtube":              { "message": "Youtube" },
     "youtube_discussion":   { "message": "Youtube Comments" },
