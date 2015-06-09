@@ -30,7 +30,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     }])
-    .directive('readmore', ['$sanitize', function($sanitize) {
+    .directive('readmore', ['$sanitize', '$timeout', function($sanitize, $timeout) {
         require('dotdotdot');
 
         return {
@@ -46,23 +46,28 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         return;
                     }
                     $element.append('<span class="read-more">Read More</span>');
-                    $element.dotdotdot({
-                        after: 'span.read-more',
-                        height: Number($scope.cutoffHeight),
-                        callback: function(isTruncated) {
-                            var read_more = $element.find('.read-more');
-                            if (!isTruncated) {
-                                read_more.remove();
-                                return;
+                    $timeout(function() {
+                        $element.dotdotdot({
+                            after: 'span.read-more',
+                            height: Number($scope.cutoffHeight),
+                            callback: function(isTruncated) {
+                                var read_more = $element.find('.read-more');
+                                if (!isTruncated) {
+                                    read_more.remove();
+                                    return;
+                                }
+                                if (!read_more.length) {
+                                    read_more = angular.element('<span class="read-more">Read More</span>');
+                                }
+                                read_more
+                                    .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
+                                    .click(function() {
+                                        $element
+                                            .trigger('destroy')
+                                            .html($scope.text);
+                                    });
                             }
-                            read_more
-                                .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
-                                .click(function() {
-                                    $element
-                                        .trigger('destroy')
-                                        .html($scope.text);
-                                });
-                        }
+                        });
                     });
                 });
             }
