@@ -30,6 +30,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
             if (content.accounts && content.accounts.length) {
                 $scope.entry.accounts = _.chain($scope.entry.accounts)
                                          .union(content.accounts)
+                                         .sortBy(function(account) {
+                                             var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
+                                             if (pos === -1) {
+                                                 pos = Infinity;
+                                             }
+                                             return pos;
+                                         })
                                          .uniq(false, function(account) {
                                              return account.api + '/' + account.id;
                                          })
