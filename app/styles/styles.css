@@ -428,46 +428,29 @@ b i, .iconic-push {
 }
 .play-video-clicked {
 	-webkit-animation: moveplaybutton 1s forwards;
-	animation: moveplaybutton 1s forwards
+	animation: moveplaybutton 1s forwards;
+	pointer-events:none;
 } 
 
 @-webkit-keyframes moveplaybutton { 
     0% {
     	opacity: 1;
-    } 
-    50% { 
-    	opacity: 1;
-			border-radius: 50%;
-			transform: translate(111px, 61px);
-			z-index: 19;
-			box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    	-webkit-transform: translateY(-50%) scale(1);
     } 
     100% {
     	opacity: 0;
-			border-radius: 50%;
-			transform: translate(111px, 61px);
-			z-index: 19;
-			box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    	-webkit-transform: translateY(-50%) scale(1.5);
     } 
 } 
 
 @keyframes moveplaybutton { 
     0% { 
-      opacity: 1; 
-    } 
-    50% { 
-    	opacity: 1;
-			border-radius: 50%;
-			transform: translate(111px, 61px);
-			z-index: 19;
-			box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
     } 
     100% { 
       opacity: 0;
-			border-radius: 50%;
-			transform: translate(111px, 61px);
-			z-index: 19;
-			box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+      transform: translateY(-50%) scale(1.5);
     } 
 } 
 .play-video-clicked + div {
@@ -2114,7 +2097,7 @@ b i, .iconic-push {
 	color: #517fa4 !important
 }
 .instagram-background {
-	background: #517fa4
+	background-color: #517fa4
 }
 /*scrollbar*/
 .ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
