@@ -1454,6 +1454,16 @@ b i, .iconic-push {
   background-position: center;
   background-repeat: no-repeat;
 }
+.instagram-message .yocards-message-text b {
+	color: #517fa4
+}
+.instagram-message .yocards-message-image {
+	background:#517fa4;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');
+	background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 /*Network Menu*/
 .network-menu {
   background-color: #f6f6f6;
