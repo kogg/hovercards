@@ -42,15 +42,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                 var entry = { discussions: {}, type: 'url', desired_discussion_api: 'url' };
                                 var data  = { discussions: {} };
 
-                                var apis = ['reddit', 'twitter'];
-
-                                apis.forEach(function(api) {
-                                    entry.discussions[api] = { api: api, type: 'discussion' };
-                                    data.discussions[api]  = apiService.get({ api: api, type: 'url', id: identity.id });
+                                var apis = _.sortBy(['reddit', 'twitter'], function(api) {
+                                    return $scope.order.indexOf(api);
                                 });
 
-                                apis.sort(function(a, b) {
-                                    return $scope.order.indexOf(a) - $scope.order.indexOf(b);
+                                _.each(apis, function(api) {
+                                    entry.discussions[api] = { api: api, type: 'discussion' };
+                                    data.discussions[api]  = apiService.get({ api: api, type: 'url', id: identity.id });
                                 });
 
                                 function check_api(i) {

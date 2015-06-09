@@ -1,3 +1,4 @@
+var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ContentComponents', [require('./service-components')])
@@ -20,21 +21,19 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
             }
 
             if (content.discussions && content.discussions.length) {
-                $scope.entry.discussions = ($scope.entry.discussions || {});
-                content.discussions.forEach(function(discussion) {
-                    $scope.entry.discussions[discussion.api] = $scope.entry.discussions[discussion.api] || discussion;
-                });
+                $scope.entry.discussions = _.chain(content.discussions)
+                                            .indexBy('api')
+                                            .extend($scope.entry.discussions)
+                                            .value();
             }
 
             if (content.accounts && content.accounts.length) {
-                $scope.entry.accounts = ($scope.entry.accounts || []);
-                content.accounts.forEach(function(account) {
-                    if ($scope.entry.accounts.some(function(entry_account) { return account.api === entry_account.api &&
-                                                                                    account.id  === entry_account.id; })) {
-                        return;
-                    }
-                    $scope.entry.accounts.push(account);
-                });
+                $scope.entry.accounts = _.chain($scope.entry.accounts)
+                                         .union(content.accounts)
+                                         .uniq(false, function(account) {
+                                             return account.api + '/' + account.id;
+                                         })
+                                         .value();
             }
         });
     }])

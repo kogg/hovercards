@@ -1,3 +1,4 @@
+var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize'), require('angular-messages')])
@@ -68,27 +69,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         };
     }])
     .directive('stored', function() {
-        function equals(a, b) {
-            if (a === b) {
-                return true;
-            }
-            if (Array.isArray(a)) {
-                if (!Array.isArray(b)) {
-                    return false;
-                }
-                if (a.length !== b.length) {
-                    return false;
-                }
-                for (var i = 0; i < a.length; a++) {
-                    if (!equals(a[i], b[i])) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
-        }
-
         return {
             retrict: 'A',
             scope: {
@@ -117,7 +97,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         return;
                     }
                     $scope.$apply(function() {
-                        if (!equals($scope.stored, changes[$scope.name].newValue)) {
+                        if (!_.isEqual($scope.stored, changes[$scope.name].newValue)) {
                             console.log('set scope', $scope.name, 'to', changes[$scope.name].newValue);
                             $scope.stored = changes[$scope.name].newValue;
                         }
@@ -168,7 +148,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             if (!arguments[0] || arguments[0] === '') {
                 return arguments[0];
             }
-            var string = chrome.i18n.getMessage(arguments[0].replace(/\-/g, '_'), Array.prototype.slice.call(arguments, 1));
+            var string = chrome.i18n.getMessage(arguments[0].replace(/\-/g, '_'), _.rest(arguments));
             if (!string) {
                 console.warn(JSON.stringify(arguments[0]) + ' does not have copy');
             }
