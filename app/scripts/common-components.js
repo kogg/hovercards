@@ -119,7 +119,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         return {
             restrict: 'E',
             scope: {
-                src: '@videoSrc'
+                src: '@videoSrc',
+                fullscreen: '=?',
+                view: '=?'
             },
             link: function($scope, $element) {
                 $scope.is_playing = false;
@@ -135,6 +137,15 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         }
                     });
                 });
+                if ($scope.fullscreen && $scope.view) {
+                    $element.dblclick(function() {
+                        if ($scope.view.fullscreen === $scope.fullscreen) {
+                            $scope.view.fullscreen = null;
+                        } else {
+                            $scope.view.fullscreen = $scope.fullscreen;
+                        }
+                    });
+                }
                 $element.get(0).onplay = function() {
                     $scope.$apply(function() {
                         $scope.is_playing = true;
