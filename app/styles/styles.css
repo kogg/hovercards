@@ -148,6 +148,12 @@ body {
 .col-11 {width:91.66666666%}
 .col-12 {width:100.000000000%}
 
+.inline-row > div {
+	float: none;
+	display: inline-block;
+	margin: 0 -1px;
+	vertical-align:top
+}
 /*default cards*/
 b, a, p, span {
 	word-wrap: break-word;
@@ -235,12 +241,14 @@ b i, .iconic-push {
 	padding: 9.5px 8px 9.5px 16px;
 }
 .card-stats-container {
-	white-space: nowrap;
+	position: relative;
+	top:1px;
 }
 .card-stats-tag {
 	display: inline-block;
+	margin-right: 5px;
+	margin-bottom:5px;
 	position: relative;
-	top:1px;
 }
 .card-stats-tag-img {
 	width: 16px;
@@ -249,7 +257,6 @@ b i, .iconic-push {
 	background-size: 100% !important;
 	background-position: center !important;
 	transition:all .2s ease-in-out;
-	margin-right: 3px
 }
 
 .card-stats-tag:hover .card-stats-tag-img {
@@ -1341,6 +1348,7 @@ b i, .iconic-push {
 	border-radius: 3px;
 	overflow: hidden;
 	position: relative;
+	box-shadow:0 2px 6px rgba(191, 191, 191, 0.56);
 }
 .social-profile .yocards-message-container {
 	margin:0 20px;
