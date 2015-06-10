@@ -65,7 +65,7 @@ $(document).ready(function () {
 
 if (window.top !== window) {
     embedded_trigger(html, html, 'body', { top: 8, left: 8 }, function() {
-        return (document.URL.indexOf('redditmedia.com') !== -1) && document.URL;
+        return (document.URL.indexOf('youtube.com') === -1 && document.URL.indexOf('youtu.be') === -1) && document.URL;
     });
 }
 
