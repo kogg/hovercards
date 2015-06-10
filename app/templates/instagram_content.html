@@ -52,10 +52,12 @@
 		<div class="col-6">
 			<b>Tags</b>
 			<span ng-if="!(data.content.accounts | filter:{ reason: 'tag' }).length">None</span>
-			<a class="card-stats-tag" ng-href="{{:: tag | generateUrl }}" ng-repeat="tag in data.content.accounts | filter:{ reason: 'tag' }">
-				<div class="card-stats-tag-img" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
-				<div class="card-stats-tag-name">{{:: tag.name || tag.id }}</div>
-			</a>
+			<div class="card-stats-container">
+				<a class="card-stats-tag" ng-href="{{:: tag | generateUrl }}" ng-repeat="tag in data.content.accounts | filter:{ reason: 'tag' }">
+					<div class="card-stats-tag-img" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
+					<div class="card-stats-tag-name">{{:: tag.name || tag.id }}</div>
+				</a>
+			</div>
 		</div>
 	</div>
 </div>
