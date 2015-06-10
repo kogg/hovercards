@@ -15,7 +15,7 @@
 		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
 			<div class="video-image">
 				<div ng-if="playing">
-					<video video-src="{{:: data.content.video }}" autoplay loop></video>
+					<video video-src="{{:: data.content.video }}" fullscreen="data.content" view="view" autoplay loop></video>
 				</div>
 			</div>
 		</div>
