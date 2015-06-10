@@ -130,22 +130,16 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
         return {
             link: function($scope, $element) {
                 $element.slick({ arrows: false, centerMode: true, centerPadding: 0, focusOnSelect: true, infinite: false, slidesToShow: 1 });
-                $element.on('beforeChange', function() {
+                $element.on('beforeChange', function(event, slick, current, next) {
                     $scope.$apply(function() {
+                        $scope.entry.selectedPerson = $scope.data.people[next];
                         $scope.view.fullscreen = null;
                     });
                 });
-                $element.on('afterChange', function(event, slick, index) {
-                    $scope.$apply(function() {
-                        $scope.entry.selectedPerson = $scope.data.people[index];
-                    });
-                });
                 $scope.$watchCollection('data.people', function(people, oldPeople) {
-                    if (oldPeople && oldPeople.length && people !== oldPeople) {
-                        _.times(oldPeople.length, function() {
-                            $element.slick('slickRemove', 0);
-                        });
-                    }
+                    _.times(oldPeople && people !== oldPeople && oldPeople.length, function() {
+                        $element.slick('slickRemove', 0);
+                    });
                     _.each(people, function(person) {
                         var element = '<div style="height: 157px;"><div ng-include="\'templates/\' + person.selectedAccount.api + \'_account.html\'"></div></div>';
                         $element.slick('slickAdd', $compile(element)(_.extend($scope.$new(), { person: person })));
