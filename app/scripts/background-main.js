@@ -3,58 +3,79 @@ var _     = require('underscore');
 var URI   = require('URIjs/src/URI');
 var async = require('async');
 
-var endpoint = 'https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1';
-// var endpoint = 'http://localhost:5000/v1';
+var ENDPOINT = 'https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1';
+// var ENDPOINT = 'http://localhost:5000/v1';
+var INSTAGRAM_KEY = '4ffac410cfbf40f59be866c63d5fe37e';
+var REDDIT_KEY = 'fNtoQI4_wDq21w';
 
-function get_user(api, callback) {
-    var user;
-    async.detectSeries([
-        function(callback) {
-            chrome.storage.sync.get(api + '_user', function(obj) {
-                callback(null, obj[api + '_user']);
-            });
-        },
-        function(callback) {
-            var user = '';
-            for (var i = 0; i < 25; i++) {
-                user += _.sample('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789');
-            }
-            var obj = {};
-            obj[api + '_user'] = user;
-            chrome.storage.sync.set(obj, function() {
-                callback(chrome.runtime.lastError, user);
-            });
+function get_device_id(callback) {
+    chrome.storage.sync.get('device_id', function(obj) {
+        if (chrome.runtime.lastError) {
+            return callback(chrome.runtime.lastError);
         }
-    ], function(fn, callback) {
-        fn(function(err, result) {
-            if (err || !result) {
-                return callback(false);
-            }
-            user = result;
-            callback(true);
+        if (obj.device_id) {
+            return callback(null, obj.device_id);
+        }
+        obj = { device_id: '' };
+        for (var i = 0; i < 25; i++) {
+            obj.device_id += _.sample('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789');
+        }
+        chrome.storage.sync.set(obj, function() {
+            callback(chrome.runtime.lastError, obj.device_id);
         });
-    }, function() {
-        callback(null, user);
     });
 }
 
-async.parallel({
-    reddit: function(callback) {
-        get_user('reddit', function(err, user) {
+var client_side_authenticators = {
+    instagram: function(callback) {
+        chrome.identity.launchWebAuthFlow({ url:         'https://instagram.com/oauth/authorize/?client_id=' + INSTAGRAM_KEY +
+                                                         '&redirect_uri=https://' + chrome.i18n.getMessage('@@extension_id') + '.chromiumapp.org/callback' +
+                                                         '&response_type=token',
+                                            interactive: true },
+            function(redirect_url) {
+                if (chrome.runtime.lastError) {
+                    return callback(_.extend({ status: 401 }, chrome.runtime.lastError));
+                }
+                callback(null, URI(redirect_url).hash().split('=')[1]);
+            });
+    }
+};
+
+function get_user(api, callback) {
+    chrome.storage.sync.get(api + '_user', function(obj) {
+        callback(chrome.runtime.lastError, obj[api + '_user']);
+    });
+}
+
+var initialize_client_callers = {
+    instagram: function(callback) {
+        get_user('instagram', function(err, user) {
             if (err) {
                 return callback(err);
             }
-            callback(null, require('YoCardsAPICalls/reddit')({ key: 'fNtoQI4_wDq21w', user: user }));
+            if (!user) {
+                return callback();
+            }
+            return callback(null, require('YoCardsAPICalls/instagram')({ user: user }));
         });
+    },
+    reddit: function(callback) {
+        async.waterfall([
+            get_device_id,
+            function(device_id, callback) {
+                callback(null, require('YoCardsAPICalls/reddit')({ key: REDDIT_KEY, device: device_id }));
+            }
+        ], callback);
     }
-}, function(err, client_side_calls) {
+};
+
+async.parallel(initialize_client_callers, function(err, client_callers) {
     if (err) {
         return console.error(err);
     }
     chrome.runtime.onMessage.addListener(function(request, sender, callback) {
         var api  = request.api;
         var type = request.type;
-        request = _.pick(request, 'id', 'as', 'for', 'focus');
         callback = _.wrap(callback, function(callback, err, result) {
             if (err) {
                 console.warn(api, type, request, '\nError', err);
@@ -64,35 +85,53 @@ async.parallel({
             callback([err, result]);
         });
 
-        if (client_side_calls[api] && client_side_calls[api][type]) {
-            client_side_calls[api][type](request, function(err, result) {
-                callback(err || (!result && { status: 404 }), result);
-            });
-        } else if (type === 'auth') {
+        if (type === 'auth') {
             async.waterfall([
-                function(callback) {
-                    chrome.identity.launchWebAuthFlow({ url: endpoint + '/' + api + '/authenticate', interactive: true }, function(redirect_url) {
+                client_side_authenticators[api] || function(callback) {
+                    chrome.identity.launchWebAuthFlow({ url: ENDPOINT + '/' + api + '/authenticate', interactive: true }, function(redirect_url) {
                         if (chrome.runtime.lastError) {
                             return callback(_.extend({ status: 401 }, chrome.runtime.lastError));
                         }
-                        callback(null, URI(redirect_url).search(true).user);
+                        callback(null, URI(redirect_url).hash().split('=')[1]);
                     });
                 },
-                function(token, callback) {
+                function(user, callback) {
                     var obj = {};
-                    obj[api + '_user'] = token;
+                    obj[api + '_user'] = user;
                     chrome.storage.sync.set(obj, function() {
                         callback(chrome.runtime.lastError);
+                    });
+                },
+                function(callback) {
+                    if (!client_side_authenticators[api] || !initialize_client_callers[api]) {
+                        return callback();
+                    }
+                    initialize_client_callers[api](function(err, client_caller) {
+                        if (err) {
+                            return callback(err);
+                        }
+                        client_callers[api] = client_caller;
+                        callback();
                     });
                 }
             ], callback);
         } else {
-            async.waterfall([
-                async.apply(get_user, api),
-                function(user, callback) {
-                    $.ajax({ url:     endpoint + '/' + api + '/' + type,
+            async.parallel({
+                device_id: get_device_id,
+                user: async.apply(get_user, api)
+            }, function(err, headers) {
+                if (err) {
+                    return callback(err);
+                }
+                request = _.pick(request, 'id', 'as', 'for', 'focus');
+                if (client_callers[api] && client_callers[api][type]) {
+                    client_callers[api][type](_.extend(headers, request), function(err, result) {
+                        callback(err || (!result && { status: 404 }), result);
+                    });
+                } else {
+                    $.ajax({ url:     ENDPOINT + '/' + api + '/' + type,
                              data:    request,
-                             headers: { user: user } })
+                             headers: headers })
                         .done(function(data) {
                             callback(null, data);
                         })
@@ -100,8 +139,9 @@ async.parallel({
                             callback(err);
                         });
                 }
-            ], callback);
+            });
         }
+
         return true;
     });
 });
