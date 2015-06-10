@@ -44,7 +44,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             $scope.data.discussion = discussion;
         });
 
-        $scope.$watch('data.discussion.$resolved && entry && entry.type !== "url" && data.discussion', function(discussion) {
+        $scope.$watch('data.discussion.$resolved && !data.discussion.$err && entry && entry.type !== "url" && data.discussion', function(discussion) {
             if (!discussion) {
                 return;
             }

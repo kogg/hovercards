@@ -17,45 +17,46 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
 
         var service = {
             loading: [],
-            get: function(params) {
-                var object = {
-                    $promise:
-                        $q(function(resolve, reject) {
-                            var timeout = $timeout(function() {
-                                object.$err = { 'still-waiting': true, 'api-specific': true };
-                            }, 5000);
-                            chrome.runtime.sendMessage(params, function(response) {
-                                $timeout.cancel(timeout);
-                                delete object.$err;
-                                if (!response) {
-                                    return reject({ 'our-problem': true });
-                                }
-                                if (response[0]) {
-                                    var error_type = errors[response[0].status] || errors[0];
-                                    response[0][error_type] = true;
-                                    response[0]['api-specific'] = api_specific_errors[error_type];
-                                    return reject(response[0]);
-                                }
-                                return resolve(response[1]);
-                            });
-                        })
-                        .then(function(obj) {
-                            angular.extend(object, obj);
-                            if ((params.type in { discussion: true, url: true } && (!object.comments || !object.comments.length)) ||
-                                (params.type === 'more_content'                 && (!object.content  || !object.content.length))) {
-                                object.$err = { 'empty-content': true };
-                                return $q.reject(object.$err);
-                            }
-                            return object;
-                        }, function(err) {
-                            object.$err = err;
-                            return $q.reject(err);
-                        })
-                        .finally(function() {
-                            object.$resolved = true;
-                            service.loading = _.without(service.loading, object);
-                        })
-                };
+            get: function(params, object) {
+                object = object || {};
+                object.$promise = $q(function(resolve, reject) {
+                    var timeout = $timeout(function() {
+                        object.$err = { 'still-waiting': true, 'api-specific': true };
+                    }, 5000);
+                    chrome.runtime.sendMessage(params, function(response) {
+                        $timeout.cancel(timeout);
+                        delete object.$err;
+                        if (!response) {
+                            return reject({ 'our-problem': true });
+                        }
+                        if (response[0]) {
+                            var error_type = errors[response[0].status] || errors[0];
+                            response[0][error_type] = true;
+                            response[0]['api-specific'] = api_specific_errors[error_type];
+                            return reject(response[0]);
+                        }
+                        return resolve(response[1]);
+                    });
+                })
+                .then(function(obj) {
+                    angular.extend(object, obj);
+                    if ((params.type in { discussion: true, url: true } && (!object.comments || !object.comments.length)) ||
+                        (params.type === 'more_content'                 && (!object.content  || !object.content.length))) {
+                        object.$err = { 'empty-content': true };
+                        return $q.reject(object.$err);
+                    }
+                    return object;
+                }, function(err) {
+                    object.$err = err;
+                    object.$err.reload = function() {
+                        service.get(params, object);
+                    };
+                    return $q.reject(err);
+                })
+                .finally(function() {
+                    object.$resolved = true;
+                    service.loading = _.without(service.loading, object);
+                });
                 service.loading.push(object);
 
                 return object;

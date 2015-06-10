@@ -53,75 +53,77 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 return;
             }
 
-            $scope.data.accounts = (function(accounts) {
-                $scope.data.people = (function(people) {
-                    var timeout = $timeout(function() {
-                        people.$err = { 'still-waiting': true };
-                    }, 5000);
-                    _.each(requests, function load_account_into(request) {
-                        var key = request_to_string(request);
-                        if (accounts[key]) {
-                            return;
-                        }
-                        accounts[key] = _.extend(apiService.get(request), _.pick(request, 'reason'));
-                        accounts[key]
-                            .$promise
-                            .then(function(account) {
-                                $timeout.cancel(timeout);
-                                delete people.$err;
-                                if (account.connected) {
-                                    _.each(account.connected, load_account_into);
-                                }
-                                var account_ids = _.chain(account.connected)
-                                                   .map(request_to_string)
-                                                   .push(key)
-                                                   .uniq()
-                                                   .value();
-                                var person = _.chain(people)
-                                              .filter(function(person) {
-                                                  return _.some(person.account_ids, function(account_id) {
-                                                      return _.contains(account_ids, account_id);
-                                                  });
-                                              })
-                                              .reduce(function(person, person_to_merge) {
-                                                  person.accounts    = _.union(person.accounts,    person_to_merge.accounts);
-                                                  person.account_ids = _.union(person.account_ids, person_to_merge.account_ids);
-                                                  person.position    = _.min([person.position,     person_to_merge.position]);
-                                                  people.splice(_.indexOf(people, person_to_merge), 1);
-                                                  return person;
-                                              })
-                                              .value();
-                                if (!person) {
-                                    person = { accounts: [], account_ids: [], position: Infinity };
-                                    people.push(person);
-                                }
-                                var position_in_entry = _.indexOf(requests, request);
-                                position_in_entry = (position_in_entry === -1) ? Infinity : position_in_entry;
+            var parts = (function reload(accounts, people) {
+                var timeout = $timeout(function() {
+                    people.$err = { 'still-waiting': true };
+                }, 5000);
+                _.each(requests, function load_account_into(request) {
+                    var key = request_to_string(request);
+                    if (accounts[key] && (!accounts[key].$err || !accounts[key].$err.unauthorized)) {
+                        return;
+                    }
+                    accounts[key] = _.extend(apiService.get(request), _.pick(request, 'reason'));
+                    accounts[key]
+                        .$promise
+                        .then(function(account) {
+                            $timeout.cancel(timeout);
+                            delete people.$err;
+                            if (account.connected) {
+                                _.each(account.connected, load_account_into);
+                            }
+                            var account_ids = _.chain(account.connected)
+                                               .map(request_to_string)
+                                               .push(key)
+                                               .uniq()
+                                               .value();
+                            var person = _.chain(people)
+                                          .filter(function(person) {
+                                              return _.some(person.account_ids, function(account_id) {
+                                                  return _.contains(account_ids, account_id);
+                                              });
+                                          })
+                                          .reduce(function(person, person_to_merge) {
+                                              person.accounts    = _.union(person.accounts,    person_to_merge.accounts);
+                                              person.account_ids = _.union(person.account_ids, person_to_merge.account_ids);
+                                              person.position    = _.min([person.position,     person_to_merge.position]);
+                                              people.splice(_.indexOf(people, person_to_merge), 1);
+                                              return person;
+                                          })
+                                          .value();
+                            if (!person) {
+                                person = { accounts: [], account_ids: [], position: Infinity };
+                                people.push(person);
+                            }
+                            var position_in_entry = _.indexOf(requests, request);
+                            position_in_entry = (position_in_entry === -1) ? Infinity : position_in_entry;
 
-                                person.accounts        = _.union(person.accounts,    [account]);
-                                person.account_ids     = _.union(person.account_ids, account_ids);
-                                person.position        = _.min([person.position, position_in_entry]);
-                                person.selectedAccount = person.selectedAccount || account;
-                                people.sort(function(a, b) {
-                                    return a.position - b.position;
-                                });
-                                return account;
-                            })
-                            .catch(function(err) {
-                                $timeout.cancel(timeout);
-                                if (people.length) {
-                                    return;
-                                }
-                                err.api = request.api;
-                                people.$err = err;
+                            person.accounts        = _.union(person.accounts,    [account]);
+                            person.account_ids     = _.union(person.account_ids, account_ids);
+                            person.position        = _.min([person.position, position_in_entry]);
+                            person.selectedAccount = person.selectedAccount || account;
+                            people.sort(function(a, b) {
+                                return a.position - b.position;
                             });
-                    });
+                            return account;
+                        })
+                        .catch(function(err) {
+                            $timeout.cancel(timeout);
+                            if (people.length) {
+                                return;
+                            }
+                            err.api = request.api;
+                            people.$err = err;
+                            people.$err.reload = function() {
+                                reload(accounts, people);
+                            };
+                        });
+                });
 
-                    return people;
-                }($scope.data.people || []));
+                return [accounts, people];
+            }($scope.data.accounts || {}, $scope.data.people || []));
 
-                return accounts;
-            }($scope.data.accounts || {}));
+            $scope.data.accounts = parts[0];
+            $scope.data.people   = parts[1];
         });
     }])
     .directive('peopleCarousel', ['$compile', function($compile) {

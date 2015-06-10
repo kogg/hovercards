@@ -69,6 +69,7 @@ var initialize_client_callers = {
     }
 };
 
+chrome.storage.sync.clear();
 async.parallel(initialize_client_callers, function(err, client_callers) {
     if (err) {
         return console.error(err);

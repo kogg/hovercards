@@ -8,14 +8,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                 $scope.data.content = null;
                 return;
             }
-            $scope.reload = function() {
-                $scope.view.fullscreen = false;
-                $scope.data.content = apiService.get(request);
-            };
-            $scope.reload();
+            $scope.data.content = apiService.get(request);
         });
 
-        $scope.$watch('data.content.$resolved && entry && entry.type !== "url" && data.content', function(content) {
+        $scope.$watch('data.content.$resolved && !data.content.$err && entry && entry.type !== "url" && data.content', function(content) {
             if (!content) {
                 return;
             }
