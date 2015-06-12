@@ -26,6 +26,8 @@ var stages = [
      * Stage 0
      */
     (function() {
+        var obj;
+
         function onFollowHover(event) {
             if (!event || !event.data) {
                 return;
@@ -35,7 +37,7 @@ var stages = [
                 return;
             }
             window.removeEventListener('message', onFollowHover);
-            var obj = makePopover()
+            obj = makePopover()
                 .appendTo('body')
                 .offset({ top:  request.object.bottom + 10,
                           left: request.mouse.x - 380/2 });
@@ -57,13 +59,28 @@ var stages = [
             });
         }
 
+        function onActivated() {
+            if (!event || !event.data) {
+                return;
+            }
+            var request = event.data;
+            if (request.msg !== 'activated') {
+                return;
+            }
+            chrome.storage.sync.set({ walkthrough_stage: 1 });
+        }
+
         return {
             setup: function() {
                 window.addEventListener('message', onFollowHover);
+                window.addEventListener('message', onActivated);
             },
             cleanup: function() {
                 window.removeEventListener('message', onFollowHover);
-                $('body').find('.' + class_name('walkthrough')).remove();
+                window.removeEventListener('message', onActivated);
+                if (obj) {
+                    obj.remove();
+                }
             }
         };
     }())
@@ -84,7 +101,6 @@ function setStage(newStage) {
     lastStage = newStage;
 }
 
-// chrome.storage.sync.clear();
 chrome.storage.sync.get('walkthrough_stage', function(obj) {
     if (chrome.runtime.lastError) {
         return;
