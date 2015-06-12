@@ -40,13 +40,13 @@ var stages = [
             obj = makePopover()
                 .appendTo('body')
                 .offset({ top:  request.object.bottom + 10,
-                          left: request.mouse.x - 380/2 });
+                          left: request.mouse.x - 70 });
             obj.find('.' + class_name('walkthrough-step'))
                 .addClass(class_name('walkthrough-step1'))
                 .append('<div class="' + class_name('cursor') + '"></div>')
                 .append('<div class="' + class_name('cursor-expand') + '"></div>')
                 .append('<div class="' + class_name('cursor-pulse') + '"></div>');
-            obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('click_and_hold_to_activate'));
+            obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('longpress_to_activate'));
             obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [1, 4]));
             obj.find('.' + class_name('next-step')).one('click', function() {
                 obj.find('.' + class_name('walkthrough-step')).addClass(class_name('walkthrough-step1-step2'));
@@ -78,6 +78,80 @@ var stages = [
             cleanup: function() {
                 window.removeEventListener('message', onFollowHover);
                 window.removeEventListener('message', onLoaded);
+                if (obj) {
+                    obj.remove();
+                }
+            }
+        };
+    }()),
+    /*
+     * Stage 1
+     */
+    (function() {
+        var obj;
+
+        function onHidden() {
+            if (!event || !event.data) {
+                return;
+            }
+            var request = event.data;
+            if (request.msg !== 'hidden') {
+                return;
+            }
+            chrome.storage.sync.set({ walkthrough_stage: 2 });
+        }
+
+        return {
+            setup: function() {
+                window.addEventListener('message', onHidden);
+                obj = makePopover()
+                    .appendTo('body')
+                    .css('position', 'fixed')
+                    .css('top', '18')
+                    .css('right', '382');
+                obj.find('.' + class_name('walkthrough-step'))
+                    .addClass(class_name('walkthrough-step3'))
+                    .append('<div class="' + class_name('defaultcursor') + '"></div>')
+                    .append('<div class="' + class_name('cursor-pulse') + '"></div>')
+                    .append('<div class="' + class_name('cursor-pulse') + '"></div>');
+                obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('dblclick_or_esc_to_close'));
+                obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [3, 4]));
+                obj.find('.' + class_name('next-step')).one('click', function() {
+                    obj.remove();
+                });
+            },
+            cleanup: function() {
+                window.removeEventListener('message', onHidden);
+                if (obj) {
+                    obj.remove();
+                }
+            }
+        };
+    }()),
+    /*
+     * Stage 2
+     */
+    (function() {
+        var obj;
+
+        return {
+            setup: function() {
+                obj = makePopover()
+                    .appendTo('body')
+                    .css('position', 'fixed')
+                    .css('top', '18')
+                    .css('right', '10');
+                obj.find('.' + class_name('walkthrough-step'))
+                    .addClass(class_name('walkthrough-step4'))
+                    .append('<div class="' + class_name('defaultcursor') + '"></div>')
+                    .append('<div class="' + class_name('cursor-pulse') + '"></div>');
+                obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('carlito_will_search_here'));
+                obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [4, 4]));
+                obj.find('.' + class_name('next-step')).one('click', function() {
+                    chrome.storage.sync.set({ walkthrough_stage: 3 });
+                });
+            },
+            cleanup: function() {
                 if (obj) {
                     obj.remove();
                 }
