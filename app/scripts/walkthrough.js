@@ -39,10 +39,11 @@ var stages = [
                 .appendTo('body')
                 .offset({ top:  request.object.bottom + 10,
                           left: request.mouse.x - 380/2 });
-            obj.find('.' + class_name('walkthrough-step')).addClass(class_name('walkthrough-step1'))
-                                                          .append('<div class="' + class_name('cursor') + '"></div>')
-                                                          .append('<div class="' + class_name('cursor-expand') + '"></div>')
-                                                          .append('<div class="' + class_name('cursor-pulse') + '"></div>');
+            obj.find('.' + class_name('walkthrough-step'))
+                .addClass(class_name('walkthrough-step1'))
+                .append('<div class="' + class_name('cursor') + '"></div>')
+                .append('<div class="' + class_name('cursor-expand') + '"></div>')
+                .append('<div class="' + class_name('cursor-pulse') + '"></div>');
             obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('click_and_hold_to_activate'));
             obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [1, 4]));
             obj.find('.' + class_name('next-step')).one('click', function() {
