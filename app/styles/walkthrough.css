@@ -4,7 +4,34 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(0,0,0,.65)
+	background: rgba(0,0,0,.65);
+	pointer-events: none;
+	-webkit-animation-duration: 2s;
+	animation-duration: 2s;
+	-webkit-animation-name: __MSG_@@extension_id__-overlay-fadeout;
+	animation-name: __MSG_@@extension_id__-overlay-fadeout;
+}
+@-webkit-keyframes __MSG_@@extension_id__-overlay-fadeout {
+	0% {
+		opacity: 1;
+	}
+	30% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes __MSG_@@extension_id__-overlay-fadeout {
+	0% {
+		opacity: 1;
+	}
+	30% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
 }
 .__MSG_@@extension_id__-walkthrough {
 	border-radius: 3px;
