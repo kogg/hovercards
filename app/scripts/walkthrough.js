@@ -141,8 +141,20 @@ var stages = [
     (function() {
         var obj;
 
+        function onLoaded() {
+            if (!event || !event.data) {
+                return;
+            }
+            var request = event.data;
+            if (request.msg !== 'loaded') {
+                return;
+            }
+            chrome.storage.sync.set({ walkthrough_stage: 3 });
+        }
+
         return {
             setup: function() {
+                window.addEventListener('message', onLoaded);
                 obj = makePopover('body')
                     .css('position', 'fixed')
                     .css('top', '18')
@@ -158,6 +170,7 @@ var stages = [
                 });
             },
             cleanup: function() {
+                window.removeEventListener('message', onLoaded);
                 if (obj) {
                     obj.remove();
                 }
