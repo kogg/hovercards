@@ -6,7 +6,16 @@ function class_name(className) {
     return EXTENSION_ID + '-' + className;
 }
 
-function makePopover() {
+function makePopover(body) {
+    $('.' + class_name('black-overlay')).remove();
+    $('<div class="' + class_name('black-overlay') + '"></div>')
+        .appendTo(body)
+        .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
+            if (e.originalEvent.animationName !== EXTENSION_ID + '-overlay-fadeout') {
+                return;
+            }
+            $(this).remove();
+        });
     return $('<div class="' + class_name('walkthrough') + '">' +
                 '<div class="' + class_name('walkthrough-step') + '"></div>' +
                 '<div class="' + class_name('walkthrough-instructions') + '">' +
@@ -18,7 +27,7 @@ function makePopover() {
                         '<b class="' + class_name('next-step') + '">' + chrome.i18n.getMessage('got_it') + '</b>'+
                     '</div>'+
                 '</div>' +
-            '</div>');
+            '</div>').appendTo(body);
 }
 
 var stages = [
@@ -37,8 +46,7 @@ var stages = [
                 return;
             }
             window.removeEventListener('message', onFollowHover);
-            obj = makePopover()
-                .appendTo('body')
+            obj = makePopover('body')
                 .offset({ top:  request.object.bottom + 10,
                           left: request.mouse.x - 70 });
             obj.find('.' + class_name('walkthrough-step'))
@@ -104,8 +112,7 @@ var stages = [
         return {
             setup: function() {
                 window.addEventListener('message', onHidden);
-                obj = makePopover()
-                    .appendTo('body')
+                obj = makePopover('body')
                     .css('position', 'fixed')
                     .css('top', '18')
                     .css('right', '382');
@@ -136,8 +143,7 @@ var stages = [
 
         return {
             setup: function() {
-                obj = makePopover()
-                    .appendTo('body')
+                obj = makePopover('body')
                     .css('position', 'fixed')
                     .css('top', '18')
                     .css('right', '10');
