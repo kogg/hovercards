@@ -17,25 +17,21 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
         }, true);
 
         $scope.$watch('order', function(order) {
-            if (!order || !order.length) {
+            if (!order || !order.length || !$scope.entry.discussion_apis || !$scope.entry.discussion_apis.length) {
                 return;
             }
-            if ($scope.entry.discussion_apis && $scope.entry.discussion_apis.length) {
-                $scope.entry.discussion_apis = _.sortBy($scope.entry.discussion_apis, function(api) {
-                    return order.indexOf(api);
-                });
-                $scope.entry.determined_discussion_api = $scope.entry.discussion_apis[0];
-            }
+            $scope.entry.discussion_apis = _.sortBy($scope.entry.discussion_apis, function(api) {
+                return order.indexOf(api);
+            });
+            $scope.entry.determined_discussion_api = $scope.entry.discussion_apis[0];
         }, true);
 
         $scope.$watch('entry.desired_discussion_api || entry.determined_discussion_api', function(api) {
             if (!api || !$scope.entry.discussions || !$scope.entry.discussions[api]) {
                 return;
             }
-            if (!$scope.data.discussions || !$scope.data.discussions[api]) {
-                $scope.data.discussions = $scope.data.discussions || {};
-                $scope.data.discussions[api] = apiService.get($scope.entry.discussions[api]);
-            }
+            $scope.data.discussions = $scope.data.discussions || {};
+            $scope.data.discussions[api] = $scope.data.discussions[api] || apiService.get($scope.entry.discussions[api]);
             $scope.entry.discussion_api = api;
         });
 
@@ -60,21 +56,23 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
 
             $scope.entry.content = $scope.entry.content || discussion.content;
 
-            if (discussion.accounts && discussion.accounts.length && ($scope.entry.type === 'discussion' || $scope.entry.type === 'url')) {
-                $scope.entry.accounts = _.chain($scope.entry.accounts)
-                                         .union(discussion.accounts)
-                                         .sortBy(function(account) {
-                                             var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
-                                             if (pos === -1) {
-                                                 pos = Infinity;
-                                             }
-                                             return pos;
-                                         })
-                                         .uniq(false, function(account) {
-                                             return account.api + '/' + account.id;
-                                         })
-                                         .value();
+            if (!discussion.accounts || !discussion.accounts.length || ($scope.entry.type !== 'discussion' && $scope.entry.type !== 'url')) {
+                return;
             }
+
+            $scope.entry.accounts = _.chain($scope.entry.accounts)
+                                     .union(discussion.accounts)
+                                     .sortBy(function(account) {
+                                         var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
+                                         if (pos === -1) {
+                                             pos = Infinity;
+                                         }
+                                         return pos;
+                                     })
+                                     .uniq(false, function(account) {
+                                         return account.api + '/' + account.id;
+                                     })
+                                     .value();
         });
     }])
     .directive('sortable', function() {
