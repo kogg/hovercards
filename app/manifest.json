@@ -46,9 +46,15 @@
     },
     "web_accessible_resources": [
         "sidebar.html",
-        "images/yo-white.png",
+        "images/Reddit-icon-full_color.png",
+        "images/cursor.png",
+        "images/defaultcursor.png",
+        "images/step1.png",
+        "images/step2.png",
+        "images/step3.png",
         "images/yo-black.png",
-        "images/Reddit-icon-full_color.png"
+        "images/yo-white.png",
+        "styles/walkthrough.css"
     ],
     "permissions": [
         "activeTab",

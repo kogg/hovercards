@@ -1,0 +1,371 @@
+.__MSG_@@extension_id__-black-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,.65)
+}
+.__MSG_@@extension_id__-walkthrough {
+	border-radius: 3px;
+	width: 380px;
+	border:1px solid rgba(0,0,0,.15);
+	background: white;
+	position: relative;
+	overflow: auto;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+	box-sizing:border-box;
+}
+.__MSG_@@extension_id__-walkthrough-step1, .__MSG_@@extension_id__-walkthrough-step3, .__MSG_@@extension_id__-walkthrough-step4 {
+	width: 156px;
+	padding: 16px;
+	height: 156px;
+	float: left;
+	position: relative;
+	transition: background-position 1s;
+	box-sizing:border-box;
+}
+.__MSG_@@extension_id__-walkthrough-step1 {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/step1.png');
+	background-size: 142px;
+	background-position: 7px -54px;
+	background-repeat: no-repeat;
+}
+.__MSG_@@extension_id__-walkthrough-step3 {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/step2.png');
+	background-size: 142px;
+	background-position: 40px top;
+	background-repeat: no-repeat;
+}
+.__MSG_@@extension_id__-walkthrough-step4 {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/step3.png');
+	background-size: 142px;
+	background-position: 0px -15px;
+	background-repeat: no-repeat;
+}
+.__MSG_@@extension_id__-walkthrough-step1-step2 {
+	background-position: 7px -254px;
+	transition: background-position 1s;
+}
+.__MSG_@@extension_id__-walkthrough-instructions {
+	float: left;
+	position: relative;
+	width: calc(100% - 156px);
+	width: -moz-calc(100% - 156px);
+	width: -webkit-calc(100% - 156px);
+	height: 156px;
+	padding: 16px;
+	box-sizing:border-box;
+}
+.__MSG_@@extension_id__-cursor {
+	width: 16px;
+	height: 20px;
+	background: url('chrome-extension://__MSG_@@extension_id__/images/cursor.png');
+	background-size:100% auto;
+	z-index: 2;
+	background-repeat: no-repeat;
+	position: absolute;
+}
+.__MSG_@@extension_id__-defaultcursor {
+	width: 20px;
+	height: 20px;
+	background: url('chrome-extension://__MSG_@@extension_id__/images/defaultcursor.png');
+	background-size: auto 100%;
+	background-repeat: no-repeat;
+	z-index: 2;
+	position: absolute;
+}
+.__MSG_@@extension_id__-walkthrough-step3 .__MSG_@@extension_id__-defaultcursor {
+	top: 60px;
+	left: 24px;
+}
+.__MSG_@@extension_id__-walkthrough-step4 .__MSG_@@extension_id__-defaultcursor {
+	left: 131px;
+	top:33px;
+}
+
+.__MSG_@@extension_id__-walkthrough-step1 .__MSG_@@extension_id__-cursor {
+	left: 70px;
+	top: 55px;
+}
+.__MSG_@@extension_id__-walkthrough-step1-step2 .__MSG_@@extension_id__-cursor {
+	width: 80px;
+	height: 105px;
+	left: 38px;
+	top: 13px;
+	-webkit-transform: scale(.192);
+	transform: scale(.192); 
+	-webkit-animation-name: cursorexplode; 
+	animation-name: cursorexplode; 
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-delay: .2s;
+	animation-delay: .2s;
+}
+.__MSG_@@extension_id__-walkthrough-step1-step2 .__MSG_@@extension_id__-cursor:after, .__MSG_@@extension_id__-walkthrough-step1-step2 .__MSG_@@extension_id__-cursor:before {
+	content: "";
+	position: absolute;
+	bottom: -20px;
+	left: -4px;
+	border-radius: 50%;
+	width: 24px;
+	height: 24px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+.__MSG_@@extension_id__-walkthrough-step1-step2 .__MSG_@@extension_id__-cursor:after {
+	background: #F44336;
+	opacity: 0;
+	-webkit-animation-name: fadein; 
+	animation-name: fadein; 
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-duration: 1.1s;
+	animation-duration: 1.1s;
+	-webkit-animation-delay: 1.2s;
+	animation-delay: 1.2s;
+}
+.__MSG_@@extension_id__-walkthrough-step1-step2 .__MSG_@@extension_id__-cursor:before {
+	background: transparent;
+	z-index: 22;
+	opacity: 0;
+	box-shadow: none;
+	background: #F44336;
+	-webkit-animation: colorchange 8s infinite; 
+	animation: colorchange 8s infinite; 
+	-webkit-animation-delay: 1.7s;
+	animation-delay: 1.7s;
+}
+@-webkit-keyframes colorchange { 
+	0% { 
+		opacity: 1;
+	background: #F44336
+	}
+	19% {
+		background: #F44336
+	}
+	20% {
+		background: #4099FF;
+	}
+	39% {
+		background: #4099FF
+	}
+	40% {
+		background: #3b5998
+	}
+	59% {
+		background: #3b5998
+	}
+	60% {
+		background: #cee3f8
+	}
+	79% {
+		background: #cee3f8
+	}
+	80% {
+		background: #03b385
+	}
+	99% { 
+	  background: #03b385
+	} 
+	100% { 
+		opacity: 1;
+	  background: #F44336
+	} 
+}
+keyframes colorchange { 
+	0% { 
+		background: #F44336
+	}
+	19% {
+		background: #F44336
+	}
+	20% {
+		background: #4099FF;
+	}
+	39% {
+		background: #4099FF
+	}
+	40% {
+		background: #3b5998
+	}
+	59% {
+		background: #3b5998
+	}
+	60% {
+		background: #cee3f8
+	}
+	79% {
+		background: #cee3f8
+	}
+	80% {
+		background: #03b385
+	}
+	99% { 
+	  background: #03b385
+	} 
+	100% { 
+	  background: #F44336
+	} 
+} 
+
+@-webkit-keyframes cursorexplode { 
+	0% { 
+		-webkit-transform: scale(.192);
+	} 
+	100% { 
+		-webkit-transform: scale(1); 
+	} 
+}
+keyframes cursorexplode { 
+	0% { 
+		transform: scale(.192);
+	} 
+	100% { 
+		transform: scale(1);
+	} 
+} 
+@-webkit-keyframes fadein { 
+	0% { 
+		opacity: 0;
+		-webkit-transform: scale(0);
+	} 
+	70% {
+		-webkit-transform: scale(1.5);
+	}
+	100% { 
+		opacity: 1;
+		-webkit-transform: scale(1);
+	} 
+}
+keyframes fadein { 
+	0% { 
+		opacity: 0;
+		transform: scale(0);
+	} 
+	70% {
+		transform: scale(1.3);
+	}
+	100% { 
+		opacity: 1;
+		transform: scale(1);
+	} 
+} 
+.__MSG_@@extension_id__-cursor-pulse {
+	width: 30px;
+	height: 30px;
+	background: rgba(0,132,255,.2);
+	border-radius:50%;
+	position: absolute;
+	-webkit-animation-name: cursorexplode; 
+	animation-name: bounceInUp; 
+	-webkit-animation-fill-mode: both; 
+	animation-fill-mode: both; 
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+@-webkit-keyframes bounceInUp { 
+	0% { 
+		opacity: 1; 
+		-webkit-transform: scale(.1); 
+	} 
+	40% { 
+		opacity: 1; 
+	} 
+	100% { 
+		opacity: 0; 
+		-webkit-transform: scale(1.3); 
+	} 
+} 
+
+@keyframes bounceInUp { 
+	0% { 
+		opacity: 1; 
+		transform: scale(.1); 
+	} 
+	40% { 
+		opacity: 1; 
+	} 
+	100% { 
+		opacity: 0; 
+		transform: scale(1.3); 
+	} 
+} 
+.__MSG_@@extension_id__-walkthrough-step1 .__MSG_@@extension_id__-cursor-pulse {
+	left: 59px;
+	top: 40px;
+	-webkit-animation-duration: 2s; 
+	animation-duration: 2s; 
+}
+.__MSG_@@extension_id__-walkthrough-step4 .__MSG_@@extension_id__-cursor-pulse {
+	left: 116px;
+	top:17px;
+	-webkit-animation-duration: 2s; 
+	animation-duration: 2s; 
+}
+.__MSG_@@extension_id__-walkthrough-step3 .__MSG_@@extension_id__-cursor-pulse {
+	left: 9px;
+	top: 45px;
+	-webkit-animation-duration:2s; 
+	animation-duration:2s;
+}
+.__MSG_@@extension_id__-walkthrough-step3 .__MSG_@@extension_id__-cursor-pulse:last-of-type {
+	-webkit-animation-delay:.5s; 
+	animation-delay:.5s;
+}
+.__MSG_@@extension_id__-walkthrough-step1-step2 .__MSG_@@extension_id__-cursor-pulse {
+	visibility: hidden;
+}
+.__MSG_@@extension_id__-walkthrough b {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: rgba(0,0,0,.4);
+}
+.__MSG_@@extension_id__-walkthrough-instructions ul {
+	padding: 0;
+	margin:0;
+	padding-left: 16px;
+	padding: 0;
+}
+.__MSG_@@extension_id__-walkthrough-instructions li {
+	padding: 0;
+	margin:0;
+	text-indent: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	margin-bottom: 8px;
+	color: rgba(0,0,0,.8);
+	font-weight: 100;
+	list-style: none;
+	font-size: 19px;
+}
+.__MSG_@@extension_id__-walkthrough-instructions li:last-of-type {
+	margin-bottom: 0px;
+}
+
+b.__MSG_@@extension_id__-next-step {
+	float: right;
+	color: #4CAF50;
+	cursor: pointer;
+	padding: 8px;
+	border-radius: 3px;
+	background: rgba(0,0,0,0);
+	transition: all .3s;
+}
+b.__MSG_@@extension_id__-next-step:hover {
+	background: rgba(0,0,0,.10);
+}
+b.__MSG_@@extension_id__-next-step:active {
+	background: rgba(0,0,0,.3);
+}
+.__MSG_@@extension_id__-step-container {
+	position: absolute;
+	bottom: 0;
+	width: calc(100% - 24px);
+	left:0;
+	padding: 16px 8px 8px 16px
+}
+.__MSG_@@extension_id__-step-1-5 {
+	float: left;
+	padding: 8px 0
+}
