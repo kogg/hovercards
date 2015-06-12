@@ -69,14 +69,14 @@ module.exports = function sidebar() {
                     .removeClass(extension_id + '-sidebar-leave')
                     .addClass(extension_id + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
-                window.top.postMessage({ msg: 'activated' }, '*');
+                window.top.postMessage({ msg: 'loaded' }, '*');
                 break;
             case 'hide':
                 obj
                     .removeClass(extension_id + '-sidebar-enter')
                     .addClass(extension_id + '-sidebar-leave');
                 $(document).off('dblclick', dblclick_for_sidebar);
-                window.top.postMessage({ msg: 'unactivated' }, '*');
+                window.top.postMessage({ msg: 'hidden' }, '*');
                 break;
         }
     }

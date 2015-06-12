@@ -59,12 +59,12 @@ var stages = [
             });
         }
 
-        function onActivated() {
+        function onLoaded() {
             if (!event || !event.data) {
                 return;
             }
             var request = event.data;
-            if (request.msg !== 'activated') {
+            if (request.msg !== 'loaded') {
                 return;
             }
             chrome.storage.sync.set({ walkthrough_stage: 1 });
@@ -73,11 +73,11 @@ var stages = [
         return {
             setup: function() {
                 window.addEventListener('message', onFollowHover);
-                window.addEventListener('message', onActivated);
+                window.addEventListener('message', onLoaded);
             },
             cleanup: function() {
                 window.removeEventListener('message', onFollowHover);
-                window.removeEventListener('message', onActivated);
+                window.removeEventListener('message', onLoaded);
                 if (obj) {
                     obj.remove();
                 }
@@ -101,6 +101,7 @@ function setStage(newStage) {
     lastStage = newStage;
 }
 
+// chrome.storage.sync.clear();
 chrome.storage.sync.get('walkthrough_stage', function(obj) {
     if (chrome.runtime.lastError) {
         return;
