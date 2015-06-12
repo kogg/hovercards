@@ -13,6 +13,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                     return $scope.order.indexOf(api);
                 });
             }
+            $scope.entry.determined_discussion_api = $scope.entry.discussion_apis[0];
         }, true);
 
         $scope.$watch('order', function(order) {
@@ -23,10 +24,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                 $scope.entry.discussion_apis = _.sortBy($scope.entry.discussion_apis, function(api) {
                     return order.indexOf(api);
                 });
+                $scope.entry.determined_discussion_api = $scope.entry.discussion_apis[0];
             }
         }, true);
 
-        $scope.$watch('entry.desired_discussion_api || entry.discussion_apis[0]', function(api) {
+        $scope.$watch('entry.desired_discussion_api || entry.determined_discussion_api', function(api) {
             if (!api || !$scope.entry.discussions || !$scope.entry.discussions[api]) {
                 return;
             }
@@ -40,6 +42,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
         $scope.$watch('(data.discussions[entry.discussion_api].$resolved || data.discussions[entry.discussion_api].$err) && data.discussions[entry.discussion_api]', function(discussion) {
             if (!discussion) {
                 return;
+            }
+            if (!$scope.entry.desired_discussion_api && discussion.$err && !discussion.$err['still-waiting']) {
+                var determined_discussion_api_index = _.indexOf($scope.entry.discussion_apis, $scope.entry.determined_discussion_api);
+                if (determined_discussion_api_index !== -1 && $scope.entry.discussion_apis[determined_discussion_api_index + 1]) {
+                    $scope.entry.determined_discussion_api = $scope.entry.discussion_apis[determined_discussion_api_index + 1];
+                    return;
+                }
             }
             $scope.data.discussion = discussion;
         });
