@@ -3,6 +3,18 @@ var network_urls = require('YoCardsApiCalls/network-urls');
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
+var follow_hover = function(e, obj) {
+    obj = $(obj);
+    var offset = obj.offset();
+    window.top.postMessage({ msg:        'yo-follower-hover',
+                             mouse:  { x: e.clientX, y: e.clientY },
+                             object: { top:    offset.top,
+                                       bottom: offset.top + obj.outerHeight(),
+                                       left:   offset.left,
+                                       right:  offset.left + obj.outerWidth() } }, '*');
+    follow_hover = function() {};
+};
+
 module.exports = function(body, selector, get_url) {
     body = $(body);
 
@@ -94,5 +106,6 @@ module.exports = function(body, selector, get_url) {
 
         enter(e, identity);
         obj.one('mouseleave', leave);
+        follow_hover(e, obj);
     });
 };
