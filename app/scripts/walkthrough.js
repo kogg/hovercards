@@ -207,7 +207,7 @@ function setStage(newStage) {
 }
 
 /* Uncomment this to start over walkthrough */
-chrome.storage.sync.remove('walkthrough_stage');
+// chrome.storage.sync.remove('walkthrough_stage');
 chrome.storage.sync.get('walkthrough_stage', function(obj) {
     if (chrome.runtime.lastError) {
         return;
