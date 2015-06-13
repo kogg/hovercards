@@ -67,6 +67,7 @@
 	border-right: none !important;
 	color: rgba(255,255,255,.9) !important;
 	box-shadow:  -2px 1px 9px 0px rgba(0,0,0,0.1);
+	display: block !important;
 	transition: all 0.3s ease !important;
 }
 
