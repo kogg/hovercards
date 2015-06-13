@@ -6,10 +6,10 @@ function class_name(className) {
     return EXTENSION_ID + '-' + className;
 }
 
-function makePopover(body) {
+function makePopover() {
     $('.' + class_name('black-overlay')).remove();
     $('<div class="' + class_name('black-overlay') + '"></div>')
-        .appendTo(body)
+        .appendTo('.' + class_name('container'))
         .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
             if (e.originalEvent.animationName !== EXTENSION_ID + '-overlay-fadeout') {
                 return;
@@ -27,7 +27,7 @@ function makePopover(body) {
                         '<b class="' + class_name('next-step') + '">' + chrome.i18n.getMessage('got_it') + '</b>'+
                     '</div>'+
                 '</div>' +
-            '</div>').appendTo(body);
+            '</div>').appendTo('.' + class_name('container'));
 }
 
 var stages = [
@@ -46,7 +46,7 @@ var stages = [
                 return;
             }
             window.removeEventListener('message', onFollowHover);
-            obj = makePopover('body')
+            obj = makePopover()
                 .offset({ top:  request.object.bottom + 10,
                           left: request.mouse.x - 70 });
             obj.find('.' + class_name('walkthrough-step'))
@@ -112,10 +112,10 @@ var stages = [
         return {
             setup: function() {
                 window.addEventListener('message', onHidden);
-                obj = makePopover('body')
+                obj = makePopover()
                     .css('position', 'fixed')
-                    .css('top', '18')
-                    .css('right', '382');
+                    .css('top', '18px')
+                    .css('right', '382px');
                 obj.find('.' + class_name('walkthrough-step'))
                     .addClass(class_name('walkthrough-step3'))
                     .append('<div class="' + class_name('defaultcursor') + '"></div>')
@@ -155,10 +155,10 @@ var stages = [
         return {
             setup: function() {
                 window.addEventListener('message', onLoaded);
-                obj = makePopover('body')
+                obj = makePopover()
                     .css('position', 'fixed')
-                    .css('top', '18')
-                    .css('right', '10');
+                    .css('top', '18px')
+                    .css('right', '10px');
                 obj.find('.' + class_name('walkthrough-step'))
                     .addClass(class_name('walkthrough-step4'))
                     .append('<div class="' + class_name('defaultcursor') + '"></div>')
