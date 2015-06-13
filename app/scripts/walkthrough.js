@@ -35,6 +35,7 @@ var stages = [
      * Stage 0
      */
     (function() {
+        var indicator_obj;
         var obj;
 
         function onFollowHover(event) {
@@ -63,6 +64,10 @@ var stages = [
                 obj.find('.' + class_name('next-step')).one('click', function() {
                     obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('please_longpress'));
                     obj.find('.' + class_name('next-step')).hide();
+                    indicator_obj = $('<div class="' + class_name('link-indicator') + '"></div>')
+                        .appendTo('.' + class_name('container'))
+                        .offset({ top:  request.object.bottom - 5,
+                                  left: request.mouse.x - 70 });
                 });
             });
         }
@@ -92,6 +97,9 @@ var stages = [
                 window.removeEventListener('message', onFollowHover);
                 if (obj) {
                     obj.remove();
+                }
+                if (indicator_obj) {
+                    indicator_obj.remove();
                 }
             }
         };
