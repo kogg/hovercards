@@ -76,7 +76,7 @@
 			<div class="network-menu fade-in-animation" ng-if="entry.selectedPerson.accounts.length">
 				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length">
 					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
-						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.api | copy }}</span>
+						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ (account.api + (entry.selectedPerson.accounts.length === 1 ? '_account' : '' )) | copy }}</span>
 					</div>
 				</div>
 				<div ng-show="entry.selectedPerson.menuOffset" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) - 3">Left</div>
