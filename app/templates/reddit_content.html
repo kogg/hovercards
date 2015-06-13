@@ -1,5 +1,6 @@
 <div ng-if="!data.content.$err">
 	<div class="context-top context-top-reddit">
+		<div class="share-container" share-page=":: data.content"></div>
 		<div class="row">
 			<div class="col-10">
 				<span><a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a> in <a ng-href="https://www.reddit.com/r/{{:: data.content.subreddit }}">/r/{{:: data.content.subreddit }}</a></span>

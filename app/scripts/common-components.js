@@ -21,11 +21,15 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             restrict: 'A',
             scope: {
                 url:  '@popup',
-                size: '=popupSize'
+                size: '=?popupSize'
             },
             link: function($scope, $element) {
+                $element.css('cursor', 'pointer');
                 $element.click(function() {
-                    $window.open($scope.url, 'popup', 'height=' + $scope.size.height + ',width=' + $scope.size.width + ',left=' + ($window.screen.width - 990) + ',top=70');
+                    $window.open($scope.url, 'popup', 'height=' + (($scope.size && $scope.size.height) || 300 ) +
+                                                      ',width=' + (($scope.size && $scope.size.width) || 640 ) +
+                                                      ',left=' + ($window.screen.width - 990) +
+                                                      ',top=70');
                 });
             }
         };
@@ -71,6 +75,15 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                     });
                 });
             }
+        };
+    }])
+    .directive('sharePage', [function() {
+        return {
+            restrict: 'A',
+            scope: {
+                content: '=sharePage'
+            },
+            templateUrl: 'templates/sharepage.html'
         };
     }])
     .directive('stored', function() {
@@ -169,6 +182,15 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                 console.warn(JSON.stringify(arguments[0]) + ' does not have copy');
             }
             return string;
+        };
+    })
+    .filter('encode', function() {
+        return function(content) {
+            var output = encodeURIComponent(content);
+            if (output === 'undefined') {
+                return '';
+            }
+            return output;
         };
     })
     .filter('generateUrl', function() {

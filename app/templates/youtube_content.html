@@ -1,6 +1,6 @@
 <div ng-if="!data.content.$err">
 	<div class="context-top context-top-youtube">
-		<div class="share-container" ng-include="'templates/sharepage.html'"></div>
+		<div class="share-container" share-page=":: data.content"></div>
 		<div class="row">
 			<div class="col-10 ellipsis">
 				<span>Uploaded by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
@@ -10,13 +10,13 @@
 			</div>
 			<div class="col-12">
 				<div class="video-title">
-					<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{ ::data.content.name }}</a>
+					<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.name }}</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
-		<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
+		<div class="video-image" ng-style=":: data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
 			<div class="youtube-video" ng-if="playing">
 				<object data="https://www.youtube.com/v/{{ data.content.id }}?autoplay=1&fs=1" class="no-yo" width="100%" height="100%" type="application/x-shockwave-flash">
 					<param name="allowFullScreen" value="true"></param>
@@ -26,7 +26,7 @@
 	</div>
 
 	<div class="video-top-underlay">
-		<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }" ng-click="played || ((played = true) && (playing = true))">
+		<div class="video-image" ng-style=":: data.content.image && { 'background-image': 'url(' + data.content.image + ')' }" ng-click="played || ((played = true) && (playing = true))">
 		</div>
 		<div class="play-video youtube-background" ng-click="played || ((played = true) && (playing = true))" ng-class="{ 'play-video-clicked': playing }"></div>
 		<div class="video-cta" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
@@ -38,33 +38,33 @@
 	</div>
 
 	<div class="card-text">
-		<div ng-if="::data.content.description" class="card-description">
+		<div ng-if=":: data.content.description" class="card-description">
 			<p readmore=":: data.content.description | linky" cutoff-height="50"></p>
 		</div>
 	</div>
 	<div class="card-stats row">
 		<div class="col-4">
 			<b>Views</b>
-			<span>{{ ::data.content.views | numsmall }}</span>
+			<span>{{:: data.content.views | numsmall }}</span>
 		</div>
 		<div class="col-4">
 			<b>Likes</b>
-			<span>{{ ::data.content.likes | numsmall }}</span>
+			<span>{{:: data.content.likes | numsmall }}</span>
 		</div>
 		<div class="col-4">
 			<b>Dislikes</b>
-			<span>{{ ::data.content.dislikes | numsmall }}</span>
+			<span>{{:: data.content.dislikes | numsmall }}</span>
 		</div>
 	</div>
 	<!--
 	<div class="card-stats-mini">
-		<span><i class="md md-remove-red-eye"></i> {{ ::data.content.views | numsmall }}</span>
-		<span><i class="md md-thumb-up"></i> {{ ::data.content.likes | numsmall }}</span>
-		<span><i class="md md-thumb-down"></i> {{ ::data.content.dislikes | numsmall }}</span>
+		<span><i class="md md-remove-red-eye"></i> {{:: data.content.views | numsmall }}</span>
+		<span><i class="md md-thumb-up"></i> {{:: data.content.likes | numsmall }}</span>
+		<span><i class="md md-thumb-down"></i> {{:: data.content.dislikes | numsmall }}</span>
 	</div>
 	<!--
-	<div class="percent-bar" ng-if="::data.content.likes + data.content.dislikes">
-		<div class="percent-bar-good" ng-style="::(data.content.likes + data.content.dislikes) && { width: (data.content.likes / (data.content.likes + data.content.dislikes) | percent) }"></div>
+	<div class="percent-bar" ng-if=":: data.content.likes + data.content.dislikes">
+		<div class="percent-bar-good" ng-style=":: (data.content.likes + data.content.dislikes) && { width: (data.content.likes / (data.content.likes + data.content.dislikes) | percent) }"></div>
 	</div>
 	-->
 </div>
