@@ -78,14 +78,18 @@ var stages = [
             chrome.storage.sync.set({ walkthrough_stage: 1 });
         }
 
+        var timeout;
         return {
             setup: function() {
-                window.addEventListener('message', onFollowHover);
                 window.addEventListener('message', onLoaded);
+                timeout = setTimeout(function() {
+                    window.addEventListener('message', onFollowHover);
+                }, 5000);
             },
             cleanup: function() {
-                window.removeEventListener('message', onFollowHover);
                 window.removeEventListener('message', onLoaded);
+                clearTimeout(timeout);
+                window.removeEventListener('message', onFollowHover);
                 if (obj) {
                     obj.remove();
                 }
@@ -109,26 +113,30 @@ var stages = [
             chrome.storage.sync.set({ walkthrough_stage: 2 });
         }
 
+        var timeout;
         return {
             setup: function() {
                 window.addEventListener('message', onHidden);
-                obj = makePopover()
-                    .css('position', 'fixed')
-                    .css('top', '18px')
-                    .css('right', '382px');
-                obj.find('.' + class_name('walkthrough-step'))
-                    .addClass(class_name('walkthrough-step3'))
-                    .append('<div class="' + class_name('defaultcursor') + '"></div>')
-                    .append('<div class="' + class_name('cursor-pulse') + '"></div>')
-                    .append('<div class="' + class_name('cursor-pulse') + '"></div>');
-                obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('dblclick_or_esc_to_close'));
-                obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [3, 4]));
-                obj.find('.' + class_name('next-step')).one('click', function() {
-                    obj.remove();
-                });
+                timeout = setTimeout(function() {
+                    obj = makePopover()
+                        .css('position', 'fixed')
+                        .css('top', '18px')
+                        .css('right', '382px');
+                    obj.find('.' + class_name('walkthrough-step'))
+                        .addClass(class_name('walkthrough-step3'))
+                        .append('<div class="' + class_name('defaultcursor') + '"></div>')
+                        .append('<div class="' + class_name('cursor-pulse') + '"></div>')
+                        .append('<div class="' + class_name('cursor-pulse') + '"></div>');
+                    obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('dblclick_or_esc_to_close'));
+                    obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [3, 4]));
+                    obj.find('.' + class_name('next-step')).one('click', function() {
+                        obj.remove();
+                    });
+                }, 5000);
             },
             cleanup: function() {
                 window.removeEventListener('message', onHidden);
+                clearTimeout(timeout);
                 if (obj) {
                     obj.remove();
                 }
@@ -152,25 +160,29 @@ var stages = [
             chrome.storage.sync.set({ walkthrough_stage: 3 });
         }
 
+        var timeout;
         return {
             setup: function() {
                 window.addEventListener('message', onLoaded);
-                obj = makePopover()
-                    .css('position', 'fixed')
-                    .css('top', '18px')
-                    .css('right', '10px');
-                obj.find('.' + class_name('walkthrough-step'))
-                    .addClass(class_name('walkthrough-step4'))
-                    .append('<div class="' + class_name('defaultcursor') + '"></div>')
-                    .append('<div class="' + class_name('cursor-pulse') + '"></div>');
-                obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('carlito_will_search_here'));
-                obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [4, 4]));
-                obj.find('.' + class_name('next-step')).one('click', function() {
-                    chrome.storage.sync.set({ walkthrough_stage: 3 });
-                });
+                timeout = setTimeout(function() {
+                    obj = makePopover()
+                        .css('position', 'fixed')
+                        .css('top', '18px')
+                        .css('right', '10px');
+                    obj.find('.' + class_name('walkthrough-step'))
+                        .addClass(class_name('walkthrough-step4'))
+                        .append('<div class="' + class_name('defaultcursor') + '"></div>')
+                        .append('<div class="' + class_name('cursor-pulse') + '"></div>');
+                    obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('carlito_will_search_here'));
+                    obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [4, 4]));
+                    obj.find('.' + class_name('next-step')).one('click', function() {
+                        chrome.storage.sync.set({ walkthrough_stage: 3 });
+                    });
+                }, 5000);
             },
             cleanup: function() {
                 window.removeEventListener('message', onLoaded);
+                clearTimeout(timeout);
                 if (obj) {
                     obj.remove();
                 }
@@ -195,7 +207,7 @@ function setStage(newStage) {
 }
 
 /* Uncomment this to start over walkthrough */
-// chrome.storage.sync.remove('walkthrough_stage');
+chrome.storage.sync.remove('walkthrough_stage');
 chrome.storage.sync.get('walkthrough_stage', function(obj) {
     if (chrome.runtime.lastError) {
         return;

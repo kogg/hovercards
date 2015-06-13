@@ -12,7 +12,6 @@ var follow_hover = function(e, obj) {
                                        bottom: offset.top + obj.outerHeight(),
                                        left:   offset.left,
                                        right:  offset.left + obj.outerWidth() } }, '*');
-    follow_hover = function() {};
 };
 
 module.exports = function(body, selector, get_url) {
