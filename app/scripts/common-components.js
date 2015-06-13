@@ -185,7 +185,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         };
     })
     .filter('encode', function() {
-        return encodeURIComponent;
+        return function(content) {
+            var output = encodeURIComponent(content);
+            if (output === 'undefined') {
+                return '';
+            }
+            return output;
+        };
     })
     .filter('generateUrl', function() {
         return require('YoCardsApiCalls/network-urls').generate;
