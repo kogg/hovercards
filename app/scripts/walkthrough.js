@@ -84,7 +84,7 @@ var stages = [
                 window.addEventListener('message', onLoaded);
                 timeout = setTimeout(function() {
                     window.addEventListener('message', onFollowHover);
-                }, 5000);
+                }, 2500);
             },
             cleanup: function() {
                 window.removeEventListener('message', onLoaded);
@@ -132,7 +132,7 @@ var stages = [
                     obj.find('.' + class_name('next-step')).one('click', function() {
                         obj.remove();
                     });
-                }, 5000);
+                }, 10000);
             },
             cleanup: function() {
                 window.removeEventListener('message', onHidden);
@@ -147,22 +147,22 @@ var stages = [
      * Stage 2
      */
     (function() {
-        var obj;
-
-        function onLoaded() {
-            if (!event || !event.data) {
-                return;
-            }
-            var request = event.data;
-            if (request.msg !== 'loaded') {
-                return;
-            }
-            chrome.storage.sync.set({ walkthrough_stage: 3 });
-        }
-
-        var timeout;
         return {
             setup: function() {
+                var obj;
+                var timeout;
+                function onLoaded() {
+                    if (!event || !event.data) {
+                        return;
+                    }
+                    var request = event.data;
+                    if (request.msg !== 'loaded') {
+                        return;
+                    }
+                    window.removeEventListener('message', onLoaded);
+                    clearTimeout(timeout);
+                    obj.remove();
+                }
                 window.addEventListener('message', onLoaded);
                 timeout = setTimeout(function() {
                     obj = makePopover()
@@ -176,17 +176,14 @@ var stages = [
                     obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('carlito_will_search_here'));
                     obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [4, 4]));
                     obj.find('.' + class_name('next-step')).one('click', function() {
-                        chrome.storage.sync.set({ walkthrough_stage: 3 });
+                        window.removeEventListener('message', onLoaded);
+                        clearTimeout(timeout);
+                        obj.remove();
                     });
-                }, 5000);
+                }, 650);
+                chrome.storage.sync.set({ walkthrough_stage: 3 });
             },
-            cleanup: function() {
-                window.removeEventListener('message', onLoaded);
-                clearTimeout(timeout);
-                if (obj) {
-                    obj.remove();
-                }
-            }
+            cleanup: $.noop
         };
     }())
 ];
