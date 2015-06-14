@@ -67,7 +67,7 @@ var stages = [
                     indicator_obj = $('<div class="' + class_name('link-indicator') + '"></div>')
                         .appendTo('.' + class_name('container'))
                         .offset({ top:  request.object.bottom - 20,
-                                  left: request.mouse.x - 70 });
+                                  left: request.mouse.x });
                 });
             });
         }
@@ -212,7 +212,7 @@ function setStage(newStage) {
 }
 
 /* Uncomment this to start over walkthrough */
- chrome.storage.sync.remove('walkthrough_stage');
+// chrome.storage.sync.remove('walkthrough_stage');
 chrome.storage.sync.get('walkthrough_stage', function(obj) {
     if (chrome.runtime.lastError) {
         return;
