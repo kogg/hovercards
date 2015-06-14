@@ -446,7 +446,7 @@ b.__MSG_@@extension_id__-next-step:active {
   border-radius: 50% !important;
   text-indent: 100% !important;
   pointer-events:none !important;
-	background: rgba(0, 132, 255, 0.3) !important;
+	background: rgba(0, 132, 255, 1) !important;
 	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3) !important;
 	border-radius:50% !important;
 	-webkit-animation: pulsate 1.4s ease-out;

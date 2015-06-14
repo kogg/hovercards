@@ -66,7 +66,7 @@ var stages = [
                     obj.find('.' + class_name('next-step')).hide();
                     indicator_obj = $('<div class="' + class_name('link-indicator') + '"></div>')
                         .appendTo('.' + class_name('container'))
-                        .offset({ top:  request.object.bottom - 5,
+                        .offset({ top:  request.object.bottom - 20,
                                   left: request.mouse.x - 70 });
                 });
             });
