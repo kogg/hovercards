@@ -6,8 +6,8 @@
 	height: 100% !important;
 	background: rgba(0,0,0,.65) !important;
 	pointer-events: none !important;
-	-webkit-animation-duration: 3.5s;
-	animation-duration: 3.5s;
+	-webkit-animation-duration: 2s;
+	animation-duration: 2s;
 	-webkit-animation-name: __MSG_@@extension_id__-overlay-fadeout;
 	animation-name: __MSG_@@extension_id__-overlay-fadeout;
 }
@@ -15,10 +15,10 @@
 	0% {
 		opacity: 0;
 	}
-	15% {
+	20% {
 		opacity: 1;
 	}
-	85% {
+	80% {
 		opacity: 1;
 	}
 	100% {
@@ -29,10 +29,10 @@
 	0% {
 		opacity: 0;
 	}
-	15% {
+	20% {
 		opacity: 1;
 	}
-	85% {
+	80% {
 		opacity: 1;
 	}
 	100% {
@@ -441,12 +441,20 @@ b.__MSG_@@extension_id__-next-step:active {
 	top: 3px;
 }
 .__MSG_@@extension_id__-link-indicator {
-    width: 10px;
-    height: 10px;
-    background: #ff962c;
-    transform: scale(0);
-    transition: transform 0.4s;
-    overflow: hidden;
-    text-indent: 100%;
-    white-space: nowrap;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  text-indent: 100% !important;
+  pointer-events:none !important;
+	background: rgba(0, 132, 255, 0.3) !important;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3) !important;
+	border-radius:50% !important;
+	-webkit-animation: pulsate 1.4s ease-out;
+	-webkit-animation-iteration-count: infinite; 
+	opacity: 0.0
+}
+@-webkit-keyframes pulsate {
+    0% {-webkit-transform: scale(1, 1); opacity: 0.0;}
+    50% {opacity: 1.0;}
+    100% {-webkit-transform: scale(2.5, 2.5); opacity: 0.0;}
 }
