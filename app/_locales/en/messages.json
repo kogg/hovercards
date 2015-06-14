@@ -20,8 +20,8 @@
     "youtube_discussion_short":   { "message": "Comments" },
     "youtube_account":            { "message": "Youtube Channel" },
 
-    "carlito_will_search_here":     { "message": "Click <i></i> in the omnibar, to search YoCards for the URL you're currently on!" },
-    "dblclick_or_esc_to_close":     { "message": "Double Click outside of the YoCards sidebar or hit esc to close it!" },
+    "carlito_will_search_here":     { "message": "Click <i></i> in the omnibar to search YoCards for the URL you're currently on!" },
+    "dblclick_or_esc_to_close":     { "message": "Double click outside of the YoCards sidebar or hit Esc to close it!" },
     "got_it":                       { "message": "Got It" },
     "longpress_to_activate":        { "message": "You can click and hold <strong>any</strong> link to activate YoCards." },
     "please_longpress":             { "message": "Click and hold the link above to see YoCards in action!" },
