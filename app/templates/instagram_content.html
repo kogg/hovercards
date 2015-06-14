@@ -1,5 +1,6 @@
 <div ng-if="!data.content.$err">
 	<div class="context-top context-top-instagram">
+		<div class="share-container" share-page=":: data.content"></div>
 		<div class="row">
 			<div class="col-10">
 				<span>Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>

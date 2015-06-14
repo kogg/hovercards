@@ -5,8 +5,8 @@
 	<div class="share-circles">
 	</div>
 	<div class="sharecontainerhover">
-		<a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Fyocards.com&text=:%20http%3A%2F%2Fyocards.com&via=yocards" target="_blank" title="Tweet" class="twiter-circle no-yo"></a>
-		<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fyocards.com&t=" title="Share on Facebook" target="_blank" class="fb-circle"></a>
-		<a href="http://www.reddit.com/submit?url=http%3A%2F%2Fyocards.com&title=" target="_blank" title="Submit to Reddit" class="reddit-circle"></a>
+		<a popup="https://twitter.com/intent/tweet?source=https://yocards.com&text={{ (content.name || content.description) + ' ' + (content | generateUrl) | encode }}&via=hovercards" title="Tweet {{ content.name || content.description }}" class="twiter-circle no-yo"></a>
+		<a popup="https://www.facebook.com/sharer/sharer.php?u={{ content | generateUrl | encode }}" title="Share {{ content.name || content.description }} on Facebook" class="fb-circle"></a>
+		<a popup="http://www.reddit.com/submit?url={{ content | generateUrl | encode }}&title={{ (content.name || content.description) | encode }}&resubmit=true" title="Submit {{ content.name || content.description }} to Reddit" class="reddit-circle"></a>
 	</div>
 </div>
