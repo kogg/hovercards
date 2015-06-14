@@ -6,9 +6,10 @@
 	position: fixed !important;
 	height: 100% !important;
 	top:0px !important;
-	background: #EFEFEF !important;
 	z-index: 0 !important;
-	border-left: 1px solid rgba(0,0,0,.06) !important;
+	-webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.1) !important;
+	-moz-box-shadow:    0px 0px 5px 2px rgba(0, 0, 0, 0.1) !important;
+	box-shadow:         0px 0px 5px 2px rgba(0, 0, 0, 0.1) !important;
 	right: 0;
 	-webkit-transform: translateX(375px) translateZ(0);
 }
@@ -42,31 +43,41 @@
 }
 .__MSG_@@extension_id__-sidebar iframe {
 	position: absolute !important;
+	border-left: 1px solid rgba(0,0,0,.06) !important;
 	height: 100% !important;
 	border: none !important;
 	width:100% !important;
 	left: 0px !important
 }
 .__MSG_@@extension_id__-sidebar-close-button {
-	content: "x" !important;
 	font-weight: thin !important;
-	font-family: sans-serif !important;
-	line-height: 40px !important;
-	font-size: 16px !important;
+	font-family: arial !important;
+	line-height: 44px !important;
+	font-size: 19px !important;
 	text-align: center !important;
-	width: 35px !important;
-	height: 40px !important;
+	width: 32px !important;
+	height: 44px !important;
 	border-radius: 3px 0 0 3px !important;
-	background:#bfbfbf !important;
-	top: 16px !important;
-	left: -35px !important; 
+	background:#f6f6f6 !important;
+	top: 18px !important;
+	right: 340px !important; 
 	position: absolute !important;
+	font-weight: 500 !important;
+	border: 1px solid rgba(0,0,0,.06) !important;
+	border-right: none !important;
 	color: rgba(255,255,255,.9) !important;
+	box-shadow:  -2px 1px 9px 0px rgba(0,0,0,0.1);
+	display: block !important;
 	transition: all 0.3s ease !important;
 }
 
 .__MSG_@@extension_id__-sidebar-close-button:after {
-	content: 'x';
+	content: '+';
+	-ms-transform: rotate(45deg) !important;
+	-webkit-transform: rotate(45deg) !important;
+	transform: rotate(45deg) !important;
+	display: inline-block;
+	color:#727272;
 }
 .__MSG_@@extension_id__-sidebar-close-button:hover {
 	color: black !important;
@@ -85,10 +96,6 @@
 	width: 100% !important;
 	border-left: none !important
 }
-
-
-
-
 
 
 

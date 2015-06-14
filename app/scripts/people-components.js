@@ -1,136 +1,161 @@
+var _       = require('underscore');
 var angular = require('angular');
 require('slick-carousel');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
-    .controller('PeopleController', ['$scope', '$timeout', '$q', 'apiService', function($scope, $timeout, $q, apiService) {
-        /* check to see if all the things we want to load are out of our way. Also, give them time to animate or whatever */
-        $scope.other_things_loaded = 0;
-        $scope.$watch('(!entry.content || data.content.$resolved) && (!(entry.discussions || entry.discussion || entry.discussions[0]) || data.discussion.$resolved)', function(value) {
-            if (!value) {
+    .controller('PeopleController', ['$scope', '$interval', '$timeout', '$q', 'apiService', function($scope, $interval, $timeout, $q, apiService) {
+        var others_exist_watcher = $scope.$watch('entry.type', function(type) {
+            if (!type) {
                 return;
             }
-            $timeout(function() {
-                angular.element(window).scroll();
-                $scope.other_things_loaded++;
-            }, 100);
-        });
-        /* Check to see if we hit the bottom once we've waited for everything and forced a scroll */
-        var can_have_people = $scope.$watch('at.people && other_things_loaded', function(value) {
-            if (!value) {
+            others_exist_watcher();
+            if (type === 'account') {
+                $scope.can_have_people = true;
                 return;
             }
-            $scope.can_have_people = true;
-            can_have_people();
+
+            /* check to see if all the things we want to load are out of our way. Also, give them time to animate or whatever */
+            var other_things_loaded_watcher = $scope.$watch('data.content.$resolved && data.discussion.$resolved', function(other_things_loaded) {
+                if (!other_things_loaded) {
+                    return;
+                }
+                other_things_loaded_watcher();
+
+                $timeout(function() {
+                    angular.element(window).scroll();
+
+                    var interval = $interval(function() {
+                        angular.element(window).scroll();
+                    }, 100);
+
+                    /* Check to see if we hit the bottom once we've waited for everything and forced a scroll */
+                    var can_have_people_watcher = $scope.$watch('view.at.people', function(value) {
+                        if (!value) {
+                            return;
+                        }
+                        $interval.cancel(interval);
+                        can_have_people_watcher();
+
+                        $scope.can_have_people = true;
+                    });
+                }, 300);
+            });
         });
-        /* Load people once we're allowed to */
+
+        function request_to_string(request) {
+            return [request.api, request.type, request.id, request.as].join('/');
+        }
+
         $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
-            $scope.entry.selectedPerson = null;
-            if (!requests) {
+            if (!requests || !requests.length) {
+                $scope.data.accounts = null;
                 $scope.data.people = null;
                 return;
             }
 
-            $scope.data.loading = ($scope.data.loading || 0) + 1;
-            $scope.data.people = (function() {
-                var people = [];
-                var done_account_ids = {};
-                var got_something;
-                var last_err;
-                people.$resolved = false;
-                people.$promise = $q.all(requests.map(function get_account(request) {
-                    var account = apiService.get(request);
-                    return account.$promise
-                        .then(function(account) {
-                            got_something = true;
-                            // Get IDs from account
-                            var connected_accounts_ids = (account.connected || []).map(function(account) {
-                                return [account.api, account.type, account.id].join('/');
-                            });
-                            var account_id = [account.api, account.type, account.id].join('/');
-                            connected_accounts_ids.push(account_id);
-                            done_account_ids[account_id] = true;
-
-                            // Find all people who have those IDs
-                            var people_to_merge = [];
-                            people.forEach(function(person) {
-                                if (!connected_accounts_ids.some(function(account_id) { return person.connected_accounts_ids[account_id]; })) {
-                                    return;
-                                }
-                                people_to_merge.push(person);
-                            });
-
-                            // Make, merge, or get our person
-                            var person = people_to_merge[0];
-                            for (var i = 1; i < people_to_merge.length; i++) {
-                                var other_person = people_to_merge[i];
-                                person.accounts = person.accounts.concat(other_person.accounts);
-                                angular.extend(person.connected_accounts_ids, other_person.connected_accounts_ids);
-                                people.splice(people.indexOf(other_person), 1);
-                            }
-                            if (!person) {
-                                person = { accounts: [], connected_accounts_ids: { } };
-                                people.push(person);
-                            }
-
-                            // Give the person our account and the IDs
-                            person.accounts.push(account);
-                            connected_accounts_ids.forEach(function(account_id) {
-                                person.connected_accounts_ids[account_id] = true;
-                            });
-                            person.selectedAccount = person.selectedAccount || account;
-                            if ($scope.data.people === people) {
-                                $scope.entry.selectedPerson = $scope.entry.selectedPerson || person;
-                            }
-
-                            return $q.all((account.connected || []).filter(function(account) {
-                                return !done_account_ids[[account.api, account.type, account.id].join('/')];
-                            }).map(get_account));
-                        })
-                        .catch(function(err) {
-                            last_err = err;
-                        });
-                }))
-                .then(function() {
-                    if (got_something) {
+            var parts = (function reload(accounts, people) {
+                var timeout = $timeout(function() {
+                    people.$err = { 'still-waiting': true };
+                }, 5000);
+                _.each(requests, function load_account_into(request) {
+                    var key = request_to_string(request);
+                    if (accounts[key] && (!accounts[key].$err || !accounts[key].$err.unauthorized)) {
                         return;
                     }
-                    people.$err = last_err || { 'bad-input': true };
-                })
-                .finally(function() {
-                    people.$resolved = true;
-                    $scope.data.loading--;
+                    accounts[key] = _.extend(apiService.get(request), _.pick(request, 'reason'));
+                    accounts[key]
+                        .$promise
+                        .then(function(account) {
+                            $timeout.cancel(timeout);
+                            delete people.$err;
+                            if (account.connected) {
+                                _.each(account.connected, load_account_into);
+                            }
+                            var account_ids = _.chain(account.connected)
+                                               .map(request_to_string)
+                                               .push(key)
+                                               .uniq()
+                                               .value();
+                            var person = _.chain(people)
+                                          .filter(function(person) {
+                                              return _.some(person.account_ids, function(account_id) {
+                                                  return _.contains(account_ids, account_id);
+                                              });
+                                          })
+                                          .reduce(function(person, person_to_merge) {
+                                              person.accounts    = _.union(person.accounts,    person_to_merge.accounts);
+                                              person.account_ids = _.union(person.account_ids, person_to_merge.account_ids);
+                                              person.position    = _.min([person.position,     person_to_merge.position]);
+                                              people.splice(_.indexOf(people, person_to_merge), 1);
+                                              return person;
+                                          })
+                                          .value();
+                            if (!person) {
+                                person = { accounts: [], account_ids: [], position: Infinity };
+                                people.push(person);
+                            }
+                            var position_in_entry = _.indexOf(requests, request);
+                            position_in_entry = (position_in_entry === -1) ? Infinity : position_in_entry;
+
+                            person.accounts        = _.union(person.accounts,    [account]);
+                            person.account_ids     = _.union(person.account_ids, account_ids);
+                            person.position        = _.min([person.position, position_in_entry]);
+                            person.selectedAccount = person.selectedAccount || account;
+                            people.sort(function(a, b) {
+                                return a.position - b.position;
+                            });
+                            return account;
+                        })
+                        .catch(function(err) {
+                            $timeout.cancel(timeout);
+                            if (people.length) {
+                                return;
+                            }
+                            err.api = request.api;
+                            people.$err = err;
+                            people.$err.reload = function() {
+                                reload(accounts, people);
+                            };
+                        });
                 });
 
-                return people;
-            }());
+                return [accounts, people];
+            }($scope.data.accounts || {}, $scope.data.people || []));
+
+            $scope.data.accounts = parts[0];
+            $scope.data.people   = parts[1];
         });
     }])
     .directive('peopleCarousel', ['$compile', function($compile) {
         return {
             link: function($scope, $element) {
                 $element.slick({ arrows: false, centerMode: true, centerPadding: 0, focusOnSelect: true, infinite: false, slidesToShow: 1 });
-                $element.on('afterChange', function(event, slick, index) {
+                $element.on('beforeChange', function(event, slick, current, next) {
                     $scope.$apply(function() {
-                        $scope.entry.selectedPerson = $scope.data.people[index];
+                        $scope.entry.selectedPerson = $scope.data.people[next];
+                        $scope.view.fullscreen = null;
                     });
                 });
                 $scope.$watchCollection('data.people', function(people, oldPeople) {
-                    if (oldPeople && oldPeople.length && people !== oldPeople) {
-                        oldPeople.forEach(function() {
-                            $element.slick('slickRemove', 0);
-                        });
-                    }
-                    if (people && people.length) {
-                        people.forEach(function(person) {
-                            var element = '<div style="height: 157px;"><div ng-include="\'templates/\' + person.selectedAccount.api + \'_account.html\'"></div></div>';
-                            var scope = $scope.$new();
-                            scope.person = person;
-                            $element.slick('slickAdd', $compile(element)(scope));
-                        });
-                    }
+                    _.times(oldPeople && people !== oldPeople && oldPeople.length, function() {
+                        $element.slick('slickRemove', 0);
+                    });
+                    _.each(people, function(person) {
+                        var element = '<div style="height: 157px;"><div ng-include="\'templates/\' + person.selectedAccount.api + \'_account.html\'"></div></div>';
+                        $element.slick('slickAdd', $compile(element)(_.extend($scope.$new(), { person: person })));
+                    });
                     $scope.entry.selectedPerson = (people && people[$element.slick('slickCurrentSlide') || 0]) || null;
                 });
             }
         };
+    }])
+    .controller('AccountShimController', ['$scope', 'apiService', function($scope, apiService) {
+        var doIt = $scope.$watch('inview && person_to_load', function(request) {
+            if (!request) {
+                return;
+            }
+            $scope.person = { selectedAccount: apiService.get(request) };
+            doIt();
+        });
     }])
     .name;

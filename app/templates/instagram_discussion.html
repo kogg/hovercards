@@ -1,0 +1,19 @@
+<div ng-repeat="comment in data.discussion.comments" class="comment row" ng-if="!data.discussion.$err">
+	<div class="col-2">
+		<a ng-href="{{:: comment.author | generateUrl }}">
+			<div class="comment-image" ng-style=":: comment.author.image && { 'background-image': 'url(' + comment.author.image + ')'}"></div>
+		</a>
+	</div>
+	<div class="col-10">
+		<div class="user-context">
+			<span class="ellipsis">
+				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name || comment.author.id }}</a>
+			</span>
+			<span class="time">{{:: comment.date | timeSince:true }}</span>
+		</div>
+		<p readmore=":: comment.description" cutoff-height="100"></p>
+	</div>
+</div>
+
+
+<div ng-if="data.discussion.$err" err="data.discussion.$err" api="instagram" type="discussion" entry="entry"></div>

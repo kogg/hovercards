@@ -1,31 +1,16 @@
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'MoreContentComponents', [require('./service-components')])
-    .controller('MoreContentController', ['$scope', 'apiService', function($scope, apiService) {
-        $scope.$watch('entry.selectedPerson.selectedAccount', function(request) {
-            if (!request) {
-                $scope.data.moreContent = null;
+    .controller('MoreContentController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
+        $scope.$watch('entry.selectedPerson.selectedAccount', function(account) {
+            $scope.data.moreContent = null;
+            if (!account) {
                 return;
             }
-            $scope.data.moreContent = (function() {
-                $scope.data.loading = ($scope.data.loading || 0) + 1;
-
-                var moreContent = apiService.get({ api: request.api, type: 'more_content', id: request.id });
-                moreContent.$promise
-                    .then(function() {
-                        if (!moreContent.content || !moreContent.content.length) {
-                            moreContent.$err = { 'empty-content': true };
-                        }
-                    })
-                    .catch(function(err) {
-                        moreContent.$err = err;
-                    })
-                    .finally(function() {
-                        $scope.data.loading--;
-                    });
-
-                return moreContent;
-            }());
+            account.moreContent = account.moreContent || apiService.get({ api: account.api, type: 'more_content', id: account.id });
+            $timeout(function() {
+                $scope.data.moreContent = account.moreContent;
+            }, 100);
         });
     }])
     .name;

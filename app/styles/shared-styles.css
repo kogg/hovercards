@@ -15,6 +15,35 @@
 	-webkit-animation-name: yofadeIn;
 	animation-name: yofadeIn;
 }
+.yo-notify:after {
+    content:"Linkedin Coming Soon";
+    position: absolute;
+    top: -60px;
+    left: -10px;
+    border-radius: 4px;
+    height: 60px;
+    padding: 10px;
+    line-height: 20px;
+    width: 120px;
+    opacity: 1;
+    color: #FFF;
+    font-size: 15px;
+    visibility: hidden;
+    background: #4D4D4D;
+}
+.yo-notify:before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 10px 11px 0;
+    border-color: #4D4D4D rgba(0, 0, 0, 0);
+    display: block;
+    width: 0;
+    z-index: 1;
+    top: -3px;
+    visibility: hidden;
+    left: 39px;
+}
 .yo-notify-youtube {
 	background-color: #F44336 !important;
 }
@@ -24,7 +53,7 @@
 }
 @-webkit-keyframes yofadeIn { 
     0% {
-    	opacity: 0;
+    	opacity: 1;
     	-webkit-transform: scale(.5);
     }
     100% {

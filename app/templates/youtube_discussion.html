@@ -6,16 +6,14 @@
 	</div>
 	<div class="col-10">
 		<div class="user-context">
-			<span class="ellipsis youtube-ellipsis">
+			<span class="ellipsis">
 				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name }}</a>
 			</span>
-			<span class="reddit-votes">{{:: comment.date | timeSince:true }}</span>
+			<span class="time">{{:: comment.date | timeSince:true }}</span>
 		</div>
 		<p readmore=":: comment.description" cutoff-height="100"></p>
 	</div>
 </div>
 
 
-<div class="no-comments" ng-if="data.discussion.$err">
-	<p ng-messages="data.discussion.$err" ng-messages-include="templates/discussion_exceptions.html"></p>
-</div>
+<div ng-if="data.discussion.$err" err="data.discussion.$err" api="youtube" type="discussion" entry="entry"></div>

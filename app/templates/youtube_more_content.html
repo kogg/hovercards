@@ -1,17 +1,21 @@
-<div class="content-list" ng-if="!data.moreContent.$err">
+<div class="content-list youtube-content-list" ng-if="!data.moreContent.$err">
 	<div ng-repeat="video in data.moreContent.content" ng-class="{ 'content-list-selected': video.id===entry.content.id }" class="content-list-link">
 		<div class="row">
-			<div class="col-5">
+			<div class="col-4">
 				<a ng-href="{{:: video | generateUrl }}">
 					<img ng-src="{{:: video.image }}">
 				</a>
 			</div>
-			<div class="col-7">
+			<div class="col-8">
+				<div class="col-10">
 					<a ng-href="{{:: video | generateUrl }}" cutoff-height="40" readmore=":: video.name"></a>
-				<b><i class="md md-access-time"></i> {{:: video.date | timeSince }}</b>
+				</div>
+				<div class="col-2">
+					<b>{{:: video.date | timeSince:true }}</b>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div ng-messages="data.moreContent.$err" ng-messages-include="templates/more_content_exceptions.html"></div>
+<div ng-if="data.moreContent.$err" err="data.moreContent.$err" api="youtube" type="more_content" entry="entry"></div>

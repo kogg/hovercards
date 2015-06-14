@@ -1,0 +1,67 @@
+<div ng-if="!data.content.$err">
+	<div class="context-top context-top-instagram">
+		<div class="share-container" share-page=":: data.content"></div>
+		<div class="row">
+			<div class="col-10">
+				<span>Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
+			</div>
+			<div class="col-2">
+				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
+			</div>
+		</div>
+	</div>
+
+	<!-- Video -->
+	<div ng-if=":: data.content.video" class="instagram-video">
+		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
+			<div class="video-image">
+				<div ng-if="playing">
+					<video video-src="{{:: data.content.video }}" fullscreen="data.content" view="view" autoplay loop></video>
+				</div>
+			</div>
+		</div>
+		<div class="video-top-underlay">
+			<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }" ng-click="played || ((played = true) && (playing = true))"></div>
+			<div class="play-video instagram-background" ng-click="played || ((played = true) && (playing = true))" ng-class="{ 'play-video-clicked': playing }"></div>
+			<div class="video-cta instagram-background" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
+				<i class="md md-fullscreen"></i>
+			</div>
+			<div class="video-cta instagram-background" ng-click="view.fullscreen=null;" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
+				<i class="md md-fullscreen-exit"></i>
+			</div>
+		</div>
+	</div>
+
+	<!-- Just Image -->
+	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content }" ng-if=":: !data.content.video" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content">
+		<img ng-src="{{:: data.content.image }}">
+	</div>
+	<div class="fullscreen-image" ng-if="!data.content.video && view.fullscreen === data.content" ng-click="view.fullscreen=null">
+		<img ng-src="{{:: data.content.image }}">
+	</div>
+
+	<div class="card-text" ng-if="::data.content.description">
+		<div class="card-description">
+			<p readmore=":: data.content.description" cutoff-height="80"></p>
+		</div>
+	</div>
+	<div class="card-stats inline-row">
+		<div class="col-6">
+			<b>Likes</b>
+			<span>{{:: data.content.likes | numsmall }}</span>
+		</div>
+		<div class="col-6">
+			<b>Tags</b>
+			<span ng-if="!(data.content.accounts | filter:{ reason: 'tag' }).length">None</span>
+			<div class="card-stats-container">
+				<a class="card-stats-tag" ng-href="{{:: tag | generateUrl }}" ng-repeat="tag in data.content.accounts | filter:{ reason: 'tag' }">
+					<div class="card-stats-tag-img" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
+					<div class="card-stats-tag-name">{{:: tag.name || tag.id }}</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div ng-if="data.content.$err" err="data.content.$err" api="instagram" type="content" entry="entry"></div>
+

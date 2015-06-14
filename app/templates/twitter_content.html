@@ -1,0 +1,54 @@
+<div ng-if="!data.content.$err">
+	<div class="context-top context-top-twitter">
+		<div class="share-container" share-page=":: data.content"></div>
+		<div class="row">
+			<div class="col-10">
+				<span>Tweeted By: <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
+			</div>
+			<div class="col-2">
+				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
+			</div>
+		</div>
+	</div>
+	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content }" ng-if=":: data.content.image" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content">
+		<img ng-src="{{:: data.content.image }}:small">
+	</div>
+	<div class="fullscreen-image" ng-if="view.fullscreen === data.content" ng-click="view.fullscreen=null">
+		<img ng-src="{{:: data.content.image }}">
+	</div>
+	<div class="card-text text-post">
+		<div class="card-description">
+			<p readmore=":: data.content.description" cutoff-height="100"></p>
+			<div class="response" ng-if=":: data.content.replied_to ">
+				<div class="col-10">
+					<b>In response to <a ng-href="{{:: data.content.replied_to.author | generateUrl }}">{{:: data.content.replied_to.author.name }}</a>'s tweet:</b>
+				</div>
+				<div class="col-2">
+					<b><a ng-href="{{:: data.content.replied_to | generateUrl }}">{{:: data.content.replied_to.date | timeSince:true }}</a></b>
+				</div>
+				<p ng-bind-html=":: data.content.replied_to.description"></p>
+				<div class="response-image-container" ng-if=":: data.content.replied_to.image">
+					<img ng-src="{{:: data.content.replied_to.image }}:small">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-stats row">
+		<div class="col-6">
+			<b>Retweets</b>
+			<span>{{:: data.content.retweets | numsmall }}</span>
+		</div>
+		<div class="col-6">
+			<b>Favourites</b>
+			<span>{{:: data.content.favorites | numsmall }}</span>
+		</div>
+		<!--
+		<span><i class="md md-autorenew"></i> {{:: data.content.retweets | numsmall }}</span>
+		<span><i class="md md-stars"></i> {{:: data.content.favorites | numsmall }}</span>
+	-->
+	</div>
+
+</div>
+
+<div ng-if="data.content.$err" err="data.content.$err" api="twitter" type="content" entry="entry"></div>

@@ -1,0 +1,25 @@
+<div class="retweet" ng-if=":: tweet.retweet">
+	<i class="md md-autorenew"></i>
+	<span><a ng-href="{{:: tweet.retweet.author | generateUrl }}" class="no-yo">{{:: tweet.retweet.author.name }}</a> retweeted</span>
+</div>
+<div class="col-2">
+	<a ng-href="{{:: tweet.author | generateUrl }}" class="no-yo">
+		<div class="comment-image" ng-style=":: tweet.author.image && { 'background-image': 'url(' + tweet.author.image + ')'}"></div>
+	</a>
+</div>
+<div class="col-10">
+	<div class="user-context">
+		<span>
+			<a ng-href="{{:: tweet.author | generateUrl }}" class="no-yo">{{:: tweet.author.name }}</a>
+		</span>
+		<span class="time"><a ng-href="{{:: tweet | generateUrl }}">{{:: tweet.date | timeSince:true }}</a></span>
+	</div>
+	<p ng-bind-html=":: tweet.description"></p>
+	<div class="comment-image-container" ng-if="::tweet.image" ng-click="view.fullscreen=(view.fullscreen === tweet) ? null : tweet">
+		<img ng-src="{{:: tweet.image }}:small">
+	</div>
+	<div class="fullscreen-image" ng-if="view.fullscreen === tweet" ng-click="view.fullscreen=null">
+		<img ng-src="{{:: tweet.image }}:large">
+	</div>
+	<p class="mini-stats"><span><i class="md md-autorenew"></i> {{:: tweet.retweets }}</span> <span><i class="md md-stars"></i> {{:: tweet.favorites }}</span></p>
+</div>

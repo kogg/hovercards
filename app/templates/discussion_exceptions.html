@@ -1,10 +1,17 @@
-<!-- Serious Errors -->
-<span ng-message="our-problem">Oh no! {{ 'app_name' | copy }} is having problems right now.</span>
-<span ng-message="dependency-down">Oh no! {{ ((data.discussion.api || entry.discussion.api || entry.discussions[0].api) | copy) || 'One of our dependencies' }} is having problems right now.</span>
+<div class="no-comments">
+	<span err="err" api="{{ api }}" type="default" entry="entry">
+		<span ng-transclude></span>
 
-<!-- Errors -->
-<span ng-message="bad-input">This input be bad, yo</span>
-<span ng-message="no-content">We couldn't find anything here!</span>
+		<!-- ERRORS -->
+		<span ng-message="empty-content">
+			<span class="yocards-message-content"><b><i class="md md-error"></i>No {{ api + '_discussion_short' | copy }}</b>It looks like there are no {{ api + '_discussion_short' | copy | lowercase }}.</span>
+			<div class="yocards-message-option">
+				<a ng-href="{{:: data.discussion | generateUrl }}" class="no-yo">Be the first to comment</a>
+			</div>
+		</span>
+	</span>
 
-<!-- Exceptions -->
-<div ng-message="empty-content">It looks like there are no comments on this. <a ng-href="{{:: data.discussion | generateUrl }}" class="no-yo">Be the first to comment</a> or <a ng-click="entry.showMenu=true">see what people are saying elsewhere!</a></div>
+	<div class="yocards-message-option" ng-if="entry.discussion_apis.length > 1">
+		<a ng-click="entry.showMenu=true">Check out other networks</a>
+	</div>
+</div>

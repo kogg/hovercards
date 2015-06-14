@@ -1,7 +1,40 @@
+var _       = require('underscore');
 var angular = require('angular');
 
-module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize')])
-    .directive('readmore', ['$sanitize', function($sanitize) {
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize'), require('angular-messages')])
+    .directive('err', [function() {
+        return {
+            restrict: 'A',
+            scope: {
+                err: '=',
+                api: '@?',
+                entry: '=?'
+            },
+            transclude: true,
+            templateUrl: function(element, attr) {
+                return 'templates/' + attr.type + '_exceptions.html';
+            }
+        };
+    }])
+    .directive('popup', ['$window', function($window) {
+        return {
+            restrict: 'A',
+            scope: {
+                url:  '@popup',
+                size: '=?popupSize'
+            },
+            link: function($scope, $element) {
+                $element.css('cursor', 'pointer');
+                $element.click(function() {
+                    $window.open($scope.url, 'popup', 'height=' + (($scope.size && $scope.size.height) || 300 ) +
+                                                      ',width=' + (($scope.size && $scope.size.width) || 640 ) +
+                                                      ',left=' + ($window.screen.width - 990) +
+                                                      ',top=70');
+                });
+            }
+        };
+    }])
+    .directive('readmore', ['$sanitize', '$timeout', function($sanitize, $timeout) {
         require('dotdotdot');
 
         return {
@@ -17,46 +50,40 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         return;
                     }
                     $element.append('<span class="read-more">Read More</span>');
-                    $element.dotdotdot({
-                        after: 'span.read-more',
-                        height: Number($scope.cutoffHeight),
-                        callback: function(isTruncated) {
-                            var read_more = $element.find('.read-more');
-                            if (!isTruncated) {
-                                read_more.remove();
-                                return;
+                    $timeout(function() {
+                        $element.dotdotdot({
+                            after: 'span.read-more',
+                            height: Number($scope.cutoffHeight),
+                            callback: function(isTruncated) {
+                                var read_more = $element.find('.read-more');
+                                if (!isTruncated) {
+                                    read_more.remove();
+                                    return;
+                                }
+                                if (!read_more.length) {
+                                    read_more = angular.element('<span class="read-more">Read More</span>');
+                                }
+                                read_more
+                                    .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
+                                    .click(function() {
+                                        $element
+                                            .trigger('destroy')
+                                            .html($scope.text);
+                                    });
                             }
-                            read_more
-                                .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
-                                .click(function() {
-                                    $element
-                                        .trigger('destroy')
-                                        .html($scope.text);
-                                });
-                        }
+                        });
                     });
                 });
             }
         };
     }])
-    .directive('scrollPeriodically', ['$interval', function($interval) {
+    .directive('sharePage', [function() {
         return {
+            restrict: 'A',
             scope: {
-                doWhile: '=scrollPeriodically'
+                content: '=sharePage'
             },
-            link: function($scope) {
-                var interval;
-                $scope.$watch('!!doWhile', function(doIt) {
-                    if (doIt) {
-                        interval = $interval(function() {
-                            angular.element(window).scroll();
-                        }, 1000);
-                    } else if (interval) {
-                        $interval.cancel(interval);
-                        interval = null;
-                    }
-                });
-            }
+            templateUrl: 'templates/sharepage.html'
         };
     }])
     .directive('stored', function() {
@@ -70,46 +97,128 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             link: function($scope) {
                 $scope.stored = $scope.default;
                 chrome.storage.sync.get($scope.name, function(obj) {
+                    $scope.$apply(function() {
+                        $scope.stored = ($scope.name in obj) ? obj[$scope.name] : $scope.default;
+                    });
                     $scope.$watch('stored', function(val, oldVal) {
                         if (val === oldVal) {
                             return;
                         }
                         var obj = {};
                         obj[$scope.name] = val;
+                        console.log('set storage', $scope.name, 'to', val);
                         chrome.storage.sync.set(obj);
                     }, true);
-                    if ($scope.name in obj) {
-                        $scope.stored = obj[$scope.name];
-                    } else {
-                        $scope.stored = $scope.default;
+                });
+                function onStorageChanged(changes, area_name) {
+                    if (area_name !== 'sync' || !($scope.name in changes)) {
+                        return;
                     }
+                    $scope.$apply(function() {
+                        if (!_.isEqual($scope.stored, changes[$scope.name].newValue)) {
+                            console.log('set scope', $scope.name, 'to', changes[$scope.name].newValue);
+                            $scope.stored = changes[$scope.name].newValue;
+                        }
+                    });
+                }
+                chrome.storage.onChanged.addListener(onStorageChanged);
+                $scope.$on('$destroy', function() {
+                    chrome.storage.onChanged.removeListener(onStorageChanged);
                 });
             }
         };
     })
+    .directive('video', function() {
+        return {
+            restrict: 'E',
+            scope: {
+                src: '@videoSrc',
+                fullscreen: '=?',
+                view: '=?'
+            },
+            link: function($scope, $element) {
+                $scope.is_playing = false;
+                $scope.$watch('src', function(src) {
+                    $element.attr('src', src);
+                });
+                $element.click(function() {
+                    $scope.$apply(function() {
+                        if ($scope.is_playing) {
+                            $element.get(0).pause();
+                        } else {
+                            $element.get(0).play();
+                        }
+                    });
+                });
+                if ($scope.fullscreen && $scope.view) {
+                    $element.dblclick(function() {
+                        if ($scope.view.fullscreen === $scope.fullscreen) {
+                            $scope.view.fullscreen = null;
+                        } else {
+                            $scope.view.fullscreen = $scope.fullscreen;
+                        }
+                    });
+                }
+                $element.get(0).onplay = function() {
+                    $scope.$apply(function() {
+                        $scope.is_playing = true;
+                    });
+                };
+                $element.get(0).onpause = function() {
+                    $scope.$apply(function() {
+                        $scope.is_playing = false;
+                    });
+                };
+            }
+        };
+    })
     .filter('copy', function() {
-        return function(messagename) {
-            return chrome.i18n.getMessage((messagename || '').replace(/\-/g, '_')) || null;
+        return function() {
+            if (!arguments[0] || arguments[0] === '') {
+                return arguments[0];
+            }
+            var string = chrome.i18n.getMessage(arguments[0].replace(/\-/g, '_'), _.rest(arguments));
+            if (!string) {
+                console.warn(JSON.stringify(arguments[0]) + ' does not have copy');
+            }
+            return string;
+        };
+    })
+    .filter('encode', function() {
+        return function(content) {
+            var output = encodeURIComponent(content);
+            if (output === 'undefined') {
+                return '';
+            }
+            return output;
         };
     })
     .filter('generateUrl', function() {
         return require('YoCardsApiCalls/network-urls').generate;
     })
-    .filter('numsmall', function() {
+    .filter('numsmall', ['$filter', function($filter) {
+        var suffixes = { 1000: 'k', 1000000: 'm', 1000000000: 'b', 1000000000000: 't' };
         return function(number) {
-            if (number < 10000) {
-                return number + '';
-            } else if (number < 1000000) {
-                return Math.floor(number / 1000) + 'k';
-            } else if (number < 1000000000) {
-                return parseFloat(Math.floor(number / 10000) / 100).toFixed(2) + 'm';
-            } else if (number < 1000000000000) {
-                return parseFloat(Math.floor(number / 10000000) / 100).toFixed(2) + 'b';
+            if (isNaN(number)) {
+                return 'N/A';
             } else {
-                return 0;
+                var prefix = '';
+                if (number < 0) {
+                    number = -number;
+                    prefix = '-';
+                }
+                var digits = Math.ceil(Math.log10(number + 0.5));
+                if (digits < 5) {
+                    return prefix + $filter('number')(number);
+                } else {
+                    var three_digits_less = Math.pow(10, Math.floor(digits - 3));
+                    var nearest_three_digit = Math.pow(10, 3 * Math.floor((digits - 1) / 3));
+                    number = three_digits_less * Math.round(number / three_digits_less) / nearest_three_digit;
+                    return prefix + number + suffixes[nearest_three_digit];
+                }
             }
         };
-    })
+    }])
     .filter('percent', ['$filter', function($filter) {
         return function(ratio) {
             return $filter('number')(100 * ratio) + '%';
@@ -121,7 +230,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             relativeTime: {
                 future: 'in %s',
                 past:   '%s ago',
-                s:  'seconds',
+                s:  '%d seconds',
                 m:  '1 minute',
                 mm: '%d minutes',
                 h:  '1 hour',
@@ -138,7 +247,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             relativeTime: {
                 future: '%s',
                 past:   '%s',
-                s:      's',
+                s:      '%ds',
                 m:      '%dm',
                 mm:     '%dm',
                 h:      '%dh',

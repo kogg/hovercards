@@ -1,15 +1,22 @@
 <div ng-if="!data.content.$err">
-	<div class="card-text text-post">
-		<div class="user-context-container">
-			<div class="user-context">
-				<div class="ellipsis">
-					<a ng-href="{{:: data.content.author | generateUrl }}">{{:: data.content.author.id }}</a> <b>· <a ng-href="https://www.reddit.com/r/{{:: data.content.subreddit }}">/r/{{:: data.content.subreddit }}</a></b>
-				</div>
-				<span class="reddit-votes">{{:: data.content.date | timeSince:true }}</span>
+	<div class="context-top context-top-reddit">
+		<div class="share-container" share-page=":: data.content"></div>
+		<div class="row">
+			<div class="col-10">
+				<span><a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a> in <a ng-href="https://www.reddit.com/r/{{:: data.content.subreddit }}">/r/{{:: data.content.subreddit }}</a></span>
 			</div>
-			<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{ ::data.content.name }}</a>
+			<div class="col-2">
+				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
+			</div>
+			<div class="col-12">
+				<div class="video-title">
+					<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{ ::data.content.name }}</a>
+				</div>
+			</div>
 		</div>
-		<div ng-if="::data.content.description" class="card-description">
+	</div>
+	<div class="card-text" ng-if="::data.content.description">
+		<div class="card-description">
 			<div readmore=":: data.content.description" cutoff-height="100"></div>
 		</div>
 	</div>
@@ -23,9 +30,11 @@
 			<span>{{:: data.content.up_ratio | percent }}</span>
 		</div>
 	</div>
+	<!--
 	<div class="percent-bar" ng-if=":: data.content.up_ratio">
 		<div class="percent-bar-good" ng-style=":: data.content.up_ratio && { width: (data.content.up_ratio | percent) }"></div>
 	</div>
+	-->
 </div>
 
-<div ng-messages="data.content.$err" ng-messages-include="templates/content_exceptions.html"></div>
+<div ng-if="data.content.$err" err="data.content.$err" api="reddit" type="content" entry="entry"></div>

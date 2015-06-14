@@ -1,40 +1,39 @@
-<html ng-csp>
+<html ng-csp ng-controller="ViewController">
 <head>
 	<link rel="stylesheet" href="styles/angular-csp.css">
 	<link rel="stylesheet" href="styles/slick.css">
-	<link rel="stylesheet" href="styles/trigger-styles.css">
+	<link rel="stylesheet" href="styles/perfect-scrollbar.css">
 	<link rel="stylesheet" href="styles/styles.css">
 	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
+	<link rel="stylesheet" href="styles/trigger-styles.css">
 </head>
-<body class="ng-cloak" ng-cloak ng-controller="EntryController" ng-class="{ 'fullscreen-active': entry.fullscreen }">
-	<div>
-		<div class="fade-out-animation" ng-show="data.loading">
+<body class="ng-cloak" ng-cloak ng-class="{ 'fullscreen-active': view.fullscreen }" stored="order" name="order" default="[]">
+	<div ng-controller="EntryController">
+		<div class="fade-out-animation" ng-show="loading" loading="loading">
 			<div class="loader">
 				<div class="colored"></div>
 			</div>
 		</div>
 		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && !entry.$err">
 			<div ng-controller="ContentController">
-				<div class="card bounce-in-animation" ng-if="data.content.$resolved">
-					<div ng-include="'templates/' + (data.content.api || entry.content.api) + '_content.html'"></div>
+				<div class="card bounce-in-animation" ng-if="data.content.$resolved || data.content.$err">
+					<div ng-include="'templates/' + (data.content.api || entry.content.api) + '_content.html'" autoscroll="entry.type === 'content'"></div>
 				</div>
 			</div>
 
 			<div ng-controller="DiscussionController">
-				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || undefined">
-					<div class="comment-top">
+				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || data.discussion.$err">
+					<div class="context-top context-top-{{ (data.discussion.api || entry.discussion_api) }}">
 						<div class="row">
-							<div class="col-9">
-								<span><i class="md md-forum iconic-push"></i>{{ (data.discussion.api || entry.discussion.api || entry.discussions[0].api) + '_discussion' | copy }} ({{ data.discussion.count | numsmall }})</span>
+							<div class="col-11">
+								<span>{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} <span ng-if="data.discussion.count">({{ data.discussion.count | numsmall }})</span></span>
 							</div>
-							<div class="col-3">
+							<div class="col-1">
 								<i class="md md-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>
 							</div>
-
-							<div class="col-12" ng-if="data.discussion.api === 'reddit'">
+							<div class="col-12" ng-if="(data.discussion.$resolved || data.discussion.$err) && data.discussion.api === 'reddit'">
 								<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'"></div>
 							</div>
-
 						</div>
 						<div class="menu" ng-show="entry.showMenu">
 							<div class="menu-description" stored="hide_menu_description" name="hide-menu-description" ng-show="!hide_menu_description">
@@ -47,36 +46,37 @@
 									</div>
 								</div>
 							</div>
-							<ul id="sortable" sortable stored="order" name="order" default="[]">
-								<li class="ui-state-default rippleblack" ng-class="{ selected: (entry.discussion || entry.discussions[0]) === discussion_choice }" ng-click="entry.discussion = discussion_choice" ng-repeat="discussion_choice in entry.discussions">
+							<ul id="sortable" sortable="order">
+								<li ng-class="{ selected: entry.discussion_api === api, rippleblack: entry.discussions[api], disabled: !entry.discussions[api], loaded: data.discussions[api].$resolved, failed: data.discussions[api].$err && data.discussions[api].$resolved, loading: data.discussion[api] && !data.discussions[api].$resolved }" ng-click="entry.desired_discussion_api = entry.discussions[api] ? api : entry.desired_discussion_api" ng-repeat="api in order">
 									<b ng-click="$event.stopPropagation();"></b>
-									<span>{{ discussion_choice.api + '_discussion' | copy }}</span>
+									<span>{{ api + '_discussion' | copy }}</span>
 								</li>
 							</ul>
 						</div>
 					</div>
-
-					<div ng-include="'templates/' + (data.discussion.api || entry.discussion.api || entry.discussions[0].api) + '_discussion.html'" ng-if="data.discussion.$resolved"></div>
+					<div ng-include="'templates/' + (data.discussion.api || entry.discussion_api) + '_discussion.html'" ng-if="data.discussion.$resolved || data.discussion.$err" autoscroll="entry.type === 'dicussion'"></div>
 				</div>
 			</div>
 
-			<div class="people-card-space" in-view="at.people=$inview" scroll-periodically="!data.people.length">
-				<div class="card bounce-in-animation people-card" ng-if="data.people.length || data.people.$resolved">
+			<div class="people-card-space" in-view="view.at.people=$inview" ng-if="!entry.$err && entry.type !== 'url'">
+				<div class="card bounce-in-animation people-card" ng-if="data.people.length || data.people.$resolved || data.people.$err">
 					<div ng-if="!data.people.$err">
-						<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="data.people.length === 1"></div>
+						<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="data.people.length === 1" autoscroll="entry.type === 'account'"></div>
 						<div people-carousel ng-if="data.people.length > 1"></div>
 					</div>
 
-					<div ng-messages="data.people.$err" ng-messages-include="templates/people_exceptions.html"></div>
+					<div ng-if="data.people.$err" err="data.people.$err" api="{{ data.people.$err.api }}" type="people" entry="entry"></div>
 				</div>
 			</div>
 		</div>
 
-		<div class="network-menu-space" ng-if="!entry.$err">
-			<div class="network-menu">
+		<div class="people-card-space" ng-if="!entry"><!-- DO NOT GET RID OF THIS! WHEN THE OTHER people-card-space VANISHES, THIS KEEPS THE BACKGROUND COLORS FROM FLICKERING --></div>
+
+		<div class="network-menu-space" ng-if="!entry.$err && entry.type !== 'url'">
+			<div class="network-menu fade-in-animation" ng-if="entry.selectedPerson.accounts.length">
 				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length">
 					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
-						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ account.api | copy }}</span>
+						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ (account.api + (entry.selectedPerson.accounts.length === 1 ? '_account' : '' )) | copy }}</span>
 					</div>
 				</div>
 				<div ng-show="entry.selectedPerson.menuOffset" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) - 3">Left</div>
@@ -84,32 +84,39 @@
 			</div>
 		</div>
 
-		<div class="social-profile-space" ng-if="!entry.$err">
-			<div class="social-profile" ng-if="data.people.length">
-				<div ng-if="entry.selectedPerson.selectedAccount.description">
+		<div class="social-profile-space" ng-if="!entry.$err && entry.type !== 'url'">
+			<div class="social-profile">
+				<div class="fade-in-animation" ng-show="entry.selectedPerson.selectedAccount.description || entry.selectedPerson.selectedAccount.location || entry.selectedPerson.selectedAccount.url_link">
 					<div class="social-profile-description">
-						<div class="comment-top">
+						<div class="context-top">
 							<div class="row">
 								<div class="col-12">
-									<span class="youtube-color"><i class="md md-person iconic-push"></i>Channel Description</span>
+									<span ng-class="entry.selectedPerson.selectedAccount.api + '-color'"><i class="md md-person iconic-push"></i>More About {{ entry.selectedPerson.selectedAccount.name }}</span>
 								</div>
 							</div>
 						</div>
 						<div class="social-profile-description-container">
 							<p readmore="entry.selectedPerson.selectedAccount.description | linky" cutoff-height="100"></p>
+							<div class="row social-profile-description-morecontent" ng-show="entry.selectedPerson.selectedAccount.location || entry.selectedPerson.selectedAccount.url_link">
+								<div class="col-12" ng-show="entry.selectedPerson.selectedAccount.location">
+									<span><i class="md md-location-on iconic-push"></i>{{ entry.selectedPerson.selectedAccount.location }}</span>
+								</div>
+								<div class="col-12" ng-show="entry.selectedPerson.selectedAccount.url_link">
+									<span><i class="md md-link iconic-push"></i><span ng-bind-html="entry.selectedPerson.selectedAccount.url_link"></span></span>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
-					<div ng-if="data.moreContent.$resolved">
-						<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'"></div>
+					<div class="fade-in-animation" ng-if="data.moreContent.$resolved || data.moreContent.$err">
+						<div ng-include="'templates/' + (data.moreContent.api || entry.selectedPerson.selectedAccount.api) + '_more_content.html'"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err">
-		<div ng-messages="entry.$err" ng-messages-include="templates/entry_exceptions.html"></div>
+
+		<div err="entry.$err" api="{{ entry.$err.api }}" type="entry" entry="entry"></div>
 	</div>
 
 	<link rel="stylesheet" href="styles/subscribe-fix-style.css">

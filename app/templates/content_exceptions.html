@@ -1,10 +1,6 @@
-<!-- Serious Errors -->
-<span ng-message="our-problem">Oh no! {{ 'app_name' | copy }} is having problems right now.</span>
-<span ng-message="dependency-down">Oh no! {{ ((data.content.api || entry.content.api) | copy) || 'One of our dependencies' }} is having problems right now.</span>
-
-<!-- Errors -->
-<span ng-message="bad-input">This input be bad, yo</span>
-<span ng-message="no-content">We couldn't find anything here!</span>
-
-<!-- Exceptions -->
-<span ng-message="empty-content">This is empty!</span>
+<div class="yocards-message-container error-message" ng-class="err['api-specific'] ? api + '-message' : ''">
+	<div class="yocards-message-image"></div>
+	<div class="yocards-message-text" err="err" api="{{ api }}" type="default" entry="entry">
+		<span ng-transclude></span>
+	</div>
+</div>

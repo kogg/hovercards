@@ -3,10 +3,12 @@
 		<div class="reddit-header-cover"></div>
 		<div class="user-context">
 			<div class="ellipsis">
+				<span></span>
 				<a ng-href="{{:: data.discussion.author | generateUrl }}">{{:: data.discussion.author.id }}</a>
-				<b>&middot; <a ng-href="https://www.reddit.com/r/{{:: data.discussion.subreddit }}">/r/{{:: data.discussion.subreddit }}</a></b>
+				<span> in </span>
+				<b><a ng-href="https://www.reddit.com/r/{{:: data.discussion.subreddit }}">/r/{{:: data.discussion.subreddit }}</a></b>
 			</div>
-			<span class="reddit-votes">{{:: data.discussion.score | score }} <span class="hidden-date">· {{:: data.discussion.date | timeSince:true }}</span></span>
+			<span class="time">{{:: data.discussion.score | score }}<span class="hidden-date"> · <a ng-href="{{:: data.discussion | generateUrl }}">{{:: data.discussion.date | timeSince:true }}</a></span></span>
 		</div>
 		<a class="no-yo" ng-href="{{ data.discussion | generateUrl }}">{{:: data.discussion.name }}</a>
 	</div>

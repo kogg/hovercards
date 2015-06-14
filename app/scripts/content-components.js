@@ -1,3 +1,4 @@
+var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ContentComponents', [require('./service-components')])
@@ -7,20 +8,36 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                 $scope.data.content = null;
                 return;
             }
-            $scope.data.content = (function() {
-                $scope.data.loading = ($scope.data.loading || 0) + 1;
+            $scope.data.content = apiService.get(request);
+        });
 
-                var content = apiService.get(request);
-                content.$promise
-                    .catch(function(err) {
-                        content.$err = err;
-                    })
-                    .finally(function() {
-                        $scope.data.loading--;
-                    });
+        $scope.$watch('data.content.$resolved && !data.content.$err && entry && entry.type !== "url" && data.content', function(content) {
+            if (!content) {
+                return;
+            }
 
-                return content;
-            }());
+            if (content.discussions && content.discussions.length) {
+                $scope.entry.discussions = _.chain(content.discussions)
+                                            .indexBy('api')
+                                            .extend($scope.entry.discussions)
+                                            .value();
+            }
+
+            if (content.accounts && content.accounts.length) {
+                $scope.entry.accounts = _.chain($scope.entry.accounts)
+                                         .union(content.accounts)
+                                         .sortBy(function(account) {
+                                             var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
+                                             if (pos === -1) {
+                                                 pos = Infinity;
+                                             }
+                                             return pos;
+                                         })
+                                         .uniq(false, function(account) {
+                                             return account.api + '/' + account.id;
+                                         })
+                                         .value();
+            }
         });
     }])
     .name;
