@@ -6,16 +6,19 @@
 	height: 100% !important;
 	background: rgba(0,0,0,.65) !important;
 	pointer-events: none !important;
-	-webkit-animation-duration: 2s;
-	animation-duration: 2s;
+	-webkit-animation-duration: 3.5s;
+	animation-duration: 3.5s;
 	-webkit-animation-name: __MSG_@@extension_id__-overlay-fadeout;
 	animation-name: __MSG_@@extension_id__-overlay-fadeout;
 }
 @-webkit-keyframes __MSG_@@extension_id__-overlay-fadeout {
 	0% {
+		opacity: 0;
+	}
+	15% {
 		opacity: 1;
 	}
-	30% {
+	85% {
 		opacity: 1;
 	}
 	100% {
@@ -24,9 +27,12 @@
 }
 @keyframes __MSG_@@extension_id__-overlay-fadeout {
 	0% {
+		opacity: 0;
+	}
+	15% {
 		opacity: 1;
 	}
-	30% {
+	85% {
 		opacity: 1;
 	}
 	100% {
@@ -42,7 +48,34 @@
 	overflow: auto !important;
 	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1) !important;
 	box-sizing:border-box !important;
+	opacity: 0;
+	-webkit-animation-name: enterwalkthrough; 
+	animation-name: enterwalkthrough; 
+	-webkit-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-delay: .5s;
+	animation-delay: .5s;
 }
+
+@-webkit-keyframes enterwalkthrough { 
+	0% { 
+		opacity: 0;
+	} 
+	100% { 
+		opacity: 1;
+	} 
+}
+keyframes enterwalkthrough { 
+	0% { 
+		opacity: 0;
+	} 
+	100% { 
+		opacity: 1;
+	} 
+} 
+
 .__MSG_@@extension_id__-walkthrough-step1, .__MSG_@@extension_id__-walkthrough-step3, .__MSG_@@extension_id__-walkthrough-step4 {
 	width: 156px !important;
 	padding: 16px !important;
@@ -85,7 +118,7 @@
 	box-sizing:border-box !important;
 }
 .__MSG_@@extension_id__-cursor {
-	width: 16px !	;
+	width: 16px !important;
 	height: 20px !important;
 	background: url('chrome-extension://__MSG_@@extension_id__/images/cursor.png') !important;
 	background-size:100% auto !important;
@@ -285,7 +318,7 @@ keyframes fadein {
 	background: rgba(0,132,255,.2) !important;
 	border-radius:50% !important;
 	position: absolute;
-	-webkit-animation-name: cursorexplode; 
+	-webkit-animation-name: bounceInUp; 
 	animation-name: bounceInUp; 
 	-webkit-animation-fill-mode: both; 
 	animation-fill-mode: both; 
@@ -396,4 +429,24 @@ b.__MSG_@@extension_id__-next-step:active {
 .__MSG_@@extension_id__-step-1-5 {
 	float: left !important;
 	padding: 8px 0 !important
+}
+.__MSG_@@extension_id__-walkthrough-instructions li i {	
+	width: 20px !important;
+	height: 20px !important;
+	background-position: center !important;
+	background-size: 100% !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yocards-logo-128.png') !important;
+	display: inline-block !important;
+	position: relative !important;
+	top: 3px;
+}
+.__MSG_@@extension_id__-link-indicator {
+    width: 10px;
+    height: 10px;
+    background: #ff962c;
+    transform: scale(0);
+    transition: transform 0.4s;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
 }
