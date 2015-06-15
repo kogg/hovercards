@@ -62,7 +62,7 @@ function onLoaded() {
             closing_obj.remove();
         });
     }, 10000);
-    chrome.storage.sync.set({ walkthrough_stage: 2 });
+    chrome.storage.sync.set({ walkthrough_stage_0: 2 });
 }
 
 var stages = [
@@ -100,7 +100,7 @@ var stages = [
                                   left: request.mouse.x });
                 });
             });
-            chrome.storage.sync.set({ walkthrough_stage: 1 });
+            chrome.storage.sync.set({ walkthrough_stage_0: 1 });
         }
 
         return {
@@ -119,16 +119,14 @@ var stages = [
     }()),
     // Stage 1:
     // on loaded, after closing_timeout, make closing_obj and go to Stage 2
-    (function() {
-        return {
-            setup: function() {
-                window.addEventListener('message', onLoaded);
-            },
-            cleanup: function() {
-                window.removeEventListener('message', onLoaded);
-            }
-        };
-    }()),
+    {
+        setup: function() {
+            window.addEventListener('message', onLoaded);
+        },
+        cleanup: function() {
+            window.removeEventListener('message', onLoaded);
+        }
+    },
     // Stage 2:
     // if longpress_obj kill it
     // on closing, after carlito_timeout, make carlito_obj and go to Stage 3
@@ -156,7 +154,7 @@ var stages = [
                     carlito_obj.remove();
                 });
             }, 650);
-            chrome.storage.sync.set({ walkthrough_stage: 3 });
+            chrome.storage.sync.set({ walkthrough_stage_0: 3 });
         }
 
         return {
@@ -177,29 +175,25 @@ var stages = [
     // Stage 3:
     // if closing_timeout kill it
     // if closing_obj kill it
-    (function() {
-        return {
-            setup: function() {
-                clearTimeout(closing_timeout);
-                if (closing_obj) {
-                    closing_obj.remove();
-                }
+    {
+        setup: function() {
+            clearTimeout(closing_timeout);
+            if (closing_obj) {
+                closing_obj.remove();
             }
-        };
-    }()),
+        }
+    },
     // Stage 4:
     // if carlito_timeout kill it
     // if carlito_obj kill it
-    (function() {
-        return {
-            setup: function() {
-                clearTimeout(carlito_timeout);
-                if (carlito_obj) {
-                    carlito_obj.remove();
-                }
+    {
+        setup: function() {
+            clearTimeout(carlito_timeout);
+            if (carlito_obj) {
+                carlito_obj.remove();
             }
-        };
-    }())
+        }
+    }
 ];
 
 var lastStage = -1;
@@ -218,21 +212,21 @@ function setStage(newStage) {
 }
 
 /* Uncomment this to start over walkthrough */
-// chrome.storage.sync.remove('walkthrough_stage');
-chrome.storage.sync.get('walkthrough_stage', function(obj) {
+// chrome.storage.sync.remove('walkthrough_stage_0');
+chrome.storage.sync.get('walkthrough_stage_0', function(obj) {
     if (chrome.runtime.lastError) {
         return;
     }
-    if (obj.walkthrough_stage >= stages.length) {
+    if (obj.walkthrough_stage_0 >= stages.length) {
         return;
     }
     $('head').append('<link rel="stylesheet" type="text/css" href="' + chrome.extension.getURL('styles/walkthrough.css') + '">');
-    setStage(obj.walkthrough_stage || 0);
+    setStage(obj.walkthrough_stage_0 || 0);
 
     chrome.storage.onChanged.addListener(function(changes, area_name) {
-        if (area_name !== 'sync' || !('walkthrough_stage' in changes)) {
+        if (area_name !== 'sync' || !('walkthrough_stage_0' in changes)) {
             return;
         }
-        setStage(changes.walkthrough_stage.newValue || 0);
+        setStage(changes.walkthrough_stage_0.newValue || 0);
     });
 });
