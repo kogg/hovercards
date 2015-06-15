@@ -3,7 +3,7 @@
 		<div class="share-container" share-page=":: data.content"></div>
 		<div class="row">
 			<div class="col-10">
-				<span>Tweeted By: <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
+				<span>Tweeted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
 			</div>
 			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
