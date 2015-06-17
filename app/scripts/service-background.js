@@ -54,7 +54,11 @@ module.exports = function() {
         if (err) {
             return console.error(err);
         }
-        chrome.runtime.onMessage.addListener(function(request, sender, callback) {
+        chrome.runtime.onMessage.addListener(function(message, sender, callback) {
+            if (message.type !== 'service') {
+                return;
+            }
+            var request = message.request;
             var api  = request.api;
             var type = request.type;
             callback = _.wrap(callback, function(callback, err, result) {
