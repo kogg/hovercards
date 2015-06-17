@@ -283,7 +283,12 @@ b i, .iconic-push {
   width: 130px;
   padding: 16px;
 }
-
+.card-stats-tag-4 .card-stats-tag-name {
+	transform:translate(-67%, -42px)
+}
+.card-stats-tag-5 .card-stats-tag-name {
+	transform:translate(-83%, -42px);
+}
 .card-stats-tag-name:before {
 	content: "";
 	position: absolute;
@@ -321,7 +326,7 @@ b i, .iconic-push {
 	left: 0px;
 	height: 16px;
 	background:	white;
-	width: 100%;
+	width: 125%;
 	z-index: 5;
 }
 .card-stats-tag-name span {
@@ -335,6 +340,12 @@ b i, .iconic-push {
   text-decoration: none;
 	font-size: 12px;
   font-weight: 600
+}
+.card-stats-tag-4 .card-stats-tag-name:before, .card-stats-tag-4 .card-stats-tag-name:after {
+	left: 67%
+}
+.card-stats-tag-5 .card-stats-tag-name:before, .card-stats-tag-5 .card-stats-tag-name:after {
+	left: 83%
 }
 .card-stats-tag-name .profile-cta {
 	position: relative;

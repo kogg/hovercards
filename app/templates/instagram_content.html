@@ -58,8 +58,8 @@
 					<div class="card-stats-tag-img" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
 					<div class="card-stats-tag-name">
 						<div class="tag-full-image" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
-						<span>{{:: tag.name || tag.id }}</span>
-						<a ng-href="{{:: tag | generateUrl }}">{{:: tag.id }}</a>
+						<span class="ellipsis">{{:: tag.name || tag.id }}</span>
+						<a class="ellipsis" ng-href="{{:: tag | generateUrl }}">{{:: tag.id }}</a>
 						<div class="profile-cta">
 							<a class="instagram-background" popup="https://instagram.com/{{:: tag.id }}" popup-size="{ height: 433, width: 720 }" style="cursor: pointer;">Follow</a>
 						</div>
