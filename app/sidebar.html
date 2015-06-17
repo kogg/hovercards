@@ -23,10 +23,15 @@
 
 			<div ng-controller="DiscussionController">
 				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || data.discussion.$err">
-					<div class="context-top context-top-{{ (data.discussion.api || entry.discussion_api) }}">
+					<div class="context-top">
 						<div class="row">
 							<div class="col-11">
-								<span>{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} <span ng-if="data.discussion.count">({{ data.discussion.count | numsmall }})</span></span>
+								<div class="comment-picker">
+									<div class="network-circle network-circle-twitter"></div>
+									<div class="network-circle network-circle-youtube"></div>
+									<div class="network-circle network-circle-reddit"></div>
+								</div>
+								<span>{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} <span class="no-left" ng-if="data.discussion.count">({{ data.discussion.count | numsmall }})</span></span>
 							</div>
 							<div class="col-1">
 								<i class="md md-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>

@@ -260,17 +260,15 @@ b i, .iconic-push {
 }
 
 .card-stats-tag:hover .card-stats-tag-img {
-	-webkit-transform: scale(2);
-	transform: scale(2);
 	z-index: 2;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 .card-stats-tag-name {
 	position: absolute;
-  top: 0;
+  top: 64px;
   left: 8px;
   background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
   border-radius: 3px;
   transform: translate(-50%, -42px);
   padding: 8px;
@@ -280,7 +278,68 @@ b i, .iconic-push {
   font-size: 12px;
   font-weight: 600;
   display: none;
+  z-index: 2;
+  text-align: center;
+  width: 130px;
+  padding: 16px;
+}
 
+.card-stats-tag-name:before {
+	content: "";
+	position: absolute;
+	top: -4px;
+	left: 50%;
+	margin-left: -4px;
+	width: 8px;
+	height: 8px;
+	background: white;
+	box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+	transform: rotate(-135deg)
+}
+.tag-full-image {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	background-position: center;
+	background-size: 100%;
+	margin:auto;
+	position: relative;
+}
+.tag-full-image:before {
+	content: "";
+	position: absolute;
+	top:-16px;
+	left: 0px;
+	height: 16px;
+	background:	white;
+	width: 100%;
+	z-index: 5;
+}
+.card-stats-tag-name span {
+	margin-top: 8px;
+	display: block;
+	font-size: 14px;
+	font-weight: 400
+}
+.card-stats-tag-name a {
+	color: #2196F3;
+  text-decoration: none;
+	font-size: 12px;
+  font-weight: 600
+}
+.card-stats-tag-name .profile-cta {
+	position: relative;
+	bottom: inherit;
+	margin-top: 8px;
+}
+.card-stats-tag-name .profile-cta a {
+	border-radius: 20px;
+	padding: 5px 12px 5px 35px;
+	margin-top: 16px;
+
+}
+.card-stats-tag-name a:hover {
+	text-decoration: underline;
 }
 .card-stats-tag:hover .card-stats-tag-name {
 	display: block;
@@ -793,7 +852,7 @@ b i, .iconic-push {
 	padding: 16px;
 }
 .context-top .row .col-10, .context-top .row .col-11 {
-	padding-left: 22px;
+	line-height: 16px;
 }
 .context-top .row .col-9 {
 	position: relative;
@@ -811,11 +870,19 @@ b i, .iconic-push {
 	color: #727272;
   text-decoration: none;
   font-size: 12px;
+  display: inline-block;
   font-weight: 600;
+  vertical-align:top
+}
+.context-top span {
+
 }
 .context-top span a {
 	color: #727272;
 	text-decoration: none;
+}
+.context-top span.no-left {
+	margin-left: 0px;
 }
 .context-top span a:hover {
 	text-decoration: underline;
@@ -824,6 +891,7 @@ b i, .iconic-push {
 	text-align: right;
 	position: relative;
 	float: right !important;
+	line-height: 18px;
 }
 .context-top .col-1 i {
 	color:#727272;
@@ -1016,6 +1084,58 @@ b i, .iconic-push {
 	border:1px dashed rgba(0,0,0,.15);
 	background: #e5e5e5 !important;
 } 
+/*comment-picker*/
+.comment-picker {
+	display: inline;
+	margin-right: 18px;
+	letter-spacing: -16px;
+	cursor: default;
+	vertical-align: top;
+	position: relative;
+	left: -2px;
+	transition:all .3s ease-in-out;
+}
+.comment-picker:hover {
+	margin-right: 4px;
+	letter-spacing: 0;
+}
+.network-circle {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: black;
+	position: relative;
+	display: inline-block;
+	background-size: 100%;
+	background-position: center;
+	cursor: pointer;
+	transition:all .2s ease-in-out;
+}
+.network-circle:hover {
+  transform: scale(2);
+  -webkit-transform: scale(2);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.network-circle:hover:last-of-type {
+	transform:none;
+	-webkit-transform:none;
+	box-shadow: none;
+}
+.network-circle:last-of-type {
+	cursor: default;
+}
+.network-circle-youtube {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
+}
+.network-circle-reddit {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png');
+}
+.network-circle-twitter {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
+}
+.network-circle-instagram {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');	
+}
 /*No Comments*/
 .no-comments {	
 	background:#fff;
