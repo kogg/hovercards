@@ -51,7 +51,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         return;
                     }
                     (function readmore() {
-                        angular.element('<span class="read-more">Read More</span>').appendTo($element);
+                        angular.element('<span class="read-more">More</span>').appendTo($element);
                         $timeout(function() {
                             $element.dotdotdot({
                                 after: 'span.read-more',
@@ -72,9 +72,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                                 .trigger('destroy')
                                                 .html($scope.text);
                                             if ($scope.readless) {
-                                                angular.element('<br>').appendTo($element);
-                                                angular.element('<span class="read-less">Read Less</span>')
+                                                angular.element('<span class="read-less">Less</span>')
                                                     .appendTo($element)
+                                                    .before(' ')
                                                     .click(readmore);
                                             }
                                         });
