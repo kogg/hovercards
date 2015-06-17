@@ -296,6 +296,15 @@ b i, .iconic-push {
 	box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
 	transform: rotate(-135deg)
 }
+.card-stats-tag-name:after {
+	content: "";
+	position: absolute;
+  top: -16px;
+  left: 50%;
+  margin-left: -9px;
+  width: 18px;
+  height: 24px;
+}
 .tag-full-image {
 	width: 80px;
 	height: 80px;
