@@ -9,12 +9,6 @@ var INSTAGRAM_KEY = '4ffac410cfbf40f59be866c63d5fe37e';
 var REDDIT_KEY = 'fNtoQI4_wDq21w';
 
 module.exports = function() {
-    function get_device_id(callback) {
-        chrome.storage.local.get('device_id', function(obj) {
-            callback(chrome.runtime.lastError, obj.device_id);
-        });
-    }
-
     var client_side_authenticators = {
         instagram: function(callback) {
             chrome.identity.launchWebAuthFlow({ url:         'https://instagram.com/oauth/authorize/?client_id=' + INSTAGRAM_KEY +
@@ -30,27 +24,25 @@ module.exports = function() {
         }
     };
 
-    function get_user(api, callback) {
-        chrome.storage.sync.get(api + '_user', function(obj) {
-            callback(chrome.runtime.lastError, obj[api + '_user']);
-        });
-    }
-
     var initialize_client_callers = {
         instagram: function(callback) {
-            get_user('instagram', function(err, user) {
-                if (err) {
-                    return callback(err);
+            chrome.storage.sync.get('instagram_user', function(obj) {
+                if (chrome.runtime.lastError) {
+                    return callback(chrome.runtime.lastError);
                 }
-                if (!user) {
+                if (!obj.instagram_user) {
                     return callback();
                 }
-                return callback(null, require('YoCardsAPICalls/instagram')({ user: user }));
+                return callback(null, require('YoCardsAPICalls/instagram')({ user: obj.instagram_user }));
             });
         },
         reddit: function(callback) {
             async.waterfall([
-                get_device_id,
+                function(callback) {
+                    chrome.storage.local.get('device_id', function(obj) {
+                        callback(chrome.runtime.lastError, obj.device_id);
+                    });
+                },
                 function(device_id, callback) {
                     callback(null, require('YoCardsAPICalls/reddit')({ key: REDDIT_KEY, device: device_id }));
                 }
@@ -106,8 +98,16 @@ module.exports = function() {
                 ], callback);
             } else {
                 async.parallel({
-                    device_id: get_device_id,
-                    user: async.apply(get_user, api)
+                    device_id: function(callback) {
+                        chrome.storage.local.get('device_id', function(obj) {
+                            callback(chrome.runtime.lastError, obj.device_id);
+                        });
+                    },
+                    user: function(callback) {
+                        chrome.storage.sync.get(api + '_user', function(obj) {
+                            callback(chrome.runtime.lastError, obj[api + '_user']);
+                        });
+                    }
                 }, function(err, headers) {
                     if (err) {
                         return callback(err);
