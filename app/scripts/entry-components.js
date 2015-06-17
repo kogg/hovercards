@@ -46,7 +46,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                 $scope.entry.accounts = [identity];
                                 break;
                             case 'url':
-                                var entry = { discussions: {}, type: 'url', desired_discussion_api: 'url' };
+                                var entry = { discussions: {}, type: 'url', desired_discussion_api: 'url', url: identity.id };
                                 var data  = { discussions: {} };
 
                                 var apis = _.sortBy(['reddit', 'twitter'], function(api) {
@@ -55,12 +55,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
 
                                 _.each(apis, function(api) {
                                     entry.discussions[api] = { api: api, type: 'discussion' };
-                                    data.discussions[api]  = apiService.get({ api: api, type: 'url', id: identity.id });
+                                    data.discussions[api]  = apiService.get({ api: api, type: 'url', id: entry.url });
                                 });
 
                                 function check_api(i) {
                                     if (apis.length === i) {
-                                        entry.$err = { 'bad-input': true };
+                                        entry.$err = { 'no-content': true };
                                         return;
                                     }
                                     var api = apis[i];

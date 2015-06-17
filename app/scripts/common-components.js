@@ -41,7 +41,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             restrict: 'A',
             scope: {
                 text: '=readmore',
-                cutoffHeight: '@?'
+                cutoffHeight: '@?',
+                readless: '=?'
             },
             link: function($scope, $element) {
                 $scope.$watch('text', function(text) {
@@ -49,30 +50,38 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                     if (!text) {
                         return;
                     }
-                    $element.append('<span class="read-more">Read More</span>');
-                    $timeout(function() {
-                        $element.dotdotdot({
-                            after: 'span.read-more',
-                            height: Number($scope.cutoffHeight),
-                            callback: function(isTruncated) {
-                                var read_more = $element.find('.read-more');
-                                if (!isTruncated) {
-                                    read_more.remove();
-                                    return;
+                    (function readmore() {
+                        angular.element('<span class="read-more">More</span>').appendTo($element);
+                        $timeout(function() {
+                            $element.dotdotdot({
+                                after: 'span.read-more',
+                                height: Number($scope.cutoffHeight),
+                                callback: function(isTruncated) {
+                                    var read_more = $element.find('.read-more');
+                                    if (!isTruncated) {
+                                        read_more.remove();
+                                        return;
+                                    }
+                                    if (!read_more.length) {
+                                        read_more = angular.element('<span class="read-more">Read More</span>');
+                                    }
+                                    read_more
+                                        .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
+                                        .click(function() {
+                                            $element
+                                                .trigger('destroy')
+                                                .html($scope.text);
+                                            if ($scope.readless) {
+                                                angular.element('<span class="read-less">Less</span>')
+                                                    .appendTo($element)
+                                                    .before(' ')
+                                                    .click(readmore);
+                                            }
+                                        });
                                 }
-                                if (!read_more.length) {
-                                    read_more = angular.element('<span class="read-more">Read More</span>');
-                                }
-                                read_more
-                                    .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
-                                    .click(function() {
-                                        $element
-                                            .trigger('destroy')
-                                            .html($scope.text);
-                                    });
-                            }
+                            });
                         });
-                    });
+                    }());
                 });
             }
         };

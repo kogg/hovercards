@@ -183,7 +183,7 @@ p a, .card-text .card-description p a, .card-description-padding p a, .comment-c
 .comment-content p a:hover{
 	text-decoration: underline;
 }
-.read-more {
+.read-more, .read-less {
 	text-decoration: underline;
 	cursor: pointer;
   line-height: 19px;

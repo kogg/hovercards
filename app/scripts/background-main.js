@@ -78,9 +78,9 @@ async.parallel(initialize_client_callers, function(err, client_callers) {
         var type = request.type;
         callback = _.wrap(callback, function(callback, err, result) {
             if (err) {
-                console.warn(api, type, request, '\nError', err);
+                console.warn(api, type, request, 'Error', err);
             } else {
-                console.info(api, type, request, '\nResult', result);
+                console.info(api, type, request, 'Result', result);
             }
             callback([err, result]);
         });

@@ -30,14 +30,45 @@ function makePopover() {
             '</div>').appendTo('.' + class_name('container'));
 }
 
-var stages = [
-    /*
-     * Stage 0
-     */
-    (function() {
-        var indicator_obj;
-        var obj;
+var carlito_obj;
+var carlito_timeout;
+var closing_obj;
+var closing_timeout;
+var hover_timeout;
+var indicator_obj;
+var longpress_obj;
 
+function onLoaded() {
+    if (!event || !event.data) {
+        return;
+    }
+    var request = event.data;
+    if (request.msg !== 'loaded') {
+        return;
+    }
+    closing_timeout = setTimeout(function() {
+        closing_obj = makePopover()
+            .css('position', 'fixed')
+            .css('top', '18px')
+            .css('right', '382px');
+        closing_obj.find('.' + class_name('walkthrough-step'))
+            .addClass(class_name('walkthrough-step3'))
+            .append('<div class="' + class_name('defaultcursor') + '"></div>')
+            .append('<div class="' + class_name('cursor-pulse') + '"></div>')
+            .append('<div class="' + class_name('cursor-pulse') + '"></div>');
+        closing_obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('dblclick_or_esc_to_close'));
+        closing_obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [3, 4]));
+        closing_obj.find('.' + class_name('next-step')).one('click', function() {
+            closing_obj.remove();
+        });
+    }, 10000);
+    chrome.storage.sync.set({ walkthrough_stage_0: 2 });
+}
+
+var stages = [
+    // Stage 0:
+    // after hover_timeout, on hover make longpress_obj and go to Stage 1
+    (function() {
         function onFollowHover(event) {
             if (!event || !event.data) {
                 return;
@@ -46,70 +77,60 @@ var stages = [
             if (request.msg !== 'yo-follower-hover') {
                 return;
             }
-            window.removeEventListener('message', onFollowHover);
-            obj = makePopover()
+            longpress_obj = makePopover()
                 .offset({ top:  request.object.bottom + 10,
                           left: request.mouse.x - 70 });
-            obj.find('.' + class_name('walkthrough-step'))
+            longpress_obj.find('.' + class_name('walkthrough-step'))
                 .addClass(class_name('walkthrough-step1'))
                 .append('<div class="' + class_name('cursor') + '"></div>')
                 .append('<div class="' + class_name('cursor-expand') + '"></div>')
                 .append('<div class="' + class_name('cursor-pulse') + '"></div>');
-            obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('longpress_to_activate'));
-            obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [1, 4]));
-            obj.find('.' + class_name('next-step')).one('click', function() {
-                obj.find('.' + class_name('walkthrough-step')).addClass(class_name('walkthrough-step1-step2'));
-                obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('yo_follower_means_integrated'));
-                obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [2, 4]));
-                obj.find('.' + class_name('next-step')).one('click', function() {
-                    obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('please_longpress'));
-                    obj.find('.' + class_name('next-step')).hide();
+            longpress_obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('longpress_to_activate'));
+            longpress_obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [1, 4]));
+            longpress_obj.find('.' + class_name('next-step')).one('click', function() {
+                longpress_obj.find('.' + class_name('walkthrough-step')).addClass(class_name('walkthrough-step1-step2'));
+                longpress_obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('yo_follower_means_integrated'));
+                longpress_obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [2, 4]));
+                longpress_obj.find('.' + class_name('next-step')).one('click', function() {
+                    longpress_obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('please_longpress'));
+                    longpress_obj.find('.' + class_name('next-step')).hide();
                     indicator_obj = $('<div class="' + class_name('link-indicator') + '"></div>')
                         .appendTo('.' + class_name('container'))
                         .offset({ top:  request.object.bottom - 20,
                                   left: request.mouse.x });
                 });
             });
+            chrome.storage.sync.set({ walkthrough_stage_0: 1 });
         }
 
-        function onLoaded() {
-            if (!event || !event.data) {
-                return;
-            }
-            var request = event.data;
-            if (request.msg !== 'loaded') {
-                return;
-            }
-            chrome.storage.sync.set({ walkthrough_stage: 1 });
-        }
-
-        var timeout;
         return {
             setup: function() {
-                window.addEventListener('message', onLoaded);
-                timeout = setTimeout(function() {
+                hover_timeout = setTimeout(function() {
                     window.addEventListener('message', onFollowHover);
                 }, 2500);
+                window.addEventListener('message', onLoaded);
             },
             cleanup: function() {
-                window.removeEventListener('message', onLoaded);
-                clearTimeout(timeout);
+                clearTimeout(hover_timeout);
                 window.removeEventListener('message', onFollowHover);
-                if (obj) {
-                    obj.remove();
-                }
-                if (indicator_obj) {
-                    indicator_obj.remove();
-                }
+                window.removeEventListener('message', onLoaded);
             }
         };
     }()),
-    /*
-     * Stage 1
-     */
+    // Stage 1:
+    // on loaded, after closing_timeout, make closing_obj and go to Stage 2
+    {
+        setup: function() {
+            window.addEventListener('message', onLoaded);
+        },
+        cleanup: function() {
+            window.removeEventListener('message', onLoaded);
+        }
+    },
+    // Stage 2:
+    // if longpress_obj kill it
+    // on closing, after carlito_timeout, make carlito_obj and go to Stage 3
     (function() {
-        var obj;
-
         function onHidden() {
             if (!event || !event.data) {
                 return;
@@ -118,82 +139,61 @@ var stages = [
             if (request.msg !== 'hidden') {
                 return;
             }
-            chrome.storage.sync.set({ walkthrough_stage: 2 });
+            carlito_timeout = setTimeout(function() {
+                carlito_obj = makePopover()
+                    .css('position', 'fixed')
+                    .css('top', '18px')
+                    .css('right', '10px');
+                carlito_obj.find('.' + class_name('walkthrough-step'))
+                    .addClass(class_name('walkthrough-step4'))
+                    .append('<div class="' + class_name('defaultcursor') + '"></div>')
+                    .append('<div class="' + class_name('cursor-pulse') + '"></div>');
+                carlito_obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('carlito_will_search_here'));
+                carlito_obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [4, 4]));
+                carlito_obj.find('.' + class_name('next-step')).one('click', function() {
+                    carlito_obj.remove();
+                });
+            }, 650);
+            chrome.storage.sync.set({ walkthrough_stage_0: 3 });
         }
 
-        var timeout;
         return {
             setup: function() {
+                if (longpress_obj) {
+                    longpress_obj.remove();
+                }
+                if (indicator_obj) {
+                    indicator_obj.remove();
+                }
                 window.addEventListener('message', onHidden);
-                timeout = setTimeout(function() {
-                    obj = makePopover()
-                        .css('position', 'fixed')
-                        .css('top', '18px')
-                        .css('right', '382px');
-                    obj.find('.' + class_name('walkthrough-step'))
-                        .addClass(class_name('walkthrough-step3'))
-                        .append('<div class="' + class_name('defaultcursor') + '"></div>')
-                        .append('<div class="' + class_name('cursor-pulse') + '"></div>')
-                        .append('<div class="' + class_name('cursor-pulse') + '"></div>');
-                    obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('dblclick_or_esc_to_close'));
-                    obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [3, 4]));
-                    obj.find('.' + class_name('next-step')).one('click', function() {
-                        obj.remove();
-                    });
-                }, 10000);
             },
             cleanup: function() {
                 window.removeEventListener('message', onHidden);
-                clearTimeout(timeout);
-                if (obj) {
-                    obj.remove();
-                }
             }
         };
     }()),
-    /*
-     * Stage 2
-     */
-    (function() {
-        return {
-            setup: function() {
-                var obj;
-                var timeout;
-                function onLoaded() {
-                    if (!event || !event.data) {
-                        return;
-                    }
-                    var request = event.data;
-                    if (request.msg !== 'loaded') {
-                        return;
-                    }
-                    window.removeEventListener('message', onLoaded);
-                    clearTimeout(timeout);
-                    obj.remove();
-                }
-                window.addEventListener('message', onLoaded);
-                timeout = setTimeout(function() {
-                    obj = makePopover()
-                        .css('position', 'fixed')
-                        .css('top', '18px')
-                        .css('right', '10px');
-                    obj.find('.' + class_name('walkthrough-step'))
-                        .addClass(class_name('walkthrough-step4'))
-                        .append('<div class="' + class_name('defaultcursor') + '"></div>')
-                        .append('<div class="' + class_name('cursor-pulse') + '"></div>');
-                    obj.find('.' + class_name('step-1')).html(chrome.i18n.getMessage('carlito_will_search_here'));
-                    obj.find('.' + class_name('step-1-5')).text(chrome.i18n.getMessage('tip_x_of_y', [4, 4]));
-                    obj.find('.' + class_name('next-step')).one('click', function() {
-                        window.removeEventListener('message', onLoaded);
-                        clearTimeout(timeout);
-                        obj.remove();
-                    });
-                }, 650);
-                chrome.storage.sync.set({ walkthrough_stage: 3 });
-            },
-            cleanup: $.noop
-        };
-    }())
+    // Stage 3:
+    // if closing_timeout kill it
+    // if closing_obj kill it
+    {
+        setup: function() {
+            clearTimeout(closing_timeout);
+            if (closing_obj) {
+                closing_obj.remove();
+            }
+        }
+    },
+    // Stage 4:
+    // if carlito_timeout kill it
+    // if carlito_obj kill it
+    {
+        setup: function() {
+            clearTimeout(carlito_timeout);
+            if (carlito_obj) {
+                carlito_obj.remove();
+            }
+        }
+    }
 ];
 
 var lastStage = -1;
@@ -203,31 +203,30 @@ function setStage(newStage) {
     }
     console.log('changing walkthrough stage from', lastStage, 'to', newStage);
     if (stages[lastStage]) {
-        stages[lastStage].cleanup();
+        (stages[lastStage].cleanup || $.noop)();
     }
     if (stages[newStage]) {
-        stages[newStage].setup();
+        (stages[newStage].setup || $.noop)();
     }
     lastStage = newStage;
 }
 
 /* Uncomment this to start over walkthrough */
-// chrome.storage.sync.remove('walkthrough_stage');
-chrome.storage.sync.get('walkthrough_stage', function(obj) {
+// chrome.storage.sync.remove('walkthrough_stage_0');
+chrome.storage.sync.get('walkthrough_stage_0', function(obj) {
     if (chrome.runtime.lastError) {
         return;
     }
-    if (obj.walkthrough_stage >= stages.length) {
+    if (obj.walkthrough_stage_0 >= stages.length) {
         return;
     }
-    $('head')
-        .append('<link rel="stylesheet" type="text/css" href="' + chrome.extension.getURL('styles/walkthrough.css') + '">');
-    setStage(obj.walkthrough_stage || 0);
+    $('head').append('<link rel="stylesheet" type="text/css" href="' + chrome.extension.getURL('styles/walkthrough.css') + '">');
+    setStage(obj.walkthrough_stage_0 || 0);
 
     chrome.storage.onChanged.addListener(function(changes, area_name) {
-        if (area_name !== 'sync' || !('walkthrough_stage' in changes)) {
+        if (area_name !== 'sync' || !('walkthrough_stage_0' in changes)) {
             return;
         }
-        setStage(changes.walkthrough_stage.newValue || 0);
+        setStage(changes.walkthrough_stage_0.newValue || 0);
     });
 });

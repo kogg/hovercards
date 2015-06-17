@@ -7,14 +7,11 @@
 
 				<!-- ERRORS -->
 				<span ng-message="no-content">
-					<span class="yocards-message-content"><b><i class="md md-error"></i>Error! Error!</b>We searched all over, but couldn't find anything here</span>
+					<span class="yocards-message-content"><b><i class="md md-error"></i>No Luck!</b>We searched all over, but couldn't find anything for <a ng-href="{{:: entry.url }}">{{:: entry.url }}</a></span>
 				</span>
 			</span>
 			<div class="yocards-message-option">
-				<a href="#">Give us feedback</a>
-			</div>
-			<div class="yocards-message-option">
-				<a href="#">Send us an angry tweet</a>
+				<a popup="https://twitter.com/intent/tweet?source=https://yocards.com&text={{:: 'YoCards couldn\'t find anything for ' + entry.url + '! What #newbs!' | encode }}">Call us newbs on twitter</a>
 			</div>
 		</div>
 	</div>
