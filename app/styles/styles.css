@@ -1105,7 +1105,7 @@ b i, .iconic-push {
 	background: #e5e5e5 !important;
 } 
 /*comment-picker*/
-.comment-picker {
+.network-picker, .network-pick {
 	display: inline;
 	margin-right: 18px;
 	letter-spacing: -16px;
@@ -1115,7 +1115,11 @@ b i, .iconic-push {
 	left: -2px;
 	transition:all .3s ease-in-out;
 }
-.comment-picker:hover {
+.network-pick {
+	left: 0px;
+	margin-right: 20px;
+}
+.network-picker:hover {
 	margin-right: 4px;
 	letter-spacing: 0;
 }
