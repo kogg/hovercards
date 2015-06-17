@@ -10,12 +10,36 @@
 			</div>
 		</div>
 	</div>
-	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content }" ng-if=":: data.content.image" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content">
+
+	<!-- Video -->
+	<div ng-if=":: data.content.video" class="instagram-video">
+		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
+			<div class="video-image">
+				<div ng-if="playing">
+					<video video-src="{{:: data.content.video }}" fullscreen="data.content" view="view" autoplay loop></video>
+				</div>
+			</div>
+		</div>
+		<div class="video-top-underlay">
+			<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }" ng-click="played || ((played = true) && (playing = true))"></div>
+			<div class="play-video instagram-background" ng-click="played || ((played = true) && (playing = true))" ng-class="{ 'play-video-clicked': playing }"></div>
+			<div class="video-cta instagram-background" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
+				<i class="md md-fullscreen"></i>
+			</div>
+			<div class="video-cta instagram-background" ng-click="view.fullscreen=null;" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
+				<i class="md md-fullscreen-exit"></i>
+			</div>
+		</div>
+	</div>
+
+	<!-- Just Image -->
+	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content }" ng-if=":: !data.content.video && data.content.image" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content">
 		<img ng-src="{{:: data.content.image }}:small">
 	</div>
-	<div class="fullscreen-image" ng-if="view.fullscreen === data.content" ng-click="view.fullscreen=null">
+	<div class="fullscreen-image" ng-if="!data.content.video && view.fullscreen === data.content" ng-click="view.fullscreen=null">
 		<img ng-src="{{:: data.content.image }}">
 	</div>
+
 	<div class="card-text text-post">
 		<div class="card-description">
 			<p readmore=":: data.content.description" cutoff-height="100"></p>
