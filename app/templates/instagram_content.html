@@ -1,8 +1,11 @@
 <div ng-if="!data.content.$err">
-	<div class="context-top context-top-instagram">
+	<div class="context-top">
 		<div class="share-container" share-page=":: data.content"></div>
 		<div class="row">
 			<div class="col-10">
+				<div class="network-pick">
+					<div class="network-circle network-circle-instagram"></div>
+				</div>
 				<span>Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
 			</div>
 			<div class="col-2">
@@ -58,8 +61,8 @@
 					<div class="card-stats-tag-img" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
 					<div class="card-stats-tag-name">
 						<div class="tag-full-image" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
-						<span>{{:: tag.name || tag.id }}</span>
-						<a ng-href="{{:: tag | generateUrl }}">{{:: tag.id }}</a>
+						<span class="ellipsis">{{:: tag.name || tag.id }}</span>
+						<a class="ellipsis" ng-href="{{:: tag | generateUrl }}">{{:: tag.id }}</a>
 						<div class="profile-cta">
 							<a class="instagram-background" popup="https://instagram.com/{{:: tag.id }}" popup-size="{ height: 433, width: 720 }" style="cursor: pointer;">Follow</a>
 						</div>
