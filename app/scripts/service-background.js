@@ -11,16 +11,7 @@ var REDDIT_KEY = 'fNtoQI4_wDq21w';
 module.exports = function() {
     function get_device_id(callback) {
         chrome.storage.local.get('device_id', function(obj) {
-            if (chrome.runtime.lastError) {
-                return callback(chrome.runtime.lastError);
-            }
-            if (obj.device_id) {
-                return callback(null, obj.device_id);
-            }
-            obj = { device_id: _.times(25, _.partial(_.sample, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', 1, 1)).join('') };
-            chrome.storage.local.set(obj, function() {
-                callback(chrome.runtime.lastError, obj.device_id);
-            });
+            callback(chrome.runtime.lastError, obj.device_id);
         });
     }
 
