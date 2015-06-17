@@ -54,7 +54,7 @@
 			<b>Tags</b>
 			<span ng-if="!(data.content.accounts | filter:{ reason: 'tag' }).length">None</span>
 			<div class="card-stats-container">
-				<div class="card-stats-tag" ng-href="{{:: tag | generateUrl }}" ng-repeat="tag in data.content.accounts | filter:{ reason: 'tag' }">
+				<div class="card-stats-tag" ng-href="{{:: tag | generateUrl }}" ng-repeat="tag in data.content.accounts | filter:{ reason: 'tag' }" ng-class="'card-stats-tag-' + ($index % 6)">
 					<div class="card-stats-tag-img" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
 					<div class="card-stats-tag-name">
 						<div class="tag-full-image" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
