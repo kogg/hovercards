@@ -1,3 +1,4 @@
+require('./google-analytics-background')();
 require('./service-background')();
 
 chrome.browserAction.onClicked.addListener(function(tab) {

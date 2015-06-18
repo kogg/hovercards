@@ -36,7 +36,7 @@ describe('people-directive', function() {
             expect($rootScope.data).to.have.property('accounts').that.has.property('first-api/account/FIRST_ID/');
             expect($rootScope.data.accounts['first-api/account/FIRST_ID/']).not.to.have.property('$resolved');
             chrome.runtime.sendMessage
-                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .withArgs({ type: 'service', request: { api: 'first-api', type: 'account', id: 'FIRST_ID' } })
                 .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID', key: 'value' }]);
             $rootScope.$digest();
             expect($rootScope.data.accounts['first-api/account/FIRST_ID/']).to.have.property('$resolved', true);
@@ -47,7 +47,7 @@ describe('people-directive', function() {
             $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
             $rootScope.$digest();
             chrome.runtime.sendMessage
-                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .withArgs({ type: 'service', request: { api: 'first-api', type: 'account', id: 'FIRST_ID' } })
                 .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID', key: 'value' }]);
             $rootScope.$digest();
             expect($rootScope.data.accounts['first-api/account/FIRST_ID/']).to.have.property('$resolved', true);
@@ -60,7 +60,7 @@ describe('people-directive', function() {
             $rootScope.entry.accounts.push({ api: 'first-api', type: 'account', id: 'FIRST_ID' });
             $rootScope.$digest();
             chrome.runtime.sendMessage
-                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .withArgs({ type: 'service', request: { api: 'first-api', type: 'account', id: 'FIRST_ID' } })
                 .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID',
                                 connected: [{ api: 'second-api', type: 'account', id: 'SECOND_ID' },
                                             { api: 'third-api',  type: 'account', id: 'THIRD_ID' }] }]);
@@ -82,10 +82,10 @@ describe('people-directive', function() {
             $rootScope.entry.accounts.push({ api: 'second-api', type: 'account', id: 'SECOND_ID' });
             $rootScope.$digest();
             chrome.runtime.sendMessage
-                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .withArgs({ type: 'service', request: { api: 'first-api', type: 'account', id: 'FIRST_ID' } })
                 .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID' }]);
             chrome.runtime.sendMessage
-                .withArgs({ api: 'second-api', type: 'account', id: 'SECOND_ID' })
+                .withArgs({ type: 'service', request: { api: 'second-api', type: 'account', id: 'SECOND_ID' } })
                 .yield([null, { api: 'second-api', type: 'account', id: 'SECOND_ID' }]);
             $rootScope.$digest();
 
@@ -124,7 +124,7 @@ describe('people-directive', function() {
                         .to.have.property('still-waiting', true);
 
             chrome.runtime.sendMessage
-                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .withArgs({ type: 'service', request: { api: 'first-api', type: 'account', id: 'FIRST_ID' } })
                 .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID' }]);
             $rootScope.$digest();
 
@@ -145,7 +145,7 @@ describe('people-directive', function() {
             $rootScope.entry.accounts.push({ api: 'third-api', type: 'account', id: 'THIRD_ID' });
             $rootScope.$digest();
             chrome.runtime.sendMessage
-                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .withArgs({ type: 'service', request: { api: 'first-api', type: 'account', id: 'FIRST_ID' } })
                 .yield([{ status: 400 }]);
             $rootScope.$digest();
 
@@ -155,7 +155,7 @@ describe('people-directive', function() {
                     .and.to.have.property('$err');
 
             chrome.runtime.sendMessage
-                .withArgs({ api: 'second-api', type: 'account', id: 'SECOND_ID' })
+                .withArgs({ type: 'service', request: { api: 'second-api', type: 'account', id: 'SECOND_ID' } })
                 .yield([null, { api: 'second-api', type: 'account', id: 'SECOND_ID' }]);
             $rootScope.$digest();
 
@@ -165,7 +165,7 @@ describe('people-directive', function() {
                     .and.not.to.have.property('$err');
 
             chrome.runtime.sendMessage
-                .withArgs({ api: 'third-api', type: 'account', id: 'THIRD_ID' })
+                .withArgs({ type: 'service', request: { api: 'third-api', type: 'account', id: 'THIRD_ID' } })
                 .yield([{ status: 400 }]);
             $rootScope.$digest();
 
@@ -180,10 +180,10 @@ describe('people-directive', function() {
             $rootScope.entry.accounts.push({ api: 'second-api', type: 'account', id: 'SECOND_ID' });
             $rootScope.$digest();
             chrome.runtime.sendMessage
-                .withArgs({ api: 'second-api', type: 'account', id: 'SECOND_ID' })
+                .withArgs({ type: 'service', request: { api: 'second-api', type: 'account', id: 'SECOND_ID' } })
                 .yield([null, { api: 'second-api', type: 'account', id: 'SECOND_ID' }]);
             chrome.runtime.sendMessage
-                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .withArgs({ type: 'service', request: { api: 'first-api', type: 'account', id: 'FIRST_ID' } })
                 .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID' }]);
             $rootScope.$digest();
 
@@ -200,15 +200,15 @@ describe('people-directive', function() {
             $rootScope.entry.accounts.push({ api: 'third-api', type: 'account', id: 'THIRD_ID' });
             $rootScope.$digest();
             chrome.runtime.sendMessage
-                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .withArgs({ type: 'service', request: { api: 'first-api', type: 'account', id: 'FIRST_ID' } })
                 .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID',
                                 connected: [{ api: 'third-api', type: 'account', id: 'THIRD_ID' }] }]);
             chrome.runtime.sendMessage
-                .withArgs({ api: 'second-api', type: 'account', id: 'SECOND_ID' })
+                .withArgs({ type: 'service', request: { api: 'second-api', type: 'account', id: 'SECOND_ID' } })
                 .yield([null, { api: 'second-api', type: 'account', id: 'SECOND_ID',
                                 connected: [{ api: 'third-api', type: 'account', id: 'THIRD_ID' }] }]);
             chrome.runtime.sendMessage
-                .withArgs({ api: 'third-api', type: 'account', id: 'THIRD_ID' })
+                .withArgs({ type: 'service', request: { api: 'third-api', type: 'account', id: 'THIRD_ID' } })
                 .yield([null, { api: 'third-api', type: 'account', id: 'THIRD_ID' }]);
             $rootScope.$digest();
 
@@ -231,13 +231,13 @@ describe('people-directive', function() {
             $rootScope.entry.accounts.push({ api: 'third-api', type: 'account', id: 'THIRD_ID' });
             $rootScope.$digest();
             chrome.runtime.sendMessage
-                .withArgs({ api: 'first-api', type: 'account', id: 'FIRST_ID' })
+                .withArgs({ type: 'service', request: { api: 'first-api', type: 'account', id: 'FIRST_ID' } })
                 .yield([null, { api: 'first-api', type: 'account', id: 'FIRST_ID' }]);
             chrome.runtime.sendMessage
-                .withArgs({ api: 'second-api', type: 'account', id: 'SECOND_ID' })
+                .withArgs({ type: 'service', request: { api: 'second-api', type: 'account', id: 'SECOND_ID' } })
                 .yield([null, { api: 'second-api', type: 'account', id: 'SECOND_ID' }]);
             chrome.runtime.sendMessage
-                .withArgs({ api: 'third-api', type: 'account', id: 'THIRD_ID' })
+                .withArgs({ type: 'service', request: { api: 'third-api', type: 'account', id: 'THIRD_ID' } })
                 .yield([null, { api: 'third-api', type: 'account', id: 'THIRD_ID',
                                 connected: [{ api: 'first-api', type: 'account', id: 'FIRST_ID' },
                                             { api: 'second-api', type: 'account', id: 'SECOND_ID' }] }]);
