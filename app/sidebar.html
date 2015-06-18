@@ -27,9 +27,9 @@
 						<div class="row">
 							<div class="col-11">
 								<div class="network-picker">
+									<div class="network-circle network-circle-reddit network-not-found"></div>
+									<div class="network-circle network-circle-youtube current-network"></div>
 									<div class="network-circle network-circle-twitter"></div>
-									<div class="network-circle network-circle-youtube"></div>
-									<div class="network-circle network-circle-reddit"></div>
 								</div>
 								<span>{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} <span class="no-left" ng-if="data.discussion.count">({{ data.discussion.count | numsmall }})</span></span>
 							</div>
