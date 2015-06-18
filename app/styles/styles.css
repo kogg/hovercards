@@ -1103,8 +1103,7 @@ b i, .iconic-push {
 /*comment-picker*/
 .network-picker, .network-pick {
 	display: inline;
-	margin-right: 18px;
-	letter-spacing: -16px;
+	margin-right: 0px;
 	cursor: default;
 	vertical-align: top;
 	position: relative;
@@ -1112,6 +1111,7 @@ b i, .iconic-push {
 }
 .network-pick {
 	left: 0px;
+	margin-right: 4px;
 }
 .network-picker:hover {
 	margin-right: 4px;
@@ -1129,6 +1129,7 @@ b i, .iconic-push {
 	position: relative;
 	left: -1px;
 	transition:all .2s ease-in-out;
+	margin-right: -17px;
 	border:1px solid rgba(255,255,255,1);
 }
 .network-picker .network-circle:nth-of-type(1) {
@@ -1151,17 +1152,26 @@ b i, .iconic-push {
 }
 .network-picker .network-not-found {
 	opacity: .4;
-	position: absolute;
+	margin-right: -21px;
+}
+.current-network + .network-not-found {
+  margin-right: -4px;
 }
 .network-picker:hover .network-not-found {
 	position: relative;
+	margin-right: 0px;
+	left: 0;
 }
 .network-picker:hover .network-circle {
 	border:1px solid rgba(255,255,255,0);
+	margin-right: 0px;
 }
 .network-picker .network-circle:hover {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 	cursor: pointer;
+}
+.network-picker .network-circle:last-of-type, .network-pick .network-circle:last-of-type {
+	margin-right: 0px;
 }
 .network-circle-options {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/network-options.png');
