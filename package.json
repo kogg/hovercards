@@ -21,9 +21,9 @@
     "dotdotdot": "^1.7.0",
     "jquery": "^2.1.3",
     "jquery-ui": "^1.10.5",
-    "moment": "^2.10.2",
+    "moment": "^2.10.3",
     "perfect-scrollbar": "^0.6.2",
-    "slick-carousel": "^1.5.2",
+    "slick-carousel": "^1.5.5",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
