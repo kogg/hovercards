@@ -615,6 +615,7 @@ b i, .iconic-push {
   display: inline;
   position: relative;
   z-index: 2;
+  line-height: 21px;
 }
 .video-title a:hover {
 	text-decoration: underline;
@@ -858,7 +859,6 @@ b i, .iconic-push {
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
 	background: #fff;
-	overflow: hidden;
 	background-size: 16px;
 	background-repeat: no-repeat;
 	background-position: 16px 15px;
@@ -866,7 +866,7 @@ b i, .iconic-push {
 .context-top .inline-row, .context-top .row {
 	padding: 16px;
 }
-.context-top .row .col-10, .context-top .row .col-11 {
+.context-top .row .col-10, .context-top .row .col-11, .context-top .inline-row {
 	line-height: 18px;
 }
 .context-top .row .col-9 {
@@ -1108,6 +1108,9 @@ b i, .iconic-push {
 	position: relative;
 	transition:all .3s ease-in-out;
 }
+.network-picker {
+	margin-left: 1px;
+}
 .network-pick {
 	left: 0px;
 	margin-right: 4px;
@@ -1126,7 +1129,6 @@ b i, .iconic-push {
 	background-position: center;
 	background-repeat: no-repeat;
 	position: relative;
-	left: -1px;
 	transition:all .2s ease-in-out;
 	margin-right: -17px;
 	border:1px solid rgba(255,255,255,1);
@@ -1187,8 +1189,31 @@ b i, .iconic-push {
 .network-circle-instagram {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');	
 }
-.test {
-	position: absolute;
+.network-share-dropdown {
+  position: absolute;
+  top: 64px;
+  left: 8px;
+  background-color: #FFF;
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  transform: translate(-50%, -42px);
+  padding: 8px;
+  white-space: nowrap;
+  color: #727272;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  display: none;
+  z-index: 2;
+  text-align: center;
+  width: 130px;
+  padding: 16px;
+}
+.network-not-found:hover {
+	opacity: 1;
+}
+.network-not-found:hover .network-share-dropdown {
+	display: block;
 }
 /*No Comments*/
 .no-comments {	
@@ -1289,6 +1314,7 @@ b i, .iconic-push {
   display: inline;
   position: relative;
   z-index: 2;
+  line-height: 21px;
 }
 .reddit-header-container a:hover {
 	text-decoration: underline;
