@@ -715,17 +715,12 @@ b i, .iconic-push {
 .user-context-container {
 	padding-bottom: 5px;
 }
-.user-context div {
-	max-width: 220px;
-	padding-left: 22px;
-	display: inline-block;
-	color: #727272
-}
 .user-context div a {
   text-decoration: none;
   font-size: 12px;
   font-weight: 600;
 	display: inline;
+	vertical-align: top;
 	padding-right: 2px !important;
 }
 .user-context div b a, .reddit-title .user-context b a  {
@@ -743,7 +738,6 @@ b i, .iconic-push {
 }
 .user-context div {
 	position: relative;
-	margin-top: 2px;
 }
 .user-context-container .user-context div {
 	margin-bottom: 0
@@ -861,6 +855,8 @@ b i, .iconic-push {
 	border-bottom: 1px solid rgba(0,0,0,.15);
 	border-top-left-radius: 3px !important;
   border-top-right-radius: 3px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
 	background: #fff;
 	overflow: hidden;
 	background-size: 16px;
@@ -872,7 +868,7 @@ b i, .iconic-push {
 	padding: 16px;
 }
 .context-top .row .col-10, .context-top .row .col-11 {
-	line-height: 16px;
+	line-height: 18px;
 }
 .context-top .row .col-9 {
 	position: relative;
@@ -1112,41 +1108,63 @@ b i, .iconic-push {
 	cursor: default;
 	vertical-align: top;
 	position: relative;
-	left: -2px;
 	transition:all .3s ease-in-out;
 }
 .network-pick {
 	left: 0px;
-	margin-right: 20px;
 }
 .network-picker:hover {
 	margin-right: 4px;
 	letter-spacing: 0;
 }
 .network-circle {
-	width: 16px;
-	height: 16px;
+	width: 18px;
+	height: 18px;
 	border-radius: 50%;
-	background: black;
 	position: relative;
 	display: inline-block;
 	background-size: 100%;
 	background-position: center;
-	cursor: pointer;
+	background-repeat: no-repeat;
+	position: relative;
+	left: -1px;
 	transition:all .2s ease-in-out;
+	border:1px solid rgba(255,255,255,1);
 }
-.network-circle:hover {
-  transform: scale(2);
-  -webkit-transform: scale(2);
+.network-picker .network-circle:nth-of-type(1) {
+	z-index: 5;
+}
+.network-picker .network-circle:nth-of-type(2) {
+	z-index: 4;
+}
+.network-picker .network-circle:nth-of-type(3) {
+	z-index: 3;
+}
+.network-picker .network-circle:nth-of-type(4) {
+	z-index: 2;
+}
+.network-picker .network-circle:nth-of-type(5) {
+	z-index: 1;
+}
+.network-picker .current-network {
+	z-index: 6 !important;
+}
+.network-picker .network-not-found {
+	opacity: .4;
+	position: absolute;
+}
+.network-picker:hover .network-not-found {
+	position: relative;
+}
+.network-picker:hover .network-circle {
+	border:1px solid rgba(255,255,255,0);
+}
+.network-picker .network-circle:hover {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	cursor: pointer;
 }
-.network-circle:hover:last-of-type {
-	transform:none;
-	-webkit-transform:none;
-	box-shadow: none;
-}
-.network-circle:last-of-type {
-	cursor: default;
+.network-circle-options {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/network-options.png');
 }
 .network-circle-youtube {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
@@ -1265,10 +1283,6 @@ b i, .iconic-push {
 }
 .reddit-header-cover {
 	background-color: white;
-  background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png');
-  background-size: 16px;
-  background-repeat: no-repeat;
-  background-position: 16px 17px;
 	position: absolute;
 	top: -32px;
 	width: 298px;
@@ -1317,7 +1331,9 @@ b i, .iconic-push {
 	display: none;
 	position: absolute;
 	width: 100%;
-	top: -16px;
+	top: -18px;
+	background: white;
+	z-index: 7;
 	opacity: 0;
 	-webkit-animation-duration: .8s;
   animation-duration: .8s;
@@ -1326,7 +1342,19 @@ b i, .iconic-push {
 	-webkit-animation-name: headerfadeIndelay; 
 	animation-name: headerfadeIndelay; 
 } 
-
+.user-context .network-circle {
+	left: -3px;
+	border: 1px solid white;
+	z-index: 4;
+}
+.reddit-header-container .user-context:after {
+  content: "";
+  width: 40px;
+  height: 29px;
+  left: -9px;
+  background: #FFF;
+  position: absolute
+}
 @-webkit-keyframes headerfadeIndelay { 
     0% {
     	opacity: 0;
