@@ -38,7 +38,7 @@ module.exports = function(listen_on, inject_into, selector, offset, get_url) {
             .addClass(extension_id + '-yo-notify-' + identity.api)
             .offset({ top: obj_offset.top + offset.top, left: obj_offset.left + offset.left })
             .click(function() {
-                trigger.trigger('yo', [url]);
+                trigger.trigger('embedclick', [url]);
                 trigger.addClass(extension_id + '-yo-notify-clicked');
             })
             .mouseenter(function() {
