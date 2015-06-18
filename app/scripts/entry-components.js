@@ -32,7 +32,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                     });
                     $timeout(function() {
                         var identity = request.identity;
-                        $scope.entry = { type: identity.type };
+                        $scope.entry = { type: identity.type, time: _.now() };
                         switch (identity.type) {
                             case 'content':
                                 $scope.entry.content = identity;

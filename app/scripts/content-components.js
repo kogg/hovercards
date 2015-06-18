@@ -8,7 +8,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                 $scope.data.content = null;
                 return;
             }
+            var time = $scope.entry.time;
             $scope.data.content = apiService.get(request);
+            $scope.data.content.$promise.finally(function() {
+                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'content', 'Time to Show', _.now() - time, [request.api, request.id, request.as].join('/')] });
+            });
         });
 
         $scope.$watch('data.content.$resolved && !data.content.$err && entry && entry.type !== "url" && data.content', function(content) {
