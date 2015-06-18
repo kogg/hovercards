@@ -24,10 +24,12 @@
 			<div ng-controller="DiscussionController">
 				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || data.discussion.$err">
 					<div class="context-top">
-						<div class="row">
+						<div class="inline-row">
 							<div class="col-11">
 								<div class="network-picker">
-									<div class="network-circle network-circle-reddit network-not-found"></div>
+									<div class="network-circle network-circle-reddit network-not-found">
+										<div class="test">test</div>
+									</div>
 									<div class="network-circle network-circle-youtube current-network"></div>
 									<div class="network-circle network-circle-twitter"></div>
 								</div>

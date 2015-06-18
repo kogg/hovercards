@@ -863,8 +863,7 @@ b i, .iconic-push {
 	background-repeat: no-repeat;
 	background-position: 16px 15px;
 }
-.context-top .row {
-	overflow: hidden;
+.context-top .inline-row, .context-top .row {
 	padding: 16px;
 }
 .context-top .row .col-10, .context-top .row .col-11 {
@@ -1187,6 +1186,9 @@ b i, .iconic-push {
 }
 .network-circle-instagram {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');	
+}
+.test {
+	position: absolute;
 }
 /*No Comments*/
 .no-comments {	
