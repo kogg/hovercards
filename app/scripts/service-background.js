@@ -8,48 +8,55 @@ var ENDPOINT = 'https://' + chrome.i18n.getMessage('app_short_name') + '.herokua
 var INSTAGRAM_KEY = '4ffac410cfbf40f59be866c63d5fe37e';
 var REDDIT_KEY = 'fNtoQI4_wDq21w';
 
-module.exports = function() {
-    var client_side_authenticators = {
-        instagram: function(callback) {
-            chrome.identity.launchWebAuthFlow({ url:         'https://instagram.com/oauth/authorize/?client_id=' + INSTAGRAM_KEY +
-                                                             '&redirect_uri=https://' + chrome.i18n.getMessage('@@extension_id') + '.chromiumapp.org/callback' +
-                                                             '&response_type=token',
-                                                interactive: true },
-                function(redirect_url) {
-                    if (chrome.runtime.lastError) {
-                        return callback(_.extend({ status: 401 }, chrome.runtime.lastError));
-                    }
-                    callback(null, URI(redirect_url).hash().split('=')[1]);
-                });
-        }
-    };
-
-    var initialize_client_callers = {
-        instagram: function(callback) {
-            chrome.storage.sync.get('instagram_user', function(obj) {
+var client_side_authenticators = {
+    instagram: function(callback) {
+        chrome.identity.launchWebAuthFlow({ url:         'https://instagram.com/oauth/authorize/?client_id=' + INSTAGRAM_KEY +
+                                                         '&redirect_uri=https://' + chrome.i18n.getMessage('@@extension_id') + '.chromiumapp.org/callback' +
+                                                         '&response_type=token',
+                                            interactive: true },
+            function(redirect_url) {
                 if (chrome.runtime.lastError) {
-                    return callback(chrome.runtime.lastError);
+                    return callback(_.extend({ status: 401 }, chrome.runtime.lastError));
                 }
-                if (!obj.instagram_user) {
-                    return callback();
-                }
-                return callback(null, require('YoCardsAPICalls/instagram')({ user: obj.instagram_user }));
+                callback(null, URI(redirect_url).hash().split('=')[1]);
             });
-        },
-        reddit: function(callback) {
-            async.waterfall([
-                function(callback) {
-                    chrome.storage.local.get('device_id', function(obj) {
-                        callback(chrome.runtime.lastError, obj.device_id);
-                    });
-                },
-                function(device_id, callback) {
-                    callback(null, require('YoCardsAPICalls/reddit')({ key: REDDIT_KEY, device: device_id }));
-                }
-            ], callback);
-        }
-    };
+    }
+};
 
+var initialize_client_callers = {
+    instagram: function(callback) {
+        chrome.storage.sync.get('instagram_user', function(obj) {
+            if (chrome.runtime.lastError) {
+                return callback(chrome.runtime.lastError);
+            }
+            if (!obj.instagram_user) {
+                return callback();
+            }
+            return callback(null, require('YoCardsAPICalls/instagram')({ user: obj.instagram_user }));
+        });
+    },
+    reddit: function(callback) {
+        async.waterfall([
+            function(callback) {
+                chrome.storage.local.get('device_id', function(obj) {
+                    if (chrome.runtime.lastError) {
+                        return callback(chrome.runtime.lastError);
+                    }
+                    if (!obj.device_id) {
+                        obj = { device_id: _.times(25, _.partial(_.sample, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', 1, 1)).join('') };
+                        chrome.storage.local.set(obj);
+                    }
+                    callback(null, obj.device_id);
+                });
+            },
+            function(device_id, callback) {
+                callback(null, require('YoCardsAPICalls/reddit')({ key: REDDIT_KEY, device: device_id }));
+            }
+        ], callback);
+    }
+};
+
+module.exports = function() {
     async.parallel(initialize_client_callers, function(err, client_callers) {
         if (err) {
             return console.error(err);
@@ -104,7 +111,14 @@ module.exports = function() {
                 async.parallel({
                     device_id: function(callback) {
                         chrome.storage.local.get('device_id', function(obj) {
-                            callback(chrome.runtime.lastError, obj.device_id);
+                            if (chrome.runtime.lastError) {
+                                return callback(chrome.runtime.lastError);
+                            }
+                            if (!obj.device_id) {
+                                obj = { device_id: _.times(25, _.partial(_.sample, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', 1, 1)).join('') };
+                                chrome.storage.local.set(obj);
+                            }
+                            callback(null, obj.device_id);
                         });
                     },
                     user: function(callback) {
