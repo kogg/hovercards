@@ -70,16 +70,14 @@ if (window.top !== window) {
 }
 
 html.on('longpress', function(e, url) {
-    window.top.postMessage({ msg: 'activate', url: url }, '*');
+    window.top.postMessage({ msg: 'activate', by: 'longpress', url: url }, '*');
     var trigger = $(e.target).data(extension_id + '-yo-trigger');
     if (trigger) {
         trigger.addClass(extension_id + '-yo-notify-clicked');
         clearTimeout(trigger.data(extension_id + '-yo-trigger-timeout'));
     }
-    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'trigger', 'longpress', url] });
 });
 
 html.on('embedclick', function(e, url) {
-    window.top.postMessage({ msg: 'activate', url: url }, '*');
-    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'trigger', 'embedclick', url] });
+    window.top.postMessage({ msg: 'activate', by: 'embedclick', url: url }, '*');
 });
