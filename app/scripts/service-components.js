@@ -23,7 +23,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                     var timeout = $timeout(function() {
                         object.$err = { 'still-waiting': true, 'api-specific': true };
                     }, 5000);
-                    chrome.runtime.sendMessage({ type: 'service', request: params}, function(response) {
+                    chrome.runtime.sendMessage({ type: 'service', request: params }, function(response) {
                         $timeout.cancel(timeout);
                         delete object.$err;
                         if (!response) {

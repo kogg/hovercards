@@ -1,3 +1,4 @@
+var _            = require('underscore');
 var $            = require('jquery');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
@@ -100,24 +101,8 @@ module.exports = function sidebar() {
                 if (!possible_identity) {
                     possible_identity = { type: 'url', id: request.url };
                 }
-                var equal = (function(identity_1, identity_2) {
-                    if (!identity_1 || !identity_2) {
-                        return false;
-                    }
-                    var keys_1 = Object.keys(identity_1);
-                    var keys_2 = Object.keys(identity_2);
-                    if (keys_1.length !== keys_2.length) {
-                        return false;
-                    }
-                    for (var i in keys_1) {
-                        if (identity_1[keys_1[i]] !== identity_2[keys_2[i]]) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }(possible_identity, identity));
                 var msg;
-                if (equal) {
+                if (_.isEqual(possible_identity, identity)) {
                     msg = { msg: 'hide' };
                     identity = null;
                 } else {
