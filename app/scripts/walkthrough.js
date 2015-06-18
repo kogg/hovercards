@@ -218,7 +218,7 @@ module.exports = function walkthrough() {
         if (chrome.runtime.lastError) {
             return;
         }
-        if (obj.walkthrough_stage_0 >= stages.length) {
+        if (obj.walkthrough_stage_0 >= 3) {
             return;
         }
         $('head').append('<link rel="stylesheet" type="text/css" href="' + chrome.extension.getURL('styles/walkthrough.css') + '">');
