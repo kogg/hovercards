@@ -1137,7 +1137,9 @@ b i, .iconic-push {
 	opacity: 1;
 }
 .network-picker:hover .current-network {
-	box-shadow:0 2px 7px 0 rgba(0, 0, 0, 0.19), 0 3px 6px 0 rgba(0, 0, 0, 0.2)
+	box-shadow:0 2px 7px 0 rgba(0, 0, 0, 0.19), 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+	transform: scale(1.2);
+	-webkit-transform: scale(1.2);
 }
 .network-picker .network-circle:nth-of-type(1) {
 	z-index: 5;
