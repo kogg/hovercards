@@ -97,18 +97,4 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
             }
         };
     }])
-    .directive('loading', ['apiService', function(apiService) {
-        return {
-            restrict: 'A',
-            scope: {
-                loading: '='
-            },
-            link: function($scope) {
-                $scope.service = apiService;
-                $scope.$watch('!!service.loading.length', function(loading) {
-                    $scope.loading = loading;
-                });
-            }
-        };
-    }])
     .name;

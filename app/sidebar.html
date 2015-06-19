@@ -9,7 +9,7 @@
 </head>
 <body class="ng-cloak" ng-cloak ng-class="{ 'fullscreen-active': view.fullscreen }" stored="order" name="order" default="[]">
 	<div ng-controller="EntryController">
-		<div class="fade-out-animation" ng-show="loading" loading="loading">
+		<div class="fade-out-animation" ng-show="service.loading.length">
 			<div class="loader">
 				<div class="colored"></div>
 			</div>

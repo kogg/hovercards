@@ -3,6 +3,8 @@ var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [require('./service-components')])
     .controller('EntryController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
+        $scope.service = apiService;
+
         chrome.storage.sync.get('order', function(obj) {
             if (!obj.order) {
                 obj.order = [];
