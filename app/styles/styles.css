@@ -1096,6 +1096,7 @@ b i, .iconic-push {
 #sortable .selected span {
 
 }
+/*
 #sortable .selected:after {
 	content:"\2714";
 	width: 30px;
@@ -1155,7 +1156,7 @@ b i, .iconic-push {
         transform: scale(1); 
     } 
 } 
-
+*/
 .ui-state-highlight {
 	height: 30px;
 	border:1px dashed rgba(0,0,0,.15);
