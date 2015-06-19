@@ -630,18 +630,18 @@ b i, .iconic-push {
 }
 .video-cta {
 	right: 16px;
-	bottom: -22px;
-	width: 46px;
-	height: 46px;
-	line-height: 46px;
-	border-radius: 50%;
-	text-align: center;
-	font-size: 25px;
-	background: #F44336;
-	color: white;
-	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-	z-index: 3;
-	position: absolute;
+  bottom: -17px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 21px;
+  background: #F44336;
+  color: #FFF;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  z-index: 3;
+  position: absolute;
 }
 .video-cta:hover {
 	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0.24);
@@ -1020,7 +1020,7 @@ b i, .iconic-push {
 	border-radius: 0 3px 3px 0;
 }
 #sortable li {
-	padding: 0px 14px;
+	padding: 0px 12px;
 	line-height: 30px;
 	background: white;
 	position: relative;
