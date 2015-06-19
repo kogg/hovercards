@@ -338,6 +338,8 @@ b i, .iconic-push {
 	color: #2196F3;
   text-decoration: none;
 	font-size: 12px;
+	display: block;
+	margin-top: 4px;
   font-weight: 600
 }
 .card-stats-tag-4 .card-stats-tag-name:before, .card-stats-tag-4 .card-stats-tag-name:after {
@@ -349,17 +351,24 @@ b i, .iconic-push {
 .card-stats-tag-name .profile-cta {
 	position: relative;
 	bottom: inherit;
-	margin-top: 8px;
-}
-.card-stats-tag-name .profile-cta a {
-	border-radius: 20px;
-	padding: 5px 12px 5px 35px;
-	margin-top: 16px;
-
+  max-width: 0px;
+  margin: 8px 10px 0px 7px;
+	overflow: visible;
 }
 .card-stats-tag-name a:hover {
 	text-decoration: underline;
 }
+.card-stats-tag-name .profile-cta a {
+	border-radius: 20px;
+	margin-top: 8px;
+	transition: all .3s ease-in-out !important;
+}
+.card-stats-tag-name .profile-cta a:hover {
+	text-decoration: none;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+	-webkit-transform: scale(1.1) !important;
+}
+
 .card-stats-tag:hover .card-stats-tag-name {
 	display: block;
 }
@@ -675,6 +684,7 @@ b i, .iconic-push {
 	background: white;
 	left: 0;
 	width: 100%;
+	position: relative;
 }
 .comment .user-context span.ellipsis {
 	display: inline-block;
@@ -861,6 +871,7 @@ b i, .iconic-push {
 	background-size: 16px;
 	background-repeat: no-repeat;
 	background-position: 16px 15px;
+	position: relative;
 }
 .context-top .inline-row, .context-top .row {
 	padding: 16px;
@@ -948,16 +959,43 @@ b i, .iconic-push {
 /*Comments Menu*/
 .menu {
 	clear: both;
+	position: absolute;
+	width: 104%;
+	z-index: 5;
+	background: white;
+	border-radius: 3px;
+	top: 41px;
+	left: -5px;
+	box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+}
+.menu:before {
+	content: "";
+  position: absolute;
+  top: -4px;
+  left: 92%;
+  margin-left: -4px;
+  width: 8px;
+  height: 8px;
+  background: #727272;
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  transform: rotate(-135deg);
 }
 .menu-description {
-	background: #FFF9C4;
-	border-top: 1px solid rgba(0,0,0,.15);
+	float: left;
+	width: 60%;
+	padding: 18px 16px;
+}
+.menu-description h2 {
+	font-size: 19px;
+  color: #000;
+  font-weight: 400;
 }
 .menu-description p {
 	line-height: 19px;
   font-weight: 400;
   font-size: 15px;
   color: #727272;
+  margin-top: 8px;
 }
 .menu-description .col-2 {
 	text-align: right;
@@ -974,18 +1012,20 @@ b i, .iconic-push {
 	margin: 0;
 	padding: 0;
 	width: 100%;
-	border:2px solid #e5e5e5;
-	background:#e5e5e5;
+	border:2px solid #727272;
+	background:#727272;
 	overflow-y:hidden;
+	float: right;
+	width: 40%;
+	border-radius: 0 3px 3px 0;
 }
 #sortable li {
-	padding: 15px 16px;
+	padding: 8px 16px;
 	background: white;
 	position: relative;
 	margin-bottom:2px;
 	border-radius: 3px;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/grabbable.png');
-	height: 50px !important;
 	background-size: auto 42%;
   background-position: 05px center;
   background-repeat: no-repeat;
@@ -996,8 +1036,8 @@ b i, .iconic-push {
 }
 #sortable li b {
 	position: absolute;
-	height: 50px;
 	width: 16px;
+	height: 29px;
 	display: block;
 	left: 0;
 	top: 0;
@@ -1014,7 +1054,7 @@ b i, .iconic-push {
 }
 #sortable li span {
 	color: #727272;
-	font-size: 16px;
+	font-size: 12px;
 	font-weight: 500
 }
 #sortable li:hover {
@@ -1036,12 +1076,12 @@ b i, .iconic-push {
 #sortable .selected:after {
 	content:"\2714";
 	width: 30px;
-	height: 50px;
+	height: 30px;
   line-height: inherit;
-  font-size: 16px;
+  font-size: 12px;
   text-align: right;
   vertical-align: bottom;
-	line-height: 50px;
+	line-height: 30px;
 	position: absolute;
 	right: 16px;
 	top: 0;
@@ -1094,13 +1134,13 @@ b i, .iconic-push {
 } 
 
 .ui-state-highlight {
-	height: 50px;
+	height: 30px;
 	border:1px dashed rgba(0,0,0,.15);
 	background: #e5e5e5 !important;
 } 
 /*comment-picker*/
 .network-picker, .network-pick {
-	display: inline;
+	display: inline-block;
 	margin-right: 0px;
 	cursor: default;
 	vertical-align: top;
@@ -1121,7 +1161,6 @@ b i, .iconic-push {
 	width: 17px;
 	height: 17px;
 	border-radius: 50%;
-	position: relative;
 	display: inline-block;
 	background-size: 100%;
 	background-position: center;
@@ -1131,18 +1170,15 @@ b i, .iconic-push {
 	transition:all .3s ease-in-out;
 }
 .network-picker .network-circle {
-	opacity: .6;
 }
 .network-picker:hover .network-circle {
 	opacity: 1;
 }
 .network-picker:hover .current-network {
 	box-shadow:0 2px 7px 0 rgba(0, 0, 0, 0.19), 0 3px 6px 0 rgba(0, 0, 0, 0.2);
-	transform: scale(1.2);
-	-webkit-transform: scale(1.2);
 }
 .network-picker .network-circle:nth-of-type(1) {
-	z-index: 5;
+
 }
 .network-picker .network-circle:nth-of-type(2) {
 	z-index: 4;
