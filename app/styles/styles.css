@@ -973,9 +973,9 @@ b i, .iconic-push {
   position: absolute;
   top: -4px;
   left: 92%;
-  margin-left: -4px;
-  width: 8px;
-  height: 8px;
+  margin-left: -6px;
+  width: 11px;
+  height: 11px;
   background: #727272;
   box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
   transform: rotate(-135deg);
@@ -1020,7 +1020,8 @@ b i, .iconic-push {
 	border-radius: 0 3px 3px 0;
 }
 #sortable li {
-	padding: 8px 16px;
+	padding: 0px 14px;
+	line-height: 30px;
 	background: white;
 	position: relative;
 	margin-bottom:2px;
@@ -1055,7 +1056,29 @@ b i, .iconic-push {
 #sortable li span {
 	color: #727272;
 	font-size: 12px;
-	font-weight: 500
+	font-weight: 500;
+	text-indent: 21px;
+	background-size: 17px;
+	background-position: left center;
+	background-repeat: no-repeat;
+}
+#sortable li span.Reddit-circle-image {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png');
+}
+#sortable li span.Instagram-circle-image {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Instagram-icon-full_color.png');
+}
+#sortable li span.Youtube-circle-image {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Youtube-icon-full_color.png');
+}
+#sortable li span.Twitter-circle-image {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
+}
+#sortable li span.Imgur-circle-image {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Imgur-icon-full_color.png');
+}
+#sortable li span.Producthunt-circle-image {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Producthunt-icon-full_color.png');
 }
 #sortable li:hover {
 	cursor: pointer !important;
@@ -1071,7 +1094,7 @@ b i, .iconic-push {
   cursor: -webkit-grabbing !important
 }
 #sortable .selected span {
-	color: #000;
+
 }
 #sortable .selected:after {
 	content:"\2714";
@@ -2379,7 +2402,7 @@ b i, .iconic-push {
 /*sharing content*/
 .share-container {
 	position: absolute;
-	right: 18px;
+	right: -2px;
   top: -2px;
 }
 .fold {
