@@ -10,19 +10,14 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
             }
             var entry = $scope.entry;
             $scope.data.content = apiService.get(request);
-            if (entry.type === 'url') {
-                return;
-            }
             $scope.data.content.$promise.then(function(content) {
                 if (!content) {
                     return;
                 }
-
                 entry.discussions = _.chain(content.discussions)
                                      .indexBy('api')
                                      .extend(entry.discussions)
                                      .value();
-
                 entry.accounts = _.chain(entry.accounts)
                                   .union(content.accounts)
                                   .sortBy(function(account) {
