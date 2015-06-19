@@ -10,36 +10,33 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
             }
             var entry = $scope.entry;
             $scope.data.content = apiService.get(request);
-            if (entry.type !== 'url') {
-                $scope.data.content.$promise.then(function(content) {
-                    if (!content) {
-                        return;
-                    }
-
-                    if (content.discussions && content.discussions.length) {
-                        entry.discussions = _.chain(content.discussions)
-                                             .indexBy('api')
-                                             .extend(entry.discussions)
-                                             .value();
-                    }
-
-                    if (content.accounts && content.accounts.length) {
-                        entry.accounts = _.chain(entry.accounts)
-                                          .union(content.accounts)
-                                          .sortBy(function(account) {
-                                              var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
-                                              if (pos === -1) {
-                                                  pos = Infinity;
-                                              }
-                                              return pos;
-                                          })
-                                          .uniq(false, function(account) {
-                                              return account.api + '/' + account.id;
-                                          })
-                                          .value();
-                    }
-                });
+            if (entry.type === 'url') {
+                return;
             }
+            $scope.data.content.$promise.then(function(content) {
+                if (!content) {
+                    return;
+                }
+
+                entry.discussions = _.chain(content.discussions)
+                                     .indexBy('api')
+                                     .extend(entry.discussions)
+                                     .value();
+
+                entry.accounts = _.chain(entry.accounts)
+                                  .union(content.accounts)
+                                  .sortBy(function(account) {
+                                      var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
+                                      if (pos === -1) {
+                                          pos = Infinity;
+                                      }
+                                      return pos;
+                                  })
+                                  .uniq(false, function(account) {
+                                      return account.api + '/' + account.id;
+                                  })
+                                  .value();
+            });
         });
     }])
     .name;
