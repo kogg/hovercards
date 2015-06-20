@@ -50,6 +50,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             var data  = $scope.data;
             data.discussions[api] = data.discussions[api] || apiService.get(entry.discussions[api]);
             data.discussions[api].$promise.finally(function() {
+                if (entry.discussion_api !== api) {
+                    return;
+                }
                 data.discussion = data.discussions[api];
             });
             if (done_once) {
