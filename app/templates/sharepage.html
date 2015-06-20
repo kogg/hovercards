@@ -5,7 +5,7 @@
 	<div class="share-circles">
 	</div>
 	<div class="sharecontainerhover">
-		<a popup="https://twitter.com/intent/tweet?source=https://yocards.com&text={{ (content.name || content.description) + ' ' + (content | generateUrl) | encode }}&via=hovercards" title="Tweet {{ content.name || content.description }}" class="twiter-circle"></a>
+		<a popup="https://twitter.com/intent/tweet?source=https://yocards.com&text={{ (content.name || content.description) | encode }}&url={{ content | generateUrl | encode }}&via=hovercards" title="Tweet {{ content.name || content.description }}" class="twiter-circle"></a>
 		<a popup="https://www.facebook.com/sharer/sharer.php?u={{ content | generateUrl | encode }}" title="Share {{ content.name || content.description }} on Facebook" class="fb-circle"></a>
 		<a popup="http://www.reddit.com/submit?url={{ content | generateUrl | encode }}&title={{ (content.name || content.description) | encode }}&resubmit=true#url-field" title="Submit {{ content.name || content.description }} to Reddit" class="reddit-circle"></a>
 	</div>
