@@ -42,13 +42,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                             case 'discussion':
                                 $scope.entry.discussions = {};
                                 $scope.entry.discussions[identity.api] = identity;
-                                $scope.entry.desired_discussion_api = identity.api;
+                                $scope.entry.discussion_api = identity.api;
                                 break;
                             case 'account':
                                 $scope.entry.accounts = [identity];
                                 break;
                             case 'url':
-                                var entry = { discussions: {}, type: 'url', desired_discussion_api: 'url', url: identity.id };
+                                var entry = { discussions: {}, type: 'url', discussion_api: 'url', url: identity.id };
                                 var data  = { discussions: {} };
 
                                 var apis = _.sortBy(['reddit', 'twitter'], function(api) {
@@ -69,10 +69,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                     data.discussions[api]
                                         .$promise
                                         .then(function() {
-                                            if (entry.desired_discussion_api !== 'url') {
-                                                return;
-                                            }
-                                            entry.desired_discussion_api = api;
+                                            entry.discussion_api = entry.discussion_api || api;
                                         })
                                         .catch(function() {
                                             check_api(i + 1);
