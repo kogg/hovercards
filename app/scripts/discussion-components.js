@@ -89,7 +89,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             },
             link: function($scope, $element) {
                 $element.sortable({ axis:        'y',
-                                    handle:      'b',
                                     placeholder: 'ui-state-highlight',
                                     update:      function() {
                                         $scope.$apply(function() {

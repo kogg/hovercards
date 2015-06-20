@@ -16,6 +16,8 @@ $('body').on('mousedown', 'a[href]', function() {
     $(this).attr('target', '_blank');
 });
 
+/*
+ * rippleback, uncomment this
 $(function() {
   function materialripple() {
     $('body').on('click', '.rippleblack', function (event) {
@@ -39,3 +41,4 @@ $(function() {
   }
   materialripple();
 });
+*/

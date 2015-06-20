@@ -50,12 +50,9 @@
 								<p>We'll check for comments in whatever order you choose!</p>
 							</div>
 							<ul id="sortable" sortable="order">
-								<li ng-class="{ selected: entry.discussion_api === api, rippleblack: entry.discussions[api] }" ng-repeat="api in order">
-									<b ng-click="$event.stopPropagation();"></b>
-									<span class="{{ api | copy }}-circle-image">{{ api | copy }}</span>
+								<li ng-class="{ selected: entry.discussion_api === api }" ng-repeat="api in order">
+									<b></b><span ng-class="api + '-circle-image'">{{ api | copy }}</span>
 								</li>
-								<li><b></b><span class="Producthunt-circle-image">Product Hunt</span></li>
-								<li><b></b><span class="Imgur-circle-image">Imgur</span></li>
 							</ul>
 						</div>
 					</div>

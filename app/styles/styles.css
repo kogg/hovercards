@@ -1062,22 +1062,22 @@ b i, .iconic-push {
 	background-position: left center;
 	background-repeat: no-repeat;
 }
-#sortable li span.Reddit-circle-image {
+#sortable li span.reddit-circle-image {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png');
 }
-#sortable li span.Instagram-circle-image {
+#sortable li span.instagram-circle-image {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Instagram-icon-full_color.png');
 }
-#sortable li span.Youtube-circle-image {
+#sortable li span.youtube-circle-image {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Youtube-icon-full_color.png');
 }
-#sortable li span.Twitter-circle-image {
+#sortable li span.twitter-circle-image {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
 }
-#sortable li span.Imgur-circle-image {
+#sortable li span.imgur-circle-image {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Imgur-icon-full_color.png');
 }
-#sortable li span.Producthunt-circle-image {
+#sortable li span.producthunt-circle-image {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Producthunt-icon-full_color.png');
 }
 #sortable li:hover {
