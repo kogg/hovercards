@@ -35,7 +35,7 @@
 										</div>
 									</div>
 								</div>
-								<span>{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} <span class="no-left" ng-if="data.discussion.count">({{ data.discussion.count | numsmall }})</span></span>
+								<span>{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 							</div>
 							<div class="col-1">
 								<i class="md md-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>

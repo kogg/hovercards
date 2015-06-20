@@ -906,9 +906,6 @@ b i, .iconic-push {
 	color: #727272;
 	text-decoration: none;
 }
-.context-top span.no-left {
-	margin-left: 0px;
-}
 .context-top span a:hover {
 	text-decoration: underline;
 }
