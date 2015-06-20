@@ -48,37 +48,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                 $scope.entry.accounts = [identity];
                                 break;
                             case 'url':
-                                var entry = { discussions: {}, type: 'url', discussion_api: 'url', url: identity.id };
-                                var data  = { discussions: {} };
-
-                                var apis = _.sortBy(['reddit', 'twitter'], function(api) {
-                                    return $scope.order.indexOf(api);
-                                });
-
-                                _.each(apis, function(api) {
-                                    entry.discussions[api] = { api: api, type: 'discussion' };
-                                    data.discussions[api]  = apiService.get({ api: api, type: 'url', id: entry.url });
-                                });
-
-                                function check_api(i) {
-                                    if (apis.length === i) {
-                                        entry.$err = { 'no-content': true };
-                                        return;
-                                    }
-                                    var api = apis[i];
-                                    data.discussions[api]
-                                        .$promise
-                                        .then(function() {
-                                            entry.discussion_api = entry.discussion_api || api;
-                                        })
-                                        .catch(function() {
-                                            check_api(i + 1);
-                                        });
-                                }
-                                check_api(0);
-
-                                $scope.entry = entry;
-                                $scope.data = data;
+                                $scope.entry = { type: 'url', url: identity.id, discussions: { reddit:  { api: 'reddit',  type: 'url', id: identity.id },
+                                                                                               twitter: { api: 'twitter', type: 'url', id: identity.id } } };
                                 break;
                         }
                     }, 100);

@@ -54,21 +54,16 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                     return;
                 }
                 data.discussion = data.discussions[api];
-            });
-            if (done_once) {
-                return;
-            }
-            done_once = true;
-            if (entry.type !== 'discussion' && entry.type !== 'url') {
-                return;
-            }
-            data.discussion.$promise.then(function(discussion) {
-                if (!discussion) {
+                if (done_once) {
                     return;
                 }
-                entry.content = entry.content || discussion.content;
+                done_once = true;
+                if (entry.type !== 'discussion' && entry.type !== 'url') {
+                    return;
+                }
+                entry.content = entry.content || data.discussion.content;
                 entry.accounts = _.chain(entry.accounts)
-                                  .union(discussion.accounts)
+                                  .union(data.discussion.accounts)
                                   .sortBy(function(account) {
                                       var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
                                       if (pos === -1) {
