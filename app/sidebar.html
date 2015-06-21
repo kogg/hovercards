@@ -67,9 +67,9 @@
 						<div people-carousel ng-if="data.people.length > 1"></div>
 					</div>
 
-					<div class="yocards-message-container error-message" ng-class="data.people.$err.api && (data.people.$err.api + '-message')" ng-if="data.people.$err">
+					<div class="yocards-message-container error-message" ng-class="err.api && (err.api + '-message')" ng-if="data.people.$err" ng-init="err = data.people.$err">
 						<div class="yocards-message-image"></div>
-						<span class="yocards-message-text" ng-messages="data.people.$err">
+						<span class="yocards-message-text" ng-messages="err">
 							<span ng-messages-include="templates/people_exceptions.html"></span>
 						</span>
 					</div>
@@ -123,10 +123,10 @@
 			</div>
 		</div>
 
-		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err">
-			<div class="yocards-message-container error-message" ng-class="entry.$err.api && (entry.$err.api + '-message')">
+		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err" ng-init="err = entry.$err">
+			<div class="yocards-message-container error-message" ng-class="err.api && (err.api + '-message')">
 				<div class="yocards-message-image"></div>
-				<span class="yocards-message-text" ng-messages="entry.$err">
+				<span class="yocards-message-text" ng-messages="err">
 					<span ng-messages-include="templates/entry_exceptions.html"></span>
 				</span>
 				<div class="yocards-message-option">

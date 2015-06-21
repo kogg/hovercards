@@ -6,9 +6,9 @@
 	</div>
 </div>
 
-<div class="yocards-message-container error-message" ng-class="data.moreContent.$err.api && 'instagram-message'" ng-if="data.moreContent.$err">
+<div class="yocards-message-container error-message" ng-class="err.api && 'instagram-message'" ng-if="data.moreContent.$err" ng-init="err = data.moreContent.$err">
 	<div class="yocards-message-image"></div>
-	<span class="yocards-message-text" ng-messages="data.moreContent.$err">
+	<span class="yocards-message-text" ng-messages="err">
 		<span ng-messages-include="templates/more_content_exceptions.html"></span>
 	</span>
 </div>

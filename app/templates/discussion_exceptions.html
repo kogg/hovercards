@@ -1,5 +1,5 @@
 <span ng-message="empty-content">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>No {{ api + '_discussion_short' | copy }}</b>It looks like there are no {{ api + '_discussion_short' | copy | lowercase }}.</span>
+	<span class="yocards-message-content"><b><i class="md md-error"></i>No {{ err.api + '_discussion_short' | copy }}</b>It looks like there are no {{ err.api + '_discussion_short' | copy | lowercase }}.</span>
 	<div class="yocards-message-option">
 		<a ng-href="{{:: data.discussion | generateUrl }}" class="no-yo">Be the first to comment</a>
 	</div>

@@ -1,7 +1,7 @@
 <div ng-repeat="tweet in data.discussion.comments" ng-include="'templates/twitter_tweet.html'" class="comment row" ng-if="!data.discussion.$err"></div>
 
-<div class="no-comments" ng-if="data.discussion.$err">
-	<span ng-messages="data.discussion.$err">
+<div class="no-comments" ng-if="data.discussion.$err" ng-init="err = data.discussion.$err">
+	<span ng-messages="err">
 		<span ng-message="no-content">
 			<span class="yocards-message-content"><b><i class="md md-input"></i>Nothing Here</b>No one has posted this on {{:: 'twitter' | copy }}!</span>
 			<div class="yocards-message-option" ng-if="data.content">

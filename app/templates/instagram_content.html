@@ -73,9 +73,9 @@
 	</div>
 </div>
 
-<div class="yocards-message-container error-message" ng-class="data.content.$err.api && 'instagram-message'" ng-if="data.content.$err">
+<div class="yocards-message-container error-message" ng-class="err.api && 'instagram-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
 	<div class="yocards-message-image"></div>
-	<span class="yocards-message-text" ng-messages="data.content.$err">
+	<span class="yocards-message-text" ng-messages="err">
 		<span ng-messages-include="templates/content_exceptions.html"></span>
 	</span>
 </div>

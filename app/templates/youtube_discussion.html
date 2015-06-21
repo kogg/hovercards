@@ -15,8 +15,8 @@
 	</div>
 </div>
 
-<div class="no-comments" ng-if="data.discussion.$err">
-	<span ng-messages="data.discussion.$err">
+<div class="no-comments" ng-if="data.discussion.$err" ng-init="err = data.discussion.$err">
+	<span ng-messages="err">
 		<span ng-messages-include="templates/discussion_exceptions.html"></span>
 	</span>
 

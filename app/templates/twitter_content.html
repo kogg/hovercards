@@ -75,12 +75,11 @@
 		<span><i class="md md-stars"></i> {{:: data.content.favorites | numsmall }}</span>
 	-->
 	</div>
-
 </div>
 
-<div class="yocards-message-container error-message" ng-class="data.content.$err.api && 'twitter-message'" ng-if="data.content.$err">
+<div class="yocards-message-container error-message" ng-class="err.api && 'twitter-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
 	<div class="yocards-message-image"></div>
-	<span class="yocards-message-text" ng-messages="data.content.$err">
+	<span class="yocards-message-text" ng-messages="err">
 		<span ng-messages-include="templates/content_exceptions.html"></span>
 	</span>
 </div>

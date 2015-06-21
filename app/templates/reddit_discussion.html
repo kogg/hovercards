@@ -1,7 +1,7 @@
 <div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit_discussion_comment.html'" ng-repeat="comment in data.discussion.comments" ng-if="!data.discussion.$err"></div>
 
-<div class="no-comments" ng-if="data.discussion.$err">
-	<span ng-messages="data.discussion.$err">
+<div class="no-comments" ng-if="data.discussion.$err" ng-init="err = data.discussion.$err">
+	<span ng-messages="err">
 		<span ng-message="no-content">
 			<span class="yocards-message-content"><b><i class="md md-input"></i>Nothing Here</b>No one has posted this on {{:: 'reddit' | copy }}!</span>
 			<div class="yocards-message-option" ng-if="data.content">
