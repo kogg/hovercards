@@ -250,8 +250,8 @@ b i, .iconic-push {
 	position: relative;
 }
 .card-stats-tag-img {
-	width: 18px;
-	height: 18px;
+	width: 17px;
+	height: 17px;
 	border-radius: 50%;
 	background-size: 100% !important;
 	background-position: center !important;
@@ -310,8 +310,8 @@ b i, .iconic-push {
   height: 24px;
 }
 .tag-full-image {
-	width: 80px;
-	height: 80px;
+	width: 84px;
+	height: 84px;
 	border-radius: 50%;
 	background-position: center;
 	background-size: 100%;
@@ -613,7 +613,7 @@ b i, .iconic-push {
 	max-width: 222px;
 }
 .col-12 .video-title {
-  padding-top: 10px;
+  padding-top: 6px;
 }
 .video-title a {
   text-decoration: none;
@@ -623,7 +623,7 @@ b i, .iconic-push {
   display: inline;
   position: relative;
   z-index: 2;
-  line-height: 21px;
+  line-height: 22px;
 }
 .video-title a:hover {
 	text-decoration: underline;
@@ -956,6 +956,9 @@ b i, .iconic-push {
 .context-top-instagram {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');	
 }
+.context-top + .card-stats {
+	border-top: none;
+}
 /*Comments Menu*/
 .menu {
 	clear: both;
@@ -976,8 +979,7 @@ b i, .iconic-push {
   margin-left: -6px;
   width: 11px;
   height: 11px;
-  background: #727272;
-  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  background: #dfdfdf;
   transform: rotate(-135deg);
 }
 .menu-description {
@@ -1012,8 +1014,8 @@ b i, .iconic-push {
 	margin: 0;
 	padding: 0;
 	width: 100%;
-	border:2px solid #727272;
-	background:#727272;
+	border:2px solid #dfdfdf;
+	background:#dfdfdf;
 	overflow-y:hidden;
 	float: right;
 	width: 40%;
@@ -1354,7 +1356,7 @@ b i, .iconic-push {
 /*reddit header*/
 .reddit-header {
 	position: relative;
-	padding-top:10px;
+	padding-top:6px;
 }
 .reddit-header-container {
 	display: inline;
@@ -1384,7 +1386,7 @@ b i, .iconic-push {
   display: inline;
   position: relative;
   z-index: 2;
-  line-height: 21px;
+  line-height: 22px;
 }
 .reddit-header-container a:hover {
 	text-decoration: underline;
@@ -1499,7 +1501,7 @@ b i, .iconic-push {
 	font-weight: normal;
 }
 .child-comment div.md, .child-comment .md p, .card-description div.md p, .card-description div.md {
-	display: inline;
+	display: inline-block;
 }
 .md a:hover {
 	text-decoration: underline;
@@ -1931,17 +1933,22 @@ b i, .iconic-push {
 	overflow: auto
 }
 .content-cards-blocks {
-	padding-left: 4px;
 	position: relative;
 }
-.content-cards-blocks:nth-of-type(odd) {
-	padding-right: 4px;
-	padding-left: 0
+.content-cards-blocks:nth-of-type(3n - 2) {
+	padding-right: 2px;
+}
+.content-cards-blocks:nth-of-type(3n - 1) {
+	padding-right: 1px;
+	padding-left: 1px;
+}
+.content-cards-blocks:nth-of-type(3n) {
+	padding-left: 2px;
 }
 .content-cards-blocks-holder {
 	display: block;
 	overflow: hidden;
-	margin-bottom: 8px;
+	margin-bottom: 2px;
 	background: #f6f6f6;
 	border:1px solid rgba(0,0,0,.15);
 }

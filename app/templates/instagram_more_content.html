@@ -1,5 +1,5 @@
 <div class="content-cards" ng-if="!data.moreContent.$err">
-	<div ng-repeat="post in data.moreContent.content" class="col-6 content-cards-blocks">
+	<div ng-repeat="post in data.moreContent.content" class="col-4 content-cards-blocks">
 		<a class="content-cards-blocks-holder" ng-class=":: { 'is-video': post.video }" ng-href="{{:: post | generateUrl }}">
 			<img ng-src="{{:: post.image }}">
 		</a>
