@@ -26,6 +26,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                     var api = entry.discussion_apis[n];
                     if (!api) {
                         entry.discussion_api = entry.discussion_apis[0];
+                        if (entry.type === 'url') {
+                            entry.$err = { 'no-content': true };
+                        }
                         return;
                     }
                     data.discussions[api] = data.discussions[api] || apiService.get(entry.discussions[api]);

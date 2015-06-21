@@ -15,5 +15,12 @@
 	</div>
 </div>
 
+<div class="no-comments" ng-if="data.discussion.$err" ng-init="err = data.discussion.$err">
+	<span ng-messages="err">
+		<span ng-messages-include="templates/discussion_exceptions.html"></span>
+	</span>
 
-<div ng-if="data.discussion.$err" err="data.discussion.$err" api="instagram" type="discussion" entry="entry"></div>
+	<div class="yocards-message-option" ng-if="entry.discussion_apis.length > 1">
+		<a ng-click="entry.showMenu=true">Check out other networks</a>
+	</div>
+</div>
