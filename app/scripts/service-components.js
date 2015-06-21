@@ -42,7 +42,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                     angular.extend(object, obj);
                     if ((params.type in { discussion: true, url: true } && (!object.comments || !object.comments.length)) ||
                         (params.type === 'more_content'                 && (!object.content  || !object.content.length))) {
-                        object.$err = { 'empty-content': true };
+                        object.$err = { 'empty-content': true, 'api-specific': true };
+                        object.$err.reload = function() {
+                            service.get(params, object);
+                        };
                         return $q.reject(object.$err);
                     }
                     return object;

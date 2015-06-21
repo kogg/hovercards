@@ -1,20 +1,28 @@
 <div ng-repeat="tweet in data.discussion.comments" ng-include="'templates/twitter_tweet.html'" class="comment row" ng-if="!data.discussion.$err"></div>
 
-<div ng-if="data.discussion.$err" err="data.discussion.$err" api="twitter" type="discussion" entry="entry">
-	<span ng-message="no-content">
-		<span class="yocards-message-content"><b><i class="md md-input"></i>Nothing Here</b>No one has posted this on {{:: 'twitter' | copy }}!</span>
-		<div class="yocards-message-option" ng-if="data.content">
-			<a ng-href="http://twitter.com/home?status={{:: (data.content | generateUrl) }}">post it first?</a>
-		</div>
+<div class="no-comments" ng-if="data.discussion.$err">
+	<span ng-messages="data.discussion.$err">
+		<span ng-message="no-content">
+			<span class="yocards-message-content"><b><i class="md md-input"></i>Nothing Here</b>No one has posted this on {{:: 'twitter' | copy }}!</span>
+			<div class="yocards-message-option" ng-if="data.content">
+				<a ng-href="http://twitter.com/home?status={{:: (data.content | generateUrl) }}">post it first?</a>
+			</div>
+		</span>
+
+		<span ng-message="not-implemented">
+			<span class="yocards-message-content"><b><i class="md md-error"></i>Can't Do it</b>Sorry, {{:: 'twitter' | copy }} got rid of their replies API recently. We've found a way to get these that works most of the time, but we just couldn't this time.</span>
+			<div class="yocards-message-option">
+				<a href="#">Get real mad at {{:: 'twitter' | copy }}</a>
+			</div>
+			<div class="yocards-message-option" ng-if="data.content">
+				<a ng-href="http://twitter.com/home?status={{:: (data.content | generateUrl) }}">post it?</a>
+			</div>
+		</span>
+
+		<span ng-messages-include="templates/discussion_exceptions.html"></span>
 	</span>
 
-	<span ng-message="not-implemented">
-		<span class="yocards-message-content"><b><i class="md md-error"></i>Can't Do it</b>Sorry, {{ 'twitter' | copy }} got rid of their replies API recently. We've found a way to get these that works most of the time, but we just couldn't this time.</span>
-		<div class="yocards-message-option">
-			<a href="#">Get real mad at {{ 'twitter' | copy }}</a>
-		</div>
-		<div class="yocards-message-option" ng-if="data.content">
-			<a ng-href="http://twitter.com/home?status={{:: (data.content | generateUrl) }}">post it?</a>
-		</div>
-	</span>
+	<div class="yocards-message-option" ng-if="entry.discussion_apis.length > 1">
+		<a ng-click="entry.showMenu=true">Check out other networks</a>
+	</div>
 </div>

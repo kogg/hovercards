@@ -1,10 +1,18 @@
 <div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit_discussion_comment.html'" ng-repeat="comment in data.discussion.comments" ng-if="!data.discussion.$err"></div>
 
-<div ng-if="data.discussion.$err" err="data.discussion.$err" api="reddit" type="discussion" entry="entry">
-	<span ng-message="no-content">
-		<span class="yocards-message-content"><b><i class="md md-input"></i>Nothing Here</b>No one has posted this on {{:: 'reddit' | copy }}!</span>
-		<div class="yocards-message-option" ng-if="data.content">
-			<a ng-href="http://www.reddit.com/submit?url={{:: (data.content | generateUrl) }}">post it first?</a>
-		</div>
+<div class="no-comments" ng-if="data.discussion.$err">
+	<span ng-messages="data.discussion.$err">
+		<span ng-message="no-content">
+			<span class="yocards-message-content"><b><i class="md md-input"></i>Nothing Here</b>No one has posted this on {{:: 'reddit' | copy }}!</span>
+			<div class="yocards-message-option" ng-if="data.content">
+				<a ng-href="http://www.reddit.com/submit?url={{:: (data.content | generateUrl) }}">post it first?</a>
+			</div>
+		</span>
+
+		<span ng-messages-include="templates/discussion_exceptions.html"></span>
 	</span>
+
+	<div class="yocards-message-option" ng-if="entry.discussion_apis.length > 1">
+		<a ng-click="entry.showMenu=true">Check out other networks</a>
+	</div>
 </div>

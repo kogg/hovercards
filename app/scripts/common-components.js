@@ -2,20 +2,6 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize'), require('angular-messages')])
-    .directive('err', [function() {
-        return {
-            restrict: 'A',
-            scope: {
-                err: '=',
-                api: '@?',
-                entry: '=?'
-            },
-            transclude: true,
-            templateUrl: function(element, attr) {
-                return 'templates/' + attr.type + '_exceptions.html';
-            }
-        };
-    }])
     .directive('popup', ['$window', function($window) {
         return {
             restrict: 'A',
