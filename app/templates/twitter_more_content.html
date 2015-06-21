@@ -2,8 +2,13 @@
 	<div class="comment row" ng-repeat="tweet in data.moreContent.content" ng-include="'templates/twitter_tweet.html'"></div>
 </div>
 
-<div ng-if="data.moreContent.$err" err="data.moreContent.$err" api="twitter" type="more_content" entry="entry">
-	<span ng-message="forbidden">
-		<span class="yocards-message-content"><b><i class="md md-error"></i>Protected Tweets</b><a ng-href="{{:: entry.selectedPerson.selectedAccount | generateUrl }}">{{:: entry.selectedPerson.selectedAccount.name }}</a> has set their tweets to be protected. You'll need them to follow you to see these!</span>
+<div class="yocards-message-container error-message" ng-class="data.moreContent.$err['api-specific'] ? api + '-message' : ''" ng-if="data.moreContent.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="data.moreContent.$err">
+		<span ng-message="forbidden">
+			<span class="yocards-message-content"><b><i class="md md-error"></i>Protected Tweets</b><a ng-href="{{:: entry.selectedPerson.selectedAccount | generateUrl }}">{{:: entry.selectedPerson.selectedAccount.name }}</a> has set their tweets to be protected. You'll need them to follow you to see these!</span>
+		</span>
+
+		<span ng-messages-include="templates/more_content_exceptions.html"></span>
 	</span>
 </div>
