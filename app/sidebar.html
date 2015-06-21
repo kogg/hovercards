@@ -9,7 +9,7 @@
 </head>
 <body class="ng-cloak" ng-cloak ng-class="{ 'fullscreen-active': view.fullscreen }" stored="order" name="order" default="[]">
 	<div ng-controller="EntryController">
-		<div class="fade-out-animation" ng-show="loading" loading="loading">
+		<div class="fade-out-animation" ng-show="service.loading.length">
 			<div class="loader">
 				<div class="colored"></div>
 			</div>
@@ -22,12 +22,12 @@
 			</div>
 
 			<div ng-controller="DiscussionController">
-				<div class="card bounce-in-animation" ng-if=":: data.discussion.$resolved || data.discussion.$err">
+				<div class="card bounce-in-animation" ng-if="data.discussion">
 					<div class="context-top">
 						<div class="inline-row">
 							<div class="col-11">
 								<div class="network-picker">
-									<div class="network-circle" ng-class="['network-circle-' + api, { 'current-network': entry.discussion_api === api, 'network-not-found': data.discussions[api].$err && data.discussions[api].$resolved }]" ng-click="entry.desired_discussion_api = api" ng-repeat="api in entry.discussion_apis">
+									<div class="network-circle" ng-class="['network-circle-' + api, { 'current-network': entry.discussion_api === api, 'network-not-found': data.discussions[api].$err && data.discussions[api].$resolved }]" ng-click="entry.discussion_api = api" ng-repeat="api in entry.discussion_apis">
 										<div class="network-share-dropdown" ng-if="data.discussions[api].$err && data.discussions[api].$resolved">
 											<div class="network-share-dropdown-image"></div>
 											<div class="network-share-dropdown-text">sup</div>
@@ -35,7 +35,7 @@
 										</div>
 									</div>
 								</div>
-								<span>{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} <span class="no-left" ng-if="data.discussion.count">({{ data.discussion.count | numsmall }})</span></span>
+								<span>{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 							</div>
 							<div class="col-1">
 								<i class="md md-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>
@@ -50,12 +50,9 @@
 								<p>Order the list to the right, and we'll search for comments in that order next time around!</p>
 							</div>
 							<ul id="sortable" sortable="order">
-								<li ng-class="{ selected: entry.discussion_api === api, rippleblack: entry.discussions[api], disabled: !entry.discussions[api], loaded: data.discussions[api].$resolved, failed: data.discussions[api].$err && data.discussions[api].$resolved, loading: data.discussion[api] && !data.discussions[api].$resolved }" ng-click="entry.desired_discussion_api = entry.discussions[api] ? api : entry.desired_discussion_api" ng-repeat="api in order">
-									<b ng-click="$event.stopPropagation();"></b>
-									<span class="{{ api | copy }}-circle-image">{{ api | copy }}</span>
+								<li ng-class="{ selected: entry.discussion_api === api }" ng-repeat="api in order">
+									<b></b><span ng-class="api + '-circle-image'">{{ api | copy }}</span>
 								</li>
-								<li><b></b><span class="Producthunt-circle-image">Product Hunt</span></li>
-								<li><b></b><span class="Imgur-circle-image">Imgur</span></li>
 							</ul>
 						</div>
 					</div>

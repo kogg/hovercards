@@ -132,9 +132,7 @@ module.exports = function() {
                     }
                     request = _.pick(request, 'id', 'as', 'for', 'focus');
                     if (client_callers[api] && client_callers[api][type]) {
-                        client_callers[api][type](_.extend(headers, request), function(err, result) {
-                            callback(err || (!result && { status: 404 }), result);
-                        });
+                        client_callers[api][type](_.extend(headers, request), callback);
                     } else {
                         $.ajax({ url:     ENDPOINT + '/' + api + '/' + type,
                                  data:    request,

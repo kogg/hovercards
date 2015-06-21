@@ -3,6 +3,8 @@ var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [require('./service-components')])
     .controller('EntryController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
+        $scope.service = apiService;
+
         chrome.storage.sync.get('order', function(obj) {
             if (!obj.order) {
                 obj.order = [];
@@ -40,46 +42,14 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                             case 'discussion':
                                 $scope.entry.discussions = {};
                                 $scope.entry.discussions[identity.api] = identity;
-                                $scope.entry.desired_discussion_api = identity.api;
+                                $scope.entry.discussion_api = identity.api;
                                 break;
                             case 'account':
                                 $scope.entry.accounts = [identity];
                                 break;
                             case 'url':
-                                var entry = { discussions: {}, type: 'url', desired_discussion_api: 'url', url: identity.id };
-                                var data  = { discussions: {} };
-
-                                var apis = _.sortBy(['reddit', 'twitter'], function(api) {
-                                    return $scope.order.indexOf(api);
-                                });
-
-                                _.each(apis, function(api) {
-                                    entry.discussions[api] = { api: api, type: 'discussion' };
-                                    data.discussions[api]  = apiService.get({ api: api, type: 'url', id: entry.url });
-                                });
-
-                                function check_api(i) {
-                                    if (apis.length === i) {
-                                        entry.$err = { 'no-content': true };
-                                        return;
-                                    }
-                                    var api = apis[i];
-                                    data.discussions[api]
-                                        .$promise
-                                        .then(function() {
-                                            if (entry.desired_discussion_api !== 'url') {
-                                                return;
-                                            }
-                                            entry.desired_discussion_api = api;
-                                        })
-                                        .catch(function() {
-                                            check_api(i + 1);
-                                        });
-                                }
-                                check_api(0);
-
-                                $scope.entry = entry;
-                                $scope.data = data;
+                                $scope.entry = { type: 'url', url: identity.id, discussions: { reddit:  { api: 'reddit',  type: 'url', id: identity.id },
+                                                                                               twitter: { api: 'twitter', type: 'url', id: identity.id } } };
                                 break;
                         }
                     }, 100);
