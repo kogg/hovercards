@@ -123,7 +123,28 @@
 			</div>
 		</div>
 
-		<div err="entry.$err" api="{{ entry.$err.api }}" type="entry" entry="entry"></div>
+		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err">
+			<div class="yocards-message-container error-message" ng-class="entry.$err['api-specific'] && (api + '-message')">
+				<div class="yocards-message-image"></div>
+				<span class="yocards-message-text" ng-messages="entry.$err">
+					<span ng-messages-include="templates/entry_exceptions.html"></span>
+				</span>
+				<div class="yocards-message-option">
+					<a popup="https://twitter.com/intent/tweet?source=https://yocards.com&text={{:: 'YoCards couldn\'t find anything for ' + entry.url + '! What #newbs!' | encode }}">Call us newbs on twitter</a>
+				</div>
+			</div>
+		</div>
+
+		<div ng-repeat="person_to_load in [{ api: 'instagram', type: 'account', id: 'yocards' },
+		                                   { api: 'twitter', type: 'account', id: 'hovercards' },
+		                                   { api: 'reddit', type: 'account', id: 'yocards' },
+		                                   { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }]" ng-controller="AccountShimController" ng-if="entry.$err" in-view="inview=$inview">
+			<div class="people-card-space" ng-if="!person.selectedAccount.$err">
+				<div class="card bounce-in-animation" ng-if="person.selectedAccount.$resolved">
+					<div ng-include="'templates/' + (person.selectedAccount.api || person_to_load.api) + '_account.html'"></div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<link rel="stylesheet" href="styles/subscribe-fix-style.css">
