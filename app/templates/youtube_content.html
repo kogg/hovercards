@@ -72,7 +72,7 @@
 	-->
 </div>
 
-<div class="yocards-message-container error-message" ng-class="data.content.$err['api-specific'] && 'youtube-message'" ng-if="data.content.$err">
+<div class="yocards-message-container error-message" ng-class="data.content.$err.api && 'youtube-message'" ng-if="data.content.$err">
 	<div class="yocards-message-image"></div>
 	<span class="yocards-message-text" ng-messages="data.content.$err">
 		<span ng-messages-include="templates/content_exceptions.html"></span>

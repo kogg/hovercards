@@ -21,7 +21,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                 object = object || {};
                 object.$promise = $q(function(resolve, reject) {
                     var timeout = $timeout(function() {
-                        object.$err = { 'still-waiting': true, 'api-specific': true };
+                        object.$err = { 'still-waiting': true, api: params.api };
                     }, 5000);
                     chrome.runtime.sendMessage({ type: 'service', request: params }, function(response) {
                         $timeout.cancel(timeout);
@@ -32,7 +32,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                         if (response[0]) {
                             var error_type = errors[response[0].status] || errors[0];
                             response[0][error_type] = true;
-                            response[0]['api-specific'] = api_specific_errors[error_type];
+                            response[0].api = api_specific_errors[error_type] && params.api;
                             return reject(response[0]);
                         }
                         return resolve(response[1]);
@@ -42,19 +42,20 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                     angular.extend(object, obj);
                     if ((params.type in { discussion: true, url: true } && (!object.comments || !object.comments.length)) ||
                         (params.type === 'more_content'                 && (!object.content  || !object.content.length))) {
-                        object.$err = { 'empty-content': true, 'api-specific': true };
-                        object.$err.reload = function() {
-                            service.get(params, object);
-                        };
+                        object.$err = { 'empty-content': true,
+                                        api:             params.api,
+                                        reload:          function() {
+                                            service.get(params, object);
+                                        } };
                         return $q.reject(object.$err);
                     }
                     return object;
                 }, function(err) {
-                    object.$err = err;
-                    object.$err.reload = function() {
-                        service.get(params, object);
-                    };
-                    return $q.reject(err);
+                    object.$err = _.extend(err, { api:    params.api,
+                                                  reload: function() {
+                                                      service.get(params, object);
+                                                  } });
+                    return $q.reject(object.$err);
                 })
                 .finally(function() {
                     object.$resolved = true;
