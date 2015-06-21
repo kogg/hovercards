@@ -67,7 +67,12 @@
 						<div people-carousel ng-if="data.people.length > 1"></div>
 					</div>
 
-					<div ng-if="data.people.$err" err="data.people.$err" api="{{ data.people.$err.api }}" type="people" entry="entry"></div>
+					<div class="yocards-message-container error-message" ng-class="data.people.$err['api-specific'] ? api + '-message' : ''" ng-if="data.people.$err">
+						<div class="yocards-message-image"></div>
+						<span class="yocards-message-text" ng-messages="data.people.$err">
+							<span ng-messages-include="templates/people_exceptions.html"></span>
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
