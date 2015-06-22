@@ -1,19 +1,13 @@
 <div ng-repeat="tweet in data.discussion.comments" ng-include="'templates/twitter_tweet.html'" class="comment row" ng-if="!data.discussion.$err"></div>
-<div class="no-comments">
+
+<div class="no-comments" ng-if="data.discussion.$err['empty-content']">
 	<b><i class="zmdi zmdi-comment-alert"></i> No Tweets Found</b>
 	<h2>Quick! Be the first to tweet about this!</h2>
-	<a href="#"><div class="rippleblack">Tweet It!</div></a>
+	<a href="http://twitter.com/home?status={{:: data.content | generateUrl | encode }}"><div class="rippleblack">Tweet It!</div></a>
 </div>
-<!--
-<div class="discussion-error" ng-if="data.discussion.$err" ng-init="err = data.discussion.$err">
-	<span ng-messages="err">
-		<span ng-message="no-content">
-			<span class="yocards-message-content"><b><i class="zmdi zmdi-input"></i>Nothing Here</b>No one has posted this on {{:: 'twitter' | copy }}!</span>
-			<div class="yocards-message-option" ng-if="data.content">
-				<a ng-href="http://twitter.com/home?status={{:: data.content | generateUrl | encode }}">post it first?</a>
-			</div>
-		</span>
 
+<div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content']" ng-init="err = data.discussion.$err">
+	<span ng-messages="err">
 		<span ng-message="not-implemented">
 			<span class="yocards-message-content"><b><i class="zmdi zmdi-error"></i>Can't Do it</b>Sorry, {{:: 'twitter' | copy }} got rid of their replies API recently. We've found a way to get these that works most of the time, but we just couldn't this time.</span>
 			<div class="yocards-message-option">
@@ -31,4 +25,3 @@
 		<a ng-click="entry.showMenu=true">Check out other networks</a>
 	</div>
 </div>
--->
