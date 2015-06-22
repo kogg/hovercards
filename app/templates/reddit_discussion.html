@@ -5,7 +5,7 @@
 		<span ng-message="no-content">
 			<span class="yocards-message-content"><b><i class="md md-input"></i>Nothing Here</b>No one has posted this on {{:: 'reddit' | copy }}!</span>
 			<div class="yocards-message-option" ng-if="data.content">
-				<a ng-href="http://www.reddit.com/submit?url={{:: (data.content | generateUrl) }}">post it first?</a>
+				<a ng-href="http://www.reddit.com/submit?url={{:: data.content | generateUrl | encode }}">post it first?</a>
 			</div>
 		</span>
 

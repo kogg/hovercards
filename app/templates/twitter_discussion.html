@@ -5,7 +5,7 @@
 		<span ng-message="no-content">
 			<span class="yocards-message-content"><b><i class="md md-input"></i>Nothing Here</b>No one has posted this on {{:: 'twitter' | copy }}!</span>
 			<div class="yocards-message-option" ng-if="data.content">
-				<a ng-href="http://twitter.com/home?status={{:: (data.content | generateUrl) }}">post it first?</a>
+				<a ng-href="http://twitter.com/home?status={{:: data.content | generateUrl | encode }}">post it first?</a>
 			</div>
 		</span>
 
@@ -15,7 +15,7 @@
 				<a href="#">Get real mad at {{:: 'twitter' | copy }}</a>
 			</div>
 			<div class="yocards-message-option" ng-if="data.content">
-				<a ng-href="http://twitter.com/home?status={{:: (data.content | generateUrl) }}">post it?</a>
+				<a ng-href="http://twitter.com/home?status={{:: data.content | generateUrl | encode }}">post it?</a>
 			</div>
 		</span>
 
