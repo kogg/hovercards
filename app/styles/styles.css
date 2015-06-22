@@ -1258,6 +1258,10 @@ h2 {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/network-options.png');
 }
 .network-picker .network-circle:last-of-type.network-not-found {
+	margin-right: -4px
+}
+.network-picker .current-network.network-circle:last-of-type.network-not-found {
+	margin-right: 0px
 }
 .network-circle-youtube {
 	background-color: #d5272a;
@@ -2602,8 +2606,8 @@ h2 {
 .view-profile, .view-profile-mini {
 	display: block;
   padding: 16px;
-  border: 1px solid #6540FB;
-  color: #6540FB;
+  border: 1px solid #2196F3;
+  color: #2196F3;
   border-radius: 3px;
   clear: both;
   text-align: center;
@@ -2613,10 +2617,11 @@ h2 {
   transition:all .3s ease-in-out;
 }
 .view-profile-mini {
-	margin: 0 20px;
+	margin: 16px 20px 0;
 }
 .view-profile:hover, .view-profile-mini:hover {
-	color:#4129a1
+	color:#6540fb;
+	border: 1px solid #6540fb;
 }
 
 
