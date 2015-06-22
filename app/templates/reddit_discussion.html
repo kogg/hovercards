@@ -3,13 +3,13 @@
 <div class="no-comments" ng-if="data.discussion.$err['empty-content']">
 	<b><i class="zmdi zmdi-comment-alert"></i> No Comments Found</b>
 	<h2>Quick! Be the first to comment on this!</h2>
-	<a href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">Comment on It!</div></a>
+	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">Comment on It!</div></a>
 </div>
 
 <div class="no-comments" ng-if="data.discussion.$err['no-content']">
 	<b><i class="zmdi zmdi-comment-alert"></i> No Posts Found</b>
 	<h2>Quick! Be the first to post this to Reddit!</h2>
-	<a href="http://www.reddit.com/submit?url={{:: data.content | generateUrl | encode }}"><div class="rippleblack">Post to Reddit</div></a>
+	<a popup="{{:: data.content | shareUrl:'reddit' }}"><div class="rippleblack">Post to Reddit</div></a>
 </div>
 
 <div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content'] && !data.discussion.$err['no-content']" ng-init="err = data.discussion.$err">

@@ -57,14 +57,14 @@
 			<b>Tags</b>
 			<span ng-if="!(data.content.accounts | filter:{ reason: 'tag' }).length">None</span>
 			<div class="card-stats-container">
-				<div class="card-stats-tag" ng-href="{{:: tag | generateUrl }}" ng-repeat="tag in data.content.accounts | filter:{ reason: 'tag' }" ng-class="'card-stats-tag-' + ($index % 5)">
+				<div class="card-stats-tag" ng-repeat="tag in data.content.accounts | filter:{ reason: 'tag' }" ng-class="'card-stats-tag-' + ($index % 5)">
 					<div class="card-stats-tag-img" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
 					<div class="card-stats-tag-name">
 						<div class="tag-full-image" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
 						<span class="ellipsis">{{:: tag.name || tag.id }}</span>
-						<a class="ellipsis" ng-href="{{:: tag | generateUrl }}">{{:: tag.id }}</a>
+						<a class="ellipsis" popup="{{:: tag | generateUrl }}" popup-size="{ height: 433, width: 720 }">{{:: tag.id }}</a>
 						<div class="profile-cta">
-							<a class="instagram-background" popup="https://instagram.com/{{:: tag.id }}" popup-size="{ height: 433, width: 720 }" style="cursor: pointer;">Follow</a>
+							<a class="instagram-background" popup="{{:: tag | generateUrl }}" popup-size="{ height: 433, width: 720 }" style="cursor: pointer;">Follow</a>
 						</div>
 					</div>
 				</div>
