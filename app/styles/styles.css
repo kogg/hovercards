@@ -1441,7 +1441,7 @@ b i, .iconic-push {
 	display: none;
 	position: absolute;
 	width: 100%;
-	top: -17px;
+	top: -18px;
 	background: white;
 	z-index: 7;
 	opacity: 0;
@@ -2034,6 +2034,7 @@ b i, .iconic-push {
 }
 .youtube-content-list .row .col-8 .col-10 {
   display: table;
+  table-layout: fixed;
   height: 32px;
 }
 /*twitter content list*/
@@ -2428,8 +2429,8 @@ b i, .iconic-push {
 	content: "";
 	position: absolute;
   width: 185%;
-  height: 25px;
-  top: -24px;
+  height: 14px;
+  top: -13px;
 	left: 0px;
 	background: #f6f6f6
 }

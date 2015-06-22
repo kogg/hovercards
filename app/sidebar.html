@@ -28,11 +28,6 @@
 							<div class="col-11">
 								<div class="network-picker">
 									<div class="network-circle" ng-class="['network-circle-' + api, { 'current-network': entry.discussion_api === api, 'network-not-found': data.discussions[api].$err && data.discussions[api].$resolved }]" ng-click="entry.discussion_api = api" ng-repeat="api in entry.discussion_apis">
-										<div class="network-share-dropdown" ng-if="data.discussions[api].$err && data.discussions[api].$resolved">
-											<div class="network-share-dropdown-image"></div>
-											<div class="network-share-dropdown-text">sup</div>
-											<div class="network-share-dropdown-cta">post</div>
-										</div>
 									</div>
 								</div>
 								<span>{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
