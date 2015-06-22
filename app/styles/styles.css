@@ -928,6 +928,14 @@ b i, .iconic-push {
 	position: relative;
 	font-size: 14px;
 }
+.context-top .col-1 i:after {
+	content: "";
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	top: -2px;
+  left: -8px;
+}
 .context-top .col-1 i:hover {
 	cursor: pointer;
 	color: black
@@ -1036,9 +1044,14 @@ h2 {
   background-position: 05px center;
   background-repeat: no-repeat;
   overflow: hidden;
+  cursor: -webkit-grab !important
 }
 #sortable li:hover {
-	background-color: #fbfbfb
+	background-color: #fbfbfb;
+	cursor: -webkit-grab !important
+}
+#sortable li:active {
+	cursor: -webkit-grabbing !important
 }
 #sortable li b {
 	position: absolute;
@@ -1049,12 +1062,7 @@ h2 {
 	top: 0;
 	z-index: 2;
 }
-#sortable li b:hover {
-	cursor: -webkit-grab !important
-}
-#sortable li b:active 	{
-	cursor: -webkit-grabbing !important
-}
+
 #sortable li:last-of-type {
 	margin-bottom:0
 }
@@ -1084,9 +1092,6 @@ h2 {
 }
 #sortable li span.producthunt-circle-image {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Producthunt-icon-full_color.png');
-}
-#sortable li:hover {
-	cursor: pointer !important;
 }
 .ui-sortable-helper {
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
