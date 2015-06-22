@@ -3,7 +3,7 @@ var angular = require('angular');
 require('slick-carousel');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
-    .controller('PeopleController', ['$scope', '$interval', '$timeout', '$q', 'apiService', function($scope, $interval, $timeout, $q, apiService) {
+    .controller('PeopleController', ['$scope', '$interval', '$timeout', '$q', '$window', 'apiService', function($scope, $interval, $timeout, $q, $window, apiService) {
         var others_exist_watcher = $scope.$watch('entry.type', function(type) {
             if (!type) {
                 return;
@@ -22,10 +22,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 other_things_loaded_watcher();
 
                 $timeout(function() {
-                    angular.element(window).scroll();
+                    angular.element($window).scroll();
 
                     var interval = $interval(function() {
-                        angular.element(window).scroll();
+                        angular.element($window).scroll();
                     }, 100);
 
                     /* Check to see if we hit the bottom once we've waited for everything and forced a scroll */
@@ -35,6 +35,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         }
                         $interval.cancel(interval);
                         can_have_people_watcher();
+                        if ($window.innerHeight <= angular.element('.people-card-space').offset().top) {
+                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'scrolled to'] });
+                        }
 
                         $scope.can_have_people = true;
                     });
@@ -46,6 +49,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             return [request.api, request.type, request.id, request.as].join('/');
         }
 
+        var analytics_once = false;
         $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
             if (!requests || !requests.length) {
                 $scope.data.accounts = null;
@@ -63,8 +67,22 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         return;
                     }
                     accounts[key] = _.extend(apiService.get(request), _.pick(request, 'reason'));
-                    accounts[key]
-                        .$promise
+                    accounts[key].$promise
+                        .then(function(account) {
+                            if (analytics_once) {
+                                return account;
+                            }
+                            analytics_once = true;
+                            if ($scope.entry.times) {
+                            var now = _.now();
+                                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Account Card', now - $scope.entry.times.start, account.api + '/account'] });
+                                if (!$scope.entry.times.first_card) {
+                                    $scope.entry.times.first_card = now;
+                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', $scope.entry.times.first_card - $scope.entry.times.start, account.api + '/account'] });
+                                }
+                            }
+                            return account;
+                        })
                         .then(function(account) {
                             $timeout.cancel(timeout);
                             delete people.$err;

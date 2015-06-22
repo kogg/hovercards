@@ -42,6 +42,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
         }, true);
 
         var done_once = false;
+        var analytics_once = false;
         $scope.$watch('entry.discussion_api', function(api) {
             if (!api) {
                 return;
@@ -52,33 +53,51 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             }
             var data  = $scope.data;
             data.discussions[api] = data.discussions[api] || apiService.get(entry.discussions[api]);
-            data.discussions[api].$promise.finally(function() {
-                if (entry.discussion_api !== api) {
-                    return;
-                }
-                data.discussion = data.discussions[api];
-                if (done_once) {
-                    return;
-                }
-                done_once = true;
-                if (entry.type !== 'discussion' && entry.type !== 'url') {
-                    return;
-                }
-                entry.content = entry.content || data.discussion.content;
-                entry.accounts = _.chain(entry.accounts)
-                                  .union(data.discussion.accounts)
-                                  .sortBy(function(account) {
-                                      var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
-                                      if (pos === -1) {
-                                          pos = Infinity;
-                                      }
-                                      return pos;
-                                  })
-                                  .uniq(false, function(account) {
-                                      return account.api + '/' + account.id;
-                                  })
-                                  .value();
-            });
+            data.discussions[api].$promise
+                .then(function(discussion) {
+                    if (analytics_once) {
+                        return discussion;
+                    }
+                    if (entry.times) {
+                        analytics_once = true;
+                        var now = _.now();
+                        chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', now - entry.times.start, discussion.api + '/discussion'] });
+                        if (!entry.times.first_card) {
+                            entry.times.first_card = now;
+                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', entry.times.first_card - entry.times.start, discussion.api + '/discussion'] });
+                        }
+                    }
+                    return discussion;
+                })
+                .finally(function() {
+                    if (entry.discussion_api !== api) {
+                        return;
+                    }
+                    data.discussion = data.discussions[api];
+                })
+                .finally(function() {
+                    if (done_once) {
+                        return;
+                    }
+                    done_once = true;
+                    if (entry.type !== 'discussion' && entry.type !== 'url') {
+                        return;
+                    }
+                    entry.content = entry.content || data.discussion.content;
+                    entry.accounts = _.chain(entry.accounts)
+                                      .union(data.discussion.accounts)
+                                      .sortBy(function(account) {
+                                          var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
+                                          if (pos === -1) {
+                                              pos = Infinity;
+                                          }
+                                          return pos;
+                                      })
+                                      .uniq(false, function(account) {
+                                          return account.api + '/' + account.id;
+                                      })
+                                      .value();
+                });
         });
     }])
     .directive('sortable', function() {
