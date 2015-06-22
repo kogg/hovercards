@@ -2,7 +2,7 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ServiceComponents', [])
-    .factory('apiService', ['$timeout', '$q', function($timeout, $q) {
+    .factory('apiService', ['$q', function($q) {
         var errors = { 0:   'our-problem',
                        400: 'bad-input',
                        401: 'unauthorized',
@@ -20,12 +20,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
             get: function(params, object) {
                 object = object || {};
                 object.$promise = $q(function(resolve, reject) {
-                    var timeout = $timeout(function() {
-                        object.$err = { 'still-waiting': true, api: params.api };
-                    }, 5000);
                     chrome.runtime.sendMessage({ type: 'service', request: params }, function(response) {
-                        $timeout.cancel(timeout);
-                        delete object.$err;
                         if (!response) {
                             return reject({ 'our-problem': true });
                         }

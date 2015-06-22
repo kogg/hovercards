@@ -100,7 +100,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                 });
         });
     }])
-    .directive('sortable', function() {
+    .directive('sortable', [function() {
         require('jquery-ui/sortable');
         require('jquery-ui/droppable');
 
@@ -126,5 +126,5 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                 $element.disableSelection();
             }
         };
-    })
+    }])
     .name;

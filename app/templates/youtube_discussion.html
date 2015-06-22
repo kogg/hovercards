@@ -17,6 +17,10 @@
 
 <div class="no-comments" ng-if="data.discussion.$err" ng-init="err = data.discussion.$err">
 	<span ng-messages="err">
+		<span ng-message="forbidden">
+			<span class="yocards-message-content"><b><i class="md md-error"></i>Comments Disabled</b>The comments are disabled!</span>
+		</span>
+
 		<span ng-messages-include="templates/discussion_exceptions.html"></span>
 	</span>
 

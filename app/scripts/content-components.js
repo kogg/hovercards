@@ -2,7 +2,7 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ContentComponents', [require('./service-components')])
-    .controller('ContentController', ['$scope', 'apiService', function($scope, apiService) {
+    .controller('ContentController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
         var analytics_once = false;
         $scope.$watch('entry.content', function(request) {
             if (!request) {
@@ -10,8 +10,15 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                 return;
             }
             var entry = $scope.entry;
-            $scope.data.content = apiService.get(request);
-            $scope.data.content.$promise
+            var content = apiService.get(request);
+            $scope.data.content = content;
+            var timeout = $timeout(function() {
+                content.$err = { 'still-waiting': true, api: request.api };
+            }, 5000);
+            content.$promise
+                .finally(function() {
+                    $timeout.cancel(timeout);
+                })
                 .then(function(content) {
                     if (analytics_once) {
                         return content;
@@ -28,6 +35,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                     return content;
                 })
                 .then(function(content) {
+                    delete content.$err;
                     entry.discussions = _.chain(content.discussions)
                                          .indexBy('api')
                                          .extend(entry.discussions)

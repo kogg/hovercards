@@ -3,7 +3,7 @@ var angular = require('angular');
 require('slick-carousel');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
-    .controller('PeopleController', ['$scope', '$interval', '$timeout', '$q', '$window', 'apiService', function($scope, $interval, $timeout, $q, $window, apiService) {
+    .controller('PeopleController', ['$scope', '$interval', '$timeout', '$window', 'apiService', function($scope, $interval, $timeout, $window, apiService) {
         var others_exist_watcher = $scope.$watch('entry.type', function(type) {
             if (!type) {
                 return;
@@ -49,9 +49,17 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             return [request.api, request.type, request.id, request.as].join('/');
         }
 
+        function request_sort_value(request) {
+            var pos = _.indexOf(['author', 'tag', 'mention'], request.reason);
+            if (pos === -1) {
+                pos = Infinity;
+            }
+            return pos;
+        }
+
         var analytics_once = false;
         $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
-            if (!requests || !requests.length) {
+            if (!_.result(requests, 'length')) {
                 $scope.data.accounts = null;
                 $scope.data.people = null;
                 return;
@@ -61,6 +69,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 var timeout = $timeout(function() {
                     people.$err = { 'still-waiting': true };
                 }, 5000);
+                requests = _.chain(requests)
+                            .sortBy(request_sort_value)
+                            .uniq(false, request_to_string)
+                            .value();
                 _.each(requests, function load_account_into(request) {
                     var key = request_to_string(request);
                     if (accounts[key] && (!accounts[key].$err || !accounts[key].$err.unauthorized)) {
@@ -68,6 +80,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                     }
                     accounts[key] = _.extend(apiService.get(request), _.pick(request, 'reason'));
                     accounts[key].$promise
+                        .finally(function() {
+                            $timeout.cancel(timeout);
+                        })
                         .then(function(account) {
                             if (analytics_once) {
                                 return account;
@@ -84,11 +99,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             return account;
                         })
                         .then(function(account) {
-                            $timeout.cancel(timeout);
                             delete people.$err;
-                            if (account.connected) {
-                                _.each(account.connected, load_account_into);
-                            }
                             var account_ids = _.chain(account.connected)
                                                .map(request_to_string)
                                                .push(key)
@@ -96,9 +107,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                                                .value();
                             var person = _.chain(people)
                                           .filter(function(person) {
-                                              return _.some(person.account_ids, function(account_id) {
-                                                  return _.contains(account_ids, account_id);
-                                              });
+                                              return _.intersection(person.account_ids, account_ids).length;
                                           })
                                           .reduce(function(person, person_to_merge) {
                                               person.accounts    = _.union(person.accounts,    person_to_merge.accounts);
@@ -115,17 +124,17 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             var position_in_entry = _.indexOf(requests, request);
                             position_in_entry = (position_in_entry === -1) ? Infinity : position_in_entry;
 
-                            person.accounts        = _.union(person.accounts,    [account]);
-                            person.account_ids     = _.union(person.account_ids, account_ids);
+                            person.accounts        = _.chain(person.accounts).union([account]).sortBy(request_sort_value).value();
+                            person.account_ids     = _.chain(person.account_ids).union(account_ids).uniq().value();
                             person.position        = _.min([person.position, position_in_entry]);
                             person.selectedAccount = person.selectedAccount || account;
                             people.sort(function(a, b) {
                                 return a.position - b.position;
                             });
+                            _.each(account.connected, load_account_into);
                             return account;
                         })
                         .catch(function(err) {
-                            $timeout.cancel(timeout);
                             if (people.length) {
                                 return;
                             }

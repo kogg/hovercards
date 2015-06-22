@@ -8,10 +8,19 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'More
                 return;
             }
             account.moreContent = account.moreContent || apiService.get({ api: account.api, type: 'more_content', id: account.id });
+            var timeout = $timeout(function() {
+                account.moreContent.$err = { 'still-waiting': true, api: account.api };
+            }, 5000);
+            account.moreContent.$promise
+                .finally(function() {
+                    $timeout.cancel(timeout);
+                })
+                .then(function(more_content) {
+                    delete more_content.$err;
+                });
             $timeout(function() {
                 $scope.data.moreContent = account.moreContent;
-            }, 100);
+            });
         });
     }])
     .name;
-

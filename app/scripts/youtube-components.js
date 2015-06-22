@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'YoutubeComponents', [])
-    .directive('youtubeChannelSubscribe', function() {
+    .directive('youtubeChannelSubscribe', [function() {
         return {
             restrict: 'A',
             scope: {
@@ -31,5 +31,5 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Yout
                                                        } });
             }
         };
-    })
+    }])
     .name;
