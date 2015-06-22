@@ -3,10 +3,10 @@ var angular      = require('angular');
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ViewComponents', [])
-    .controller('ViewController', ['$scope', '$window', function($scope, $window) {
+    .controller('ViewController', ['$scope', '$document', '$window', function($scope, $document, $window) {
         $scope.view = { at: {} };
 
-        angular.element(document).keydown(function(e) {
+        angular.element($document).keydown(function(e) {
             if (e.which !== 27 || !$scope.view.fullscreen) {
                 return;
             }
