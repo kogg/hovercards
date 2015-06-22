@@ -1,5 +1,6 @@
 <div class="twitter-content-list" ng-if="!data.moreContent.$err">
 	<div class="comment row" ng-repeat="tweet in data.moreContent.content" ng-include="'templates/twitter_tweet.html'"></div>
+	<a class="view-profile-mini" href="">View Full Profile</a>
 </div>
 
 <div class="yocards-message-container error-message" ng-class="err.api && 'twitter-message'" ng-if="data.moreContent.$err" ng-init="err = data.moreContent.$err">
