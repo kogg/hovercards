@@ -193,6 +193,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
     .filter('generateUrl', [function() {
         return require('YoCardsApiCalls/network-urls').generate;
     }])
+    .filter('shareUrl', [function() {
+        return require('YoCardsApiCalls/network-urls').share;
+    }])
     .filter('numsmall', ['$filter', function($filter) {
         var suffixes = { 1000: 'k', 1000000: 'm', 1000000000: 'b', 1000000000000: 't' };
         return function(number) {
