@@ -1046,12 +1046,12 @@ h2 {
   overflow: hidden;
   cursor: -webkit-grab !important
 }
-#sortable li:active {
-	cursor: -webkit-grabbing !important
-}
 #sortable li:hover {
 	background-color: #fbfbfb;
 	cursor: -webkit-grab !important
+}
+#sortable li:active {
+	cursor: -webkit-grabbing !important
 }
 #sortable li b {
 	position: absolute;
