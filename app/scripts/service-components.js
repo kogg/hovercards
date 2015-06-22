@@ -2,7 +2,7 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ServiceComponents', [])
-    .factory('apiService', ['$timeout', '$q', function($timeout, $q) {
+    .factory('apiService', ['$q', function($q) {
         var errors = { 0:   'our-problem',
                        400: 'bad-input',
                        401: 'unauthorized',

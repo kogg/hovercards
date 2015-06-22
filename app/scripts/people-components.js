@@ -3,7 +3,7 @@ var angular = require('angular');
 require('slick-carousel');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
-    .controller('PeopleController', ['$scope', '$interval', '$timeout', '$q', '$window', 'apiService', function($scope, $interval, $timeout, $q, $window, apiService) {
+    .controller('PeopleController', ['$scope', '$interval', '$timeout', '$window', 'apiService', function($scope, $interval, $timeout, $window, apiService) {
         var others_exist_watcher = $scope.$watch('entry.type', function(type) {
             if (!type) {
                 return;

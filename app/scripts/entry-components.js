@@ -2,7 +2,7 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [require('./service-components')])
-    .controller('EntryController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
+    .controller('EntryController', ['$scope', '$timeout', '$window', 'apiService', function($scope, $timeout, $window, apiService) {
         $scope.service = apiService;
 
         chrome.storage.sync.get('order', function(obj) {
@@ -22,7 +22,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
             }
         });
 
-        window.addEventListener('message', function(event) {
+        $window.addEventListener('message', function(event) {
             var request = event.data;
             // TODO Determine if this is our request and not someone else's
             switch(request.msg) {

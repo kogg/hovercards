@@ -81,7 +81,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             templateUrl: 'templates/sharepage.html'
         };
     }])
-    .directive('stored', function() {
+    .directive('stored', [function() {
         return {
             retrict: 'A',
             scope: {
@@ -122,8 +122,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                 });
             }
         };
-    })
-    .directive('video', function() {
+    }])
+    .directive('video', [function() {
         return {
             restrict: 'E',
             scope: {
@@ -168,8 +168,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                 };
             }
         };
-    })
-    .filter('copy', function() {
+    }])
+    .filter('copy', [function() {
         return function() {
             if (!arguments[0] || arguments[0] === '') {
                 return arguments[0];
@@ -180,8 +180,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
             return string;
         };
-    })
-    .filter('encode', function() {
+    }])
+    .filter('encode', [function() {
         return function(content) {
             var output = encodeURIComponent(content);
             if (output === 'undefined') {
@@ -189,10 +189,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
             return output;
         };
-    })
-    .filter('generateUrl', function() {
+    }])
+    .filter('generateUrl', [function() {
         return require('YoCardsApiCalls/network-urls').generate;
-    })
+    }])
     .filter('numsmall', ['$filter', function($filter) {
         var suffixes = { 1000: 'k', 1000000: 'm', 1000000000: 'b', 1000000000000: 't' };
         return function(number) {
@@ -221,7 +221,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             return $filter('number')(100 * ratio) + '%';
         };
     }])
-    .filter('timeSince', function() {
+    .filter('timeSince', [function() {
         var moment  = require('moment');
         moment.locale('en-since', {
             relativeTime: {
@@ -265,5 +265,5 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             moment.locale(abbrev ? 'en-since-abbrev' : 'en-since');
             return moment(time).fromNow();
         };
-    })
+    }])
     .name;

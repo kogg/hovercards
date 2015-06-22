@@ -3,7 +3,7 @@ var angular      = require('angular');
 var extension_id = chrome.i18n.getMessage('@@extension_id');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ViewComponents', [])
-    .controller('ViewController', ['$scope', function($scope) {
+    .controller('ViewController', ['$scope', '$window', function($scope, $window) {
         $scope.view = { at: {} };
 
         angular.element(document).keydown(function(e) {
@@ -20,7 +20,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'View
             if (fullscreen === oldFullscreen) {
                 return;
             }
-            window.top.postMessage({ msg: extension_id + '-fullscreen', value: fullscreen }, '*');
+            $window.top.postMessage({ msg: extension_id + '-fullscreen', value: fullscreen }, '*');
         });
     }])
     .name;
