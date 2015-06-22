@@ -36,10 +36,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                 })
                 .then(function(content) {
                     delete content.$err;
-                    entry.discussions = _.chain(content.discussions)
-                                         .indexBy('api')
-                                         .extend(entry.discussions)
-                                         .value();
+
                     entry.accounts = _.chain(entry.accounts)
                                       .union(content.accounts)
                                       .sortBy(function(account) {
@@ -54,6 +51,27 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                                       })
                                       .value();
                     return content;
+                })
+                .finally(function() {
+                    entry.discussions = _.extend((function get_discussions() {
+                        var api = content.api || request.api;
+                        var id  = content.id  || request.id;
+                        if (content.api === 'reddit' || !api || !id) {
+                            return {};
+                        }
+                        var discussions = {};
+                        discussions.reddit  = { api: 'reddit',  type: 'discussion', for: { api: api, type: 'content', id: id } };
+                        discussions.twitter = { api: 'twitter', type: 'discussion', for: { api: api, type: 'content', id: id } };
+                        discussions[api] = { api: api, type: 'discussion', id: id };
+                        if (api === 'twitter') {
+                            if (_.result(content, 'author')) {
+                                discussions.twitter.author = _.pick(content.author, 'api', 'type', 'id');
+                            } else {
+                                delete discussions.twitter.author;
+                            }
+                        }
+                        return discussions;
+                    }()), entry.discussions);
                 });
         });
     }])
