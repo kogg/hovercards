@@ -897,13 +897,15 @@ b i, .iconic-push {
   font-size: 12px;
   display: inline-block;
   font-weight: 600;
-  vertical-align:top
+  vertical-align:top;
+  max-width: 200px;
 }
 .context-top span {
 
 }
 .context-top span a {
 	color: #727272;
+	line-height: 18px;
 	text-decoration: none;
 }
 .context-top span a:hover {
@@ -935,11 +937,11 @@ b i, .iconic-push {
 .context-top-text-only + div {
 	padding: 0px 16px 16px 16px
 }
-.context-top .col-10 span a:last-of-type {
-	color: #2196F3
-}
 .context-top .col-10 span a:first-of-type {
 	color: #000
+}
+.context-top .col-10 span b a {
+	color: #2196F3 !important
 }
 .context-top-youtube {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
@@ -1215,13 +1217,19 @@ b i, .iconic-push {
 .network-picker .network-circle:nth-of-type(5) {
 	z-index: 1;
 }
+.network-picker .network-not-found {
+	margin-right: -17px;
+	opacity: 0;
+}
+.network-not-found.current-network {
+	margin-right: -13px;
+}
 .network-picker .current-network {
 	z-index: 6 !important;
 	opacity: 1;
 }
-.network-picker .network-not-found {
-	opacity: 0;
-	margin-right: -17px;
+.network-not-found + .network-not-found + .network-not-found {
+	margin-right: 2px;
 }
 .network-picker:hover .network-not-found {
 	position: relative;
@@ -1241,7 +1249,6 @@ b i, .iconic-push {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/network-options.png');
 }
 .network-picker .network-circle:last-of-type.network-not-found {
-	margin-right: -4px;
 }
 .network-circle-youtube {
 	background-color: #d5272a;
@@ -1392,8 +1399,8 @@ b i, .iconic-push {
 	background-color: white;
 	position: absolute;
 	top: -32px;
-	width: 298px;
-	left: -16px;
+	width: 300px;
+	left: -15px;
 	display: none;
 	height: calc(100% + 42px);
 	height: -webkit-calc(100% + 42px);
@@ -1404,10 +1411,6 @@ b i, .iconic-push {
 	-webkit-animation-name: headerfadeIn; 
 	animation-name: headerfadeIn; 
 } 
-.reddit-header-container .time {
-	right: -7px;
-	top: -5px;
-}
 .time a {
 	color: #727272;
   text-decoration: none;
@@ -1438,7 +1441,7 @@ b i, .iconic-push {
 	display: none;
 	position: absolute;
 	width: 100%;
-	top: -18px;
+	top: -17px;
 	background: white;
 	z-index: 7;
 	opacity: 0;
@@ -1450,15 +1453,15 @@ b i, .iconic-push {
 	animation-name: headerfadeIndelay; 
 } 
 .user-context .network-circle {
-	left: -3px;
-	border: 1px solid white;
 	z-index: 4;
+	margin-left: 1px;
 }
 .reddit-header-container .user-context:after {
   content: "";
   width: 40px;
   height: 29px;
   left: -9px;
+  top: -10px;
   background: #FFF;
   position: absolute
 }
@@ -1498,7 +1501,7 @@ b i, .iconic-push {
 	font-weight: normal;
 }
 .child-comment div.md, .child-comment .md p, .card-description div.md p, .card-description div.md {
-	display: inline-block;
+/*this is a test check it out later*/
 }
 .md a:hover {
 	text-decoration: underline;
