@@ -33,10 +33,10 @@
 		</div>
 		<div class="play-video youtube-background" ng-click="played || ((played = true) && (playing = true))" ng-class="{ 'play-video-clicked': playing }"></div>
 		<div class="video-cta" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
-			<i class="md md-fullscreen"></i>
+			<i class="zmdi zmdi-fullscreen"></i>
 		</div>
 		<div class="video-cta" ng-click="view.fullscreen=null;" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
-			<i class="md md-fullscreen-exit"></i>
+			<i class="zmdi zmdi-fullscreen-exit"></i>
 		</div>
 	</div>
 
@@ -58,12 +58,6 @@
 			<b>Dislikes</b>
 			<span>{{:: data.content.dislikes | numsmall }}</span>
 		</div>
-	</div>
-	<!--
-	<div class="card-stats-mini">
-		<span><i class="md md-remove-red-eye"></i> {{:: data.content.views | numsmall }}</span>
-		<span><i class="md md-thumb-up"></i> {{:: data.content.likes | numsmall }}</span>
-		<span><i class="md md-thumb-down"></i> {{:: data.content.dislikes | numsmall }}</span>
 	</div>
 	<!--
 	<div class="percent-bar" ng-if=":: data.content.likes + data.content.dislikes">

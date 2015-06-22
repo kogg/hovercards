@@ -197,7 +197,7 @@ p a, .card-text .card-description p a, .card-description-padding p a, .comment-c
 }
 b i, .iconic-push {
 	position: relative;
-	top: -1px;
+	top: 1px;
 	margin-right: 3px;
 }
 .card {
@@ -643,6 +643,10 @@ b i, .iconic-push {
   z-index: 3;
   position: absolute;
 }
+.video-cta i {
+	position: relative;
+	top:10px;
+}
 .video-cta:hover {
 	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0.24);
 	cursor: pointer;
@@ -652,7 +656,7 @@ b i, .iconic-push {
 .button-vanish {
 	pointer-events:none;
 	opacity: 0;
-    z-index: 2;
+	z-index: 2;
 }
 .button-vanish-add {
 	-webkit-transition: box-shadow .2s ease-in-out, transform .5s ease-in-out, opacity .5s ease-in-out;
@@ -919,8 +923,8 @@ b i, .iconic-push {
 }
 .context-top .col-1 i {
 	color:#727272;
-	top: -1.5px;
-	left: 4px;
+	left: -2px;
+	top: 1px;
 	position: relative;
 	font-size: 14px;
 }
@@ -986,7 +990,7 @@ b i, .iconic-push {
 	width: 60%;
 	padding: 18px 16px;
 }
-.menu-description h2 {
+h2 {
 	font-size: 19px;
   color: #000;
   font-weight: 400;
@@ -1292,13 +1296,54 @@ b i, .iconic-push {
 	display: block;
 }
 /*No Comments*/
-.no-comments {	
+.no-comments {
+	position: relative;
+	background-color: white;
+	background: url('/images/nocomments.gif');
+	background-size: cover;
+	background-position: center;
+	padding: 36px 50px;
+	text-align: center;
+}
+.no-comments b {
+	color:#6540fb
+}
+.no-comments a {
+  color: #5033C8;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  position: relative;
+  overflow: hidden;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all .2s ease-in-out;
+  border-radius: 30px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  position: relative;
+  display: block;
+  background: white;
+  max-width: 160px;
+  margin: 8px auto 0px;
+}
+.no-comments a div {
+	padding: 11px 14px;
+	overflow: hidden;
+	-webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+	cursor: pointer;
+}
+.no-comments a:hover {
+  -webkit-transform: scale(1.05);
+  z-index: 3;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+.discussion-error {	
 	background:#fff;
 	border-top:none;
 	border-radius: 0 0 3px 3px;
   position: relative;
 }
-.no-comments p a:after {
+.discussion-error p a:after {
 	content: "";
 	background: #DCEDC8;
 	height: 100%;
@@ -1312,13 +1357,13 @@ b i, .iconic-push {
   position: absolute;
   display: none;
 }
-.no-comments p a:hover:after {
+.discussion-error p a:hover:after {
 	display: block;
 }
-.no-comments p a {
+.discussion-error p a {
 	text-decoration: none;
 }
-.no-comments p a:hover {
+.discussion-error p a:hover {
 	text-decoration: underline;
 }
 /*Reddit titles*/

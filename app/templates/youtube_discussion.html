@@ -14,8 +14,13 @@
 		<p readmore=":: comment.description" cutoff-height="100"></p>
 	</div>
 </div>
-
-<div class="no-comments" ng-if="data.discussion.$err" ng-init="err = data.discussion.$err">
+<div class="no-comments">
+	<b><i class="zmdi zmdi-comment-alert"></i> No Comments Found</b>
+	<h2>Quick! Be the first to comment on this!</h2>
+	<a href="#"><div class="rippleblack">Comment on it!</div></a>
+</div>
+<!--
+<div class="discussion-error" ng-if="data.discussion.$err" ng-init="err = data.discussion.$err">
 	<span ng-messages="err">
 		<span ng-message="forbidden">
 			<span class="yocards-message-content"><b><i class="md md-error"></i>Comments Disabled</b>The comments are disabled!</span>
@@ -28,3 +33,4 @@
 		<a ng-click="entry.showMenu=true">Check out other networks</a>
 	</div>
 </div>
+-->

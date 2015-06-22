@@ -1,9 +1,14 @@
 <div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit_discussion_comment.html'" ng-repeat="comment in data.discussion.comments" ng-if="!data.discussion.$err"></div>
-
+<div class="no-comments">
+	<b><i class="zmdi zmdi-comment-alert"></i> No Posts Found</b>
+	<h2>Quick! Be the first to post this to Reddit!</h2>
+	<a href="#"><div class="rippleblack">Post to Reddit</div></a>
+</div>
+<!--
 <div class="no-comments" ng-if="data.discussion.$err" ng-init="err = data.discussion.$err">
 	<span ng-messages="err">
 		<span ng-message="no-content">
-			<span class="yocards-message-content"><b><i class="md md-input"></i>Nothing Here</b>No one has posted this on {{:: 'reddit' | copy }}!</span>
+			<span class="yocards-message-content"><b><i class="zmdi zmdi-input"></i>Nothing Here</b>No one has posted this on {{:: 'reddit' | copy }}!</span>
 			<div class="yocards-message-option" ng-if="data.content">
 				<a ng-href="http://www.reddit.com/submit?url={{:: (data.content | generateUrl) }}">post it first?</a>
 			</div>
@@ -16,3 +21,4 @@
 		<a ng-click="entry.showMenu=true">Check out other networks</a>
 	</div>
 </div>
+-->

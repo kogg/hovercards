@@ -1,5 +1,5 @@
 <div class="retweet" ng-if=":: tweet.retweet">
-	<i class="md md-autorenew"></i>
+	<i class="zmdi zmdi-autorenew"></i>
 	<span><a ng-href="{{:: tweet.retweet.author | generateUrl }}" class="no-yo">{{:: tweet.retweet.author.name }}</a> retweeted</span>
 </div>
 <div class="col-2">
@@ -21,5 +21,5 @@
 	<div class="fullscreen-image" ng-if="view.fullscreen === tweet" ng-click="view.fullscreen=null">
 		<img ng-src="{{:: tweet.image }}:large">
 	</div>
-	<p class="mini-stats"><span><i class="md md-autorenew"></i> {{:: tweet.retweets }}</span> <span><i class="md md-stars"></i> {{:: tweet.favorites }}</span></p>
+	<p class="mini-stats"><span><i class="zmdi zmdi-autorenew"></i> {{:: tweet.retweets }}</span> <span><i class="zmdi zmdi-stars"></i> {{:: tweet.favorites }}</span></p>
 </div>
