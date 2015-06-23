@@ -29,7 +29,7 @@ module.exports = function() {
             });
         },
         function(user_id, callback) {
-            window.ga('create', 'UA-64246820-1', { 'userId': user_id });
+            window.ga('create', 'UA-64246820-3', { 'userId': user_id });
             window.ga('set', 'checkProtocolTask', null);
             chrome.runtime.onMessage.addListener(function(message) {
                 if (message.type !== 'analytics') {
