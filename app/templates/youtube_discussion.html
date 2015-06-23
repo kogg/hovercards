@@ -21,12 +21,13 @@
 	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">Comment on it!</div></a>
 </div>
 
-<div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content']" ng-init="err = data.discussion.$err">
-	<span ng-messages="err">
-		<span ng-message="forbidden">
-			<span class="yocards-message-content"><b><i class="md md-error"></i>Comments Disabled</b>The comments are disabled!</span>
-		</span>
+<div class="no-comments" ng-if="data.discussion.$err.forbidden">
+	<b><i class="zmdi zmdi-comment-alert"></i> Comments Disabled</b>
+	<h2>The comments are disabled!</h2>
+</div>
 
+<div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content'] && data.discussion.$err.forbidden" ng-init="err = data.discussion.$err">
+	<span ng-messages="err">
 		<span ng-messages-include="templates/discussion_exceptions.html"></span>
 	</span>
 
