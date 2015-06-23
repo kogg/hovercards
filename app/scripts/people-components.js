@@ -90,10 +90,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             analytics_once = true;
                             if ($scope.entry.times) {
                             var now = _.now();
-                                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Account Card', now - $scope.entry.times.start, account.api + '/account'] });
+                                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Account Card', now - $scope.entry.times.start, account.api + ' account'] });
                                 if (!$scope.entry.times.first_card) {
                                     $scope.entry.times.first_card = now;
-                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', $scope.entry.times.first_card - $scope.entry.times.start, account.api + '/account'] });
+                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', $scope.entry.times.first_card - $scope.entry.times.start, account.api + ' account'] });
                                 }
                             }
                             return account;
@@ -161,6 +161,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         $scope.entry.selectedPerson = $scope.data.people[next];
                         $scope.view.fullscreen = null;
                     });
+                });
+                $element.one('beforeChange', function() {
+                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'changed'] });
                 });
                 $scope.$watchCollection('data.people', function(people, oldPeople) {
                     _.times(oldPeople && people !== oldPeople && oldPeople.length, function() {

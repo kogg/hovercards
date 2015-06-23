@@ -4,7 +4,7 @@
 <div class="share-circles-container">
 	<div class="share-circles">
 	</div>
-	<div class="sharecontainerhover" analytics-click="sharecircles" analytics-label="{{ content.api }}/content">
+	<div class="sharecontainerhover" analytics-click="sharecircles" analytics-label="{{ content.api }} content">
 		<a popup="{{ content | shareUrl:'twitter' }}" title="Tweet {{ content.name || content.description }}" class="twiter-circle"></a>
 		<a popup="{{ content | shareUrl:'facebook' }}" title="Share {{ content.name || content.description }} on Facebook" class="fb-circle"></a>
 		<a popup="{{ content | shareUrl:'reddit' }}" title="Submit {{ content.name || content.description }} to Reddit" class="reddit-circle"></a>

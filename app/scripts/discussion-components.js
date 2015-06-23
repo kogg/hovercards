@@ -61,10 +61,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                     if (entry.times) {
                         analytics_once = true;
                         var now = _.now();
-                        chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', now - entry.times.start, discussion.api + '/discussion'] });
+                        chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', now - entry.times.start, discussion.api + ' discussion'] });
                         if (!entry.times.first_card) {
                             entry.times.first_card = now;
-                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', entry.times.first_card - entry.times.start, discussion.api + '/discussion'] });
+                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', entry.times.first_card - entry.times.start, discussion.api + ' discussion'] });
                         }
                     }
                     return discussion;

@@ -70,7 +70,7 @@ if (window.top !== window) {
 }
 
 html.on('longpress', function(e, url) {
-    window.top.postMessage({ msg: 'activate', by: 'link', url: url }, '*');
+    window.top.postMessage({ msg: 'activate', by: 'longpress', url: url }, '*');
     var trigger = $(e.target).data(extension_id + '-yo-trigger');
     if (trigger) {
         trigger.addClass(extension_id + '-yo-notify-clicked');

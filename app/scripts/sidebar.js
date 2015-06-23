@@ -70,7 +70,7 @@ module.exports = function sidebar() {
                     .removeClass(extension_id + '-sidebar-leave')
                     .addClass(extension_id + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
-                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', message.by, 'activated', [message.identity.api || 'none', message.identity.type].join('/')] });
+                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, (message.identity.api || 'none') + ' ' + message.identity.type] });
                 window.top.postMessage({ msg: 'loaded' }, '*');
                 break;
             case 'hide':
@@ -78,7 +78,7 @@ module.exports = function sidebar() {
                     .removeClass(extension_id + '-sidebar-enter')
                     .addClass(extension_id + '-sidebar-leave');
                 $(document).off('dblclick', dblclick_for_sidebar);
-                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', message.by, 'deactivated'] });
+                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'deactivated ' + message.by] });
                 window.top.postMessage({ msg: 'hidden' }, '*');
                 break;
         }
