@@ -63,7 +63,7 @@ module.exports = function walkthrough() {
                 closing_obj.remove();
             });
         }, 10000);
-        chrome.storage.sync.set({ walkthrough_stage_0: 2 });
+        chrome.storage.sync.set({ walkthrough_stage_1: 2 });
     }
 
     var stages = [
@@ -99,9 +99,11 @@ module.exports = function walkthrough() {
                             .appendTo('.' + class_name('container'))
                             .offset({ top:  request.object.bottom - 20,
                                       left: request.mouse.x });
+                        chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'walkthrough', 'clicked next step', 'second time'] });
                     });
+                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'walkthrough', 'clicked next step', 'first time'] });
                 });
-                chrome.storage.sync.set({ walkthrough_stage_0: 1 });
+                chrome.storage.sync.set({ walkthrough_stage_1: 1 });
             }
 
             return {
@@ -155,7 +157,7 @@ module.exports = function walkthrough() {
                         carlito_obj.remove();
                     });
                 }, 650);
-                chrome.storage.sync.set({ walkthrough_stage_0: 3 });
+                chrome.storage.sync.set({ walkthrough_stage_1: 3 });
             }
 
             return {
@@ -213,22 +215,22 @@ module.exports = function walkthrough() {
     }
 
     /* Uncomment this to start over walkthrough */
-    // chrome.storage.sync.remove('walkthrough_stage_0');
-    chrome.storage.sync.get('walkthrough_stage_0', function(obj) {
+    // chrome.storage.sync.remove('walkthrough_stage_1');
+    chrome.storage.sync.get('walkthrough_stage_1', function(obj) {
         if (chrome.runtime.lastError) {
             return;
         }
-        if (obj.walkthrough_stage_0 >= 3) {
+        if (obj.walkthrough_stage_1 >= 3) {
             return;
         }
         $('head').append('<link rel="stylesheet" type="text/css" href="' + chrome.extension.getURL('styles/walkthrough.css') + '">');
-        setStage(obj.walkthrough_stage_0 || 0);
+        setStage(obj.walkthrough_stage_1 || 0);
 
         chrome.storage.onChanged.addListener(function(changes, area_name) {
-            if (area_name !== 'sync' || !('walkthrough_stage_0' in changes)) {
+            if (area_name !== 'sync' || !('walkthrough_stage_1' in changes)) {
                 return;
             }
-            setStage(changes.walkthrough_stage_0.newValue || 0);
+            setStage(changes.walkthrough_stage_1.newValue || 0);
         });
     });
 };
