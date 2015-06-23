@@ -2,6 +2,21 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize'), require('angular-messages')])
+    .directive('clickAnalytics', [function() {
+        return {
+            scope: {
+                category: '=analyticsClick',
+                label: '=?analyticsLabel'
+            },
+            link: function($scope, $element) {
+                $element.one('click', function() {
+                    var request = ['send', 'event', $scope.category, 'clicked'];
+                    request.push($scope.label);
+                    chrome.runtime.sendMessage({ type: 'analytics', request: request });
+                });
+            }
+        };
+    }])
     .directive('popup', ['$window', function($window) {
         return {
             restrict: 'A',
