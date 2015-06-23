@@ -1,8 +1,11 @@
 <div ng-if="!data.content.$err">
-	<div class="context-top context-top-youtube">
+	<div class="context-top">
 		<div class="share-container" share-page=":: data.content"></div>
 		<div class="row">
 			<div class="col-10 ellipsis">
+				<div class="network-pick">
+					<div class="network-circle network-circle-youtube"></div>
+				</div>
 				<span>Uploaded by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
 			</div>
 			<div class="col-2">
@@ -30,16 +33,16 @@
 		</div>
 		<div class="play-video youtube-background" ng-click="played || ((played = true) && (playing = true))" ng-class="{ 'play-video-clicked': playing }"></div>
 		<div class="video-cta" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
-			<i class="md md-fullscreen"></i>
+			<i class="zmdi zmdi-fullscreen"></i>
 		</div>
 		<div class="video-cta" ng-click="view.fullscreen=null;" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
-			<i class="md md-fullscreen-exit"></i>
+			<i class="zmdi zmdi-fullscreen-exit"></i>
 		</div>
 	</div>
 
 	<div class="card-text">
 		<div ng-if=":: data.content.description" class="card-description">
-			<p readmore=":: data.content.description | linky" cutoff-height="50"></p>
+			<p readmore=":: data.content.description | linky" cutoff-height="50" readless="true"></p>
 		</div>
 	</div>
 	<div class="card-stats row">
@@ -57,16 +60,15 @@
 		</div>
 	</div>
 	<!--
-	<div class="card-stats-mini">
-		<span><i class="md md-remove-red-eye"></i> {{:: data.content.views | numsmall }}</span>
-		<span><i class="md md-thumb-up"></i> {{:: data.content.likes | numsmall }}</span>
-		<span><i class="md md-thumb-down"></i> {{:: data.content.dislikes | numsmall }}</span>
-	</div>
-	<!--
 	<div class="percent-bar" ng-if=":: data.content.likes + data.content.dislikes">
 		<div class="percent-bar-good" ng-style=":: (data.content.likes + data.content.dislikes) && { width: (data.content.likes / (data.content.likes + data.content.dislikes) | percent) }"></div>
 	</div>
 	-->
 </div>
 
-<div ng-if="data.content.$err" err="data.content.$err" api="youtube" type="content" entry="entry"></div>
+<div class="yocards-message-container error-message" ng-class="err.api && 'youtube-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/content_exceptions.html"></span>
+	</span>
+</div>

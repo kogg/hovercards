@@ -1,3 +1,4 @@
+var _            = require('underscore');
 var $            = require('jquery');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
@@ -19,7 +20,7 @@ module.exports = function sidebar() {
         .appendTo(obj)
         .addClass(extension_id + '-sidebar-close-button')
         .click(function() {
-            sidebar_message({ msg: 'hide' });
+            sidebar_message({ msg: 'hide', by: 'closebutton' });
         });
 
     function prevent_everything(e) {
@@ -55,7 +56,7 @@ module.exports = function sidebar() {
         } else if (window.getSelection) {
             window.getSelection().removeAllRanges();
         }
-        sidebar_message({ msg: 'hide' });
+        sidebar_message({ msg: 'hide', by: 'dblclick' });
     }
 
     var sidebar_frame;
@@ -69,6 +70,7 @@ module.exports = function sidebar() {
                     .removeClass(extension_id + '-sidebar-leave')
                     .addClass(extension_id + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
+                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, (message.identity.api || 'none') + ' ' + message.identity.type] });
                 window.top.postMessage({ msg: 'loaded' }, '*');
                 break;
             case 'hide':
@@ -76,12 +78,14 @@ module.exports = function sidebar() {
                     .removeClass(extension_id + '-sidebar-enter')
                     .addClass(extension_id + '-sidebar-leave');
                 $(document).off('dblclick', dblclick_for_sidebar);
+                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'deactivated ' + message.by] });
                 window.top.postMessage({ msg: 'hidden' }, '*');
                 break;
         }
     }
 
     var identity;
+    var by;
 
     function sidebar_message(request, frame) {
         if (!request) {
@@ -93,38 +97,23 @@ module.exports = function sidebar() {
                 if (!identity) {
                     return;
                 }
-                sendMessage({ msg: 'load', identity: identity });
+                sendMessage({ msg: 'load', by: by, identity: identity });
                 break;
             case 'activate':
                 var possible_identity = network_urls.identify(request.url);
                 if (!possible_identity) {
                     possible_identity = { type: 'url', id: request.url };
                 }
-                var equal = (function(identity_1, identity_2) {
-                    if (!identity_1 || !identity_2) {
-                        return false;
-                    }
-                    var keys_1 = Object.keys(identity_1);
-                    var keys_2 = Object.keys(identity_2);
-                    if (keys_1.length !== keys_2.length) {
-                        return false;
-                    }
-                    for (var i in keys_1) {
-                        if (identity_1[keys_1[i]] !== identity_2[keys_2[i]]) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }(possible_identity, identity));
                 var msg;
-                if (equal) {
-                    msg = { msg: 'hide' };
+                if (_.isEqual(possible_identity, identity)) {
+                    msg = { msg: 'hide', by: request.by };
                     identity = null;
                 } else {
-                    msg = { msg: 'load', identity: possible_identity };
+                    msg = { msg: 'load', by: request.by, identity: possible_identity };
                     identity = possible_identity;
                 }
                 if (!sidebar_frame) {
+                    by = request.by;
                     return;
                 }
                 sendMessage(msg);
@@ -134,7 +123,7 @@ module.exports = function sidebar() {
                 if (!sidebar_frame) {
                     return;
                 }
-                sendMessage({ msg: 'hide' });
+                sendMessage({ msg: 'hide', by: request.by });
                 break;
         }
     }

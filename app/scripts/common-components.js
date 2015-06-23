@@ -2,17 +2,19 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize'), require('angular-messages')])
-    .directive('err', [function() {
+    .directive('analyticsClick', [function() {
         return {
-            restrict: 'A',
             scope: {
-                err: '=',
-                api: '@?',
-                entry: '=?'
+                category: '@analyticsClick',
+                action: '@?analyticsAction',
+                label: '@?analyticsLabel'
             },
-            transclude: true,
-            templateUrl: function(element, attr) {
-                return 'templates/' + attr.type + '_exceptions.html';
+            link: function($scope, $element) {
+                $element.one('click', function() {
+                    var request = ['send', 'event', $scope.category, $scope.action || 'clicked'];
+                    request.push($scope.label);
+                    chrome.runtime.sendMessage({ type: 'analytics', request: request });
+                });
             }
         };
     }])
@@ -41,7 +43,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             restrict: 'A',
             scope: {
                 text: '=readmore',
-                cutoffHeight: '@?'
+                cutoffHeight: '@?',
+                readless: '=?'
             },
             link: function($scope, $element) {
                 $scope.$watch('text', function(text) {
@@ -49,30 +52,38 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                     if (!text) {
                         return;
                     }
-                    $element.append('<span class="read-more">Read More</span>');
-                    $timeout(function() {
-                        $element.dotdotdot({
-                            after: 'span.read-more',
-                            height: Number($scope.cutoffHeight),
-                            callback: function(isTruncated) {
-                                var read_more = $element.find('.read-more');
-                                if (!isTruncated) {
-                                    read_more.remove();
-                                    return;
+                    (function readmore() {
+                        angular.element('<span class="read-more">More</span>').appendTo($element);
+                        $timeout(function() {
+                            $element.dotdotdot({
+                                after: 'span.read-more',
+                                height: Number($scope.cutoffHeight),
+                                callback: function(isTruncated) {
+                                    var read_more = $element.find('.read-more');
+                                    if (!isTruncated) {
+                                        read_more.remove();
+                                        return;
+                                    }
+                                    if (!read_more.length) {
+                                        read_more = angular.element('<span class="read-more">Read More</span>');
+                                    }
+                                    read_more
+                                        .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
+                                        .click(function() {
+                                            $element
+                                                .trigger('destroy')
+                                                .html($scope.text);
+                                            if ($scope.readless) {
+                                                angular.element('<span class="read-less">Less</span>')
+                                                    .appendTo($element)
+                                                    .before(' ')
+                                                    .click(readmore);
+                                            }
+                                        });
                                 }
-                                if (!read_more.length) {
-                                    read_more = angular.element('<span class="read-more">Read More</span>');
-                                }
-                                read_more
-                                    .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
-                                    .click(function() {
-                                        $element
-                                            .trigger('destroy')
-                                            .html($scope.text);
-                                    });
-                            }
+                            });
                         });
-                    });
+                    }());
                 });
             }
         };
@@ -86,7 +97,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             templateUrl: 'templates/sharepage.html'
         };
     }])
-    .directive('stored', function() {
+    .directive('stored', [function() {
         return {
             retrict: 'A',
             scope: {
@@ -127,8 +138,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                 });
             }
         };
-    })
-    .directive('video', function() {
+    }])
+    .directive('video', [function() {
         return {
             restrict: 'E',
             scope: {
@@ -152,11 +163,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                 });
                 if ($scope.fullscreen && $scope.view) {
                     $element.dblclick(function() {
-                        if ($scope.view.fullscreen === $scope.fullscreen) {
-                            $scope.view.fullscreen = null;
-                        } else {
-                            $scope.view.fullscreen = $scope.fullscreen;
-                        }
+                        $scope.$apply(function() {
+                            if ($scope.view.fullscreen === $scope.fullscreen) {
+                                $scope.view.fullscreen = null;
+                            } else {
+                                $scope.view.fullscreen = $scope.fullscreen;
+                            }
+                        });
                     });
                 }
                 $element.get(0).onplay = function() {
@@ -171,8 +184,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                 };
             }
         };
-    })
-    .filter('copy', function() {
+    }])
+    .filter('copy', [function() {
         return function() {
             if (!arguments[0] || arguments[0] === '') {
                 return arguments[0];
@@ -183,8 +196,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
             return string;
         };
-    })
-    .filter('encode', function() {
+    }])
+    .filter('encode', [function() {
         return function(content) {
             var output = encodeURIComponent(content);
             if (output === 'undefined') {
@@ -192,10 +205,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
             return output;
         };
-    })
-    .filter('generateUrl', function() {
+    }])
+    .filter('generateUrl', [function() {
         return require('YoCardsApiCalls/network-urls').generate;
-    })
+    }])
+    .filter('shareUrl', [function() {
+        return require('YoCardsApiCalls/network-urls').share;
+    }])
     .filter('numsmall', ['$filter', function($filter) {
         var suffixes = { 1000: 'k', 1000000: 'm', 1000000000: 'b', 1000000000000: 't' };
         return function(number) {
@@ -224,7 +240,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             return $filter('number')(100 * ratio) + '%';
         };
     }])
-    .filter('timeSince', function() {
+    .filter('timeSince', [function() {
         var moment  = require('moment');
         moment.locale('en-since', {
             relativeTime: {
@@ -268,5 +284,5 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             moment.locale(abbrev ? 'en-since-abbrev' : 'en-since');
             return moment(time).fromNow();
         };
-    })
+    }])
     .name;

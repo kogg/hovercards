@@ -16,6 +16,7 @@ $('body').on('mousedown', 'a[href]', function() {
     $(this).attr('target', '_blank');
 });
 
+
 $(function() {
   function materialripple() {
     $('body').on('click', '.rippleblack', function (event) {

@@ -1,9 +1,14 @@
 <div class="content-cards" ng-if="!data.moreContent.$err">
-	<div ng-repeat="post in data.moreContent.content" class="col-6 content-cards-blocks">
+	<div ng-repeat="post in data.moreContent.content" class="col-4 content-cards-blocks">
 		<a class="content-cards-blocks-holder" ng-class=":: { 'is-video': post.video }" ng-href="{{:: post | generateUrl }}">
 			<img ng-src="{{:: post.image }}">
 		</a>
 	</div>
 </div>
 
-<div ng-if="data.moreContent.$err" err="data.moreContent.$err" api="instagram" type="more_content" entry="entry"></div>
+<div class="yocards-message-container error-message" ng-class="err.api && 'instagram-message'" ng-if="data.moreContent.$err" ng-init="err = data.moreContent.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/more_content_exceptions.html"></span>
+	</span>
+</div>

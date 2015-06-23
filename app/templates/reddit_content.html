@@ -1,8 +1,11 @@
 <div ng-if="!data.content.$err">
-	<div class="context-top context-top-reddit">
+	<div class="context-top">
 		<div class="share-container" share-page=":: data.content"></div>
 		<div class="row">
 			<div class="col-10">
+				<div class="network-pick">
+					<div class="network-circle network-circle-reddit"></div>
+				</div>
 				<span><a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a> in <a ng-href="https://www.reddit.com/r/{{:: data.content.subreddit }}">/r/{{:: data.content.subreddit }}</a></span>
 			</div>
 			<div class="col-2">
@@ -37,4 +40,9 @@
 	-->
 </div>
 
-<div ng-if="data.content.$err" err="data.content.$err" api="reddit" type="content" entry="entry"></div>
+<div class="yocards-message-container error-message" ng-class="err.api && 'reddit-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/content_exceptions.html"></span>
+	</span>
+</div>

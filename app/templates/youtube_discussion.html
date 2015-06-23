@@ -15,5 +15,23 @@
 	</div>
 </div>
 
+<div class="no-comments" ng-if="data.discussion.$err['empty-content']">
+	<b><i class="zmdi zmdi-comment-alert"></i> No Comments Found</b>
+	<h2>Quick! Be the first to comment on this!</h2>
+	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">Comment on it!</div></a>
+</div>
 
-<div ng-if="data.discussion.$err" err="data.discussion.$err" api="youtube" type="discussion" entry="entry"></div>
+<div class="no-comments" ng-if="data.discussion.$err.forbidden">
+	<b><i class="zmdi zmdi-comment-alert"></i> Comments Disabled</b>
+	<h2>The comments are disabled!</h2>
+</div>
+
+<div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content'] && data.discussion.$err.forbidden" ng-init="err = data.discussion.$err">
+	<span ng-messages="err">
+		<span ng-messages-include="templates/discussion_exceptions.html"></span>
+	</span>
+
+	<div class="yocards-message-option" ng-if="entry.discussion_apis.length > 1">
+		<a ng-click="entry.showMenu=true">Check out other networks</a>
+	</div>
+</div>

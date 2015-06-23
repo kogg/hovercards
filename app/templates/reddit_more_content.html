@@ -26,4 +26,9 @@
 	</div>
 </div>
 
-<div ng-if="data.moreContent.$err" err="data.moreContent.$err" api="reddit" type="more_content" entry="entry"></div>
+<div class="yocards-message-container error-message" ng-class="err.api && 'reddit-message'" ng-if="data.moreContent.$err" ng-init="err = data.moreContent.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/more_content_exceptions.html"></span>
+	</span>
+</div>

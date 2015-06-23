@@ -1,8 +1,11 @@
 <div ng-if="!data.content.$err">
-	<div class="context-top context-top-instagram">
+	<div class="context-top">
 		<div class="share-container" share-page=":: data.content"></div>
 		<div class="row">
 			<div class="col-10">
+				<div class="network-pick">
+					<div class="network-circle network-circle-instagram"></div>
+				</div>
 				<span>Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
 			</div>
 			<div class="col-2">
@@ -24,10 +27,10 @@
 			<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }" ng-click="played || ((played = true) && (playing = true))"></div>
 			<div class="play-video instagram-background" ng-click="played || ((played = true) && (playing = true))" ng-class="{ 'play-video-clicked': playing }"></div>
 			<div class="video-cta instagram-background" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
-				<i class="md md-fullscreen"></i>
+				<i class="zmdi zmdi-fullscreen"></i>
 			</div>
 			<div class="video-cta instagram-background" ng-click="view.fullscreen=null;" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
-				<i class="md md-fullscreen-exit"></i>
+				<i class="zmdi zmdi-fullscreen-exit"></i>
 			</div>
 		</div>
 	</div>
@@ -54,14 +57,25 @@
 			<b>Tags</b>
 			<span ng-if="!(data.content.accounts | filter:{ reason: 'tag' }).length">None</span>
 			<div class="card-stats-container">
-				<a class="card-stats-tag" ng-href="{{:: tag | generateUrl }}" ng-repeat="tag in data.content.accounts | filter:{ reason: 'tag' }">
-					<div class="card-stats-tag-img" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
-					<div class="card-stats-tag-name">{{:: tag.name || tag.id }}</div>
-				</a>
+				<div class="card-stats-tag" ng-repeat="tag in data.content.accounts | filter:{ reason: 'tag' }" ng-class="'card-stats-tag-' + ($index % 5)">
+					<a ng-href="{{:: tag | generateUrl }}"><div class="card-stats-tag-img" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div></a>
+					<div class="card-stats-tag-name">
+						<div class="tag-full-image" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
+						<span class="ellipsis">{{:: tag.name || tag.id }}</span>
+						<a class="ellipsis" ng-href="{{:: tag | generateUrl }}">{{:: tag.id }}</a>
+						<div class="profile-cta">
+							<a class="instagram-background" popup="{{:: tag | generateUrl }}" popup-size="{ height: 433, width: 720 }" style="cursor: pointer;">Follow</a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div ng-if="data.content.$err" err="data.content.$err" api="instagram" type="content" entry="entry"></div>
-
+<div class="yocards-message-container error-message" ng-class="err.api && 'instagram-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/content_exceptions.html"></span>
+	</span>
+</div>

@@ -1,32 +1,5 @@
-<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err">
-	<div class="yocards-message-container error-message" ng-class="err['api-specific'] ? api + '-message' : ''">
-		<div class="yocards-message-image"></div>
-		<div class="yocards-message-text">
-			<span err="err" api="{{ api }}" type="default" entry="entry">
-				<span ng-transclude></span>
+<span ng-message="no-content">
+	<span class="yocards-message-content"><b><i class="md md-error"></i>No Luck!</b>We searched all over, but couldn't find anything for <a ng-href="{{:: entry.url }}">{{:: entry.url }}</a></span>
+</span>
 
-				<!-- ERRORS -->
-				<span ng-message="no-content">
-					<span class="yocards-message-content"><b><i class="md md-error"></i>Error! Error!</b>We searched all over, but couldn't find anything here</span>
-				</span>
-			</span>
-			<div class="yocards-message-option">
-				<a href="#">Give us feedback</a>
-			</div>
-			<div class="yocards-message-option">
-				<a href="#">Send us an angry tweet</a>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div ng-repeat="person_to_load in [{ api: 'instagram', type: 'account', id: 'yocards' },
-                                   { api: 'twitter', type: 'account', id: 'hovercards' },
-                                   { api: 'reddit', type: 'account', id: 'yocards' },
-                                   { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }]" ng-controller="AccountShimController" ng-if="entry.$err" in-view="inview=$inview">
-	<div class="people-card-space" ng-if="!person.selectedAccount.$err">
-		<div class="card bounce-in-animation" ng-if="person.selectedAccount.$resolved">
-			<div ng-include="'templates/' + (person.selectedAccount.api || person_to_load.api) + '_account.html'"></div>
-		</div>
-	</div>
-</div>
+<span ng-messages-include="templates/default_exceptions.html"></span>
