@@ -25,7 +25,7 @@ describe('people-directive', function() {
 
     describe('loading accounts', function() {
         beforeEach(function() {
-            $rootScope.can_have_people = true;
+            $rootScope.entry.can_have_people = true;
             $rootScope.entry.accounts = [];
             sandbox.stub(chrome.runtime, 'sendMessage');
         });
@@ -72,7 +72,7 @@ describe('people-directive', function() {
 
     describe('constructing people', function() {
         beforeEach(function() {
-            $rootScope.can_have_people = true;
+            $rootScope.entry.can_have_people = true;
             $rootScope.entry.accounts = [];
             sandbox.stub(chrome.runtime, 'sendMessage');
         });

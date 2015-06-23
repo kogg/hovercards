@@ -55,7 +55,7 @@
 				</div>
 			</div>
 
-			<div class="people-card-space" in-view="view.at.people=$inview" ng-if="!entry.$err && entry.type !== 'url'">
+			<div class="people-card-space" in-view="view.at.people=$inview" ng-if="entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)">
 				<div class="card bounce-in-animation people-card" ng-if="data.people.length || data.people.$resolved || data.people.$err">
 					<div ng-if="!data.people.$err">
 						<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="data.people.length === 1" autoscroll="entry.type === 'account'"></div>
@@ -74,7 +74,7 @@
 
 		<div class="people-card-space" ng-if="!entry"><!-- DO NOT GET RID OF THIS! WHEN THE OTHER people-card-space VANISHES, THIS KEEPS THE BACKGROUND COLORS FROM FLICKERING --></div>
 
-		<div class="network-menu-space" ng-if="!entry.$err && entry.type !== 'url'">
+		<div class="network-menu-space" ng-if="!entry.$err && entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)">
 			<div class="network-menu fade-in-animation" ng-if="entry.selectedPerson.accounts.length">
 				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length">
 					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
@@ -86,7 +86,7 @@
 			</div>
 		</div>
 
-		<div class="social-profile-space" ng-if="!entry.$err && entry.type !== 'url'">
+		<div class="social-profile-space" ng-if="!entry.$err && entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)">
 			<div class="social-profile">
 				<div class="fade-in-animation" ng-show="entry.selectedPerson.selectedAccount.description || entry.selectedPerson.selectedAccount.location || entry.selectedPerson.selectedAccount.url_link">
 					<div class="social-profile-description">

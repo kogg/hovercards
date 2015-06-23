@@ -10,7 +10,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             }
             others_exist_watcher();
             if (type === 'account') {
-                $scope.can_have_people = true;
+                $scope.entry.can_have_people = true;
                 return;
             }
 
@@ -39,7 +39,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'scrolled to'] });
                         }
 
-                        $scope.can_have_people = true;
+                        $scope.entry.can_have_people = true;
                     });
                 }, 300);
             });
@@ -58,7 +58,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
         }
 
         var analytics_once = false;
-        $scope.$watchCollection('can_have_people && entry.accounts', function(requests) {
+        $scope.$watchCollection('entry.can_have_people && entry.accounts', function(requests) {
             if (!_.result(requests, 'length')) {
                 $scope.data.accounts = null;
                 $scope.data.people = null;
