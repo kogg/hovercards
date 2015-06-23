@@ -5,7 +5,7 @@
 		</a>
 	</div>
 </div>
-<a class="view-profile" href="">View Full Profile</a>
+<a class="view-profile-mini no-yo" ng-href="{{:: entry.selectedPerson.selectedAccount | generateUrl }}">View Full Profile</a>
 
 <div class="yocards-message-container error-message" ng-class="err.api && 'instagram-message'" ng-if="data.moreContent.$err" ng-init="err = data.moreContent.$err">
 	<div class="yocards-message-image"></div>
