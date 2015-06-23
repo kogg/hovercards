@@ -113,6 +113,7 @@
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
 					<div class="fade-in-animation" ng-if="data.moreContent.$resolved || data.moreContent.$err">
 						<div ng-include="'templates/' + (data.moreContent.api || entry.selectedPerson.selectedAccount.api) + '_more_content.html'"></div>
+						<a class="view-profile-mini no-yo" ng-href="{{ entry.selectedPerson.selectedAccount | generateUrl }}">View Full Profile</a>
 					</div>
 				</div>
 			</div>
