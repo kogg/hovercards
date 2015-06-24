@@ -1,4 +1,40 @@
 <div class="reddit-header" ng-if="data.discussion.name && (data.discussion.api !== entry.content.api || data.discussion.id !== entry.content.id )">
+	<div class="context-top">
+			<div class="row">
+				<div class="col-10">
+					<div class="network-pick">
+						<div class="network-circle network-circle-reddit"></div>
+					</div>
+					<span class="ellipsis"><a ng-href="{{:: data.discussion.author | generateUrl }}" class="no-yo">{{:: data.discussion.author.name || data.discussion.author.id }}</a> in <b><a ng-href="https://www.reddit.com/r/{{:: data.discussion.subreddit }}">/r/{{:: data.discussion.subreddit }}</a></b></span>
+				</div>
+				<div class="col-2">
+					<span><a ng-href="{{:: data.discussion | generateUrl }}" class="no-yo">{{:: data.discussion.date | timeSince:true }}</a></span>
+				</div>
+				<div class="col-12">
+					<div class="video-title">
+						<a ng-href="{{:: data.discussion | generateUrl }}" class="no-yo">{{ ::data.discussion.name }}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card-text" ng-if="::data.discussion.description">
+			<div class="card-description">
+				<div readmore=":: data.discussion.description" cutoff-height="100"></div>
+			</div>
+		</div>
+		<div class="card-stats row">
+			<div class="col-6">
+				<b>Points</b>
+				<span>{{:: data.discussion.score | numsmall }}</span>
+			</div>
+			<div class="col-6">
+				<b>Votes</b>
+				<span>{{:: data.discussion.up_ratio | percent }}</span>
+			</div>
+		</div>
+	</div>
+</div>
+<!--
 	<div class="reddit-header-container">
 		<div class="reddit-header-cover"></div>
 		<div class="user-context">
@@ -20,3 +56,4 @@
 		<a class="no-yo" ng-href="{{:: data.discussion | generateUrl }}">{{:: data.discussion.name }}</a>
 	</div>
 </div>
+-->

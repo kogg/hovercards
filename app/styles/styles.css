@@ -206,6 +206,7 @@ b i, .iconic-push {
 	min-width: 300px;
 	padding: 0 20px;
 	position: relative;
+	clear: both
 }
 .card > div {
 	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
@@ -585,11 +586,10 @@ b i, .iconic-push {
 }
 .twitter-video .video-top-underlay .video-image {
 	height: auto;
-
 	width: 300px;
 }
 .twitter-video .video-top-underlay {
-	height: auto
+	height: auto;
 }
 .instagram-video video, .instagram-video .video-top, .instagram-video .video-top-underlay {
 	height: 298px;
@@ -1445,10 +1445,44 @@ h2 {
 }
 
 /*reddit header*/
+.header-card {
+	z-index: 0;
+	transform: scale(.96);
+	-webkit-transform: scale(.96);
+	transition:all .4s ease-in-out;
+	margin-top:-5px;
+	cursor: pointer;
+	margin-bottom:calc(135px - 100%)
+}
+.show-header {
+	transform: scale(1);
+	-webkit-transform: scale(1);
+	margin-bottom:0px;
+	margin-top: 10px;
+}
+.header-card > div {
+	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.26)
+}
+.show-header > div {
+	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56)
+}
+.header-card + div {
+	position: relative;
+	z-index: 1;
+	transition:all .4s ease-in-out;
+}
 .reddit-header {
 	position: relative;
-	padding-top:6px;
+	border-radius: 3px;
 }
+.reddit-header .context-top {
+	background: #CEE3F8;
+	transition:all .3s ease-in-out;
+}
+.show-header .reddit-header .context-top {
+	background: white;
+}
+
 .reddit-header-container {
 	display: inline;
 }
