@@ -15,7 +15,7 @@
 	</div>
 
 	<!-- Video -->
-	<div ng-if=":: data.content.video" class="instagram-video">
+	<div ng-if=":: data.content.video" class="twitter-video">
 		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
 			<div class="video-image">
 				<div ng-if="playing">
@@ -24,12 +24,12 @@
 			</div>
 		</div>
 		<div class="video-top-underlay">
-			<div class="video-image" ng-style="::data.content.image && { 'background-image': 'url(' + data.content.image + ')' }" ng-click="played || ((played = true) && (playing = true))"></div>
-			<div class="play-video instagram-background" ng-click="played || ((played = true) && (playing = true))" ng-class="{ 'play-video-clicked': playing }"></div>
-			<div class="video-cta instagram-background" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
+			<img src="{{ data.content.image }}" ng-click="played || ((played = true) && (playing = true))" class="video-image">
+			<div class="play-video twitter-background" ng-click="played || ((played = true) && (playing = true))" ng-class="{ 'play-video-clicked': playing }"></div>
+			<div class="video-cta twitter-background" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
 				<i class="zmdi zmdi-fullscreen"></i>
 			</div>
-			<div class="video-cta instagram-background" ng-click="view.fullscreen=null;" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
+			<div class="video-cta twitter-background" ng-click="view.fullscreen=null;" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
 				<i class="zmdi zmdi-fullscreen-exit"></i>
 			</div>
 		</div>
