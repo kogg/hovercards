@@ -235,7 +235,7 @@ b i, .iconic-push {
 .card-stats span {
 	color: #212121;
 	font-size: 16px;
-	font-weight: 500
+	font-weight: 400
 }
 .card-stats .col-4, .card-stats .col-6 {
 	padding: 9.5px 8px 9.5px 16px;
@@ -700,7 +700,7 @@ b i, .iconic-push {
 }
 .comment .user-context a i {
 	position: relative;
-	line-height: 24px
+	line-height: 25px
 }
 .comment .user-context {
 	margin-bottom: 5px;
@@ -911,6 +911,9 @@ b i, .iconic-push {
 	color: #727272;
 	line-height: 18px;
 	text-decoration: none;
+}
+.context-top span b {
+	display: inline
 }
 .context-top span a:hover {
 	text-decoration: underline;
@@ -2623,7 +2626,9 @@ h2 {
 	color:#6540fb;
 	border: 1px solid #6540fb;
 }
-
+.zmdi-pin {
+	margin-right: 6px;
+}
 
 
 
