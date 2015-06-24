@@ -80,7 +80,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                         return;
                     }
                     done_once = true;
-                    if (entry.type !== 'discussion' && entry.type !== 'url') {
+                    if (entry.type !== 'discussion') {
                         return;
                     }
                     entry.content = entry.content || data.discussion.content;
