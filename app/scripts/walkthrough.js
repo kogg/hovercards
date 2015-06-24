@@ -63,7 +63,7 @@ module.exports = function walkthrough() {
                 closing_obj.remove();
             });
         }, 10000);
-        chrome.storage.sync.set({ walkthrough_stage_1: 2 });
+        chrome.storage.sync.set({ walkthrough_stage_2: 2 });
     }
 
     var stages = [
@@ -103,7 +103,7 @@ module.exports = function walkthrough() {
                     });
                     chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'walkthrough', 'clicked next step', 'first time'] });
                 });
-                chrome.storage.sync.set({ walkthrough_stage_1: 1 });
+                chrome.storage.sync.set({ walkthrough_stage_2: 1 });
             }
 
             return {
@@ -157,7 +157,7 @@ module.exports = function walkthrough() {
                         carlito_obj.remove();
                     });
                 }, 650);
-                chrome.storage.sync.set({ walkthrough_stage_1: 3 });
+                chrome.storage.sync.set({ walkthrough_stage_2: 3 });
             }
 
             return {
@@ -215,22 +215,22 @@ module.exports = function walkthrough() {
     }
 
     /* Uncomment this to start over walkthrough */
-    // chrome.storage.sync.remove('walkthrough_stage_1');
-    chrome.storage.sync.get('walkthrough_stage_1', function(obj) {
+    // chrome.storage.sync.remove('walkthrough_stage_2');
+    chrome.storage.sync.get('walkthrough_stage_2', function(obj) {
         if (chrome.runtime.lastError) {
             return;
         }
-        if (obj.walkthrough_stage_1 >= 3) {
+        if (obj.walkthrough_stage_2 >= 3) {
             return;
         }
         $('head').append('<link rel="stylesheet" type="text/css" href="' + chrome.extension.getURL('styles/walkthrough.css') + '">');
-        setStage(obj.walkthrough_stage_1 || 0);
+        setStage(obj.walkthrough_stage_2 || 0);
 
         chrome.storage.onChanged.addListener(function(changes, area_name) {
-            if (area_name !== 'sync' || !('walkthrough_stage_1' in changes)) {
+            if (area_name !== 'sync' || !('walkthrough_stage_2' in changes)) {
                 return;
             }
-            setStage(changes.walkthrough_stage_1.newValue || 0);
+            setStage(changes.walkthrough_stage_2.newValue || 0);
         });
     });
 };
