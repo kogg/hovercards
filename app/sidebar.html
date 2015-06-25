@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="styles/trigger-styles.css">
 </head>
 <body class="ng-cloak" ng-cloak ng-class="{ 'fullscreen-active': view.fullscreen }" stored="order" name="order" default="[]">
-	<div ng-controller="EntryController" ng-click="entry.showMenu = false">
+	<div ng-controller="EntryController">
 		<div class="fade-out-animation" ng-show="service.loading.length">
 			<div class="loader">
 				<div class="colored"></div>
@@ -21,9 +21,7 @@
 				</div>
 			</div>
 
-
-			<div ng-controller="DiscussionController" ng-class="entry.show_header && 'show-header'" class="cardpack">
-				<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'" ng-if="(data.discussion.$resolved || data.discussion.$err) && data.discussion.api === 'reddit'"></div>
+			<div ng-controller="DiscussionController">
 				<div class="card bounce-in-animation" ng-if="data.discussion">
 					<div class="context-top">
 						<div class="inline-row">
@@ -35,10 +33,13 @@
 								<span>{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 							</div>
 							<div class="col-1">
-								<i class="zmdi zmdi-more-vert" ng-click="entry.showMenu = !entry.showMenu; $event.stopPropagation();"></i>
+								<i class="zmdi zmdi-more-vert" ng-click="entry.showMenu = !entry.showMenu"></i>
+							</div>
+							<div class="col-12" ng-if="(data.discussion.$resolved || data.discussion.$err) && data.discussion.api === 'reddit'">
+								<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'"></div>
 							</div>
 						</div>
-						<div class="menu" ng-show="entry.showMenu" ng-click="$event.stopPropagation()">
+						<div class="menu" ng-show="entry.showMenu">
 							<div class="menu-description">
 								<h2>Where do you want to see comments from?</h2>
 								<p>Order the list to the right, and we'll search for comments in that order next time around!</p>
@@ -92,7 +93,7 @@
 						<div class="context-top">
 							<div class="row">
 								<div class="col-12">
-									<span ng-class="entry.selectedPerson.selectedAccount.api + '-color'"><i class="zmdi zmdi-account iconic-push ellipsis"></i>More About {{ entry.selectedPerson.selectedAccount.name || entry.selectedPerson.selectedAccount.id }}</span>
+									<span ng-class="entry.selectedPerson.selectedAccount.api + '-color'"><i class="zmdi zmdi-account iconic-push"></i>More About {{ entry.selectedPerson.selectedAccount.name }}</span>
 								</div>
 							</div>
 						</div>
