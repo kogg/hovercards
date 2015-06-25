@@ -1,0 +1,56 @@
+<div ng-if="!data.content.$err">
+	<div class="context-top">
+		<div class="share-container" share-page=":: data.content"></div>
+		<div class="row">
+			<div class="col-10">
+				<div class="network-pick">
+					<div class="network-circle network-circle-imgur"></div>
+				</div>
+				<span>Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.id }}</a></span>
+			</div>
+			<div class="col-2">
+				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
+			</div>
+			<div class="col-12">
+				<div class="video-title">
+					<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.name }}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Just Image -->
+	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content }" ng-if=":: !data.content.video" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content">
+		<img ng-src="{{:: data.content.image }}">
+	</div>
+	<div class="fullscreen-image" ng-if="!data.content.video && view.fullscreen === data.content" ng-click="view.fullscreen=null">
+		<img ng-src="{{:: data.content.image }}">
+	</div>
+
+	<div class="card-text" ng-if="::data.content.description">
+		<div class="card-description">
+			<p readmore=":: data.content.description" cutoff-height="80"></p>
+		</div>
+	</div>
+	<div class="card-stats inline-row">
+		<div class="col-4">
+			<b>Points</b>
+			<span>{{:: data.content.score | numsmall }}</span>
+		</div>
+		<div class="col-4">
+			<b>Views</b>
+			<span>{{:: data.content.views | numsmall }}</span>
+		</div>
+		<div class="col-4">
+			<b>Bandwidth</b>
+			<span>{{:: data.content.bandwidth | filesize }}</span>
+		</div>
+	</div>
+</div>
+
+<div class="yocards-message-container error-message" ng-class="err.api && 'imgur-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/default_exceptions.html"></span>
+	</span>
+</div>
