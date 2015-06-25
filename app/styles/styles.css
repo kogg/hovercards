@@ -1452,7 +1452,12 @@ h2 {
 	transition:all .4s ease-in-out;
 	max-height: 0px;
 	margin-top:-16px;
+	box-shadow: none !important;
 	cursor: pointer;
+	opacity: .9;
+}
+.header-card:hover {
+	max-height: 30px
 }
 .show-header .header-card {
 	transform: scale(1);
@@ -1461,7 +1466,9 @@ h2 {
 	margin-bottom:0px;
 	margin-top: 0px;
 	top:0px;
+	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56) !important;
 	max-height: 1000px;
+	opacity: 1;
 }
 
 .cardpack > div + div .context-top {
@@ -1488,7 +1495,7 @@ h2 {
 }
 .reddit-header .context-top {
 	background: rgba(255, 255, 255, 0.65);
-	transition:all .6s ease-in-out;
+	transition:all .4s ease-in-out;
 }
 .show-header .reddit-header {
 	border: none;
