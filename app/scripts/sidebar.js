@@ -70,7 +70,7 @@ module.exports = function sidebar() {
                     .removeClass(extension_id + '-sidebar-leave')
                     .addClass(extension_id + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
-                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, (message.identity.api || 'none') + ' ' + message.identity.type] });
+                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, (message.identity.api || 'none') + ' ' + message.identity.type, { page: '/' + window.top.document.URL, title: window.top.document.title }] });
                 window.top.postMessage({ msg: 'loaded' }, '*');
                 break;
             case 'hide':
