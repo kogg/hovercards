@@ -48,6 +48,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                 return;
             }
             var entry = $scope.entry;
+            entry.show_header = null;
             if (!(api in entry.discussions)) {
                 return;
             }

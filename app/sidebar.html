@@ -21,9 +21,9 @@
 				</div>
 			</div>
 
-			<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'" ng-if="(data.discussion.$resolved || data.discussion.$err) && data.discussion.api === 'reddit'"></div>
 
-			<div ng-controller="DiscussionController">
+			<div ng-controller="DiscussionController" ng-class="entry.show_header && 'show-header'" class="cardpack">
+				<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'" ng-if="(data.discussion.$resolved || data.discussion.$err) && data.discussion.api === 'reddit'"></div>
 				<div class="card bounce-in-animation" ng-if="data.discussion">
 					<div class="context-top">
 						<div class="inline-row">
