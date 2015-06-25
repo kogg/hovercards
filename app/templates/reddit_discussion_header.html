@@ -1,6 +1,7 @@
-<div class="card header-card" ng-class="some_class" ng-click="some_class = !some_class && 'show-header'" ng-if="data.discussion.name && (data.discussion.api !== entry.content.api || data.discussion.id !== entry.content.id )">
-	<div class="reddit-header">
-		<div class="context-top">
+<div class="card">
+	<div class="header-card" ng-click="entry.show_header = !entry.show_header" ng-if="data.discussion.name && (data.discussion.api !== entry.content.api || data.discussion.id !== entry.content.id )">
+		<div class="reddit-header">
+			<div class="context-top">
 				<div class="row">
 					<div class="col-10">
 						<div class="network-pick">
