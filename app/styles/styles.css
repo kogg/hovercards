@@ -2132,7 +2132,7 @@ h2 {
   border-bottom: 1px solid rgba(0,0,0,.15)
 }
 .twitter-content-list .comment:first-of-type {
-	padding-top: 0px
+	padding-top: 2px
 }
 .twitter-content-list .comment:last-of-type {
 	border-bottom: none
