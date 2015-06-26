@@ -9,7 +9,7 @@
 			<span class="ellipsis">
 				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name }}</a>
 			</span>
-			<span class="time">{{:: comment.date | timeSince:true }}</span>
+			<span class="time"><a ng-href="{{:: data.discussion | generateUrl }}&lc={{:: comment.id }}">{{:: comment.date | timeSince:true }}</a></span>
 		</div>
 		<p readmore=":: comment.description" cutoff-height="100"></p>
 	</div>
