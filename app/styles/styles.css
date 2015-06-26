@@ -228,6 +228,7 @@ b i, .iconic-push {
 	min-width: 300px;
 	padding: 0 20px;
 	position: relative;
+	overflow: hidden;
 }
 .card > div {
 	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
@@ -1955,6 +1956,7 @@ h2 {
 /*content top*/
 .content-top {
 	max-height: 301px;
+	background: white;
   overflow: hidden;
   cursor: -moz-zoom-in; 
   cursor: -webkit-zoom-in; 
