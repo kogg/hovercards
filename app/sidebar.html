@@ -131,8 +131,9 @@
 			</div>
 		</div>
 
-		<div ng-repeat="person_to_load in [{ api: 'instagram', type: 'account', id: 'yocards' },
-		                                   { api: 'twitter', type: 'account', id: 'hovercards' },
+		<div ng-repeat="person_to_load in [{ api: 'imgur', type: 'account', id: 'yocards' },
+		                                   { api: 'instagram', type: 'account', id: 'yocards' },
+		                                   { api: 'twitter', type: 'account', id: 'getyocards' },
 		                                   { api: 'reddit', type: 'account', id: 'yocards' },
 		                                   { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }]" ng-controller="AccountShimController" ng-if="entry.$err" in-view="inview=$inview">
 			<div class="people-card-space" ng-if="!person.selectedAccount.$err">
