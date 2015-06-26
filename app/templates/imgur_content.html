@@ -45,8 +45,8 @@
 				<span>{{:: image.views | numsmall }}</span>
 			</div>
 			<div class="col-6">
-				<b>Bandwidth</b>
-				<span>{{:: image.bandwidth | filesize }}</span>
+				<b>Size</b>
+				<span>{{:: image.filesize | filesize }}</span>
 			</div>
 		</div>
 	</div>
@@ -73,11 +73,11 @@
 			<b>Views</b>
 			<span>{{:: data.content.views | numsmall }}</span>
 		</div>
-		<div class="col-4" ng-if="data.content.bandwidth">
-			<b>Bandwidth</b>
-			<span>{{:: data.content.bandwidth | filesize }}</span>
+		<div class="col-4" ng-if=":: data.content.filesize">
+			<b>Size</b>
+			<span>{{:: data.content.filesize | filesize }}</span>
 		</div>
-		<div class="col-4" ng-if="data.content.images">
+		<div class="col-4" ng-if=":: data.content.images">
 			<b>Images</b>
 			<span>{{:: data.content.images.length }}</span>
 		</div>

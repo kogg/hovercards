@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ImgurComponents', [])
-    .filter('filesize', ['$filter', function($filter) {
+    .filter('filesize', [function() {
         var suffixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
 
         return function(size) {
@@ -13,7 +13,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
                     size /= 1000;
                     i++;
                 }
-                return $filter('number')(size, 2) + suffixes[i] + 'B';
+                return Math.floor(size) + suffixes[i] + 'B';
             }
         };
     }])

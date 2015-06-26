@@ -39,6 +39,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
 
                     entry.accounts = _.chain(entry.accounts)
                                       .union(content.accounts)
+                                      .compact()
                                       .sortBy(function(account) {
                                           var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
                                           if (pos === -1) {
