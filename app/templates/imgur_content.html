@@ -6,7 +6,11 @@
 				<div class="network-pick">
 					<div class="network-circle network-circle-imgur"></div>
 				</div>
-				<span>Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.id }}</a></span>
+				<span>
+					Posted by
+					<a ng-if="data.content.author.id !== 'anon'" ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.id }}</a>
+					<span ng-if="data.content.author.id === 'anon'">{{:: data.content.author.id }}</span>
+				</span>
 			</div>
 			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
