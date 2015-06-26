@@ -23,7 +23,7 @@
 
 			<div ng-controller="DiscussionController">
 				<div class="card bounce-in-animation" ng-if="data.discussion">
-					<div class="context-top">
+					<div class="context-top" stored="showed_menu_hover" name="showed_menu_hover" default="false" ng-mouseenter="!showed_menu_hover && (entry.showMenu = true) && (showed_menu_hover = true)">
 						<div class="inline-row">
 							<div class="col-11">
 								<div class="network-picker">
@@ -32,8 +32,8 @@
 								</div>
 								<span>{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 							</div>
-							<div class="col-1" stored="menu_hovered" name="menu_hovered" default="false">
-								<i class="zmdi zmdi-more-vert" ng-click="entry.showMenu = !entry.showMenu; $event.stopPropagation()" ng-mouseenter="!menu_hovered && (entry.showMenu = true) && (menu_hovered = true)"></i>
+							<div class="col-1">
+								<i class="zmdi zmdi-more-vert" ng-click="entry.showMenu = !entry.showMenu; $event.stopPropagation()"></i>
 							</div>
 							<div class="col-12" ng-if="(data.discussion.$resolved || data.discussion.$err) && data.discussion.api === 'reddit'">
 								<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'"></div>
