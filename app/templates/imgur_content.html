@@ -24,8 +24,13 @@
 	</div>
 
 	<!-- Album -->
-	<div class="imgur-dots"></div>
+	<div class="imgur-dots" ng-if=":: data.content.images"></div>
 	<div imgur-album-carousel ng-if=":: data.content.images"></div>
+	<div ng-repeat="image in data.content.images" ng-if=":: data.content.images">
+		<div class="fullscreen-image" ng-if="view.fullscreen === image.image" ng-click="view.fullscreen=null">
+			<img ng-src="{{:: image.image }}">
+		</div>
+	</div>
 
 	<!-- Just Image -->
 	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content.image }" ng-if=":: data.content.image" ng-click="view.fullscreen=(view.fullscreen === data.content.image) ? null : data.content.image">
