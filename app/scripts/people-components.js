@@ -37,6 +37,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         can_have_people_watcher();
                         if ($window.innerHeight <= angular.element('.people-card-space').offset().top) {
                             chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'scrolled to'] });
+                            $scope.entry.people_needed_scrolling = true;
                         }
 
                         $scope.entry.can_have_people = true;
@@ -90,7 +91,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             analytics_once = true;
                             if ($scope.entry.times) {
                             var now = _.now();
-                                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Account Card', now - $scope.entry.times.start, account.api + ' account'] });
+                                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Account Card (' + ($scope.entry.people_needed_scrolling ? 'Needed Scrolling' : 'Didn\'t need Scrolling') + ')', now - $scope.entry.times.start, account.api + ' account'] });
                                 if (!$scope.entry.times.first_card) {
                                     $scope.entry.times.first_card = now;
                                     chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', $scope.entry.times.first_card - $scope.entry.times.start, account.api + ' account'] });
