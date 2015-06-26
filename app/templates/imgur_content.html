@@ -24,32 +24,8 @@
 	</div>
 
 	<!-- Album -->
-	<div ng-repeat="image in data.content.images">
-		<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === image }" ng-click="view.fullscreen=(view.fullscreen === image.image) ? null : image.image">
-			<img ng-src="{{:: image.image }}">
-		</div>
-		<div class="fullscreen-image" ng-if="view.fullscreen === image.image" ng-click="view.fullscreen=null">
-			<img ng-src="{{:: image.image }}">
-		</div>
-		<div class="col-12">
-			<a ng-href="{{:: image | generateUrl }}" class="no-yo">{{:: image.name }}</a>
-		</div>
-		<div class="card-text" ng-if=":: image.description">
-			<div class="card-description">
-				<p readmore=":: image.description" cutoff-height="80"></p>
-			</div>
-		</div>
-		<div class="card-stats inline-row">
-			<div class="col-6">
-				<b>Views</b>
-				<span>{{:: image.views | numsmall }}</span>
-			</div>
-			<div class="col-6">
-				<b>Size</b>
-				<span>{{:: image.filesize | filesize }}</span>
-			</div>
-		</div>
-	</div>
+	<div class="imgur-dots"></div>
+	<div imgur-album-carousel ng-if=":: data.content.images"></div>
 
 	<!-- Just Image -->
 	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content.image }" ng-if=":: data.content.image" ng-click="view.fullscreen=(view.fullscreen === data.content.image) ? null : data.content.image">

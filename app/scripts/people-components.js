@@ -1,6 +1,5 @@
 var _       = require('underscore');
 var angular = require('angular');
-require('slick-carousel');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
     .controller('PeopleController', ['$scope', '$interval', '$timeout', '$window', 'apiService', function($scope, $interval, $timeout, $window, apiService) {
@@ -154,6 +153,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
         });
     }])
     .directive('peopleCarousel', ['$compile', function($compile) {
+        require('slick-carousel');
+
         return {
             link: function($scope, $element) {
                 $element.slick({ arrows: false, centerMode: true, centerPadding: 0, focusOnSelect: true, infinite: false, slidesToShow: 1 });
