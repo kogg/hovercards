@@ -206,7 +206,6 @@ b i, .iconic-push {
 	min-width: 300px;
 	padding: 0 20px;
 	position: relative;
-	clear: both
 }
 .card > div {
 	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
@@ -1445,66 +1444,10 @@ h2 {
 }
 
 /*reddit header*/
-.header-card {
-	z-index: 0;
-	transform: scale(.96);
-	-webkit-transform: scale(.96);
-	transition:all .4s ease-in-out;
-	max-height: 0px;
-	margin-top:-16px;
-	box-shadow: none !important;
-	cursor: pointer;
-	opacity: .9;
-}
-.header-card:hover {
-	max-height: 30px
-}
-.show-header .header-card {
-	transform: scale(1);
-	-webkit-transform: scale(1);
-	border:none;
-	margin-bottom:0px;
-	margin-top: 0px;
-	top:0px;
-	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56) !important;
-	max-height: 1000px;
-	opacity: 1;
-}
-
-.cardpack > div + div .context-top {
-	box-shadow: 0 0px 6px rgba(191, 191, 191, 0.56) !important
-}
-/*
-.header-card > div {
-	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.26)
-}
-.show-header > div {
-	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56)
-}
-*/
-.header-card + div {
-	position: relative;
-	z-index: 1;
-	transition:all .6s ease-in-out;
-}
 .reddit-header {
 	position: relative;
-	border-radius: 3px;
-	top: 8px;
-	border:1px solid rgba(0, 0, 0, 0.05);
+	padding-top:6px;
 }
-.reddit-header .context-top {
-	background: rgba(255, 255, 255, 0.65);
-	transition:all .4s ease-in-out;
-}
-.show-header .reddit-header {
-	border: none;
-	top: 0px;
-}
-.show-header .reddit-header .context-top {
-	background: white;
-}
-
 .reddit-header-container {
 	display: inline;
 }
@@ -1939,6 +1882,7 @@ h2 {
 	position: relative;
 	padding: 0 20px 16px 20px
 }
+
 .social-profile-description-container {
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-top: none;
@@ -2188,7 +2132,7 @@ h2 {
   border-bottom: 1px solid rgba(0,0,0,.15)
 }
 .twitter-content-list .comment:first-of-type {
-	padding-top: 0px
+	padding-top: 2px
 }
 .twitter-content-list .comment:last-of-type {
 	border-bottom: none
