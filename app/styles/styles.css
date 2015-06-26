@@ -464,7 +464,8 @@ b i, .iconic-push {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/reddit-profile-image.jpg') !important;
 }
 .imgur-profile {
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/reddit-profile-image.jpg') !important;	
+	background-color: black;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Imgur-icon-full_color.png') !important;
 }
 .profile-right {
 	padding: 16px;
