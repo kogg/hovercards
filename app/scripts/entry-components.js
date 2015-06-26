@@ -10,7 +10,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                 obj.order = [];
             }
             var original_length = obj.order.length;
-            obj.order = _.union(obj.order, ['instagram', 'youtube', 'reddit', 'twitter']);
+            obj.order = _.union(obj.order, ['reddit', 'twitter', 'imgur', 'instagram', 'youtube']);
             if (original_length !== obj.order.length) {
                 chrome.storage.sync.set(obj);
             }
