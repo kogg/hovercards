@@ -9,6 +9,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
             link: function($scope, $element) {
                 var been_slicked = false;
 
+                // $element.on('afterChange', function(e, slider, slide) {
+                $element.on('beforeChange', function(e, slider, lastSlide, slide) {
+                    $scope.$apply(function() {
+                        $scope.data.content.current_slide = slide;
+                    });
+                });
+
                 $element.on('beforeChange', function(e, slider, lastSlide, slide) {
                     angular.element(slider.$slider).height(angular.element(slider.$slides[slide]).height());
                 });
@@ -26,6 +33,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
 
                     $element.one('init', function(e, slider) {
                         angular.element(slider.$slider).height(angular.element(slider.$slides[0]).height());
+                        $scope.$apply(function() {
+                            $scope.data.content.current_slide = 0;
+                        });
                     });
                 });
             }
