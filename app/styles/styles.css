@@ -67,6 +67,7 @@ body {
 	max-width: 340px;
 	float: right;
 	background: #f6f6f6;
+	overflow: hidden;
 }
 .fullscreen-active .fullscreen-trigger {
   position: fixed;
@@ -228,7 +229,6 @@ b i, .iconic-push {
 	min-width: 300px;
 	padding: 0 20px;
 	position: relative;
-	overflow: hidden;
 }
 .card > div {
 	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
@@ -2405,13 +2405,26 @@ h2 {
 /*slick dots*/
 .slick-dots {
 	text-align: center;
-	background: rgba(0,0,0,0.15);
-	padding: 8px 0px;
+	background: rgba(0,0,0,0.05);
+	padding: 8px;
+	white-space: nowrap;
+  overflow-x: auto;
+}
+.slick-dots::-webkit-scrollbar-track  {
+	background: rgba(0,0,0,.1)
+}
+.slick-dots::-webkit-scrollbar {
+	-webkit-appearance: none;
+	height: 8px;
+}
+.slick-dots::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    background-color: rgba(0,0,0,.15);
 }
 .slick-dots li {
 	display: inline-block;
 	list-style: none;
-	margin:0px 2px;
+	margin:2px;
 	background: white;
 	width: 10px;
 	height: 10px;
@@ -2427,6 +2440,9 @@ h2 {
 	border:0;
 	font-size: 0px;
 	color: transparent;
+}
+.album-text {
+	background: rgba(0,0,0,.05);
 }
 /*circle ripple*/
 .rippleblack {

@@ -1,10 +1,8 @@
 <div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === image.image }" ng-click="view.fullscreen=(view.fullscreen === image.image) ? null : image.image">
 	<img ng-src="{{:: image.image }}">
 </div>
-<div class="col-12">
+<div class="card-text album-text" ng-if=":: image.description">
 	<a ng-href="{{:: image | generateUrl }}" class="no-yo">{{:: image.name }}</a>
-</div>
-<div class="card-text" ng-if=":: image.description">
 	<div class="card-description">
 		<p readmore=":: image.description" cutoff-height="80"></p>
 	</div>
