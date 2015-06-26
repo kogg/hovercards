@@ -1308,7 +1308,12 @@ h2 {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
 }
 .network-circle-instagram {
+	background-color: #517fa4;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');	
+}
+.network-circle-imgur {
+	background-color: black;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/imgur-icon-full_color.png');
 }
 .network-share-dropdown {
   position: absolute;
@@ -1671,7 +1676,7 @@ h2 {
 	clear: both;
 	padding:8px 0 0 8px;
 }
-.child-close div div.md, .child-close .read-more, .child-close .child {
+.child-close div div.md, .child-close .read-more, .child-close .child, .child-close p {
 	display: none !important;
 }
 .child-close .down-arrow {
