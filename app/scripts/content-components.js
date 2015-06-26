@@ -54,16 +54,16 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                 })
                 .finally(function() {
                     entry.discussions = _.extend((function get_discussions() {
-                        var api = content.api || request.api;
-                        var id  = content.id  || request.id;
-                        if (content.api === 'reddit' || !api || !id) {
+                        var for_request = _.pick(_.result(content, '$err') ? request : content, 'api', 'type', 'id', 'as');
+                        if (content.api === 'reddit' || !for_request.api || !for_request.id) {
+                            console.log('out there');
                             return {};
                         }
                         var discussions = {};
-                        discussions.reddit  = { api: 'reddit',  type: 'discussion', for: { api: api, type: 'content', id: id } };
-                        discussions.twitter = { api: 'twitter', type: 'discussion', for: { api: api, type: 'content', id: id } };
-                        discussions[api] = { api: api, type: 'discussion', id: id };
-                        if (api === 'twitter') {
+                        discussions.reddit  = { api: 'reddit',  type: 'discussion', for: for_request };
+                        discussions.twitter = { api: 'twitter', type: 'discussion', for: for_request };
+                        discussions[for_request.api] = _.chain(for_request).clone().extend({ type: 'discussion' }).value();
+                        if (for_request.api === 'twitter') {
                             if (_.result(content, 'author')) {
                                 discussions.twitter.author = _.pick(content.author, 'api', 'type', 'id');
                             } else {
