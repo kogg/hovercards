@@ -1,3 +1,26 @@
+/*Scroll bar nav*/
+::-webkit-scrollbar {
+    width: auto !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: auto !important; 
+    -webkit-border-radius: auto !important;
+    border-radius: auto !important;
+    background:auto !important;    
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius:auto !important;
+    border-radius:auto !important;
+    background:auto !important; 
+    -webkit-box-shadow:auto !important; 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: auto !important; 
+}
 @font-face {
 	font-family: "Roboto";
 	src: url("chrome-extension://__MSG_@@extension_id__/fonts/roboto/Roboto-Light.ttf");
@@ -440,6 +463,9 @@ b i, .iconic-push {
 .reddit-profile {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/reddit-profile-image.jpg') !important;
 }
+.imgur-profile {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/reddit-profile-image.jpg') !important;	
+}
 .profile-right {
 	padding: 16px;
 	position: relative;
@@ -725,7 +751,7 @@ b i, .iconic-push {
 }
 .comment span.ellipsis {
 	display: inline-block;
-  width: -webkit-calc(100% - 30px) !important;	
+  width: -webkit-calc(100% - 80px) !important;	
 }
 .comment .user-context a i {
 	position: relative;
@@ -1676,7 +1702,7 @@ h2 {
 	clear: both;
 	padding:8px 0 0 8px;
 }
-.child-close div div.md, .child-close .read-more, .child-close .child, .child-close p {
+.child-close div div.md, .child-close .read-more, .child-close .child, .child-close p  {
 	display: none !important;
 }
 .child-close .down-arrow {
@@ -2042,6 +2068,7 @@ h2 {
 	margin-bottom: 2px;
 	background: #f6f6f6;
 	border:1px solid rgba(0,0,0,.15);
+	max-height: 98px;
 }
 .content-cards-blocks-holder img {
 	width: 100%;

@@ -33,6 +33,9 @@
 .__MSG_@@extension_id__-yo-notify-instagram {
 	background-color: #517fa4 !important;
 }
+.__MSG_@@extension_id__-yo-notify-imgur {
+	background-color: #86c121 !important;
+}
 @-webkit-keyframes __MSG_@@extension_id__-yo-notify-fadein { 
 	0% {
 		opacity: 0;
@@ -197,6 +200,9 @@
 }
 .__MSG_@@extension_id__-yo-follower-instagram {
 	background-color: #517fa4 !important;
+}
+.__MSG_@@extension_id__-yo-follower-imgur {
+	background-color: #86c121 !important;
 }
 @-webkit-keyframes __MSG_@@extension_id__-yo-follower-fadein {
 	0% {
