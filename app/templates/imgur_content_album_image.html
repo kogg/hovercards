@@ -1,9 +1,6 @@
 <div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === image.image }" ng-click="view.fullscreen=(view.fullscreen === image.image) ? null : image.image">
 	<img ng-src="{{:: image.image }}">
 </div>
-<div class="fullscreen-image" ng-if="view.fullscreen === image.image" ng-click="view.fullscreen=null">
-	<img ng-src="{{:: image.image }}">
-</div>
 <div class="col-12">
 	<a ng-href="{{:: image | generateUrl }}" class="no-yo">{{:: image.name }}</a>
 </div>
