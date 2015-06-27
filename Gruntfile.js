@@ -5,6 +5,7 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        manifest: grunt.file.readJSON('app/manifest.json'),
         to_browserify: {
             'dist/scripts/background-main.js': 'app/scripts/background-main.js',
             'dist/scripts/everywhere-main.js': 'app/scripts/everywhere-main.js',
@@ -21,6 +22,19 @@ module.exports = function (grunt) {
                     watch: true
                 },
                 files: '<%= to_browserify %>'
+            }
+        },
+        compress: {
+            dist: {
+                options: {
+                    archive: 'build/pkg-<%= manifest.version %>.zip'
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'dist/',
+                    src: ['**'],
+                    dest: ''
+                }]
             }
         },
         concurrent: {
@@ -92,6 +106,6 @@ module.exports = function (grunt) {
     grunt.registerTask('develop',     ['concurrent:develop']);
     grunt.registerTask('dist:js',     ['browserify:js']);
     grunt.registerTask('dist:non_js', ['copy:non_js']);
-    grunt.registerTask('pkg',         ['dist:non_js', 'dist:js', 'uglify:js']);
+    grunt.registerTask('pkg',         ['dist:non_js', 'dist:js', 'uglify:js', 'compress']);
     grunt.registerTask('test',        ['connect:browser_tests', 'mocha:browser_tests']);
 };

@@ -6,7 +6,7 @@
 				<div class="network-pick">
 					<div class="network-circle network-circle-youtube"></div>
 				</div>
-				<span>Uploaded by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
+				<span class="ellipsis">Uploaded by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
 			</div>
 			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
@@ -69,6 +69,6 @@
 <div class="yocards-message-container error-message" ng-class="err.api && 'youtube-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
 	<div class="yocards-message-image"></div>
 	<span class="yocards-message-text" ng-messages="err">
-		<span ng-messages-include="templates/content_exceptions.html"></span>
+		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>
 </div>

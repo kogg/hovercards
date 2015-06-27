@@ -3,6 +3,10 @@
     "app_short_name":  { "message": "yocards" },
     "app_description": { "message": "Description of YoCards" },
 
+    "imgur":                      { "message": "Imgur" },
+    "imgur_discussion":           { "message": "Imgur Comments" },
+    "imgur_discussion_short":     { "message": "Comments" },
+    "imgur_account":              { "message": "Imgur User" },
     "instagram":                  { "message": "Instagram" },
     "instagram_discussion":       { "message": "Instagram Comments" },
     "instagram_discussion_short": { "message": "Comments" },

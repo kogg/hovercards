@@ -1,0 +1,28 @@
+<div class="profile">
+	<div class="profile-card">
+		<div class="profile-top row">
+			<div class="profile-left col-4">
+				<div class="profile-image imgur-profile"></div>
+			</div>
+			<div class="profile-right col-8">
+				<b class="imgur-color">{{:: (person.selectedAccount.reason === 'author') ? 'Posted by' : ('imgur_account' | copy) }}</b>
+				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{:: person.selectedAccount.id }}</a>
+			</div>
+		</div>
+
+		<div class="card-stats row">
+			<div class="col-4">
+				<b>Reputation</b>
+				<span>{{:: person.selectedAccount.reputation | numsmall }}</span>
+			</div>
+			<div class="col-4">
+				<b>Notoriety</b>
+				<span>{{:: person.selectedAccount.notoriety }}</span>
+			</div>
+			<div class="col-4">
+				<b>Account Age</b>
+				<span>{{:: person.selectedAccount.date | timeSince:true }}</span>
+			</div>
+		</div>
+	</div>
+</div>

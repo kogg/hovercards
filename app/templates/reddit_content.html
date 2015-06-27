@@ -6,7 +6,7 @@
 				<div class="network-pick">
 					<div class="network-circle network-circle-reddit"></div>
 				</div>
-				<span><a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a> in <a ng-href="https://www.reddit.com/r/{{:: data.content.subreddit }}">/r/{{:: data.content.subreddit }}</a></span>
+				<span class="ellipsis"><a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a> in <b><a ng-href="https://www.reddit.com/r/{{:: data.content.subreddit }}">/r/{{:: data.content.subreddit }}</a></b></span>
 			</div>
 			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
@@ -20,7 +20,7 @@
 	</div>
 	<div class="card-text" ng-if="::data.content.description">
 		<div class="card-description">
-			<div readmore=":: data.content.description" cutoff-height="100"></div>
+			<div readmore=":: data.content.description" cutoff-height="100" readless="true"></div>
 		</div>
 	</div>
 	<div class="card-stats row">
@@ -29,7 +29,7 @@
 			<span>{{:: data.content.score | numsmall }}</span>
 		</div>
 		<div class="col-6">
-			<b>Votes</b>
+			<b>Upvoted</b>
 			<span>{{:: data.content.up_ratio | percent }}</span>
 		</div>
 	</div>
@@ -43,6 +43,6 @@
 <div class="yocards-message-container error-message" ng-class="err.api && 'reddit-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
 	<div class="yocards-message-image"></div>
 	<span class="yocards-message-text" ng-messages="err">
-		<span ng-messages-include="templates/content_exceptions.html"></span>
+		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>
 </div>

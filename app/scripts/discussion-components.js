@@ -48,6 +48,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                 return;
             }
             var entry = $scope.entry;
+            entry.show_header = null;
             if (!(api in entry.discussions)) {
                 return;
             }
@@ -80,12 +81,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                         return;
                     }
                     done_once = true;
-                    if (entry.type !== 'discussion' && entry.type !== 'url') {
+                    if (entry.type !== 'discussion') {
                         return;
                     }
                     entry.content = entry.content || data.discussion.content;
                     entry.accounts = _.chain(entry.accounts)
                                       .union(data.discussion.accounts)
+                                      .compact()
                                       .sortBy(function(account) {
                                           var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
                                           if (pos === -1) {
