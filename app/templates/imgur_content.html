@@ -8,8 +8,8 @@
 				</div>
 				<span class="ellipsis">
 					Posted by
-					<a ng-if="data.content.author.id !== 'anon'" ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.id }}</a>
-					<span ng-if="data.content.author.id === 'anon'">{{:: data.content.author.id }}</span>
+					<a ng-if="data.content.author" ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.id }}</a>
+					<span ng-if="!data.content.author">anon</span>
 				</span>
 			</div>
 			<div class="col-2">
