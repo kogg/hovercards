@@ -11,7 +11,7 @@
 	-moz-box-shadow:    0px 0px 5px 2px rgba(0, 0, 0, 0.1) !important;
 	box-shadow:         0px 0px 5px 2px rgba(0, 0, 0, 0.1) !important;
 	right: 0;
-	-webkit-transform: translateX(375px) translateZ(0);
+	-webkit-transform: translateX(325px) translateZ(0);
 }
 
 .__MSG_@@extension_id__-sidebar-enter {
@@ -117,8 +117,32 @@
 	width: 100% !important;
 	border-left: none !important
 }
-
-
+.__MSG_@@extension_id__-sidebar-minimizer {
+	position: absolute;
+	height: 100%;
+	width: 10px;
+	left: -5px;
+	cursor: e-resize !important
+}
+.__MSG_@@extension_id__-sidebar-minimized .__MSG_@@extension_id__-sidebar-minimizer {
+	cursor: w-resize !important;
+	width: 30px;
+	left: -15px;
+}
+.__MSG_@@extension_id__-sidebar-minimized {
+	-webkit-animation-duration: .65s !important;
+	animation-duration: .65s !important;
+	-webkit-animation-fill-mode: both !important;
+	-webkit-animation-name: minimize-__MSG_@@extension_id__ !important;
+}
+@-webkit-keyframes minimize-__MSG_@@extension_id__ {
+	0% {
+		-webkit-transform: translateX(0px) translateZ(0);
+	}
+	100% {
+		-webkit-transform: translateX(325px) translateZ(0);
+	}
+}
 
 
 
