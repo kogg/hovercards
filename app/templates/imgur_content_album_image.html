@@ -1,6 +1,6 @@
 <div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content.images }" ng-click="view.fullscreen=(view.fullscreen === data.content.images) ? null : data.content.images">
-	<img ng-if="$index !== 0" data-lazy="{{:: image.image }}" on-image-load="(data.content.current_slide === $index) && redoHeight()">
-	<img ng-if="$index === 0" ng-src="{{:: image.image }}" on-image-load="(data.content.current_slide === $index) && redoHeight()">
+	<img ng-if="$index !== 0 && $index !== 1" data-lazy="{{:: image.image }}" on-image-load="(data.content.current_slide === $index) && redoHeight()">
+	<img ng-if="$index === 0 || $index === 1" ng-src="{{:: image.image }}" on-image-load="(data.content.current_slide === $index) && redoHeight()">
 </div>
 <div class="card-text album-text" ng-if=":: image.description">
 	<a ng-href="{{:: image | generateUrl }}" class="no-yo">{{:: image.name }}</a>
