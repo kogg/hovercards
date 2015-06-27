@@ -44,7 +44,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             scope: {
                 text: '=readmore',
                 cutoffHeight: '@?',
-                readless: '=?'
+                readless: '=?',
+                onReadmore: '&?'
             },
             link: function($scope, $element) {
                 $scope.$watch('text', function(text) {
@@ -52,7 +53,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                     if (!text) {
                         return;
                     }
-                    (function readmore() {
+                    (function readmore(event) {
+                        if (event) {
+                            event.stopPropagation();
+                            $scope.onReadmore();
+                        }
                         angular.element('<span class="read-more">More</span>').appendTo($element);
                         $timeout(function() {
                             $element.dotdotdot({
@@ -69,7 +74,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                     }
                                     read_more
                                         .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
-                                        .click(function() {
+                                        .click(function(event) {
+                                            event.stopPropagation();
                                             $element
                                                 .trigger('destroy')
                                                 .html($scope.text);
@@ -78,6 +84,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                                     .appendTo($element)
                                                     .before(' ')
                                                     .click(readmore);
+                                            }
+                                            if ($scope.onReadmore) {
+                                                $scope.onReadmore();
                                             }
                                         });
                                 }

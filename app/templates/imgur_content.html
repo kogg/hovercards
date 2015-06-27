@@ -15,7 +15,7 @@
 			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
 			</div>
-			<div class="col-12">
+			<div class="col-12" ng-if=":: data.content.name">
 				<div class="video-title">
 					<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.name }}</a>
 				</div>
@@ -38,7 +38,7 @@
 		<img ng-src="{{:: data.content.image }}">
 	</div>
 
-	<div class="card-text" ng-if=":: data.content.description">
+	<div class="card-text" ng-if=":: data.content.description" ng-show="data.content.image || (data.content.current_slide || 0) === 0 || (data.content.current_slide || 0) === data.content.images.length - 1">
 		<div class="card-description">
 			<p readmore=":: data.content.description" cutoff-height="80"></p>
 		</div>
