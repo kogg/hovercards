@@ -23,11 +23,6 @@ module.exports = function sidebar() {
             sidebar_message({ msg: 'hide', by: 'closebutton' });
         });
 
-    function prevent_everything(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-
     $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
@@ -37,6 +32,13 @@ module.exports = function sidebar() {
         })
         .mouseleave(function() {
             $(window).off('mousewheel', prevent_everything);
+        });
+
+    $('<div></div>')
+        .appendTo(obj)
+        .addClass(extension_id + '-sidebar-minimizer')
+        .click(function() {
+            obj.toggleClass(extension_id + '-sidebar-minimized');
         });
 
     window.addEventListener('message', function(event) {
@@ -50,17 +52,12 @@ module.exports = function sidebar() {
         sidebar_message(event.data, event.source);
     }, false);
 
-    function dblclick_for_sidebar() {
-        if (document.selection && document.selection.empty) {
-            document.selection.empty();
-        } else if (window.getSelection) {
-            window.getSelection().removeAllRanges();
-        }
-        sidebar_message({ msg: 'hide', by: 'dblclick' });
+    function prevent_everything(e) {
+        e.preventDefault();
+        e.stopPropagation();
     }
 
     var sidebar_frame;
-
     function sendMessage(message) {
         sidebar_frame.postMessage(message, '*');
         switch (message.msg) {
@@ -85,9 +82,17 @@ module.exports = function sidebar() {
         }
     }
 
+    function dblclick_for_sidebar() {
+        if (document.selection && document.selection.empty) {
+            document.selection.empty();
+        } else if (window.getSelection) {
+            window.getSelection().removeAllRanges();
+        }
+        sidebar_message({ msg: 'hide', by: 'dblclick' });
+    }
+
     var identity;
     var by;
-
     function sidebar_message(request, frame) {
         if (!request) {
             return;
