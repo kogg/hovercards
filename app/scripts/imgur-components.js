@@ -63,7 +63,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
             },
             link: function($scope, $element) {
                 $element.bind('load', function() {
-                    console.log('testing load');
                     $scope.onImageLoad();
                 });
             }
