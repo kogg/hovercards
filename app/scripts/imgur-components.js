@@ -36,9 +36,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
                     if (been_slicked) {
                         $element.slick('unslick');
                     }
-                    _.each(images, function(image) {
+                    _.each(images, function(image, i) {
                         var element_text = '<div style="height: auto !important;"><div ng-include="\'templates/imgur_content_album_image.html\'"></div></div>';
-                        var element = $compile(element_text)(_.extend($scope.$new(), { image: image, redoHeight: function() {
+                        var element = $compile(element_text)(_.extend($scope.$new(), { image: image, $index: i, redoHeight: function() {
                             $element.height(angular.element(element).height());
                         }}));
                         $element.append(element);
@@ -52,6 +52,19 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
                             $scope.data.content.current_slide = 0;
                         });
                     });
+                });
+            }
+        };
+    }])
+    .directive('onImageLoad', [function() {
+        return {
+            scope: {
+                'onImageLoad': '&'
+            },
+            link: function($scope, $element) {
+                $element.bind('load', function() {
+                    console.log('testing load');
+                    $scope.onImageLoad();
                 });
             }
         };
