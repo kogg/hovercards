@@ -15,7 +15,7 @@
 			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
 			</div>
-			<div class="col-12">
+			<div class="col-12" ng-if=":: data.content.name">
 				<div class="video-title">
 					<a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.name }}</a>
 				</div>
