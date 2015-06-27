@@ -17,7 +17,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
                 });
 
                 $element.on('beforeChange', function(e, slider, lastSlide, slide) {
-                    angular.element(slider.$slider).height(angular.element(slider.$slides[slide]).height());
+                    $element.height(angular.element(slider.$slides[slide]).height());
                 });
 
                 $scope.$watchCollection('data.content.images', function(images) {
@@ -25,14 +25,17 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
                         $element.slick('unslick');
                     }
                     _.each(images, function(image) {
-                        var element = '<div style="height: auto !important;"><div ng-include="\'templates/imgur_content_album_image.html\'"></div></div>';
-                        $element.append($compile(element)(_.extend($scope.$new(), { image: image })));
+                        var element_text = '<div style="height: auto !important;"><div ng-include="\'templates/imgur_content_album_image.html\'"></div></div>';
+                        var element = $compile(element_text)(_.extend($scope.$new(), { image: image, redoHeight: function() {
+                            $element.height(angular.element(element).height());
+                        }}));
+                        $element.append(element);
                     });
                     $element.slick({ appendDots: '.imgur-dots', arrows: false, centerMode: true, centerPadding: 0, dots: true, focusOnSelect: true, infinite: false, slidesToShow: 1 });
                     been_slicked = true;
 
                     $element.one('init', function(e, slider) {
-                        angular.element(slider.$slider).height(angular.element(slider.$slides[0]).height());
+                        $element.height(angular.element(slider.$slides[0]).height());
                         $scope.$apply(function() {
                             $scope.data.content.current_slide = 0;
                         });

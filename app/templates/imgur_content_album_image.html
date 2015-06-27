@@ -4,6 +4,6 @@
 <div class="card-text album-text" ng-if=":: image.description">
 	<a ng-href="{{:: image | generateUrl }}" class="no-yo">{{:: image.name }}</a>
 	<div class="card-description">
-		<p readmore=":: image.description" cutoff-height="80"></p>
+		<p readmore=":: image.description" cutoff-height="80" on-readmore="redoHeight()"></p>
 	</div>
 </div>
