@@ -9,15 +9,27 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
             link: function($scope, $element) {
                 var been_slicked = false;
 
-                // $element.on('afterChange', function(e, slider, slide) {
                 $element.on('beforeChange', function(e, slider, lastSlide, slide) {
                     $scope.$apply(function() {
                         $scope.data.content.current_slide = slide;
                     });
                 });
 
-                $element.on('beforeChange', function(e, slider, lastSlide, slide) {
+                $element.on('beforeChange', function(e, slider, last_slide, slide) {
+                    var last_slide_height = angular.element(slider.$slides[last_slide]).height();
+                    var slide_height = angular.element(slider.$slides[slide]).height();
+                    if (last_slide_height >= slide_height) {
+                        return;
+                    }
                     $element.height(angular.element(slider.$slides[slide]).height());
+                });
+
+                $element.on('afterChange', function(e, slider, slide) {
+                    var slide_height = angular.element(slider.$slides[slide]).height();
+                    if ($element.height() === slide_height) {
+                        return;
+                    }
+                    $element.height(slide_height);
                 });
 
                 $scope.$watchCollection('data.content.images', function(images) {
