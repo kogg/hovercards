@@ -39,6 +39,7 @@ module.exports = function sidebar() {
         .addClass(extension_id + '-sidebar-minimizer')
         .click(function() {
             obj.toggleClass(extension_id + '-sidebar-minimized');
+            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', obj.hasClass(extension_id + '-sidebar-minimized') ? 'minimized' : 'unminimized'] });
         });
 
     window.addEventListener('message', function(event) {
@@ -65,6 +66,7 @@ module.exports = function sidebar() {
                 obj
                     .show()
                     .removeClass(extension_id + '-sidebar-leave')
+                    .removeClass(extension_id + '-sidebar-minimized')
                     .addClass(extension_id + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
                 chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, (message.identity.api || 'none') + ' ' + message.identity.type,
