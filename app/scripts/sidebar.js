@@ -65,6 +65,7 @@ module.exports = function sidebar() {
                 obj
                     .show()
                     .removeClass(extension_id + '-sidebar-leave')
+                    .removeClass(extension_id + '-sidebar-minimized')
                     .addClass(extension_id + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
                 chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, (message.identity.api || 'none') + ' ' + message.identity.type,
