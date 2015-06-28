@@ -57,9 +57,10 @@
 	border: 1px solid rgba(0,0,0,.06) !important;
 	border-right: none !important;
 	color: rgba(255,255,255,.9) !important;
-	box-shadow:  -2px 1px 9px 0px rgba(0,0,0,0.1);
+	box-shadow:  -6px 1px 13px -4px rgba(0,0,0,0.15);
 	display: block !important;
-	transform: translateY(0px);
+	transform: translateY(0px) !important;
+	z-index: 3 !important;
 	transition: all 0.3s ease .45s !important;
 }
 .__MSG_@@extension_id__-sidebar-close-button:before {
@@ -112,13 +113,13 @@
 .__MSG_@@extension_id__-sidebar-minimizer {
 	position: absolute !important;
 	height: 100% !important;
-	width: 10px !important;
-	left: -5px !important;
-	cursor: e-resize !important
-}
-.__MSG_@@extension_id__-sidebar-minimizer:after {
-	content: "" !important;
 	width: 20px !important;
+	left: -10px !important;
+	z-index: 2;
+	cursor: e-resize !important;
+}
+.__MSG_@@extension_id__-sidebar-minimized .__MSG_@@extension_id__-sidebar-minimizer:after {
+	content: "" !important;
 	background: #f6f6f6 !important;
 	pointer-events:none !important;
 	z-index: 0 !important;
@@ -129,6 +130,7 @@
 	position: absolute !important;
 	height: 100% !important;
 	left: 15px !important;
+	width: 20px;
 }
 .__MSG_@@extension_id__-sidebar-minimized .__MSG_@@extension_id__-sidebar-minimizer {
 	cursor: w-resize !important;
