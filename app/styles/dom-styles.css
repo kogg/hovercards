@@ -114,7 +114,7 @@
 	position: absolute !important;
 	height: 100% !important;
 	width: 20px !important;
-	left: -10px !important;
+	left: -15px !important;
 	z-index: 2;
 	cursor: e-resize !important;
 }
