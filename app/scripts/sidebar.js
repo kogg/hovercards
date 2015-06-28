@@ -39,6 +39,7 @@ module.exports = function sidebar() {
         .addClass(extension_id + '-sidebar-minimizer')
         .click(function() {
             obj.toggleClass(extension_id + '-sidebar-minimized');
+            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', obj.hasClass(extension_id + '-sidebar-minimized') ? 'minimized' : 'unminimized'] });
         });
 
     window.addEventListener('message', function(event) {
