@@ -30,33 +30,14 @@
 		<img ng-src="{{ data.content.images[data.content.current_slide || 0].image }}">
 	</div>
 
-	<!-- Video -->
-	<div ng-if=":: data.content.video" class="imgur-video">
-		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
-			<div class="video-image">
-				<div ng-if="playing">
-					<video video-src="{{:: data.content.video }}" fullscreen="data.content" view="view" autoplay loop></video>
-				</div>
-			</div>
-		</div>
-		<div class="video-top-underlay">
-			<img src="{{ data.content.image }}" ng-click="played || ((played = true) && (playing = true))" class="video-image">
-			<div class="play-video imgur-background" ng-click="played || ((played = true) && (playing = true))" ng-class="{ 'play-video-clicked': playing }"></div>
-			<div class="video-cta imgur-background" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
-				<i class="zmdi zmdi-fullscreen"></i>
-			</div>
-			<div class="video-cta imgur-background" ng-click="view.fullscreen=null;" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
-				<i class="zmdi zmdi-fullscreen-exit"></i>
-			</div>
-		</div>
+	<!-- Image/Gifs -->
+	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === (data.content.video || data.content.image) }" ng-click="view.fullscreen=(view.fullscreen === (data.content.video || data.content.image)) ? null : (data.content.video || data.content.image)">
+		<img ng-src="{{:: data.content.image }}" ng-if=":: !data.content.video">
+		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
 	</div>
-
-	<!-- Image -->
-	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content.image }" ng-if=":: !data.content.video && data.content.image" ng-click="view.fullscreen=(view.fullscreen === data.content.image) ? null : data.content.image">
-		<img ng-src="{{:: data.content.image }}">
-	</div>
-	<div class="fullscreen-image" ng-if="!data.content.video && data.content.image && view.fullscreen === data.content.image" ng-click="view.fullscreen=null">
-		<img ng-src="{{:: data.content.image }}">
+	<div class="fullscreen-image" ng-if="view.fullscreen === (data.content.video || data.content.image)" ng-click="view.fullscreen=null">
+		<img ng-src="{{:: data.content.image }}" ng-if=":: !data.content.video">
+		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
 	</div>
 
 	<div class="card-text" ng-if=":: data.content.description" ng-show="data.content.image || (data.content.current_slide || 0) === 0 || (data.content.current_slide || 0) === data.content.images.length - 1">

@@ -153,6 +153,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             restrict: 'E',
             scope: {
                 src: '@videoSrc',
+                clickControls: '=?',
                 fullscreen: '=?',
                 view: '=?'
             },
@@ -161,36 +162,38 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                 $scope.$watch('src', function(src) {
                     $element.attr('src', src);
                 });
-                $element.click(function() {
-                    $scope.$apply(function() {
-                        if ($scope.is_playing) {
-                            $element.get(0).pause();
-                        } else {
-                            $element.get(0).play();
-                        }
-                    });
-                });
-                if ($scope.fullscreen && $scope.view) {
-                    $element.dblclick(function() {
+                if ($scope.clickControls) {
+                    $element.click(function() {
                         $scope.$apply(function() {
-                            if ($scope.view.fullscreen === $scope.fullscreen) {
-                                $scope.view.fullscreen = null;
+                            if ($scope.is_playing) {
+                                $element.get(0).pause();
                             } else {
-                                $scope.view.fullscreen = $scope.fullscreen;
+                                $element.get(0).play();
                             }
                         });
                     });
+                    if ($scope.fullscreen && $scope.view) {
+                        $element.dblclick(function() {
+                            $scope.$apply(function() {
+                                if ($scope.view.fullscreen === $scope.fullscreen) {
+                                    $scope.view.fullscreen = null;
+                                } else {
+                                    $scope.view.fullscreen = $scope.fullscreen;
+                                }
+                            });
+                        });
+                    }
+                    $element.get(0).onplay = function() {
+                        $scope.$apply(function() {
+                            $scope.is_playing = true;
+                        });
+                    };
+                    $element.get(0).onpause = function() {
+                        $scope.$apply(function() {
+                            $scope.is_playing = false;
+                        });
+                    };
                 }
-                $element.get(0).onplay = function() {
-                    $scope.$apply(function() {
-                        $scope.is_playing = true;
-                    });
-                };
-                $element.get(0).onpause = function() {
-                    $scope.$apply(function() {
-                        $scope.is_playing = false;
-                    });
-                };
             }
         };
     }])
