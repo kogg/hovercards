@@ -26,7 +26,7 @@
 	<h2>The comments are disabled!</h2>
 </div>
 
-<div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content'] && data.discussion.$err.forbidden" ng-init="err = data.discussion.$err">
+<div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content'] && !data.discussion.$err.forbidden" ng-init="err = data.discussion.$err">
 	<span ng-messages="err">
 		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>

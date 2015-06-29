@@ -6,7 +6,12 @@
 	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">Comment on It!</div></a>
 </div>
 
-<div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content']" ng-init="err = data.discussion.$err">
+<div class="no-comments" ng-if="data.discussion.$err.forbidden">
+	<b><i class="zmdi zmdi-comment-alert"></i> Not Published</b>
+	<h2>This hasn't been published to the gallery!</h2>
+</div>
+
+<div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content'] && !data.discussion.$err.forbidden" ng-init="err = data.discussion.$err">
 	<span ng-messages="err">
 		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>
