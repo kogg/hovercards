@@ -30,7 +30,7 @@
 		<img ng-src="{{ data.content.images[data.content.current_slide || 0].image }}">
 	</div>
 
-	<!-- Just Image -->
+	<!-- Image -->
 	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content.image }" ng-if=":: data.content.image" ng-click="view.fullscreen=(view.fullscreen === data.content.image) ? null : data.content.image">
 		<img ng-src="{{:: data.content.image }}">
 	</div>
