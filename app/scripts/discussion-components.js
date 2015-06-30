@@ -2,7 +2,7 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('./service-components')])
-    .controller('DiscussionController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
+    .controller('DiscussionController', ['$scope', '$q', '$timeout', 'apiService', function($scope, $q, $timeout, apiService) {
         $scope.$watch('[entry.discussions, order]', function(parts) {
             var requests = parts[0];
             var order    = parts[1];
@@ -18,6 +18,21 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                                      .value();
             var data = $scope.data;
             data.discussions = data.discussions || {};
+            if (entry.discussions.imgur && (entry.discussions.imgur.as === 'image' || entry.discussions.imgur.as === 'album')) {
+                console.log('sup');
+                data.discussions.imgur = (function() {
+                    var object = { $promise: $q(function(resolve, reject) {
+                        reject({ status: 403, forbidden: true, api: 'imgur' });
+                    }).catch(function(err) {
+                        object.$err = err;
+                        return $q.reject(object.$err);
+                    }).finally(function() {
+                        object.$resolved = true;
+                    }) };
+
+                    return object;
+                }());
+            }
             (function check_api(n) {
                 $timeout(function() {
                     if (entry.discussion_api) {
