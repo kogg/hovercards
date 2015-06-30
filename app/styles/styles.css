@@ -67,6 +67,7 @@ body {
 	max-width: 340px;
 	float: right;
 	background: #f6f6f6;
+	min-height: 100%;
 	overflow: hidden;
 }
 .fullscreen-active .fullscreen-trigger {
@@ -204,6 +205,7 @@ hr {
 p a, .card-text .card-description p a, .card-description-padding p a, .comment-content p a {
 	color: #2196F3;
 }
+
 .comment-content p a:hover{
 	text-decoration: underline;
 }
@@ -280,7 +282,12 @@ b i, .iconic-push {
 	background-position: center !important;
 	transition:all .2s ease-in-out;
 }
-
+.not-available {
+	float: right !important
+}
+.not-available span {
+	color: #727272
+}
 .card-stats-tag:hover .card-stats-tag-img {
 	z-index: 2;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -652,6 +659,8 @@ b i, .iconic-push {
 }
 .fullscreen-active .video-image {
 	background: rgba(0, 0, 0, 0.8);
+  background-position: center;
+  background-size: cover;
 }
 .instagram-video .video-image {
 	height: 297px;
@@ -962,6 +971,11 @@ b i, .iconic-push {
 }
 .context-top span {
 
+}
+.context-top span.emoji {
+	font-weight: 100;
+	position: relative;
+	top: 1px
 }
 .context-top span a {
 	color: #727272;
@@ -1978,7 +1992,11 @@ h2 {
   cursor: -webkit-zoom-out; 
   cursor: zoom-out;
 }
-.content-top img {
+.content-top-active video {
+	position: relative !important;
+	width: 100%;
+}
+.content-top img, .content-top video {
 	width: 100%;
 }
 /*content list*/
@@ -2046,6 +2064,7 @@ h2 {
 	text-align: right;
 	line-height: 32px;
 }
+
 /*content cards*/
 .content-cards {
 	padding: 0px 20px;
@@ -2348,10 +2367,10 @@ h2 {
   cursor: -webkit-zoom-out; 
   cursor: zoom-out;
 }
-.fullscreen-active .fullscreen-image {
+.fullscreen-active .fullscreen-image, .fullscreen-active video {
 	display: block;
 }
-.fullscreen-active .fullscreen-image img {
+.fullscreen-active .fullscreen-image img, .fullscreen-active video {
 	width: auto;
 	position: absolute;
   margin: auto;

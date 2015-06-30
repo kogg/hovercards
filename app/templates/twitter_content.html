@@ -15,11 +15,11 @@
 	</div>
 
 	<!-- Video -->
-	<div ng-if=":: data.content.video" class="twitter-video">
+	<div ng-if=":: data.content.video && !data.content.video_is_image" class="twitter-video">
 		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
 			<div class="video-image">
 				<div ng-if="playing">
-					<video video-src="{{:: data.content.video }}" fullscreen="data.content" view="view" autoplay loop></video>
+					<video video-src="{{:: data.content.video }}" click-controls="true" fullscreen="data.content" view="view" autoplay loop></video>
 				</div>
 			</div>
 		</div>
@@ -35,12 +35,14 @@
 		</div>
 	</div>
 
-	<!-- Just Image -->
-	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content }" ng-if=":: !data.content.video && data.content.image" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content">
-		<img ng-src="{{:: data.content.image }}:small">
+	<!-- Image/Gifs -->
+	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content }" ng-if=":: data.content.image && (data.content.video_is_image || !data.content.video)" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content">
+		<img ng-src="{{:: data.content.image }}:small" ng-if=":: !data.content.video">
+		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
 	</div>
-	<div class="fullscreen-image" ng-if="!data.content.video && view.fullscreen === data.content" ng-click="view.fullscreen=null">
-		<img ng-src="{{:: data.content.image }}">
+	<div class="fullscreen-image" ng-if="(data.content.image && (data.content.video_is_image || !data.content.video)) && view.fullscreen === data.content" ng-click="view.fullscreen=null">
+		<img ng-src="{{:: data.content.image }}:small" ng-if=":: !data.content.video">
+		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
 	</div>
 
 	<div class="card-text text-post">

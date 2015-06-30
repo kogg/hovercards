@@ -15,9 +15,16 @@
 				<b>Reputation</b>
 				<span>{{:: person.selectedAccount.reputation | numsmall }}</span>
 			</div>
-			<div class="col-4">
+			<div class="col-4 ellipsis">
 				<b>Notoriety</b>
-				<span>{{:: person.selectedAccount.notoriety }}</span>
+				<span ng-if=":: person.selectedAccount.reputation >= 20000" title="20,000">Glorious</span>
+				<span ng-if=":: person.selectedAccount.reputation >= 8000 && person.selectedAccount.reputation < 20000" title="8,000 to 19,999">Renowned</span>
+				<span ng-if=":: person.selectedAccount.reputation >= 4000 && person.selectedAccount.reputation < 8000" title="4,000 to 7,999">Idolized</span>
+				<span ng-if=":: person.selectedAccount.reputation >= 2000 && person.selectedAccount.reputation < 4000" title="2,000 to 3,999">Trusted</span>
+				<span ng-if=":: person.selectedAccount.reputation >= 1000 && person.selectedAccount.reputation < 2000" title="1,000 to 1,999">Liked</span>
+				<span ng-if=":: person.selectedAccount.reputation >= 400 && person.selectedAccount.reputation < 1000" title="400 to 999">Accepted</span>
+				<span ng-if=":: person.selectedAccount.reputation >= 0 && person.selectedAccount.reputation < 400" title="0 to 399">Neutral</span>
+				<span ng-if=":: person.selectedAccount.reputation < 0" title="-1">Forever Alone</span>
 			</div>
 			<div class="col-4">
 				<b>Account Age</b>

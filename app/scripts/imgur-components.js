@@ -9,7 +9,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
             link: function($scope, $element) {
                 var been_slicked = false;
 
-                $element.on('beforeChange', function(e, slider, lastSlide, slide) {
+                $element.on('afterChange', function(e, slider, slide) {
                     $scope.$apply(function() {
                         $scope.data.content.current_slide = slide;
                     });
@@ -43,15 +43,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
                         }}));
                         $element.append(element);
                     });
+                    $element.on('init', function(e, slider) {
+                        $element.height(angular.element(slider.$slides[0]).height());
+                        $scope.data.content.current_slide = 0;
+                    });
                     $element.slick({ appendDots: '.imgur-dots', arrows: false, centerMode: true, centerPadding: 0, dots: true, focusOnSelect: true, infinite: false, slidesToShow: 1 });
                     been_slicked = true;
-
-                    $element.one('init', function(e, slider) {
-                        $element.height(angular.element(slider.$slides[0]).height());
-                        $scope.$apply(function() {
-                            $scope.data.content.current_slide = 0;
-                        });
-                    });
                 });
             }
         };

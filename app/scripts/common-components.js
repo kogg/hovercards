@@ -152,8 +152,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         return {
             restrict: 'E',
             scope: {
-                src: '@videoSrc',
+                clickControls: '=?',
                 fullscreen: '=?',
+                onVideoLoad: '&?',
+                src: '@videoSrc',
                 view: '=?'
             },
             link: function($scope, $element) {
@@ -161,36 +163,45 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                 $scope.$watch('src', function(src) {
                     $element.attr('src', src);
                 });
-                $element.click(function() {
-                    $scope.$apply(function() {
-                        if ($scope.is_playing) {
-                            $element.get(0).pause();
-                        } else {
-                            $element.get(0).play();
-                        }
-                    });
-                });
-                if ($scope.fullscreen && $scope.view) {
-                    $element.dblclick(function() {
+                if ($scope.clickControls) {
+                    $element.click(function() {
                         $scope.$apply(function() {
-                            if ($scope.view.fullscreen === $scope.fullscreen) {
-                                $scope.view.fullscreen = null;
+                            if ($scope.is_playing) {
+                                $element.get(0).pause();
                             } else {
-                                $scope.view.fullscreen = $scope.fullscreen;
+                                $element.get(0).play();
                             }
                         });
                     });
+                    if ($scope.fullscreen && $scope.view) {
+                        $element.dblclick(function() {
+                            $scope.$apply(function() {
+                                if ($scope.view.fullscreen === $scope.fullscreen) {
+                                    $scope.view.fullscreen = null;
+                                } else {
+                                    $scope.view.fullscreen = $scope.fullscreen;
+                                }
+                            });
+                        });
+                    }
+                    $element.on('play', function() {
+                        console.log('play');
+                        $scope.$apply(function() {
+                            $scope.is_playing = true;
+                        });
+                    });
+                    $element.on('pause', function() {
+                        console.log('pause');
+                        $scope.$apply(function() {
+                            $scope.is_playing = false;
+                        });
+                    });
                 }
-                $element.get(0).onplay = function() {
-                    $scope.$apply(function() {
-                        $scope.is_playing = true;
+                if ($scope.onVideoLoad) {
+                    $element.on('loadedmetadata', function() {
+                        $scope.onVideoLoad();
                     });
-                };
-                $element.get(0).onpause = function() {
-                    $scope.$apply(function() {
-                        $scope.is_playing = false;
-                    });
-                };
+                }
             }
         };
     }])
