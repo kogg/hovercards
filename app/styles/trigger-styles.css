@@ -183,30 +183,45 @@
 	animation-name: __MSG_@@extension_id__-yo-follower-fadeout;
 }
 .__MSG_@@extension_id__-yo-follower-longpressed {
-	-webkit-animation-duration: .4s;
-	animation-duration: .4s;
+	-webkit-animation-duration: .7s;
+	animation-duration: .7s;
 	-webkit-animation-name: __MSG_@@extension_id__-yo-follower-growfade;
 	animation-name: __MSG_@@extension_id__-yo-follower-growfade;
 }
-
 .__MSG_@@extension_id__-yo-follower-reddit {
 	background-color: #cee2f8 !important;
+	background-image:url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png') !important;
+	background-size: 100% !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
 }
 .__MSG_@@extension_id__-yo-follower-twitter {
 	background-color: #55acee !important;
+	background-image:url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png') !important;
+	background-size: 100% !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
 }
 .__MSG_@@extension_id__-yo-follower-youtube {
 	background-color: #F44336 !important;
-	background-image:url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png') !important;
-	background-size: 66% !important;
+	background-image:url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png') !important;
+	background-size: 100% !important;
 	background-position: center !important;
 	background-repeat: no-repeat !important;
 }
 .__MSG_@@extension_id__-yo-follower-instagram {
 	background-color: #517fa4 !important;
+	background-image:url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png') !important;
+	background-size: 100% !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
 }
 .__MSG_@@extension_id__-yo-follower-imgur {
-	background-color: #86c121 !important;
+	background-color: #000 !important;
+	background-image:url('chrome-extension://__MSG_@@extension_id__/images/Imgur-icon-full_color.png') !important;
+	background-size: 100% !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
 }
 @-webkit-keyframes __MSG_@@extension_id__-yo-follower-fadein {
 	0% {
@@ -243,12 +258,13 @@
 		opacity: 1;
 		-webkit-transform: scale(1.5);
 	}
-	70% {
-		opacity: .5
+	60% {
+		opacity: 1;
+		-webkit-transform: scale(3.5);
 	}
 	100% {
 		opacity: 0;
-		-webkit-transform: scale(4);
+		-webkit-transform: scale(4.5);
 	}
 }
 @keyframes __MSG_@@extension_id__-yo-follower-growfade {
@@ -256,11 +272,12 @@
 		opacity: 1;
 		transform: scale(1.5);
 	}
-	70% {
-		opacity: .5
+	60% {
+		opacity: 1;
+		transform: scale(3.5);
 	}
 	100% {
 		opacity: 0;
-		transform: scale(4);
+		transform: scale(4.5);
 	}
 }

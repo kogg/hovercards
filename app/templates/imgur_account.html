@@ -15,7 +15,7 @@
 				<b>Reputation</b>
 				<span>{{:: person.selectedAccount.reputation | numsmall }}</span>
 			</div>
-			<div class="col-4">
+			<div class="col-4 ellipsis">
 				<b>Notoriety</b>
 				<span ng-if=":: person.selectedAccount.reputation >= 20000" title="20,000">Glorious</span>
 				<span ng-if=":: person.selectedAccount.reputation >= 8000 && person.selectedAccount.reputation < 20000" title="8,000 to 19,999">Renowned</span>
