@@ -33,8 +33,8 @@
 
 	<!-- Image/Gifs -->
 	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === (data.content.video || data.content.image) }" ng-click="view.fullscreen=(view.fullscreen === (data.content.video || data.content.image)) ? null : (data.content.video || data.content.image)">
-		<img ng-src="{{:: data.content.image }}" ng-if=":: !data.content.video">
-		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
+		<img ng-src="{{:: data.content.image }}" ng-show="!data.content.video || view.fullscreen">
+		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video" ng-show="!view.fullscreen"></video>
 	</div>
 	<div class="fullscreen-image" ng-if="view.fullscreen === (data.content.video || data.content.image)" ng-click="view.fullscreen=null">
 		<img ng-src="{{:: data.content.image }}" ng-if=":: !data.content.video">
