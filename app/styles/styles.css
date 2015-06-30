@@ -67,6 +67,7 @@ body {
 	max-width: 340px;
 	float: right;
 	background: #f6f6f6;
+	min-height: 100%;
 	overflow: hidden;
 }
 .fullscreen-active .fullscreen-trigger {
@@ -204,6 +205,7 @@ hr {
 p a, .card-text .card-description p a, .card-description-padding p a, .comment-content p a {
 	color: #2196F3;
 }
+
 .comment-content p a:hover{
 	text-decoration: underline;
 }
@@ -962,6 +964,11 @@ b i, .iconic-push {
 }
 .context-top span {
 
+}
+.context-top span.emoji {
+	font-weight: 100;
+	position: relative;
+	top: 1px
 }
 .context-top span a {
 	color: #727272;
@@ -1978,7 +1985,10 @@ h2 {
   cursor: -webkit-zoom-out; 
   cursor: zoom-out;
 }
-.content-top img {
+.content-top-active video {
+	position: relative !important
+}
+.content-top img, .content-top video {
 	width: 100%;
 }
 /*content list*/
@@ -2348,10 +2358,10 @@ h2 {
   cursor: -webkit-zoom-out; 
   cursor: zoom-out;
 }
-.fullscreen-active .fullscreen-image {
+.fullscreen-active .fullscreen-image, .fullscreen-active video {
 	display: block;
 }
-.fullscreen-active .fullscreen-image img {
+.fullscreen-active .fullscreen-image img, .fullscreen-active video {
 	width: auto;
 	position: absolute;
   margin: auto;

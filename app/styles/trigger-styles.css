@@ -197,6 +197,10 @@
 }
 .__MSG_@@extension_id__-yo-follower-youtube {
 	background-color: #F44336 !important;
+	background-image:url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png') !important;
+	background-size: 66% !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
 }
 .__MSG_@@extension_id__-yo-follower-instagram {
 	background-color: #517fa4 !important;
@@ -239,9 +243,12 @@
 		opacity: 1;
 		-webkit-transform: scale(1.5);
 	}
+	70% {
+		opacity: .5
+	}
 	100% {
 		opacity: 0;
-		-webkit-transform: scale(3);
+		-webkit-transform: scale(4);
 	}
 }
 @keyframes __MSG_@@extension_id__-yo-follower-growfade {
@@ -249,8 +256,11 @@
 		opacity: 1;
 		transform: scale(1.5);
 	}
+	70% {
+		opacity: .5
+	}
 	100% {
 		opacity: 0;
-		transform: scale(3);
+		transform: scale(4);
 	}
 }
