@@ -56,7 +56,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                     (function readmore(event) {
                         if (event) {
                             event.stopPropagation();
-                            $scope.onReadmore();
+                            if ($scope.onReadmore) {
+                                $scope.onReadmore();
+                            }
                         }
                         angular.element('<span class="read-more">More</span>').appendTo($element);
                         $timeout(function() {
