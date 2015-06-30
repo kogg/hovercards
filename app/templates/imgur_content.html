@@ -46,7 +46,7 @@
 		</div>
 	</div>
 	<div class="card-stats inline-row">
-		<div class="col-4">
+		<div class="col-4" ng-class="{ 'not-available': (data.content.score | numsmall) === 'N/A'}">
 			<b>Points</b>
 			<span>{{:: data.content.score | numsmall }}</span>
 		</div>
