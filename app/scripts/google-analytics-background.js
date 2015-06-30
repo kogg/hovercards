@@ -1,5 +1,19 @@
 var _     = require('underscore');
 var async = require('async');
+var env   = require('env');
+
+if (!env.analytics_id) {
+    module.exports = function() {
+        chrome.runtime.onMessage.addListener(function(message) {
+            if (message.type !== 'analytics') {
+                return;
+            }
+
+            console.debug('google analytics', message.request);
+        });
+    };
+    return;
+}
 
 module.exports = function() {
     (function(i,s,o,g,r,a,m) {
@@ -29,7 +43,7 @@ module.exports = function() {
             });
         },
         function(user_id, callback) {
-            window.ga('create', 'UA-64246820-3', { 'userId': user_id });
+            window.ga('create', env.analytics_id, { 'userId': user_id });
             window.ga('set', 'checkProtocolTask', null);
             chrome.runtime.onMessage.addListener(function(message) {
                 if (message.type !== 'analytics') {
@@ -37,8 +51,6 @@ module.exports = function() {
                 }
 
                 window.ga.apply(this, message.request);
-
-                return true;
             });
             callback();
         }

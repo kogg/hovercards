@@ -14,10 +14,18 @@ module.exports = function (grunt) {
         },
         browserify: {
             js: {
+                options: {
+                    alias: {
+                        'env': './app/scripts/production-env.js'
+                    }
+                },
                 files: '<%= to_browserify %>'
             },
             js_watchify: {
                 options: {
+                    alias: {
+                        'env': './app/scripts/development-env.js'
+                    },
                     keepAlive: true,
                     watch: true
                 },
