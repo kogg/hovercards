@@ -10,9 +10,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
                 var been_slicked = false;
 
                 $element.on('afterChange', function(e, slider, slide) {
-                    console.log('to slide', slide);
                     $scope.$apply(function() {
-                        console.log('in to slide', slide);
                         $scope.data.content.current_slide = slide;
                     });
                 });
