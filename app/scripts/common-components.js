@@ -152,9 +152,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         return {
             restrict: 'E',
             scope: {
-                src: '@videoSrc',
                 clickControls: '=?',
                 fullscreen: '=?',
+                onVideoLoad: '&?',
+                src: '@videoSrc',
                 view: '=?'
             },
             link: function($scope, $element) {
@@ -183,16 +184,23 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             });
                         });
                     }
-                    $element.get(0).onplay = function() {
+                    $element.on('play', function() {
+                        console.log('play');
                         $scope.$apply(function() {
                             $scope.is_playing = true;
                         });
-                    };
-                    $element.get(0).onpause = function() {
+                    });
+                    $element.on('pause', function() {
+                        console.log('pause');
                         $scope.$apply(function() {
                             $scope.is_playing = false;
                         });
-                    };
+                    });
+                }
+                if ($scope.onVideoLoad) {
+                    $element.on('loadedmetadata', function() {
+                        $scope.onVideoLoad();
+                    });
                 }
             }
         };

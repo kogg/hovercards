@@ -1,6 +1,7 @@
 <div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content.images }" ng-click="view.fullscreen=(view.fullscreen === data.content.images) ? null : data.content.images">
-	<img ng-if="$index !== 0 && $index !== 1" data-lazy="{{:: image.image }}" on-image-load="(data.content.current_slide === $index) && redoHeight()">
-	<img ng-if="$index === 0 || $index === 1" ng-src="{{:: image.image }}" on-image-load="(data.content.current_slide === $index) && redoHeight()">
+	<img data-lazy="{{:: image.image }}" ng-if="$index !== 0 && $index !== 1" ng-show="!image.video || data.content.current_slide !== $index || view.fullscreen" on-image-load="(data.content.current_slide === $index) && redoHeight()">
+	<img ng-src="{{:: image.image }}" ng-if="$index === 0 || $index === 1" ng-show="!image.video || data.content.current_slide !== $index || view.fullscreen" on-image-load="(data.content.current_slide === $index) && redoHeight()">
+	<video video-src="{{ image.video }}" ng-if=":: (image.video && data.content.current_slide === $index) || undefined" ng-show="data.content.current_slide === $index && !view.fullscreen" autoplay loop on-video-load="(data.content.current_slide === $index) && redoHeight()"></video>
 </div>
 <div class="card-text album-text" ng-if=":: image.description">
 	<a ng-href="{{:: image | generateUrl }}" class="no-yo">{{:: image.name }}</a>

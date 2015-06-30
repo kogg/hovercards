@@ -27,7 +27,8 @@
 	<div class="imgur-dots" ng-if=":: data.content.images"></div>
 	<div imgur-album-carousel ng-if=":: data.content.images"></div>
 	<div class="fullscreen-image" ng-if="data.content.images && view.fullscreen === data.content.images" ng-click="view.fullscreen=null">
-		<img ng-src="{{ data.content.images[data.content.current_slide || 0].image }}">
+		<img ng-src="{{ data.content.images[data.content.current_slide || 0].image }}" ng-if="!data.content.images[data.content.current_slide || 0].video">
+		<video video-src="{{ data.content.images[data.content.current_slide || 0].video }}" autoplay loop ng-if="data.content.images[data.content.current_slide || 0].video"></video>
 	</div>
 
 	<!-- Image/Gifs -->
