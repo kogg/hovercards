@@ -2108,15 +2108,18 @@ h2 {
 }
 /*soundcloud account*/
 .soundcloud-profile {
-	padding: 0px 20px;
 	overflow: auto
 }
 .soundcloud-profile .row {
-	margin-bottom: 16px;
+	padding: 8px 20px;
 }
 .soundcloud-profile b {
 	margin-bottom: 0px;
 	margin-top: 4px;
+}
+.soundcloud-profile .col-12 {
+	padding-bottom: 8px;
+	border-bottom: 1px solid rgba(0,0,0,.15)
 }
 .soundcloud-profile .col-2 img {
 	max-width: 50px;
@@ -2134,6 +2137,12 @@ h2 {
 }
 .soundcloud-profile a:hover {
 	text-decoration: underline;
+}
+.soundcloud-profile-playlists .row:not(:first-of-type){
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/soundcloud-playlist.png');
+  background-repeat: no-repeat;
+  background-size: 63px;
+  background-position: 13px;
 }
 /*reddit content list*/
 .content-list .reddit-title {
