@@ -1,4 +1,4 @@
-<div class="soundcloud-profile">
+<div class="soundcloud-profile" ng-if="!data.moreContent.$err">
 	<div class="row">
 		<div class="col-2">
 			<img src="https://i1.sndcdn.com/artworks-000103332085-59rey7-t120x120.jpg">
@@ -53,4 +53,11 @@
 			<b><i class="zmdi zmdi-collection-music"></i> <span>14</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-favorite"></i> <span>213</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-refresh-alt"></i> 111</b>
 		</div>
 	</div>
+</div>
+
+<div class="yocards-message-container error-message" ng-class="err.api && 'soundcloud-message'" ng-if="data.moreContent.$err" ng-init="err = data.moreContent.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/more_content_exceptions.html"></span>
+	</span>
 </div>
