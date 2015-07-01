@@ -1936,9 +1936,6 @@ h2 {
   border-radius: 0 0 3px 3px;
   padding: 0 16px 16px 16px;
 }
-.social-profile-description-container p {
-	padding-bottom: 8px;
-}
 .social-profile-description-container-header {
 	padding: 16px;
 }
@@ -1958,6 +1955,7 @@ h2 {
   font-size: 12px;
   font-weight: 600;
   padding-top: 8px;
+  margin-top: 8px;
   border-top: 1px solid rgba(0,0,0,.15)
 }
 .social-profile-description-morecontent span {
