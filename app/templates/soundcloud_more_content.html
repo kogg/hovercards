@@ -1,56 +1,13 @@
 <div class="soundcloud-profile" ng-if="!data.moreContent.$err">
-	<div class="row">
+	<div class="row" ng-class=":: { 'soundcloud-playlist': thing.as === 'playlist' }" ng-repeat="thing in data.moreContent.content">
 		<div class="col-2">
-			<img src="https://i1.sndcdn.com/artworks-000103332085-59rey7-t120x120.jpg">
+			<img ng-src="{{:: thing.image }}">
 		</div>
 		<div class="col-10">
-			<a href="#" class="ellipsis">Martin Solveig & GTA "Intoxicated" Martin Solveig & GTA "Intoxicated"</a>
-			<b><i class="zmdi zmdi-play"></i> <span>2,125,414</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-favorite"></i> <span>213</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-refresh-alt"></i> 111</b>
-		</div>
-	</div>
-	<div class="row soundcloud-playlist">
-		<div class="col-2">
-			<img src="https://i1.sndcdn.com/artworks-000103332085-59rey7-t120x120.jpg">
-		</div>
-		<div class="col-10">
-			<a href="#" class="ellipsis">Martin Solveig & GTA "Intoxicated" Martin Solveig & GTA "Intoxicated"</a>
-			<b><i class="zmdi zmdi-collection-music"></i> <span>14</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-favorite"></i> <span>213</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-refresh-alt"></i> 111</b>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-2">
-			<img src="https://i1.sndcdn.com/artworks-000103332085-59rey7-t120x120.jpg">
-		</div>
-		<div class="col-10">
-			<a href="#" class="ellipsis">Martin Solveig & GTA "Intoxicated" Martin Solveig & GTA "Intoxicated"</a>
-			<b><i class="zmdi zmdi-play"></i> <span>2,125,414</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-favorite"></i> <span>213</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-refresh-alt"></i> 111</b>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-2">
-			<img src="https://i1.sndcdn.com/artworks-000103332085-59rey7-t120x120.jpg">
-		</div>
-		<div class="col-10">
-			<a href="#" class="ellipsis">Martin Solveig & GTA "Intoxicated" Martin Solveig & GTA "Intoxicated"</a>
-			<b><i class="zmdi zmdi-play"></i> <span>2,125,414</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-favorite"></i> <span>213</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-refresh-alt"></i> 111</b>
-		</div>
-	</div>
-	<div class="row soundcloud-playlist">
-		<div class="col-2">
-			<img src="https://i1.sndcdn.com/artworks-000103332085-59rey7-t120x120.jpg">
-		</div>
-		<div class="col-10">
-			<a href="#" class="ellipsis">Martin Solveig & GTA "Intoxicated" Martin Solveig & GTA "Intoxicated"</a>
-			<b><i class="zmdi zmdi-collection-music"></i> <span>14</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-favorite"></i> <span>213</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-refresh-alt"></i> 111</b>
-		</div>
-	</div>
-	<div class="row soundcloud-playlist">
-		<div class="col-2">
-			<img src="https://i1.sndcdn.com/artworks-000103332085-59rey7-t120x120.jpg">
-		</div>
-		<div class="col-10">
-			<a href="#" class="ellipsis">Martin Solveig & GTA "Intoxicated" Martin Solveig & GTA "Intoxicated"</a>
-			<b><i class="zmdi zmdi-collection-music"></i> <span>14</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-favorite"></i> <span>213</span> &nbsp;&middot;&nbsp; <i class="zmdi zmdi-refresh-alt"></i> 111</b>
+			<a ng-href="{{:: thing | generateUrl }}" class="ellipsis">{{:: thing.name }}</a>
+			<b ng-if=":: thing.as === 'track' && thing.plays !== undefined && thing.plays !== null"><i class="zmdi zmdi-play"></i> {{:: thing.plays | number }} &nbsp;&middot;&nbsp; <i class="zmdi zmdi-favorite"></i> {{:: thing.favorites | number }} &nbsp;&middot;&nbsp; <i class="zmdi zmdi-time"></i> {{:: thing.date | timeSince:true }}</b>
+			<b ng-if=":: thing.as === 'track' && (thing.plays === undefined || thing.plays === null)"><i class="zmdi zmdi-time"></i> {{:: thing.date | timeSince:true }}</b>
+			<b ng-if=":: thing.as === 'playlist'"><i class="zmdi zmdi-collection-music"></i> {{:: thing.tracks | number }} &nbsp;&middot;&nbsp; <i class="zmdi zmdi-time"></i> {{:: thing.date | timeSince:true }}</b>
 		</div>
 	</div>
 </div>
