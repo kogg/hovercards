@@ -256,28 +256,28 @@
 @-webkit-keyframes __MSG_@@extension_id__-yo-follower-growfade {
 	0% {
 		opacity: 1;
-		-webkit-transform: scale(1.5);
+		-webkit-transform: scale(1) translateZ(0);
 	}
 	60% {
 		opacity: 1;
-		-webkit-transform: scale(2.5);
+		-webkit-transform: scale(2) translateZ(0);
 	}
 	100% {
 		opacity: 0;
-		-webkit-transform: scale(3.5);
+		-webkit-transform: scale(3) translateZ(0);
 	}
 }
 @keyframes __MSG_@@extension_id__-yo-follower-growfade {
 	0% {
 		opacity: 1;
-		transform: scale(1.5);
+		transform: scale(1) translateZ(0);
 	}
 	60% {
 		opacity: 1;
-		transform: scale(2.5);
+		transform: scale(2) translateZ(0);
 	}
 	100% {
 		opacity: 0;
-		transform: scale(3.5);
+		transform: scale(3) translateZ(0);
 	}
 }
