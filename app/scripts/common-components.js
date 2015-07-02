@@ -307,4 +307,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             return moment(time).fromNow();
         };
     }])
+    .filter('trustedUrl', ['$sce', function($sce) {
+        return $sce.trustAsResourceUrl;
+    }])
     .name;

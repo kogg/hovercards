@@ -19,6 +19,9 @@
 		</div>
 	</div>
 
+	<iframe ng-if=":: data.content.as === 'track'" ng-src="{{:: ('https://w.soundcloud.com/player/?url=' + (data.content | generateUrl) + '&buying=false&sharing=false&download=false&show_bpm=false&show_playcount=false&show_user=false&show_playcount=false&show_bpm=false&show_comments=false&hide_related=false&show_reposts=false&visual=true') | trustedUrl }}" height="250"></iframe>
+	<iframe ng-if=":: data.content.as === 'playlist'" ng-src="{{:: ('https://w.soundcloud.com/player/?url=' + (data.content | generateUrl) + '&buying=false&sharing=false&download=false&show_bpm=false&show_playcount=false&show_user=false&show_playcount=false&show_bpm=false&show_comments=false&show_reposts=false&hide_related=false') | trustedUrl }}" height="300"></iframe>
+
 	<div class="card-text" ng-if=":: data.content.description">
 		<div class="card-description">
 			<p readmore=":: data.content.description | linky" cutoff-height="50" readless="true"></p>
@@ -26,27 +29,13 @@
 	</div>
 
 	<div class="card-stats row" ng-if=":: data.content.as === 'track' && data.content.plays !== undefined && data.content.plays !== null">
-		<div class="col-4">
+		<div class="col-6">
 			<b>Plays</b>
 			<span>{{:: data.content.plays | numsmall }}</span>
 		</div>
-		<div class="col-4">
+		<div class="col-6">
 			<b>Favorites</b>
 			<span>{{:: data.content.favorites | numsmall }}</span>
-		</div>
-		<div class="col-4">
-			<b>Posted</b>
-			<span>{{:: data.content.date | timeSince:true }}</span>
-		</div>
-	</div>
-	<div class="card-stats row" ng-if=":: data.content.as === 'playlist'">
-		<div class="col-6">
-			<b>Tracks</b>
-			<span>{{:: data.content.tracks | numsmall }}</span>
-		</div>
-		<div class="col-6">
-			<b>Posted</b>
-			<span>{{:: data.content.date | timeSince:true }}</span>
 		</div>
 	</div>
 </div>
