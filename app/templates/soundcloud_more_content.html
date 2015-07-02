@@ -3,8 +3,8 @@
 		<div class="col-2">
 			<img ng-src="{{:: thing.image }}">
 		</div>
-		<div class="col-10">
-			<a ng-href="{{:: thing | generateUrl }}" class="ellipsis">{{:: thing.name }}</a>
+		<div class="col-10 ellipsis">
+			<a ng-href="{{:: thing | generateUrl }}">{{:: thing.name }}</a>
 			<b ng-if=":: thing.as === 'track' && thing.plays !== undefined && thing.plays !== null"><i class="zmdi zmdi-play"></i> {{:: thing.plays | number }} &nbsp;&middot;&nbsp; <i class="zmdi zmdi-favorite"></i> {{:: thing.favorites | number }} &nbsp;&middot;&nbsp; <i class="zmdi zmdi-time"></i> {{:: thing.date | timeSince:true }}</b>
 			<b ng-if=":: thing.as === 'track' && (thing.plays === undefined || thing.plays === null)"><i class="zmdi zmdi-time"></i> {{:: thing.date | timeSince:true }}</b>
 			<b ng-if=":: thing.as === 'playlist'"><i class="zmdi zmdi-collection-music"></i> {{:: thing.tracks | number }} &nbsp;&middot;&nbsp; <i class="zmdi zmdi-time"></i> {{:: thing.date | timeSince:true }}</b>

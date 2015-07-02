@@ -1858,16 +1858,26 @@ h2 {
 /*Network Menu*/
 .network-menu {
   background-color: #f6f6f6;
-	padding: 0 20px;
-	height: 48px;
+	min-height: 48px;
 }
 .network-menu-space {
-	height: 48px;
+	min-height: 48px;
 }
 .network-menu-container {
-	overflow: hidden;
+	overflow: auto;
 	white-space: nowrap;
 	text-align: center;
+}
+.network-menu-container::-webkit-scrollbar-track  {
+	background: rgba(0,0,0,.1)
+}
+.network-menu-container::-webkit-scrollbar {
+	-webkit-appearance: none;
+	height: 8px;
+}
+.network-menu-container::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    background-color: rgba(0,0,0,.15);
 }
 .network-menu-option {
 	line-height: 48px;
@@ -1877,16 +1887,30 @@ h2 {
 	padding: 0 20px;
 	margin:0 -1px;
 	position: relative;
-	width: 33.3333%;
 	color: #727272;
-	text-align: center;
-	transition: all .45s ease-in-out;
+	transition:all .3s ease-in-out	;
+}
+.network-menu-option:first-of-type.active {
+}
+.network-menu-size-1  .network-menu-option:first-of-type.active {
+	padding:0 10px 0 10px;
+}
+.network-menu-option.active span {
+	color: black;
+	position: relative;
+}
+.network-menu-option.active span:after {
+  content: "";
+  width: calc(100% + 20px);
+  height: 2px;
+  background: black;
+  position: absolute;
+  left: -10px;
+  bottom: -16px;
 }
 .network-menu-size-1 .network-menu-option {
-	width: 100%;
 }
 .network-menu-size-2 .network-menu-option{
-	width: 50%;
 }
 .network-menu-option:hover {
 	cursor: pointer;
@@ -2133,7 +2157,7 @@ h2 {
 	font-size: 14px;
   color: #000;
   font-weight: 500;
-  display: block;
+  display: inline;
 }
 .soundcloud-profile a:hover {
 	text-decoration: underline;
@@ -2593,6 +2617,9 @@ h2 {
 }
 
 /*Color Palette*/
+.soundcloud-color {
+	color: #ff6600 !important
+}
 .youtube-color {
 	color: #F44336 !important
 }
