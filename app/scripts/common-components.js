@@ -72,7 +72,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                         return;
                                     }
                                     if (!read_more.length) {
-                                        read_more = angular.element('<span class="read-more">Read More</span>');
+                                        read_more = angular.element('<span class="read-more">More</span>');
                                     }
                                     read_more
                                         .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
