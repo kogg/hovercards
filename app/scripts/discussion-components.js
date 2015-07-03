@@ -11,10 +11,16 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             }
             var entry = $scope.entry;
             entry.discussion_apis = _.chain(requests)
-                                     .keys(requests)
-                                     .reject(function(api) {
-                                         return api === 'imgur' && requests[api].as !== 'gallery';
+                                     .omit(function(request, api) {
+                                         switch (api) {
+                                             case 'imgur':
+                                                 return request.as !== 'gallery';
+                                             case 'soundcloud':
+                                                 return request.comments === undefined || request.comments === null;
+                                         }
+                                         return false;
                                      })
+                                     .keys(requests)
                                      .sortBy(function(api) {
                                          return _.indexOf(order, api);
                                      })
