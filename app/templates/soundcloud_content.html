@@ -28,18 +28,14 @@
 		</div>
 	</div>
 
-	<div class="card-stats row" ng-if=":: data.content.plays !== undefined && data.content.plays !== null">
-		<div class="col-4">
+	<div class="card-stats row" ng-if=":: data.content.as === 'track' && data.content.plays !== undefined && data.content.plays !== null">
+		<div class="col-6">
 			<b>Plays</b>
 			<span>{{:: data.content.plays | numsmall }}</span>
 		</div>
-		<div class="col-4">
+		<div class="col-6">
 			<b>Favorites</b>
 			<span>{{:: data.content.favorites | numsmall }}</span>
-		</div>
-		<div class="col-4">
-			<b>Comments</b>
-			<span>{{:: data.content.comments | numsmall }}</span>
 		</div>
 	</div>
 </div>

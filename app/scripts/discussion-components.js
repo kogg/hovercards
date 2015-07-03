@@ -16,7 +16,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                                              case 'imgur':
                                                  return request.as !== 'gallery';
                                              case 'soundcloud':
-                                                 return request.comments === undefined || request.comments === null;
+                                                 return request.as !== 'track';
                                          }
                                          return false;
                                      })
