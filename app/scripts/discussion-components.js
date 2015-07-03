@@ -12,27 +12,15 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             var entry = $scope.entry;
             entry.discussion_apis = _.chain(requests)
                                      .keys(requests)
+                                     .reject(function(api) {
+                                         return api === 'imgur' && requests[api].as !== 'gallery';
+                                     })
                                      .sortBy(function(api) {
                                          return _.indexOf(order, api);
                                      })
                                      .value();
             var data = $scope.data;
             data.discussions = data.discussions || {};
-            if (entry.discussions.imgur && (entry.discussions.imgur.as === 'image' || entry.discussions.imgur.as === 'album')) {
-                console.log('sup');
-                data.discussions.imgur = (function() {
-                    var object = { $promise: $q(function(resolve, reject) {
-                        reject({ status: 403, forbidden: true, api: 'imgur' });
-                    }).catch(function(err) {
-                        object.$err = err;
-                        return $q.reject(object.$err);
-                    }).finally(function() {
-                        object.$resolved = true;
-                    }) };
-
-                    return object;
-                }());
-            }
             (function check_api(n) {
                 $timeout(function() {
                     if (entry.discussion_api) {
