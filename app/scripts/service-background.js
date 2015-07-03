@@ -134,7 +134,7 @@ module.exports = function() {
                     if (err) {
                         return callback(err);
                     }
-                    request = _.pick(request, 'id', 'as', 'for', 'focus', 'author');
+                    request = _.omit(request, 'api', 'type');
                     if (client_callers[api] && client_callers[api][type]) {
                         client_callers[api][type](_.extend(headers, request), callback);
                     } else {

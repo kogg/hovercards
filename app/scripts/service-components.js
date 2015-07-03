@@ -20,7 +20,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
             get: function(params, object) {
                 object = object || {};
                 object.$promise = $q(function(resolve, reject) {
-                    chrome.runtime.sendMessage({ type: 'service', request: params }, function(response) {
+                    var request = _.pick(params, 'api', 'type', 'id', 'as', 'for', 'focus', 'author');
+                    if (request.for) {
+                        request.for = _.pick(request.for, 'api', 'type', 'id', 'as', 'for', 'focus', 'author');
+                    }
+                    chrome.runtime.sendMessage({ type: 'service', request: request }, function(response) {
                         if (!response) {
                             return reject({ 'our-problem': true });
                         }

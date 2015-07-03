@@ -55,22 +55,14 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                 })
                 .finally(function() {
                     entry.discussions = _.extend((function get_discussions() {
-                        var for_request = _.pick(_.result(content, '$err') ? request : content, 'api', 'type', 'id', 'as');
+                        var for_request = content.$err ? request : content;
                         if (content.api === 'reddit' || !for_request.api || !for_request.id) {
-                            console.log('out there');
                             return {};
                         }
                         var discussions = {};
                         discussions.reddit  = { api: 'reddit',  type: 'discussion', for: for_request };
                         discussions.twitter = { api: 'twitter', type: 'discussion', for: for_request };
                         discussions[for_request.api] = _.chain(for_request).clone().extend({ type: 'discussion' }).value();
-                        if (for_request.api === 'twitter') {
-                            if (_.result(content, 'author')) {
-                                discussions.twitter.author = _.pick(content.author, 'api', 'type', 'id');
-                            } else {
-                                delete discussions.twitter.author;
-                            }
-                        }
                         return discussions;
                     }()), entry.discussions);
                 });
