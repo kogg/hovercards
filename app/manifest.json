@@ -29,6 +29,15 @@
                 "scripts/everywhere-main.js"
             ],
             "all_frames": true
+        },
+        {
+            "matches": [
+                "https://w.soundcloud.com/player/*"
+            ],
+            "js": [
+                "scripts/soundcloud-player-main.js"
+            ],
+            "all_frames": true
         }
     ],
     "background": {
