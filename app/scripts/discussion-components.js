@@ -65,6 +65,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             data.discussions[api] = data.discussions[api] || apiService.get(entry.discussions[api]);
             data.discussions[api].$promise
                 .then(function(discussion) {
+                    _.extend(discussion, _.pick(entry.discussions[api], 'author'));
                     if (analytics_once) {
                         return discussion;
                     }

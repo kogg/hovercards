@@ -62,7 +62,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                         var discussions = {};
                         discussions.reddit  = { api: 'reddit',  type: 'discussion', for: for_request };
                         discussions.twitter = { api: 'twitter', type: 'discussion', for: for_request };
-                        discussions[for_request.api] = _.chain(for_request).clone().extend({ type: 'discussion' }).value();
+                        discussions[for_request.api] = _.extend({}, for_request, { type: 'discussion' });
                         return discussions;
                     }()), entry.discussions);
                 });

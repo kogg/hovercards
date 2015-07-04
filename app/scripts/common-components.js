@@ -262,6 +262,24 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             return $filter('number')(100 * ratio) + '%';
         };
     }])
+    .filter('timestamp', [function() {
+        return function(time) {
+            if (isNaN(time)) {
+                return 'N/A';
+            } else {
+                var output = '';
+                time = Math.floor(time / 1000);
+                output = (time % 60);
+                time = Math.floor(time / 60);
+                for (var i = 0; time > 0 || i === 0; i++) {
+                    output = ('00000' + output).substr(-2 + -3 * i);
+                    output = (time % 60) + ':' + output;
+                    time = Math.floor(time / 60);
+                }
+                return output;
+            }
+        };
+    }])
     .filter('timeSince', [function() {
         var moment  = require('moment');
         moment.locale('en-since', {
