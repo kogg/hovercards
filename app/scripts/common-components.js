@@ -18,6 +18,18 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     }])
+    .directive('scrollToHorizontalClick', [function() {
+        require('jquery-ui/core');
+
+        return {
+            link: function($scope, $element) {
+                $element.on('click', function() {
+                    var scrollParent = $element.scrollParent();
+                    scrollParent.animate({ scrollLeft: $element.position().left + scrollParent.scrollLeft() + $element.width() - scrollParent.width() / 2 }, 200);
+                });
+            }
+        };
+    }])
     .directive('popup', ['$window', function($window) {
         return {
             restrict: 'A',
