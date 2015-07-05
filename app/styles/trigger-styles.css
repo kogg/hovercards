@@ -24,6 +24,9 @@
 .__MSG_@@extension_id__-yo-notify-youtube {
 	background-color: #F44336 !important;
 }
+.__MSG_@@extension_id__-yo-notify-soundcloud {
+	background-color: #fc561e !important;
+}
 .__MSG_@@extension_id__-yo-notify-twitter {
 	background-color: #55ACEE !important;
 }
@@ -203,8 +206,15 @@
 	background-repeat: no-repeat !important;
 }
 .__MSG_@@extension_id__-yo-follower-youtube {
-	background-color: #F44336 !important;
+	background-color: #fc561e !important;
 	background-image:url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png') !important;
+	background-size: 100% !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
+}
+.__MSG_@@extension_id__-yo-follower-soundcloud {
+	background-color: #F44336 !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
 	background-size: 100% !important;
 	background-position: center !important;
 	background-repeat: no-repeat !important;
