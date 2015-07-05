@@ -59,6 +59,9 @@ html,body {
 body {
 	background:#f6f6f6
 }
+iframe {
+	border: 0 !important
+}
 /*fullscreen mode*/
 .fullscreen-active {
 	background: transparent !important;
@@ -505,6 +508,9 @@ b i, .iconic-push {
 .profile-cta a.twitter-background {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
 }
+.profile-cta a.soundcloud-background {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png');
+}
 .profile-cta a.instagram-background {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');
 }
@@ -762,6 +768,11 @@ b i, .iconic-push {
 .comment span.ellipsis {
 	display: inline-block;
   width: -webkit-calc(100% - 80px) !important;	
+}
+.comment span.time-stamp {
+	color: #727272;
+  font-size: 12px;
+  font-weight: 600;
 }
 .comment .user-context a i {
 	position: relative;
@@ -1166,6 +1177,9 @@ h2 {
 #sortable li span.producthunt-circle-image {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Producthunt-icon-full_color.png');
 }
+#sortable li span.soundcloud-circle-image {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png');
+}
 .ui-sortable-helper {
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
 	background-color: white;
@@ -1176,70 +1190,7 @@ h2 {
   z-index: 2;
   cursor: -webkit-grabbing !important
 }
-#sortable .selected span {
 
-}
-/*
-#sortable .selected:after {
-	content:"\2714";
-	width: 30px;
-	height: 30px;
-  line-height: inherit;
-  font-size: 12px;
-  text-align: right;
-  vertical-align: bottom;
-	line-height: 30px;
-	position: absolute;
-	right: 16px;
-	top: 0;
-	-webkit-animation-duration: .5s;
-	animation-duration: .5s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-	-webkit-animation-name: bounceIn;
-	animation-name: bounceIn;
-} 
-
-@-webkit-keyframes bounceIn { 
-    0% { 
-        opacity: 0; 
-        -webkit-transform: scale(.3); 
-    } 
-
-    50% { 
-        opacity: 1; 
-        -webkit-transform: scale(1.05); 
-    } 
-
-    70% { 
-        -webkit-transform: scale(.9); 
-    } 
-
-    100% { 
-         -webkit-transform: scale(1); 
-    } 
-} 
-
-@keyframes bounceIn { 
-    0% { 
-        opacity: 0; 
-        transform: scale(.3); 
-    } 
-
-    50% { 
-        opacity: 1; 
-        transform: scale(1.05); 
-    } 
-
-    70% { 
-        transform: scale(.9); 
-    } 
-
-    100% { 
-        transform: scale(1); 
-    } 
-} 
-*/
 .ui-state-highlight {
 	height: 30px;
 	border:1px dashed rgba(0,0,0,.15);
@@ -1339,6 +1290,10 @@ h2 {
 .network-circle-youtube {
 	background-color: #d5272a;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
+}
+.network-circle-soundcloud {
+	background-color: #fc561e;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png');
 }
 .network-circle-reddit {
 	background-color: #cfe3f7;
@@ -1876,8 +1831,8 @@ h2 {
 	height: 8px;
 }
 .network-menu-container::-webkit-scrollbar-thumb {
-    border-radius: 0px;
-    background-color: rgba(0,0,0,.15);
+  border-radius: 0px;
+  background-color: rgba(0,0,0,.15);
 }
 .network-menu-option {
 	line-height: 48px;
@@ -2618,7 +2573,10 @@ h2 {
 
 /*Color Palette*/
 .soundcloud-color {
-	color: #ff6600 !important
+	color: #fc561e !important
+}
+.soundcloud-background {
+	background-color: #fc561e !important
 }
 .youtube-color {
 	color: #F44336 !important

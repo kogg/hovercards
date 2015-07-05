@@ -7,6 +7,9 @@
 			<div class="profile-right col-8">
 				<b class="soundcloud-color">{{(person.selectedAccount.reason === 'author') ? 'Posted by' : ('soundcloud_account' | copy) }}</b>
 				<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.name || person.selectedAccount.id }}</a>
+				<div class="profile-cta">
+					<a class="soundcloud-background" popup="https://soundcloud.com/{{ person.selectedAccount.id }}" popup-size="{ height: 370, width: 640 }">Follow</a>
+				</div>
 			</div>
 		</div>
 

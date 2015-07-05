@@ -6,12 +6,12 @@
 	</div>
 	<div class="col-10">
 		<div class="user-context">
-			<span class="ellipsis">
-				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name }}</a>
+			<span>
+				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name }} <span class="time-stamp">({{:: comment.track_time | timestamp }})</span></a>
 			</span>
 			<span class="time"><a ng-href="{{:: data.discussion | generateUrl }}/comment-{{:: comment.id }}">{{:: comment.date | timeSince:true }}</a></span>
 		</div>
-		<p readmore=":: (comment.track_time | timestamp) + ' ' + comment.description" cutoff-height="100"></p>
+		<p readmore=":: comment.description" cutoff-height="100"></p>
 	</div>
 </div>
 
