@@ -77,12 +77,10 @@
 		<div class="network-menu-space" ng-if="!entry.$err && entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)">
 			<div class="network-menu fade-in-animation" ng-if="entry.selectedPerson.accounts.length">
 				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length">
-					<div class="network-menu-option" ng-class="account.type + '-option'" ng-style="{ left: ((-100 * entry.selectedPerson.menuOffset) || 0) + 'px' }" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account">
-						<span ng-class="account === entry.selectedPerson.selectedAccount && 'active'">{{ (account.api + (entry.selectedPerson.accounts.length === 1 ? '_account' : '' )) | copy }}</span>
+					<div class="network-menu-option" ng-class="[account.type + '-option', account === entry.selectedPerson.selectedAccount && 'active']" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account" scroll-to-horizontal="account === entry.selectedPerson.selectedAccount">
+						<span>{{ (account.api + (entry.selectedPerson.accounts.length === 1 ? '_account' : '' )) | copy }}</span>
 					</div>
 				</div>
-				<div ng-show="entry.selectedPerson.menuOffset" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) - 3">Left</div>
-				<div ng-show="entry.selectedPerson.menuOffset + 3 < entry.selectedPerson.accounts.length" ng-click="entry.selectedPerson.menuOffset = (entry.selectedPerson.menuOffset || 0) + 3">Right</div>
 			</div>
 		</div>
 
@@ -131,7 +129,8 @@
 			</div>
 		</div>
 
-		<div ng-repeat="person_to_load in [{ api: 'imgur', type: 'account', id: 'yocards' },
+		<div ng-repeat="person_to_load in [{ api: 'soundcloud', type: 'account', id: 'yocards' },
+		                                   { api: 'imgur', type: 'account', id: 'yocards' },
 		                                   { api: 'instagram', type: 'account', id: 'yocards' },
 		                                   { api: 'twitter', type: 'account', id: 'getyocards' },
 		                                   { api: 'reddit', type: 'account', id: 'yocards' },

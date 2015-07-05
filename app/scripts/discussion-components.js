@@ -2,7 +2,7 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('./service-components')])
-    .controller('DiscussionController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
+    .controller('DiscussionController', ['$scope', '$q', '$timeout', 'apiService', function($scope, $q, $timeout, apiService) {
         $scope.$watch('[entry.discussions, order]', function(parts) {
             var requests = parts[0];
             var order    = parts[1];
@@ -11,6 +11,15 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             }
             var entry = $scope.entry;
             entry.discussion_apis = _.chain(requests)
+                                     .omit(function(request, api) {
+                                         switch (api) {
+                                             case 'imgur':
+                                                 return request.as !== 'gallery';
+                                             case 'soundcloud':
+                                                 return request.as !== 'track';
+                                         }
+                                         return false;
+                                     })
                                      .keys(requests)
                                      .sortBy(function(api) {
                                          return _.indexOf(order, api);
@@ -56,6 +65,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             data.discussions[api] = data.discussions[api] || apiService.get(entry.discussions[api]);
             data.discussions[api].$promise
                 .then(function(discussion) {
+                    _.extend(discussion, _.pick(entry.discussions[api], 'author'));
                     if (analytics_once) {
                         return discussion;
                     }

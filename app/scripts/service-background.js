@@ -7,6 +7,7 @@ var ENDPOINT = 'https://' + chrome.i18n.getMessage('app_short_name') + '.herokua
 // var ENDPOINT = 'http://localhost:5000/v1';
 var INSTAGRAM_KEY = '4ffac410cfbf40f59be866c63d5fe37e';
 var REDDIT_KEY = 'fNtoQI4_wDq21w';
+var SOUNDCLOUD_KEY = '78a827254bd7a5e3bba61aa18922bf2e';
 
 var client_side_authenticators = {
     instagram: function(callback) {
@@ -53,6 +54,9 @@ var initialize_client_callers = {
                 callback(null, require('YoCardsAPICalls/reddit')({ key: REDDIT_KEY, device: device_id }));
             }
         ], callback);
+    },
+    soundcloud: function(callback) {
+        callback(null, require('YoCardsAPICalls/soundcloud')({ key: SOUNDCLOUD_KEY }));
     }
 };
 
@@ -130,7 +134,7 @@ module.exports = function() {
                     if (err) {
                         return callback(err);
                     }
-                    request = _.pick(request, 'id', 'as', 'for', 'focus', 'author');
+                    request = _.omit(request, 'api', 'type');
                     if (client_callers[api] && client_callers[api][type]) {
                         client_callers[api][type](_.extend(headers, request), callback);
                     } else {

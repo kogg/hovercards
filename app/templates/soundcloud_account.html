@@ -5,20 +5,24 @@
 				<div class="profile-image" ng-style="person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
 			</div>
 			<div class="profile-right col-8">
-				<b class="instagram-color">{{ person.selectedAccount.id }}</b>
+				<b class="soundcloud-color">{{(person.selectedAccount.reason === 'author') ? 'Posted by' : ('soundcloud_account' | copy) }}</b>
 				<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.name || person.selectedAccount.id }}</a>
 				<div class="profile-cta">
-					<a class="instagram-background" popup="{{ person.selectedAccount | generateUrl }}" popup-size="{ height: 433, width: 720 }">Follow</a>
+					<a class="soundcloud-background" popup="https://soundcloud.com/{{ person.selectedAccount.id }}" popup-size="{ height: 370, width: 640 }">Follow</a>
 				</div>
 			</div>
 		</div>
 
 		<div class="card-stats row">
-			<div class="col-4">
-				<b>Posts</b>
-				<span>{{ person.selectedAccount.posts | numsmall }}</span>
+			<div class="col-4" ng-if=" person.selectedAccount.tracks || !person.selectedAccount.playlists">
+				<b>Tracks</b>
+				<span>{{ person.selectedAccount.tracks | numsmall }}</span>
 			</div>
-			<div class="col-4">
+			<div class="col-4" ng-if=" !person.selectedAccount.tracks && person.selectedAccount.playlists">
+				<b>Playlists</b>
+				<span>{{ person.selectedAccount.playlists | numsmall }}</span>
+			</div>
+			<div class="col-4 ellipsis">
 				<b>Followers</b>
 				<span>{{ person.selectedAccount.followers | numsmall }}</span>
 			</div>
@@ -29,3 +33,4 @@
 		</div>
 	</div>
 </div>
+

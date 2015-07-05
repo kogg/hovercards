@@ -24,7 +24,7 @@
 	</div>
 
 	<!-- Album -->
-	<div class="imgur-dots" ng-if=":: data.content.images"></div>
+	<div imgur-album-dots class="imgur-dots" ng-if=":: data.content.images"></div>
 	<div imgur-album-carousel ng-if=":: data.content.images"></div>
 	<div class="fullscreen-image" ng-if="data.content.images && view.fullscreen === data.content.images" ng-click="view.fullscreen=null">
 		<img ng-src="{{ data.content.images[data.content.current_slide || 0].image }}" ng-if="!data.content.images[data.content.current_slide || 0].video">
@@ -47,7 +47,7 @@
 		</div>
 	</div>
 	<div class="card-stats inline-row">
-		<div class="col-4" ng-class="{ 'not-available': (data.content.score | numsmall) === 'N/A'}">
+		<div class="col-4" ng-class="{ 'not-available': data.content.score === undefined || data.content.score === null }">
 			<b>Points</b>
 			<span>{{:: data.content.score | numsmall }}</span>
 		</div>

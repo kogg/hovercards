@@ -1,0 +1,20 @@
+<div class="soundcloud-profile" ng-if="!data.moreContent.$err">
+	<div class="row" ng-class=":: { 'soundcloud-playlist': thing.as === 'playlist' }" ng-repeat="thing in data.moreContent.content">
+		<div class="col-2">
+			<img ng-src="{{:: thing.image }}">
+		</div>
+		<div class="col-10 ellipsis">
+			<a ng-href="{{:: thing | generateUrl }}">{{:: thing.name }}</a>
+			<b ng-if=":: thing.as === 'track' && thing.plays !== undefined && thing.plays !== null"><i class="zmdi zmdi-play"></i> {{:: thing.plays | number }} &nbsp;&middot;&nbsp; <i class="zmdi zmdi-favorite"></i> {{:: thing.favorites | number }} &nbsp;&middot;&nbsp; <i class="zmdi zmdi-time"></i> {{:: thing.date | timeSince:true }}</b>
+			<b ng-if=":: thing.as === 'track' && (thing.plays === undefined || thing.plays === null)"><i class="zmdi zmdi-time"></i> {{:: thing.date | timeSince:true }}</b>
+			<b ng-if=":: thing.as === 'playlist'"><i class="zmdi zmdi-collection-music"></i> {{:: thing.tracks | number }} &nbsp;&middot;&nbsp; <i class="zmdi zmdi-time"></i> {{:: thing.date | timeSince:true }}</b>
+		</div>
+	</div>
+</div>
+
+<div class="yocards-message-container error-message" ng-class="err.api && 'soundcloud-message'" ng-if="data.moreContent.$err" ng-init="err = data.moreContent.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/more_content_exceptions.html"></span>
+	</span>
+</div>

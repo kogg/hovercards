@@ -30,9 +30,7 @@
 }
 .__MSG_@@extension_id__-sidebar iframe {
 	position: absolute !important;
-	border-left: 1px solid rgba(0,0,0,.06) !important;
 	height: 100% !important;
-	border: none !important;
 	width:100% !important;
 	opacity: 1 !important;
 	z-index: 1 !important;
@@ -49,14 +47,12 @@
 	height: 44px !important;
 	border-radius: 3px 0 0 3px !important;
 	background:#f6f6f6 !important;
-	top: 18px !important;
+	top: 19px !important;
 	right: 340px !important; 
 	position: absolute !important;
 	font-weight: 500 !important;
-	border: 1px solid rgba(0,0,0,.06) !important;
-	border-right: none !important;
 	color: rgba(255,255,255,.9) !important;
-	box-shadow:  -6px 1px 13px -4px rgba(0,0,0,0.15);
+	box-shadow: rgba(0, 0, 0, 0.14902) -4px 1px 13px -3px;
 	display: block !important;
 	transform: translate3d(0,0,0) !important;
 	z-index: 3 !important;
@@ -98,7 +94,6 @@
 }
 .__MSG_@@extension_id__-fullscreen-sidebar {
 	width: 100% !important;
-	border-left: none !important
 }
 .__MSG_@@extension_id__-remove-margin {
 	margin: 0 !important;
@@ -108,7 +103,6 @@
 .__MSG_@@extension_id__-fullscreen {
 	width: 100% !important;
 	background: transparent !important;
-	border-left: none !important
 }
 .__MSG_@@extension_id__-sidebar-minimizer {
 	position: absolute !important;

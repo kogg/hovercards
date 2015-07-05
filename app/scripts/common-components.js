@@ -18,6 +18,24 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     }])
+    .directive('scrollToHorizontal', [function() {
+        require('jquery-ui/core');
+
+        return {
+            scope: {
+                on: '=scrollToHorizontal',
+            },
+            link: function($scope, $element) {
+                $scope.$watch('on', function(on, onBefore) {
+                    if (on === onBefore || !on) {
+                        return;
+                    }
+                    var scrollParent = $element.scrollParent();
+                    scrollParent.animate({ scrollLeft: $element.position().left + scrollParent.scrollLeft() + $element.width() - scrollParent.width() / 2 }, 200);
+                });
+            }
+        };
+    }])
     .directive('popup', ['$window', function($window) {
         return {
             restrict: 'A',
@@ -56,7 +74,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                     (function readmore(event) {
                         if (event) {
                             event.stopPropagation();
-                            $scope.onReadmore();
+                            if ($scope.onReadmore) {
+                                $scope.onReadmore();
+                            }
                         }
                         angular.element('<span class="read-more">More</span>').appendTo($element);
                         $timeout(function() {
@@ -70,7 +90,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                         return;
                                     }
                                     if (!read_more.length) {
-                                        read_more = angular.element('<span class="read-more">Read More</span>');
+                                        read_more = angular.element('<span class="read-more">More</span>');
                                     }
                                     read_more
                                         .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
@@ -260,6 +280,24 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             return $filter('number')(100 * ratio) + '%';
         };
     }])
+    .filter('timestamp', [function() {
+        return function(time) {
+            if (isNaN(time)) {
+                return 'N/A';
+            } else {
+                var output = '';
+                time = Math.floor(time / 1000);
+                output = (time % 60);
+                time = Math.floor(time / 60);
+                for (var i = 0; time > 0 || i === 0; i++) {
+                    output = ('00000' + output).substr(-2 + -3 * i);
+                    output = (time % 60) + ':' + output;
+                    time = Math.floor(time / 60);
+                }
+                return output;
+            }
+        };
+    }])
     .filter('timeSince', [function() {
         var moment  = require('moment');
         moment.locale('en-since', {
@@ -304,5 +342,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             moment.locale(abbrev ? 'en-since-abbrev' : 'en-since');
             return moment(time).fromNow();
         };
+    }])
+    .filter('trustedUrl', ['$sce', function($sce) {
+        return $sce.trustAsResourceUrl;
     }])
     .name;

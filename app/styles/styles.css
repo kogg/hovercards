@@ -59,6 +59,9 @@ html,body {
 body {
 	background:#f6f6f6
 }
+iframe {
+	border: 0 !important
+}
 /*fullscreen mode*/
 .fullscreen-active {
 	background: transparent !important;
@@ -505,6 +508,9 @@ b i, .iconic-push {
 .profile-cta a.twitter-background {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
 }
+.profile-cta a.soundcloud-background {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png');
+}
 .profile-cta a.instagram-background {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');
 }
@@ -762,6 +768,11 @@ b i, .iconic-push {
 .comment span.ellipsis {
 	display: inline-block;
   width: -webkit-calc(100% - 80px) !important;	
+}
+.comment span.time-stamp {
+	color: #727272;
+  font-size: 12px;
+  font-weight: 600;
 }
 .comment .user-context a i {
 	position: relative;
@@ -1166,6 +1177,9 @@ h2 {
 #sortable li span.producthunt-circle-image {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Producthunt-icon-full_color.png');
 }
+#sortable li span.soundcloud-circle-image {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png');
+}
 .ui-sortable-helper {
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 6px 6px rgba(0, 0, 0, 0.115);
 	background-color: white;
@@ -1176,70 +1190,7 @@ h2 {
   z-index: 2;
   cursor: -webkit-grabbing !important
 }
-#sortable .selected span {
 
-}
-/*
-#sortable .selected:after {
-	content:"\2714";
-	width: 30px;
-	height: 30px;
-  line-height: inherit;
-  font-size: 12px;
-  text-align: right;
-  vertical-align: bottom;
-	line-height: 30px;
-	position: absolute;
-	right: 16px;
-	top: 0;
-	-webkit-animation-duration: .5s;
-	animation-duration: .5s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-	-webkit-animation-name: bounceIn;
-	animation-name: bounceIn;
-} 
-
-@-webkit-keyframes bounceIn { 
-    0% { 
-        opacity: 0; 
-        -webkit-transform: scale(.3); 
-    } 
-
-    50% { 
-        opacity: 1; 
-        -webkit-transform: scale(1.05); 
-    } 
-
-    70% { 
-        -webkit-transform: scale(.9); 
-    } 
-
-    100% { 
-         -webkit-transform: scale(1); 
-    } 
-} 
-
-@keyframes bounceIn { 
-    0% { 
-        opacity: 0; 
-        transform: scale(.3); 
-    } 
-
-    50% { 
-        opacity: 1; 
-        transform: scale(1.05); 
-    } 
-
-    70% { 
-        transform: scale(.9); 
-    } 
-
-    100% { 
-        transform: scale(1); 
-    } 
-} 
-*/
 .ui-state-highlight {
 	height: 30px;
 	border:1px dashed rgba(0,0,0,.15);
@@ -1339,6 +1290,10 @@ h2 {
 .network-circle-youtube {
 	background-color: #d5272a;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
+}
+.network-circle-soundcloud {
+	background-color: #fc561e;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png');
 }
 .network-circle-reddit {
 	background-color: #cfe3f7;
@@ -1765,6 +1720,7 @@ h2 {
 }
 .social-profile .yocards-message-container {
 	margin:0 20px;
+	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
 }
 .yocards-message-image {
 	width: 33.333333%;
@@ -1857,16 +1813,26 @@ h2 {
 /*Network Menu*/
 .network-menu {
   background-color: #f6f6f6;
-	padding: 0 20px;
-	height: 48px;
+	min-height: 48px;
 }
 .network-menu-space {
-	height: 48px;
+	min-height: 48px;
 }
 .network-menu-container {
-	overflow: hidden;
+	overflow: auto;
 	white-space: nowrap;
 	text-align: center;
+}
+.network-menu-container::-webkit-scrollbar-track  {
+	background: rgba(0,0,0,.1)
+}
+.network-menu-container::-webkit-scrollbar {
+	-webkit-appearance: none;
+	height: 8px;
+}
+.network-menu-container::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  background-color: rgba(0,0,0,.15);
 }
 .network-menu-option {
 	line-height: 48px;
@@ -1876,16 +1842,30 @@ h2 {
 	padding: 0 20px;
 	margin:0 -1px;
 	position: relative;
-	width: 33.3333%;
 	color: #727272;
-	text-align: center;
-	transition: all .45s ease-in-out;
+	transition:all .3s ease-in-out	;
+}
+.network-menu-option:first-of-type.active {
+}
+.network-menu-size-1  .network-menu-option:first-of-type.active {
+	padding:0 10px 0 10px;
+}
+.network-menu-option.active span {
+	color: black;
+	position: relative;
+}
+.network-menu-option.active span:after {
+  content: "";
+  width: calc(100% + 20px);
+  height: 2px;
+  background: black;
+  position: absolute;
+  left: -10px;
+  bottom: -16px;
 }
 .network-menu-size-1 .network-menu-option {
-	width: 100%;
 }
 .network-menu-size-2 .network-menu-option{
-	width: 50%;
 }
 .network-menu-option:hover {
 	cursor: pointer;
@@ -1935,6 +1915,9 @@ h2 {
   border-radius: 0 0 3px 3px;
   padding: 0 16px 16px 16px;
 }
+.social-profile-description-container p {
+	padding-bottom: 8px;
+}
 .social-profile-description-container-header {
 	padding: 16px;
 }
@@ -1954,7 +1937,6 @@ h2 {
   font-size: 12px;
   font-weight: 600;
   padding-top: 8px;
-  margin-top: 8px;
   border-top: 1px solid rgba(0,0,0,.15)
 }
 .social-profile-description-morecontent span {
@@ -2104,6 +2086,46 @@ h2 {
 	background:url('/images/instagramvid.png');
 	background-size: 100%;
 	opacity: .92;
+}
+/*soundcloud account*/
+.soundcloud-profile {
+	overflow: auto
+}
+.soundcloud-profile .row {
+	padding: 8px 20px;
+}
+.soundcloud-profile b {
+	margin-bottom: 0px;
+	margin-top: 4px;
+	color: rgba(114, 114, 114, 0.75)
+}
+.soundcloud-profile .col-2 img {
+	max-width: 50px;
+	max-height: 50px;
+	transition:all .3s ease-in-out;
+}
+.soundcloud-profile .col-10 {
+	padding: 8px 0px 8px 16px;
+}
+.soundcloud-profile a {
+	text-decoration: none;
+	font-size: 14px;
+  color: #000;
+  font-weight: 500;
+  display: inline;
+}
+.soundcloud-profile a:hover {
+	text-decoration: underline;
+}
+.soundcloud-playlist {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/soundcloud-playlist.png');
+  background-repeat: no-repeat;
+  background-size: 63px;
+  background-position: 13px;
+}
+.soundcloud-playlist:hover .col-2 img {
+	transform: rotate(6deg) scale(1.05);
+	box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2)
 }
 /*reddit content list*/
 .content-list .reddit-title {
@@ -2550,6 +2572,12 @@ h2 {
 }
 
 /*Color Palette*/
+.soundcloud-color {
+	color: #fc561e !important
+}
+.soundcloud-background {
+	background-color: #fc561e !important
+}
 .youtube-color {
 	color: #F44336 !important
 }

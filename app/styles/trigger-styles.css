@@ -24,6 +24,9 @@
 .__MSG_@@extension_id__-yo-notify-youtube {
 	background-color: #F44336 !important;
 }
+.__MSG_@@extension_id__-yo-notify-soundcloud {
+	background-color: #fc561e !important;
+}
 .__MSG_@@extension_id__-yo-notify-twitter {
 	background-color: #55ACEE !important;
 }
@@ -203,8 +206,15 @@
 	background-repeat: no-repeat !important;
 }
 .__MSG_@@extension_id__-yo-follower-youtube {
-	background-color: #F44336 !important;
+	background-color: #fc561e !important;
 	background-image:url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png') !important;
+	background-size: 100% !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
+}
+.__MSG_@@extension_id__-yo-follower-soundcloud {
+	background-color: #F44336 !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png');
 	background-size: 100% !important;
 	background-position: center !important;
 	background-repeat: no-repeat !important;
@@ -256,28 +266,28 @@
 @-webkit-keyframes __MSG_@@extension_id__-yo-follower-growfade {
 	0% {
 		opacity: 1;
-		-webkit-transform: scale(1.5);
+		-webkit-transform: scale(1) translateZ(0);
 	}
 	60% {
 		opacity: 1;
-		-webkit-transform: scale(2.5);
+		-webkit-transform: scale(2) translateZ(0);
 	}
 	100% {
 		opacity: 0;
-		-webkit-transform: scale(3.5);
+		-webkit-transform: scale(3) translateZ(0);
 	}
 }
 @keyframes __MSG_@@extension_id__-yo-follower-growfade {
 	0% {
 		opacity: 1;
-		transform: scale(1.5);
+		transform: scale(1) translateZ(0);
 	}
 	60% {
 		opacity: 1;
-		transform: scale(2.5);
+		transform: scale(2) translateZ(0);
 	}
 	100% {
 		opacity: 0;
-		transform: scale(3.5);
+		transform: scale(3) translateZ(0);
 	}
 }

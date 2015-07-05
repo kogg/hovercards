@@ -1,0 +1,33 @@
+<div ng-repeat="comment in data.discussion.comments" class="comment row" ng-if="!data.discussion.$err">
+	<div class="col-2">
+		<a ng-href="{{:: comment.author | generateUrl }}">
+			<div class="comment-image" ng-style=":: comment.author.image && { 'background-image': 'url(' + comment.author.image + ')'}"></div>
+		</a>
+	</div>
+	<div class="col-10">
+		<div class="user-context">
+			<span>
+				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name }} <span class="time-stamp">({{:: comment.track_time | timestamp }})</span></a>
+			</span>
+			<span class="time"><a ng-href="{{:: data.discussion | generateUrl }}/comment-{{:: comment.id }}">{{:: comment.date | timeSince:true }}</a></span>
+		</div>
+		<p readmore=":: comment.description" cutoff-height="100"></p>
+	</div>
+</div>
+
+<div class="no-comments" ng-if="data.discussion.$err['empty-content']">
+	<b><i class="zmdi zmdi-comment-alert"></i> No Comments Found</b>
+	<h2>Quick! Be the first to comment on this!</h2>
+	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">Comment on it!</div></a>
+</div>
+
+<div class="no-comments" ng-if="data.discussion.$err.forbidden">
+	<b><i class="zmdi zmdi-comment-alert"></i> Comments Disabled</b>
+	<h2>The comments are disabled!</h2>
+</div>
+
+<div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content'] && !data.discussion.$err.forbidden" ng-init="err = data.discussion.$err">
+	<span ng-messages="err">
+		<span ng-messages-include="templates/default_exceptions.html"></span>
+	</span>
+</div>

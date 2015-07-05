@@ -40,11 +40,12 @@
 		</div>
 	</div>
 
-	<div class="card-text">
-		<div ng-if=":: data.content.description" class="card-description">
+	<div class="card-text" ng-if=":: data.content.description">
+		<div class="card-description">
 			<p readmore=":: data.content.description | linky" cutoff-height="50" readless="true"></p>
 		</div>
 	</div>
+
 	<div class="card-stats row">
 		<div class="col-4">
 			<b>Views</b>

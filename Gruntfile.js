@@ -7,17 +7,26 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         manifest: grunt.file.readJSON('app/manifest.json'),
         to_browserify: {
-            'dist/scripts/background-main.js': 'app/scripts/background-main.js',
-            'dist/scripts/everywhere-main.js': 'app/scripts/everywhere-main.js',
-            'dist/scripts/sidebar-main.js':    'app/scripts/sidebar-main.js',
-            'dist/scripts/top-frame-main.js':  'app/scripts/top-frame-main.js'
+            'dist/scripts/background-main.js':        'app/scripts/background-main.js',
+            'dist/scripts/everywhere-main.js':        'app/scripts/everywhere-main.js',
+            'dist/scripts/sidebar-main.js':           'app/scripts/sidebar-main.js',
+            'dist/scripts/soundcloud-player-main.js': 'app/scripts/soundcloud-player-main.js',
+            'dist/scripts/top-frame-main.js':         'app/scripts/top-frame-main.js'
         },
         browserify: {
             js: {
+                options: {
+                    alias: {
+                        'env': './app/scripts/production-env.js'
+                    }
+                },
                 files: '<%= to_browserify %>'
             },
             js_watchify: {
                 options: {
+                    alias: {
+                        'env': './app/scripts/development-env.js'
+                    },
                     keepAlive: true,
                     watch: true
                 },
@@ -84,10 +93,11 @@ module.exports = function (grunt) {
                     }
                 },
                 files: {
-                    'dist/scripts/background-main.js': 'dist/scripts/background-main.js',
-                    'dist/scripts/everywhere-main.js': 'dist/scripts/everywhere-main.js',
-                    'dist/scripts/sidebar-main.js':    'dist/scripts/sidebar-main.js',
-                    'dist/scripts/top-frame-main.js':  'dist/scripts/top-frame-main.js'
+                    'dist/scripts/background-main.js':        'dist/scripts/background-main.js',
+                    'dist/scripts/everywhere-main.js':        'dist/scripts/everywhere-main.js',
+                    'dist/scripts/sidebar-main.js':           'dist/scripts/sidebar-main.js',
+                    'dist/scripts/soundcloud-player-main.js': 'dist/scripts/soundcloud-player-main.js',
+                    'dist/scripts/top-frame-main.js':         'dist/scripts/top-frame-main.js'
                 }
             }
         },

@@ -2,14 +2,14 @@
 	<div class="profile-card">
 		<div class="profile-top row">
 			<div class="profile-left col-4">
-				<div class="profile-image" ng-style=":: person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
+				<div class="profile-image" ng-style=" person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
 			</div>
 			<div class="profile-right col-8">
-				<b class="twitter-color">@{{:: person.selectedAccount.id }}</b>
-				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{:: person.selectedAccount.name }}<div class="twitter-verified" ng-if=":: person.selectedAccount.verified"></div></a>
+				<b class="twitter-color">@{{ person.selectedAccount.id }}</b>
+				<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.name }}<div class="twitter-verified" ng-if=" person.selectedAccount.verified"></div></a>
 
 				<div class="profile-cta">
-					<a class="twitter-background" popup="https://twitter.com/intent/follow?screen_name={{:: person.selectedAccount.id }}" popup-size="{ height: 300, width: 640 }">Follow</a>
+					<a class="twitter-background" popup="https://twitter.com/intent/follow?screen_name={{ person.selectedAccount.id }}" popup-size="{ height: 300, width: 640 }">Follow</a>
 				</div>
 			</div>
 		</div>
@@ -17,15 +17,15 @@
 		<div class="card-stats row">
 			<div class="col-4">
 				<b>Tweets</b>
-				<span>{{:: person.selectedAccount.tweets | numsmall }}</span>
-			</div>
-			<div class="col-4">
-				<b>Following</b>
-				<span>{{:: person.selectedAccount.following | numsmall }}</span>
+				<span>{{ person.selectedAccount.tweets | numsmall }}</span>
 			</div>
 			<div class="col-4">
 				<b>Followers</b>
-				<span>{{:: person.selectedAccount.followers | numsmall }}</span>
+				<span>{{ person.selectedAccount.followers | numsmall }}</span>
+			</div>
+			<div class="col-4">
+				<b>Following</b>
+				<span>{{ person.selectedAccount.following | numsmall }}</span>
 			</div>
 		</div>
 	</div>
