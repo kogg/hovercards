@@ -9,6 +9,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
             link: function($scope, $element) {
                 var been_slicked = false;
 
+                $element.on('beforeChange', function(e, slider, last_slide, slide) {
+                    $scope.$apply(function() {
+                        $scope.data.content.becoming_slide = slide;
+                    });
+                });
+
                 $element.on('afterChange', function(e, slider, slide) {
                     $scope.$apply(function() {
                         $scope.data.content.current_slide = slide;
@@ -56,7 +62,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
     .directive('imgurAlbumDots', [function() {
         return {
             link: function($scope, $element) {
-                $scope.$watch('data.content.current_slide', function(slide) {
+                $scope.$watch('data.content.becoming_slide', function(slide) {
                     var dot = angular.element($element.find('li')[slide]);
                     var dots = $element.find('ul');
                     if (!dot) {
