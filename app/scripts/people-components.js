@@ -124,7 +124,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             var position_in_entry = _.indexOf(requests, request);
                             position_in_entry = (position_in_entry === -1) ? Infinity : position_in_entry;
 
-                            person.accounts        = _.chain(person.accounts).union([account]).sortBy(request_sort_value).value();
+                            person.accounts        = _.chain(person.accounts).union([account]).uniq(false, request_to_string).sortBy(request_sort_value).value();
                             person.account_ids     = _.chain(person.account_ids).union(account_ids).uniq().value();
                             person.position        = _.min([person.position, position_in_entry]);
                             person.selectedAccount = person.selectedAccount || account;

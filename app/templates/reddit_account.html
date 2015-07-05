@@ -5,10 +5,10 @@
 				<div class="profile-image reddit-profile"></div>
 			</div>
 			<div class="profile-right col-8">
-				<b class="reddit-color">{{:: (person.selectedAccount.reason === 'author') ? 'Posted by' : ('reddit_account' | copy) }}</b>
-				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ ::person.selectedAccount.id }}</a>
+				<b class="reddit-color">{{ (person.selectedAccount.reason === 'author') ? 'Posted by' : ('reddit_account' | copy) }}</b>
+				<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.id }}</a>
 				<div class="profile-cta">
-					<a class="reddit-background" popup="{{:: person.selectedAccount | generateUrl }}" popup-size="{ height: 300, width: 640 }"> &nbsp; <strong>+</strong>&nbsp; &nbsp; friends</a>
+					<a class="reddit-background" popup="{{ person.selectedAccount | generateUrl }}" popup-size="{ height: 300, width: 640 }"> &nbsp; <strong>+</strong>&nbsp; &nbsp; friends</a>
 				</div>
 			</div>
 		</div>
@@ -20,11 +20,11 @@
 			</div>
 			<div class="col-4">
 				<b>Cmnt Karma</b>
-				<span>{{ ::person.selectedAccount.comment_karma | numsmall }}</span>
+				<span>{{ person.selectedAccount.comment_karma | numsmall }}</span>
 			</div>
 			<div class="col-4">
 				<b>Account Age</b>
-				<span>{{ ::person.selectedAccount.date | timeSince:true }}</span>
+				<span>{{ person.selectedAccount.date | timeSince:true }}</span>
 			</div>
 		</div>
 	</div>

@@ -2,13 +2,13 @@
 	<div class="profile-card">
 		<div class="profile-top row">
 			<div class="profile-left col-4">
-				<div class="profile-image" ng-style=":: person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
+				<div class="profile-image" ng-style=" person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
 			</div>
 			<div class="profile-right col-8">
-				<b class="youtube-color">{{:: (person.selectedAccount.reason === 'author') ? 'Uploaded by' : ('youtube_account' | copy) }}</b>
-				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{:: person.selectedAccount.name }}</a>
+				<b class="youtube-color">{{ (person.selectedAccount.reason === 'author') ? 'Uploaded by' : ('youtube_account' | copy) }}</b>
+				<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.name }}</a>
 				<div class="profile-cta">
-					<div youtube-channel-subscribe youtube-channel-id=":: person.selectedAccount.id" subscribed-offset="offset"></div>
+					<div youtube-channel-subscribe youtube-channel-id="person.selectedAccount.id" subscribed-offset="offset"></div>
 				</div>
 			</div>
 		</div>
@@ -16,7 +16,7 @@
 		<div class="card-stats row">
 			<div class="col-4">
 				<b>Uploads</b>
-				<span>{{ ::person.selectedAccount.videos | numsmall }}</span>
+				<span>{{ person.selectedAccount.videos | numsmall }}</span>
 			</div>
 			<div class="col-4">
 				<b>Subscribers</b>
@@ -24,7 +24,7 @@
 			</div>
 			<div class="col-4">
 				<b>Video Views</b>
-				<span>{{ ::person.selectedAccount.views | numsmall }}</span>
+				<span>{{ person.selectedAccount.views | numsmall }}</span>
 			</div>
 		</div>
 	</div>

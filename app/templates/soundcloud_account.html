@@ -2,30 +2,30 @@
 	<div class="profile-card">
 		<div class="profile-top row">
 			<div class="profile-left col-4">
-				<div class="profile-image" ng-style=":: person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
+				<div class="profile-image" ng-style="person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
 			</div>
 			<div class="profile-right col-8">
-				<b class="soundcloud-color">{{:: (person.selectedAccount.reason === 'author') ? 'Posted by' : ('soundcloud_account' | copy) }}</b>
-				<a ng-href="{{:: person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{:: person.selectedAccount.name || person.selectedAccount.id }}</a>
+				<b class="soundcloud-color">{{(person.selectedAccount.reason === 'author') ? 'Posted by' : ('soundcloud_account' | copy) }}</b>
+				<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.name || person.selectedAccount.id }}</a>
 			</div>
 		</div>
 
 		<div class="card-stats row">
-			<div class="col-4" ng-if=":: person.selectedAccount.tracks || !person.selectedAccount.playlists">
+			<div class="col-4" ng-if=" person.selectedAccount.tracks || !person.selectedAccount.playlists">
 				<b>Tracks</b>
-				<span>{{:: person.selectedAccount.tracks | numsmall }}</span>
+				<span>{{ person.selectedAccount.tracks | numsmall }}</span>
 			</div>
-			<div class="col-4" ng-if=":: !person.selectedAccount.tracks && person.selectedAccount.playlists">
+			<div class="col-4" ng-if=" !person.selectedAccount.tracks && person.selectedAccount.playlists">
 				<b>Playlists</b>
-				<span>{{:: person.selectedAccount.playlists | numsmall }}</span>
+				<span>{{ person.selectedAccount.playlists | numsmall }}</span>
 			</div>
 			<div class="col-4 ellipsis">
 				<b>Followers</b>
-				<span>{{:: person.selectedAccount.followers | numsmall }}</span>
+				<span>{{ person.selectedAccount.followers | numsmall }}</span>
 			</div>
 			<div class="col-4">
 				<b>Following</b>
-				<span>{{:: person.selectedAccount.following | numsmall }}</span>
+				<span>{{ person.selectedAccount.following | numsmall }}</span>
 			</div>
 		</div>
 	</div>
