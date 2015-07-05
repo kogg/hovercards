@@ -2,7 +2,7 @@
     "name": "__MSG_app_name__",
     "short_name": "__MSG_app_short_name__",
     "description": "__MSG_app_description__",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "content_scripts": [
         {
             "matches": [
@@ -65,6 +65,7 @@
         "images/yo-black.png",
         "images/yo-white.png",
         "images/YouTube-icon-full_color.png",
+        "images/SoundCloud-icon-full_color.png",
         "images/instagram-icon-full_color.png",
         "images/Twitter-icon-full_color.png",
         "images/Reddit-icon-full_color.png",
