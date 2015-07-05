@@ -18,6 +18,24 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     }])
+    .directive('scrollToHorizontal', [function() {
+        require('jquery-ui/core');
+
+        return {
+            scope: {
+                on: '=scrollToHorizontal',
+            },
+            link: function($scope, $element) {
+                $scope.$watch('on', function(on, onBefore) {
+                    if (on === onBefore || !on) {
+                        return;
+                    }
+                    var scrollParent = $element.scrollParent();
+                    scrollParent.animate({ scrollLeft: $element.position().left + scrollParent.scrollLeft() + $element.width() - scrollParent.width() / 2 }, 200);
+                });
+            }
+        };
+    }])
     .directive('popup', ['$window', function($window) {
         return {
             restrict: 'A',
