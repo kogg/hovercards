@@ -8,7 +8,7 @@ $(document).keydown(function(e) {
     if (e.which !== 27) {
         return;
     }
-    window.top.postMessage({ msg: 'hide' }, '*');
+    window.top.postMessage({ msg: 'hide', by: 'Esc' }, '*');
 });
 
 var extension_id = chrome.i18n.getMessage('@@extension_id');
