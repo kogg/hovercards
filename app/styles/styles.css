@@ -1843,7 +1843,6 @@ h2 {
 	margin:0 -1px;
 	position: relative;
 	color: #727272;
-	transition:all .3s ease-in-out	;
 }
 .network-menu-option:first-of-type.active {
 }
