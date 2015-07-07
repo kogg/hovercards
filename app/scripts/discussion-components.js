@@ -111,6 +111,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                                       .value();
                 });
         });
+
+        $scope.$watch('entry.discussion_api', function(discussionApi, oldDiscussionApi) {
+            if (discussionApi === oldDiscussionApi || !discussionApi || !oldDiscussionApi) {
+                return;
+            }
+            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'discussion', 'changed discussion', discussionApi + ' discussion'] });
+        });
     }])
     .directive('sortable', [function() {
         require('jquery-ui/sortable');
