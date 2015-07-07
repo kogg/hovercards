@@ -6,5 +6,3 @@ var container = $('<div></div>')
 
 require('./sidebar')()
     .appendTo(container);
-
-require('./walkthrough')();
