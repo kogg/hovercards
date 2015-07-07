@@ -356,3 +356,23 @@
 		-webkit-transform: scale(3.5);
 	}
 }
+.__MSG_@@extension_id__-clickable-yo-trigger-timeout {
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
+	-webkit-animation-name: __MSG_@@extension_id__-yo-trigger-fadeout;
+	animation-name: __MSG_@@extension_id__-yo-trigger-fadeout;
+}
+@-webkit-keyframes __MSG_@@extension_id__-yo-trigger-fadeout {
+	0% {
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes __MSG_@@extension_id__-yo-trigger-fadeout {
+	0% {
+	}
+	100% {
+		opacity: 0;
+	}
+}

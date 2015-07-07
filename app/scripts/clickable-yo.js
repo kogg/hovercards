@@ -25,7 +25,16 @@ module.exports = function(selector, get_url, get_offset) {
             .appendTo('html')
             .addClass(EXTENSION_ID + '-clickable-yo-trigger')
             .addClass(EXTENSION_ID + '-clickable-yo-trigger-' + identity.api)
-            .show();
+            .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
+                switch (e.originalEvent.animationName) {
+                    case EXTENSION_ID + '-clickable-yo-grow':
+                        kill_trigger();
+                        break;
+                    case EXTENSION_ID + '-clickable-yo-fadeout':
+                        trigger.hide();
+                        break;
+                }
+            });
 
         var offset;
         if (!get_offset) {
@@ -45,11 +54,19 @@ module.exports = function(selector, get_url, get_offset) {
         }
 
         function obj_mousemove() {
+            trigger
+                .show()
+                .removeClass(EXTENSION_ID + '-clickable-yo-trigger-timeout');
             clearTimeout(timeout);
-            timeout = setTimeout(kill_trigger, 3000);
+            timeout = setTimeout(function() {
+                trigger.addClass(EXTENSION_ID + '-clickable-yo-trigger-timeout');
+            }, 3000);
         }
 
         function trigger_mousemove() {
+            trigger
+                .show()
+                .removeClass(EXTENSION_ID + '-clickable-yo-trigger-timeout');
             clearTimeout(timeout);
         }
 
@@ -66,12 +83,12 @@ module.exports = function(selector, get_url, get_offset) {
         function kill_trigger() {
             obj.data(EXTENSION_ID + '-has-trigger', false);
             ignore_new_events();
-            trigger
-                .hide()
-                .remove();
+            trigger.remove();
         }
 
-        var timeout = setTimeout(kill_trigger, 3000);
+        var timeout = setTimeout(function() {
+            trigger.addClass(EXTENSION_ID + '-clickable-yo-trigger-timeout');
+        }, 3000);
 
         obj
             .on('mouseleave', mouseleave)
@@ -86,13 +103,7 @@ module.exports = function(selector, get_url, get_offset) {
                 ignore_new_events();
                 trigger
                     .trigger(EXTENSION_ID + '-clickable-yo', [url])
-                    .addClass(EXTENSION_ID + '-clickable-yo-trigger-clicked')
-                    .one('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
-                        if (e.originalEvent.animationName !== EXTENSION_ID + '-clickable-yo-grow') {
-                            return;
-                        }
-                        kill_trigger();
-                    });
+                    .addClass(EXTENSION_ID + '-clickable-yo-trigger-clicked');
             });
     });
 };
