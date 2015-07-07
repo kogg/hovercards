@@ -21,7 +21,7 @@ function find_offset_for_link(obj, trigger) {
         return offset;
     }
     offset = obj.offset();
-    offset.left -= trigger.width();
+    offset.left -= trigger.width() + 7;
     return offset;
 }
 
@@ -39,12 +39,14 @@ clickable_yo('a[data-expanded-url]:not(.no-yo,[data-href])', function(link) {
 }, find_offset_for_link);
 
 function find_offset_for_videos(obj, trigger, url) {
-    var showinfo = URI(url).search(true).showinfo;
-    if (showinfo !== undefined && (showinfo === '0' || showinfo === '')) {
-        return obj.offset();
+    var offset = obj.offset();
+    offset.left += 7;
+    var uri = URI(url);
+    var showinfo = uri.search(true).showinfo;
+    if (uri.domain() !== 'youtube.com' || (showinfo !== undefined && (showinfo === '0' || showinfo === ''))) {
+        offset.top += 7;
+        return offset;
     }
-    var offset;
-    offset = obj.offset();
     offset.top += 30;
     return offset;
 }

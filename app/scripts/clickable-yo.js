@@ -6,7 +6,7 @@ var network_urls = require('YoCardsApiCalls/network-urls');
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 module.exports = function(selector, get_url, get_offset) {
-    $('html').on('mousemove', selector, function() {
+    $('html').on('mousemove mouseenter', selector, function() {
         var obj = $(this);
         if (obj.data(EXTENSION_ID + '-has-trigger')) {
             return;
@@ -74,10 +74,10 @@ module.exports = function(selector, get_url, get_offset) {
             clearTimeout(timeout);
             obj
                 .off('mouseleave', mouseleave)
-                .off('mousemove', obj_mousemove);
+                .off('mousemove mouseenter', obj_mousemove);
             trigger
                 .off('mouseleave', mouseleave)
-                .off('mousemove', trigger_mousemove);
+                .off('mousemove mouseenter', trigger_mousemove);
         }
 
         function kill_trigger() {
@@ -92,11 +92,11 @@ module.exports = function(selector, get_url, get_offset) {
 
         obj
             .on('mouseleave', mouseleave)
-            .on('mousemove', obj_mousemove);
+            .on('mousemove mouseenter', obj_mousemove);
         trigger
             .offset({ left: Math.max(0, offset.left), top: Math.max(0, offset.top) })
             .on('mouseleave', mouseleave)
-            .on('mousemove', trigger_mousemove)
+            .on('mousemove mouseenter', trigger_mousemove)
             .on('click', function(e) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
