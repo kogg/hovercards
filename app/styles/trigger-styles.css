@@ -327,33 +327,26 @@
 	animation-fill-mode: forwards;
 	-webkit-animation-name: __MSG_@@extension_id__-clickable-yo-grow;
 	animation-name: __MSG_@@extension_id__-clickable-yo-grow;
-	box-shadow:none !important;
 	cursor: default !important;
 }
 @-webkit-keyframes __MSG_@@extension_id__-clickable-yo-grow {
 	0% {
 		opacity: 1;
-		-webkit-transform: scale(1.5);
-	}
-	60% {
-		-webkit-transform: scale(3.5);
+		-webkit-transform: translate3d(-4px,-1px,0) scale(1.4);
 	}
 	100% {
 		opacity: 0;
-		-webkit-transform: scale(3.5);
+		-webkit-transform: translate3d(-4px,-1px,0) scale(2.1);
 	}
 }
 @keyframes __MSG_@@extension_id__-clickable-yo-grow {
 	0% {
 		opacity: 1;
-		transform: scale(1.5);
-	}
-	60% {
-		transform: scale(3.5);
+		transform: translate3d(-4px,-1px,0) scale(1.4);
 	}
 	100% {
 		opacity: 0;
-		-webkit-transform: scale(3.5);
+		-webkit-transform: translate3d(-4px,-1px,0) scale(2.1);
 	}
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-timeout {
