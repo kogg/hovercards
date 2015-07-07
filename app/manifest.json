@@ -2,7 +2,7 @@
     "name": "__MSG_app_name__",
     "short_name": "__MSG_app_short_name__",
     "description": "__MSG_app_description__",
-    "version": "0.6.0",
+    "version": "0.7.0",
     "content_scripts": [
         {
             "matches": [
@@ -70,6 +70,7 @@
         "images/Twitter-icon-full_color.png",
         "images/Reddit-icon-full_color.png",
         "images/Imgur-icon-full_color.png",
+        "images/yowhitecover.png",
         "images/closesidebar.png",
         "images/bringback.png",
         "styles/walkthrough.css"

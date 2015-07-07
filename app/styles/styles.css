@@ -549,6 +549,9 @@ b i, .iconic-push {
 .video-top-underlay {
 	cursor: pointer;
 }
+.video-top-underlay + .card-stats {
+	border-top: none
+}
 .play-video {
   width: 46px;
   height: 46px;
@@ -1649,14 +1652,14 @@ h2 {
 	position: relative;
 	z-index: 2;
 }
-.selected-comment + div {
+.selected-comment + p {
 	position: relative;
 }
-.selected-comment + div .md, .selected-comment + div .read-more {
+.selected-comment + p .md, .selected-comment + p .read-more {
 	position: relative;
 	z-index: 2;
 }
-.selected-comment + div:after {
+.selected-comment + p:after {
   content: "";
   position: absolute;
   height: -webkit-calc(100% + 36px);
@@ -1843,7 +1846,6 @@ h2 {
 	margin:0 -1px;
 	position: relative;
 	color: #727272;
-	transition:all .3s ease-in-out	;
 }
 .network-menu-option:first-of-type.active {
 }

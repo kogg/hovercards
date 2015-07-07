@@ -21,24 +21,6 @@
 	-webkit-animation-name: yofaddedIn;
 	animation-name: yofaddedIn;
 }
-.__MSG_@@extension_id__-yo-notify-youtube {
-	background-color: #F44336 !important;
-}
-.__MSG_@@extension_id__-yo-notify-soundcloud {
-	background-color: #fc561e !important;
-}
-.__MSG_@@extension_id__-yo-notify-twitter {
-	background-color: #55ACEE !important;
-}
-.__MSG_@@extension_id__-yo-notify-reddit {
-	background-color: #cee2f8 !important;
-}
-.__MSG_@@extension_id__-yo-notify-instagram {
-	background-color: #517fa4 !important;
-}
-.__MSG_@@extension_id__-yo-notify-imgur {
-	background-color: #86c121 !important;
-}
 @-webkit-keyframes __MSG_@@extension_id__-yo-notify-fadein { 
 	0% {
 		opacity: 0;
@@ -289,5 +271,100 @@
 	100% {
 		opacity: 0;
 		transform: scale(3) translateZ(0);
+	}
+}
+.__MSG_@@extension_id__-clickable-yo-trigger {
+	content: "" !important;
+	position: absolute !important;
+	width: 16px !important;
+	height: 16px !important;
+	box-sizing:border-box;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yowhitecover.png') !important;
+	background-repeat: no-repeat !important;
+	background-size: 110% !important;
+	background-position: center !important;
+	border-radius: 50% !important;
+	z-index: 2147483647 !important;
+	border:2px solid white;
+	box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.19), 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+	cursor: pointer !important;
+	transition:all .2s ease-in-out;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger:hover {
+	-webkit-transform: scale(1.4);
+	transform: scale(1.4);
+}
+.__MSG_@@extension_id__-clickable-yo-trigger:after {
+	content:"";
+	position: absolute;
+	width: 20px;
+	height: 20px;
+}
+
+.__MSG_@@extension_id__-clickable-yo-trigger-youtube {
+	background-color: #F44336 !important;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-soundcloud {
+	background-color: #fc561e !important;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-twitter {
+	background-color: #55ACEE !important;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-reddit {
+	background-color: #ff4303 !important;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-instagram {
+	background-color: #517fa4 !important;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-imgur {
+	background-color: #000 !important;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-clicked {
+	-webkit-animation-duration: .6s;
+	animation-duration: .6s;
+	-webkit-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
+	-webkit-animation-name: __MSG_@@extension_id__-clickable-yo-trigger-grow;
+	animation-name: __MSG_@@extension_id__-clickable-yo-trigger-grow;
+	cursor: default !important;
+}
+@-webkit-keyframes __MSG_@@extension_id__-clickable-yo-trigger-grow {
+	0% {
+		opacity: 1;
+		-webkit-transform: scale(1.4);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale(2.1);
+	}
+}
+@keyframes __MSG_@@extension_id__-clickable-yo-trigger-grow {
+	0% {
+		opacity: 1;
+		transform: scale(1.4);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale(2.1);
+	}
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-timeout {
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
+	-webkit-animation-name: __MSG_@@extension_id__-clickable-yo-trigger-fadeout;
+	animation-name: __MSG_@@extension_id__-clickable-yo-trigger-fadeout;
+}
+@-webkit-keyframes __MSG_@@extension_id__-clickable-yo-trigger-fadeout {
+	0% {
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes __MSG_@@extension_id__-clickable-yo-trigger-fadeout {
+	0% {
+	}
+	100% {
+		opacity: 0;
 	}
 }

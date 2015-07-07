@@ -111,6 +111,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                                       .value();
                 });
         });
+
+        $scope.$watch('entry.discussion_api', function(discussionApi, oldDiscussionApi) {
+            if (discussionApi === oldDiscussionApi || !discussionApi || !oldDiscussionApi) {
+                return;
+            }
+            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'discussions', 'changed discussion', discussionApi + ' discussion'] });
+        });
     }])
     .directive('sortable', [function() {
         require('jquery-ui/sortable');
@@ -133,6 +140,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                                             $scope.items.sort(function(a, b) {
                                                 return item_pos[a] - item_pos[b];
                                             });
+                                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'events', 'reordered discussions'] });
                                         });
                                     } });
                 $element.disableSelection();
