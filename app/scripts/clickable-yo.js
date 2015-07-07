@@ -27,10 +27,10 @@ module.exports = function(selector, get_url, get_offset) {
             .addClass(EXTENSION_ID + '-clickable-yo-trigger-' + identity.api)
             .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
                 switch (e.originalEvent.animationName) {
-                    case EXTENSION_ID + '-clickable-yo-grow':
+                    case EXTENSION_ID + '-clickable-yo-trigger-grow':
                         kill_trigger();
                         break;
-                    case EXTENSION_ID + '-clickable-yo-fadeout':
+                    case EXTENSION_ID + '-clickable-yo-trigger-fadeout':
                         trigger.hide();
                         break;
                 }

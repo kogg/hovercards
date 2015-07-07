@@ -325,11 +325,11 @@
 	animation-duration: .6s;
 	-webkit-animation-fill-mode: forwards;
 	animation-fill-mode: forwards;
-	-webkit-animation-name: __MSG_@@extension_id__-clickable-yo-grow;
-	animation-name: __MSG_@@extension_id__-clickable-yo-grow;
+	-webkit-animation-name: __MSG_@@extension_id__-clickable-yo-trigger-grow;
+	animation-name: __MSG_@@extension_id__-clickable-yo-trigger-grow;
 	cursor: default !important;
 }
-@-webkit-keyframes __MSG_@@extension_id__-clickable-yo-grow {
+@-webkit-keyframes __MSG_@@extension_id__-clickable-yo-trigger-grow {
 	0% {
 		opacity: 1;
 		-webkit-transform: translate3d(-4px,-1px,0) scale(1.4);
@@ -339,7 +339,7 @@
 		-webkit-transform: translate3d(-4px,-1px,0) scale(2.1);
 	}
 }
-@keyframes __MSG_@@extension_id__-clickable-yo-grow {
+@keyframes __MSG_@@extension_id__-clickable-yo-trigger-grow {
 	0% {
 		opacity: 1;
 		transform: translate3d(-4px,-1px,0) scale(1.4);
@@ -352,17 +352,17 @@
 .__MSG_@@extension_id__-clickable-yo-trigger-timeout {
 	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
-	-webkit-animation-name: __MSG_@@extension_id__-yo-trigger-fadeout;
-	animation-name: __MSG_@@extension_id__-yo-trigger-fadeout;
+	-webkit-animation-name: __MSG_@@extension_id__-clickable-yo-trigger-fadeout;
+	animation-name: __MSG_@@extension_id__-clickable-yo-trigger-fadeout;
 }
-@-webkit-keyframes __MSG_@@extension_id__-yo-trigger-fadeout {
+@-webkit-keyframes __MSG_@@extension_id__-clickable-yo-trigger-fadeout {
 	0% {
 	}
 	100% {
 		opacity: 0;
 	}
 }
-@keyframes __MSG_@@extension_id__-yo-trigger-fadeout {
+@keyframes __MSG_@@extension_id__-clickable-yo-trigger-fadeout {
 	0% {
 	}
 	100% {
