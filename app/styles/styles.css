@@ -549,6 +549,9 @@ b i, .iconic-push {
 .video-top-underlay {
 	cursor: pointer;
 }
+.video-top-underlay + .card-stats {
+	border-top: none
+}
 .play-video {
   width: 46px;
   height: 46px;

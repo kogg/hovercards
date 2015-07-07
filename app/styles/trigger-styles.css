@@ -21,24 +21,6 @@
 	-webkit-animation-name: yofaddedIn;
 	animation-name: yofaddedIn;
 }
-.__MSG_@@extension_id__-yo-notify-youtube {
-	background-color: #F44336 !important;
-}
-.__MSG_@@extension_id__-yo-notify-soundcloud {
-	background-color: #fc561e !important;
-}
-.__MSG_@@extension_id__-yo-notify-twitter {
-	background-color: #55ACEE !important;
-}
-.__MSG_@@extension_id__-yo-notify-reddit {
-	background-color: #cee2f8 !important;
-}
-.__MSG_@@extension_id__-yo-notify-instagram {
-	background-color: #517fa4 !important;
-}
-.__MSG_@@extension_id__-yo-notify-imgur {
-	background-color: #86c121 !important;
-}
 @-webkit-keyframes __MSG_@@extension_id__-yo-notify-fadein { 
 	0% {
 		opacity: 0;
@@ -296,12 +278,45 @@
 	position: absolute !important;
 	width: 16px !important;
 	height: 16px !important;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png') !important;
+	box-sizing:border-box;
+	transform:translate3d(-4px,-1px,0);
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yowhitecover.png') !important;
 	background-repeat: no-repeat !important;
-	background-size: 66% !important;
+	background-size: 100% !important;
 	background-position: center !important;
 	border-radius: 50% !important;
 	z-index: 2147483647 !important;
-	background-color: #F44336 !important;
+	border:2px solid white;
+	box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.19), 0 3px 6px 0 rgba(0, 0, 0, 0.2);
 	cursor: pointer !important;
+	transition:all .2s ease-in-out;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger:hover {
+	-webkit-transform: translate3d(-4px,-1px,0) scale(1.4);
+	transform: translate3d(-4px,-1px,0) scale(1.4);
+}
+.__MSG_@@extension_id__-clickable-yo-trigger:after {
+	content:"";
+	position: absolute;
+	width: 20px;
+	height: 20px;
+}
+
+.__MSG_@@extension_id__-clickable-yo-trigger-youtube {
+	background-color: #F44336 !important;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-soundcloud {
+	background-color: #fc561e !important;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-twitter {
+	background-color: #55ACEE !important;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-reddit {
+	background-color: #ff4303 !important;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-instagram {
+	background-color: #517fa4 !important;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-imgur {
+	background-color: #000 !important;
 }
