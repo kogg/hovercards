@@ -134,6 +134,11 @@ module.exports = function() {
                     if (err) {
                         return callback(err);
                     }
+                    var start = _.now();
+                    callback = _.wrap(callback, function(callback, err, result) {
+                        chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'service', 'Load Time', _.now() - start, api + ' ' + type] });
+                        callback(err, result);
+                    });
                     request = _.omit(request, 'api', 'type');
                     if (client_callers[api] && client_callers[api][type]) {
                         client_callers[api][type](_.extend(headers, request), callback);
