@@ -6,14 +6,20 @@ var clickable_yo = require('./clickable-yo');
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 function find_offset_for_link(obj, trigger) {
+    var offset;
     if (!(obj.text() || '').replace(/(?:^\s+)|(?:\s+$)/, '').length) {
-        return obj.offset();
+        offset = obj.offset();
+        offset.left -= 6;
+        offset.top -= 7;
+        return offset;
     }
     var img = obj.find('img').filter(function() { return $(this).height() > 20; }).first();
     if (img.length) {
-        return img.offset();
+        offset = img.offset();
+        offset.left -= 6;
+        offset.top -= 7;
+        return offset;
     }
-    var offset;
     offset = obj.offset();
     offset.left -= trigger.width();
     return offset;

@@ -279,10 +279,9 @@
 	width: 16px !important;
 	height: 16px !important;
 	box-sizing:border-box;
-	transform:translate3d(-4px,-1px,0);
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yowhitecover.png') !important;
 	background-repeat: no-repeat !important;
-	background-size: 100% !important;
+	background-size: 110% !important;
 	background-position: center !important;
 	border-radius: 50% !important;
 	z-index: 2147483647 !important;
@@ -292,8 +291,8 @@
 	transition:all .2s ease-in-out;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger:hover {
-	-webkit-transform: translate3d(-4px,-1px,0) scale(1.4);
-	transform: translate3d(-4px,-1px,0) scale(1.4);
+	-webkit-transform: scale(1.4);
+	transform: scale(1.4);
 }
 .__MSG_@@extension_id__-clickable-yo-trigger:after {
 	content:"";
@@ -332,21 +331,21 @@
 @-webkit-keyframes __MSG_@@extension_id__-clickable-yo-trigger-grow {
 	0% {
 		opacity: 1;
-		-webkit-transform: translate3d(-4px,-1px,0) scale(1.4);
+		-webkit-transform: scale(1.4);
 	}
 	100% {
 		opacity: 0;
-		-webkit-transform: translate3d(-4px,-1px,0) scale(2.1);
+		-webkit-transform: scale(2.1);
 	}
 }
 @keyframes __MSG_@@extension_id__-clickable-yo-trigger-grow {
 	0% {
 		opacity: 1;
-		transform: translate3d(-4px,-1px,0) scale(1.4);
+		transform: scale(1.4);
 	}
 	100% {
 		opacity: 0;
-		-webkit-transform: translate3d(-4px,-1px,0) scale(2.1);
+		-webkit-transform: scale(2.1);
 	}
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-timeout {
