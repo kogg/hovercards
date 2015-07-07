@@ -151,6 +151,20 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             $scope.data.accounts = parts[0];
             $scope.data.people   = parts[1];
         });
+
+        $scope.$watch('entry.selectedPerson', function(selectedPerson, oldSelectedPerson) {
+            if (selectedPerson === oldSelectedPerson || !selectedPerson || !oldSelectedPerson) {
+                return;
+            }
+            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'changed person'] });
+        });
+
+        $scope.$watchGroup(['entry.selectedPerson', 'entry.selectedPerson.selectedAccount'], function(now, old) {
+            if (!now[0] || now[1] === old[1] || !now[1] || !old[1] || !_.contains(now[0].accounts, now[1]) || !_.contains(now[0].accounts, old[1])) {
+                return;
+            }
+            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'changed account', now[1].api + ' ' + now[1].type] });
+        });
     }])
     .directive('peopleCarousel', ['$compile', function($compile) {
         require('slick-carousel');
@@ -163,9 +177,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         $scope.entry.selectedPerson = $scope.data.people[next];
                         $scope.view.fullscreen = null;
                     });
-                });
-                $element.one('beforeChange', function() {
-                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'changed'] });
                 });
                 $scope.$watchCollection('data.people', function(people, oldPeople) {
                     _.times(oldPeople && people !== oldPeople && oldPeople.length, function() {

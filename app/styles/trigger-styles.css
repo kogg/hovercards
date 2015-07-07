@@ -291,3 +291,17 @@
 		transform: scale(3) translateZ(0);
 	}
 }
+.__MSG_@@extension_id__-clickable-yo-trigger {
+	content: "" !important;
+	position: absolute !important;
+	width: 16px !important;
+	height: 16px !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yo-white.png') !important;
+	background-repeat: no-repeat !important;
+	background-size: 66% !important;
+	background-position: center !important;
+	border-radius: 50% !important;
+	z-index: 2147483647 !important;
+	background-color: #F44336 !important;
+	cursor: pointer !important;
+}
