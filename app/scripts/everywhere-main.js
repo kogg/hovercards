@@ -7,21 +7,16 @@ var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 function find_offset_for_link(obj, trigger) {
     if (!(obj.text() || '').replace(/(?:^\s+)|(?:\s+$)/, '').length) {
-        console.log('no text');
         return obj.offset();
-    } else {
-        var img = obj.find('img').filter(function() { return $(this).height() > 20; }).first();
-        if (img.length) {
-            console.log('img', img);
-            return img.offset();
-        } else {
-            console.log('text');
-            var offset;
-            offset = obj.offset();
-            offset.left -= trigger.width();
-            return offset;
-        }
     }
+    var img = obj.find('img').filter(function() { return $(this).height() > 20; }).first();
+    if (img.length) {
+        return img.offset();
+    }
+    var offset;
+    offset = obj.offset();
+    offset.left -= trigger.width();
+    return offset;
 }
 
 clickable_yo('a[href]:not(.no-yo,[data-href][data-expanded-url])', function(link) {
@@ -40,7 +35,6 @@ clickable_yo('a[data-expanded-url]:not(.no-yo,[data-href])', function(link) {
 function find_offset_for_videos(obj, trigger, url) {
     var showinfo = URI(url).search(true).showinfo;
     if (showinfo !== undefined && (showinfo === '0' || showinfo === '')) {
-        console.log('dont move');
         return obj.offset();
     }
     var offset;
