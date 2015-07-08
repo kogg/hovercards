@@ -69,14 +69,15 @@ module.exports = function sidebar() {
     }
 
     var sidebar_frame;
+    var showing;
     function sendMessage(message) {
         switch (message.msg) {
             case 'load':
                 if (_.chain(identity_history).last().isEqual(message.identity).value()) {
-                    console.log('NOPE');
-                    return;
-                }
-                if (message.by !== 'back') {
+                    if (showing) {
+                        return;
+                    }
+                } else if (message.by !== 'back') {
                     identity_history.push(message.identity);
                 }
                 if (identity_history.length > 1) {
@@ -84,6 +85,7 @@ module.exports = function sidebar() {
                 } else {
                     back_button.hide();
                 }
+                showing = true;
                 obj
                     .show()
                     .removeClass(extension_id + '-sidebar-leave')
@@ -91,18 +93,19 @@ module.exports = function sidebar() {
                     .addClass(extension_id + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
                 if (message.identity.type === 'url') {
-                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, 'url', { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
+                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'activated', message.by, 'url', { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
                 } else {
-                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, message.identity.api + ' ' + message.identity.type, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
+                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'activated', message.by, message.identity.api + ' ' + message.identity.type, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
                 }
                 window.top.postMessage({ msg: 'loaded' }, '*');
                 break;
             case 'hide':
+                showing = false;
                 obj
                     .removeClass(extension_id + '-sidebar-enter')
                     .addClass(extension_id + '-sidebar-leave');
                 $(document).off('dblclick', dblclick_for_sidebar);
-                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'deactivated ' + message.by] });
+                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'deactivated', message.by] });
                 window.top.postMessage({ msg: 'hidden' }, '*');
                 break;
         }
