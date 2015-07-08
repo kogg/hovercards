@@ -20,8 +20,10 @@ function find_offset_for_link(obj, trigger) {
         offset.top -= 7;
         return offset;
     }
-    offset = obj.offset();
+    var span = $('<span>&nbsp;</span>').prependTo(obj);
+    offset = span.offset();
     offset.left -= trigger.width() + 7;
+    span.remove();
     return offset;
 }
 
