@@ -23,6 +23,16 @@ module.exports = function sidebar() {
             sidebar_message({ msg: 'hide', by: 'closebutton' });
         });
 
+    var identity_history = [];
+    var back_button = $('<div></div>')
+        .appendTo(obj)
+        .addClass(extension_id + '-sidebar-back-button')
+        .hide()
+        .click(function() {
+            identity_history.pop();
+            sidebar_message({ msg: 'activate', by: 'back', url: network_urls.generate(_.last(identity_history)) });
+        });
+
     $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
@@ -60,9 +70,20 @@ module.exports = function sidebar() {
 
     var sidebar_frame;
     function sendMessage(message) {
-        sidebar_frame.postMessage(message, '*');
         switch (message.msg) {
             case 'load':
+                if (_.chain(identity_history).last().isEqual(message.identity).value()) {
+                    console.log('NOPE');
+                    return;
+                }
+                if (message.by !== 'back') {
+                    identity_history.push(message.identity);
+                }
+                if (identity_history.length > 1) {
+                    back_button.show();
+                } else {
+                    back_button.hide();
+                }
                 obj
                     .show()
                     .removeClass(extension_id + '-sidebar-leave')
@@ -85,6 +106,7 @@ module.exports = function sidebar() {
                 window.top.postMessage({ msg: 'hidden' }, '*');
                 break;
         }
+        sidebar_frame.postMessage(message, '*');
     }
 
     function dblclick_for_sidebar() {
@@ -96,8 +118,7 @@ module.exports = function sidebar() {
         sidebar_message({ msg: 'hide', by: 'dblclick' });
     }
 
-    var identity;
-    var by;
+    var on_deck;
     function sidebar_message(request, frame) {
         if (!request) {
             return;
@@ -105,33 +126,26 @@ module.exports = function sidebar() {
         switch (request.msg) {
             case 'ready':
                 sidebar_frame = frame;
-                if (!identity) {
+                if (!on_deck) {
                     return;
                 }
-                sendMessage({ msg: 'load', by: by, identity: identity });
+                sendMessage(on_deck);
                 break;
             case 'activate':
                 var possible_identity = network_urls.identify(request.url);
                 if (!possible_identity) {
                     possible_identity = { type: 'url', id: request.url };
                 }
-                var msg;
-                if (_.isEqual(possible_identity, identity)) {
-                    msg = { msg: 'hide', by: request.by };
-                    identity = null;
-                } else {
-                    msg = { msg: 'load', by: request.by, identity: possible_identity };
-                    identity = possible_identity;
-                }
+                var msg = { msg: 'load', by: request.by, identity: possible_identity };
                 if (!sidebar_frame) {
-                    by = request.by;
+                    on_deck = msg;
                     return;
                 }
                 sendMessage(msg);
                 break;
             case 'hide':
-                identity = null;
                 if (!sidebar_frame) {
+                    on_deck = null;
                     return;
                 }
                 sendMessage({ msg: 'hide', by: request.by });
