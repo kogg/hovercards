@@ -37,7 +37,7 @@
 	transition: all 0.6s ease !important;
 	left: 0px !important
 }
-.__MSG_@@extension_id__-sidebar-close-button {
+.__MSG_@@extension_id__-sidebar-close-button, .__MSG_@@extension_id__-sidebar-back-button {
 	font-weight: thin !important;
 	font-family: arial !important;
 	line-height: 44px !important;
@@ -48,15 +48,18 @@
 	border-radius: 3px 0 0 3px !important;
 	background:#f6f6f6 !important;
 	top: 19px !important;
-	right: 340px !important; 
+	right: 340px !important;
 	position: absolute !important;
 	font-weight: 500 !important;
 	color: rgba(255,255,255,.9) !important;
 	box-shadow: rgba(0, 0, 0, 0.14902) -4px 1px 13px -3px;
-	display: block !important;
+	display: block;
 	transform: translate3d(0,0,0) !important;
 	z-index: 3 !important;
 	transition: all 0.3s ease .45s !important;
+}
+.__MSG_@@extension_id__-sidebar-back-button {
+	top: 82px !important;
 }
 .__MSG_@@extension_id__-sidebar-close-button:before {
 	content:"" !important;
@@ -88,9 +91,14 @@
 	display: inline-block !important;
 	color:#727272 !important;
 }
-.__MSG_@@extension_id__-sidebar-close-button:hover {
+.__MSG_@@extension_id__-sidebar-close-button:hover, .__MSG_@@extension_id__-sidebar-back-button:hover {
 	color: black !important;
 	cursor: pointer !important;
+}
+.__MSG_@@extension_id__-sidebar-back-button:after {
+	content: '<' !important;
+	display: inline-block !important;
+	color:#727272 !important;
 }
 .__MSG_@@extension_id__-fullscreen-sidebar {
 	width: 100% !important;
