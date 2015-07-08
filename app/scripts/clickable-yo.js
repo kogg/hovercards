@@ -79,11 +79,13 @@ module.exports = function(selector, get_url, get_offset) {
                 .off('mouseleave', mouseleave)
                 .off('mousemove mouseenter', trigger_mousemove);
         }
+
         function kill_trigger() {
             obj.data(EXTENSION_ID + '-has-trigger', false);
             ignore_new_events();
             trigger.remove();
         }
+
         var timeout = setTimeout(function() {
             trigger.addClass(EXTENSION_ID + '-clickable-yo-trigger-timeout');
         }, 3000);
