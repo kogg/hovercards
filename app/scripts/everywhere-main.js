@@ -66,6 +66,11 @@ clickable_yo('iframe:not(.no-yo,[src])', function(iframe) {
 if (window.top === window) {
     clickable_yo('div#player div.html5-video-player', function() {
         return document.URL;
+    }, function(obj) {
+        var offset = obj.offset();
+        offset.left += 7;
+        offset.top += 7;
+        return offset;
     });
 }
 
