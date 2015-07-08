@@ -343,6 +343,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             return moment(time).fromNow();
         };
     }])
+    .filter('trustedHtml', ['$sce', function($sce) {
+        return $sce.trustAsHtml;
+    }])
     .filter('trustedUrl', ['$sce', function($sce) {
         return $sce.trustAsResourceUrl;
     }])
