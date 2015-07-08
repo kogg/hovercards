@@ -73,12 +73,14 @@ module.exports = function sidebar() {
     function sendMessage(message) {
         switch (message.msg) {
             case 'load':
-                if (_.chain(identity_history).last().isEqual(message.identity).value()) {
-                    if (showing) {
-                        return;
+                if (message.by !== 'back') {
+                    if (_.chain(identity_history).last().isEqual(message.identity).value()) {
+                        if (showing) {
+                            return;
+                        }
+                    } else {
+                        identity_history.push(message.identity);
                     }
-                } else if (message.by !== 'back') {
-                    identity_history.push(message.identity);
                 }
                 if (identity_history.length > 1) {
                     back_button.show();
