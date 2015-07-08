@@ -278,45 +278,61 @@
 	position: absolute !important;
 	width: 16px !important;
 	height: 16px !important;
-	box-sizing:border-box;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/yowhitecover.png') !important;
-	background-repeat: no-repeat !important;
-	background-size: 110% !important;
-	background-position: center !important;
+	box-sizing:border-box !important;
 	border-radius: 50% !important;
 	z-index: 2147483647 !important;
-	border:2px solid white;
 	box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.19), 0 3px 6px 0 rgba(0, 0, 0, 0.2);
 	cursor: pointer !important;
+	background: white !important;
 	transition:all .2s ease-in-out;
 }
+.__MSG_@@extension_id__-image-hidden {
+	border-radius: 50% !important;
+	width: 16px !important;
+	height: 16px !important;
+	overflow: hidden !important;
+	-webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC) !important;
+
+}
+.__MSG_@@extension_id__-clickable-yo-trigger img {
+	display: block !important;
+	width: 100% !important;
+	pointer-events:none !important;
+	transition:all .3s ease-in-out !important;
+	transform: translate3d(0, 0, 0) !important;
+}
 .__MSG_@@extension_id__-clickable-yo-trigger:hover {
-	-webkit-transform: scale(1.4);
-	transform: scale(1.4);
+	-webkit-transform: scale(1.4) !important;
+	transform: scale(1.4) !important;
+}
+.__MSG_@@extension_id__-clickable-yo-trigger:hover img {
+	transition:all .3s ease-in-out !important;
+	transform: translate3d(0, -13px, 0) !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger:after {
-	content:"";
-	position: absolute;
-	width: 20px;
-	height: 20px;
+	content:"" !important;
+	position: absolute !important;
+	width: 22px !important;
+	height: 22px !important;
+	top: 0 !important;
 }
 
-.__MSG_@@extension_id__-clickable-yo-trigger-youtube {
+.__MSG_@@extension_id__-clickable-yo-trigger-youtube .__MSG_@@extension_id__-image-hidden {
 	background-color: #F44336 !important;
 }
-.__MSG_@@extension_id__-clickable-yo-trigger-soundcloud {
+.__MSG_@@extension_id__-clickable-yo-trigger-soundcloud .__MSG_@@extension_id__-image-hidden {
 	background-color: #fc561e !important;
 }
-.__MSG_@@extension_id__-clickable-yo-trigger-twitter {
+.__MSG_@@extension_id__-clickable-yo-trigger-twitter .__MSG_@@extension_id__-image-hidden {
 	background-color: #55ACEE !important;
 }
-.__MSG_@@extension_id__-clickable-yo-trigger-reddit {
+.__MSG_@@extension_id__-clickable-yo-trigger-reddit .__MSG_@@extension_id__-image-hidden {
 	background-color: #ff4303 !important;
 }
-.__MSG_@@extension_id__-clickable-yo-trigger-instagram {
+.__MSG_@@extension_id__-clickable-yo-trigger-instagram .__MSG_@@extension_id__-image-hidden {
 	background-color: #517fa4 !important;
 }
-.__MSG_@@extension_id__-clickable-yo-trigger-imgur {
+.__MSG_@@extension_id__-clickable-yo-trigger-imgur .__MSG_@@extension_id__-image-hidden {
 	background-color: #000 !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-clicked {
