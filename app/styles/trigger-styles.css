@@ -297,21 +297,19 @@
 .__MSG_@@extension_id__-clickable-yo-trigger img {
 	display: block !important;
 	pointer-events:none !important;
-	width: 32px !important;
-	height: 64px !important;
-	transform: scale3d(0.5, 0.5, 1) !important;
-  left: -8px !important;
-  top: -16px !important;
+	width: 100% !important;
   position: relative;
+  top: 0px;
 	transition:all .3s ease-in-out !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger:hover {
 	-webkit-transform: scale(1.4) !important;
 	transform: scale(1.4) !important;
+
 }
 .__MSG_@@extension_id__-clickable-yo-trigger:hover img {
+	top: -13px !important;
 	transition:all .3s ease-in-out !important;
-	transform:scale3d(0.5, 0.5, 1) translate3d(0, -25px, 0) !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger:after {
 	content:"" !important;
