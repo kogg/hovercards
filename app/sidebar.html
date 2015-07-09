@@ -14,7 +14,10 @@
 				<div class="colored"></div>
 			</div>
 		</div>
-		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && !entry.$err">
+
+		<!-- DON'T REMOVE THIS MIN-HEIGHT STUFF!!! IT DEALS WITH THE FLICKER OF THE WHITE PEOPLE SECTION SHOWING UP AT THE TOP -->
+		<div style="min-height: 100%" ng-if="!entry"></div>
+		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && !entry.$err" ng-style="{ 'min-height': !entry.can_have_people && '100%' }">
 			<div ng-controller="ContentController">
 				<div class="card bounce-in-animation" ng-if="data.content.$resolved || data.content.$err">
 					<div ng-include="'templates/' + (data.content.api || entry.content.api) + '_content.html'" autoscroll="entry.type === 'content'"></div>
@@ -71,8 +74,6 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="people-card-space" ng-if="!entry"><!-- DO NOT GET RID OF THIS! WHEN THE OTHER people-card-space VANISHES, THIS KEEPS THE BACKGROUND COLORS FROM FLICKERING --></div>
 
 		<div class="network-menu-space" ng-if="!entry.$err && entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)">
 			<div class="network-menu fade-in-animation" ng-if="entry.selectedPerson.accounts.length">
