@@ -286,6 +286,7 @@
 	box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.19), 0 3px 6px 0 rgba(0, 0, 0, 0.2);
 	cursor: pointer !important;
 	background: white !important;
+	display: block !important;
 	transition:all .2s ease-in-out;
 }
 .__MSG_@@extension_id__-image-hidden {
@@ -293,6 +294,7 @@
 	width: 100% !important;
 	height: 100% !important;
 	overflow: hidden !important;
+	display: block !important;
 	-webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC) !important;
 
 }
@@ -300,8 +302,8 @@
 	display: block !important;
 	pointer-events:none !important;
 	width: 100% !important;
-  position: relative;
-  top: 0px;
+  position: relative !important;
+  top: 0px !important;
 	transition:all .3s ease-in-out !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger:hover {
@@ -320,8 +322,8 @@
 	top: 0 !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger:hover:after {
-	width: 24px;
-	height: 24px;
+	width: 24px !important;
+	height: 24px !important;
 }
 
 .__MSG_@@extension_id__-clickable-yo-trigger-youtube .__MSG_@@extension_id__-image-hidden {
@@ -340,7 +342,7 @@
 	background-color: #517fa4 !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-imgur .__MSG_@@extension_id__-image-hidden {
-	background-color: #000 !important;
+	background-color: #85BF25 !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-clicked {
 	-webkit-animation-duration: .6s;

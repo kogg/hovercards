@@ -56,10 +56,10 @@
 	display: block;
 	transform: translate3d(0,0,0) !important;
 	z-index: 3 !important;
-	transition: all 0.3s ease .45s !important;
+	transition: all 0.5s ease .45s !important;
 }
 .__MSG_@@extension_id__-sidebar-back-button {
-	top: 82px !important;
+	top: 72px !important;
 }
 .__MSG_@@extension_id__-sidebar-close-button:before {
 	content:"" !important;
@@ -97,6 +97,8 @@
 }
 .__MSG_@@extension_id__-sidebar-back-button:after {
 	content: '<' !important;
+	position: relative;
+	font-size: 12px !important;
 	display: inline-block !important;
 	color:#727272 !important;
 }
@@ -140,8 +142,9 @@
 	width: 35px !important;
 	left: -15px !important;
 }
-.__MSG_@@extension_id__-sidebar-minimized .__MSG_@@extension_id__-sidebar-close-button, .__MSG_@@extension_id__-fullscreen  .__MSG_@@extension_id__-sidebar-close-button {
-	transform: translate3d(0,-80px,0) !important;
+.__MSG_@@extension_id__-sidebar-minimized .__MSG_@@extension_id__-sidebar-close-button, .__MSG_@@extension_id__-fullscreen  .__MSG_@@extension_id__-sidebar-close-button,
+.__MSG_@@extension_id__-sidebar-minimized .__MSG_@@extension_id__-sidebar-back-button, .__MSG_@@extension_id__-fullscreen  .__MSG_@@extension_id__-sidebar-back-button {
+	transform: translate3d(0,-140px,0) !important;
 }
 .__MSG_@@extension_id__-sidebar-minimized {
 	-webkit-animation-duration: .65s !important;
