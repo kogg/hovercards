@@ -5,8 +5,9 @@ var clickable_yo = require('./clickable-yo');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-function find_offset_for_link(obj, trigger) {
-    var offset;
+function find_offset_for_link(obj, trigger, e) {
+    var offset = { left: e.pageX - trigger.width() / 2, top: e.pageY + 2 };
+    /*
     if (!(obj.text() || '').replace(/(?:^\s+)|(?:\s+$)/, '').length) {
         offset = obj.offset();
         offset.left -= 6;
@@ -24,6 +25,7 @@ function find_offset_for_link(obj, trigger) {
     offset = span.offset();
     offset.left -= trigger.width() + 4;
     span.remove();
+    */
     return offset;
 }
 
@@ -40,7 +42,7 @@ clickable_yo('a[data-expanded-url]:not(.no-yo,[data-href])', function(link) {
     return link.data('expanded-url');
 }, find_offset_for_link);
 
-function find_offset_for_videos(obj, trigger, url) {
+function find_offset_for_videos(obj, trigger, e, url) {
     var offset = obj.offset();
     offset.left += 7;
     var uri = URI(url);

@@ -6,7 +6,7 @@ var network_urls = require('YoCardsApiCalls/network-urls');
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 module.exports = function(selector, get_url, get_offset) {
-    $('html').on('mousemove mouseenter', selector, function() {
+    $('html').on('mousemove mouseenter', selector, function(e) {
         var obj = $(this);
         if (obj.data(EXTENSION_ID + '-has-trigger')) {
             return;
@@ -40,7 +40,7 @@ module.exports = function(selector, get_url, get_offset) {
         if (!get_offset) {
             offset = obj.offset();
         } else {
-            offset = get_offset(obj, trigger, url);
+            offset = get_offset(obj, trigger, e, url);
         }
 
         function mouseleave(e) {
