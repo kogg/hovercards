@@ -4,7 +4,7 @@ var common       = require('./common');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
-var TIMEOUT_BEFORE_TRIGGER = 300;
+var TIMEOUT_BEFORE_TRIGGER = 150;
 var TIMEOUT_BEFORE_FADEOUT = 3000;
 
 module.exports = function(selector, get_url, get_offset) {
@@ -115,7 +115,7 @@ module.exports = function(selector, get_url, get_offset) {
 
             var timeout = setTimeout(during_trigger_timeout, TIMEOUT_BEFORE_FADEOUT);
 
-            var trigger = $('<div><div class="'+ EXTENSION_ID + '-image-hidden"><img src="chrome-extension://' + EXTENSION_ID + '/images/yopoppy.png"></div></div>')
+            var trigger = $('<div><div class="'+ EXTENSION_ID + '-image-hidden"><img src="' + chrome.extension.getURL('images/yopoppy.png') + '"></div></div>')
                 .appendTo('html')
                 .addClass(EXTENSION_ID + '-clickable-yo-trigger')
                 .addClass(EXTENSION_ID + '-clickable-yo-trigger-' + identity.api);
