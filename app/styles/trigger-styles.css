@@ -276,8 +276,10 @@
 .__MSG_@@extension_id__-clickable-yo-trigger {
 	content: "" !important;
 	position: absolute !important;
-	width: 16px !important;
-	height: 16px !important;
+	width: 22px !important;
+	height: 22px !important;
+	-webkit-transform: scale(.727272727273);
+	transform: scale(.727272727273);
 	box-sizing:border-box !important;
 	border-radius: 50% !important;
 	z-index: 2147483647 !important;
@@ -288,8 +290,8 @@
 }
 .__MSG_@@extension_id__-image-hidden {
 	border-radius: 50% !important;
-	width: 16px !important;
-	height: 16px !important;
+	width: 100% !important;
+	height: 100% !important;
 	overflow: hidden !important;
 	-webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC) !important;
 
@@ -303,9 +305,8 @@
 	transition:all .3s ease-in-out !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger:hover {
-	-webkit-transform: scale(1.4) !important;
-	transform: scale(1.4) !important;
-
+	-webkit-transform: scale(1);
+	transform: scale(1);
 }
 .__MSG_@@extension_id__-clickable-yo-trigger:hover img {
 	top: -13px !important;
