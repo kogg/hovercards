@@ -4,7 +4,7 @@ var common       = require('./common');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
-var TIMEOUT_BEFORE_TRIGGER = 300;
+var TIMEOUT_BEFORE_TRIGGER = 150;
 var TIMEOUT_BEFORE_FADEOUT = 3000;
 
 module.exports = function(selector, get_url, get_offset) {
