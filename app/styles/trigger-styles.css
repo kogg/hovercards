@@ -390,3 +390,6 @@
 		opacity: 0;
 	}
 }
+.__MSG_@@extension_id__-clickable-yo-trigger-hide {
+	display: none !important;
+}
