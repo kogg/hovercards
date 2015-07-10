@@ -80,10 +80,8 @@ module.exports = function(selector, get_url, get_offset) {
             }
 
             function during_trigger_mouseleave(e) {
-                var from = $(this);
-                var okay_to = $((from[0] === trigger[0]) ? obj : trigger);
                 var to = $(e.toElement);
-                if (to.is(okay_to) || $.contains(to, okay_to) || $.contains(okay_to, to)) {
+                if (obj.is(to) || trigger.is(to) || $.contains(obj[0], to[0]) || $.contains(trigger[0], to[0])) {
                     return;
                 }
                 during_trigger_stop();
