@@ -23,6 +23,16 @@ module.exports = function sidebar() {
             sidebar_message({ msg: 'hide', by: 'closebutton' });
         });
 
+    var identity_history = [];
+    var back_button = $('<div></div>')
+        .appendTo(obj)
+        .addClass(extension_id + '-sidebar-back-button')
+        .hide()
+        .click(function() {
+            identity_history.pop();
+            sidebar_message({ msg: 'activate', by: 'back', url: network_urls.generate(_.last(identity_history)) });
+        });
+
     $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
@@ -59,24 +69,41 @@ module.exports = function sidebar() {
     }
 
     var sidebar_frame;
+    var showing;
     function sendMessage(message) {
-        sidebar_frame.postMessage(message, '*');
         switch (message.msg) {
             case 'load':
+                var category;
+                if (message.by !== 'back') {
+                    if (_.chain(identity_history).last().isEqual(message.identity).value()) {
+                        if (showing) {
+                            category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
+                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated (same) ' + message.by, category, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
+                            sidebar_frame.postMessage({ msg: 'sameload' }, '*');
+                            return;
+                        }
+                    } else {
+                        identity_history.push(message.identity);
+                    }
+                }
+                if (identity_history.length > 1) {
+                    back_button.show();
+                } else {
+                    back_button.hide();
+                }
+                showing = true;
                 obj
                     .show()
                     .removeClass(extension_id + '-sidebar-leave')
                     .removeClass(extension_id + '-sidebar-minimized')
                     .addClass(extension_id + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
-                if (message.identity.type === 'url') {
-                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, 'url', { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
-                } else {
-                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, message.identity.api + ' ' + message.identity.type, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
-                }
+                category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
+                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, category, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
                 window.top.postMessage({ msg: 'loaded' }, '*');
                 break;
             case 'hide':
+                showing = false;
                 obj
                     .removeClass(extension_id + '-sidebar-enter')
                     .addClass(extension_id + '-sidebar-leave');
@@ -85,6 +112,7 @@ module.exports = function sidebar() {
                 window.top.postMessage({ msg: 'hidden' }, '*');
                 break;
         }
+        sidebar_frame.postMessage(message, '*');
     }
 
     function dblclick_for_sidebar() {
@@ -96,8 +124,7 @@ module.exports = function sidebar() {
         sidebar_message({ msg: 'hide', by: 'dblclick' });
     }
 
-    var identity;
-    var by;
+    var on_deck;
     function sidebar_message(request, frame) {
         if (!request) {
             return;
@@ -105,33 +132,26 @@ module.exports = function sidebar() {
         switch (request.msg) {
             case 'ready':
                 sidebar_frame = frame;
-                if (!identity) {
+                if (!on_deck) {
                     return;
                 }
-                sendMessage({ msg: 'load', by: by, identity: identity });
+                sendMessage(on_deck);
                 break;
             case 'activate':
                 var possible_identity = network_urls.identify(request.url);
                 if (!possible_identity) {
                     possible_identity = { type: 'url', id: request.url };
                 }
-                var msg;
-                if (_.isEqual(possible_identity, identity)) {
-                    msg = { msg: 'hide', by: request.by };
-                    identity = null;
-                } else {
-                    msg = { msg: 'load', by: request.by, identity: possible_identity };
-                    identity = possible_identity;
-                }
+                var msg = { msg: 'load', by: request.by, identity: possible_identity };
                 if (!sidebar_frame) {
-                    by = request.by;
+                    on_deck = msg;
                     return;
                 }
                 sendMessage(msg);
                 break;
             case 'hide':
-                identity = null;
                 if (!sidebar_frame) {
+                    on_deck = null;
                     return;
                 }
                 sendMessage({ msg: 'hide', by: request.by });

@@ -1,6 +1,6 @@
 <div class="retweet" ng-if=":: tweet.retweet">
 	<i class="zmdi zmdi-refresh-alt"></i>
-	<span><a ng-href="{{:: tweet.retweet.author | generateUrl }}" class="no-yo">{{:: tweet.retweet.author.name }}</a> retweeted</span>
+	<span><a ng-href="{{:: tweet.retweet.author | generateUrl }}" ng-class="{ 'no-yo': noyo === tweet.retweet.author.id  }">{{:: tweet.retweet.author.name }}</a> retweeted</span>
 </div>
 <div class="col-2">
 	<a ng-href="{{:: tweet.author | generateUrl }}" class="no-yo">
@@ -10,7 +10,7 @@
 <div class="col-10">
 	<div class="user-context">
 		<span>
-			<a ng-href="{{:: tweet.author | generateUrl }}" class="no-yo">{{:: tweet.author.name }}</a>
+			<a ng-href="{{:: tweet.author | generateUrl }}" ng-class="{ 'no-yo': noyo === tweet.author.id  }">{{:: tweet.author.name }}</a>
 		</span>
 		<span class="time"><a ng-href="{{:: tweet | generateUrl }}">{{:: tweet.date | timeSince:true }}</a></span>
 	</div>

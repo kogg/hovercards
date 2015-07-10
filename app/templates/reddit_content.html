@@ -18,6 +18,26 @@
 			</div>
 		</div>
 	</div>
+
+	<div ng-if=":: data.content.embed">
+		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
+			<div class="video-image" ng-style=":: data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
+				<div class="reddit-video" ng-bind-html=":: data.content.embed | trustedHtml"></div>
+			</div>
+		</div>
+
+		<div class="video-top-underlay">
+			<div class="video-image" ng-style=":: data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
+			</div>
+			<div class="video-cta" ng-click="view.fullscreen=data.content" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
+				<i class="zmdi zmdi-fullscreen"></i>
+			</div>
+			<div class="video-cta" ng-click="view.fullscreen=null;" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
+				<i class="zmdi zmdi-fullscreen-exit"></i>
+			</div>
+		</div>
+	</div>
+
 	<div class="card-text" ng-if="::data.content.description">
 		<div class="card-description">
 			<div readmore=":: data.content.description" cutoff-height="100" readless="true"></div>

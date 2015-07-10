@@ -36,6 +36,25 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     }])
+    .directive('shaker', [function() {
+        return {
+            link: function($scope, $element) {
+                $scope.$watch('entry.shake', function(shake) {
+                    if (!shake) {
+                        return;
+                    }
+                    $element
+                        .addClass('shakeit')
+                        .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
+                            if (e.originalEvent.animationName !== 'shake-base') {
+                                return;
+                            }
+                            $element.removeClass('shakeit');
+                        });
+                });
+            }
+        };
+    }])
     .directive('popup', ['$window', function($window) {
         return {
             restrict: 'A',
@@ -342,6 +361,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             moment.locale(abbrev ? 'en-since-abbrev' : 'en-since');
             return moment(time).fromNow();
         };
+    }])
+    .filter('trustedHtml', ['$sce', function($sce) {
+        return $sce.trustAsHtml;
     }])
     .filter('trustedUrl', ['$sce', function($sce) {
         return $sce.trustAsResourceUrl;
