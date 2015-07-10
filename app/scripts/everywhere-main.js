@@ -17,7 +17,7 @@ function find_offset_for_link(obj, trigger, e) {
     if (img.length) {
         offset = img.offset();
         offset.left -= 12;
-        offset.top += img.height() / 2 - trigger.height() / 2 - 2;
+        offset.top += img.height() / 2 - trigger.height() / 2;
         /*
         for (var thing = img; !thing.is(obj); thing = thing.parent()) {
             offset.top -= css_val_to_num(thing.css('margin-top')) + css_val_to_num(thing.css('top'));
