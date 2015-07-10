@@ -73,9 +73,12 @@ module.exports = function sidebar() {
     function sendMessage(message) {
         switch (message.msg) {
             case 'load':
+                var category;
                 if (message.by !== 'back') {
                     if (_.chain(identity_history).last().isEqual(message.identity).value()) {
                         if (showing) {
+                            category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
+                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated (same) ' + message.by, category, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
                             sidebar_frame.postMessage({ msg: 'sameload' }, '*');
                             return;
                         }
@@ -95,11 +98,8 @@ module.exports = function sidebar() {
                     .removeClass(extension_id + '-sidebar-minimized')
                     .addClass(extension_id + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
-                if (message.identity.type === 'url') {
-                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, 'url', { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
-                } else {
-                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, message.identity.api + ' ' + message.identity.type, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
-                }
+                category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
+                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, category, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
                 window.top.postMessage({ msg: 'loaded' }, '*');
                 break;
             case 'hide':
