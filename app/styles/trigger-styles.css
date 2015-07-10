@@ -318,12 +318,9 @@
 	content:"" !important;
 	position: absolute !important;
 	width: 30px !important;
-	height: 40px !important;
-	top: -14px !important;
-}
-.__MSG_@@extension_id__-clickable-yo-trigger:hover:after {
-	width: 24px !important;
-	height: 24px !important;
+	height: 33px !important;
+	top: -3px !important;
+	left: -4px;
 }
 
 .__MSG_@@extension_id__-clickable-yo-trigger-youtube .__MSG_@@extension_id__-image-hidden {
@@ -392,4 +389,7 @@
 	100% {
 		opacity: 0;
 	}
+}
+.__MSG_@@extension_id__-clickable-yo-trigger-hide {
+	display: none !important;
 }

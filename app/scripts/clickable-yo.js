@@ -54,29 +54,7 @@ module.exports = function(selector, get_url, get_offset) {
                 trigger.addClass(EXTENSION_ID + '-clickable-yo-trigger-timeout');
             }
 
-            function during_trigger_trigger_mousemove() {
-                trigger
-                    .show()
-                    .removeClass(EXTENSION_ID + '-clickable-yo-trigger-timeout');
-                clearTimeout(timeout);
-            }
-
-            function during_trigger_obj_mousemove() {
-                during_trigger_trigger_mousemove();
-                timeout = setTimeout(during_trigger_timeout, TIMEOUT_BEFORE_FADEOUT);
-            }
-
-            function during_trigger_mouseleave(e) {
-                var from = $(this);
-                var okay_to = $((from[0] === trigger[0]) ? obj : trigger);
-                var to = $(e.toElement);
-                if (to.is(okay_to) || $.contains(to, okay_to) || $.contains(okay_to, to)) {
-                    return;
-                }
-                during_trigger_stop();
-            }
-
-            function during_trigger_click(e) {
+            function during_trigger_trigger_click(e) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 during_trigger_stopping();
@@ -85,13 +63,37 @@ module.exports = function(selector, get_url, get_offset) {
                     .addClass(EXTENSION_ID + '-clickable-yo-trigger-clicked');
             }
 
+            function during_trigger_trigger_mousemove() {
+                trigger
+                    .removeClass(EXTENSION_ID + '-clickable-yo-trigger-hide')
+                    .removeClass(EXTENSION_ID + '-clickable-yo-trigger-timeout');
+                clearTimeout(timeout);
+            }
+
+            function during_trigger_obj_click() {
+                during_trigger_stop();
+            }
+
+            function during_trigger_obj_mousemove() {
+                during_trigger_trigger_mousemove();
+                timeout = setTimeout(during_trigger_timeout, TIMEOUT_BEFORE_FADEOUT);
+            }
+
+            function during_trigger_mouseleave(e) {
+                var to = $(e.toElement);
+                if (obj.is(to) || trigger.is(to) || $.contains(obj[0], to[0]) || $.contains(trigger[0], to[0])) {
+                    return;
+                }
+                during_trigger_stop();
+            }
+
             function during_trigger_animation_end(e) {
                 switch (e.originalEvent.animationName) {
                     case EXTENSION_ID + '-clickable-yo-trigger-grow':
                         during_trigger_stop();
                         break;
                     case EXTENSION_ID + '-clickable-yo-trigger-fadeout':
-                        trigger.hide();
+                        trigger.addClass(EXTENSION_ID + '-clickable-yo-trigger-hide');
                         break;
                 }
             }
@@ -99,10 +101,11 @@ module.exports = function(selector, get_url, get_offset) {
             function during_trigger_stopping() {
                 clearTimeout(timeout);
                 trigger
-                    .off('click', during_trigger_click)
+                    .off('click', during_trigger_trigger_click)
                     .off('mousemove mouseenter', during_trigger_trigger_mousemove)
                     .off('mouseleave', during_trigger_mouseleave);
                 obj
+                    .off('click', during_trigger_obj_click)
                     .off('mousemove mouseenter', during_trigger_obj_mousemove)
                     .off('mouseleave', during_trigger_mouseleave);
             }
@@ -124,13 +127,14 @@ module.exports = function(selector, get_url, get_offset) {
                     var offset = get_offset ? get_offset(obj, trigger, e, url) : obj.offset();
                     return { left: Math.max(0, offset.left), top: Math.max(0, offset.top) };
                 }()))
-                .on('click', during_trigger_click)
+                .on('click', during_trigger_trigger_click)
                 .on('mousemove mouseenter', during_trigger_trigger_mousemove)
                 .on('mouseleave', during_trigger_mouseleave)
                 .on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', during_trigger_animation_end);
 
             obj
                 .data(EXTENSION_ID + '-clickable-yo', 'during_trigger')
+                .on('click', during_trigger_obj_click)
                 .on('mousemove mouseenter', during_trigger_obj_mousemove)
                 .on('mouseleave', during_trigger_mouseleave);
         }
