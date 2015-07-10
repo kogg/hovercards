@@ -6,8 +6,7 @@ var clickable_yo = require('./clickable-yo');
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 function find_offset_for_link(obj, trigger, e) {
-    var offset = { left: e.pageX - trigger.width() / 2, top: Math.min(e.pageY + 10, obj.offset().top + obj.height() - 3) };
-    return offset;
+    return { left: e.pageX - trigger.width() / 2, top: e.pageY + 10 };
 }
 
 clickable_yo('a[href]:not(.no-yo,[data-href][data-expanded-url])', function(link) {
