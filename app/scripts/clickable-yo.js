@@ -65,7 +65,7 @@ module.exports = function(selector, get_url, get_offset) {
 
             function during_trigger_trigger_mousemove() {
                 trigger
-                    .show()
+                    .removeClass(EXTENSION_ID + '-clickable-yo-trigger-hide')
                     .removeClass(EXTENSION_ID + '-clickable-yo-trigger-timeout');
                 clearTimeout(timeout);
             }
@@ -95,7 +95,7 @@ module.exports = function(selector, get_url, get_offset) {
                         during_trigger_stop();
                         break;
                     case EXTENSION_ID + '-clickable-yo-trigger-fadeout':
-                        trigger.hide();
+                        trigger.addClass(EXTENSION_ID + '-clickable-yo-trigger-hide');
                         break;
                 }
             }
