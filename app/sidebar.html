@@ -88,7 +88,7 @@
 		<div class="social-profile-space" ng-if="!entry.$err && entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)">
 			<div class="social-profile">
 				<div class="fade-in-animation" ng-show="entry.selectedPerson.selectedAccount.description || entry.selectedPerson.selectedAccount.location || entry.selectedPerson.selectedAccount.url_link">
-					<div class="social-profile-description">
+					<div class="social-profile-description" shaker>
 						<div class="context-top">
 							<div class="row">
 								<div class="col-12 ellipsis">
@@ -110,7 +110,7 @@
 					</div>
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
-					<div class="fade-in-animation" ng-if="data.moreContent.$resolved || data.moreContent.$err">
+					<div class="fade-in-animation" ng-if="data.moreContent.$resolved || data.moreContent.$err" shaker>
 						<div ng-include="'templates/' + (data.moreContent.api || entry.selectedPerson.selectedAccount.api) + '_more_content.html'"></div>
 						<a class="view-profile-mini no-yo" ng-href="{{ entry.selectedPerson.selectedAccount | generateUrl }}" analytics-click="viewfullprofile" analytics-label="{{ data.moreContent.api || entry.selectedPerson.selectedAccount.api }} account">View Full Profile</a>
 					</div>
