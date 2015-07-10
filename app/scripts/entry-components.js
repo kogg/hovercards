@@ -48,8 +48,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                 $scope.entry.accounts = [identity];
                                 break;
                             case 'url':
-                                $scope.entry = { type: 'url', url: identity.id, discussions: { reddit:  { api: 'reddit',  type: 'url', id: identity.id },
-                                                                                               twitter: { api: 'twitter', type: 'url', id: identity.id } } };
+                                $scope.entry = { type:        'url',
+                                                 url:         identity.id,
+                                                 discussions: { reddit:  { api: 'reddit',  type: 'url', id: identity.id },
+                                                                twitter: { api: 'twitter', type: 'url', id: identity.id } } };
                                 break;
                         }
                     }, 100);
@@ -57,6 +59,14 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                 case 'hide':
                     $scope.$apply(function() {
                         $scope.entry = null;
+                    });
+                    break;
+                case 'sameload':
+                    $scope.$apply(function() {
+                        if (!$scope.entry) {
+                            return;
+                        }
+                        $scope.entry.shake = ($scope.entry.shake || 0) + 1;
                     });
                     break;
             }

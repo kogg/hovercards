@@ -19,13 +19,13 @@
 		<div style="min-height: 100%" ng-if="!entry"></div>
 		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && !entry.$err" ng-style="{ 'min-height': !entry.can_have_people && '100%' }">
 			<div ng-controller="ContentController">
-				<div class="card bounce-in-animation" ng-if="data.content.$resolved || data.content.$err">
+				<div class="card bounce-in-animation" ng-if="data.content.$resolved || data.content.$err" shaker>
 					<div ng-include="'templates/' + (data.content.api || entry.content.api) + '_content.html'" autoscroll="entry.type === 'content'"></div>
 				</div>
 			</div>
 
 			<div ng-controller="DiscussionController">
-				<div class="card bounce-in-animation" ng-if="data.discussion">
+				<div class="card bounce-in-animation" ng-if="data.discussion" shaker>
 					<div class="context-top" stored="showed_menu_hover" name="showed_menu_hover" default="false" ng-mouseenter="!showed_menu_hover && (entry.showMenu = true) && (showed_menu_hover = true)">
 						<div class="inline-row">
 							<div class="col-11">
@@ -59,7 +59,7 @@
 			</div>
 
 			<div class="people-card-space" in-view="view.at.people=$inview" ng-if="entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)">
-				<div class="card bounce-in-animation people-card" ng-if="data.people.length || data.people.$resolved || data.people.$err">
+				<div class="card bounce-in-animation people-card" ng-if="data.people.length || data.people.$resolved || data.people.$err" shaker>
 					<div ng-if="!data.people.$err">
 						<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="data.people.length === 1" autoscroll="entry.type === 'account'"></div>
 						<div people-carousel ng-if="data.people.length > 1"></div>
@@ -118,7 +118,7 @@
 			</div>
 		</div>
 
-		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err" ng-init="err = entry.$err">
+		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err" ng-init="err = entry.$err" shaker>
 			<div class="yocards-message-container error-message" ng-class="err.api && (err.api + '-message')">
 				<div class="yocards-message-image"></div>
 				<span class="yocards-message-text" ng-messages="err">
@@ -137,7 +137,7 @@
 		                                   { api: 'reddit', type: 'account', id: 'yocards' },
 		                                   { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }]" ng-controller="AccountShimController" ng-if="entry.$err" in-view="inview=$inview">
 			<div class="people-card-space" ng-if="!person.selectedAccount.$err">
-				<div class="card bounce-in-animation" ng-if="person.selectedAccount.$resolved">
+				<div class="card bounce-in-animation" ng-if="person.selectedAccount.$resolved" shaker>
 					<div ng-include="'templates/' + (person.selectedAccount.api || person_to_load.api) + '_account.html'"></div>
 				</div>
 			</div>

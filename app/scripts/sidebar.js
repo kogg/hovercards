@@ -76,6 +76,7 @@ module.exports = function sidebar() {
                 if (message.by !== 'back') {
                     if (_.chain(identity_history).last().isEqual(message.identity).value()) {
                         if (showing) {
+                            sidebar_frame.postMessage({ msg: 'sameload' }, '*');
                             return;
                         }
                     } else {
