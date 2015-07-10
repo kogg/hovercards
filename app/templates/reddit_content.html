@@ -19,6 +19,7 @@
 		</div>
 	</div>
 
+	<!-- Video -->
 	<div ng-if=":: data.content.embed">
 		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
 			<div class="video-image" ng-style=":: data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
@@ -36,6 +37,14 @@
 				<i class="zmdi zmdi-fullscreen-exit"></i>
 			</div>
 		</div>
+	</div>
+
+	<!-- Image -->
+	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content }" ng-if=":: !data.content.embed && data.content.image" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content">
+		<img ng-src="{{:: data.content.image }}">
+	</div>
+	<div class="fullscreen-image" ng-if="!data.content.embed && data.content.image && view.fullscreen === data.content" ng-click="view.fullscreen=null">
+		<img ng-src="{{:: data.content.image }}">
 	</div>
 
 	<div class="card-text" ng-if="::data.content.description">
