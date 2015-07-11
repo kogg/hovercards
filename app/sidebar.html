@@ -125,17 +125,17 @@
 		<div class="fade-out-animation" ng-if="entry && entry.type === 'url' && !entry.$err">
 			<div ng-controller="UrlDiscussionController">
 				<div ng-repeat="discussion in data.discussions" ng-init="data = {}; data.discussion = discussion">
-					<div class="card bounce-in-animation" ng-if="data.discussion.$resolved || data.discussion.$err" shaker>
+					<div class="card bounce-in-animation" ng-if="data.discussion.$resolved && !data.discussion.$err" shaker>
 						<div class="context-top">
 							<div class="inline-row">
 								<div class="col-12">
 									<div class="network-pick">
-										<div class="network-circle" ng-class="['network-circle-' + data.discussion.api, { 'network-not-found': data.discussion.$err && data.discussion.$resolved }]">
+										<div class="network-circle" ng-class="'network-circle-' + data.discussion.api">
 										</div>
 									</div>
 									<span>{{ data.discussion.api + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 								</div>
-								<div class="col-12" ng-if="(data.discussion.$resolved || data.discussion.$err) && data.discussion.api === 'reddit'">
+								<div class="col-12" ng-if="data.discussion.api === 'reddit'">
 									<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'"></div>
 								</div>
 							</div>
@@ -159,21 +159,18 @@
 			</div>
 		</div>
 
-        <!--
 		<div ng-repeat="person_to_load in [{ api: 'soundcloud', type: 'account', id: 'yocards' },
 		                                   { api: 'imgur', type: 'account', id: 'yocards' },
 		                                   { api: 'instagram', type: 'account', id: 'yocards' },
 		                                   { api: 'twitter', type: 'account', id: 'getyocards' },
 		                                   { api: 'reddit', type: 'account', id: 'yocards' },
-		                                   { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }]" ng-controller="AccountShimController" ng-if="entry.$err" in-view="inview=$inview">
+		                                   { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }]" ng-controller="AccountShimController" ng-if="entry.$err">
 			<div class="people-card-space" ng-if="!person.selectedAccount.$err">
 				<div class="card bounce-in-animation" ng-if="person.selectedAccount.$resolved" shaker>
 					<div ng-include="'templates/' + (person.selectedAccount.api || person_to_load.api) + '_account.html'"></div>
 				</div>
 			</div>
 		</div>
-        -->
-	</div>
 
 	<link rel="stylesheet" href="styles/subscribe-fix-style.css">
 	<script src="https://apis.google.com/js/platform.js"></script>
