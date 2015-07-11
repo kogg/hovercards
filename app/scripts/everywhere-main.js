@@ -53,7 +53,8 @@ function find_offset_for_videos(obj, trigger, e, url) {
     offset.left += 7;
     var uri = URI(url);
     var showinfo = uri.search(true).showinfo;
-    if (uri.domain() !== 'youtube.com' || (showinfo !== undefined && (showinfo === '0' || showinfo === ''))) {
+    if (obj.attr('src') === 'https://s-static.ak.facebook.com/common/referer_frame.php') {
+    } else if (uri.domain() !== 'youtube.com' || (showinfo !== undefined && (showinfo === '0' || showinfo === ''))) {
         offset.top += 7;
         return offset;
     }
@@ -68,6 +69,12 @@ clickable_yo('object[data]:not(.no-yo)', function(object) {
     return object.attr('data');
 }, find_offset_for_videos);
 clickable_yo('iframe[src]:not(.no-yo)', function(iframe) {
+    if (iframe.attr('src') === 'https://s-static.ak.facebook.com/common/referer_frame.php') {
+        var facebook_iframe = iframe.parentsUntil('.exploded', '.clearfix').find('.mbs a').attr('href');
+        if (facebook_iframe) {
+            return facebook_iframe;
+        }
+    }
     return iframe.attr('src');
 }, find_offset_for_videos);
 clickable_yo('iframe:not(.no-yo,[src])', function(iframe) {
