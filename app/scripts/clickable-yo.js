@@ -23,21 +23,17 @@ module.exports = function(selector, get_url, get_offset) {
                 timeout = setTimeout(before_trigger_next, TIMEOUT_BEFORE_TRIGGER);
             }
 
-            function before_trigger_leave() {
-                clearTimeout(timeout);
-                before_trigger_stop();
-            }
-
             function before_trigger_next() {
                 before_trigger_stop();
                 during_trigger(last_mousemove);
             }
 
             function before_trigger_stop() {
+                clearTimeout(timeout);
                 obj
                     .removeData(EXTENSION_ID + '-clickable-yo')
                     .off('mousemove mouseenter', before_trigger_move)
-                    .off('mouseleave', before_trigger_leave);
+                    .off('mouseleave', before_trigger_stop);
             }
 
             var timeout = setTimeout(before_trigger_next, TIMEOUT_BEFORE_TRIGGER);
@@ -46,7 +42,7 @@ module.exports = function(selector, get_url, get_offset) {
             obj
                 .data(EXTENSION_ID + '-clickable-yo', 'before_trigger')
                 .on('mousemove mouseenter', before_trigger_move)
-                .on('mouseleave', before_trigger_leave);
+                .on('mouseleave', before_trigger_stop);
         }
 
         function during_trigger(e) {
@@ -68,10 +64,6 @@ module.exports = function(selector, get_url, get_offset) {
                     .removeClass(EXTENSION_ID + '-clickable-yo-trigger-hide')
                     .removeClass(EXTENSION_ID + '-clickable-yo-trigger-timeout');
                 clearTimeout(timeout);
-            }
-
-            function during_trigger_obj_click() {
-                during_trigger_stop();
             }
 
             function during_trigger_obj_mousemove() {
@@ -105,12 +97,13 @@ module.exports = function(selector, get_url, get_offset) {
                     .off('mousemove mouseenter', during_trigger_trigger_mousemove)
                     .off('mouseleave', during_trigger_mouseleave);
                 obj
-                    .off('click', during_trigger_obj_click)
+                    .off('click', during_trigger_stop)
                     .off('mousemove mouseenter', during_trigger_obj_mousemove)
                     .off('mouseleave', during_trigger_mouseleave);
             }
 
             function during_trigger_stop() {
+                clearTimeout(timeout);
                 obj.removeData(EXTENSION_ID + '-clickable-yo');
                 during_trigger_stopping();
                 trigger.remove();
@@ -134,7 +127,7 @@ module.exports = function(selector, get_url, get_offset) {
 
             obj
                 .data(EXTENSION_ID + '-clickable-yo', 'during_trigger')
-                .on('click', during_trigger_obj_click)
+                .on('click', during_trigger_stop)
                 .on('mousemove mouseenter', during_trigger_obj_mousemove)
                 .on('mouseleave', during_trigger_mouseleave);
         }
