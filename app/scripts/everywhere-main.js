@@ -10,7 +10,7 @@ function find_offset_for_link(obj, trigger, e) {
     if (target.is('img') && target.height() > 20) {
         var offset = target.offset();
         offset.left -= 12;
-        offset.top += target.height() / 2 - trigger.height() / 2;
+        offset.top += (target.height() - trigger.height()) / 2;
         return offset;
     }
     return { left: e.pageX - trigger.width() / 2, top: e.pageY - 25 };
@@ -28,6 +28,15 @@ clickable_yo('a[data-href]:not(.no-yo,[data-expanded-url])', function(link) {
 clickable_yo('a[data-expanded-url]:not(.no-yo,[data-href])', function(link) {
     return link.data('expanded-url');
 }, find_offset_for_link);
+
+clickable_yo('li.stream-item:not(.no-yo)', function(li) {
+    return li.children('.tweet[data-permalink-path]').data('permalink-path');
+}, function(obj, trigger) {
+    var offset = obj.offset();
+    offset.left -= 12;
+    offset.top += (obj.height() - trigger.height()) / 2;
+    return offset;
+});
 
 function find_offset_for_videos(obj, trigger, e, url) {
     var offset = obj.offset();
