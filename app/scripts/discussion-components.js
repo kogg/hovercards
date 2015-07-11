@@ -2,7 +2,7 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('./service-components')])
-    .controller('DiscussionController', ['$scope', '$q', '$timeout', 'apiService', function($scope, $q, $timeout, apiService) {
+    .controller('DiscussionController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
         $scope.$watch('[entry.discussions, order]', function(parts) {
             var requests = parts[0];
             var order    = parts[1];
@@ -117,6 +117,63 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                 return;
             }
             chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'discussions', 'changed discussion', discussionApi + ' discussion'] });
+        });
+    }])
+    .controller('UrlDiscussionController', ['$scope', 'apiService', function($scope, apiService) {
+        $scope.$watch('entry.discussions', function(requests) {
+            if (!requests) {
+                return;
+            }
+            var entry = $scope.entry;
+            var data = $scope.data;
+            var analytics_once = false;
+            requests = _.omit(requests, function(request, api) {
+                switch (api) {
+                    case 'imgur':
+                        return request.as !== 'gallery';
+                    case 'soundcloud':
+                        return request.as !== 'track';
+                }
+                return false;
+            });
+            var err_count = 0;
+            data.discussions = _.chain(requests)
+                                .keys()
+                                .sortBy(function(api) {
+                                    return _.indexOf($scope.order, api);
+                                })
+                                .map(function(api) {
+                                    var discussion = apiService.get(requests[api]);
+                                    discussion.$promise
+                                        .then(function(discussion) {
+                                            _.extend(discussion, _.pick(requests[api], 'author'));
+                                            if (analytics_once) {
+                                                return discussion;
+                                            }
+                                            if (entry.times) {
+                                                analytics_once = true;
+                                                var now = _.now();
+                                                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', now - entry.times.start, api + ' discussion'] });
+                                                if (!entry.times.first_card) {
+                                                    entry.times.first_card = now;
+                                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', entry.times.first_card - entry.times.start, api + ' discussion'] });
+                                                }
+                                            }
+                                            return discussion;
+                                        })
+                                        .catch(function() {
+                                            err_count++;
+                                            if (err_count !== data.discussions.length) {
+                                                return;
+                                            }
+                                            entry.$err = { 'no-content': true };
+                                        });
+                                    return discussion;
+                                })
+                                .value();
+            if (!data.discussions.length) {
+                entry.$err = { 'no-content': true };
+            }
         });
     }])
     .directive('sortable', [function() {
