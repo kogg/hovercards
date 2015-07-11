@@ -5,31 +5,12 @@ var clickable_yo = require('./clickable-yo');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-/*
-function css_val_to_num(val) {
-    return parseInt((val || '0').replace('auto', '0').replace(/\s*px$/, ''));
-}
-*/
-
 function find_offset_for_link(obj, trigger, e) {
-    var offset;
-    var img = obj.find('img').filter(function() { return $(this).height() > 20; }).first();
-    if (img.length) {
-        offset = img.offset();
+    var target = $(e.target);
+    if (target.is('img') && target.height() > 20) {
+        var offset = target.offset();
         offset.left -= 12;
-        offset.top += img.height() / 2 - trigger.height() / 2;
-        /*
-        for (var thing = img; !thing.is(obj); thing = thing.parent()) {
-            offset.top -= css_val_to_num(thing.css('margin-top')) + css_val_to_num(thing.css('top'));
-        }
-        if (img.height() >= 100) {
-            offset.left += 7;
-            offset.top += 7;
-        } else {
-            offset.left -= 6;
-            offset.top -= 7;
-        }
-        */
+        offset.top += target.height() / 2 - trigger.height() / 2;
         return offset;
     }
     return { left: e.pageX - trigger.width() / 2, top: e.pageY - 25 };
