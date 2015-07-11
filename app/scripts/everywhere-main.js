@@ -30,7 +30,7 @@ clickable_yo('a[data-expanded-url]:not(.no-yo,[data-href])', function(link) {
 }, find_offset_for_link);
 
 clickable_yo('li.stream-item:not(.no-yo)', function(li) {
-    return li.children('.tweet[data-permalink-path]').data('permalink-path');
+    return li.find('.tweet[data-permalink-path]').data('permalink-path');
 }, function(obj, trigger) {
     var offset = obj.offset();
     offset.left -= 12;
