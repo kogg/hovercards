@@ -2,7 +2,7 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('./service-components')])
-    .controller('DiscussionController', ['$scope', '$q', '$timeout', 'apiService', function($scope, $q, $timeout, apiService) {
+    .controller('DiscussionController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
         $scope.$watch('[entry.discussions, order]', function(parts) {
             var requests = parts[0];
             var order    = parts[1];
@@ -117,6 +117,47 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                 return;
             }
             chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'discussions', 'changed discussion', discussionApi + ' discussion'] });
+        });
+    }])
+    .controller('UrlDiscussionController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
+        $scope.$watch('entry.discussions', function(requests) {
+            if (!requests) {
+                return;
+            }
+            var entry = $scope.entry;
+            requests = _.omit(requests, function(request, api) {
+                switch (api) {
+                    case 'imgur':
+                        return request.as !== 'gallery';
+                    case 'soundcloud':
+                        return request.as !== 'track';
+                }
+                return false;
+            });
+            var data = $scope.data;
+            data.discussions = data.discussions || {};
+            var analytics_once = false;
+            _.chain(requests).keys().each(function(api) {
+                $timeout(function() {
+                    data.discussions[api] = data.discussions[api] || apiService.get(requests[api]);
+                    data.discussions[api].$promise.then(function(discussion) {
+                        _.extend(discussion, _.pick(requests[api], 'author'));
+                        if (analytics_once) {
+                            return discussion;
+                        }
+                        if (entry.times) {
+                            analytics_once = true;
+                            var now = _.now();
+                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', now - entry.times.start, discussion.api + ' discussion'] });
+                            if (!entry.times.first_card) {
+                                entry.times.first_card = now;
+                                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', entry.times.first_card - entry.times.start, discussion.api + ' discussion'] });
+                            }
+                        }
+                        return discussion;
+                    });
+                });
+            });
         });
     }])
     .directive('sortable', [function() {
