@@ -7,7 +7,14 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'More
             if (!account) {
                 return;
             }
-            (function reload() {
+            (function reload(previous_more_content) {
+                if (previous_more_content) {
+                    account.moreContent = previous_more_content;
+                    $timeout(function() {
+                        $scope.data.moreContent = account.moreContent;
+                    });
+                    return;
+                }
                 account.moreContent = apiService.get({ api: account.api, type: 'more_content', id: account.id });
                 var timeout = $timeout(function() {
                     account.moreContent.$err = { 'still-waiting': true, api: account.api };
@@ -26,7 +33,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'More
                 $timeout(function() {
                     $scope.data.moreContent = account.moreContent;
                 });
-            }());
+            }(account.moreContent));
         });
     }])
     .name;
