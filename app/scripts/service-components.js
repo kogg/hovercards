@@ -46,9 +46,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                     return object;
                 })
                 .catch(function(err) {
-                    object.$err = _.extend(err, { reload: function() {
-                                                      service.get(params, object);
-                                                  } });
+                    object.$err = err;
                     return $q.reject(object.$err);
                 })
                 .finally(function() {
