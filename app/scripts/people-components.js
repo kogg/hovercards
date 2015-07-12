@@ -192,7 +192,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
         };
     }])
     .controller('AccountShimController', ['$scope', 'apiService', function($scope, apiService) {
-        var doIt = $scope.$watch('inview && person_to_load', function(request) {
+        var doIt = $scope.$watch('person_to_load', function(request) {
             if (!request) {
                 return;
             }

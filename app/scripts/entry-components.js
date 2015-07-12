@@ -48,10 +48,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                 $scope.entry.accounts = [identity];
                                 break;
                             case 'url':
-                                $scope.entry = { type:        'url',
-                                                 url:         identity.id,
-                                                 discussions: { reddit:  { api: 'reddit',  type: 'url', id: identity.id },
-                                                                twitter: { api: 'twitter', type: 'url', id: identity.id } } };
+                                $scope.entry.url = identity.id;
+                                $scope.entry.discussions = { reddit:  { api: 'reddit',  type: 'url', id: identity.id },
+                                                             twitter: { api: 'twitter', type: 'url', id: identity.id } };
                                 break;
                         }
                     }, 100);

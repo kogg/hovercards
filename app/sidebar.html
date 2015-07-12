@@ -17,7 +17,7 @@
 
 		<!-- DON'T REMOVE THIS MIN-HEIGHT STUFF!!! IT DEALS WITH THE FLICKER OF THE WHITE PEOPLE SECTION SHOWING UP AT THE TOP -->
 		<div style="min-height: 100%" ng-if="!entry"></div>
-		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && !entry.$err" ng-style="{ 'min-height': !entry.can_have_people && '100%' }">
+		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && entry.type !== 'url' && !entry.$err" ng-style="{ 'min-height': !entry.can_have_people && '100%' }">
 			<div ng-controller="ContentController">
 				<div class="card bounce-in-animation animation-stop-trigger" ng-if="data.content.$resolved || data.content.$err" shaker>
 					<div ng-include="'templates/' + (data.content.api || entry.content.api) + '_content.html'" autoscroll="true"></div>
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 
-			<div class="people-card-space" in-view="view.at.people=$inview" ng-if="entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)">
+			<div class="people-card-space" in-view="view.at.people=$inview" ng-if="!entry.can_have_people || entry.accounts.length">
 				<div class="card bounce-in-animation people-card" ng-if="data.people.length || data.people.$resolved || data.people.$err" shaker>
 					<div ng-if="!data.people.$err">
 						<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="data.people.length === 1" autoscroll="entry.type === 'account'"></div>
@@ -118,6 +118,35 @@
 			</div>
 		</div>
 
+
+		<!-- Arbitrary URL -->
+
+
+		<div class="fade-out-animation" ng-if="entry && entry.type === 'url' && !entry.$err">
+			<div ng-controller="UrlDiscussionController">
+				<div ng-repeat="discussion in data.discussions" ng-init="data = {}; data.discussion = discussion">
+					<div class="card bounce-in-animation" ng-if="data.discussion.$resolved && !data.discussion.$err" shaker>
+						<div class="context-top">
+							<div class="inline-row">
+								<div class="col-12">
+									<div class="network-pick">
+										<div class="network-circle" ng-class="'network-circle-' + data.discussion.api">
+										</div>
+									</div>
+									<span>{{ data.discussion.api + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
+								</div>
+								<div class="col-12" ng-if="data.discussion.api === 'reddit'">
+									<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'"></div>
+								</div>
+							</div>
+						</div>
+						<div ng-include="'templates/' + data.discussion.api + '_discussion.html'"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
 		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err" ng-init="err = entry.$err" shaker>
 			<div class="yocards-message-container error-message" ng-class="err.api && (err.api + '-message')">
 				<div class="yocards-message-image"></div>
@@ -135,14 +164,13 @@
 		                                   { api: 'instagram', type: 'account', id: 'yocards' },
 		                                   { api: 'twitter', type: 'account', id: 'getyocards' },
 		                                   { api: 'reddit', type: 'account', id: 'yocards' },
-		                                   { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }]" ng-controller="AccountShimController" ng-if="entry.$err" in-view="inview=$inview">
+		                                   { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }]" ng-controller="AccountShimController" ng-if="entry.$err">
 			<div class="people-card-space" ng-if="!person.selectedAccount.$err">
 				<div class="card bounce-in-animation" ng-if="person.selectedAccount.$resolved" shaker>
 					<div ng-include="'templates/' + (person.selectedAccount.api || person_to_load.api) + '_account.html'"></div>
 				</div>
 			</div>
 		</div>
-	</div>
 
 	<link rel="stylesheet" href="styles/subscribe-fix-style.css">
 	<script src="https://apis.google.com/js/platform.js"></script>
