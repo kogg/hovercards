@@ -56,7 +56,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                     })
                     .catch(function(err) {
                         err.reload = reload;
-                        return $q.reject(content.$err);
+                        return $q.reject(err);
                     })
                     .finally(function() {
                         entry.discussions = _.extend((function get_discussions() {
