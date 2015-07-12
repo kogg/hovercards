@@ -24,7 +24,7 @@
 			</div>
 		</div>
 		<div class="video-top-underlay">
-			<img src="{{ data.content.image }}" ng-click="played || ((played = true) && (playing = true))" class="video-image">
+			<img ng-src="{{:: data.content.image }}" ng-click="played || ((played = true) && (playing = true))" class="video-image">
 			<div class="play-video twitter-background" ng-click="played || ((played = true) && (playing = true))" ng-class="{ 'play-video-clicked': playing }"></div>
 			<div class="video-cta twitter-background" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
 				<i class="zmdi zmdi-fullscreen"></i>
