@@ -2,7 +2,7 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('./service-components')])
-    .controller('DiscussionController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
+    .controller('DiscussionController', ['$scope', '$q', '$timeout', 'apiService', function($scope, $q, $timeout, apiService) {
         $scope.$watch('[entry.discussions, order]', function(parts) {
             var requests = parts[0];
             var order    = parts[1];
@@ -40,12 +40,22 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                         }
                         return;
                     }
-                    data.discussions[api] = data.discussions[api] || apiService.get(entry.discussions[api]);
-                    data.discussions[api].$promise.then(function() {
-                        entry.discussion_api = entry.discussion_api || api;
-                    }, function() {
-                        check_api(n+1);
-                    });
+                    (function reload(previous_discussion) {
+                        if (previous_discussion) {
+                            data.discussions[api] = previous_discussion;
+                            return;
+                        }
+                        data.discussions[api] = apiService.get(entry.discussions[api]);
+                        data.discussions[api].$promise
+                            .then(function() {
+                                entry.discussion_api = entry.discussion_api || api;
+                            })
+                            .catch(function(err) {
+                                err.reload = reload;
+                                check_api(n+1);
+                                return $q.reject(err);
+                            });
+                    }(data.discussions[api]));
                 });
             }(0));
         }, true);

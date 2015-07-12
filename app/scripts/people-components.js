@@ -66,6 +66,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             }
 
             var parts = (function reload(accounts, people) {
+                delete people.$err;
                 var timeout = $timeout(function() {
                     people.$err = { 'still-waiting': true };
                 }, 5000);
