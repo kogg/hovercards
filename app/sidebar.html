@@ -19,7 +19,7 @@
 		<div style="min-height: 100%" ng-if="!entry"></div>
 		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && entry.type !== 'url' && !entry.$err" ng-style="{ 'min-height': !entry.can_have_people && '100%' }">
 			<div ng-controller="ContentController">
-				<div class="card bounce-in-animation" ng-if="data.content.$resolved || data.content.$err" shaker>
+				<div class="card bounce-in-animation animation-stop-trigger" ng-if="data.content.$resolved || data.content.$err" shaker>
 					<div ng-include="'templates/' + (data.content.api || entry.content.api) + '_content.html'" autoscroll="true"></div>
 				</div>
 			</div>
