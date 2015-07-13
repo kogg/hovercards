@@ -73,6 +73,113 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     }])
+    .directive('collapse', ['$sanitize', function($sanitize) {
+        return {
+            restrict: 'A',
+            scope: {
+                content: '=collapse',
+                collapseAt: '@',
+                tolerance: '@?',
+                expandable: '=?',
+                onHeightChange: '&?'
+            },
+            link: function($scope, $element) {
+                $element.html('');
+                var collapsed = angular.element('<div class="collapsed ng-hide"></div>').appendTo($element);
+                var expanded = angular.element('<div class="expanded ng-hide"></div>').appendTo($element);
+                $scope.$watch('content', function(content) {
+                    content = $sanitize(content || '');
+                    expanded.addClass('ng-hide').html(content);
+                    collapsed.addClass('ng-hide').html('');
+                    if (!content) {
+                        return;
+                    }
+
+                    // FIXME Just for debugging
+                    /*
+                    angular.element('<div style="border:1px solid black; pointer-events: none; position:absolute; width: 100%; height: ' + Number($scope.collapseAt) + 'px;">&nbsp;</div>').prependTo($element);
+                    angular.element('<div style="border:1px solid red;   pointer-events: none; position:absolute; width: 100%; height: ' + (Number($scope.collapseAt) + Number($scope.tolerance || 0)) + 'px;">&nbsp;</div>').prependTo($element);
+                    */
+
+                    expanded.removeClass('ng-hide');
+                    if (expanded.height() <= Number($scope.collapseAt) + Number($scope.tolerance || 0)) {
+                        return;
+                    }
+
+                    expanded.addClass('ng-hide');
+                    collapsed.removeClass('ng-hide');
+                    if ($scope.expandable) {
+                        angular.element('<span class="read-less">Less</span>')
+                            .appendTo(expanded)
+                            .before(' ')
+                            .click(function(event) {
+                                event.stopPropagation();
+                                expanded.addClass('ng-hide');
+                                collapsed.removeClass('ng-hide');
+                                ($scope.onHeightChange || angular.noop)('expanded');
+                            });
+                    }
+
+                    var more = angular.element('<span class="read-more">More</span>')
+                        .click(function(event) {
+                            event.stopPropagation();
+                            expanded.removeClass('ng-hide');
+                            collapsed.addClass('ng-hide');
+                            ($scope.onHeightChange || angular.noop)('collapsed');
+                        });
+                    (function binary_add_element(element, contents) {
+                        var good = 0;
+                        var bad = contents.length;
+                        while (good + 1 < bad) {
+                            var trying = Math.ceil((good + bad) / 2);
+                            var testing = contents.slice(good, trying);
+                            testing.appendTo(element);
+                            more.appendTo(collapsed).before(' ');
+                            if (collapsed.height() <= Number($scope.collapseAt)) {
+                                good = trying;
+                            } else {
+                                bad = trying;
+                                testing.detach();
+                            }
+                            more.detach();
+                        }
+                        var bad_element = contents[good];
+                        if (!bad_element) {
+                            return;
+                        }
+                        if (bad_element.nodeType !== 3) {
+                            bad_element = angular.element(bad_element);
+                            var new_contents = bad_element.contents().clone();
+                            bad_element
+                                .appendTo(element)
+                                .empty();
+                            return binary_add_element(bad_element, new_contents);
+                        }
+                        element.append(bad_element);
+                        var string = bad_element.nodeValue;
+                        bad_element.nodeValue = string + '...';
+                        var front = 0;
+                        var back = string.length;
+                        var times = 0;
+                        more.appendTo(collapsed).before(' ');
+                        while (front < back && times < 5000) {
+                            times++;
+                            var attempting = Math.ceil((front + back) / 2);
+                            bad_element.nodeValue = string.slice(0, attempting) + '...';
+                            if (collapsed.height() <= Number($scope.collapseAt)) {
+                                front = attempting;
+                            } else {
+                                back = attempting;
+                            }
+                        }
+                        bad_element.nodeValue = string.slice(0, front) + '...';
+                        more.detach();
+                    }(collapsed, expanded.contents().clone()));
+                    more.appendTo(collapsed).before(' ');
+                });
+            }
+        };
+    }])
     .directive('readmore', ['$sanitize', '$timeout', function($sanitize, $timeout) {
         require('dotdotdot');
 
