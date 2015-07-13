@@ -19,19 +19,29 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         };
     }])
     .directive('collapse', ['$sanitize', function($sanitize) {
+        /*
+         * Usual Settings:
+         *    # of Lines for | Collapse At | Tolerance | Recollapse At |
+         * ------------------+-------------+-----------+---------------+
+         *     Small Comment |           2 |         3 |            10 |
+         * Media Description |           4 |         2 |            10 |
+         *        Small Blob |           7 |         3 |            15 |
+         *        Large Blob |          15 |         4 |            25 |
+         */
         return {
             restrict: 'A',
             scope: {
                 content: '=collapse',
-                collapseAt: '@',
-                tolerance: '@?',
-                expandable: '=?',
+                collapseAt: '=',
+                tolerance: '=?',
+                recollapseAt: '=?',
                 onHeightChange: '&?'
             },
             link: function($scope, $element) {
                 $element.html('');
                 var collapsed = angular.element('<div class="collapsed ng-hide"></div>').appendTo($element);
                 var expanded = angular.element('<div class="expanded ng-hide"></div>').appendTo($element);
+                // TODO Watch all scope changes
                 $scope.$watch('content', function(content) {
                     content = $sanitize(content || '');
                     expanded.addClass('ng-hide').html(content);
@@ -41,13 +51,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                     }
 
                     expanded.removeClass('ng-hide');
-                    if (expanded.height() <= Number($scope.collapseAt) + Number($scope.tolerance || 0)) {
+                    if (expanded.height() <= $scope.collapseAt + ($scope.tolerance || 0)) {
                         return;
                     }
-
-                    expanded.addClass('ng-hide');
-                    collapsed.removeClass('ng-hide');
-                    if ($scope.expandable) {
+                    if ($scope.recollapseAt && expanded.height() >= $scope.recollapseAt) {
                         angular.element('<span class="read-less">Less</span>')
                             .appendTo(expanded)
                             .before(' ')
@@ -58,6 +65,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                 ($scope.onHeightChange || angular.noop)('expanded');
                             });
                     }
+                    expanded.addClass('ng-hide');
+                    collapsed.removeClass('ng-hide');
 
                     var more = angular.element('<span class="read-more">More</span>')
                         .click(function(event) {
@@ -75,7 +84,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             var testing = contents.slice(good, trying);
                             testing.appendTo(element);
                             more.appendTo(collapsed).before(' ');
-                            if (collapsed.height() <= Number($scope.collapseAt)) {
+                            if (collapsed.height() <= $scope.collapseAt) {
                                 good = trying;
                             } else {
                                 bad = trying;
@@ -109,7 +118,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         while (front + 1 < back && loop < 100) {
                             var attempting = Math.ceil((front + back) / 2);
                             bad_element.nodeValue = string.slice(0, attempting) + '...';
-                            if (collapsed.height() <= Number($scope.collapseAt)) {
+                            if (collapsed.height() <= $scope.collapseAt) {
                                 front = attempting;
                             } else {
                                 back = attempting;
