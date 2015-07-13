@@ -5,47 +5,19 @@ var clickable_yo = require('./clickable-yo');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-function find_offset_for_link(obj, trigger, e) {
-    var target = $(e.target);
-    if (target.is('img,div.-cx-PRIVATE-PostsGridItem__postInfo') && target.height() > 20) {
-        var offset = target.offset();
-        offset.left -= 12;
-        offset.top += (target.height() - trigger.height()) / 2;
-        return offset;
-    }
-    return { left: e.pageX - trigger.width() / 2, top: e.pageY - 25 };
-}
-
-clickable_yo('a[href]:not(.no-yo,[data-href][data-expanded-url])', function(link) {
-    return link.attr('href');
-}, find_offset_for_link);
-clickable_yo('div[href]:not(.no-yo)', function(link) {
-    return link.attr('href');
-}, find_offset_for_link);
-clickable_yo('a[data-href]:not(.no-yo,[data-expanded-url])', function(link) {
-    return link.data('href');
-}, find_offset_for_link);
-clickable_yo('a[data-expanded-url]:not(.no-yo,[data-href])', function(link) {
-    return link.data('expanded-url');
-}, find_offset_for_link);
-
-clickable_yo('li.stream-item:not(.no-yo)', function(li) {
-    return li.find('.tweet[data-permalink-path]').data('permalink-path');
-}, function(obj, trigger) {
+function get_left_center_offset(obj, trigger) {
     var offset = obj.offset();
     offset.left -= 12;
     offset.top += (obj.height() - trigger.height()) / 2;
     return offset;
-});
-if (document.domain === 'instagram.com') {
-    clickable_yo('.-cx-PRIVATE-Post__media', function(thing) {
-        return thing.parents('article').find('a.-cx-PRIVATE-Post__timestamp,a.-cx-PRIVATE-PostInfo__timestamp').attr('href');
-    }, function(obj, trigger) {
-        var offset = obj.offset();
-        offset.left -= 12;
-        offset.top += (obj.height() - trigger.height()) / 2;
-        return offset;
-    });
+}
+
+function find_offset_for_link(obj, trigger, e) {
+    var target = $(e.target);
+    if (target.is('img,div.-cx-PRIVATE-PostsGridItem__postInfo') && target.height() > 20) {
+        return get_left_center_offset(target, trigger);
+    }
+    return { left: e.pageX - trigger.width() / 2, top: e.pageY - 25 };
 }
 
 function find_offset_for_videos(obj, trigger, e, url) {
@@ -62,12 +34,11 @@ function find_offset_for_videos(obj, trigger, e, url) {
     return offset;
 }
 
-clickable_yo('embed[src]:not(.no-yo)', function(embed) {
-    return embed.attr('src');
-}, find_offset_for_videos);
-clickable_yo('object[data]:not(.no-yo)', function(object) {
-    return object.attr('data');
-}, find_offset_for_videos);
+clickable_yo('a[href]:not(.no-yo,[data-href][data-expanded-url])', function(link) { return link.attr('href'); },         find_offset_for_link);
+clickable_yo('a[data-href]:not(.no-yo,[data-expanded-url])',       function(link) { return link.data('href'); },         find_offset_for_link);
+clickable_yo('a[data-expanded-url]:not(.no-yo,[data-href])',       function(link) { return link.data('expanded-url'); }, find_offset_for_link);
+clickable_yo('embed[src]:not(.no-yo)',                             function(embed) { return embed.attr('src'); },        find_offset_for_videos);
+clickable_yo('object[data]:not(.no-yo)',                           function(object) { return object.attr('data'); },     find_offset_for_videos);
 clickable_yo('iframe[src]:not(.no-yo)', function(iframe) {
     if (iframe.attr('src') === 'https://s-static.ak.facebook.com/common/referer_frame.php') {
         var facebook_iframe = iframe.parentsUntil('.exploded', '.clearfix').find('.mbs a').attr('href');
@@ -78,17 +49,32 @@ clickable_yo('iframe[src]:not(.no-yo)', function(iframe) {
     return iframe.attr('src');
 }, find_offset_for_videos);
 clickable_yo('iframe:not(.no-yo,[src])', function(iframe) {
+    // TODO Shouldn't be used on not twitter things
     return iframe.contents().find('html body blockquote[cite]').attr('cite');
 }, find_offset_for_videos);
-if (window.top === window) {
-    clickable_yo('div#player div.html5-video-player', function() {
-        return document.URL;
-    }, function(obj) {
-        var offset = obj.offset();
-        offset.left += 7;
-        offset.top += 7;
-        return offset;
-    });
+
+switch (document.domain) {
+    case 'instagram.com':
+        clickable_yo('.-cx-PRIVATE-Post__media', function(thing) {
+            return thing.parents('article').find('a.-cx-PRIVATE-Post__timestamp,a.-cx-PRIVATE-PostInfo__timestamp').attr('href');
+        }, get_left_center_offset);
+        break;
+    case 'twitter.com':
+        clickable_yo('li.stream-item:not(.no-yo)', function(li) { return li.find('.tweet[data-permalink-path]').data('permalink-path'); }, get_left_center_offset);
+        clickable_yo('div.QuoteTweet:not(.no-yo)', function(quote) { return quote.find('div[href]').attr('href'); },                       get_left_center_offset);
+        break;
+    case 'youtube.com':
+        if (window.top === window) {
+            clickable_yo('div#player div.html5-video-player', function() {
+                return document.URL;
+            }, function(obj) {
+                var offset = obj.offset();
+                offset.left += 7;
+                offset.top += 7;
+                return offset;
+            });
+        }
+        break;
 }
 
 $(document).keydown(function(e) {

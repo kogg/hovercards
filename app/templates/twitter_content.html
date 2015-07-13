@@ -55,7 +55,7 @@
 				<div class="col-2">
 					<b><a ng-href="{{:: data.content.replied_to | generateUrl }}">{{:: data.content.replied_to.date | timeSince:true }}</a></b>
 				</div>
-				<p ng-bind-html=":: data.content.replied_to.description"></p>
+				<p collapse=":: data.content.replied_to.description" collapse-at="19 * 7" tolerance="19 * 3" recollapse-at="19 * 15"></p>
 				<div class="response-image-container" ng-if=":: data.content.replied_to.image">
 					<img ng-src="{{:: data.content.replied_to.image }}:small">
 				</div>
