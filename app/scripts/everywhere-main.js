@@ -7,7 +7,7 @@ var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 function find_offset_for_link(obj, trigger, e) {
     var target = $(e.target);
-    if (target.is('img') && target.height() > 20) {
+    if (target.is('img,div.-cx-PRIVATE-PostsGridItem__postInfo') && target.height() > 20) {
         var offset = target.offset();
         offset.left -= 12;
         offset.top += (target.height() - trigger.height()) / 2;
