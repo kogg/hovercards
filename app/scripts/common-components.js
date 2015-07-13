@@ -95,12 +95,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         return;
                     }
 
-                    // FIXME Just for debugging
-                    /*
-                    angular.element('<div style="border:1px solid black; pointer-events: none; position:absolute; width: 100%; height: ' + Number($scope.collapseAt) + 'px;">&nbsp;</div>').prependTo($element);
-                    angular.element('<div style="border:1px solid red;   pointer-events: none; position:absolute; width: 100%; height: ' + (Number($scope.collapseAt) + Number($scope.tolerance || 0)) + 'px;">&nbsp;</div>').prependTo($element);
-                    */
-
                     expanded.removeClass('ng-hide');
                     if (expanded.height() <= Number($scope.collapseAt) + Number($scope.tolerance || 0)) {
                         return;
@@ -128,9 +122,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             ($scope.onHeightChange || angular.noop)('collapsed');
                         });
                     (function binary_add_element(element, contents) {
+                        var loop = 0;
                         var good = 0;
                         var bad = contents.length;
-                        while (good + 1 < bad) {
+                        while (good + 1 < bad && loop < 100) {
                             var trying = Math.ceil((good + bad) / 2);
                             var testing = contents.slice(good, trying);
                             testing.appendTo(element);
@@ -142,6 +137,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                 testing.detach();
                             }
                             more.detach();
+                            loop++;
+                        }
+                        if (loop === 100) {
+                            return;
                         }
                         var bad_element = contents[good];
                         if (!bad_element) {
@@ -158,12 +157,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         element.append(bad_element);
                         var string = bad_element.nodeValue;
                         bad_element.nodeValue = string + '...';
+                        loop = 0;
                         var front = 0;
                         var back = string.length;
-                        var times = 0;
                         more.appendTo(collapsed).before(' ');
-                        while (front < back && times < 5000) {
-                            times++;
+                        while (front + 1 < back && loop < 100) {
                             var attempting = Math.ceil((front + back) / 2);
                             bad_element.nodeValue = string.slice(0, attempting) + '...';
                             if (collapsed.height() <= Number($scope.collapseAt)) {
@@ -171,74 +169,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             } else {
                                 back = attempting;
                             }
+                            loop++;
                         }
                         bad_element.nodeValue = string.slice(0, front) + '...';
                         more.detach();
                     }(collapsed, expanded.contents().clone()));
                     more.appendTo(collapsed).before(' ');
-                });
-            }
-        };
-    }])
-    .directive('readmore', ['$sanitize', '$timeout', function($sanitize, $timeout) {
-        require('dotdotdot');
-
-        return {
-            restrict: 'A',
-            scope: {
-                text: '=readmore',
-                cutoffHeight: '@?',
-                readless: '=?',
-                onReadmore: '&?'
-            },
-            link: function($scope, $element) {
-                $scope.$watch('text', function(text) {
-                    $element.html($sanitize(text || ''));
-                    if (!text) {
-                        return;
-                    }
-                    (function readmore(event) {
-                        if (event) {
-                            event.stopPropagation();
-                            if ($scope.onReadmore) {
-                                $scope.onReadmore();
-                            }
-                        }
-                        angular.element('<span class="read-more">More</span>').appendTo($element);
-                        $timeout(function() {
-                            $element.dotdotdot({
-                                after: 'span.read-more',
-                                height: Number($scope.cutoffHeight),
-                                callback: function(isTruncated) {
-                                    var read_more = $element.find('.read-more');
-                                    if (!isTruncated) {
-                                        read_more.remove();
-                                        return;
-                                    }
-                                    if (!read_more.length) {
-                                        read_more = angular.element('<span class="read-more">More</span>');
-                                    }
-                                    read_more
-                                        .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
-                                        .click(function(event) {
-                                            event.stopPropagation();
-                                            $element
-                                                .trigger('destroy')
-                                                .html($scope.text);
-                                            if ($scope.readless) {
-                                                angular.element('<span class="read-less">Less</span>')
-                                                    .appendTo($element)
-                                                    .before(' ')
-                                                    .click(readmore);
-                                            }
-                                            if ($scope.onReadmore) {
-                                                $scope.onReadmore();
-                                            }
-                                        });
-                                }
-                            });
-                        });
-                    }());
                 });
             }
         };

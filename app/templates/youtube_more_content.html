@@ -8,7 +8,7 @@
 			</div>
 			<div class="col-8">
 				<div class="col-10">
-					<a ng-href="{{:: video | generateUrl }}" cutoff-height="40" readmore=":: video.name"></a>
+					<a ng-href="{{:: video | generateUrl }}" collapse=":: video.name" collapse-at="40"></a>
 				</div>
 				<div class="col-2">
 					<b>{{:: video.date | timeSince:true }}</b>
