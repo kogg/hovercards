@@ -60,8 +60,10 @@ switch (document.domain) {
         }, get_left_center_offset);
         break;
     case 'twitter.com':
-        clickable_yo('li.stream-item:not(.no-yo)', function(li) { return li.find('.tweet[data-permalink-path]').data('permalink-path'); }, get_left_center_offset);
-        clickable_yo('div.QuoteTweet:not(.no-yo)', function(quote) { return quote.find('div[href]').attr('href'); },                       get_left_center_offset);
+        clickable_yo('.permalink-inner,ol.stream-items li.stream-item,ol.stream-items li.js-simple-tweet',
+                     function(li) { return li.find('.tweet[data-permalink-path]').data('permalink-path'); },
+                     get_left_center_offset);
+        clickable_yo('div.QuoteTweet', function(quote) { return quote.find('div[href]').attr('href'); },                       get_left_center_offset);
         break;
     case 'youtube.com':
         if (window.top === window) {
