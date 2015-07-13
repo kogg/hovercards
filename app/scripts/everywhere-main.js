@@ -37,6 +37,16 @@ clickable_yo('li.stream-item:not(.no-yo)', function(li) {
     offset.top += (obj.height() - trigger.height()) / 2;
     return offset;
 });
+if (document.domain === 'instagram.com') {
+    clickable_yo('.-cx-PRIVATE-Post__media', function(thing) {
+        return thing.parents('article').find('a.-cx-PRIVATE-Post__timestamp,a.-cx-PRIVATE-PostInfo__timestamp').attr('href');
+    }, function(obj, trigger) {
+        var offset = obj.offset();
+        offset.left -= 12;
+        offset.top += (obj.height() - trigger.height()) / 2;
+        return offset;
+    });
+}
 
 function find_offset_for_videos(obj, trigger, e, url) {
     var offset = obj.offset();
