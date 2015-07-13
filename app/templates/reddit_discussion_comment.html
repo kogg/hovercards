@@ -6,7 +6,7 @@
 		</span>
 		<span class="time">{{ ::comment.score | score }} <span class="hidden-date">&middot; <a ng-href="{{:: data.discussion | generateUrl }}/comment/{{:: comment.id }}">{{ ::comment.date | timeSince:true  }}</a></span></span>
 	</div>
-	<p collapse=":: comment.description" collapse-at="370"></p>
+	<p collapse=":: comment.description" collapse-at="19 * 15" tolerance="19 * 4" recollapse-at="19 * 25"></p>
 	<div class="child" ng-repeat="comment in comment.comments">
 		<div class="child-comment" ng-class="{ 'child-close': comment.close }">
 			<div ng-include="'templates/reddit_discussion_comment.html'"></div>

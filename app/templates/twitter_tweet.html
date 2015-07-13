@@ -14,7 +14,7 @@
 		</span>
 		<span class="time"><a ng-href="{{:: tweet | generateUrl }}">{{:: tweet.date | timeSince:true }}</a></span>
 	</div>
-	<p ng-bind-html=":: tweet.description"></p>
+	<p collapse=":: tweet.description" collapse-at="19 * 2" tolerance="19 * 3" recollapse-at="19 * 10"></p>
 	<div class="comment-image-container" ng-if="::tweet.image" ng-click="view.fullscreen=(view.fullscreen === tweet) ? null : tweet">
 		<img ng-src="{{:: tweet.image }}:small">
 	</div>
