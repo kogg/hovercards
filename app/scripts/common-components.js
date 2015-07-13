@@ -18,61 +18,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     }])
-    .directive('scrollToHorizontal', [function() {
-        require('jquery-ui/core');
-
-        return {
-            scope: {
-                on: '=scrollToHorizontal',
-            },
-            link: function($scope, $element) {
-                $scope.$watch('on', function(on, onBefore) {
-                    if (on === onBefore || !on) {
-                        return;
-                    }
-                    var scrollParent = $element.scrollParent();
-                    scrollParent.animate({ scrollLeft: $element.position().left + scrollParent.scrollLeft() + $element.width() - scrollParent.width() / 2 }, 200);
-                });
-            }
-        };
-    }])
-    .directive('shaker', [function() {
-        return {
-            link: function($scope, $element) {
-                $scope.$watch('entry.shake', function(shake, oldShake) {
-                    if (!shake || shake === oldShake) {
-                        return;
-                    }
-                    $element.addClass('shakeit');
-                });
-
-                $element.on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
-                    if (e.originalEvent.animationName !== 'shake-base') {
-                        return;
-                    }
-                    $element.removeClass('shakeit');
-                });
-            }
-        };
-    }])
-    .directive('popup', ['$window', function($window) {
-        return {
-            restrict: 'A',
-            scope: {
-                url:  '@popup',
-                size: '=?popupSize'
-            },
-            link: function($scope, $element) {
-                $element.css('cursor', 'pointer');
-                $element.click(function() {
-                    $window.open($scope.url, 'popup', 'height=' + (($scope.size && $scope.size.height) || 300 ) +
-                                                      ',width=' + (($scope.size && $scope.size.width) || 640 ) +
-                                                      ',left=' + ($window.screen.width - 990) +
-                                                      ',top=70');
-                });
-            }
-        };
-    }])
     .directive('collapse', ['$sanitize', function($sanitize) {
         return {
             restrict: 'A',
@@ -175,6 +120,61 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         more.detach();
                     }(collapsed, expanded.contents().clone()));
                     more.appendTo(collapsed).before(' ');
+                });
+            }
+        };
+    }])
+    .directive('popup', ['$window', function($window) {
+        return {
+            restrict: 'A',
+            scope: {
+                url:  '@popup',
+                size: '=?popupSize'
+            },
+            link: function($scope, $element) {
+                $element.css('cursor', 'pointer');
+                $element.click(function() {
+                    $window.open($scope.url, 'popup', 'height=' + (($scope.size && $scope.size.height) || 300 ) +
+                                                      ',width=' + (($scope.size && $scope.size.width) || 640 ) +
+                                                      ',left=' + ($window.screen.width - 990) +
+                                                      ',top=70');
+                });
+            }
+        };
+    }])
+    .directive('scrollToHorizontal', [function() {
+        require('jquery-ui/core');
+
+        return {
+            scope: {
+                on: '=scrollToHorizontal',
+            },
+            link: function($scope, $element) {
+                $scope.$watch('on', function(on, onBefore) {
+                    if (on === onBefore || !on) {
+                        return;
+                    }
+                    var scrollParent = $element.scrollParent();
+                    scrollParent.animate({ scrollLeft: $element.position().left + scrollParent.scrollLeft() + $element.width() - scrollParent.width() / 2 }, 200);
+                });
+            }
+        };
+    }])
+    .directive('shaker', [function() {
+        return {
+            link: function($scope, $element) {
+                $scope.$watch('entry.shake', function(shake, oldShake) {
+                    if (!shake || shake === oldShake) {
+                        return;
+                    }
+                    $element.addClass('shakeit');
+                });
+
+                $element.on('animationend MSAnimationEnd webkitAnimationEnd oAnimationEnd', function(e) {
+                    if (e.originalEvent.animationName !== 'shake-base') {
+                        return;
+                    }
+                    $element.removeClass('shakeit');
                 });
             }
         };
