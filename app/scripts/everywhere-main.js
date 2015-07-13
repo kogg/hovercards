@@ -53,7 +53,7 @@ clickable_yo('iframe:not(.no-yo,[src])', function(iframe) {
     return iframe.contents().find('html body blockquote[cite]').attr('cite');
 }, find_offset_for_videos);
 
-switch (document.domain) {
+switch ((document.domain || '').replace(/^www\./, '')) {
     case 'instagram.com':
         clickable_yo('.-cx-PRIVATE-Post__media', function(thing) {
             return thing.parents('article').find('a.-cx-PRIVATE-Post__timestamp,a.-cx-PRIVATE-PostInfo__timestamp').attr('href');
