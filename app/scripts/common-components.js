@@ -328,22 +328,20 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         return function(number) {
             if (isNaN(number)) {
                 return 'N/A';
-            } else {
-                var prefix = '';
-                if (number < 0) {
-                    number = -number;
-                    prefix = '-';
-                }
-                var digits = Math.ceil(Math.log10(number + 0.5));
-                if (digits < 5) {
-                    return prefix + $filter('number')(number);
-                } else {
-                    var three_digits_less = Math.pow(10, Math.floor(digits - 3));
-                    var nearest_three_digit = Math.pow(10, 3 * Math.floor((digits - 1) / 3));
-                    number = three_digits_less * Math.round(number / three_digits_less) / nearest_three_digit;
-                    return prefix + number + suffixes[nearest_three_digit];
-                }
             }
+            var prefix = '';
+            if (number < 0) {
+                number = -number;
+                prefix = '-';
+            }
+            var digits = Math.ceil(Math.log10(number + 0.5));
+            if (digits < 5) {
+                return prefix + $filter('number')(number);
+            }
+            var three_digits_less = Math.pow(10, Math.floor(digits - 3));
+            var nearest_three_digit = Math.pow(10, 3 * Math.floor((digits - 1) / 3));
+            number = three_digits_less * Math.round(number / three_digits_less) / nearest_three_digit;
+            return prefix + number + suffixes[nearest_three_digit];
         };
     }])
     .filter('percent', ['$filter', function($filter) {
@@ -355,18 +353,17 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         return function(time) {
             if (isNaN(time)) {
                 return 'N/A';
-            } else {
-                var output = '';
-                time = Math.floor(time / 1000);
-                output = (time % 60);
-                time = Math.floor(time / 60);
-                for (var i = 0; time > 0 || i === 0; i++) {
-                    output = ('00000' + output).substr(-2 + -3 * i);
-                    output = (time % 60) + ':' + output;
-                    time = Math.floor(time / 60);
-                }
-                return output;
             }
+            var output = '';
+            time = Math.floor(time / 1000);
+            output = (time % 60);
+            time = Math.floor(time / 60);
+            for (var i = 0; time > 0 || i === 0; i++) {
+                output = ('00000' + output).substr(-2 + -3 * i);
+                output = (time % 60) + ':' + output;
+                time = Math.floor(time / 60);
+            }
+            return output;
         };
     }])
     .filter('timeSince', [function() {
