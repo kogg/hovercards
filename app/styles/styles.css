@@ -95,12 +95,12 @@ iframe {
 .context-top-twitter + .card-text .card-description {
 	padding-top: 0px
 }
-.card-text .card-description .response {
+.card-text .card-description .response, .card-text .card-description .quoted {
   margin-top: 16px;
   position: relative;
   margin-bottom: 8px;
 }
-.card-text .card-description .response:after {
+.card-text .card-description .response:after, .card-text .card-description .quoted:after {
 	content: "";
 	position: absolute;
 	top: -8px;
@@ -114,29 +114,29 @@ iframe {
   height: calc(100% + 16px);
   z-index: 0;
 }
-.response b a {
+.response b a, .quoted b a {
 	font-size: 12px;
 }
-.response .col-10, .response .col-2 {
+.response .col-10, .response .col-2, .quoted .col-10, .quoted .col-2 {
 	z-index: 20;
 	position: relative;
 }
-.response .col-2 {
+.response .col-2, .quoted .col-2 {
 	text-align: right;
 }
-.response .col-2 a {
+.response .col-2 a, .quoted .col-2 a {
 	color: #727272;
 	font-weight: bold;
 }
-.response-image-container {
+.response-image-container, .quoted-image-container {
 	max-height: 232px;
 	overflow: hidden;
 	margin-top: 8px;
 }
-.response img {
+.response img, .quoted img {
 	width: 100%;
 }
-.response .response-image-container:hover {
+.response .response-image-container:hover, .quoted .quoted-image-container:hover {
 	max-height: inherit;
 }
 .fullscreen-active .video-top-underlay {
@@ -2381,33 +2381,52 @@ h2 {
   -webkit-animation: colorsmv .76s linear infinite;
 }
 .fullscreen-image {
-	display: none;
-	position: fixed;
-	-webkit-transform: translateZ(0);
-  width: -webkit-calc(100% - 340px);
-  width: calc(100% - 340px);
-  height: 100%;
-  left: 0px;
-  top: 0px;
-  background: #292F33;
-  background: rgba(0, 0, 0, 0.8);
-	cursor: -moz-zoom-out; 
-  cursor: -webkit-zoom-out; 
-  cursor: zoom-out;
+	display: none; !important;
+	position: fixed !important;
+	-webkit-transform: translateZ(0) !important;
+  width: -webkit-calc(100% - 340px) !important;
+  width: calc(100% - 340px) !important;
+  height: 100% !important;
+  left: 0px !important;
+  top: 0px !important;
+  background: #292F33 !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+	cursor: -moz-zoom-out !important; 
+  cursor: -webkit-zoom-out !important; 
+  cursor: zoom-out !important;
+}
+.fullscreen-active .animation-stop-trigger {
+	-o-transition-property: none !important;
+	-moz-transition-property: none !important;
+	-ms-transition-property: none !important;
+	-webkit-transition-property: none !important;
+	transition-property: none !important;
+	/*CSS transforms*/
+	-o-transform: none !important;
+	-moz-transform: none !important;
+	-ms-transform: none !important;
+	-webkit-transform: none !important;
+	transform: none !important;
+	/*CSS animations*/
+	-webkit-animation: none !important;
+	-moz-animation: none !important;
+	-o-animation: none !important;
+	-ms-animation: none !important;
+	animation: none !important;
 }
 .fullscreen-active .fullscreen-image, .fullscreen-active video {
-	display: block;
+	display: block !important
 }
 .fullscreen-active .fullscreen-image img, .fullscreen-active video {
-	width: auto;
-	position: absolute;
-  margin: auto;
-  max-height: 100%;
-  max-width: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+	width: auto !important;
+	position: absolute !important;
+  margin: auto !important;
+  max-height: 100% !important;
+  max-width: 100% !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
 }
 @-webkit-keyframes colorsmv {
   0%    { -webkit-transform: translateX(0px);}

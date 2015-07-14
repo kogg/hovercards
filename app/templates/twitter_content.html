@@ -24,7 +24,7 @@
 			</div>
 		</div>
 		<div class="video-top-underlay">
-			<img src="{{ data.content.image }}" ng-click="played || ((played = true) && (playing = true))" class="video-image">
+			<img ng-src="{{:: data.content.image }}" ng-click="played || ((played = true) && (playing = true))" class="video-image">
 			<div class="play-video twitter-background" ng-click="played || ((played = true) && (playing = true))" ng-class="{ 'play-video-clicked': playing }"></div>
 			<div class="video-cta twitter-background" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
 				<i class="zmdi zmdi-fullscreen"></i>
@@ -41,13 +41,25 @@
 		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
 	</div>
 	<div class="fullscreen-image" ng-if="(data.content.image && (data.content.video_is_image || !data.content.video)) && view.fullscreen === data.content" ng-click="view.fullscreen=null">
-		<img ng-src="{{:: data.content.image }}:small" ng-if=":: !data.content.video">
+		<img ng-src="{{:: data.content.image }}:large" ng-if=":: !data.content.video">
 		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
 	</div>
 
 	<div class="card-text text-post">
 		<div class="card-description">
-			<p readmore=":: data.content.description" cutoff-height="100"></p>
+			<p collapse=":: data.content.description" collapse-at="19 * 7" tolerance="19 * 3" recollapse-at="19 * 15"></p>
+			<div class="quoted" ng-if=":: data.content.quoted ">
+				<div class="col-10">
+					<b><a ng-href="{{:: data.content.quoted.author | generateUrl }}">{{:: data.content.quoted.author.name }} @{{:: data.content.quoted.author.id }}</a></b>
+				</div>
+				<div class="col-2">
+					<b><a ng-href="{{:: data.content.quoted | generateUrl }}">{{:: data.content.quoted.date | timeSince:true }}</a></b>
+				</div>
+				<p collapse=":: data.content.quoted.description" collapse-at="19 * 7" tolerance="19 * 3" recollapse-at="19 * 15"></p>
+				<div class="quoted-image-container" ng-if=":: data.content.quoted.image">
+					<img ng-src="{{:: data.content.quoted.image }}:small">
+				</div>
+			</div>
 			<div class="response" ng-if=":: data.content.replied_to ">
 				<div class="col-10">
 					<b>In response to <a ng-href="{{:: data.content.replied_to.author | generateUrl }}">{{:: data.content.replied_to.author.name }}</a>'s tweet:</b>
@@ -55,7 +67,7 @@
 				<div class="col-2">
 					<b><a ng-href="{{:: data.content.replied_to | generateUrl }}">{{:: data.content.replied_to.date | timeSince:true }}</a></b>
 				</div>
-				<p ng-bind-html=":: data.content.replied_to.description"></p>
+				<p collapse=":: data.content.replied_to.description" collapse-at="19 * 7" tolerance="19 * 3" recollapse-at="19 * 15"></p>
 				<div class="response-image-container" ng-if=":: data.content.replied_to.image">
 					<img ng-src="{{:: data.content.replied_to.image }}:small">
 				</div>
@@ -78,6 +90,13 @@
 <div class="yocards-message-container error-message" ng-class="err.api && 'twitter-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
 	<div class="yocards-message-image"></div>
 	<span class="yocards-message-text" ng-messages="err">
+		<span ng-message="forbidden" stored="twitter_user" name="twitter_user">
+			<span class="yocards-message-content"><b><i class="md md-error"></i>Protected Status</b>The user has decided to protect this tweet. {{ twitter_user ? '' : 'If you can usually see this tweet, maybe signing in will let you see it.' }}</span>
+			<div class="yocards-message-option" ng-if="!twitter_user">
+				<a authorize="err.api" on-authorized="err.reload()">Sign into Twitter</a>
+			</div>
+		</span>
+
 		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>
 </div>

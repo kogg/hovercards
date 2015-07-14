@@ -11,7 +11,7 @@
 			</span>
 			<span class="time"><a ng-href="{{:: data.discussion | generateUrl }}&lc={{:: comment.id }}">{{:: comment.date | timeSince:true }}</a></span>
 		</div>
-		<p readmore=":: comment.description" cutoff-height="100"></p>
+		<p collapse=":: comment.description" collapse-at="19 * 2" tolerance="19 * 3" recollapse-at="19 * 10"></p>
 	</div>
 </div>
 

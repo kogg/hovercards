@@ -43,7 +43,7 @@
 
 	<div class="card-text" ng-if=":: data.content.description" ng-show="data.content.image || (data.content.current_slide || 0) === 0 || (data.content.current_slide || 0) === data.content.images.length - 1">
 		<div class="card-description">
-			<p readmore=":: data.content.description" cutoff-height="80"></p>
+			<p collapse=":: data.content.description" collapse-at="19 * 4" tolerance="19 * 2" recollapse-at="19 * 10"></p>
 		</div>
 	</div>
 	<div class="card-stats inline-row">

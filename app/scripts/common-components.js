@@ -18,6 +18,139 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     }])
+    .directive('collapse', ['$sanitize', function($sanitize) {
+        /*
+         * Usual Settings:
+         *    # of Lines for | Collapse At | Tolerance | Recollapse At |
+         * ------------------+-------------+-----------+---------------+
+         *     Small Comment |           2 |         3 |            10 |
+         * Media Description |           4 |         2 |            10 |
+         *        Small Blob |           7 |         3 |            15 |
+         *        Large Blob |          15 |         4 |            25 |
+         */
+        return {
+            restrict: 'A',
+            scope: {
+                content: '=collapse',
+                collapseAt: '=',
+                tolerance: '=?',
+                recollapseAt: '=?',
+                onHeightChange: '&?'
+            },
+            link: function($scope, $element) {
+                $element.html('');
+                var collapsed = angular.element('<div class="collapsed ng-hide"></div>').appendTo($element);
+                var expanded = angular.element('<div class="expanded ng-hide"></div>').appendTo($element);
+                // TODO Watch all scope changes
+                $scope.$watch('content', function(content) {
+                    content = $sanitize(content || '');
+                    expanded.addClass('ng-hide').html(content);
+                    collapsed.addClass('ng-hide').html('');
+                    if (!content) {
+                        return;
+                    }
+
+                    expanded.removeClass('ng-hide');
+                    if (expanded.height() <= $scope.collapseAt + ($scope.tolerance || 0)) {
+                        return;
+                    }
+                    if ($scope.recollapseAt && expanded.height() >= $scope.recollapseAt) {
+                        angular.element('<span class="read-less">Less</span>')
+                            .appendTo(expanded)
+                            .before(' ')
+                            .click(function(event) {
+                                event.stopPropagation();
+                                expanded.addClass('ng-hide');
+                                collapsed.removeClass('ng-hide');
+                                ($scope.onHeightChange || angular.noop)('expanded');
+                            });
+                    }
+                    expanded.addClass('ng-hide');
+                    collapsed.removeClass('ng-hide');
+
+                    var more = angular.element('<span class="read-more">More</span>')
+                        .click(function(event) {
+                            event.stopPropagation();
+                            expanded.removeClass('ng-hide');
+                            collapsed.addClass('ng-hide');
+                            ($scope.onHeightChange || angular.noop)('collapsed');
+                        });
+                    (function binary_add_element(element, contents) {
+                        var loop = 0;
+                        var good = 0;
+                        var bad = contents.length;
+                        while (good + 1 < bad && loop < 100) {
+                            var trying = Math.ceil((good + bad) / 2);
+                            var testing = contents.slice(good, trying);
+                            testing.appendTo(element);
+                            more.appendTo(collapsed).before(' ');
+                            if (collapsed.height() <= $scope.collapseAt) {
+                                good = trying;
+                            } else {
+                                bad = trying;
+                                testing.detach();
+                            }
+                            more.detach();
+                            loop++;
+                        }
+                        if (loop === 100) {
+                            return;
+                        }
+                        var bad_element = contents[good];
+                        if (!bad_element) {
+                            return;
+                        }
+                        if (bad_element.nodeType !== 3) {
+                            bad_element = angular.element(bad_element);
+                            var new_contents = bad_element.contents().clone();
+                            bad_element
+                                .appendTo(element)
+                                .empty();
+                            return binary_add_element(bad_element, new_contents);
+                        }
+                        element.append(bad_element);
+                        var string = bad_element.nodeValue;
+                        bad_element.nodeValue = string + '...';
+                        loop = 0;
+                        var front = 0;
+                        var back = string.length;
+                        more.appendTo(collapsed).before(' ');
+                        while (front + 1 < back && loop < 100) {
+                            var attempting = Math.ceil((front + back) / 2);
+                            bad_element.nodeValue = string.slice(0, attempting) + '...';
+                            if (collapsed.height() <= $scope.collapseAt) {
+                                front = attempting;
+                            } else {
+                                back = attempting;
+                            }
+                            loop++;
+                        }
+                        bad_element.nodeValue = string.slice(0, front) + '...';
+                        more.detach();
+                    }(collapsed, expanded.contents().clone()));
+                    more.appendTo(collapsed).before(' ');
+                });
+            }
+        };
+    }])
+    .directive('popup', ['$window', function($window) {
+        return {
+            restrict: 'A',
+            scope: {
+                url:  '@popup',
+                size: '=?popupSize'
+            },
+            link: function($scope, $element) {
+                $element.css('cursor', 'pointer');
+                $element.click(function() {
+                    $window.open($scope.url, 'popup', 'height=' + (($scope.size && $scope.size.height) || 300 ) +
+                                                      ',width=' + (($scope.size && $scope.size.width) || 640 ) +
+                                                      ',left=' + ($window.screen.width - 990) +
+                                                      ',top=70');
+                });
+            }
+        };
+    }])
     .directive('scrollToHorizontal', [function() {
         require('jquery-ui/core');
 
@@ -51,87 +184,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         return;
                     }
                     $element.removeClass('shakeit');
-                });
-            }
-        };
-    }])
-    .directive('popup', ['$window', function($window) {
-        return {
-            restrict: 'A',
-            scope: {
-                url:  '@popup',
-                size: '=?popupSize'
-            },
-            link: function($scope, $element) {
-                $element.css('cursor', 'pointer');
-                $element.click(function() {
-                    $window.open($scope.url, 'popup', 'height=' + (($scope.size && $scope.size.height) || 300 ) +
-                                                      ',width=' + (($scope.size && $scope.size.width) || 640 ) +
-                                                      ',left=' + ($window.screen.width - 990) +
-                                                      ',top=70');
-                });
-            }
-        };
-    }])
-    .directive('readmore', ['$sanitize', '$timeout', function($sanitize, $timeout) {
-        require('dotdotdot');
-
-        return {
-            restrict: 'A',
-            scope: {
-                text: '=readmore',
-                cutoffHeight: '@?',
-                readless: '=?',
-                onReadmore: '&?'
-            },
-            link: function($scope, $element) {
-                $scope.$watch('text', function(text) {
-                    $element.html($sanitize(text || ''));
-                    if (!text) {
-                        return;
-                    }
-                    (function readmore(event) {
-                        if (event) {
-                            event.stopPropagation();
-                            if ($scope.onReadmore) {
-                                $scope.onReadmore();
-                            }
-                        }
-                        angular.element('<span class="read-more">More</span>').appendTo($element);
-                        $timeout(function() {
-                            $element.dotdotdot({
-                                after: 'span.read-more',
-                                height: Number($scope.cutoffHeight),
-                                callback: function(isTruncated) {
-                                    var read_more = $element.find('.read-more');
-                                    if (!isTruncated) {
-                                        read_more.remove();
-                                        return;
-                                    }
-                                    if (!read_more.length) {
-                                        read_more = angular.element('<span class="read-more">More</span>');
-                                    }
-                                    read_more
-                                        .appendTo($element) // FIXME Hack AF https://github.com/BeSite/jQuery.dotdotdot/issues/67
-                                        .click(function(event) {
-                                            event.stopPropagation();
-                                            $element
-                                                .trigger('destroy')
-                                                .html($scope.text);
-                                            if ($scope.readless) {
-                                                angular.element('<span class="read-less">Less</span>')
-                                                    .appendTo($element)
-                                                    .before(' ')
-                                                    .click(readmore);
-                                            }
-                                            if ($scope.onReadmore) {
-                                                $scope.onReadmore();
-                                            }
-                                        });
-                                }
-                            });
-                        });
-                    }());
                 });
             }
         };

@@ -40,12 +40,22 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                         }
                         return;
                     }
-                    data.discussions[api] = data.discussions[api] || apiService.get(entry.discussions[api]);
-                    data.discussions[api].$promise.then(function() {
-                        entry.discussion_api = entry.discussion_api || api;
-                    }, function() {
-                        check_api(n+1);
-                    });
+                    (function reload(previous_discussion) {
+                        if (previous_discussion) {
+                            data.discussions[api] = previous_discussion;
+                            return;
+                        }
+                        data.discussions[api] = apiService.get(entry.discussions[api]);
+                        data.discussions[api].$promise
+                            .then(function() {
+                                entry.discussion_api = entry.discussion_api || api;
+                            })
+                            .catch(function(err) {
+                                err.reload = reload;
+                                check_api(n+1);
+                                return $q.reject(err);
+                            });
+                    }(data.discussions[api]));
                 });
             }(0));
         }, true);
@@ -117,6 +127,63 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                 return;
             }
             chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'discussions', 'changed discussion', discussionApi + ' discussion'] });
+        });
+    }])
+    .controller('UrlDiscussionController', ['$scope', 'apiService', function($scope, apiService) {
+        $scope.$watch('entry.discussions', function(requests) {
+            if (!requests) {
+                return;
+            }
+            var entry = $scope.entry;
+            var data = $scope.data;
+            var analytics_once = false;
+            requests = _.omit(requests, function(request, api) {
+                switch (api) {
+                    case 'imgur':
+                        return request.as !== 'gallery';
+                    case 'soundcloud':
+                        return request.as !== 'track';
+                }
+                return false;
+            });
+            var err_count = 0;
+            data.discussions = _.chain(requests)
+                                .keys()
+                                .sortBy(function(api) {
+                                    return _.indexOf($scope.order, api);
+                                })
+                                .map(function(api) {
+                                    var discussion = apiService.get(requests[api]);
+                                    discussion.$promise
+                                        .then(function(discussion) {
+                                            _.extend(discussion, _.pick(requests[api], 'author'));
+                                            if (analytics_once) {
+                                                return discussion;
+                                            }
+                                            if (entry.times) {
+                                                analytics_once = true;
+                                                var now = _.now();
+                                                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', now - entry.times.start, api + ' discussion'] });
+                                                if (!entry.times.first_card) {
+                                                    entry.times.first_card = now;
+                                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', entry.times.first_card - entry.times.start, api + ' discussion'] });
+                                                }
+                                            }
+                                            return discussion;
+                                        })
+                                        .catch(function() {
+                                            err_count++;
+                                            if (err_count !== data.discussions.length) {
+                                                return;
+                                            }
+                                            entry.$err = { 'no-content': true };
+                                        });
+                                    return discussion;
+                                })
+                                .value();
+            if (!data.discussions.length) {
+                entry.$err = { 'no-content': true };
+            }
         });
     }])
     .directive('sortable', [function() {
