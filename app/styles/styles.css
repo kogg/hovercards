@@ -546,9 +546,6 @@ b i, .iconic-push {
 	border-top: none;
 	position: relative;
 }
-.video-top-underlay {
-	cursor: pointer;
-}
 .video-top-underlay + .card-stats {
 	border-top: none
 }
