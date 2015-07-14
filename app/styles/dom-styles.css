@@ -28,6 +28,25 @@
 		-webkit-transform: translate3d(0,0,0);
 	}
 }
+.__MSG_@@extension_id__-sidebar-enter-cancel-animation {
+	-o-transition-property: none !important;
+	-moz-transition-property: none !important;
+	-ms-transition-property: none !important;
+	-webkit-transition-property: none !important;
+	transition-property: none !important;
+	/*CSS transforms*/
+	-o-transform: none !important;
+	-moz-transform: none !important;
+	-ms-transform: none !important;
+	-webkit-transform: none !important;
+	transform: none !important;
+	/*CSS animations*/
+	-webkit-animation: none !important;
+	-moz-animation: none !important;
+	-o-animation: none !important;
+	-ms-animation: none !important;
+	animation: none !important;
+}
 .__MSG_@@extension_id__-sidebar iframe {
 	position: absolute !important;
 	height: 100% !important;
