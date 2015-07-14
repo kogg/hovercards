@@ -675,7 +675,7 @@ b i, .iconic-push {
 .instagram-video .video-image {
 	height: 297px;
 }
-.youtube-video {
+.reddit-video iframe, .youtube-video {
 	width: 100%;
 	height: 100%;
 }
