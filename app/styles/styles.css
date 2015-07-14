@@ -542,7 +542,7 @@ b i, .iconic-push {
 }
 
 .video-top, .video-top-underlay {
-	height: 169px;
+	height: 221px;
 	border-top: none;
 	position: relative;
 }
@@ -662,7 +662,7 @@ b i, .iconic-push {
 	border: none
 }
 .video-image {
-	height: 168px;
+	height: 220px;
 	background-size: cover;
 	background-position: center;
 }
