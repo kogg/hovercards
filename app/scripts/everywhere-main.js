@@ -61,9 +61,15 @@ switch ((document.domain || '').replace(/^www\./, '')) {
         break;
     case 'twitter.com':
         clickable_yo('.permalink-inner,ol.stream-items li.stream-item,ol.stream-items li.js-simple-tweet',
-                     function(li) { return li.find('.tweet[data-permalink-path]').data('permalink-path'); },
+                     function(tweet_container) {
+                         var tweet = tweet_container.find('.tweet[data-permalink-path]');
+                         if (tweet.data('retweet-id') && tweet.data('retweeter')) {
+                             return '/' + tweet.data('retweeter') + '/status/' + tweet.data('retweet-id');
+                         }
+                         return tweet.data('permalink-path');
+                     },
                      get_left_center_offset);
-        clickable_yo('div.QuoteTweet', function(quote) { return quote.find('div[href]').attr('href'); },                       get_left_center_offset);
+        clickable_yo('div.QuoteTweet', function(quote) { return quote.find('div[href]').attr('href'); }, get_left_center_offset);
         break;
     case 'youtube.com':
         if (window.top === window) {
