@@ -41,7 +41,7 @@
 		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
 	</div>
 	<div class="fullscreen-image" ng-if="(data.content.image && (data.content.video_is_image || !data.content.video)) && view.fullscreen === data.content" ng-click="view.fullscreen=null">
-		<img ng-src="{{:: data.content.image }}" ng-if=":: !data.content.video">
+		<img ng-src="{{:: data.content.image }}:large" ng-if=":: !data.content.video">
 		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
 	</div>
 
