@@ -95,12 +95,12 @@ iframe {
 .context-top-twitter + .card-text .card-description {
 	padding-top: 0px
 }
-.card-text .card-description .response {
+.card-text .card-description .response, .card-text .card-description .quoted {
   margin-top: 16px;
   position: relative;
   margin-bottom: 8px;
 }
-.card-text .card-description .response:after {
+.card-text .card-description .response:after, .card-text .card-description .quoted:after {
 	content: "";
 	position: absolute;
 	top: -8px;
@@ -114,29 +114,29 @@ iframe {
   height: calc(100% + 16px);
   z-index: 0;
 }
-.response b a {
+.response b a, .quoted b a {
 	font-size: 12px;
 }
-.response .col-10, .response .col-2 {
+.response .col-10, .response .col-2, .quoted .col-10, .quoted .col-2 {
 	z-index: 20;
 	position: relative;
 }
-.response .col-2 {
+.response .col-2, .quoted .col-2 {
 	text-align: right;
 }
-.response .col-2 a {
+.response .col-2 a, .quoted .col-2 a {
 	color: #727272;
 	font-weight: bold;
 }
-.response-image-container {
+.response-image-container, .quoted-image-container {
 	max-height: 232px;
 	overflow: hidden;
 	margin-top: 8px;
 }
-.response img {
+.response img, .quoted img {
 	width: 100%;
 }
-.response .response-image-container:hover {
+.response .response-image-container:hover, .quoted .quoted-image-container:hover {
 	max-height: inherit;
 }
 .fullscreen-active .video-top-underlay {
