@@ -33,14 +33,26 @@
 		</div>
 	</div>
 
-	<!-- Image/Gifs -->
-	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content }" ng-if=":: data.content.image && (data.content.video_is_image || !data.content.video)" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content">
-		<img ng-src="{{:: data.content.image }}:small" ng-if=":: !data.content.video">
-		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
+	<!-- Gifs -->
+	<div ng-if=":: data.content.image && data.content.video_is_image" class="twitter-video">
+		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
+			<div class="video-image">
+				<video video-src="{{:: data.content.video }}" autoplay loop></video>
+			</div>
+		</div>
+		<div class="video-top-underlay" ng-click="view.fullscreen=null" style="cursor: zoom-out">
+			<img class="video-image" ng-src="{{:: data.content.image }}:small">
+		</div>
 	</div>
-	<div class="fullscreen-image" ng-if="(data.content.image && (data.content.video_is_image || !data.content.video)) && view.fullscreen === data.content" ng-click="view.fullscreen=null">
-		<img ng-src="{{:: data.content.image }}:large" ng-if=":: !data.content.video">
-		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
+
+	<!-- Image -->
+	<div ng-if=":: data.content.image && !data.content.video">
+		<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
+			<img ng-src="{{:: data.content.image }}:small" ng-if=":: !data.content.video">
+		</div>
+		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
+			<img ng-src="{{:: data.content.image }}:large" ng-if=":: !data.content.video">
+		</div>
 	</div>
 
 	<div class="card-text text-post">
