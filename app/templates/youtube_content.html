@@ -23,7 +23,7 @@
 		<iframe class="youtube-video no-yo" ng-if="playing" ng-src="{{:: ('https://www.youtube.com/embed/' + data.content.id + '?autoplay=1&fs=1') | trustedUrl }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 	</div>
 	<div class="video-top-underlay" ng-style="{ cursor: !playing && 'pointer'}">
-		<div class="video-image" ng-style=":: data.content.image && { 'background-image': 'url(' + data.content.image + ')' }"></div>
+		<div class="video-image" ng-click="playing = true" ng-style=":: data.content.image && { 'background-image': 'url(' + data.content.image + ')' }"></div>
 		<div class="play-video youtube-background" ng-click="playing = true" ng-class="{ 'play-video-clicked': playing }"></div>
 		<div class="video-cta" ng-click="view.fullscreen=data.content" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
 			<i class="zmdi zmdi-fullscreen"></i>
