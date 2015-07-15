@@ -935,14 +935,6 @@ b i, .iconic-push {
 }
 .comment img {
 	width: 100%;
-	cursor: -moz-zoom-in; 
-  cursor: -webkit-zoom-in; 
-  cursor: zoom-in;
-}
-.fullscreen-active .comment img {
-	cursor: -moz-zoom-out; 
-  cursor: -webkit-zoom-out; 
-  cursor: zoom-out;
 }
 /*context top*/
 .context-top {
@@ -1957,26 +1949,8 @@ h2 {
 	max-height: 301px;
 	background: white;
   overflow: hidden;
-  cursor: -moz-zoom-in; 
-  cursor: -webkit-zoom-in; 
-  cursor: zoom-in;
 }
 
-.content-top:hover {
-  cursor: -moz-zoom-in; 
-  cursor: -webkit-zoom-in; 
-  cursor: zoom-in;
-}
-.content-top-active {
-  cursor: -moz-zoom-out; 
-  cursor: -webkit-zoom-out; 
-  cursor: zoom-out;
-}
-.content-top-active:hover {
-  cursor: -moz-zoom-out; 
-  cursor: -webkit-zoom-out; 
-  cursor: zoom-out;
-}
 .content-top-active video {
 	position: relative !important;
 	width: 100%;
