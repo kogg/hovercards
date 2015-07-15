@@ -22,29 +22,27 @@
 	<!-- Video -->
 	<div ng-if=":: data.content.embed">
 		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
-			<div class="video-image" ng-style=":: data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
-				<div class="reddit-video" ng-bind-html=":: data.content.embed | trustedHtml"></div>
-			</div>
+			<div class="reddit-video no-yo" ng-bind-html=":: data.content.embed | trustedHtml"></div>
 		</div>
-
 		<div class="video-top-underlay">
-			<div class="video-image" ng-style=":: data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
-			</div>
+			<div class="video-image" ng-style=":: data.content.image && { 'background-image': 'url(' + data.content.image + ')' }"></div>
 			<div class="video-cta" ng-click="view.fullscreen=data.content" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
 				<i class="zmdi zmdi-fullscreen"></i>
 			</div>
-			<div class="video-cta" ng-click="view.fullscreen=null;" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
+			<div class="video-cta" ng-click="view.fullscreen=null" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
 				<i class="zmdi zmdi-fullscreen-exit"></i>
 			</div>
 		</div>
 	</div>
 
 	<!-- Image -->
-	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content }" ng-if=":: !data.content.embed && data.content.image" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content">
-		<img ng-src="{{:: data.content.image }}">
-	</div>
-	<div class="fullscreen-image" ng-if="!data.content.embed && data.content.image && view.fullscreen === data.content" ng-click="view.fullscreen=null">
-		<img ng-src="{{:: data.content.image }}">
+	<div ng-if=":: !data.content.embed && data.content.image">
+		<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
+			<img ng-src="{{:: data.content.image }}">
+		</div>
+		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
+			<img ng-src="{{:: data.content.image }}">
+		</div>
 	</div>
 
 	<div class="card-text" ng-if="::data.content.description">
