@@ -48,10 +48,10 @@
 	<!-- Image -->
 	<div ng-if=":: data.content.image && !data.content.video">
 		<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
-			<img ng-src="{{:: data.content.image }}:small" ng-if=":: !data.content.video">
+			<img ng-src="{{:: data.content.image }}:small">
 		</div>
 		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
-			<img ng-src="{{:: data.content.image }}:large" ng-if=":: !data.content.video">
+			<img ng-src="{{:: data.content.image }}:large">
 		</div>
 	</div>
 
