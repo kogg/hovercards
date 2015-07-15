@@ -67,7 +67,7 @@ iframe {
 	background: transparent !important;
 }
 .fullscreen-active > div {
-	min-width: 340px;
+	max-width: 340px;
 	float: right;
 	background: #f6f6f6;
 	min-height: 100%;
