@@ -2386,7 +2386,7 @@ h2 {
 	animation: none !important;
 }
 .fullscreen-active .fullscreen-image, .fullscreen-active video {
-	display: block !important
+	display: block
 }
 .fullscreen-active .fullscreen-image img, .fullscreen-active video {
 	width: auto !important;
