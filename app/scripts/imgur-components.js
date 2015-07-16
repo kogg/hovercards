@@ -6,73 +6,70 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
         require('slick-carousel');
 
         return {
+            scope: {
+                items: '=imgurAlbumCarousel',
+                slide: '=?'
+            },
             link: function($scope, $element) {
                 var been_slicked = false;
+                var slick_dots    = angular.element('<div></div>').appendTo($element);
+                var slick_element = angular.element('<div></div>').appendTo($element);
 
-                $element.on('beforeChange', function(e, slider, last_slide, slide) {
+                slick_element.on('beforeChange', function(e, slider, last_slide, slide) {
                     $scope.$apply(function() {
-                        $scope.data.content.becoming_slide = slide;
+                        var dot = angular.element(slick_dots.find('li')[slide]);
+                        var dots = slick_dots.find('ul');
+                        if (!dot) {
+                            return;
+                        }
+                        var dot_position = dot.position();
+                        if (!dot_position) {
+                            return;
+                        }
+                        dots.animate({ scrollLeft: dot_position.left + dots.scrollLeft() - (dot.width() + $element.width()) / 2 - 8 }, 200);
                     });
                 });
 
-                $element.on('afterChange', function(e, slider, slide) {
+                slick_element.on('afterChange', function(e, slider, slide) {
                     $scope.$apply(function() {
-                        $scope.data.content.current_slide = slide;
+                        $scope.slide = slide;
                     });
                 });
 
-                $element.on('beforeChange', function(e, slider, last_slide, slide) {
+                slick_element.on('beforeChange', function(e, slider, last_slide, slide) {
                     var last_slide_height = angular.element(slider.$slides[last_slide]).height();
                     var slide_height = angular.element(slider.$slides[slide]).height();
                     if (last_slide_height >= slide_height) {
                         return;
                     }
-                    $element.height(angular.element(slider.$slides[slide]).height());
+                    slick_element.height(angular.element(slider.$slides[slide]).height());
                 });
 
-                $element.on('afterChange', function(e, slider, slide) {
+                slick_element.on('afterChange', function(e, slider, slide) {
                     var slide_height = angular.element(slider.$slides[slide]).height();
-                    if ($element.height() === slide_height) {
+                    if (slick_element.height() === slide_height) {
                         return;
                     }
-                    $element.height(slide_height);
+                    slick_element.height(slide_height);
                 });
 
-                $scope.$watchCollection('data.content.images', function(images) {
-                    if (been_slicked) {
-                        $element.slick('unslick');
-                    }
-                    _.each(images, function(image, i) {
-                        var element_text = '<div style="height: auto !important;"><div ng-include="\'templates/imgur_content_album_image.html\'"></div></div>';
-                        var element = $compile(element_text)(_.extend($scope.$new(), { image: image, $index: i, redoHeight: function() {
-                            $element.height(angular.element(element).height());
-                        }}));
-                        $element.append(element);
-                    });
-                    $element.on('init', function(e, slider) {
-                        $element.height(angular.element(slider.$slides[0]).height());
-                        $scope.data.content.current_slide = 0;
-                    });
-                    $element.slick({ appendDots: '.imgur-dots', arrows: false, centerMode: true, centerPadding: 0, dots: true, focusOnSelect: true, infinite: false, slidesToShow: 1 });
-                    been_slicked = true;
+                slick_element.on('init', function() {
+                    $scope.slide = 0;
                 });
-            }
-        };
-    }])
-    .directive('imgurAlbumDots', [function() {
-        return {
-            link: function($scope, $element) {
-                $scope.$watch('data.content.becoming_slide', function(slide) {
-                    var dot = angular.element($element.find('li')[slide]);
-                    var dots = $element.find('ul');
-                    if (!dot) {
-                        return;
+
+                $scope.$watchCollection('items', function(items) {
+                    if (been_slicked) {
+                        slick_element.slick('unslick');
                     }
-                    var dot_position = dot.position();
-                    if (!dot_position) {
-                        return;
-                    }
-                    dots.animate({ scrollLeft: dot_position.left + dots.scrollLeft() - (dot.width() + $element.width()) / 2 - 8 }, 200);
+                    _.each(items, function(item, i) {
+                        var element_text = '<div style="height: auto !important;"><div ng-include="\'templates/imgur_content_album_image.html\'"></div></div>';
+                        var element = $compile(element_text)(_.extend($scope.$new(), { image: item, $index: i, redoHeight: function() {
+                            slick_element.height(angular.element(element).height());
+                        }}));
+                        slick_element.append(element);
+                    });
+                    slick_element.slick({ appendDots: slick_dots, arrows: false, centerMode: true, centerPadding: 0, dots: true, focusOnSelect: true, infinite: false, slidesToShow: 1 });
+                    been_slicked = true;
                 });
             }
         };
