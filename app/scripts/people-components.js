@@ -157,6 +157,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             if (selectedPerson === oldSelectedPerson || !selectedPerson || !oldSelectedPerson) {
                 return;
             }
+            $scope.view.fullscreen = null;
             chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'changed person'] });
         });
 
@@ -166,31 +167,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             }
             chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'changed account', now[1].api + ' ' + now[1].type] });
         });
-    }])
-    .directive('peopleCarousel', ['$compile', function($compile) {
-        require('slick-carousel');
-
-        return {
-            link: function($scope, $element) {
-                $element.slick({ arrows: false, centerMode: true, centerPadding: 0, focusOnSelect: true, infinite: false, slidesToShow: 1 });
-                $element.on('beforeChange', function(event, slick, current, next) {
-                    $scope.$apply(function() {
-                        $scope.entry.selectedPerson = $scope.data.people[next];
-                        $scope.view.fullscreen = null;
-                    });
-                });
-                $scope.$watchCollection('data.people', function(people, oldPeople) {
-                    _.times(oldPeople && people !== oldPeople && oldPeople.length, function() {
-                        $element.slick('slickRemove', 0);
-                    });
-                    _.each(people, function(person) {
-                        var element = '<div style="height: 157px;"><div ng-include="\'templates/\' + person.selectedAccount.api + \'_account.html\'"></div></div>';
-                        $element.slick('slickAdd', $compile(element)(_.extend($scope.$new(), { person: person })));
-                    });
-                    $scope.entry.selectedPerson = (people && people[$element.slick('slickCurrentSlide') || 0]) || null;
-                });
-            }
-        };
     }])
     .controller('AccountShimController', ['$scope', 'apiService', function($scope, apiService) {
         var doIt = $scope.$watch('person_to_load', function(request) {

@@ -16,7 +16,7 @@
 
 	<!-- Images -->
 	<div ng-if=":: data.content.images">
-		<div ng-carousel="data.content.images" selected="selected_item">
+		<div ng-carousel="data.content.images" selected="selected_item" weird-dots="true">
 			<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
 				<img data-lazy="{{:: $item }}:small" ng-if=":: !$first && !$second" on-image-load="redoHeight()">
 				<img ng-src="{{:: $item }}:small" ng-if=":: $first || $second" on-image-load="redoHeight()">
