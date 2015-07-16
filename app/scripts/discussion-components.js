@@ -61,7 +61,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
         }, true);
 
         var done_once = false;
-        var analytics_once = false;
         $scope.$watch('entry.discussion_api', function(api) {
             if (!api) {
                 return;
@@ -75,19 +74,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             data.discussions[api] = data.discussions[api] || apiService.get(entry.discussions[api]);
             data.discussions[api].$promise
                 .then(function(discussion) {
+                    entry.timing.discussion(_.now(), api);
                     _.extend(discussion, _.pick(entry.discussions[api], 'author'));
-                    if (analytics_once) {
-                        return discussion;
-                    }
-                    if (entry.times) {
-                        analytics_once = true;
-                        var now = _.now();
-                        chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', now - entry.times.start, discussion.api + ' discussion'] });
-                        if (!entry.times.first_card) {
-                            entry.times.first_card = now;
-                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', entry.times.first_card - entry.times.start, discussion.api + ' discussion'] });
-                        }
-                    }
                     return discussion;
                 })
                 .finally(function() {
@@ -126,7 +114,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             if (discussionApi === oldDiscussionApi || !discussionApi || !oldDiscussionApi) {
                 return;
             }
-            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'discussions', 'changed discussion', discussionApi + ' discussion', { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
+            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'discussions', 'changed discussion', discussionApi + ' discussion'] });
         });
     }])
     .controller('UrlDiscussionController', ['$scope', 'apiService', function($scope, apiService) {
@@ -136,7 +124,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             }
             var entry = $scope.entry;
             var data = $scope.data;
-            var analytics_once = false;
             requests = _.omit(requests, function(request, api) {
                 switch (api) {
                     case 'imgur':
@@ -156,19 +143,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                                     var discussion = apiService.get(requests[api]);
                                     discussion.$promise
                                         .then(function(discussion) {
+                                            entry.timing.discussion(_.now(), api);
                                             _.extend(discussion, _.pick(requests[api], 'author'));
-                                            if (analytics_once) {
-                                                return discussion;
-                                            }
-                                            if (entry.times) {
-                                                analytics_once = true;
-                                                var now = _.now();
-                                                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', now - entry.times.start, api + ' discussion'] });
-                                                if (!entry.times.first_card) {
-                                                    entry.times.first_card = now;
-                                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', entry.times.first_card - entry.times.start, api + ' discussion'] });
-                                                }
-                                            }
                                             return discussion;
                                         })
                                         .catch(function() {
