@@ -11,8 +11,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             },
             link: function($scope, $element) {
                 $element.one('click', function() {
-                    var request = ['send', 'event', $scope.category, $scope.action || 'clicked'];
-                    request.push($scope.label);
+                    var request = ['send', 'event', $scope.category, $scope.action || 'clicked', $scope.label, { page: '/' + window.top.document.URL, title: window.top.document.domain }];
                     chrome.runtime.sendMessage({ type: 'analytics', request: request });
                 });
             }

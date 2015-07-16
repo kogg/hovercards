@@ -35,7 +35,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         $interval.cancel(interval);
                         can_have_people_watcher();
                         if ($window.innerHeight <= angular.element('.people-card-space').offset().top) {
-                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'scrolled to'] });
+                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'scrolled to', { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
                             $scope.entry.people_needed_scrolling = true;
                         }
 
@@ -158,14 +158,14 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 return;
             }
             $scope.view.fullscreen = null;
-            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'changed person'] });
+            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'changed person', { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
         });
 
         $scope.$watchGroup(['entry.selectedPerson', 'entry.selectedPerson.selectedAccount'], function(now, old) {
             if (!now[0] || now[1] === old[1] || !now[1] || !old[1] || !_.contains(now[0].accounts, now[1]) || !_.contains(now[0].accounts, old[1])) {
                 return;
             }
-            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'changed account', now[1].api + ' ' + now[1].type] });
+            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'changed account', now[1].api + ' ' + now[1].type, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
         });
     }])
     .controller('AccountShimController', ['$scope', 'apiService', function($scope, apiService) {
