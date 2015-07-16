@@ -33,7 +33,7 @@ module.exports = function sidebar() {
             sidebar_message({ msg: 'activate', by: 'back', url: network_urls.generate(_.last(identity_history)) });
         });
 
-    $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+    var iframe = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
         .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
         .attr('frameborder', '0')
@@ -43,6 +43,12 @@ module.exports = function sidebar() {
         .mouseleave(function() {
             $(window).off('mousewheel', prevent_everything);
         });
+    $(document).on('fullscreenchange webkitfullscreenchange mozfullscreenchange', function(event) {
+        if (!iframe.is(event.target)) {
+            return;
+        }
+        obj.addClass(extension_id + '-sidebar-enter-cancel-animation');
+    });
 
     $('<div></div>')
         .appendTo(obj)
@@ -106,6 +112,7 @@ module.exports = function sidebar() {
                 showing = false;
                 obj
                     .removeClass(extension_id + '-sidebar-enter')
+                    .removeClass(extension_id + '-sidebar-enter-cancel-animation')
                     .addClass(extension_id + '-sidebar-leave');
                 $(document).off('dblclick', dblclick_for_sidebar);
                 chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'deactivated ' + message.by] });

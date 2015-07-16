@@ -133,6 +133,127 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             }
         };
     }])
+    .directive('ngCarousel', [function() {
+        require('slick-carousel');
+
+        return {
+            scope: {
+                items:     '=ngCarousel',
+                slide:     '=?',
+                selected:  '=?',
+                weirdDots: '=?'
+            },
+            transclude: true,
+            link: function($scope, $element, attr, ctrl, $transclude) {
+                var slick_dots    = $scope.weirdDots && angular.element('<div></div>').appendTo($element);
+                var slick_element = angular.element('<div></div>').appendTo($element);
+
+                if ($scope.weirdDots) {
+                    slick_element.on('beforeChange', function(e, slider, last_slide, slide) {
+                        $scope.$apply(function() {
+                            var dot = angular.element(slick_dots.find('li')[slide]);
+                            var dots = slick_dots.find('ul');
+                            if (!dot) {
+                                return;
+                            }
+                            var dot_position = dot.position();
+                            if (!dot_position) {
+                                return;
+                            }
+                            dots.animate({ scrollLeft: dot_position.left + dots.scrollLeft() - (dot.width() + $element.width()) / 2 - 8 }, 200);
+                        });
+                    });
+                }
+
+                slick_element.on('afterChange', function(e, slider, slide) {
+                    $scope.$apply(function() {
+                        scopes[$scope.slide].$selected = false;
+                        $scope.slide = slide;
+                        scopes[$scope.slide].$selected = true;
+                        $scope.selected = $scope.items[$scope.slide];
+                    });
+                });
+
+                slick_element.on('beforeChange', function(e, slider, last_slide, slide) {
+                    var last_slide_height = angular.element(slider.$slides[last_slide]).height();
+                    var slide_height = angular.element(slider.$slides[slide]).height();
+                    if (last_slide_height >= slide_height) {
+                        return;
+                    }
+                    slick_element.height(angular.element(slider.$slides[slide]).height());
+                });
+                slick_element.on('afterChange', function(e, slider, slide) {
+                    var slide_height = angular.element(slider.$slides[slide]).height();
+                    if (slick_element.height() === slide_height) {
+                        return;
+                    }
+                    slick_element.height(slide_height);
+                });
+
+                slick_element.on('init', function() {
+                    $scope.slide = 0;
+                    scopes[$scope.slide].$selected = true;
+                    $scope.selected = $scope.items[$scope.slide];
+                });
+
+                var scopes;
+                var been_slicked = false;
+                $scope.$watchCollection('items', function(items) {
+                    if (been_slicked) {
+                        slick_element.slick('unslick');
+                    }
+                    _.invoke(scopes, '$destroy');
+                    scopes = [];
+                    _.each(items, function(item, i) {
+                        var element = angular.element('<div style="height: auto !important;"></div>').appendTo(slick_element);
+
+                        $transclude(function(elem, scope) {
+                            elem.appendTo(element);
+                            scopes[i] = scope;
+                            scope.$item   = item;
+                            scope.$index  = i;
+                            scope.$first  = i === 0;
+                            scope.$second = i === 1;
+                            scope.$last   = i === items.length - 1;
+                            scope.$middle = !(scope.$first || scope.$last);
+                            scope.$even   = i % 2 === 0;
+                            scope.$odd    = !$scope.odd;
+                            scope.redoHeight = function() {
+                                if (!scope.$selected) {
+                                    return;
+                                }
+                                slick_element.height(angular.element(element).height());
+                            };
+                        });
+                    });
+                    slick_element.slick(_.extend({ arrows:        false,
+                                                   centerMode:    true,
+                                                   centerPadding: 0,
+                                                   focusOnSelect: true,
+                                                   infinite:      false,
+                                                   slidesToShow:  1 },
+                                                 $scope.weirdDots && { appendDots: slick_dots, dots: true }));
+                    been_slicked = true;
+                });
+
+                $scope.$on('$destroy', function() {
+                    _.invoke(scopes, '$destroy');
+                });
+            }
+        };
+    }])
+    .directive('onImageLoad', [function() {
+        return {
+            scope: {
+                'onImageLoad': '&'
+            },
+            link: function($scope, $element) {
+                $element.bind('load', function() {
+                    $scope.onImageLoad();
+                });
+            }
+        };
+    }])
     .directive('popup', ['$window', function($window) {
         return {
             restrict: 'A',
@@ -328,22 +449,20 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         return function(number) {
             if (isNaN(number)) {
                 return 'N/A';
-            } else {
-                var prefix = '';
-                if (number < 0) {
-                    number = -number;
-                    prefix = '-';
-                }
-                var digits = Math.ceil(Math.log10(number + 0.5));
-                if (digits < 5) {
-                    return prefix + $filter('number')(number);
-                } else {
-                    var three_digits_less = Math.pow(10, Math.floor(digits - 3));
-                    var nearest_three_digit = Math.pow(10, 3 * Math.floor((digits - 1) / 3));
-                    number = three_digits_less * Math.round(number / three_digits_less) / nearest_three_digit;
-                    return prefix + number + suffixes[nearest_three_digit];
-                }
             }
+            var prefix = '';
+            if (number < 0) {
+                number = -number;
+                prefix = '-';
+            }
+            var digits = Math.ceil(Math.log10(number + 0.5));
+            if (digits < 5) {
+                return prefix + $filter('number')(number);
+            }
+            var three_digits_less = Math.pow(10, Math.floor(digits - 3));
+            var nearest_three_digit = Math.pow(10, 3 * Math.floor((digits - 1) / 3));
+            number = three_digits_less * Math.round(number / three_digits_less) / nearest_three_digit;
+            return prefix + number + suffixes[nearest_three_digit];
         };
     }])
     .filter('percent', ['$filter', function($filter) {
@@ -355,18 +474,17 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         return function(time) {
             if (isNaN(time)) {
                 return 'N/A';
-            } else {
-                var output = '';
-                time = Math.floor(time / 1000);
-                output = (time % 60);
-                time = Math.floor(time / 60);
-                for (var i = 0; time > 0 || i === 0; i++) {
-                    output = ('00000' + output).substr(-2 + -3 * i);
-                    output = (time % 60) + ':' + output;
-                    time = Math.floor(time / 60);
-                }
-                return output;
             }
+            var output = '';
+            time = Math.floor(time / 1000);
+            output = (time % 60);
+            time = Math.floor(time / 60);
+            for (var i = 0; time > 0 || i === 0; i++) {
+                output = ('00000' + output).substr(-2 + -3 * i);
+                output = (time % 60) + ':' + output;
+                time = Math.floor(time / 60);
+            }
+            return output;
         };
     }])
     .filter('timeSince', [function() {

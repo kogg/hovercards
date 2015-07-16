@@ -542,12 +542,9 @@ b i, .iconic-push {
 }
 
 .video-top, .video-top-underlay {
-	height: 169px;
+	height: 221px;
 	border-top: none;
 	position: relative;
-}
-.video-top-underlay {
-	cursor: pointer;
 }
 .video-top-underlay + .card-stats {
 	border-top: none
@@ -662,7 +659,7 @@ b i, .iconic-push {
 	border: none
 }
 .video-image {
-	height: 168px;
+	height: 220px;
 	background-size: cover;
 	background-position: center;
 }
@@ -678,7 +675,7 @@ b i, .iconic-push {
 .instagram-video .video-image {
 	height: 297px;
 }
-.youtube-video {
+.reddit-video iframe, .youtube-video {
 	width: 100%;
 	height: 100%;
 }
@@ -938,14 +935,6 @@ b i, .iconic-push {
 }
 .comment img {
 	width: 100%;
-	cursor: -moz-zoom-in; 
-  cursor: -webkit-zoom-in; 
-  cursor: zoom-in;
-}
-.fullscreen-active .comment img {
-	cursor: -moz-zoom-out; 
-  cursor: -webkit-zoom-out; 
-  cursor: zoom-out;
 }
 /*context top*/
 .context-top {
@@ -1960,26 +1949,8 @@ h2 {
 	max-height: 301px;
 	background: white;
   overflow: hidden;
-  cursor: -moz-zoom-in; 
-  cursor: -webkit-zoom-in; 
-  cursor: zoom-in;
 }
 
-.content-top:hover {
-  cursor: -moz-zoom-in; 
-  cursor: -webkit-zoom-in; 
-  cursor: zoom-in;
-}
-.content-top-active {
-  cursor: -moz-zoom-out; 
-  cursor: -webkit-zoom-out; 
-  cursor: zoom-out;
-}
-.content-top-active:hover {
-  cursor: -moz-zoom-out; 
-  cursor: -webkit-zoom-out; 
-  cursor: zoom-out;
-}
 .content-top-active video {
 	position: relative !important;
 	width: 100%;
@@ -2415,7 +2386,7 @@ h2 {
 	animation: none !important;
 }
 .fullscreen-active .fullscreen-image, .fullscreen-active video {
-	display: block !important
+	display: block
 }
 .fullscreen-active .fullscreen-image img, .fullscreen-active video {
 	width: auto !important;

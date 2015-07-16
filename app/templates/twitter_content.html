@@ -14,19 +14,30 @@
 		</div>
 	</div>
 
+	<!-- Images -->
+	<div ng-if=":: data.content.images">
+		<div ng-carousel="data.content.images" selected="selected_item" weird-dots="true">
+			<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
+				<img data-lazy="{{:: $item }}:small" ng-if=":: !$first && !$second" on-image-load="redoHeight()">
+				<img ng-src="{{:: $item }}:small" ng-if=":: $first || $second" on-image-load="redoHeight()">
+			</div>
+		</div>
+		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
+			<img ng-src="{{ selected_item }}:large">
+		</div>
+	</div>
+
 	<!-- Video -->
 	<div ng-if=":: data.content.video && !data.content.video_is_image" class="twitter-video">
 		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
-			<div class="video-image">
-				<div ng-if="playing">
-					<video video-src="{{:: data.content.video }}" click-controls="true" fullscreen="data.content" view="view" autoplay loop></video>
-				</div>
+			<div class="video-image" ng-if="playing">
+				<video video-src="{{:: data.content.video }}" click-controls="true" fullscreen="data.content" view="view" autoplay loop></video>
 			</div>
 		</div>
-		<div class="video-top-underlay">
-			<img ng-src="{{:: data.content.image }}" ng-click="played || ((played = true) && (playing = true))" class="video-image">
-			<div class="play-video twitter-background" ng-click="played || ((played = true) && (playing = true))" ng-class="{ 'play-video-clicked': playing }"></div>
-			<div class="video-cta twitter-background" ng-click="(view.fullscreen=data.content) && (played || ((played = true) && (playing = true)))" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
+		<div class="video-top-underlay" ng-style="{ cursor: !playing && 'pointer'}">
+			<img ng-src="{{:: data.content.image }}" ng-click="playing = true" class="video-image">
+			<div class="play-video twitter-background" ng-click="playing = true" ng-class="{ 'play-video-clicked': playing }"></div>
+			<div class="video-cta twitter-background" ng-click="view.fullscreen=data.content" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
 				<i class="zmdi zmdi-fullscreen"></i>
 			</div>
 			<div class="video-cta twitter-background" ng-click="view.fullscreen=null;" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
@@ -35,14 +46,26 @@
 		</div>
 	</div>
 
-	<!-- Image/Gifs -->
-	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === data.content }" ng-if=":: data.content.image && (data.content.video_is_image || !data.content.video)" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content">
-		<img ng-src="{{:: data.content.image }}:small" ng-if=":: !data.content.video">
-		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
+	<!-- Gif -->
+	<div ng-if=":: data.content.image && data.content.video_is_image" class="twitter-video">
+		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
+			<div class="video-image">
+				<video video-src="{{:: data.content.video }}" autoplay loop></video>
+			</div>
+		</div>
+		<div class="video-top-underlay" ng-click="view.fullscreen=null" style="cursor: zoom-out">
+			<img class="video-image" ng-src="{{:: data.content.image }}:small">
+		</div>
 	</div>
-	<div class="fullscreen-image" ng-if="(data.content.image && (data.content.video_is_image || !data.content.video)) && view.fullscreen === data.content" ng-click="view.fullscreen=null">
-		<img ng-src="{{:: data.content.image }}:large" ng-if=":: !data.content.video">
-		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
+
+	<!-- Image -->
+	<div ng-if=":: data.content.image && !data.content.video">
+		<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
+			<img ng-src="{{:: data.content.image }}:small">
+		</div>
+		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
+			<img ng-src="{{:: data.content.image }}:large">
+		</div>
 	</div>
 
 	<div class="card-text text-post">

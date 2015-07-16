@@ -24,24 +24,49 @@
 	</div>
 
 	<!-- Album -->
-	<div imgur-album-dots class="imgur-dots" ng-if=":: data.content.images"></div>
-	<div imgur-album-carousel ng-if=":: data.content.images"></div>
-	<div class="fullscreen-image" ng-if="data.content.images && view.fullscreen === data.content.images" ng-click="view.fullscreen=null">
-		<img ng-src="{{ data.content.images[data.content.current_slide || 0].image }}" ng-if="!data.content.images[data.content.current_slide || 0].video">
-		<video video-src="{{ data.content.images[data.content.current_slide || 0].video }}" autoplay loop ng-if="data.content.images[data.content.current_slide || 0].video"></video>
+	<div ng-if=":: data.content.images">
+		<div ng-carousel="data.content.images" slide="data.content.slide" selected="selected_item" weird-dots="true">
+			<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
+				<img data-lazy="{{:: $item.image }}" ng-if=":: !$first && !$second" ng-show="!$item.video || !$selected || view.fullscreen" on-image-load="redoHeight()">
+				<img ng-src="{{:: $item.image }}" ng-if=":: $first || $second" ng-show="!$item.video || !$selected || view.fullscreen" on-image-load="redoHeight()">
+				<video video-src="{{:: $item.video }}" ng-if=":: ($item.video && $selected) || undefined" ng-show="$selected && !view.fullscreen" autoplay loop on-video-load="redoHeight()"></video>
+			</div>
+			<div class="card-text album-text" ng-if=":: $item.description">
+				<a ng-href="{{:: $item | generateUrl }}" class="no-yo">{{:: $item.name }}</a>
+				<div class="card-description">
+					<p collapse=":: $item.description" collapse-at="19 * 4" tolerance="19 * 2" recollapse-at="19 * 10" on-height-change="redoHeight()"></p>
+				</div>
+			</div>
+		</div>
+		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
+			<img ng-src="{{ selected_item.image }}" ng-if="!selected_item.video">
+			<video video-src="{{ selected_item.video }}" autoplay loop ng-if="selected_item.video"></video>
+		</div>
 	</div>
 
-	<!-- Image/Gifs -->
-	<div class="content-top" ng-class="{ 'content-top-active': view.fullscreen === (data.content.video || data.content.image) }" ng-click="view.fullscreen=(view.fullscreen === (data.content.video || data.content.image)) ? null : (data.content.video || data.content.image)">
-		<img ng-src="{{:: data.content.image }}" ng-show="!data.content.video || view.fullscreen">
-		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video" ng-show="!view.fullscreen"></video>
-	</div>
-	<div class="fullscreen-image" ng-if="view.fullscreen === (data.content.video || data.content.image)" ng-click="view.fullscreen=null">
-		<img ng-src="{{:: data.content.image }}" ng-if=":: !data.content.video">
-		<video video-src="{{:: data.content.video }}" autoplay loop ng-if=":: data.content.video"></video>
+	<!-- Gif -->
+	<div ng-if=":: data.content.video" class="twitter-video">
+		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
+			<div class="video-image">
+				<video video-src="{{:: data.content.video }}" autoplay loop></video>
+			</div>
+		</div>
+		<div class="video-top-underlay" ng-click="view.fullscreen=null" style="cursor: zoom-out">
+			<img class="video-image" ng-src="{{:: data.content.image }}">
+		</div>
 	</div>
 
-	<div class="card-text" ng-if=":: data.content.description" ng-show="data.content.image || (data.content.current_slide || 0) === 0 || (data.content.current_slide || 0) === data.content.images.length - 1">
+	<!-- Image -->
+	<div ng-if=":: data.content.image && !data.content.video">
+		<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
+			<img ng-src="{{:: data.content.image }}">
+		</div>
+		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
+			<img ng-src="{{:: data.content.image }}">
+		</div>
+	</div>
+
+	<div class="card-text" ng-if=":: data.content.description" ng-show="data.content.image || data.content.slide === 0 || data.content.slide === data.content.images.length - 1">
 		<div class="card-description">
 			<p collapse=":: data.content.description" collapse-at="19 * 4" tolerance="19 * 2" recollapse-at="19 * 10"></p>
 		</div>
