@@ -2,7 +2,7 @@ var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ImgurComponents', [])
-    .directive('imgurAlbumCarousel', ['$compile', function($compile) {
+    .directive('imgurAlbumCarousel', [function() {
         require('slick-carousel');
 
         return {
@@ -10,8 +10,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
                 items: '=imgurAlbumCarousel',
                 slide: '=?'
             },
-            link: function($scope, $element) {
-                var been_slicked = false;
+            transclude: true,
+            link: function($scope, $element, attr, ctrl, $transclude) {
                 var slick_dots    = angular.element('<div></div>').appendTo($element);
                 var slick_element = angular.element('<div></div>').appendTo($element);
 
@@ -44,7 +44,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
                     }
                     slick_element.height(angular.element(slider.$slides[slide]).height());
                 });
-
                 slick_element.on('afterChange', function(e, slider, slide) {
                     var slide_height = angular.element(slider.$slides[slide]).height();
                     if (slick_element.height() === slide_height) {
@@ -57,16 +56,24 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
                     $scope.slide = 0;
                 });
 
+                var scopes;
+                var been_slicked = false;
                 $scope.$watchCollection('items', function(items) {
                     if (been_slicked) {
                         slick_element.slick('unslick');
                     }
+                    _.invoke(scopes, '$destroy');
+                    scopes = [];
                     _.each(items, function(item, i) {
-                        var element_text = '<div style="height: auto !important;"><div ng-include="\'templates/imgur_content_album_image.html\'"></div></div>';
-                        var element = $compile(element_text)(_.extend($scope.$new(), { image: item, $index: i, redoHeight: function() {
-                            slick_element.height(angular.element(element).height());
-                        }}));
-                        slick_element.append(element);
+                        var element = angular.element('<div style="height: auto !important;"></div>').appendTo(slick_element);
+
+                        $transclude(function(elem, scope) {
+                            elem.appendTo(element);
+                            scope.image      = item;
+                            scope.$index     = i;
+                            scope.redoHeight = function() { slick_element.height(angular.element(element).height()); };
+                            scopes.push(scope);
+                        });
                     });
                     slick_element.slick({ appendDots: slick_dots, arrows: false, centerMode: true, centerPadding: 0, dots: true, focusOnSelect: true, infinite: false, slidesToShow: 1 });
                     been_slicked = true;

@@ -25,7 +25,19 @@
 
 	<!-- Album -->
 	<div ng-if=":: data.content.images">
-		<div imgur-album-carousel="data.content.images" slide="data.content.slide"></div>
+		<div imgur-album-carousel="data.content.images" slide="data.content.slide">
+			<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
+				<img data-lazy="{{:: image.image }}" ng-if=":: $index !== 0 && $index !== 1" ng-show="!image.video || data.content.current_slide !== $index || view.fullscreen" on-image-load="(data.content.current_slide === $index) && redoHeight()">
+				<img ng-src="{{:: image.image }}" ng-if=":: $index === 0 || $index === 1" ng-show="!image.video || data.content.current_slide !== $index || view.fullscreen" on-image-load="(data.content.current_slide === $index) && redoHeight()">
+				<video video-src="{{::  image.video }}" ng-if=":: (image.video && data.content.current_slide === $index) || undefined" ng-show="data.content.current_slide === $index && !view.fullscreen" autoplay loop on-video-load="(data.content.current_slide === $index) && redoHeight()"></video>
+			</div>
+			<div class="card-text album-text" ng-if=":: image.description">
+				<a ng-href="{{:: image | generateUrl }}" class="no-yo">{{:: image.name }}</a>
+				<div class="card-description">
+					<p collapse=":: image.description" collapse-at="19 * 4" tolerance="19 * 2" recollapse-at="19 * 10" on-height-change="redoHeight()"></p>
+				</div>
+			</div>
+		</div>
 		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
 			<img ng-src="{{ data.content.images[data.content.slide].image }}" ng-if="!data.content.images[data.content.slide].video">
 			<video video-src="{{ data.content.images[data.content.slide].video }}" autoplay loop ng-if="data.content.images[data.content.slide].video"></video>
