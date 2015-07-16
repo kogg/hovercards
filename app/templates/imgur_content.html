@@ -27,9 +27,9 @@
 	<div ng-if=":: data.content.images">
 		<div imgur-album-carousel="data.content.images" slide="data.content.slide">
 			<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
-				<img data-lazy="{{:: image.image }}" ng-if=":: $index !== 0 && $index !== 1" ng-show="!image.video || data.content.current_slide !== $index || view.fullscreen" on-image-load="(data.content.current_slide === $index) && redoHeight()">
-				<img ng-src="{{:: image.image }}" ng-if=":: $index === 0 || $index === 1" ng-show="!image.video || data.content.current_slide !== $index || view.fullscreen" on-image-load="(data.content.current_slide === $index) && redoHeight()">
-				<video video-src="{{::  image.video }}" ng-if=":: (image.video && data.content.current_slide === $index) || undefined" ng-show="data.content.current_slide === $index && !view.fullscreen" autoplay loop on-video-load="(data.content.current_slide === $index) && redoHeight()"></video>
+				<img data-lazy="{{:: image.image }}" ng-if=":: !$first && !$second" ng-show="!image.video || !$selected || view.fullscreen" on-image-load="redoHeight()">
+				<img ng-src="{{:: image.image }}" ng-if=":: $first || $second" ng-show="!image.video || !$selected || view.fullscreen" on-image-load="redoHeight()">
+				<video video-src="{{:: image.video }}" ng-if=":: (image.video && $selected) || undefined" ng-show="$selected && !view.fullscreen" autoplay loop on-video-load="redoHeight()"></video>
 			</div>
 			<div class="card-text album-text" ng-if=":: image.description">
 				<a ng-href="{{:: image | generateUrl }}" class="no-yo">{{:: image.name }}</a>

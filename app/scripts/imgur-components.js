@@ -32,7 +32,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
 
                 slick_element.on('afterChange', function(e, slider, slide) {
                     $scope.$apply(function() {
+                        scopes[$scope.slide].$selected = false;
                         $scope.slide = slide;
+                        scopes[$scope.slide].$selected = true;
                     });
                 });
 
@@ -54,6 +56,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
 
                 slick_element.on('init', function() {
                     $scope.slide = 0;
+                    scopes[0].$selected = true;
                 });
 
                 var scopes;
@@ -69,10 +72,21 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
 
                         $transclude(function(elem, scope) {
                             elem.appendTo(element);
-                            scope.image      = item;
-                            scope.$index     = i;
-                            scope.redoHeight = function() { slick_element.height(angular.element(element).height()); };
-                            scopes.push(scope);
+                            scopes[i] = scope;
+                            scope.image   = item;
+                            scope.$index  = i;
+                            scope.$first  = i === 0;
+                            scope.$second = i === 1;
+                            scope.$last   = i === items.length - 1;
+                            scope.$middle = !(scope.$first || scope.$last);
+                            scope.$even   = i % 2 === 0;
+                            scope.$odd    = !$scope.odd;
+                            scope.redoHeight = function() {
+                                if (!scope.$selected) {
+                                    return;
+                                }
+                                slick_element.height(angular.element(element).height());
+                            };
                         });
                     });
                     slick_element.slick({ appendDots: slick_dots, arrows: false, centerMode: true, centerPadding: 0, dots: true, focusOnSelect: true, infinite: false, slidesToShow: 1 });
