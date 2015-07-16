@@ -147,6 +147,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             link: function($scope, $element, attr, ctrl, $transclude) {
                 var slick_dots    = $scope.weirdDots && angular.element('<div></div>').appendTo($element);
                 var slick_element = angular.element('<div></div>').appendTo($element);
+                var scopes = [];
 
                 if ($scope.weirdDots) {
                     slick_element.on('beforeChange', function(e, slider, last_slide, slide) {
@@ -192,23 +193,32 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
 
                 slick_element.on('init', function() {
                     $scope.slide = 0;
+                    if (!scopes[$scope.slide]) {
+                        return;
+                    }
                     scopes[$scope.slide].$selected = true;
                     $scope.selected = $scope.items[$scope.slide];
                 });
 
-                var scopes;
-                var been_slicked = false;
+                slick_element.slick(_.extend({ arrows:        false,
+                                               centerMode:    true,
+                                               centerPadding: 0,
+                                               focusOnSelect: true,
+                                               infinite:      false,
+                                               slidesToShow:  1 },
+                                             $scope.weirdDots && { appendDots: slick_dots, dots: true }));
+
                 $scope.$watchCollection('items', function(items) {
-                    if (been_slicked) {
-                        slick_element.slick('unslick');
-                    }
                     _.invoke(scopes, '$destroy');
+                    _.times(scopes.length, function() {
+                        slick_element.slick('slickRemove', 0);
+                    });
                     scopes = [];
                     _.each(items, function(item, i) {
-                        var element = angular.element('<div style="height: auto !important;"></div>').appendTo(slick_element);
-
                         $transclude(function(elem, scope) {
+                            var element = angular.element('<div style="height: auto !important;"></div>');
                             elem.appendTo(element);
+                            slick_element.slick('slickAdd', element);
                             scopes[i] = scope;
                             scope.$item   = item;
                             scope.$index  = i;
@@ -226,14 +236,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             };
                         });
                     });
-                    slick_element.slick(_.extend({ arrows:        false,
-                                                   centerMode:    true,
-                                                   centerPadding: 0,
-                                                   focusOnSelect: true,
-                                                   infinite:      false,
-                                                   slidesToShow:  1 },
-                                                 $scope.weirdDots && { appendDots: slick_dots, dots: true }));
-                    been_slicked = true;
+                });
+
+                $scope.$watch('slide', function(slide) {
+                    slick_element.slick('slickGoTo', slide);
                 });
 
                 $scope.$on('$destroy', function() {
