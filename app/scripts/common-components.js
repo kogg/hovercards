@@ -138,8 +138,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
 
         return {
             scope: {
-                items: '=ngCarousel',
-                slide: '=?'
+                items:    '=ngCarousel',
+                slide:    '=?',
+                selected: '=?'
             },
             transclude: true,
             link: function($scope, $element, attr, ctrl, $transclude) {
@@ -166,6 +167,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         scopes[$scope.slide].$selected = false;
                         $scope.slide = slide;
                         scopes[$scope.slide].$selected = true;
+                        $scope.selected = $scope.items[$scope.slide];
                     });
                 });
 
@@ -187,7 +189,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
 
                 slick_element.on('init', function() {
                     $scope.slide = 0;
-                    scopes[0].$selected = true;
+                    scopes[$scope.slide].$selected = true;
+                    $scope.selected = $scope.items[$scope.slide];
                 });
 
                 var scopes;
