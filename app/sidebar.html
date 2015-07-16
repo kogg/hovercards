@@ -62,7 +62,9 @@
 				<div class="card bounce-in-animation people-card" ng-if="data.people.length || data.people.$resolved || data.people.$err" shaker>
 					<div ng-if="!data.people.$err">
 						<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="data.people.length === 1" autoscroll="entry.type === 'account'"></div>
-						<div people-carousel ng-if="data.people.length > 1"></div>
+						<div ng-carousel="data.people" selected="entry.selectedPerson" ng-if="data.people.length > 1">
+							<div ng-init="person = $item" ng-include="'templates/' + person.selectedAccount.api + '_account.html'"></div>
+						</div>
 					</div>
 
 					<div class="yocards-message-container error-message" ng-class="err.api && (err.api + '-message')" ng-if="data.people.$err" ng-init="err = data.people.$err">

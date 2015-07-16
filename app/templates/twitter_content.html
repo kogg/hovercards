@@ -16,14 +16,14 @@
 
 	<!-- Images -->
 	<div ng-if=":: data.content.images">
-		<div ng-carousel="data.content.images" slide="data.content.slide">
+		<div ng-carousel="data.content.images" selected="selected_item" weird-dots="true">
 			<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
 				<img data-lazy="{{:: $item }}:small" ng-if=":: !$first && !$second" on-image-load="redoHeight()">
 				<img ng-src="{{:: $item }}:small" ng-if=":: $first || $second" on-image-load="redoHeight()">
 			</div>
 		</div>
 		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
-			<img ng-src="{{ data.content.images[data.content.slide] }}:large">
+			<img ng-src="{{ selected_item }}:large">
 		</div>
 	</div>
 
