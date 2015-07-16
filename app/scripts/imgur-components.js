@@ -73,7 +73,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
                         $transclude(function(elem, scope) {
                             elem.appendTo(element);
                             scopes[i] = scope;
-                            scope.image   = item;
+                            scope.$item   = item;
                             scope.$index  = i;
                             scope.$first  = i === 0;
                             scope.$second = i === 1;
