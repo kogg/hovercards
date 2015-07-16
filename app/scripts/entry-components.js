@@ -51,7 +51,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                                     $scope.entry.timing.first_card(time, api + ' account');
                                 }),
                                 first_card: _.once(function(time, type) {
-                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Content Card', time - start, type] });
+                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', time - start, type] });
                                 })
                             }
                         };
