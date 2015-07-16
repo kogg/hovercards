@@ -114,7 +114,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             if (discussionApi === oldDiscussionApi || !discussionApi || !oldDiscussionApi) {
                 return;
             }
-            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'discussions', 'changed discussion', discussionApi + ' discussion', { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
+            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'discussions', 'changed discussion', discussionApi + ' discussion'] });
         });
     }])
     .controller('UrlDiscussionController', ['$scope', 'apiService', function($scope, apiService) {
