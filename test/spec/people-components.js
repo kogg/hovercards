@@ -10,7 +10,7 @@ describe('people-directive', function() {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
         $timeout = _$timeout_;
-        $rootScope.entry = {};
+        $rootScope.entry = { timing: { account: function() {} } };
         $rootScope.data = {};
     }));
     beforeEach(function() {
