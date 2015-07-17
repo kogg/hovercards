@@ -117,7 +117,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         more.appendTo(collapsed).before(' ');
                         while (front + 1 < back && loop < 100) {
                             var attempting = Math.ceil((front + back) / 2);
-                            bad_element.nodeValue = string.slice(0, attempting) + '...';
+                            bad_element.nodeValue = string.slice(0, attempting).replace(/\s+$/, '') + '...';
                             if (collapsed.height() <= $scope.collapseAt) {
                                 front = attempting;
                             } else {
@@ -125,7 +125,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             }
                             loop++;
                         }
-                        bad_element.nodeValue = string.slice(0, front) + '...';
+                        bad_element.nodeValue = string.slice(0, front).replace(/\s+$/, '') + '...';
                         more.detach();
                     }(collapsed, expanded.contents().clone()));
                     while (collapsed.contents().last().is('br')) {
