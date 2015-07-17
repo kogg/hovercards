@@ -128,6 +128,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         bad_element.nodeValue = string.slice(0, front) + '...';
                         more.detach();
                     }(collapsed, expanded.contents().clone()));
+                    while (collapsed.contents().last().is('br')) {
+                        collapsed.contents().last().remove();
+                    }
                     more.appendTo(collapsed).before(' ');
                 });
             }
