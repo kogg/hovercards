@@ -62,7 +62,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                 event.stopPropagation();
                                 expanded.addClass('ng-hide');
                                 collapsed.removeClass('ng-hide');
-                                ($scope.onHeightChange || angular.noop)('expanded');
+                                ($scope.onHeightChange || angular.noop)();
                             });
                     }
                     expanded.addClass('ng-hide');
@@ -73,7 +73,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             event.stopPropagation();
                             expanded.removeClass('ng-hide');
                             collapsed.addClass('ng-hide');
-                            ($scope.onHeightChange || angular.noop)('collapsed');
+                            ($scope.onHeightChange || angular.noop)();
                         });
                     (function binary_add_element(element, contents) {
                         var loop = 0;
@@ -117,7 +117,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                         more.appendTo(collapsed).before(' ');
                         while (front + 1 < back && loop < 100) {
                             var attempting = Math.ceil((front + back) / 2);
-                            bad_element.nodeValue = string.slice(0, attempting) + '...';
+                            bad_element.nodeValue = string.slice(0, attempting).replace(/\s+$/, '') + '...';
                             if (collapsed.height() <= $scope.collapseAt) {
                                 front = attempting;
                             } else {
@@ -125,9 +125,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             }
                             loop++;
                         }
-                        bad_element.nodeValue = string.slice(0, front) + '...';
+                        bad_element.nodeValue = string.slice(0, front).replace(/\s+$/, '') + '...';
                         more.detach();
                     }(collapsed, expanded.contents().clone()));
+                    while (collapsed.contents().last().is('br')) {
+                        collapsed.contents().last().remove();
+                    }
                     more.appendTo(collapsed).before(' ');
                 });
             }
@@ -151,18 +154,16 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
 
                 if ($scope.weirdDots) {
                     slick_element.on('beforeChange', function(e, slider, last_slide, slide) {
-                        $scope.$apply(function() {
-                            var dot = angular.element(slick_dots.find('li')[slide]);
-                            var dots = slick_dots.find('ul');
-                            if (!dot) {
-                                return;
-                            }
-                            var dot_position = dot.position();
-                            if (!dot_position) {
-                                return;
-                            }
-                            dots.animate({ scrollLeft: dot_position.left + dots.scrollLeft() - (dot.width() + $element.width()) / 2 - 8 }, 200);
-                        });
+                        var dot = angular.element(slick_dots.find('li')[slide]);
+                        var dots = slick_dots.find('ul');
+                        if (!dot) {
+                            return;
+                        }
+                        var dot_position = dot.position();
+                        if (!dot_position) {
+                            return;
+                        }
+                        dots.animate({ scrollLeft: dot_position.left + dots.scrollLeft() - (dot.width() + $element.width()) / 2 - 8 }, 200);
                     });
                 }
 

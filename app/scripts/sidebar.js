@@ -109,6 +109,9 @@ module.exports = function sidebar() {
                 window.top.postMessage({ msg: 'loaded' }, '*');
                 break;
             case 'hide':
+                if (!showing) {
+                    break;
+                }
                 showing = false;
                 obj
                     .removeClass(extension_id + '-sidebar-enter')
