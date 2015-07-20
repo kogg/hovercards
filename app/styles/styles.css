@@ -1652,6 +1652,10 @@ h2 {
 	position: relative;
 	z-index: 2;
 }
+.selected-comment + p * {
+	position: relative;
+	z-index: 1;
+}
 .selected-comment + p:after {
   content: "";
   position: absolute;
