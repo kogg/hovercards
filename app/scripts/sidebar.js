@@ -55,7 +55,7 @@ module.exports = function sidebar() {
         .addClass(extension_id + '-sidebar-minimizer')
         .click(function() {
             obj.toggleClass(extension_id + '-sidebar-minimized');
-            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', obj.hasClass(extension_id + '-sidebar-minimized') ? 'minimized' : 'unminimized', { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
+            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', obj.hasClass(extension_id + '-sidebar-minimized') ? 'minimized' : 'unminimized'] });
         });
 
     window.addEventListener('message', function(event) {
@@ -84,7 +84,7 @@ module.exports = function sidebar() {
                     if (_.chain(identity_history).last().isEqual(message.identity).value()) {
                         if (showing) {
                             category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
-                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated (same) ' + message.by, category, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
+                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated (same) ' + message.by, category] });
                             sidebar_frame.postMessage({ msg: 'sameload' }, '*');
                             return;
                         }
@@ -105,7 +105,7 @@ module.exports = function sidebar() {
                     .addClass(extension_id + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
                 category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
-                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, category, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
+                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, category] });
                 window.top.postMessage({ msg: 'loaded' }, '*');
                 break;
             case 'hide':
@@ -118,7 +118,7 @@ module.exports = function sidebar() {
                     .removeClass(extension_id + '-sidebar-enter-cancel-animation')
                     .addClass(extension_id + '-sidebar-leave');
                 $(document).off('dblclick', dblclick_for_sidebar);
-                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'deactivated ' + message.by, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
+                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'deactivated ' + message.by] });
                 window.top.postMessage({ msg: 'hidden' }, '*');
                 break;
         }

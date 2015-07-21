@@ -39,6 +39,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             },
             link: function($scope, $element) {
                 $element.html('');
+                /*
+                angular.element('<div style="height: ' + ($scope.recollapseAt || 0) + 'px; border: 1px green solid; pointer-events: none; position: absolute; width: 100%;"></div>').appendTo($element);
+                angular.element('<div style="height: ' + ($scope.collapseAt + ($scope.tolerance || 0)) + 'px; border: 1px blue solid; pointer-events: none; position: absolute; width: 100%;"></div>').appendTo($element);
+                angular.element('<div style="height: ' + ($scope.collapseAt || 0) + 'px; border: 1px red solid; pointer-events: none; position: absolute; width: 100%;"></div>').appendTo($element);
+                */
                 var collapsed = angular.element('<div class="collapsed ng-hide"></div>').appendTo($element);
                 var expanded = angular.element('<div class="expanded ng-hide"></div>').appendTo($element);
                 // TODO Watch all scope changes
@@ -75,63 +80,73 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             collapsed.addClass('ng-hide');
                             ($scope.onHeightChange || angular.noop)();
                         });
-                    (function binary_add_element(element, contents) {
-                        var loop = 0;
-                        var good = 0;
-                        var bad = contents.length;
-                        while (good + 1 < bad && loop < 100) {
-                            var trying = Math.ceil((good + bad) / 2);
-                            var testing = contents.slice(good, trying);
-                            testing.appendTo(element);
-                            more.appendTo(collapsed).before(' ');
-                            if (collapsed.height() <= $scope.collapseAt) {
-                                good = trying;
-                            } else {
-                                bad = trying;
-                                testing.detach();
+                    (function binary_collapse(insert_into, contents, read_more) {
+                        var front, middle, back;
+                        if (insert_into.get(0).nodeType === 3) {
+                            if (read_more) {
+                                insert_into.after(read_more);
                             }
-                            more.detach();
-                            loop++;
-                        }
-                        if (loop === 100) {
-                            return;
-                        }
-                        var bad_element = contents[good];
-                        if (!bad_element) {
-                            return;
-                        }
-                        if (bad_element.nodeType !== 3) {
-                            bad_element = angular.element(bad_element);
-                            var new_contents = bad_element.contents().clone();
-                            bad_element
-                                .appendTo(element)
-                                .empty();
-                            return binary_add_element(bad_element, new_contents);
-                        }
-                        element.append(bad_element);
-                        var string = bad_element.nodeValue;
-                        bad_element.nodeValue = string + '...';
-                        loop = 0;
-                        var front = 0;
-                        var back = string.length;
-                        more.appendTo(collapsed).before(' ');
-                        while (front + 1 < back && loop < 100) {
-                            var attempting = Math.ceil((front + back) / 2);
-                            bad_element.nodeValue = string.slice(0, attempting).replace(/\s+$/, '') + '...';
-                            if (collapsed.height() <= $scope.collapseAt) {
-                                front = attempting;
-                            } else {
-                                back = attempting;
+                            var string = insert_into.get(0).nodeValue;
+                            front = 0;
+                            back = string.length;
+                            while (front + 1 < back) {
+                                middle = Math.ceil((front + back) / 2);
+                                insert_into.get(0).nodeValue = string.slice(0, middle) + '... ';
+                                if (collapsed.height() <= $scope.collapseAt) {
+                                    front = middle;
+                                } else {
+                                    back = middle;
+                                }
                             }
-                            loop++;
+                            insert_into.get(0).nodeValue = string.slice(0, front) + '... ';
+                            if (collapsed.height() <= $scope.collapseAt) {
+                                return true;
+                            } else {
+                                if (read_more) {
+                                    read_more.detach();
+                                }
+                                return false;
+                            }
                         }
-                        bad_element.nodeValue = string.slice(0, front).replace(/\s+$/, '') + '...';
-                        more.detach();
-                    }(collapsed, expanded.contents().clone()));
-                    while (collapsed.contents().last().is('br')) {
-                        collapsed.contents().last().remove();
-                    }
-                    more.appendTo(collapsed).before(' ');
+                        if (!contents.length) {
+                            return false;
+                        }
+                        front = 0;
+                        back = contents.length;
+                        while (front + 1 < back) {
+                            middle = Math.ceil((front + back) / 2);
+                            var testing = contents.slice(0, middle).add(read_more);
+                            testing.appendTo(insert_into);
+                            if (collapsed.height() <= $scope.collapseAt) {
+                                front = middle;
+                            } else {
+                                back = middle;
+                            }
+                            testing.detach();
+                        }
+                        var elements = contents.slice(0, back);
+                        elements.appendTo(insert_into);
+                        for (var i = back - 1; i >= 0; i--) {
+                            var element = angular.element(elements[i]);
+                            var new_contents = element.contents().clone();
+                            element.empty();
+                            var worked = false;
+                            if (!element.is('a,table,pre,code')) {
+                                worked = binary_collapse(element, new_contents, read_more);
+                            } else {
+                                insert_into.append(read_more);
+                                worked = binary_collapse(element, new_contents);
+                            }
+                            if (worked) {
+                                return true;
+                            }
+                            element.detach();
+                            if (element.is('a,table,pre,code') && read_more) {
+                                read_more.detach();
+                            }
+                        }
+                        return false;
+                    }(collapsed, expanded.contents().clone(), more));
                 });
             }
         };
