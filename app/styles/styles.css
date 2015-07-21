@@ -22,6 +22,21 @@
     background: auto !important; 
 }
 @font-face {
+	font-family: "newRobotoo";
+	src: url("chrome-extension://__MSG_@@extension_id__/fonts/NeuzeGroTBla.woff");
+	font-weight: 500;
+}
+@font-face {
+	font-family: "newRobotoo";
+	src: url("chrome-extension://__MSG_@@extension_id__/fonts/NeuzeGroTBol.svg");
+	font-weight: 400;
+}
+@font-face {
+	font-family: "newRobotoo";
+	src: url("chrome-extension://__MSG_@@extension_id__/fonts/NeuzeGroTReg.eot");
+	font-weight: 300;
+}
+@font-face {
 	font-family: "Roboto";
 	src: url("chrome-extension://__MSG_@@extension_id__/fonts/roboto/Roboto-Light.ttf");
 	font-weight: 300; }
@@ -1679,7 +1694,7 @@ h2 {
 	color: #727272
 }
 .child-comment {
-	border-left:1px dotted rgba(0,0,0,.2);
+	border-left:1px solid rgba(0,0,0,.1);
 	padding: 8px 0 8px 8px;
 }
 .child-comment .col-12, .comment .col-12 {
@@ -1875,10 +1890,10 @@ h2 {
 	left: 0px;
 }
 .youtube-channel-option span.active {
-	color: red;
+	color: #F44336;
 }
 .youtube-channel-option span.active:before {
-	background: red;
+	background: #F44336;
 }
 .network-menu-size-1 .youtube-channel-option span.active:after {
 	content: " Channel"
