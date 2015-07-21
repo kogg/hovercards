@@ -1,4 +1,3 @@
-require('./google-analytics-background')();
 require('./service-background')();
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
