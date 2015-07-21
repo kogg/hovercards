@@ -55,7 +55,7 @@ module.exports = function sidebar() {
         .addClass(EXTENSION_ID + '-sidebar-minimizer')
         .click(function() {
             obj.toggleClass(EXTENSION_ID + '-sidebar-minimized');
-            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', obj.hasClass(EXTENSION_ID + '-sidebar-minimized') ? 'minimized' : 'unminimized'] });
+            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar', obj.hasClass(EXTENSION_ID + '-sidebar-minimized') ? 'minimized' : 'unminimized'] }, '*');
         });
 
     window.addEventListener('message', function(event) {
@@ -84,7 +84,7 @@ module.exports = function sidebar() {
                     if (_.chain(identity_history).last().isEqual(message.identity).value()) {
                         if (showing) {
                             category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
-                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated (same) ' + message.by, category] });
+                            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar', 'activated (same) ' + message.by, category] }, '*');
                             sidebar_frame.postMessage({ msg: EXTENSION_ID + '-sameload' }, '*');
                             return;
                         }
@@ -105,7 +105,8 @@ module.exports = function sidebar() {
                     .addClass(EXTENSION_ID + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
                 category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
-                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, category] });
+                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, category] }, '*');
+                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'screenview', { screenName: category }] }, '*');
                 break;
             case EXTENSION_ID + '-hide':
                 if (!showing) {
@@ -117,7 +118,8 @@ module.exports = function sidebar() {
                     .removeClass(EXTENSION_ID + '-sidebar-enter-cancel-animation')
                     .addClass(EXTENSION_ID + '-sidebar-leave');
                 $(document).off('dblclick', dblclick_for_sidebar);
-                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'deactivated ' + message.by] });
+                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar', 'deactivated ' + message.by] }, '*');
+                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'screenview', { screenName: 'None' }] }, '*');
                 break;
         }
         sidebar_frame.postMessage(message, '*');

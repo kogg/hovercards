@@ -1,6 +1,8 @@
 var _       = require('underscore');
 var angular = require('angular');
 
+var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
+
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize'), require('angular-messages')])
     .directive('analyticsClick', [function() {
         return {
@@ -13,7 +15,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                 $element.one('click', function() {
                     var request = ['send', 'event', $scope.category, $scope.action || 'clicked'];
                     request.push($scope.label);
-                    chrome.runtime.sendMessage({ type: 'analytics', request: request });
+                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: request }, '*');
                 });
             }
         };
