@@ -106,7 +106,6 @@ module.exports = function sidebar() {
                 $(document).on('dblclick', dblclick_for_sidebar);
                 category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
                 chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, category] });
-                window.top.postMessage({ msg: 'loaded' }, '*');
                 break;
             case 'hide':
                 if (!showing) {
@@ -119,7 +118,6 @@ module.exports = function sidebar() {
                     .addClass(extension_id + '-sidebar-leave');
                 $(document).off('dblclick', dblclick_for_sidebar);
                 chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'deactivated ' + message.by] });
-                window.top.postMessage({ msg: 'hidden' }, '*');
                 break;
         }
         sidebar_frame.postMessage(message, '*');

@@ -74,8 +74,7 @@
         "images/yowhitecover.png",
         "images/yotest.png",
         "images/closesidebar.png",
-        "images/bringback.png",
-        "styles/walkthrough.css"
+        "images/bringback.png"
     ],
     "permissions": [
         "activeTab",
