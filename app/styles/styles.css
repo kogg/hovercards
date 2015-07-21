@@ -2417,6 +2417,7 @@ h2 {
 }
 .slick-list .slick-slide {
 	margin-right: 8px;
+	outline: none;
 }
 .slick-list .slick-slide:last-of-type {
 	margin-right: 0
