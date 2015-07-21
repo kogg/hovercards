@@ -134,9 +134,7 @@ module.exports = function() {
                     if (err) {
                         return callback(err);
                     }
-                    var start = _.now();
                     callback = _.wrap(callback, function(callback, err, result) {
-                        chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'service', 'Load Time' + (err ? ' (w/err)' : ''), _.now() - start, api + ' ' + type] });
                         if (_.isObject(err) && err.status === 401) {
                             return chrome.storage.sync.remove(api + '_user', function() {
                                 callback(chrome.runtime.lastError || err);

@@ -1,6 +1,8 @@
 var _       = require('underscore');
 var angular = require('angular');
 
+var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
+
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [require('./service-components')])
     .controller('EntryController', ['$scope', '$timeout', '$window', 'apiService', function($scope, $timeout, $window, apiService) {
         $scope.service = apiService;
@@ -26,7 +28,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
             var request = event.data;
             // TODO Determine if this is our request and not someone else's
             switch(request.msg) {
-                case 'load':
+                case EXTENSION_ID + '-load':
                     $scope.$apply(function() {
                         $scope.entry           = null;
                         $scope.data            = {};
@@ -39,19 +41,19 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                             type: identity.type,
                             timing: {
                                 content: _.once(function(time, api) {
-                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Content Card', time - start, api + ' content'] });
+                                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Content Card', time - start, api + ' content'] }, '*');
                                     $scope.entry.timing.first_card(time, api + ' content');
                                 }),
                                 discussion: _.once(function(time, api) {
-                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', time - start, api + ' discussion'] });
+                                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', time - start, api + ' discussion'] }, '*');
                                     $scope.entry.timing.first_card(time, api + ' discussion');
                                 }),
                                 account: _.once(function(time, needed_scrolling, api) {
-                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Account Card (' + (needed_scrolling ? 'Needed Scrolling' : 'Didn\'t need Scrolling') + ')', time - start, api + ' account'] });
+                                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Account Card (' + (needed_scrolling ? 'Needed Scrolling' : 'Didn\'t need Scrolling') + ')', time - start, api + ' account'] }, '*');
                                     $scope.entry.timing.first_card(time, api + ' account');
                                 }),
                                 first_card: _.once(function(time, type) {
-                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', time - start, type] });
+                                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Card', time - start, type] }, '*');
                                 })
                             }
                         };
@@ -75,12 +77,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                         }
                     }, 100);
                     break;
-                case 'hide':
+                case EXTENSION_ID + '-hide':
                     $scope.$apply(function() {
                         $scope.entry = null;
                     });
                     break;
-                case 'sameload':
+                case EXTENSION_ID + '-sameload':
                     $scope.$apply(function() {
                         if (!$scope.entry) {
                             return;

@@ -103,9 +103,9 @@ $(document).keydown(function(e) {
     if (e.which !== 27) {
         return;
     }
-    window.top.postMessage({ msg: 'hide', by: 'Esc' }, '*');
+    window.top.postMessage({ msg: EXTENSION_ID + '-hide', by: 'Esc' }, '*');
 });
 
 $('html').on(EXTENSION_ID + '-clickable-yo', function(e, url) {
-    window.top.postMessage({ msg: 'activate', by: 'clickable-yo', url: url }, '*');
+    window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'clickable-yo', url: url }, '*');
 });
