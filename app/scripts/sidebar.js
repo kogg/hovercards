@@ -106,6 +106,7 @@ module.exports = function sidebar() {
                 $(document).on('dblclick', dblclick_for_sidebar);
                 category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
                 window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, category] }, '*');
+                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'screenview', { screenName: category }] }, '*');
                 break;
             case EXTENSION_ID + '-hide':
                 if (!showing) {
@@ -118,6 +119,7 @@ module.exports = function sidebar() {
                     .addClass(EXTENSION_ID + '-sidebar-leave');
                 $(document).off('dblclick', dblclick_for_sidebar);
                 window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar', 'deactivated ' + message.by] }, '*');
+                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'screenview', { screenName: 'None' }] }, '*');
                 break;
         }
         sidebar_frame.postMessage(message, '*');
