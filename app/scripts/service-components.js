@@ -1,6 +1,8 @@
 var _       = require('underscore');
 var angular = require('angular');
 
+var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
+
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ServiceComponents', [])
     .factory('apiService', ['$q', function($q) {
         var errors = { 0:   'our-problem',
@@ -20,6 +22,15 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
             get: function(params, object) {
                 object = object || {};
                 object.$promise = $q(function(resolve, reject) {
+                    var start = _.now();
+                    resolve = _.wrap(resolve, function(resolve, result) {
+                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'service', 'Load Time', _.now() - start, params.api + ' ' + params.type] }, '*');
+                        resolve(result);
+                    });
+                    reject = _.wrap(reject, function(reject, err) {
+                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'service', 'Load Time (w/err)', _.now() - start, params.api + ' ' + params.type] }, '*');
+                        reject(err);
+                    });
                     var request = _.pick(params, 'api', 'type', 'id', 'as', 'for', 'focus', 'author');
                     if (request.for) {
                         request.for = _.pick(request.for, 'api', 'type', 'id', 'as', 'for', 'focus', 'author');
