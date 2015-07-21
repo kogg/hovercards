@@ -43,13 +43,17 @@ module.exports = function() {
             });
         },
         function(user_id, callback) {
-            window.ga('create', env.analytics_id, { 'userId': user_id });
-            window.ga('set', 'checkProtocolTask', null);
+            var setup_analytics = _.once(function() {
+                window.ga('create', env.analytics_id, { 'userId': user_id });
+                window.ga('set', 'checkProtocolTask', null);
+                window.ga('set', { appName: chrome.i18n.getMessage('app_name'), appVersion: chrome.app.getDetails().version });
+            });
             chrome.runtime.onMessage.addListener(function(message) {
                 if (message.type !== 'analytics') {
                     return;
                 }
 
+                setup_analytics();
                 window.ga.apply(this, message.request);
             });
             callback();

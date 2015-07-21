@@ -3,7 +3,6 @@ var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ContentComponents', [require('./service-components')])
     .controller('ContentController', ['$scope', '$q', '$timeout', 'apiService', function($scope, $q, $timeout, apiService) {
-        var analytics_once = false;
         $scope.$watch('entry.content', function(request) {
             if (!request) {
                 $scope.data.content = null;
@@ -21,23 +20,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                         $timeout.cancel(timeout);
                     })
                     .then(function(content) {
-                        if (analytics_once) {
-                            return content;
-                        }
-                        if (entry.times) {
-                            analytics_once = true;
-                            var now = _.now();
-                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Content Card', now - entry.times.start, content.api + ' content'] });
-                            if (!entry.times.first_card) {
-                                entry.times.first_card = now;
-                                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', entry.times.first_card - entry.times.start, content.api + ' content'] });
-                            }
-                        }
-                        return content;
-                    })
-                    .then(function(content) {
                         delete content.$err;
 
+                        entry.timing.content(_.now(), content.api);
                         entry.accounts = _.chain(entry.accounts)
                                           .union(content.accounts)
                                           .compact()

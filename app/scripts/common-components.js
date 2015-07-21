@@ -39,6 +39,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             },
             link: function($scope, $element) {
                 $element.html('');
+                /*
+                angular.element('<div style="height: ' + ($scope.recollapseAt || 0) + 'px; border: 1px green solid; pointer-events: none; position: absolute; width: 100%;"></div>').appendTo($element);
+                angular.element('<div style="height: ' + ($scope.collapseAt + ($scope.tolerance || 0)) + 'px; border: 1px blue solid; pointer-events: none; position: absolute; width: 100%;"></div>').appendTo($element);
+                angular.element('<div style="height: ' + ($scope.collapseAt || 0) + 'px; border: 1px red solid; pointer-events: none; position: absolute; width: 100%;"></div>').appendTo($element);
+                */
                 var collapsed = angular.element('<div class="collapsed ng-hide"></div>').appendTo($element);
                 var expanded = angular.element('<div class="expanded ng-hide"></div>').appendTo($element);
                 // TODO Watch all scope changes
@@ -62,7 +67,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                 event.stopPropagation();
                                 expanded.addClass('ng-hide');
                                 collapsed.removeClass('ng-hide');
-                                ($scope.onHeightChange || angular.noop)('expanded');
+                                ($scope.onHeightChange || angular.noop)();
                             });
                     }
                     expanded.addClass('ng-hide');
@@ -73,62 +78,75 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             event.stopPropagation();
                             expanded.removeClass('ng-hide');
                             collapsed.addClass('ng-hide');
-                            ($scope.onHeightChange || angular.noop)('collapsed');
+                            ($scope.onHeightChange || angular.noop)();
                         });
-                    (function binary_add_element(element, contents) {
-                        var loop = 0;
-                        var good = 0;
-                        var bad = contents.length;
-                        while (good + 1 < bad && loop < 100) {
-                            var trying = Math.ceil((good + bad) / 2);
-                            var testing = contents.slice(good, trying);
-                            testing.appendTo(element);
-                            more.appendTo(collapsed).before(' ');
-                            if (collapsed.height() <= $scope.collapseAt) {
-                                good = trying;
-                            } else {
-                                bad = trying;
-                                testing.detach();
+                    (function binary_collapse(insert_into, contents, read_more) {
+                        var front, middle, back;
+                        if (insert_into.get(0).nodeType === 3) {
+                            if (read_more) {
+                                insert_into.after(read_more);
                             }
-                            more.detach();
-                            loop++;
-                        }
-                        if (loop === 100) {
-                            return;
-                        }
-                        var bad_element = contents[good];
-                        if (!bad_element) {
-                            return;
-                        }
-                        if (bad_element.nodeType !== 3) {
-                            bad_element = angular.element(bad_element);
-                            var new_contents = bad_element.contents().clone();
-                            bad_element
-                                .appendTo(element)
-                                .empty();
-                            return binary_add_element(bad_element, new_contents);
-                        }
-                        element.append(bad_element);
-                        var string = bad_element.nodeValue;
-                        bad_element.nodeValue = string + '...';
-                        loop = 0;
-                        var front = 0;
-                        var back = string.length;
-                        more.appendTo(collapsed).before(' ');
-                        while (front + 1 < back && loop < 100) {
-                            var attempting = Math.ceil((front + back) / 2);
-                            bad_element.nodeValue = string.slice(0, attempting) + '...';
-                            if (collapsed.height() <= $scope.collapseAt) {
-                                front = attempting;
-                            } else {
-                                back = attempting;
+                            var string = insert_into.get(0).nodeValue;
+                            front = 0;
+                            back = string.length;
+                            while (front + 1 < back) {
+                                middle = Math.ceil((front + back) / 2);
+                                insert_into.get(0).nodeValue = string.slice(0, middle) + '... ';
+                                if (collapsed.height() <= $scope.collapseAt) {
+                                    front = middle;
+                                } else {
+                                    back = middle;
+                                }
                             }
-                            loop++;
+                            insert_into.get(0).nodeValue = string.slice(0, front) + '... ';
+                            if (collapsed.height() <= $scope.collapseAt) {
+                                return true;
+                            } else {
+                                if (read_more) {
+                                    read_more.detach();
+                                }
+                                return false;
+                            }
                         }
-                        bad_element.nodeValue = string.slice(0, front) + '...';
-                        more.detach();
-                    }(collapsed, expanded.contents().clone()));
-                    more.appendTo(collapsed).before(' ');
+                        if (!contents.length) {
+                            return false;
+                        }
+                        front = 0;
+                        back = contents.length;
+                        while (front + 1 < back) {
+                            middle = Math.ceil((front + back) / 2);
+                            var testing = contents.slice(0, middle).add(read_more);
+                            testing.appendTo(insert_into);
+                            if (collapsed.height() <= $scope.collapseAt) {
+                                front = middle;
+                            } else {
+                                back = middle;
+                            }
+                            testing.detach();
+                        }
+                        var elements = contents.slice(0, back);
+                        elements.appendTo(insert_into);
+                        for (var i = back - 1; i >= 0; i--) {
+                            var element = angular.element(elements[i]);
+                            var new_contents = element.contents().clone();
+                            element.empty();
+                            var worked = false;
+                            if (!element.is('a,table,pre,code')) {
+                                worked = binary_collapse(element, new_contents, read_more);
+                            } else {
+                                insert_into.append(read_more);
+                                worked = binary_collapse(element, new_contents);
+                            }
+                            if (worked) {
+                                return true;
+                            }
+                            element.detach();
+                            if (element.is('a,table,pre,code') && read_more) {
+                                read_more.detach();
+                            }
+                        }
+                        return false;
+                    }(collapsed, expanded.contents().clone(), more));
                 });
             }
         };
@@ -147,21 +165,20 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             link: function($scope, $element, attr, ctrl, $transclude) {
                 var slick_dots    = $scope.weirdDots && angular.element('<div></div>').appendTo($element);
                 var slick_element = angular.element('<div></div>').appendTo($element);
+                var scopes = [];
 
                 if ($scope.weirdDots) {
                     slick_element.on('beforeChange', function(e, slider, last_slide, slide) {
-                        $scope.$apply(function() {
-                            var dot = angular.element(slick_dots.find('li')[slide]);
-                            var dots = slick_dots.find('ul');
-                            if (!dot) {
-                                return;
-                            }
-                            var dot_position = dot.position();
-                            if (!dot_position) {
-                                return;
-                            }
-                            dots.animate({ scrollLeft: dot_position.left + dots.scrollLeft() - (dot.width() + $element.width()) / 2 - 8 }, 200);
-                        });
+                        var dot = angular.element(slick_dots.find('li')[slide]);
+                        var dots = slick_dots.find('ul');
+                        if (!dot) {
+                            return;
+                        }
+                        var dot_position = dot.position();
+                        if (!dot_position) {
+                            return;
+                        }
+                        dots.animate({ scrollLeft: dot_position.left + dots.scrollLeft() - (dot.width() + $element.width()) / 2 - 8 }, 200);
                     });
                 }
 
@@ -192,23 +209,32 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
 
                 slick_element.on('init', function() {
                     $scope.slide = 0;
+                    if (!scopes[$scope.slide]) {
+                        return;
+                    }
                     scopes[$scope.slide].$selected = true;
                     $scope.selected = $scope.items[$scope.slide];
                 });
 
-                var scopes;
-                var been_slicked = false;
+                slick_element.slick(_.extend({ arrows:        false,
+                                               centerMode:    true,
+                                               centerPadding: 0,
+                                               focusOnSelect: true,
+                                               infinite:      false,
+                                               slidesToShow:  1 },
+                                             $scope.weirdDots && { appendDots: slick_dots, dots: true }));
+
                 $scope.$watchCollection('items', function(items) {
-                    if (been_slicked) {
-                        slick_element.slick('unslick');
-                    }
                     _.invoke(scopes, '$destroy');
+                    _.times(scopes.length, function() {
+                        slick_element.slick('slickRemove', 0);
+                    });
                     scopes = [];
                     _.each(items, function(item, i) {
-                        var element = angular.element('<div style="height: auto !important;"></div>').appendTo(slick_element);
-
                         $transclude(function(elem, scope) {
+                            var element = angular.element('<div style="height: auto !important;"></div>');
                             elem.appendTo(element);
+                            slick_element.slick('slickAdd', element);
                             scopes[i] = scope;
                             scope.$item   = item;
                             scope.$index  = i;
@@ -226,14 +252,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             };
                         });
                     });
-                    slick_element.slick(_.extend({ arrows:        false,
-                                                   centerMode:    true,
-                                                   centerPadding: 0,
-                                                   focusOnSelect: true,
-                                                   infinite:      false,
-                                                   slidesToShow:  1 },
-                                                 $scope.weirdDots && { appendDots: slick_dots, dots: true }));
-                    been_slicked = true;
+                });
+
+                $scope.$watch('slide', function(slide) {
+                    slick_element.slick('slickGoTo', slide);
                 });
 
                 $scope.$on('$destroy', function() {

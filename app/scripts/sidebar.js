@@ -84,7 +84,7 @@ module.exports = function sidebar() {
                     if (_.chain(identity_history).last().isEqual(message.identity).value()) {
                         if (showing) {
                             category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
-                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated (same) ' + message.by, category, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
+                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated (same) ' + message.by, category] });
                             sidebar_frame.postMessage({ msg: 'sameload' }, '*');
                             return;
                         }
@@ -105,10 +105,13 @@ module.exports = function sidebar() {
                     .addClass(extension_id + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
                 category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
-                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, category, { page: '/' + window.top.document.URL, title: window.top.document.domain }] });
+                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, category] });
                 window.top.postMessage({ msg: 'loaded' }, '*');
                 break;
             case 'hide':
+                if (!showing) {
+                    break;
+                }
                 showing = false;
                 obj
                     .removeClass(extension_id + '-sidebar-enter')

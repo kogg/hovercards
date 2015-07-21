@@ -5,32 +5,45 @@ var clickable_yo = require('./clickable-yo');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-function get_left_center_offset(obj, trigger) {
+function get_center_left_offset(obj, trigger) {
     var offset = obj.offset();
     offset.left -= 12;
     offset.top += (obj.height() - trigger.height()) / 2;
     return offset;
 }
 
+function get_top_left(obj) {
+    var offset = obj.offset();
+    offset.left += 7;
+    offset.top += 7;
+    return offset;
+}
+
+function get_top_right(obj, trigger) {
+    var offset = obj.offset();
+    offset.left += obj.width();
+    offset.left -= 7 + trigger.width();
+    offset.top += 7;
+    return offset;
+}
+
 function find_offset_for_link(obj, trigger, e) {
     var target = $(e.target);
     if (target.is('img,div.-cx-PRIVATE-PostsGridItem__postInfo') && target.height() > 20) {
-        return get_left_center_offset(target, trigger);
+        return get_center_left_offset(target, trigger);
     }
     return { left: e.pageX - trigger.width() / 2, top: e.pageY - 25 };
 }
 
 function find_offset_for_videos(obj, trigger, e, url) {
-    var offset = obj.offset();
-    offset.left += 7;
+    var offset = get_top_left(obj);
     var uri = URI(url);
     var showinfo = uri.search(true).showinfo;
     if (obj.attr('src') === 'https://s-static.ak.facebook.com/common/referer_frame.php') {
     } else if (uri.domain() !== 'youtube.com' || (showinfo !== undefined && (showinfo === '0' || showinfo === ''))) {
-        offset.top += 7;
         return offset;
     }
-    offset.top += 30;
+    offset.top += 23;
     return offset;
 }
 
@@ -58,7 +71,7 @@ switch ((document.domain || '').replace(/^www\./, '')) {
     case 'instagram.com':
         clickable_yo('.-cx-PRIVATE-Post__media', function(thing) {
             return thing.parents('article').find('a.-cx-PRIVATE-Post__timestamp,a.-cx-PRIVATE-PostInfo__timestamp').attr('href');
-        }, get_left_center_offset);
+        }, get_center_left_offset);
         break;
     case 'twitter.com':
         clickable_yo('.permalink-inner,ol.stream-items li.stream-item,ol.stream-items li.js-simple-tweet',
@@ -69,8 +82,8 @@ switch ((document.domain || '').replace(/^www\./, '')) {
                          }
                          return tweet.data('permalink-path');
                      },
-                     get_left_center_offset);
-        clickable_yo('div.QuoteTweet', function(quote) { return quote.find('div[href]').attr('href'); }, get_left_center_offset);
+                     get_top_right);
+        clickable_yo('div.QuoteTweet', function(quote) { return quote.find('div[href]').attr('href'); }, get_top_right);
         break;
     case 'youtube.com':
         if (window.top === window) {

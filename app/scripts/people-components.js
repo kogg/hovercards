@@ -57,7 +57,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             return pos;
         }
 
-        var analytics_once = false;
         $scope.$watchCollection('entry.can_have_people && entry.accounts', function(requests) {
             if (!_.result(requests, 'length')) {
                 $scope.data.accounts = null;
@@ -85,22 +84,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             $timeout.cancel(timeout);
                         })
                         .then(function(account) {
-                            if (analytics_once) {
-                                return account;
-                            }
-                            analytics_once = true;
-                            if ($scope.entry.times) {
-                            var now = _.now();
-                                chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Account Card (' + ($scope.entry.people_needed_scrolling ? 'Needed Scrolling' : 'Didn\'t need Scrolling') + ')', now - $scope.entry.times.start, account.api + ' account'] });
-                                if (!$scope.entry.times.first_card) {
-                                    $scope.entry.times.first_card = now;
-                                    chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'timing', 'cards', 'Time until First Card', $scope.entry.times.first_card - $scope.entry.times.start, account.api + ' account'] });
-                                }
-                            }
-                            return account;
-                        })
-                        .then(function(account) {
                             delete people.$err;
+
+                            $scope.entry.timing.account(_.now(), $scope.entry.people_needed_scrolling, account.api);
                             var account_ids = _.chain(account.connected)
                                                .map(request_to_string)
                                                .push(key)
