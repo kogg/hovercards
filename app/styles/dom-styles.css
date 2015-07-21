@@ -7,7 +7,7 @@
 	height: 100% !important;
 	top:0px !important;
 	z-index: 0 !important;
-	background:#f6f6f6 !important;
+	background:#ECEEF1 !important;
 	-webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.1) !important;
 	-moz-box-shadow:    0px 0px 5px 2px rgba(0, 0, 0, 0.1) !important;
 	box-shadow:         0px 0px 5px 2px rgba(0, 0, 0, 0.1) !important;
@@ -65,7 +65,7 @@
 	width: 32px !important;
 	height: 44px !important;
 	border-radius: 3px 0 0 3px !important;
-	background:#f6f6f6 !important;
+	background:#ECEEF1 !important;
 	top: 19px !important;
 	right: 340px !important;
 	position: absolute !important;
@@ -94,7 +94,7 @@
 	z-index: 213213132 !important;
 	transform: translate3d(-10px,0,0) !important;
 	opacity: 0 !important;
-	transition: opacity 0.3s ease-in-out 1s, transform 0.3s ease-in-out 1s !important;
+	transition: opacity 0.3s ease-in-out .3s, transform 0.3s ease-in-out .3s !important;
 }
 .__MSG_@@extension_id__-sidebar-close-button:hover:before {
 	width: 140px !important;
@@ -143,7 +143,7 @@
 }
 .__MSG_@@extension_id__-sidebar-minimized .__MSG_@@extension_id__-sidebar-minimizer:after {
 	content: "" !important;
-	background: #f6f6f6 !important;
+	background: #ECEEF1 !important;
 	pointer-events:none !important;
 	z-index: 0 !important;
 	background: url('chrome-extension://__MSG_@@extension_id__/images/bringback.png') !important;
