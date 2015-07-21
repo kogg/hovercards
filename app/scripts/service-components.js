@@ -28,7 +28,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                         resolve(result);
                     });
                     reject = _.wrap(reject, function(reject, err) {
-                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'service', 'Load Time (w/err)', _.now() - start, params.api + ' ' + params.type] }, '*');
+                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'service', 'Load Time', _.now() - start, params.api + ' ' + params.type] }, '*');
+                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'exception', { exDescription: params.api + ' ' + params.type + ' ' + err.status, exFatal: err.status >= 500 }] }, '*');
                         reject(err);
                     });
                     var request = _.pick(params, 'api', 'type', 'id', 'as', 'for', 'focus', 'author');
