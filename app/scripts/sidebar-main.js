@@ -2,6 +2,8 @@ var $       = require('jquery');
 var angular = require('angular');
 var common  = require('./common');
 
+var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
+
 angular.bootstrap(document, [require('./angular-app').name]);
 
 if (common.get_scrollbar_width()) {
@@ -10,7 +12,7 @@ if (common.get_scrollbar_width()) {
     $('body').perfectScrollbar();
 }
 
-window.top.postMessage({ msg: 'ready' }, '*');
+window.top.postMessage({ msg: EXTENSION_ID + '-ready' }, '*');
 
 $('body').on('mousedown', 'a[href]', function() {
     $(this).attr('target', '_blank');
