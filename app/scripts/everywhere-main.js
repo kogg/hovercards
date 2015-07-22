@@ -7,7 +7,7 @@ var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 function get_center_left_offset(obj, trigger) {
     var offset = obj.offset();
-    offset.left -= 12;
+    offset.left = Math.max(0, offset.left - 12);
     offset.top += (obj.height() - trigger.height()) / 2;
     return offset;
 }
@@ -32,7 +32,15 @@ function find_offset_for_link(obj, trigger, e) {
     if (target.is('img,div.-cx-PRIVATE-PostsGridItem__postInfo') && target.height() > 20) {
         return get_center_left_offset(target, trigger);
     }
-    return { left: e.pageX - trigger.width() / 2, top: e.pageY - 25 };
+    if (e.pageY >= 25) {
+        return { left: e.pageX - trigger.width() / 2, top: e.pageY - 25 };
+    } else if (e.pageY + 5 + trigger.height() <= $(window).height()) {
+        return { left: e.pageX - trigger.width() / 2, top: e.pageY + 5 };
+    } else if (e.pageX >= trigger.width()) {
+        return { left: e.pageX - trigger.width(), top: e.pageY - trigger.height() / 2 };
+    } else {
+        return { left: e.pageX, top: e.pageY - trigger.height() / 2 };
+    }
 }
 
 function find_offset_for_videos(obj, trigger, e, url) {
