@@ -1918,14 +1918,13 @@ h2 {
 }
 .social-profile-description {
 	position: relative;
-	padding: 0 20px 16px 20px
+	padding: 16px 20px
 }
 
 .social-profile-description-container {
   border: 1px solid #ECEEF1;
-  border-top: none;
   border-radius: 0 0 3px 3px;
-  padding: 0 16px 16px 16px;
+  padding: 16px
 }
 .social-profile-description-container p {
 	padding-bottom: 8px;
@@ -1948,8 +1947,10 @@ h2 {
   text-decoration: none;
   font-size: 12px;
   font-weight: 600;
-  padding-top: 8px;
-  border-top: 1px solid #ECEEF1
+}
+.social-profile-description-container p + .social-profile-description-morecontent {
+	padding-top: 8px;
+	border-top: 1px solid #ECEEF1;
 }
 .social-profile-description-morecontent span {
 	color: #727272;

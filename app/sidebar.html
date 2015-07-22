@@ -91,13 +91,6 @@
 			<div class="social-profile">
 				<div class="fade-in-animation" ng-if="entry.selectedPerson.selectedAccount.description.length || entry.selectedPerson.selectedAccount.location.length || entry.selectedPerson.selectedAccount.url_link.length">
 					<div class="social-profile-description" shaker>
-						<div class="context-top">
-							<div class="row">
-								<div class="col-12 ellipsis">
-									<span ng-class="entry.selectedPerson.selectedAccount.api + '-color'"><i class="zmdi zmdi-account iconic-push"></i>More About {{ entry.selectedPerson.selectedAccount.name || entry.selectedPerson.selectedAccount.id }}</span>
-								</div>
-							</div>
-						</div>
 						<div class="social-profile-description-container">
 							<p collapse="entry.selectedPerson.selectedAccount.description" collapse-at="19 * 7" tolerance="19 * 3" recollapse-at="19 * 15" ng-if="entry.selectedPerson.selectedAccount.description.length"></p>
 							<div class="row social-profile-description-morecontent" ng-show="entry.selectedPerson.selectedAccount.location.length || entry.selectedPerson.selectedAccount.url_link.length">
