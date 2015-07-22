@@ -55,17 +55,12 @@
     },
     "web_accessible_resources": [
         "sidebar.html",
-        "images/Imgur-icon-full_color.png",
-        "images/Reddit-icon-full_color.png",
-        "images/SoundCloud-icon-full_color.png",
-        "images/Twitter-icon-full_color.png",
-        "images/YouTube-icon-full_color.png",
-        "images/bringback.png",
         "images/closesidebar.png",
-        "images/instagram-icon-full_color.png",
-        "images/yo-black.png",
-        "images/yo-white.png",
-        "images/yocards-logo-128.png",
+        "images/closebutton.png",
+        "images/backbutton.png",
+        "images/bringback.png",
+        "images/yopoppyblack.png",
+        "images/yopoppyreddit.png",
         "images/yopoppy.png"
     ],
     "permissions": [
