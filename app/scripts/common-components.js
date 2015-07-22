@@ -443,14 +443,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
     }])
     .filter('copy', [function() {
         return function() {
-            if (!arguments[0] || arguments[0] === '') {
+            if (!_.isString(arguments[0]) || !arguments[0].length) {
                 return arguments[0];
             }
-            var string = chrome.i18n.getMessage(arguments[0].replace(/\-/g, '_'), _.rest(arguments));
-            if (!string) {
-                console.warn(JSON.stringify(arguments[0]) + ' does not have copy');
-            }
-            return string;
+            return chrome.i18n.getMessage(arguments[0].replace(/\-/g, '_'), _.rest(arguments));
         };
     }])
     .filter('encode', [function() {

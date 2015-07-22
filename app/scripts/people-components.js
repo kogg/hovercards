@@ -86,10 +86,18 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             $timeout.cancel(timeout);
                         })
                         .then(function(account) {
+                            var real_key = request_to_string(account);
+                            if (key !== real_key) {
+                                accounts[real_key] = accounts[key] = accounts[real_key] || account;
+                            }
+                            return account;
+                        })
+                        .then(function(account) {
                             delete people.$err;
 
                             $scope.entry.timing.account(_.now(), $scope.entry.people_needed_scrolling, account.api);
                             var account_ids = _.chain(account.connected)
+                                               .push(account)
                                                .map(request_to_string)
                                                .push(key)
                                                .uniq()
