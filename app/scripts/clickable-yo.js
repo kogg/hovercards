@@ -134,10 +134,7 @@ module.exports = function(selector, get_url, get_offset) {
                 .addClass(EXTENSION_ID + '-clickable-yo-trigger')
                 .addClass(EXTENSION_ID + '-clickable-yo-trigger-' + identity.api);
             trigger
-                .offset((function() {
-                    var offset = get_offset ? get_offset(obj, trigger, e, url) : obj.offset();
-                    return { left: Math.max(0, offset.left), top: Math.max(0, offset.top) };
-                }()))
+                .offset(get_offset ? get_offset(obj, trigger, e, url) : obj.offset())
                 .on('click', during_trigger_trigger_click)
                 .on('mousemove mouseenter', during_trigger_trigger_mousemove)
                 .on('mouseleave', during_trigger_mouseleave)
