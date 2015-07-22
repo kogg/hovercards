@@ -96,7 +96,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             delete people.$err;
 
                             $scope.entry.timing.account(_.now(), $scope.entry.people_needed_scrolling, account.api);
-                            var account_ids = _.chain(account.connected)
+                            var account_ids = _.chain([])
+                                               .union(account.connected)
                                                .push(account)
                                                .map(request_to_string)
                                                .push(key)
