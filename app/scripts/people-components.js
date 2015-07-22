@@ -1,6 +1,8 @@
 var _       = require('underscore');
 var angular = require('angular');
 
+var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
+
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
     .controller('PeopleController', ['$scope', '$interval', '$timeout', '$window', 'apiService', function($scope, $interval, $timeout, $window, apiService) {
         var others_exist_watcher = $scope.$watch('entry.type', function(type) {
@@ -35,7 +37,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         $interval.cancel(interval);
                         can_have_people_watcher();
                         if ($window.innerHeight <= angular.element('.people-card-space').offset().top) {
-                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'scrolled to'] });
+                            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people', 'scrolled to'] }, '*');
                             $scope.entry.people_needed_scrolling = true;
                         }
 
@@ -84,10 +86,19 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             $timeout.cancel(timeout);
                         })
                         .then(function(account) {
+                            var real_key = request_to_string(account);
+                            if (key !== real_key) {
+                                accounts[real_key] = accounts[key] = accounts[real_key] || account;
+                            }
+                            return account;
+                        })
+                        .then(function(account) {
                             delete people.$err;
 
                             $scope.entry.timing.account(_.now(), $scope.entry.people_needed_scrolling, account.api);
-                            var account_ids = _.chain(account.connected)
+                            var account_ids = _.chain([])
+                                               .union(account.connected)
+                                               .push(account)
                                                .map(request_to_string)
                                                .push(key)
                                                .uniq()
@@ -144,14 +155,14 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                 return;
             }
             $scope.view.fullscreen = null;
-            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'changed person'] });
+            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people', 'changed person'] }, '*');
         });
 
         $scope.$watchGroup(['entry.selectedPerson', 'entry.selectedPerson.selectedAccount'], function(now, old) {
             if (!now[0] || now[1] === old[1] || !now[1] || !old[1] || !_.contains(now[0].accounts, now[1]) || !_.contains(now[0].accounts, old[1])) {
                 return;
             }
-            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'people', 'changed account', now[1].api + ' ' + now[1].type] });
+            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people', 'changed account', now[1].api + ' ' + now[1].type] }, '*');
         });
     }])
     .controller('AccountShimController', ['$scope', 'apiService', function($scope, apiService) {

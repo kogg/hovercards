@@ -1,6 +1,8 @@
 var _       = require('underscore');
 var angular = require('angular');
 
+var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
+
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('./service-components')])
     .controller('DiscussionController', ['$scope', '$q', '$timeout', 'apiService', function($scope, $q, $timeout, apiService) {
         $scope.$watch('[entry.discussions, order]', function(parts) {
@@ -114,7 +116,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             if (discussionApi === oldDiscussionApi || !discussionApi || !oldDiscussionApi) {
                 return;
             }
-            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'event', 'discussions', 'changed discussion', discussionApi + ' discussion'] });
+            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'discussions', 'changed discussion', discussionApi + ' discussion'] }, '*');
         });
     }])
     .controller('UrlDiscussionController', ['$scope', 'apiService', function($scope, apiService) {
@@ -183,7 +185,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                                             $scope.items.sort(function(a, b) {
                                                 return item_pos[a] - item_pos[b];
                                             });
-                                            chrome.runtime.sendMessage({ type: 'analytics', request: ['send', 'events', 'reordered discussions'] });
+                                            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'events', 'reordered discussions'] }, '*');
                                         });
                                     } });
                 $element.disableSelection();

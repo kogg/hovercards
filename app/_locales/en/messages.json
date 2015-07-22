@@ -28,11 +28,12 @@
     "youtube_discussion_short":    { "message": "Comments" },
     "youtube_account":             { "message": "Youtube Channel" },
 
-    "carlito_will_search_here":     { "message": "Click <i></i> in the omnibar to search YoCards for the URL you're currently on!" },
-    "dblclick_or_esc_to_close":     { "message": "Double click outside of the YoCards sidebar or hit Esc to close it!" },
-    "got_it":                       { "message": "Got It" },
-    "longpress_to_activate":        { "message": "You can click and hold <strong>any</strong> link to activate YoCards." },
-    "please_longpress":             { "message": "Click and hold the link above to see YoCards in action!" },
-    "tip_x_of_y":                   { "message": "Tip $1/$2" },
-    "yo_follower_means_integrated": { "message": "When circles are below your cursor, it means YoCards has that link integrated!" }
+    "account_reason_author":                   { "message": "Posted by" },
+    "account_reason_author_with_name":         { "message": "Posted by $1" },
+    "account_reason_author_with_name_twitter": { "message": "Tweeted by $1" },
+    "account_reason_author_youtube":           { "message": "Uploaded by" },
+    "account_reason_mention":                  { "message": "Mentioned" },
+    "account_reason_mention_with_name":        { "message": "Mentioned $1" },
+    "account_reason_tag":                      { "message": "Tagged" },
+    "account_reason_tag_with_name":            { "message": "Tagged $1" }
 }

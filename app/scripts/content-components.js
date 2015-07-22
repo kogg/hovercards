@@ -23,8 +23,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                         delete content.$err;
 
                         entry.timing.content(_.now(), content.api);
-                        entry.accounts = _.chain(entry.accounts)
-                                          .union(content.accounts)
+                        entry.accounts = _.chain(content.accounts)
+                                          .union(entry.accounts)
                                           .compact()
                                           .sortBy(function(account) {
                                               var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
