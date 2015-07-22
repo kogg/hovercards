@@ -5,7 +5,7 @@
 				<div class="profile-image" ng-style=" person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
 			</div>
 			<div class="profile-right col-8">
-				<b class="ellipsis youtube-color">{{ (person.selectedAccount.reason && (('account_reason_' + person.selectedAccount.reason + (person.selectedAccount.reason === 'author' ? '_youtube' : '')) | copy)) || ('imgur_account' | copy) }}</b>
+				<b class="ellipsis youtube-color">{{ (person.selectedAccount.reason && (('account_reason_' + person.selectedAccount.reason + '_youtube' | copy) || ('account_reason_' + person.selectedAccount.reason | copy))) || ('youtube_account' | copy) }}</b>
 				<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.name }}</a>
 				<div class="profile-cta">
 					<div youtube-channel-subscribe youtube-channel-id="person.selectedAccount.id" subscribed-offset="offset"></div>
