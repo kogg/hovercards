@@ -5,7 +5,7 @@
 				<div class="profile-image" ng-style="person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
 			</div>
 			<div class="profile-right col-8">
-				<b class="instagram-color">{{ person.selectedAccount.id }}</b>
+				<b class="instagram-color">{{ (person.selectedAccount.reason && (('account_reason_' + person.selectedAccount.reason + '_with_name') | copy:('@' + person.selectedAccount.id))) || '@' + person.selectedAccount.id }}</b>
 				<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.name || person.selectedAccount.id }}</a>
 				<div class="profile-cta">
 					<a class="instagram-background" popup="{{ person.selectedAccount | generateUrl }}" popup-size="{ height: 433, width: 720 }">Follow</a>

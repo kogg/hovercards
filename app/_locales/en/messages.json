@@ -26,5 +26,13 @@
     "youtube":                     { "message": "Youtube" },
     "youtube_discussion":          { "message": "Youtube Comments" },
     "youtube_discussion_short":    { "message": "Comments" },
-    "youtube_account":             { "message": "Youtube Channel" }
+    "youtube_account":             { "message": "Youtube Channel" },
+
+    "account_reason_author":            { "message": "Posted by" },
+    "account_reason_author_with_name":  { "message": "Posted by $1" },
+    "account_reason_author_youtube":    { "message": "Uploaded by" },
+    "account_reason_mention":           { "message": "Mentioned" },
+    "account_reason_mention_with_name": { "message": "Mentioned $1" },
+    "account_reason_tag":               { "message": "Tagged" },
+    "account_reason_tag_with_name":     { "message": "Tagged $1" }
 }
