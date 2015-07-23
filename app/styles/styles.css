@@ -884,7 +884,7 @@ b i, .iconic-push {
 	height: 42px;
 	border-radius: 50px;
 	background-image: url('/images/missing-image.png');
-	background-size: 100%;
+	background-size: cover;
 	background-position: center;
 	position: relative;
 }
@@ -1768,6 +1768,19 @@ h2 {
 	display: block;
 	padding: 16px
 }
+.yocards-message-content a {
+	color: #2196F3;
+	text-decoration: none;
+	display: inline-block;
+	max-width: 100%;
+	vertical-align: bottom;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.yocards-message-content a:hover {
+	text-decoration: underline;
+}
 .yocards-message-content {
 	padding: 16px 16px 14px 16px;
 	display: block;
@@ -1819,6 +1832,46 @@ h2 {
 .instagram-message .yocards-message-image {
 	background:#517fa4;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');
+	background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.youtube-message .yocards-message-text b {
+	color: #55acee
+}
+.youtube-message .yocards-message-image {
+	background:#55acee;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter_logo_white.png');
+	background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.soundcloud-message .yocards-message-text b {
+	color: #55acee
+}
+.soundcloud-message .yocards-message-image {
+	background:#55acee;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter_logo_white.png');
+	background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.imgur-message .yocards-message-text b {
+	color: #55acee
+}
+.imgur-message .yocards-message-image {
+	background:#55acee;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter_logo_white.png');
+	background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.reddit-message .yocards-message-text b {
+	color: #55acee
+}
+.reddit-message .yocards-message-image {
+	background:#55acee;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter_logo_white.png');
 	background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
@@ -1926,9 +1979,6 @@ h2 {
   border-radius: 0 0 3px 3px;
   padding: 16px
 }
-.social-profile-description-container p {
-	padding-bottom: 8px;
-}
 .social-profile-description-container-header {
 	padding: 16px;
 }
@@ -1949,6 +1999,7 @@ h2 {
   font-weight: 600;
 }
 .social-profile-description-container p + .social-profile-description-morecontent {
+	margin-top: 8px;
 	padding-top: 8px;
 	border-top: 1px solid #ECEEF1;
 }
