@@ -85,5 +85,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                     break;
             }
         }, false);
+
+        $scope.$watch('data.content', function(content, oldContent) {
+            if (content || oldContent !== $scope.view.fullscreen) {
+                return;
+            }
+            $scope.view.fullscreen = null;
+        });
     }])
     .name;
