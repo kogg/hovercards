@@ -2616,14 +2616,14 @@ h2 {
 	background: #ECEEF1
 }
 .fold-triangle {
-	background-image: url('/images/foldcorner2.png');
+	background-image: url('/images/foldcorner.png');
 	background-size: 100%;
 	background-position: center;
 	width: 100%;
 	height: 100%;
   background-repeat: no-repeat;
 }
-.share-circles {
+.share-circles, .share-circles2, .share-circles3 {
 	width: 8px;
 	height: 8px;
 	border-radius: 50%;
@@ -2634,10 +2634,16 @@ h2 {
 	opacity: 0;
 	transition: opacity .4s ease-in-out .1s, transform .4s ease-in-out, width .4s ease-in-out, height .4s ease-in-out;
 }
+.share-circles2 {
+	background: #cee3f8
+}
+.share-circles3 {
+	background: #00aced
+}
 .share-circles-container {
 
 }
-.card:hover .context-top .share-circles {
+.card:hover .context-top .share-circles, .card:hover .context-top .share-circles2, .card:hover .context-top .share-circles3 {
 	opacity: 1;
 	transition: opacity .3s ease-in-out .5s, transform .4s ease-in-out, width .4s ease-in-out, height .4s ease-in-out;
 }
@@ -2657,9 +2663,7 @@ h2 {
 	width: 82px;
 	height: 82px;
 }
-.share-circles-container:hover  .sharecontainerhover {
 
-}
 .fb-circle, .twiter-circle, .reddit-circle {
 	width: 8px;
 	height: 8px;
@@ -2716,6 +2720,20 @@ h2 {
 }
 .share-circles-container:hover .share-circles {
 	transform: translate(-34px, -4px);
+	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
+	width: 20px;
+	height: 20px;
+	transition-delay:0s;
+}
+.share-circles-container:hover .share-circles2 {
+	transform: translate(4px, 34px);
+	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
+	width: 20px;
+	height: 20px;
+	transition-delay:0s;
+}
+.share-circles-container:hover .share-circles3 {
+	transform: translate(-17px, 17px);
 	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
 	width: 20px;
 	height: 20px;
