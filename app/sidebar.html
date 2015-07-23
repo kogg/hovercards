@@ -28,15 +28,16 @@
 				<div class="card bounce-in-animation" ng-if="data.discussion" shaker>
 					<div class="context-top" stored="showed_menu_hover" name="showed_menu_hover" default="false" ng-mouseenter="!showed_menu_hover && (entry.showMenu = true) && (showed_menu_hover = true)">
 						<div class="inline-row">
-							<div class="col-11">
+							<div class="col-10">
 								<div ng-class="entry.discussion_apis.length > 1 ? 'network-picker' : 'network-pick'">
 									<div class="network-circle" ng-class="['network-circle-' + api, { 'current-network': entry.discussion_api === api, 'network-not-found': data.discussions[api].$err && data.discussions[api].$resolved }]" ng-click="entry.discussion_api = api" ng-repeat="api in entry.discussion_apis"></div>
 								</div>
+
 								<span ng-show="data.discussion.api !== 'reddit' || !data.discussion.subreddit">{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
-								<span ng-show="data.discussion.api === 'reddit' && data.discussion.subreddit">{{:: 'reddit_discussion_short' | copy }} in <a ng-href="https://www.reddit.com/r/{{ data.discussion.subreddit }}">/r/{{ data.discussion.subreddit }}</a> {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
-								<span ng-show="data.discussion.api === 'reddit' && data.discussion.subreddit" class="time">{{ data.discussion.score | score }} <span class="hidden-date">&middot; <a ng-href="{{ data.discussion | generateUrl }}" class="no-yo">{{ data.discussion.date | timeSince:true }}</a></span></span>
+								<span ng-show="data.discussion.api === 'reddit' && data.discussion.subreddit"> <a class="bluelink" ng-href="https://www.reddit.com/r/{{ data.discussion.subreddit }}">{{ data.discussion.subreddit }}</a> {{:: 'reddit_discussion_short' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 							</div>
-							<div class="col-1">
+							<div class="col-2">
+								<span ng-show="data.discussion.api === 'reddit' && data.discussion.subreddit" class="time">{{ data.discussion.score | score }} <span class="hidden-date">&middot; <a ng-href="{{ data.discussion | generateUrl }}" class="no-yo">{{ data.discussion.date | timeSince:true }}</a></span></span>
 								<i class="zmdi zmdi-more-vert" ng-click="entry.showMenu = !entry.showMenu; $event.stopPropagation()"></i>
 							</div>
 							<div class="col-12" ng-if="data.discussion.api === 'reddit' && (data.discussion.api !== data.content.api || data.discussion.id !== data.content.id)">

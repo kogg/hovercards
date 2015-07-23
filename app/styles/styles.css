@@ -971,18 +971,6 @@ b i, .iconic-push {
 .context-top .row .col-10, .context-top .row .col-11, .context-top .inline-row {
 	line-height: 18px;
 }
-.context-top .row .col-9 {
-	position: relative;
-}
-.context-top .row .col-9:after {
-  content: "";
-  position: absolute;
-  left: -16px;
-  width: 297px;
-  bottom: -9px;
-  height: 11px;
-  z-index: 9;
-}
 .context-top span {
 	color: #727272;
   text-decoration: none;
@@ -1005,6 +993,11 @@ b i, .iconic-push {
 	line-height: 18px;
 	text-decoration: none;
 }
+.context-top span a.bluelink {
+	color:#2196F3 !important;
+	text-transform: capitalize;
+}
+
 .context-top span b {
 	display: inline
 }
@@ -1461,6 +1454,7 @@ h2 {
 	position: relative;
 	padding-top:6px;
 }
+
 .reddit-header a {
 	text-decoration: none;
   font-size: 18px;
@@ -1480,7 +1474,9 @@ h2 {
   font-size: 12px;
   font-weight: 600;
 }
-
+.time + i {
+	display: none;
+}
 /*reddit specific formatting*/
 .comment div + div div.md {
 	vertical-align: inherit;
@@ -1608,7 +1604,7 @@ h2 {
   display: inline-block;
 }
 .hidden-date {
-	display: none
+	display: none !important
 }
 .hidden-date a {
 	color: #727272;
@@ -1616,7 +1612,7 @@ h2 {
 	font-weight: 700;
 }
 .time:hover .hidden-date {
-	display: inline;
+	display: inline !important;
 }
 
 /*Message Cards*/
