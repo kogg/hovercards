@@ -154,7 +154,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             if (selectedPerson === oldSelectedPerson || !selectedPerson || !oldSelectedPerson) {
                 return;
             }
-            $scope.view.fullscreen = null;
             window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people', 'changed person'] }, '*');
         });
 
