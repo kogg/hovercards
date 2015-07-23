@@ -8,7 +8,7 @@ var TIMEOUT_BEFORE_TRIGGER = 150;
 var TIMEOUT_BEFORE_FADEOUT = 3000;
 
 module.exports = function(selector, get_url, get_offset) {
-    $('html').on('mousemove mouseenter', selector, function() {
+    $('html').on('mousemove mouseenter', selector, function(e) {
         var obj = $(this);
         var url;
         var identity;
@@ -21,7 +21,7 @@ module.exports = function(selector, get_url, get_offset) {
             $(this).data(EXTENSION_ID + '-clickable-yo-children', ($(this).data(EXTENSION_ID + '-clickable-yo-children') || 0) + 1);
         });
 
-        function before_trigger() {
+        function before_trigger(e) {
             function before_trigger_move(e) {
                 last_mousemove = e;
                 clearTimeout(timeout);
@@ -50,7 +50,7 @@ module.exports = function(selector, get_url, get_offset) {
             }
 
             var timeout = setTimeout(before_trigger_next, TIMEOUT_BEFORE_TRIGGER);
-            var last_mousemove;
+            var last_mousemove = e;
 
             obj
                 .data(EXTENSION_ID + '-clickable-yo', 'before_trigger')
@@ -148,6 +148,6 @@ module.exports = function(selector, get_url, get_offset) {
                 .on(EXTENSION_ID + '-clickable-yo-child', during_trigger_stop);
         }
 
-        before_trigger();
+        before_trigger(e);
     });
 };

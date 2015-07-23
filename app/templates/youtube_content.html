@@ -20,7 +20,7 @@
 	</div>
 
 	<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }">
-		<iframe class="youtube-video no-yo" ng-if="playing" ng-src="{{:: ('https://www.youtube.com/embed/' + data.content.id + '?autoplay=1&fs=1' + (entry.content.time ? '&start=' + entry.content.time : '')) | trustedUrl }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+		<iframe class="youtube-video" ng-if="playing" ng-src="{{:: ('https://www.youtube.com/embed/' + data.content.id + '?autoplay=1&fs=1&noyo=1' + (entry.content.time ? '&start=' + entry.content.time : '')) | trustedUrl }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 	</div>
 	<div class="video-top-underlay" ng-style="{ cursor: !playing && 'pointer'}">
 		<div class="video-image" ng-click="playing = true" ng-style=":: data.content.image && { 'background-image': 'url(' + data.content.image + ')' }"></div>

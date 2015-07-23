@@ -55,6 +55,10 @@ function find_offset_for_videos(obj, trigger, e, url) {
     return offset;
 }
 
+if (document.URL.match(/[&?]noyo=1/)) {
+    return;
+}
+
 clickable_yo('a[href]:not(.no-yo,[data-href][data-expanded-url])', function(link) { return link.attr('href'); },         find_offset_for_link);
 clickable_yo('a[data-href]:not(.no-yo,[data-expanded-url])',       function(link) { return link.data('href'); },         find_offset_for_link);
 clickable_yo('a[data-expanded-url]:not(.no-yo,[data-href])',       function(link) { return link.data('expanded-url'); }, find_offset_for_link);
