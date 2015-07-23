@@ -125,7 +125,11 @@ module.exports = function sidebar() {
         sidebar_frame.postMessage(message, '*');
     }
 
-    function dblclick_for_sidebar() {
+    function dblclick_for_sidebar(e) {
+        var target = $(e.target);
+        if (back_button.is(target) || $.contains(back_button[0], target[0])) {
+            return;
+        }
         if (document.selection && document.selection.empty) {
             document.selection.empty();
         } else if (window.getSelection) {
