@@ -2632,6 +2632,7 @@ h2 {
 	top: 0;
 	right: 0;
 	opacity: 0;
+	z-index: 2;
 	transition: opacity .4s ease-in-out .1s, transform .4s ease-in-out, width .4s ease-in-out, height .4s ease-in-out;
 }
 .share-circles2 {
@@ -2673,6 +2674,7 @@ h2 {
 	top: 14px;
 	display: block;
 	opacity: 0;
+	z-index: 3;
 	transition:all .4s ease-in-out;
 }
 .twiter-circle {
