@@ -589,6 +589,9 @@ b i, .iconic-push {
 .video-top-underlay .play-video.twitter-background {
 	background-color: rgba(0,0,0,0.6);
 }
+.video-top-underlay .play-video.youtube-background {
+	background-color: rgba(0,0,0,0.6);
+}
 .video-top-underlay:hover .play-video.twitter-background {
 	background-color:#59ADEC
 }
@@ -1696,6 +1699,7 @@ h2 {
 	text-decoration: underline;
 	cursor: pointer;
 }
+
 /*message type*/
 .error-message .yocards-message-text b {
 	color: #FF4F29
@@ -1728,41 +1732,41 @@ h2 {
   background-repeat: no-repeat;
 }
 .youtube-message .yocards-message-text b {
-	color: #55acee
+	color: #F44336
 }
 .youtube-message .yocards-message-image {
-	background:#55acee;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter_logo_white.png');
+	background:#F44336;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
 	background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
 }
 .soundcloud-message .yocards-message-text b {
-	color: #55acee
+	color: #fc561e
 }
 .soundcloud-message .yocards-message-image {
-	background:#55acee;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter_logo_white.png');
+	background:#fc561e;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png');
 	background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
 }
 .imgur-message .yocards-message-text b {
-	color: #55acee
+	color: #000
 }
 .imgur-message .yocards-message-image {
-	background:#55acee;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter_logo_white.png');
+	background:#000;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Imgur-icon-full_color.png');
 	background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
 }
 .reddit-message .yocards-message-text b {
-	color: #55acee
+	color: #ff4500
 }
 .reddit-message .yocards-message-image {
-	background:#55acee;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter_logo_white.png');
+	background:#cee3f8;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png');
 	background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
@@ -2539,7 +2543,7 @@ h2 {
 	color: #F44336 !important
 }
 .youtube-background {
-	background-color: #F44336 !important
+	background-color: #F44336
 }
 .twitter-color {
 	color: #4099FF !important
@@ -2612,14 +2616,14 @@ h2 {
 	background: #ECEEF1
 }
 .fold-triangle {
-	background-image: url('/images/foldcorner2.png');
+	background-image: url('/images/foldcorner.png');
 	background-size: 100%;
 	background-position: center;
 	width: 100%;
 	height: 100%;
   background-repeat: no-repeat;
 }
-.share-circles {
+.share-circles, .share-circles2, .share-circles3 {
 	width: 8px;
 	height: 8px;
 	border-radius: 50%;
@@ -2630,10 +2634,16 @@ h2 {
 	opacity: 0;
 	transition: opacity .4s ease-in-out .1s, transform .4s ease-in-out, width .4s ease-in-out, height .4s ease-in-out;
 }
+.share-circles2 {
+	background: #cee3f8
+}
+.share-circles3 {
+	background: #00aced
+}
 .share-circles-container {
 
 }
-.card:hover .context-top .share-circles {
+.card:hover .context-top .share-circles, .card:hover .context-top .share-circles2, .card:hover .context-top .share-circles3 {
 	opacity: 1;
 	transition: opacity .3s ease-in-out .5s, transform .4s ease-in-out, width .4s ease-in-out, height .4s ease-in-out;
 }
@@ -2653,9 +2663,7 @@ h2 {
 	width: 82px;
 	height: 82px;
 }
-.share-circles-container:hover  .sharecontainerhover {
 
-}
 .fb-circle, .twiter-circle, .reddit-circle {
 	width: 8px;
 	height: 8px;
@@ -2712,6 +2720,20 @@ h2 {
 }
 .share-circles-container:hover .share-circles {
 	transform: translate(-34px, -4px);
+	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
+	width: 20px;
+	height: 20px;
+	transition-delay:0s;
+}
+.share-circles-container:hover .share-circles2 {
+	transform: translate(4px, 34px);
+	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
+	width: 20px;
+	height: 20px;
+	transition-delay:0s;
+}
+.share-circles-container:hover .share-circles3 {
+	transform: translate(-17px, 17px);
 	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
 	width: 20px;
 	height: 20px;
