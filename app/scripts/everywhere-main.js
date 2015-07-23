@@ -55,6 +55,13 @@ function find_offset_for_videos(obj, trigger, e, url) {
     return offset;
 }
 
+$(document).keydown(function(e) {
+    if (e.which !== 27) {
+        return;
+    }
+    window.top.postMessage({ msg: EXTENSION_ID + '-Esc' }, '*');
+});
+
 if (document.URL.match(/[&?]noyo=1/)) {
     return;
 }
@@ -92,13 +99,6 @@ switch ((document.domain || '').replace(/^www\./, '')) {
         clickable_yo('div#player div.html5-video-player', function() { return document.URL; }, find_offset_for_videos);
         break;
 }
-
-$(document).keydown(function(e) {
-    if (e.which !== 27) {
-        return;
-    }
-    window.top.postMessage({ msg: EXTENSION_ID + '-hide', by: 'Esc' }, '*');
-});
 
 $('html').on(EXTENSION_ID + '-clickable-yo', function(e, url) {
     window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'clickable-yo', url: url }, '*');
