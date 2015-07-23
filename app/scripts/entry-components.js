@@ -24,9 +24,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
             switch(request.msg) {
                 case EXTENSION_ID + '-load':
                     $scope.$apply(function() {
-                        $scope.entry           = null;
-                        $scope.data            = {};
-                        $scope.view.fullscreen = false;
+                        $scope.entry = null;
+                        $scope.data  = {};
                     });
                     $timeout(function() {
                         var identity = request.identity;
