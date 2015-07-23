@@ -87,7 +87,21 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
         }, false);
 
         $scope.$watch('data.content', function(content, oldContent) {
-            if (content || oldContent !== $scope.view.fullscreen) {
+            if (content || !oldContent || oldContent !== $scope.view.fullscreen) {
+                return;
+            }
+            $scope.view.fullscreen = null;
+        });
+
+        $scope.$watch('data.discussion', function(discussion, oldDiscussion) {
+            if (discussion || !oldDiscussion || (oldDiscussion !== $scope.view.fullscreen && !_.contains(oldDiscussion.comments, $scope.view.fullscreen))) {
+                return;
+            }
+            $scope.view.fullscreen = null;
+        });
+
+        $scope.$watch('data.moreContent', function(moreContent, oldMoreContent) {
+            if (moreContent || !oldMoreContent || (oldMoreContent !== $scope.view.fullscreen && !_.contains(oldMoreContent.content, $scope.view.fullscreen))) {
                 return;
             }
             $scope.view.fullscreen = null;
