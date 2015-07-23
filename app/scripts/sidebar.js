@@ -163,6 +163,12 @@ module.exports = function sidebar() {
                 }
                 sendMessage(message);
                 break;
+            case EXTENSION_ID + '-Esc':
+                if (sidebar_frame) {
+                    sendMessage(request);
+                    break;
+                }
+                /* falls through */
             case EXTENSION_ID + '-hide':
                 if (!sidebar_frame) {
                     on_deck = null;
