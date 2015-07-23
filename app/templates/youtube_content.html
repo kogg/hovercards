@@ -25,10 +25,10 @@
 	<div class="video-top-underlay" ng-style="{ cursor: !playing && 'pointer'}">
 		<div class="video-image" ng-click="playing = true" ng-style=":: data.content.image && { 'background-image': 'url(' + data.content.image + ')' }"></div>
 		<div class="play-video youtube-background" ng-click="playing = true" ng-class="{ 'play-video-clicked': playing }"></div>
-		<div class="video-cta" ng-click="view.fullscreen=data.content" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
+		<div class="video-cta youtube-background" ng-click="view.fullscreen=data.content" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
 			<i class="zmdi zmdi-fullscreen"></i>
 		</div>
-		<div class="video-cta" ng-click="view.fullscreen=null" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
+		<div class="video-cta youtube-background" ng-click="view.fullscreen=null" ng-class="{ 'button-vanish': view.fullscreen !== data.content }">
 			<i class="zmdi zmdi-fullscreen-exit"></i>
 		</div>
 	</div>

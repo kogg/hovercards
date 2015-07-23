@@ -725,7 +725,7 @@ b i, .iconic-push {
   border-radius: 50%;
   text-align: center;
   font-size: 21px;
-  background: #F44336;
+  background: #C1C3C5;
   color: #FFF;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   z-index: 3;
@@ -1458,27 +1458,7 @@ h2 {
 	position: relative;
 	padding-top:6px;
 }
-.reddit-header-container {
-	display: inline;
-}
-.reddit-header-container:hover {
-	display: block;
-}
-.reddit-header-container:after {
-  content: "";
-  position: absolute;
-  left: -16px;
-  width: 297px;
-  top: -2px;
-  height: 11px;
-  z-index: 10;
-  display: none;
-}
-.reddit-header-container:hover:after {
-	display: block;
-}
-
-.reddit-header-container a {
+.reddit-header a {
 	text-decoration: none;
   font-size: 18px;
   color: #000;
@@ -1488,105 +1468,16 @@ h2 {
   z-index: 2;
   line-height: 22px;
 }
-.reddit-header-container a:hover {
+.reddit-header a:hover {
 	text-decoration: underline;
 }
-.reddit-header-cover {
-	background-color: white;
-	position: absolute;
-	top: -32px;
-	width: 300px;
-	left: -15px;
-	display: none;
-	height: calc(100% + 42px);
-	height: -webkit-calc(100% + 42px);
-	-webkit-animation-duration: .4s;
-  animation-duration: .4s;
-  -webkit-animation-fill-mode: both; 
-  animation-fill-mode: both; 
-	-webkit-animation-name: headerfadeIn; 
-	animation-name: headerfadeIn; 
-} 
 .time a {
 	color: #727272;
   text-decoration: none;
   font-size: 12px;
   font-weight: 600;
 }
-@-webkit-keyframes headerfadeIn { 
-    0% {
-    	opacity: 0;
-    }
-    100% {
-    	opacity: 1;
-    }
-} 
-@keyframes headerfadeIn { 
-    0% {
-    	opacity: 0;
-    }
-    100% {
-    	opacity: 1;
-    }
-} 
 
-.reddit-header-container:hover .reddit-header-cover {
-	display: block;
-}
-.reddit-header-container .user-context {
-	display: none;
-	position: absolute;
-	width: 100%;
-	top: -18px;
-	background: white;
-	z-index: 7;
-	opacity: 0;
-	-webkit-animation-duration: .8s;
-  animation-duration: .8s;
-  -webkit-animation-fill-mode: both; 
-  animation-fill-mode: both;
-	-webkit-animation-name: headerfadeIndelay; 
-	animation-name: headerfadeIndelay; 
-} 
-.user-context .network-circle {
-	z-index: 4;
-	margin-left: 1px;
-}
-.reddit-header-container .user-context:after {
-  content: "";
-  width: 40px;
-  height: 29px;
-  left: -9px;
-  top: -10px;
-  background: #FFF;
-  position: absolute
-}
-@-webkit-keyframes headerfadeIndelay { 
-    0% {
-    	opacity: 0;
-    }
-    50% {
-    	opacity: 0;
-    }
-    100% {
-    	opacity: 1;
-    }
-} 
-@keyframes headerfadeIndelay { 
-    0% {
-    	opacity: 0;
-    }
-    50% {
-    	opacity: 0;
-    }
-    100% {
-    	opacity: 1;
-    }
-}
-
-.reddit-header-container:hover .user-context {
-	display: block;
-}
 /*reddit specific formatting*/
 .comment div + div div.md {
 	vertical-align: inherit;
@@ -2646,6 +2537,9 @@ h2 {
 }
 .youtube-color {
 	color: #F44336 !important
+}
+.youtube-background {
+	background-color: #F44336 !important
 }
 .twitter-color {
 	color: #4099FF !important
