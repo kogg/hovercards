@@ -1380,10 +1380,10 @@ h2 {
 	text-align: center;
 }
 .no-comments b {
-	color:#6540fb
+	color:#585df3
 }
 .no-comments a {
-  color: #5033C8;
+  color: #4b4fce;
   font-size: 14px;
   letter-spacing: 0.1em;
   position: relative;
@@ -1664,7 +1664,6 @@ h2 {
 }
 .social-profile .yocards-message-container {
 	margin:0 20px;
-	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
 }
 .yocards-message-image {
 	width: 33.333333%;
@@ -1698,6 +1697,10 @@ h2 {
 .yocards-message-text .yocards-message-content {
 	display: block;
 	padding: 16px
+}
+.social-profile .yocards-message-text {
+  border: 1px solid #ECEEF1;
+  border-left: none;
 }
 .yocards-message-content a {
 	color: #2196F3;
@@ -2796,8 +2799,8 @@ h2 {
 	margin: 16px 20px 0;
 }
 .view-profile:hover, .view-profile-mini:hover {
-	color:#6540fb;
-	border: 1px solid #6540fb;
+	color:#585df3;
+	border: 1px solid #585df3;
 }
 .zmdi-pin {
 	margin-right: 6px;
