@@ -131,6 +131,8 @@ iframe {
 }
 .response b a, .quoted b a {
 	font-size: 12px;
+	font-weight: 700;
+	color: black
 }
 .response .col-10, .response .col-2, .quoted .col-10, .quoted .col-2 {
 	z-index: 20;
@@ -1836,7 +1838,7 @@ h2 {
 }
 .network-menu-container::-webkit-scrollbar-thumb {
   border-radius: 0px;
-  background-color: #ECEEF1;
+  background-color: rgba(0,0,0,.1);
 }
 .network-menu-option {
 	line-height: 48px;
@@ -2464,7 +2466,7 @@ h2 {
 }
 .slick-dots::-webkit-scrollbar-thumb {
     border-radius: 0px;
-    background-color: #ECEEF1;
+    background-color: rgba(0,0,0,.1);
 }
 .slick-dots li {
 	display: inline-block;
