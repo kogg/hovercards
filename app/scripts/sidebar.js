@@ -83,6 +83,13 @@ module.exports = function sidebar() {
                 if (message.by !== 'back') {
                     if (_.chain(identity_history).last().isEqual(message.identity).value()) {
                         if (showing) {
+                            switch (message.by) {
+                                case 'carlito':
+                                case 'res-key(86)':
+                                case 'res-key(186)':
+                                    sidebar_message({ msg: EXTENSION_ID + '-hide', by: message.by });
+                                    return;
+                            }
                             category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
                             window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar', 'activated (same) ' + message.by, category] }, '*');
                             sidebar_frame.postMessage({ msg: EXTENSION_ID + '-sameload' }, '*');
