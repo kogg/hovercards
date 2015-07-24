@@ -66,21 +66,21 @@
 	background-color: #517fa4 !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-imgur .__MSG_@@extension_id__-image-hidden {
-	background: #85BF25 !important;
+	background: #000 !important;
 }
-.__MSG_@@extension_id__-clickable-yo-trigger-reddit .yocardsyopoppyblack,
+.__MSG_@@extension_id__-clickable-yo-trigger-reddit .yocardsyopoppyimgur,
 .__MSG_@@extension_id__-clickable-yo-trigger-reddit .yocardsyopoppywhite,
 .__MSG_@@extension_id__-clickable-yo-trigger-imgur .yocardsyopoppyreddit,
 .__MSG_@@extension_id__-clickable-yo-trigger-imgur .yocardsyopoppywhite {
 	display: none !important;
 }
-.yocardsyopoppyreddit, .yocardsyopoppyblack {
+.yocardsyopoppyreddit, .yocardsyopoppyimgur {
 	display: none !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-reddit .yocardsyopoppyreddit {
 	display: block !important
 }
-.__MSG_@@extension_id__-clickable-yo-trigger-imgur .yocardsyopoppyblack {
+.__MSG_@@extension_id__-clickable-yo-trigger-imgur .yocardsyopoppyimgur {
 	display: block !important
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-clicked {

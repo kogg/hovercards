@@ -129,7 +129,7 @@ module.exports = function(selector, get_url, get_offset) {
 
             var timeout = setTimeout(during_trigger_timeout, TIMEOUT_BEFORE_FADEOUT);
 
-            var trigger = $('<div><div class="'+ EXTENSION_ID + '-image-hidden"><img class="yocardsyopoppywhite" src="' + chrome.extension.getURL('images/yopoppy.png') + '"><img class="yocardsyopoppyreddit" src="' + chrome.extension.getURL('images/yopoppyreddit.png') + '"><img class="yocardsyopoppyblack" src="' + chrome.extension.getURL('images/yopoppyblack.png') + '"></div></div>')
+            var trigger = $('<div><div class="'+ EXTENSION_ID + '-image-hidden"><img class="yocardsyopoppywhite" src="' + chrome.extension.getURL('images/yopoppy.png') + '"><img class="yocardsyopoppyreddit" src="' + chrome.extension.getURL('images/yopoppyreddit.png') + '"><img class="yocardsyopoppyimgur" src="' + chrome.extension.getURL('images/yopoppyblack.png') + '"></div></div>')
                 .appendTo(document.location.protocol === 'chrome-extension:' ? 'body' : 'html')
                 .addClass(EXTENSION_ID + '-clickable-yo-trigger')
                 .addClass(EXTENSION_ID + '-clickable-yo-trigger-' + identity.api);
