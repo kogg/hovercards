@@ -8,7 +8,7 @@
 				<b class="ellipsis youtube-color">{{ (person.selectedAccount.reason && (('account_reason_' + person.selectedAccount.reason + '_youtube' | copy) || ('account_reason_' + person.selectedAccount.reason | copy))) || ('youtube_account' | copy) }}</b>
 				<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.name }}</a>
 				<div class="profile-cta">
-					<div youtube-channel-subscribe youtube-channel-id="person.selectedAccount.id" subscribed-offset="offset"></div>
+					<a class="youtube-background" popup="{{ person.selectedAccount | generateUrl }}?sub_confirmation=1" popup-size="{ height: 300, width: 640 }">Subscribe</a>
 				</div>
 			</div>
 		</div>
