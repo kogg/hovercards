@@ -15,6 +15,7 @@
 	cursor: pointer !important;
 	background: white !important;
 	display: block !important;
+	box-shadow: 0 2px 7px 0 rgba(0,0,0,.19), 0 3px 6px 0 rgba(0,0,0,.2);
 	transition:all .2s ease-in-out;
 }
 .__MSG_@@extension_id__-image-hidden {
@@ -51,51 +52,21 @@
 
 .__MSG_@@extension_id__-clickable-yo-trigger-youtube .__MSG_@@extension_id__-image-hidden {
 	background-color: #F44336 !important;
-	background: -moz-radial-gradient(center, ellipse cover,  #F44336 0, #F44336 22px, #F44336 23px); /* FF3.6+ */
-	background: -webkit-gradient(radial, center center, 0, center center, 100%, color-stop(0,#F44336), color(21px,#F44336), co2or-stop(23px,#F44336)); /* Chrome,Safari4+ */
-	background: -webkit-radial-gradient(center, ellipse cover,  #F44336 0,#F44336 21px,#F44336 23px); /* Chrome10+,Safari5.1+ */
-	background: -o-radial-gradient(center, ellipse cover,  #F44336 0,#F44336 21px,#F44336 23px); /* Opera 12+ */
-	background: -ms-radial-gradient(center, ellipse cover,  #F44336 0,#F44336 21px,#F44336 23px); /* IE10+ */
-	background: radial-gradient(ellipse at center,  #F44336 0,#F44336 21px,#F44336 23px); /* W3C */
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-soundcloud .__MSG_@@extension_id__-image-hidden {
 	background-color: #fc561e !important;
-	background: -moz-radial-gradient(center, ellipse cover,  #fc561e 0, #fc561e 22px, #fc561e 23px); /* FF3.6+ */
-	background: -webkit-gradient(radial, center center, 0, center center, 100%, color-stop(0,#fc561e), color(21px,#fc561e), co2or-stop(23px,#fc561e)); /* Chrome,Safari4+ */
-	background: -webkit-radial-gradient(center, ellipse cover,  #fc561e 0,#fc561e 21px,#fc561e 23px); /* Chrome10+,Safari5.1+ */
-	background: -o-radial-gradient(center, ellipse cover,  #fc561e 0,#fc561e 21px,#fc561e 23px); /* Opera 12+ */
-	background: -ms-radial-gradient(center, ellipse cover,  #fc561e 0,#fc561e 21px,#fc561e 23px); /* IE10+ */
-	background: radial-gradient(ellipse at center,  #fc561e 0,#fc561e 21px,#fc561e 23px); /* W3C */
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-twitter .__MSG_@@extension_id__-image-hidden {
 	background-color: #55ACEE !important;
-	background: -moz-radial-gradient(center, ellipse cover,  #55ACEE 0, #55ACEE 22px, #55ACEE 23px); /* FF3.6+ */
-	background: -webkit-gradient(radial, center center, 0, center center, 100%, color-stop(0,#55ACEE), color(21px,#55ACEE), co2or-stop(23px,#55ACEE)); /* Chrome,Safari4+ */
-	background: -webkit-radial-gradient(center, ellipse cover,  #55ACEE 0,#55ACEE 21px,#55ACEE 23px); /* Chrome10+,Safari5.1+ */
-	background: -o-radial-gradient(center, ellipse cover,  #55ACEE 0,#55ACEE 21px,#55ACEE 23px); /* Opera 12+ */
-	background: -ms-radial-gradient(center, ellipse cover,  #55ACEE 0,#55ACEE 21px,#55ACEE 23px); /* IE10+ */
-	background: radial-gradient(ellipse at center,  #55ACEE 0,#55ACEE 21px,#55ACEE 23px); /* W3C */
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-reddit .__MSG_@@extension_id__-image-hidden {
-	background-color: #ff5700 !important;
+	background-color: #fff !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-instagram .__MSG_@@extension_id__-image-hidden {
 	background-color: #517fa4 !important;
-	background: -moz-radial-gradient(center, ellipse cover,  #517fa4 0, #517fa4 22px, #517fa4 23px); /* FF3.6+ */
-	background: -webkit-gradient(radial, center center, 0, center center, 100%, color-stop(0,#517fa4), color(21px,#517fa4), co2or-stop(23px,#517fa4)); /* Chrome,Safari4+ */
-	background: -webkit-radial-gradient(center, ellipse cover,  #517fa4 0,#517fa4 21px,#517fa4 23px); /* Chrome10+,Safari5.1+ */
-	background: -o-radial-gradient(center, ellipse cover,  #517fa4 0,#517fa4 21px,#517fa4 23px); /* Opera 12+ */
-	background: -ms-radial-gradient(center, ellipse cover,  #517fa4 0,#517fa4 21px,#517fa4 23px); /* IE10+ */
-	background: radial-gradient(ellipse at center,  #517fa4 0,#517fa4 21px,#517fa4 23px); /* W3C */
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-imgur .__MSG_@@extension_id__-image-hidden {
 	background: #85BF25 !important;
-	background: -moz-radial-gradient(center, ellipse cover,  #85BF25 0, #85BF25 22px, #85BF25 23px); /* FF3.6+ */
-	background: -webkit-gradient(radial, center center, 0, center center, 100%, color-stop(0,#85BF25), color(21px,#85BF25), co2or-stop(23px,#85BF25)); /* Chrome,Safari4+ */
-	background: -webkit-radial-gradient(center, ellipse cover,  #85BF25 0,#85BF25 21px,#85BF25 23px); /* Chrome10+,Safari5.1+ */
-	background: -o-radial-gradient(center, ellipse cover,  #85BF25 0,#85BF25 21px,#85BF25 23px); /* Opera 12+ */
-	background: -ms-radial-gradient(center, ellipse cover,  #85BF25 0,#85BF25 21px,#85BF25 23px); /* IE10+ */
-	background: radial-gradient(ellipse at center,  #85BF25 0,#85BF25 21px,#85BF25 23px); /* W3C */
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-reddit .yocardsyopoppyblack,
 .__MSG_@@extension_id__-clickable-yo-trigger-reddit .yocardsyopoppywhite,
