@@ -55,7 +55,7 @@ function find_offset_for_videos(obj, trigger, e, url) {
     return offset;
 }
 
-$(document).keydown(function(e) {
+$(document).on('keydown', function(e) {
     if (e.which !== 27) {
         return;
     }
@@ -96,7 +96,8 @@ switch ((document.domain || '').replace(/^www\./, '')) {
         }
         break;
     case 'reddit.com':
-        $(document).keydown(function(e) {
+        // TODO Make these for RES instead for all of reddit
+        $(document).on('keydown', function(e) {
             if (e.which !== 86 && e.which !== 186) {
                 return;
             }
@@ -110,6 +111,18 @@ switch ((document.domain || '').replace(/^www\./, '')) {
             }
             window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'res-key(' + e.which + ')', url: url }, '*');
             e.preventDefault();
+        });
+
+        $(document).on('keydown', function res_key_help(e) {
+            if (e.which !== 16 && e.which !== 191) {
+                return;
+            }
+            var tbody = $('#keyHelp table tbody');
+            if (!tbody.length) {
+                return;
+            }
+            $('<tr><td>v or ;</td><td>Toggle <b>YoCards!</b></td></tr>').prependTo(tbody);
+            $(document).off('keydown', res_key_help);
         });
         break;
     case 'youtube.com':
