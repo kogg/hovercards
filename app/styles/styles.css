@@ -516,12 +516,15 @@ b i, .iconic-push {
   min-width: 86px;
   background-size: auto 90%;
   background-repeat: no-repeat;
-  padding-left: 35px;
+  padding-left: 32px;
   background-position: 8px center;
   text-decoration: none;
 }
 .profile-cta a.twitter-background {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
+}
+.profile-cta a.youtube-background {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
 }
 .profile-cta a.soundcloud-background {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png');
@@ -598,7 +601,7 @@ b i, .iconic-push {
 	background-color:#59ADEC
 }
 .video-top-underlay:hover .play-video.youtube-background {
-	background-color: #F44336
+	background-color: #e94639
 }
 .play-video + div {
 	display: none;
@@ -773,7 +776,7 @@ b i, .iconic-push {
   width: calc(100% - 42px);
   width: -webkit-calc(100% - 42px);
   border-radius: 0 0 2px 2px;
-  background: #F44336;
+  background: #e94639;
   overflow: hidden;
   left: 21px;
 }
@@ -1777,10 +1780,10 @@ h2 {
   background-repeat: no-repeat;
 }
 .youtube-message .yocards-message-text b {
-	color: #F44336
+	color: #e94639
 }
 .youtube-message .yocards-message-image {
-	background:#F44336;
+	background:#e94639;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
 	background-size: 80%;
   background-position: center;
@@ -1885,10 +1888,10 @@ h2 {
 	left: 0px;
 }
 .youtube-channel-option span.active {
-	color: #F44336;
+	color: #e94639;
 }
 .youtube-channel-option span.active:before {
-	background: #F44336;
+	background: #e94639;
 }
 .network-menu-size-1 .youtube-channel-option span.active:after {
 	content: " Channel"
@@ -2582,10 +2585,10 @@ h2 {
 	background-color: #fc561e !important
 }
 .youtube-color {
-	color: #F44336 !important
+	color: #e94639 !important
 }
 .youtube-background {
-	background-color: #F44336
+	background-color: #e94639
 }
 .twitter-color {
 	color: #4099FF !important
