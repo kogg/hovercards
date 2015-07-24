@@ -728,11 +728,17 @@ b i, .iconic-push {
   border-radius: 50%;
   text-align: center;
   font-size: 21px;
-  background: #C1C3C5;
-  color: #FFF;
+  background: #ECEEF1;
+  color: #8E9091;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   z-index: 3;
   position: absolute;
+}
+.video-cta.youtube-background,
+.video-cta.instagram-background,
+.video-cta.instagram-background,
+.video-cta.twitter-background {
+	color: white;
 }
 .video-cta i {
 	position: relative;
