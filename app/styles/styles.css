@@ -974,6 +974,12 @@ b i, .iconic-push {
 .inline-row .col-9 {
 	padding: 16px 0px 6px 16px;
 }
+.inline-row .col-12 {
+	padding: 16px 16px 6px 16px;
+}
+.inline-row .col-12 + .col-12 {
+	padding: 0px;
+}
 .inline-row .col-3 {
 	padding: 16px 16px 6px 0px;
 	position: relative;
