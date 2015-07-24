@@ -974,11 +974,14 @@ b i, .iconic-push {
 .inline-row .col-9 {
 	padding: 16px 0px 6px 16px;
 }
-.inline-row .col-12 {
+.inline-row > .col-12 {
 	padding: 16px 16px 6px 16px;
 }
 .inline-row .col-12 + .col-12 {
-	padding: 0px;
+	padding: 0px 16px;
+}
+.inline-row .col-3 + .col-12 {
+	padding:0px 16px
 }
 .inline-row .col-3 {
 	padding: 16px 16px 6px 0px;
@@ -1470,7 +1473,6 @@ h2 {
 /*reddit header*/
 .reddit-header {
 	position: relative;
-	padding: 0px 16px 0px 16px
 }
 
 .reddit-header a {
