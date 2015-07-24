@@ -977,6 +977,9 @@ b i, .iconic-push {
 .inline-row {
 	padding-bottom: 10px;
 }
+.card-stats.inline-row {
+	padding-bottom: 0px;
+}
 .inline-row .col-9 {
 	padding: 16px 0px 6px 16px;
 }
