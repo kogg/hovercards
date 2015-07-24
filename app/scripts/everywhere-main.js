@@ -95,6 +95,23 @@ switch ((document.domain || '').replace(/^www\./, '')) {
             clickable_yo('div.QuoteTweet', function(quote) { return quote.find('div[href]').attr('href'); }, get_top_right);
         }
         break;
+    case 'reddit.com':
+        $(document).keydown(function(e) {
+            if (e.which !== 86 && e.which !== 186) {
+                return;
+            }
+            var res_active = $('.RES-keyNav-activeElement');
+            if (!res_active.length) {
+                return;
+            }
+            var url = res_active.find('.comments,.bylink').attr('href');
+            if (!url) {
+                return;
+            }
+            window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'res-key(' + e.which + ')', url: url }, '*');
+            e.preventDefault();
+        });
+        break;
     case 'youtube.com':
         clickable_yo('div#player div.html5-video-player', function() { return document.URL; }, find_offset_for_videos);
         break;
