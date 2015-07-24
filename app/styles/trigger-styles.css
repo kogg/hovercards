@@ -15,7 +15,6 @@
 	cursor: pointer !important;
 	background: white !important;
 	display: block !important;
-	box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
 	transition:all .2s ease-in-out;
 }
 .__MSG_@@extension_id__-image-hidden {
@@ -79,12 +78,6 @@
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-reddit .__MSG_@@extension_id__-image-hidden {
 	background-color: #ff5700 !important;
-	background: -moz-radial-gradient(center, ellipse cover,  #ff5700 0, #ff5700 22px, #ff5700 23px); /* FF3.6+ */
-	background: -webkit-gradient(radial, center center, 0, center center, 100%, color-stop(0,#ff5700), color(21px,#ff5700), co2or-stop(23px,#ff5700)); /* Chrome,Safari4+ */
-	background: -webkit-radial-gradient(center, ellipse cover,  #ff5700 0,#ff5700 21px,#ff5700 23px); /* Chrome10+,Safari5.1+ */
-	background: -o-radial-gradient(center, ellipse cover,  #ff5700 0,#ff5700 21px,#ff5700 23px); /* Opera 12+ */
-	background: -ms-radial-gradient(center, ellipse cover,  #ff5700 0,#ff5700 21px,#ff5700 23px); /* IE10+ */
-	background: radial-gradient(ellipse at center,  #ff5700 0,#ff5700 21px,#ff5700 23px); /* W3C */
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-instagram .__MSG_@@extension_id__-image-hidden {
 	background-color: #517fa4 !important;
