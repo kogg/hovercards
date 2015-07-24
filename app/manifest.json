@@ -72,7 +72,7 @@
         "identity",
         "storage"
     ],
-    "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self' https://www.youtube.com",
+    "content_security_policy": "script-src 'self'; object-src 'self' https://www.youtube.com",
     "default_locale": "en",
     "manifest_version": 2,
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmgcNi08s/rFHrdk66daON3TqBpHW1H/8Uhb1xcAarVPf7zoXunwRapKIX9LqcVrFM3PPgiMEfUycNw3YbdXr1gDKhfvJvbJ9NeDhobcu7ILJZ0bQDK3rBBq8utsYlz7xGUBRuU14TfOnxUe8rYQVIAkU9cOSyH4S3ZEhxfAYHV57Fw708yEVds5zlTFMAaoqli6WPzUt4tMufdQ1vSuEJXl9lTKO7365BJPePUgdiTiwqtVDKS3kYf3ZwZacHjURwdNRc9BWcbxy5p8JM/7xW0GNELvqZ81EzG3r16HcJl/LC/xWXrHeNtB6dmzY8a4vfoxzKlZBBl6nZc31HgTdQwIDAQAB"

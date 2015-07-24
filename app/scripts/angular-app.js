@@ -18,5 +18,4 @@ module.exports = angular.module('app', [// Dependencies
 
                                         // API Specific Components
                                         require('./imgur-components'),
-                                        require('./reddit-components'),
-                                        require('./youtube-components')]);
+                                        require('./reddit-components')]);

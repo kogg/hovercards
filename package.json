@@ -61,7 +61,6 @@
     "jquery": "./node_modules/jquery/dist/jquery.js"
   },
   "browserify-shim": {
-    "jquery": "$",
-    "gapi": "global:gapi"
+    "jquery": "$"
   }
 }
