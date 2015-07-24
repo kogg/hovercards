@@ -29,7 +29,7 @@ function get_top_right(obj, trigger) {
 
 function find_offset_for_link(obj, trigger, e) {
     var target = $(e.target);
-    if (target.is('img,div.-cx-PRIVATE-PostsGridItem__postInfo') && target.height() > 20) {
+    if (target.is('img,video,div.-cx-PRIVATE-PostsGridItem__postInfo') && target.height() > 20) {
         return get_center_left_offset(target, trigger);
     }
     if (e.pageY >= 25) {
