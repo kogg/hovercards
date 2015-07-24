@@ -965,23 +965,23 @@ b i, .iconic-push {
 	background-position: 16px 15px;
 	position: relative;
 }
-.context-top .inline-row, .context-top .row {
+.context-top .row {
 	padding: 16px;
+}
+.inline-row {
+	padding-bottom: 10px;
+}
+.inline-row .col-9 {
+	padding: 16px 0px 6px 16px;
+}
+.inline-row .col-3 {
+	padding: 16px 16px 6px 0px;
+	position: relative;
+	min-height: 40px;
+	white-space: nowrap;
 }
 .context-top .row .col-10, .context-top .row .col-11, .context-top .inline-row {
 	line-height: 18px;
-}
-.context-top .row .col-9 {
-	position: relative;
-}
-.context-top .row .col-9:after {
-  content: "";
-  position: absolute;
-  left: -16px;
-  width: 297px;
-  bottom: -9px;
-  height: 11px;
-  z-index: 9;
 }
 .context-top span {
 	color: #727272;
@@ -1005,6 +1005,11 @@ b i, .iconic-push {
 	line-height: 18px;
 	text-decoration: none;
 }
+.context-top span a.bluelink {
+	color:#2196F3 !important;
+	text-transform: capitalize;
+}
+
 .context-top span b {
 	display: inline
 }
@@ -1459,8 +1464,9 @@ h2 {
 /*reddit header*/
 .reddit-header {
 	position: relative;
-	padding-top:6px;
+	padding: 0px 16px 0px 16px
 }
+
 .reddit-header a {
 	text-decoration: none;
   font-size: 18px;
@@ -1480,7 +1486,17 @@ h2 {
   font-size: 12px;
   font-weight: 600;
 }
-
+.col-3.reddit-right .time {
+	position: absolute;
+	top: 9px;
+	right: 9px;
+}
+.time i {
+	margin-left: 6px;
+}
+.time + i {
+	display: none;
+}
 /*reddit specific formatting*/
 .comment div + div div.md {
 	vertical-align: inherit;
@@ -1608,15 +1624,22 @@ h2 {
   display: inline-block;
 }
 .hidden-date {
-	display: none
+	display: none !important
 }
 .hidden-date a {
 	color: #727272;
 	font-size: 12px !important;
 	font-weight: 700;
 }
+
+.hidden-date i {
+	display: none;
+}
+.time:hover .hidden-date i {
+	display: inline
+}
 .time:hover .hidden-date {
-	display: inline;
+	display: inline !important;
 }
 
 /*Message Cards*/
