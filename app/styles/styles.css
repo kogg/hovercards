@@ -2279,8 +2279,8 @@ h2 {
 }
 
 .fade-in-animation.ng-enter, .fade-in-animation.ng-hide-remove {
-	-webkit-animation-duration: .5s;
-	animation-duration: .5s;
+	-webkit-animation-duration: .64s;
+	animation-duration: .64s;
 	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
 	-webkit-animation-name: fadeIn;
