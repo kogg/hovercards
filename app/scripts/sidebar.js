@@ -1,5 +1,6 @@
-var _            = require('underscore');
-var $            = require('jquery');
+var _ = require('underscore');
+var $ = require('jquery');
+
 var network_urls = require('YoCardsApiCalls/network-urls');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
@@ -99,6 +100,7 @@ module.exports = function sidebar() {
                         identity_history.push(message.identity);
                     }
                 }
+                chrome.runtime.sendMessage({ type: 'browser-action', carlito: _.isEqual(message.identity, network_urls.identify(document.URL) || { type: 'url', id: document.URL }) });
                 if (identity_history.length > 1) {
                     back_button.show();
                 } else {
@@ -119,6 +121,7 @@ module.exports = function sidebar() {
                 if (!showing) {
                     break;
                 }
+                chrome.runtime.sendMessage({ type: 'browser-action', carlito: false });
                 showing = false;
                 obj
                     .removeClass(EXTENSION_ID + '-sidebar-enter')
@@ -159,10 +162,7 @@ module.exports = function sidebar() {
                 sendMessage(on_deck);
                 break;
             case EXTENSION_ID + '-activate':
-                var possible_identity = network_urls.identify(request.url);
-                if (!possible_identity) {
-                    possible_identity = { type: 'url', id: request.url };
-                }
+                var possible_identity = network_urls.identify(request.url) || { type: 'url', id: request.url };
                 var message = { msg: EXTENSION_ID + '-load', by: request.by, identity: possible_identity };
                 if (!sidebar_frame) {
                     on_deck = message;
