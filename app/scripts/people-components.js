@@ -136,10 +136,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             if (people.length) {
                                 return;
                             }
-                            people.$err = err;
-                            people.$err.reload = function() {
-                                reload(accounts, people);
-                            };
+                            people.$err = { 'account-error': true, selectedAccount: accounts[key] };
+                            people.$err.reload = err.reload = function() { reload(accounts, people); };
                         });
                 });
 
