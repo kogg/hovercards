@@ -6,7 +6,7 @@
 				<div class="network-pick">
 					<div class="network-circle network-circle-instagram"></div>
 				</div>
-				<span>Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
+				<span>Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || ('@' + data.content.author.id) }}</a></span>
 			</div>
 			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
@@ -61,8 +61,8 @@
 					<a ng-href="{{:: tag | generateUrl }}"><div class="card-stats-tag-img" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div></a>
 					<div class="card-stats-tag-name">
 						<div class="tag-full-image" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
-						<span class="ellipsis">{{:: tag.name || tag.id }}</span>
-						<a class="ellipsis no-yo" ng-href="{{:: tag | generateUrl }}">{{:: tag.id }}</a>
+						<span class="ellipsis">{{:: tag.name || ('@' + tag.id) }}</span>
+						<a class="ellipsis no-yo" ng-href="{{:: tag | generateUrl }}">{{:: '@' + tag.id }}</a>
 						<div class="profile-cta">
 							<a class="instagram-background" popup="{{:: tag | generateUrl }}" popup-size="{ height: 433, width: 720 }" style="cursor: pointer;">Follow</a>
 						</div>

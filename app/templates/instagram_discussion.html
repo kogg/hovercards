@@ -7,7 +7,7 @@
 	<div class="col-10">
 		<div class="user-context">
 			<span class="ellipsis">
-				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name || comment.author.id }}</a>
+				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name || ('@' + comment.author.id) }}</a>
 			</span>
 			<span class="time">{{:: comment.date | timeSince:true }}</span>
 		</div>
