@@ -55,7 +55,7 @@ function find_offset_for_videos(obj, trigger, e, url) {
     return offset;
 }
 
-$(document).keydown(function(e) {
+$(document).on('keydown', function(e) {
     if (e.which !== 27) {
         return;
     }
@@ -96,7 +96,8 @@ switch ((document.domain || '').replace(/^www\./, '')) {
         }
         break;
     case 'reddit.com':
-        $(document).keydown(function(e) {
+        // TODO Make these for RES instead for all of reddit
+        $(document).on('keydown', function(e) {
             if (e.which !== 86 && e.which !== 186) {
                 return;
             }
@@ -110,6 +111,34 @@ switch ((document.domain || '').replace(/^www\./, '')) {
             }
             window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'res-key(' + e.which + ')', url: url }, '*');
             e.preventDefault();
+        });
+
+        $(document).on('keydown', function res_key_help(e) {
+            if (e.which !== 16 && e.which !== 191) {
+                return;
+            }
+            var tbody = $('#keyHelp table tbody');
+            if (!tbody.length) {
+                return;
+            }
+            $(document).off('keydown', res_key_help);
+            $('<tr><td><b>v</b> or <b>;</b></td><td>Toggle <b>YoCards!</b></td></tr>').prependTo(tbody);
+        });
+
+        function res_key_setup() {
+            var div = $('<div id="optionContainer-keyboardNav-yocards" class="optionContainer"></div>').prependTo('#allOptionsContainer');
+            $('<label for="yocards" title="Default: v or ;"><b>yocards</b></label>').appendTo(div);
+            $('<div style="float:left; margin-left: 10px;"><b>v</b> or <b>;</b></div>').appendTo(div);
+            $('<div class="optionDescription">Toggle <b>YoCards</b>!</div>').appendTo(div);
+            $('<div class="clear"></div>').appendTo(div);
+        }
+        if (location.hash === '#!settings/keyboardNav') {
+            setTimeout(function() {
+                res_key_setup();
+            }, 1000);
+        }
+        $('html').on('click', '#module-keyboardNav', function res_key_click() {
+            res_key_setup();
         });
         break;
     case 'youtube.com':
