@@ -49,6 +49,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                         return resolve(response[1]);
                     });
                 })
+                .finally(function() {
+                    _.defaults(object, params);
+                })
                 .then(function(obj) {
                     angular.extend(object, obj);
                     if ((params.type in { discussion: true, url: true } && (!object.comments || !object.comments.length)) ||
