@@ -20,7 +20,7 @@
 		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && entry.type !== 'url' && !entry.$err" ng-style="{ 'min-height': !entry.can_have_people && '100%' }">
 			<div ng-controller="ContentController">
 				<div class="card bounce-in-animation animation-stop-trigger" ng-if="data.content.$resolved || data.content.$err" shaker>
-					<div ng-include="'templates/' + (data.content.api || entry.content.api) + '_content.html'" autoscroll="true"></div>
+					<div ng-include="'templates/' + data.content.api + '_content.html'" autoscroll="true"></div>
 				</div>
 			</div>
 
@@ -33,7 +33,7 @@
 									<div class="network-circle" ng-class="['network-circle-' + api, { 'current-network': entry.discussion_api === api, 'network-not-found': data.discussions[api].$err && data.discussions[api].$resolved }]" ng-click="entry.discussion_api = api" ng-repeat="api in entry.discussion_apis"></div>
 								</div>
 
-								<span ng-show="data.discussion.api !== 'reddit' || !data.discussion.subreddit">{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
+								<span ng-show="data.discussion.api !== 'reddit' || !data.discussion.subreddit">{{ data.discussion.api + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 								<span ng-show="data.discussion.api === 'reddit' && data.discussion.subreddit"> Reddit {{:: 'reddit_discussion_short' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 							</div>
 							<div class="col-3 reddit-right">
@@ -60,7 +60,7 @@
 							</ul>
 						</div>
 					</div>
-					<div ng-include="'templates/' + (data.discussion.api || entry.discussion_api) + '_discussion.html'" ng-if="data.discussion.$resolved || data.discussion.$err" autoscroll="entry.type === 'dicussion'"></div>
+					<div ng-include="'templates/' + data.discussion.api + '_discussion.html'" ng-if="data.discussion.$resolved || data.discussion.$err" autoscroll="entry.type === 'dicussion'"></div>
 				</div>
 			</div>
 
@@ -112,8 +112,8 @@
 				</div>
 				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
 					<div class="fade-in-animation" ng-if="data.moreContent.$resolved || data.moreContent.$err" shaker>
-						<div ng-include="'templates/' + (data.moreContent.api || entry.selectedPerson.selectedAccount.api) + '_more_content.html'"></div>
-						<a class="view-profile-mini no-yo" ng-href="{{ entry.selectedPerson.selectedAccount | generateUrl }}" analytics-click="viewfullprofile" analytics-label="{{ data.moreContent.api || entry.selectedPerson.selectedAccount.api }} account">View Full Profile</a>
+						<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'"></div>
+						<a class="view-profile-mini no-yo" ng-href="{{ entry.selectedPerson.selectedAccount | generateUrl }}" analytics-click="viewfullprofile" analytics-label="{{ data.moreContent.api }} account">View Full Profile</a>
 					</div>
 				</div>
 			</div>
