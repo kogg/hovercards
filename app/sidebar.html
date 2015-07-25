@@ -73,11 +73,14 @@
 						</div>
 					</div>
 
-					<div ng-if="data.people.$err" class="yocards-message-container error-message" ng-class="err.api && (err.api + '-message')" ng-init="err = data.people.$err">
-						<div class="yocards-message-image"></div>
-						<span class="yocards-message-text" ng-messages="err">
-							<span ng-messages-include="templates/default_exceptions.html"></span>
-						</span>
+					<div ng-if="data.people.$err">
+						<div ng-if="data.people.$err['account-error']" ng-init="person=data.people.$err" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" autoscroll="entry.type === 'account'"></div>
+						<div ng-if="!data.people.$err['account-error']" class="yocards-message-container error-message" ng-init="err = data.people.$err">
+							<div class="yocards-message-image"></div>
+							<span class="yocards-message-text" ng-messages="err">
+								<span ng-messages-include="templates/default_exceptions.html"></span>
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
