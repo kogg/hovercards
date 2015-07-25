@@ -6,7 +6,7 @@
 					<div class="profile-image" ng-style="person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
 				</div>
 				<div class="profile-right col-8">
-					<b class="ellipsis twitter-color">{{ (person.accounts[0] === person.selectedAccount && person.selectedAccount.reason && (('account_reason_' + person.selectedAccount.reason + '_with_name_twitter' | copy:('@' + person.selectedAccount.id)) || ('account_reason_' + person.selectedAccount.reason + '_with_name' | copy:('@' + person.selectedAccount.id)))) || ('@' + person.selectedAccount.id) }}</b>
+					<b class="ellipsis twitter-color">{{ (person.accounts[0] === person.selectedAccount && person.selectedAccount.reason && (('twitter_account_reason_' + person.selectedAccount.reason + '_with_name' | copy:('@' + person.selectedAccount.id)) || ('account_reason_' + person.selectedAccount.reason + '_with_name' | copy:('@' + person.selectedAccount.id)))) || ('@' + person.selectedAccount.id) }}</b>
 					<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.name }}<div class="twitter-verified" ng-if=" person.selectedAccount.verified"></div></a>
 					<div class="profile-cta">
 						<a class="twitter-background" popup="https://twitter.com/intent/follow?screen_name={{ person.selectedAccount.id }}" popup-size="{ height: 300, width: 640 }">Follow</a>

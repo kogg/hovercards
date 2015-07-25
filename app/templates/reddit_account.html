@@ -6,7 +6,7 @@
 					<div class="profile-image reddit-profile"></div>
 				</div>
 				<div class="profile-right col-8">
-					<b class="ellipsis reddit-color">{{ (person.accounts[0] === person.selectedAccount && person.selectedAccount.reason && (('account_reason_' + person.selectedAccount.reason + '_reddit' | copy) || ('account_reason_' + person.selectedAccount.reason | copy))) || ('reddit_account' | copy) }}</b>
+					<b class="ellipsis reddit-color">{{ (person.accounts[0] === person.selectedAccount && person.selectedAccount.reason && (('reddit_account_reason_' + person.selectedAccount.reason | copy) || ('account_reason_' + person.selectedAccount.reason | copy))) || ('reddit_account' | copy) }}</b>
 					<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.id }}</a>
 					<div class="profile-cta">
 						<a class="reddit-background" popup="{{ person.selectedAccount | generateUrl }}" popup-size="{ height: 300, width: 640 }"> &nbsp; <strong>+</strong>&nbsp; &nbsp; friends</a>
