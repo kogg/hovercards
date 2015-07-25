@@ -121,8 +121,24 @@ switch ((document.domain || '').replace(/^www\./, '')) {
             if (!tbody.length) {
                 return;
             }
-            $('<tr><td>v or ;</td><td>Toggle <b>YoCards!</b></td></tr>').prependTo(tbody);
             $(document).off('keydown', res_key_help);
+            $('<tr><td><b>v</b> or <b>;</b></td><td>Toggle <b>YoCards!</b></td></tr>').prependTo(tbody);
+        });
+
+        function res_key_setup() {
+            var div = $('<div id="optionContainer-keyboardNav-yocards" class="optionContainer"></div>').prependTo('#allOptionsContainer');
+            $('<label for="yocards" title="Default: v or ;"><b>yocards</b></label>').appendTo(div);
+            $('<div style="float:left; margin-left: 10px;"><b>v</b> or <b>;</b></div>').appendTo(div);
+            $('<div class="optionDescription">Toggle <b>YoCards</b>!</div>').appendTo(div);
+            $('<div class="clear"></div>').appendTo(div);
+        }
+        if (location.hash === '#!settings/keyboardNav') {
+            setTimeout(function() {
+                res_key_setup();
+            }, 1000);
+        }
+        $('html').on('click', '#module-keyboardNav', function res_key_click() {
+            res_key_setup();
         });
         break;
     case 'youtube.com':
