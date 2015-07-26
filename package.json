@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "bower install",
     "start": "grunt develop",
-    "test": "jshint --reporter=node_modules/jshint-stylish/index.js *.js app/**/*.js test/*.js test/**/*.js && mocha -R $npm_package_reporter && grunt test"
+    "test": "jshint --reporter=node_modules/jshint-stylish/index.js *.js app/**/*.js"
   },
   "dependencies": {
     "URIjs": "^1.15.2",
