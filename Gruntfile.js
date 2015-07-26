@@ -54,16 +54,6 @@ module.exports = function (grunt) {
                 tasks: ['watch:non_js', 'browserify:js_watchify']
             }
         },
-        connect: {
-            browser_tests: {
-                options: {
-                    hostname: 'localhost',
-                    port: 9500,
-                    open: false,
-                    base: ['test', 'app', '.']
-                }
-            }
-        },
         copy: {
             non_js: {
                 files: [
@@ -72,17 +62,6 @@ module.exports = function (grunt) {
                     { expand: true, cwd: 'node_modules/slick-carousel/slick/',       src: ['slick.css'],             dest: 'dist/styles/' },
                     { expand: true, cwd: 'node_modules/perfect-scrollbar/dist/css/', src: ['perfect-scrollbar.css'], dest: 'dist/styles/' }
                 ]
-            }
-        },
-        mocha: {
-            browser_tests: {
-                options: {
-                    run: true,
-                    urls: ['http://localhost:<%= connect.browser_tests.options.port %>/index.html'],
-                    log: true,
-                    logErrors: true,
-                    reporter: '<%= pkg.reporter %>'
-                }
             }
         },
         uglify: {
@@ -117,5 +96,4 @@ module.exports = function (grunt) {
     grunt.registerTask('dist:js',     ['browserify:js']);
     grunt.registerTask('dist:non_js', ['copy:non_js']);
     grunt.registerTask('pkg',         ['dist:non_js', 'dist:js', 'uglify:js', 'compress']);
-    grunt.registerTask('test',        ['connect:browser_tests', 'mocha:browser_tests']);
 };

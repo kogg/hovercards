@@ -5,9 +5,8 @@
   "repository": "cameronrohani/YoCardsExt",
   "reporter": "List",
   "scripts": {
-    "postinstall": "bower install",
     "start": "grunt develop",
-    "test": "jshint --reporter=node_modules/jshint-stylish/index.js *.js app/**/*.js test/*.js test/**/*.js && mocha -R $npm_package_reporter && grunt test"
+    "test": "jshint --reporter=node_modules/jshint-stylish/index.js *.js app/**/*.js"
   },
   "dependencies": {
     "URIjs": "^1.15.2",
@@ -26,28 +25,18 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "angular-mocks": "^1.4.1",
     "browserify": "^10.2.4",
     "browserify-shim": "^3.8.9",
-    "chai": "^3.0.0",
-    "chai-jquery": "^2.0.0",
-    "es5-shim": "^4.1.7",
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.8.0",
     "grunt-concurrent": "^2.0.0",
     "grunt-contrib-compress": "^0.13.0",
-    "grunt-contrib-connect": "^0.10.1",
     "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-mocha": "^0.4.13",
     "jshint": "^2.8.0",
     "jshint-stylish": "^2.0.1",
-    "load-grunt-tasks": "^3.2.0",
-    "mocha": "^2.2.5",
-    "require-stub": "^2.2.4",
-    "sinon": "^1.15.4",
-    "sinon-chai": "^2.8.0"
+    "load-grunt-tasks": "^3.2.0"
   },
   "engines": {
     "node": ">=0.8.0"
