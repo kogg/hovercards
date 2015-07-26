@@ -10,12 +10,14 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                        401: 'unauthorized',
                        403: 'forbidden',
                        404: 'no-content',
+                       429: 'too-many-requests',
                        501: 'not-implemented',
                        502: 'dependency-down' };
-        var api_specific_errors = { 'dependency-down': true,
-                                    'forbidden':       true,
-                                    'not-implemented': true,
-                                    'unauthorized':    true };
+        var api_specific_errors = { 'dependency-down':   true,
+                                    'forbidden':         true,
+                                    'not-implemented':   true,
+                                    'too-many-requests': true,
+                                    'unauthorized':      true };
 
         var service = {
             loading: [],
