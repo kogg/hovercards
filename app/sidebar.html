@@ -1,5 +1,6 @@
 <html ng-csp ng-controller="ViewController">
 <head>
+	<meta charset="UTF-8">
 	<link rel="stylesheet" href="styles/angular-csp.css">
 	<link rel="stylesheet" href="styles/slick.css">
 	<link rel="stylesheet" href="styles/perfect-scrollbar.css">
@@ -151,24 +152,30 @@
 		</div>
 
 
-		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err" ng-init="err = entry.$err" shaker>
-			<div class="yocards-message-container error-message" ng-class="err.api && (err.api + '-message')">
-				<div class="yocards-message-image"></div>
-				<span class="yocards-message-text" ng-messages="err">
-					<span ng-messages-include="templates/entry_exceptions.html"></span>
-				</span>
-				<div class="yocards-message-option">
-					<a popup="https://twitter.com/intent/tweet?source=https://yocards.com&text={{:: 'YoCards couldn\'t find anything for ' + entry.url + '! What #newbs!' | encode }}">Call us newbs on twitter</a>
+		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err" shaker>
+			<div class="yocards-wecantfindany">
+				<div class="yocards-wecantfindany-message">
+					<b>Uh Oh!</b>
+					<p>This website aint blowing up on a tuesday</p>
+					<span>We searched Twitter, & Reddit. No one's talking about this web page.</span>
+				</div>
+				<div class="yocards-wecantfindany-images">
+					<img src="/images/pepemojis.jpg" ng-class="sharehovered && 'movepepe'">
+				</div>
+				<div class="yocards-wecantfindany-share">
+					<b>Be the first to post it</b>
+					<span ng-mouseenter="sharehovered=true" ng-mouseleave="sharehovered=false">
+						<a popup="{{ content | shareUrl:'reddit' }}" title="Submit {{ content.name || content.description }} to Reddit"><img src="/images/Reddit-icon-full_color.png"></a>
+						<a popup="{{ content | shareUrl:'twitter' }}" title="Tweet {{ content.name || content.description }}"><img src="/images/twitter-icon-full_color.png"></a>
+						<a popup="{{ content | shareUrl:'facebook' }}" title="Share {{ content.name || content.description }} on Facebook"><img src="/images/facebook-icon-full_color.png"></a>
+					</span>
 				</div>
 			</div>
 		</div>
 
-		<div ng-repeat="person_to_load in [{ api: 'soundcloud', type: 'account', id: 'yocards' },
-		                                   { api: 'imgur', type: 'account', id: 'yocards' },
-		                                   { api: 'instagram', type: 'account', id: 'yocards' },
+		<div ng-repeat="person_to_load in [{ api: 'instagram', type: 'account', id: 'yocards' },
 		                                   { api: 'twitter', type: 'account', id: 'getyocards' },
-		                                   { api: 'reddit', type: 'account', id: 'yocards' },
-		                                   { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }]" ng-controller="AccountShimController" ng-if="entry.$err">
+		                                   ]" ng-controller="AccountShimController" ng-if="entry.$err">
 			<div class="people-card-space" ng-if="!person.selectedAccount.$err">
 				<div class="card bounce-in-animation" ng-if="person.selectedAccount.$resolved" shaker>
 					<div ng-include="'templates/' + (person.selectedAccount.api || person_to_load.api) + '_account.html'"></div>
