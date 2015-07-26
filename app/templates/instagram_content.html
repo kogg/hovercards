@@ -76,13 +76,7 @@
 <div class="yocards-message-container error-message" ng-class="err.api && 'instagram-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
 	<div class="yocards-message-image"></div>
 	<span class="yocards-message-text" ng-messages="err">
-		<span ng-message="forbidden" stored="instagram_user" name="instagram_user">
-			<span class="yocards-message-content"><b><i class="md md-error"></i>Private Post</b>You can't see this post unless you are their friend. {{ instagram_user ? '' : 'Sign in and you can see your friends\' posts too!' }}</span>
-			<div class="yocards-message-option" ng-if="!instagram_user">
-				<a authorize="err.api" on-authorized="err.reload()">Sign into Instagram</a>
-			</div>
-		</span>
-
+		<span ng-messages-include="templates/authorize_for_forbidden_exceptions.html"></span>
 		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>
 </div>

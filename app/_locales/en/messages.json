@@ -16,6 +16,8 @@
     "err_dependency_down_name_api_default": { "message": "Dependency" },
     "err_dependency_down_text":             { "message": "Oh no! $1 is having problems right now." },
     "err_dependency_down_text_api_default": { "message": "One of our dependencies" },
+    "err_empty_content_name":               { "message": "No Content" },
+    "err_empty_content_text":               { "message": "It looks like there's nothing here." },
     "err_forbidden_name":                   { "message": "Forbidden" },
     "err_forbidden_text":                   { "message": "Sorry, it seems like you're not allowed to look at this." },
     "err_no_content_name":                  { "message": "Nothing Here" },
@@ -30,6 +32,11 @@
     "err_still_waiting_text_api_default":   { "message": "this" },
     "err_unauthorized_name":                { "message": "Sign in Required" },
     "err_unauthorized_text":                { "message": "We're sorry but you must authorize YoCards with your $1 account to see this!" },
+
+    "authorize_for_forbidden_err_authorized_name":   { "message": "Private" },
+    "authorize_for_forbidden_err_authorized_text":   { "message": "You can't see this unless you are this $2's friend." },
+    "authorize_for_forbidden_err_unauthorized_name": { "message": "Private" },
+    "authorize_for_forbidden_err_unauthorized_text": { "message": "You can't see this unless you are this $2's friend. If you are their friend, authorize Yocards with your $1 account to see this!" },
 
     "imgur":                  { "message": "Imgur" },
     "imgur_account":          { "message": "Imgur User" },

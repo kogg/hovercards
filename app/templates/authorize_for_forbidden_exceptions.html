@@ -1,0 +1,9 @@
+<span ng-message="forbidden" stored="user" name="{{ err.api }}_user">
+	<span class="yocards-message-content">
+		<b><i class="md md-error"></i>{{ (user ? 'authorize_for_forbidden_err_authorized_name' : 'authorize_for_forbidden_err_unauthorized_name') | copy:(err.api | copy):((err.api + '_account') | copy) }}</b>
+		{{ (user ? 'authorize_for_forbidden_err_authorized_text' : 'authorize_for_forbidden_err_unauthorized_text') | copy:(err.api | copy):((err.api + '_account') | copy) }}
+	</span>
+	<div class="yocards-message-option" ng-if="!user">
+        <a authorize="err.api" on-authorized="err.reload()">Sign into {{ err.api | copy }}</a>
+	</div>
+</span>
