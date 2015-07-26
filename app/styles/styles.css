@@ -1665,6 +1665,83 @@ h2 {
 }
 
 /*Message Cards*/
+.yocards-wecantfindany {
+	background: white;
+	overflow: auto;
+}
+.yocards-wecantfindany .yocards-wecantfindany-message {
+	float: left;
+	width: 66.666%;
+	padding: 16px;
+}
+.yocards-wecantfindany .yocards-wecantfindany-message p {
+	text-decoration: none;
+	font-size: 18px;
+	color: #000;
+	font-weight: 400;
+	line-height: 22px;
+	margin-bottom: 8px;
+	display: block;
+}
+.yocards-wecantfindany .yocards-wecantfindany-message span {
+  line-height: 19px;
+  font-weight: 400;
+  font-size: 15px;
+  color: #727272;
+}
+.yocards-wecantfindany .yocards-wecantfindany-images {
+  float: left;
+  width: 33.333%;
+  background-color: #DAF0C5;
+  min-height: 182px;
+  overflow: hidden;
+  position: relative;
+}
+.yocards-wecantfindany .yocards-wecantfindany-images img {
+	max-height:182px;
+	left: -83px;
+	position: absolute;
+	transition:all .3s ease-in-out;
+}
+.movepepe {
+	transition:all .3s ease-in-out;
+	transform: translate3d(-150px,0,0)
+}
+.yocards-wecantfindany .yocards-wecantfindany-message a {
+	color: #2196F3;
+	text-decoration: none;
+	display: inline-block;
+	max-width: 100%;
+	vertical-align: bottom;
+	white-space: nowrap;
+	overflow: hidden;
+	font-size: 15px;
+	text-overflow: ellipsis;
+}
+.yocards-wecantfindany b {
+	color: #5650fb
+}
+
+.yocards-wecantfindany .yocards-wecantfindany-share {
+	width: 100%;
+	float: left;
+	padding: 16px;
+	border-top: 1px solid #ECEEF1
+}
+.yocards-wecantfindany-share span {
+	display: inline-block;
+	max-height: 20px;
+}
+.yocards-wecantfindany-share a {
+	display: inline-block;
+	margin-right: 3px;
+}
+.yocards-wecantfindany-share b {
+	margin-bottom: 8px;
+}
+.yocards-wecantfindany-share a img {
+	height: 20px;
+}
 .yocards-message-container {
 	border-radius: 3px;
 	overflow: hidden;
@@ -1689,7 +1766,6 @@ h2 {
 	background-repeat: no-repeat;
 	border-right: none;
 }
-
 .yocards-message-text {
 	float: right;
 	border-left: none;
