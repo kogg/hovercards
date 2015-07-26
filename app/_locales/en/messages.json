@@ -16,6 +16,8 @@
     "err_dependency_down_name_api_default": { "message": "Dependency" },
     "err_dependency_down_text":             { "message": "Oh no! $1 is having problems right now." },
     "err_dependency_down_text_api_default": { "message": "One of our dependencies" },
+    "err_empty_content_name":               { "message": "No Content" },
+    "err_empty_content_text":               { "message": "It looks like there's nothing here." },
     "err_forbidden_name":                   { "message": "Forbidden" },
     "err_forbidden_text":                   { "message": "Sorry, it seems like you're not allowed to look at this." },
     "err_no_content_name":                  { "message": "Nothing Here" },
