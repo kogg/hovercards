@@ -23,6 +23,7 @@
 
 <div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content']" ng-init="err = data.discussion.$err">
 	<span ng-messages="err">
+		<span ng-messages-include="templates/authorize_for_forbidden_exceptions.html"></span>
 		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>
 </div>
