@@ -6,7 +6,7 @@
 					<div class="profile-image imgur-profile"></div>
 				</div>
 				<div class="profile-right col-8">
-					<b class="ellipsis imgur-color">{{ (person.accounts[0] === person.selectedAccount && person.selectedAccount.reason && (('account_reason_' + person.selectedAccount.reason + '_imgur' | copy) || ('account_reason_' + person.selectedAccount.reason | copy))) || ('imgur_account' | copy) }}</b>
+					<b class="ellipsis imgur-color">{{ (person.accounts[0] === person.selectedAccount && person.selectedAccount.reason && (('imgur_account_reason_' + person.selectedAccount.reason | copy) || ('account_reason_' + person.selectedAccount.reason | copy))) || ('imgur_account' | copy) }}</b>
 					<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.id }}</a>
 				</div>
 			</div>

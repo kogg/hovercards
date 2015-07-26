@@ -1,34 +1,9 @@
-<span ng-message="our-problem">
-	<span class="yocards-message-content"><b><i class="md md-input"></i>{{:: 'app_name' | copy }} Issue</b>Oh no! {{:: 'app_name' | copy }} is having problems right now.</span>
-</span>
-
-<span ng-message="dependency-down">
-	<span class="yocards-message-content"><b><i class="md md-input"></i>{{ (err.api | copy) || 'Dependency' }} Issues</b>Oh no! {{ (err.api | copy) || 'One of our dependencies' }} is having problems right now.</span>
-</span>
-
-<span ng-message="bad-input">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>Bad Content</b>This input be bad, yo!</span>
-</span>
-
-<span ng-message="forbidden">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>Forbidden</b>Sorry, it seems like you're not allowed to look at this.</span>
-</span>
-
-<span ng-message="no-content">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>Nothing Here</b>We couldn't find anything here!</span>
-</span>
-
-<span ng-message="unauthorized">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>Sign in Required</b>We're sorry but you must authorize {{:: 'app_name' | copy }} with your {{ err.api | copy }} account to see this!</span>
-	<div class="yocards-message-option">
+<span ng-repeat="type in ['bad-input', 'forbidden', 'no-content', 'not-implemented', 'our-problem', 'still-waiting', 'unauthorized']" ng-message="{{ type }}">
+	<span class="yocards-message-content">
+		<b><i class="md md-error"></i>{{ 'err_' + type +  '_name' | copy:((err.api || 'err_' + type +  '_name_api_default') | copy) }}</b>
+		{{ 'err_' + type +  '_text' | copy:((err.api || 'err_' + type +  '_text_api_default') | copy) }}
+	</span>
+	<div class="yocards-message-option" ng-if=":: type === 'unauthorized'">
 		<a authorize="err.api" on-authorized="err.reload()">Sign into {{ err.api | copy }}</a>
 	</div>
-</span>
-
-<span ng-message="not-implemented">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>Can't Do it</b>Sorry, but due to {{ (err.api | copy) || 'our dependency' }}'s rules, we can't provide this to you.</span>
-</span>
-
-<span ng-message="still-waiting">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>Still Waiting...</b>Wow, {{ (err.api | copy) || 'this' }} is sure taking its time!</span>
 </span>
