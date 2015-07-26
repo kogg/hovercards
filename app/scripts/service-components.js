@@ -21,16 +21,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
             loading: [],
             get: function(params, object) {
                 object = object || {};
+                var start;
                 object.$promise = $q(function(resolve, reject) {
-                    var start = _.now();
-                    resolve = _.wrap(resolve, function(resolve, result) {
-                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'service', 'Load Time', _.now() - start, params.api + ' ' + params.type] }, '*');
-                        resolve(result);
-                    });
-                    reject = _.wrap(reject, function(reject, err) {
-                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'service', 'Load Time', _.now() - start, params.api + ' ' + params.type] }, '*');
-                        reject(err);
-                    });
+                    start = _.now();
                     var request = _.pick(params, 'api', 'type', 'id', 'as', 'for', 'focus', 'author');
                     if (request.for) {
                         request.for = _.pick(request.for, 'api', 'type', 'id', 'as', 'for', 'focus', 'author');
@@ -49,6 +42,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                     });
                 })
                 .finally(function() {
+                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'service', 'Load Time', _.now() - start, params.api + ' ' + params.type] }, '*');
                     _.defaults(object, params);
                 })
                 .then(function(obj) {
