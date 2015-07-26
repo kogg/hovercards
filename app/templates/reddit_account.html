@@ -1,31 +1,40 @@
-<div class="profile">
-	<div class="profile-card">
-		<div class="profile-top row">
-			<div class="profile-left col-4">
-				<div class="profile-image reddit-profile"></div>
+<div ng-if="!person.selectedAccount.$err">
+	<div class="profile">
+		<div class="profile-card">
+			<div class="profile-top row">
+				<div class="profile-left col-4">
+					<div class="profile-image reddit-profile"></div>
+				</div>
+				<div class="profile-right col-8">
+					<b class="ellipsis reddit-color">{{ (person.accounts[0] === person.selectedAccount && person.selectedAccount.reason && (('reddit_account_reason_' + person.selectedAccount.reason | copy) || ('account_reason_' + person.selectedAccount.reason | copy))) || ('reddit_account' | copy) }}</b>
+					<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.id }}</a>
+					<div class="profile-cta">
+						<a class="reddit-background" popup="{{ person.selectedAccount | generateUrl }}" popup-size="{ height: 300, width: 640 }"> &nbsp; <strong>+</strong>&nbsp; &nbsp; friends</a>
+					</div>
+				</div>
 			</div>
-			<div class="profile-right col-8">
-				<b class="ellipsis reddit-color">{{ (person.selectedAccount.reason && (('account_reason_' + person.selectedAccount.reason + '_reddit' | copy) || ('account_reason_' + person.selectedAccount.reason | copy))) || ('reddit_account' | copy) }}</b>
-				<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.id }}</a>
-				<div class="profile-cta">
-					<a class="reddit-background" popup="{{ person.selectedAccount | generateUrl }}" popup-size="{ height: 300, width: 640 }"> &nbsp; <strong>+</strong>&nbsp; &nbsp; friends</a>
+
+			<div class="card-stats row">
+				<div class="col-4">
+					<b>Link Karma</b>
+					<span>{{ person.selectedAccount.link_karma | numsmall }}</span>
+				</div>
+				<div class="col-4">
+					<b>Cmnt Karma</b>
+					<span>{{ person.selectedAccount.comment_karma | numsmall }}</span>
+				</div>
+				<div class="col-4">
+					<b>Account Age</b>
+					<span>{{ person.selectedAccount.date | timeSince:true }}</span>
 				</div>
 			</div>
 		</div>
-
-		<div class="card-stats row">
-			<div class="col-4">
-				<b>Link Karma</b>
-				<span>{{ person.selectedAccount.link_karma | numsmall }}</span>
-			</div>
-			<div class="col-4">
-				<b>Cmnt Karma</b>
-				<span>{{ person.selectedAccount.comment_karma | numsmall }}</span>
-			</div>
-			<div class="col-4">
-				<b>Account Age</b>
-				<span>{{ person.selectedAccount.date | timeSince:true }}</span>
-			</div>
-		</div>
 	</div>
+</div>
+
+<div ng-if="person.selectedAccount.$err" class="yocards-message-container error-message" ng-class="err.api && 'reddit-message'" ng-init="err = person.selectedAccount.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/default_exceptions.html"></span>
+	</span>
 </div>

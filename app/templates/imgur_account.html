@@ -1,35 +1,44 @@
-<div class="profile">
-	<div class="profile-card">
-		<div class="profile-top row">
-			<div class="profile-left col-4">
-				<div class="profile-image imgur-profile"></div>
+<div ng-if="!person.selectedAccount.$err">
+	<div class="profile">
+		<div class="profile-card">
+			<div class="profile-top row">
+				<div class="profile-left col-4">
+					<div class="profile-image imgur-profile"></div>
+				</div>
+				<div class="profile-right col-8">
+					<b class="ellipsis imgur-color">{{ (person.accounts[0] === person.selectedAccount && person.selectedAccount.reason && (('imgur_account_reason_' + person.selectedAccount.reason | copy) || ('account_reason_' + person.selectedAccount.reason | copy))) || ('imgur_account' | copy) }}</b>
+					<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.id }}</a>
+				</div>
 			</div>
-			<div class="profile-right col-8">
-				<b class="ellipsis imgur-color">{{ (person.selectedAccount.reason && (('account_reason_' + person.selectedAccount.reason + '_imgur' | copy) || ('account_reason_' + person.selectedAccount.reason | copy))) || ('imgur_account' | copy) }}</b>
-				<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.id }}</a>
-			</div>
-		</div>
 
-		<div class="card-stats row">
-			<div class="col-4">
-				<b>Reputation</b>
-				<span>{{ person.selectedAccount.reputation | numsmall }}</span>
-			</div>
-			<div class="col-4 ellipsis">
-				<b>Notoriety</b>
-				<span ng-if=" person.selectedAccount.reputation >= 20000" title="20,000">Glorious</span>
-				<span ng-if=" person.selectedAccount.reputation >= 8000 && person.selectedAccount.reputation < 20000" title="8,000 to 19,999">Renowned</span>
-				<span ng-if=" person.selectedAccount.reputation >= 4000 && person.selectedAccount.reputation < 8000" title="4,000 to 7,999">Idolized</span>
-				<span ng-if=" person.selectedAccount.reputation >= 2000 && person.selectedAccount.reputation < 4000" title="2,000 to 3,999">Trusted</span>
-				<span ng-if=" person.selectedAccount.reputation >= 1000 && person.selectedAccount.reputation < 2000" title="1,000 to 1,999">Liked</span>
-				<span ng-if=" person.selectedAccount.reputation >= 400 && person.selectedAccount.reputation < 1000" title="400 to 999">Accepted</span>
-				<span ng-if=" person.selectedAccount.reputation >= 0 && person.selectedAccount.reputation < 400" title="0 to 399">Neutral</span>
-				<span ng-if=" person.selectedAccount.reputation < 0" title="-1">Forever Alone</span>
-			</div>
-			<div class="col-4">
-				<b>Account Age</b>
-				<span>{{ person.selectedAccount.date | timeSince:true }}</span>
+			<div class="card-stats row">
+				<div class="col-4">
+					<b>Reputation</b>
+					<span>{{ person.selectedAccount.reputation | numsmall }}</span>
+				</div>
+				<div class="col-4 ellipsis">
+					<b>Notoriety</b>
+					<span ng-if=" person.selectedAccount.reputation >= 20000" title="20,000">Glorious</span>
+					<span ng-if=" person.selectedAccount.reputation >= 8000 && person.selectedAccount.reputation < 20000" title="8,000 to 19,999">Renowned</span>
+					<span ng-if=" person.selectedAccount.reputation >= 4000 && person.selectedAccount.reputation < 8000" title="4,000 to 7,999">Idolized</span>
+					<span ng-if=" person.selectedAccount.reputation >= 2000 && person.selectedAccount.reputation < 4000" title="2,000 to 3,999">Trusted</span>
+					<span ng-if=" person.selectedAccount.reputation >= 1000 && person.selectedAccount.reputation < 2000" title="1,000 to 1,999">Liked</span>
+					<span ng-if=" person.selectedAccount.reputation >= 400 && person.selectedAccount.reputation < 1000" title="400 to 999">Accepted</span>
+					<span ng-if=" person.selectedAccount.reputation >= 0 && person.selectedAccount.reputation < 400" title="0 to 399">Neutral</span>
+					<span ng-if=" person.selectedAccount.reputation < 0" title="-1">Forever Alone</span>
+				</div>
+				<div class="col-4">
+					<b>Account Age</b>
+					<span>{{ person.selectedAccount.date | timeSince:true }}</span>
+				</div>
 			</div>
 		</div>
 	</div>
+</div>
+
+<div ng-if="person.selectedAccount.$err" class="yocards-message-container error-message" ng-class="err.api && 'imgur-message'" ng-init="err = person.selectedAccount.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/default_exceptions.html"></span>
+	</span>
 </div>

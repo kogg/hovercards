@@ -125,7 +125,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             person.accounts        = _.chain(person.accounts).union([account]).uniq(false, request_to_string).sortBy(request_sort_value).value();
                             person.account_ids     = _.chain(person.account_ids).union(account_ids).uniq().value();
                             person.position        = _.min([person.position, position_in_entry]);
-                            person.selectedAccount = person.selectedAccount || account;
+                            person.selectedAccount = person.accounts[0] || person.selectedAccount || account;
                             people.sort(function(a, b) {
                                 return a.position - b.position;
                             });
@@ -136,10 +136,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                             if (people.length) {
                                 return;
                             }
-                            people.$err = err;
-                            people.$err.reload = function() {
-                                reload(accounts, people);
-                            };
+                            people.$err = { 'account-error': true, selectedAccount: accounts[key] };
+                            people.$err.reload = err.reload = function() { reload(accounts, people); };
                         });
                 });
 
@@ -154,7 +152,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             if (selectedPerson === oldSelectedPerson || !selectedPerson || !oldSelectedPerson) {
                 return;
             }
-            $scope.view.fullscreen = null;
             window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people', 'changed person'] }, '*');
         });
 

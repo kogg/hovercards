@@ -8,7 +8,7 @@ var TIMEOUT_BEFORE_TRIGGER = 150;
 var TIMEOUT_BEFORE_FADEOUT = 3000;
 
 module.exports = function(selector, get_url, get_offset) {
-    $('html').on('mousemove mouseenter', selector, function() {
+    $('html').on('mousemove mouseenter', selector, function(e) {
         var obj = $(this);
         var url;
         var identity;
@@ -21,7 +21,7 @@ module.exports = function(selector, get_url, get_offset) {
             $(this).data(EXTENSION_ID + '-clickable-yo-children', ($(this).data(EXTENSION_ID + '-clickable-yo-children') || 0) + 1);
         });
 
-        function before_trigger() {
+        function before_trigger(e) {
             function before_trigger_move(e) {
                 last_mousemove = e;
                 clearTimeout(timeout);
@@ -50,7 +50,7 @@ module.exports = function(selector, get_url, get_offset) {
             }
 
             var timeout = setTimeout(before_trigger_next, TIMEOUT_BEFORE_TRIGGER);
-            var last_mousemove;
+            var last_mousemove = e;
 
             obj
                 .data(EXTENSION_ID + '-clickable-yo', 'before_trigger')
@@ -129,15 +129,12 @@ module.exports = function(selector, get_url, get_offset) {
 
             var timeout = setTimeout(during_trigger_timeout, TIMEOUT_BEFORE_FADEOUT);
 
-            var trigger = $('<div><div class="'+ EXTENSION_ID + '-image-hidden"><img class="yocardsyopoppywhite" src="' + chrome.extension.getURL('images/yopoppy.png') + '"><img class="yocardsyopoppyreddit" src="' + chrome.extension.getURL('images/yopoppyreddit.png') + '"><img class="yocardsyopoppyblack" src="' + chrome.extension.getURL('images/yopoppyblack.png') + '"></div></div>')
-                .appendTo('html')
+            var trigger = $('<div><div class="'+ EXTENSION_ID + '-image-hidden"><img class="yocardsyopoppywhite" src="' + chrome.extension.getURL('images/yopoppy.png') + '"><img class="yocardsyopoppyreddit" src="' + chrome.extension.getURL('images/yopoppyreddit.png') + '"><img class="yocardsyopoppyimgur" src="' + chrome.extension.getURL('images/yopoppyimgur.png') + '"></div></div>')
+                .appendTo(document.location.protocol === 'chrome-extension:' ? 'body' : 'html')
                 .addClass(EXTENSION_ID + '-clickable-yo-trigger')
                 .addClass(EXTENSION_ID + '-clickable-yo-trigger-' + identity.api);
             trigger
-                .offset((function() {
-                    var offset = get_offset ? get_offset(obj, trigger, e, url) : obj.offset();
-                    return { left: Math.max(0, offset.left), top: Math.max(0, offset.top) };
-                }()))
+                .offset(get_offset ? get_offset(obj, trigger, e, url) : obj.offset())
                 .on('click', during_trigger_trigger_click)
                 .on('mousemove mouseenter', during_trigger_trigger_mousemove)
                 .on('mouseleave', during_trigger_mouseleave)
@@ -151,6 +148,6 @@ module.exports = function(selector, get_url, get_offset) {
                 .on(EXTENSION_ID + '-clickable-yo-child', during_trigger_stop);
         }
 
-        before_trigger();
+        before_trigger(e);
     });
 };

@@ -1,5 +1,6 @@
-var _            = require('underscore');
-var $            = require('jquery');
+var _ = require('underscore');
+var $ = require('jquery');
+
 var network_urls = require('YoCardsApiCalls/network-urls');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
@@ -83,6 +84,13 @@ module.exports = function sidebar() {
                 if (message.by !== 'back') {
                     if (_.chain(identity_history).last().isEqual(message.identity).value()) {
                         if (showing) {
+                            switch (message.by) {
+                                case 'carlito':
+                                case 'res-key(86)':
+                                case 'res-key(186)':
+                                    sidebar_message({ msg: EXTENSION_ID + '-hide', by: message.by });
+                                    return;
+                            }
                             category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
                             window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar', 'activated (same) ' + message.by, category] }, '*');
                             sidebar_frame.postMessage({ msg: EXTENSION_ID + '-sameload' }, '*');
@@ -92,6 +100,7 @@ module.exports = function sidebar() {
                         identity_history.push(message.identity);
                     }
                 }
+                chrome.runtime.sendMessage({ type: 'browser-action', carlito: _.isEqual(message.identity, network_urls.identify(document.URL) || { type: 'url', id: document.URL }) });
                 if (identity_history.length > 1) {
                     back_button.show();
                 } else {
@@ -112,6 +121,7 @@ module.exports = function sidebar() {
                 if (!showing) {
                     break;
                 }
+                chrome.runtime.sendMessage({ type: 'browser-action', carlito: false });
                 showing = false;
                 obj
                     .removeClass(EXTENSION_ID + '-sidebar-enter')
@@ -125,7 +135,11 @@ module.exports = function sidebar() {
         sidebar_frame.postMessage(message, '*');
     }
 
-    function dblclick_for_sidebar() {
+    function dblclick_for_sidebar(e) {
+        var target = $(e.target);
+        if (back_button.is(target) || $.contains(back_button[0], target[0])) {
+            return;
+        }
         if (document.selection && document.selection.empty) {
             document.selection.empty();
         } else if (window.getSelection) {
@@ -148,10 +162,7 @@ module.exports = function sidebar() {
                 sendMessage(on_deck);
                 break;
             case EXTENSION_ID + '-activate':
-                var possible_identity = network_urls.identify(request.url);
-                if (!possible_identity) {
-                    possible_identity = { type: 'url', id: request.url };
-                }
+                var possible_identity = network_urls.identify(request.url) || { type: 'url', id: request.url };
                 var message = { msg: EXTENSION_ID + '-load', by: request.by, identity: possible_identity };
                 if (!sidebar_frame) {
                     on_deck = message;
@@ -159,6 +170,12 @@ module.exports = function sidebar() {
                 }
                 sendMessage(message);
                 break;
+            case EXTENSION_ID + '-Esc':
+                if (sidebar_frame) {
+                    sendMessage(request);
+                    break;
+                }
+                /* falls through */
             case EXTENSION_ID + '-hide':
                 if (!sidebar_frame) {
                     on_deck = null;

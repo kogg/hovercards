@@ -7,7 +7,7 @@
 	<div class="col-10">
 		<div class="user-context">
 			<span class="ellipsis">
-				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name || comment.author.id }}</a>
+				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name || ('@' + comment.author.id) }}</a>
 			</span>
 			<span class="time">{{:: comment.date | timeSince:true }}</span>
 		</div>
@@ -23,6 +23,8 @@
 
 <div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content']" ng-init="err = data.discussion.$err">
 	<span ng-messages="err">
+		<span ng-messages-include="templates/authorize_for_forbidden_exceptions.html"></span>
+		<span ng-messages-include="templates/authorize_for_too_many_requests_exceptions.html"></span>
 		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>
 </div>

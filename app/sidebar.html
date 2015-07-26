@@ -1,5 +1,6 @@
 <html ng-csp ng-controller="ViewController">
 <head>
+	<meta charset="UTF-8">
 	<link rel="stylesheet" href="styles/angular-csp.css">
 	<link rel="stylesheet" href="styles/slick.css">
 	<link rel="stylesheet" href="styles/perfect-scrollbar.css">
@@ -16,30 +17,36 @@
 		</div>
 
 		<!-- DON'T REMOVE THIS MIN-HEIGHT STUFF!!! IT DEALS WITH THE FLICKER OF THE WHITE PEOPLE SECTION SHOWING UP AT THE TOP -->
-		<div style="min-height: 100%" ng-if="!entry"></div>
-		<div class="fade-out-animation" ng-controller="PeopleController" ng-if="entry && entry.type !== 'url' && !entry.$err" ng-style="{ 'min-height': !entry.can_have_people && '100%' }">
+		<div ng-if="!entry" style="min-height: 100%"></div>
+		<div ng-if="entry && entry.type !== 'url' && !entry.$err" class="fade-out-animation" ng-controller="PeopleController" ng-style="{ 'min-height': !entry.can_have_people && '100%' }">
 			<div ng-controller="ContentController">
-				<div class="card bounce-in-animation animation-stop-trigger" ng-if="data.content.$resolved || data.content.$err" shaker>
-					<div ng-include="'templates/' + (data.content.api || entry.content.api) + '_content.html'" autoscroll="true"></div>
+				<div ng-if="data.content.$resolved || data.content.$err" class="card bounce-in-animation animation-stop-trigger" shaker>
+					<div ng-include="'templates/' + data.content.api + '_content.html'" autoscroll="true"></div>
 				</div>
 			</div>
 
 			<div ng-controller="DiscussionController">
-				<div class="card bounce-in-animation" ng-if="data.discussion" shaker>
+				<div ng-if="data.discussion" class="card bounce-in-animation" shaker>
 					<div class="context-top" stored="showed_menu_hover" name="showed_menu_hover" default="false" ng-mouseenter="!showed_menu_hover && (entry.showMenu = true) && (showed_menu_hover = true)">
 						<div class="inline-row">
-							<div class="col-11">
+							<div class="col-9 ellipsis">
 								<div ng-class="entry.discussion_apis.length > 1 ? 'network-picker' : 'network-pick'">
-									<div class="network-circle" ng-class="['network-circle-' + api, { 'current-network': entry.discussion_api === api, 'network-not-found': data.discussions[api].$err && data.discussions[api].$resolved }]" ng-click="entry.discussion_api = api" ng-repeat="api in entry.discussion_apis">
-									</div>
+									<div class="network-circle" ng-class="['network-circle-' + api, { 'current-network': entry.discussion_api === api, 'network-not-found': data.discussions[api].$err && data.discussions[api].$resolved }]" ng-click="entry.discussion_api = api" ng-repeat="api in entry.discussion_apis"></div>
 								</div>
-								<span>{{ (data.discussion.api || entry.discussion_api) + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
+
+								<span ng-show="data.discussion.api !== 'reddit' || !data.discussion.subreddit">{{ data.discussion.api + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
+								<span ng-show="data.discussion.api === 'reddit' && data.discussion.subreddit"> Reddit {{:: 'reddit_discussion_short' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 							</div>
-							<div class="col-1">
+							<div class="col-3 reddit-right">
+								
+								<span ng-if="data.discussion.api === 'reddit' && data.discussion.subreddit" class="time">{{ data.discussion.score | score }} <span class="hidden-date">&middot; <a ng-href="{{ data.discussion | generateUrl }}" class="no-yo">{{ data.discussion.date | timeSince:true }}</a> &middot;<i class="zmdi zmdi-more-vert" ng-click="entry.showMenu = !entry.showMenu; $event.stopPropagation()"></i></span></span>
+
 								<i class="zmdi zmdi-more-vert" ng-click="entry.showMenu = !entry.showMenu; $event.stopPropagation()"></i>
 							</div>
-							<div class="col-12" ng-if="(data.discussion.$resolved || data.discussion.$err) && data.discussion.api === 'reddit' && (data.discussion.api !== data.content.api || data.discussion.id !== data.content.id)">
-								<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'"></div>
+							<div ng-if="data.discussion.api === 'reddit' && (data.discussion.api !== data.content.api || data.discussion.id !== data.content.id)" class="col-12">
+								<div class="reddit-header">
+									<a class="no-yo" ng-href="{{:: data.discussion | generateUrl }}">{{:: data.discussion.name }}</a>
+								</div>
 							</div>
 						</div>
 						<div class="menu" ng-show="entry.showMenu" ng-click="$event.stopPropagation()">
@@ -54,31 +61,34 @@
 							</ul>
 						</div>
 					</div>
-					<div ng-include="'templates/' + (data.discussion.api || entry.discussion_api) + '_discussion.html'" ng-if="data.discussion.$resolved || data.discussion.$err" autoscroll="entry.type === 'dicussion'"></div>
+					<div ng-if="data.discussion.$resolved || data.discussion.$err" ng-include="'templates/' + data.discussion.api + '_discussion.html'" autoscroll="entry.type === 'dicussion'"></div>
 				</div>
 			</div>
 
-			<div class="people-card-space" in-view="view.at.people=$inview" ng-if="!entry.can_have_people || entry.accounts.length">
-				<div class="card bounce-in-animation people-card" ng-if="data.people.length || data.people.$resolved || data.people.$err" shaker>
+			<div ng-if="!entry.can_have_people || entry.accounts.length" class="people-card-space" in-view="view.at.people=$inview">
+				<div ng-if="data.people.length || data.people.$resolved || data.people.$err" class="card bounce-in-animation people-card" shaker>
 					<div ng-if="!data.people.$err">
-						<div ng-init="(person=data.people[0]) && (entry.selectedPerson = person)" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" ng-if="data.people.length === 1" autoscroll="entry.type === 'account'"></div>
-						<div ng-carousel="data.people" selected="entry.selectedPerson" ng-if="data.people.length > 1">
+						<div ng-if="data.people.length === 1" ng-init="person=data.people[0]; entry.selectedPerson = person;" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" autoscroll="entry.type === 'account'"></div>
+						<div ng-if="data.people.length > 1" ng-carousel="data.people" selected="entry.selectedPerson">
 							<div ng-init="person = $item" ng-include="'templates/' + person.selectedAccount.api + '_account.html'"></div>
 						</div>
 					</div>
 
-					<div class="yocards-message-container error-message" ng-class="err.api && (err.api + '-message')" ng-if="data.people.$err" ng-init="err = data.people.$err">
-						<div class="yocards-message-image"></div>
-						<span class="yocards-message-text" ng-messages="err">
-							<span ng-messages-include="templates/default_exceptions.html"></span>
-						</span>
+					<div ng-if="data.people.$err">
+						<div ng-if="data.people.$err['account-error']" ng-init="person=data.people.$err" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" autoscroll="entry.type === 'account'"></div>
+						<div ng-if="!data.people.$err['account-error']" class="yocards-message-container error-message" ng-init="err = data.people.$err">
+							<div class="yocards-message-image"></div>
+							<span class="yocards-message-text" ng-messages="err">
+								<span ng-messages-include="templates/default_exceptions.html"></span>
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="network-menu-space" ng-if="!entry.$err && entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)">
-			<div class="network-menu fade-in-animation" ng-if="entry.selectedPerson.accounts.length">
+		<div ng-if="!entry.$err && entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)" class="network-menu-space">
+			<div ng-if="entry.selectedPerson.accounts.length" class="network-menu fade-in-animation">
 				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length">
 					<div class="network-menu-option" ng-class="[account.type + '-option', account === entry.selectedPerson.selectedAccount && 'active']" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account" scroll-to-horizontal="account === entry.selectedPerson.selectedAccount">
 						<span>{{ (account.api + (entry.selectedPerson.accounts.length === 1 ? '_account' : '' )) | copy }}</span>
@@ -87,12 +97,12 @@
 			</div>
 		</div>
 
-		<div class="social-profile-space" ng-if="!entry.$err && entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)">
+		<div ng-if="!entry.$err && entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)" class="social-profile-space">
 			<div class="social-profile">
-				<div class="fade-in-animation" ng-if="entry.selectedPerson.selectedAccount.description.length || entry.selectedPerson.selectedAccount.location.length || entry.selectedPerson.selectedAccount.url_link.length">
+				<div ng-if="entry.selectedPerson.selectedAccount.description.length || entry.selectedPerson.selectedAccount.location.length || entry.selectedPerson.selectedAccount.url_link.length" class="fade-in-animation">
 					<div class="social-profile-description" shaker>
 						<div class="social-profile-description-container">
-							<p collapse="entry.selectedPerson.selectedAccount.description" collapse-at="19 * 7" tolerance="19 * 3" recollapse-at="19 * 15" ng-if="entry.selectedPerson.selectedAccount.description.length"></p>
+							<p ng-if="entry.selectedPerson.selectedAccount.description.length" collapse="entry.selectedPerson.selectedAccount.description" collapse-at="19 * 7" tolerance="19 * 3" recollapse-at="19 * 15"></p>
 							<div class="row social-profile-description-morecontent" ng-show="entry.selectedPerson.selectedAccount.location.length || entry.selectedPerson.selectedAccount.url_link.length">
 								<div class="col-12" ng-show="entry.selectedPerson.selectedAccount.location.length">
 									<span><i class="zmdi zmdi-globe iconic-push"></i>{{ entry.selectedPerson.selectedAccount.location }}</span>
@@ -104,10 +114,10 @@
 						</div>
 					</div>
 				</div>
-				<div ng-controller="MoreContentController" ng-if="entry.selectedPerson.selectedAccount">
-					<div class="fade-in-animation" ng-if="data.moreContent.$resolved || data.moreContent.$err" shaker>
-						<div ng-include="'templates/' + (data.moreContent.api || entry.selectedPerson.selectedAccount.api) + '_more_content.html'"></div>
-						<a class="view-profile-mini no-yo" ng-href="{{ entry.selectedPerson.selectedAccount | generateUrl }}" analytics-click="viewfullprofile" analytics-label="{{ data.moreContent.api || entry.selectedPerson.selectedAccount.api }} account">View Full Profile</a>
+				<div ng-if="entry.selectedPerson.selectedAccount" ng-controller="MoreContentController">
+					<div ng-if="data.moreContent.$resolved || data.moreContent.$err" class="fade-in-animation" shaker>
+						<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'"></div>
+						<a class="view-profile-mini no-yo" ng-href="{{ entry.selectedPerson.selectedAccount | generateUrl }}" analytics-click="viewfullprofile" analytics-label="{{ data.moreContent.api }} account">View Full Profile</a>
 					</div>
 				</div>
 			</div>
@@ -117,10 +127,10 @@
 		<!-- Arbitrary URL -->
 
 
-		<div class="fade-out-animation" ng-if="entry && entry.type === 'url' && !entry.$err">
+		<div ng-if="entry && entry.type === 'url' && !entry.$err" class="fade-out-animation">
 			<div ng-controller="UrlDiscussionController">
 				<div ng-repeat="discussion in data.discussions" ng-init="data = {}; data.discussion = discussion">
-					<div class="card bounce-in-animation" ng-if="data.discussion.$resolved && !data.discussion.$err" shaker>
+					<div ng-if="data.discussion.$resolved && !data.discussion.$err" class="card bounce-in-animation" shaker>
 						<div class="context-top">
 							<div class="inline-row">
 								<div class="col-12">
@@ -130,7 +140,7 @@
 									</div>
 									<span>{{ data.discussion.api + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 								</div>
-								<div class="col-12" ng-if="data.discussion.api === 'reddit'">
+								<div ng-if="data.discussion.api === 'reddit'" class="col-12">
 									<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'"></div>
 								</div>
 							</div>
@@ -142,24 +152,30 @@
 		</div>
 
 
-		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err" ng-init="err = entry.$err" shaker>
-			<div class="yocards-message-container error-message" ng-class="err.api && (err.api + '-message')">
-				<div class="yocards-message-image"></div>
-				<span class="yocards-message-text" ng-messages="err">
-					<span ng-messages-include="templates/entry_exceptions.html"></span>
-				</span>
-				<div class="yocards-message-option">
-					<a popup="https://twitter.com/intent/tweet?source=https://yocards.com&text={{:: 'YoCards couldn\'t find anything for ' + entry.url + '! What #newbs!' | encode }}">Call us newbs on twitter</a>
+		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err" shaker>
+			<div class="yocards-wecantfindany">
+				<div class="yocards-wecantfindany-message">
+					<b>Uh Oh!</b>
+					<p>This website aint blowing up on a tuesday</p>
+					<span>We searched Twitter, & Reddit. No one's talking about this web page.</span>
+				</div>
+				<div class="yocards-wecantfindany-images">
+					<img src="/images/pepemojis.jpg" ng-class="sharehovered && 'movepepe'">
+				</div>
+				<div class="yocards-wecantfindany-share">
+					<b>Be the first to post it</b>
+					<span ng-mouseenter="sharehovered=true" ng-mouseleave="sharehovered=false">
+						<a popup="{{ content | shareUrl:'reddit' }}" title="Submit {{ content.name || content.description }} to Reddit"><img src="/images/Reddit-icon-full_color.png"></a>
+						<a popup="{{ content | shareUrl:'twitter' }}" title="Tweet {{ content.name || content.description }}"><img src="/images/twitter-icon-full_color.png"></a>
+						<a popup="{{ content | shareUrl:'facebook' }}" title="Share {{ content.name || content.description }} on Facebook"><img src="/images/facebook-icon-full_color.png"></a>
+					</span>
 				</div>
 			</div>
 		</div>
 
-		<div ng-repeat="person_to_load in [{ api: 'soundcloud', type: 'account', id: 'yocards' },
-		                                   { api: 'imgur', type: 'account', id: 'yocards' },
-		                                   { api: 'instagram', type: 'account', id: 'yocards' },
+		<div ng-repeat="person_to_load in [{ api: 'instagram', type: 'account', id: 'yocards' },
 		                                   { api: 'twitter', type: 'account', id: 'getyocards' },
-		                                   { api: 'reddit', type: 'account', id: 'yocards' },
-		                                   { api: 'youtube', type: 'account', id: 'UCfIw0G54K-C63HcgSaO77hg' }]" ng-controller="AccountShimController" ng-if="entry.$err">
+		                                   ]" ng-controller="AccountShimController" ng-if="entry.$err">
 			<div class="people-card-space" ng-if="!person.selectedAccount.$err">
 				<div class="card bounce-in-animation" ng-if="person.selectedAccount.$resolved" shaker>
 					<div ng-include="'templates/' + (person.selectedAccount.api || person_to_load.api) + '_account.html'"></div>
@@ -167,8 +183,6 @@
 			</div>
 		</div>
 
-	<link rel="stylesheet" href="styles/subscribe-fix-style.css">
-	<script src="https://apis.google.com/js/platform.js"></script>
 	<script src="scripts/sidebar-main.js"></script>
 	<script src="scripts/everywhere-main.js"></script>
 </body>

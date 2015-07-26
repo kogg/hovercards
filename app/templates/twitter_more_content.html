@@ -5,13 +5,8 @@
 <div class="yocards-message-container error-message" ng-class="err.api && 'twitter-message'" ng-if="data.moreContent.$err" ng-init="err = data.moreContent.$err">
 	<div class="yocards-message-image"></div>
 	<span class="yocards-message-text" ng-messages="err">
-		<span ng-message="forbidden" stored="twitter_user" name="twitter_user">
-			<span class="yocards-message-content"><b><i class="md md-error"></i>Protected Tweets</b><a ng-href="{{:: entry.selectedPerson.selectedAccount | generateUrl }}">{{:: entry.selectedPerson.selectedAccount.name || (entry.selectedPerson.selectedAccount.id && ('@' + entry.selectedPerson.selectedAccount.id)) }}</a> has set their tweets to be protected. {{ twitter_user ? '' : 'If you can usually see their tweets, maybe signing in will let you see it.' }}</span>
-			<div class="yocards-message-option" ng-if="!twitter_user">
-				<a authorize="err.api" on-authorized="err.reload()">Sign into Twitter</a>
-			</div>
-		</span>
-
-		<span ng-messages-include="templates/more_content_exceptions.html"></span>
+		<span ng-messages-include="templates/authorize_for_forbidden_exceptions.html"></span>
+		<span ng-messages-include="templates/authorize_for_too_many_requests_exceptions.html"></span>
+		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>
 </div>

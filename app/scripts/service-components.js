@@ -10,28 +10,22 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                        401: 'unauthorized',
                        403: 'forbidden',
                        404: 'no-content',
+                       429: 'too-many-requests',
                        501: 'not-implemented',
                        502: 'dependency-down' };
-        var api_specific_errors = { 'dependency-down': true,
-                                    'forbidden':       true,
-                                    'not-implemented': true,
-                                    'unauthorized':    true };
+        var api_specific_errors = { 'dependency-down':   true,
+                                    'forbidden':         true,
+                                    'not-implemented':   true,
+                                    'too-many-requests': true,
+                                    'unauthorized':      true };
 
         var service = {
             loading: [],
             get: function(params, object) {
                 object = object || {};
+                var start;
                 object.$promise = $q(function(resolve, reject) {
-                    var start = _.now();
-                    resolve = _.wrap(resolve, function(resolve, result) {
-                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'service', 'Load Time', _.now() - start, params.api + ' ' + params.type] }, '*');
-                        resolve(result);
-                    });
-                    reject = _.wrap(reject, function(reject, err) {
-                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'service', 'Load Time', _.now() - start, params.api + ' ' + params.type] }, '*');
-                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'exception', { exDescription: params.api + ' ' + params.type + ' ' + err.status, exFatal: err.status >= 500 }] }, '*');
-                        reject(err);
-                    });
+                    start = _.now();
                     var request = _.pick(params, 'api', 'type', 'id', 'as', 'for', 'focus', 'author');
                     if (request.for) {
                         request.for = _.pick(request.for, 'api', 'type', 'id', 'as', 'for', 'focus', 'author');
@@ -49,6 +43,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                         return resolve(response[1]);
                     });
                 })
+                .finally(function() {
+                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'service', 'Load Time', _.now() - start, params.api + ' ' + params.type] }, '*');
+                    _.defaults(object, params);
+                })
                 .then(function(obj) {
                     angular.extend(object, obj);
                     if ((params.type in { discussion: true, url: true } && (!object.comments || !object.comments.length)) ||
@@ -59,6 +57,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                 })
                 .catch(function(err) {
                     object.$err = err;
+                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'exception', { exDescription: params.api + ' ' + params.type + ' ' + (err.status || ''), exFatal: err.status >= 500 }] }, '*');
                     return $q.reject(object.$err);
                 })
                 .finally(function() {

@@ -6,7 +6,7 @@
 				<div class="network-pick">
 					<div class="network-circle network-circle-instagram"></div>
 				</div>
-				<span>Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
+				<span>Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || ('@' + data.content.author.id) }}</a></span>
 			</div>
 			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
@@ -61,8 +61,8 @@
 					<a ng-href="{{:: tag | generateUrl }}"><div class="card-stats-tag-img" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div></a>
 					<div class="card-stats-tag-name">
 						<div class="tag-full-image" ng-style=":: tag.image && { 'background-image': 'url(' + tag.image  + ')' }"></div>
-						<span class="ellipsis">{{:: tag.name || tag.id }}</span>
-						<a class="ellipsis" ng-href="{{:: tag | generateUrl }}">{{:: tag.id }}</a>
+						<span class="ellipsis">{{:: tag.name || ('@' + tag.id) }}</span>
+						<a class="ellipsis no-yo" ng-href="{{:: tag | generateUrl }}">{{:: '@' + tag.id }}</a>
 						<div class="profile-cta">
 							<a class="instagram-background" popup="{{:: tag | generateUrl }}" popup-size="{ height: 433, width: 720 }" style="cursor: pointer;">Follow</a>
 						</div>
@@ -76,13 +76,8 @@
 <div class="yocards-message-container error-message" ng-class="err.api && 'instagram-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
 	<div class="yocards-message-image"></div>
 	<span class="yocards-message-text" ng-messages="err">
-		<span ng-message="forbidden" stored="instagram_user" name="instagram_user">
-			<span class="yocards-message-content"><b><i class="md md-error"></i>Private Post</b>You can't see this post unless you are their friend. {{ instagram_user ? '' : 'Sign in and you can see your friends\' posts too!' }}</span>
-			<div class="yocards-message-option" ng-if="!instagram_user">
-				<a authorize="err.api" on-authorized="err.reload()">Sign into Instagram</a>
-			</div>
-		</span>
-
+		<span ng-messages-include="templates/authorize_for_forbidden_exceptions.html"></span>
+		<span ng-messages-include="templates/authorize_for_too_many_requests_exceptions.html"></span>
 		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>
 </div>
