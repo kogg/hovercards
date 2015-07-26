@@ -1,34 +1,9 @@
-<span ng-message="our-problem">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>{{:: 'err_our_problem_name' | copy }}</b>{{:: 'err_our_problem_text' | copy }}</span>
-</span>
-
-<span ng-message="dependency-down">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>{{ 'err_dependency_down_name' | copy:((err.api | copy) || 'Dependency') }}</b>{{ 'err_dependency_down_text' | copy:((err.api | copy) || 'One of our dependencies') }}</span>
-</span>
-
-<span ng-message="bad-input">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>{{:: 'err_bad_input_name' | copy }}</b>{{:: 'err_bad_input_text' | copy }}</span>
-</span>
-
-<span ng-message="forbidden">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>{{:: 'err_forbidden_name' | copy }}</b>{{:: 'err_forbidden_text' | copy }}</span>
-</span>
-
-<span ng-message="no-content">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>{{:: 'err_no_content_name' | copy }}</b>{{:: 'err_no_content_text' | copy }}</span>
-</span>
-
-<span ng-message="unauthorized">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>{{:: 'err_unauthorized_name' | copy }}</b>{{ 'err_unauthorized_text' | copy:(err.api | copy) }}</span>
-	<div class="yocards-message-option">
+<span ng-repeat="type in ['bad-input', 'forbidden', 'no-content', 'not-implemented', 'our-problem', 'still-waiting', 'unauthorized']" ng-message="{{ type }}">
+	<span class="yocards-message-content">
+		<b><i class="md md-error"></i>{{ 'err_' + type +  '_name' | copy:((err.api || 'err_' + type +  '_name_api_default') | copy) }}</b>
+		{{ 'err_' + type +  '_text' | copy:((err.api || 'err_' + type +  '_text_api_default') | copy) }}
+	</span>
+	<div class="yocards-message-option" ng-if=":: type === 'unauthorized'">
 		<a authorize="err.api" on-authorized="err.reload()">Sign into {{ err.api | copy }}</a>
 	</div>
-</span>
-
-<span ng-message="not-implemented">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>{{:: 'err_not_implemented_name' | copy }}</b>{{ 'err_not_implemented_text' | copy:((err.api | copy) || 'our dependency') }}</span>
-</span>
-
-<span ng-message="still-waiting">
-	<span class="yocards-message-content"><b><i class="md md-error"></i>{{:: 'err_still_waiting_name' | copy }}</b>{{ 'err_still_waiting_text' | copy:((err.api | copy) || 'this') }}</span>
 </span>
