@@ -45,7 +45,6 @@ module.exports = function() {
 
                 window.ga('create', env.analytics_id, { 'userId': user_id });
                 window.ga('set', { appName: chrome.i18n.getMessage('app_name'), appVersion: chrome.runtime.getManifest().version });
-                window.ga('send', 'screenview', { screenName: 'None' });
             });
 
             window.addEventListener('message', function(event) {
