@@ -25,8 +25,8 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "browserify": "^10.2.4",
-    "browserify-shim": "^3.8.9",
+    "browserify": "^11.0.0",
+    "browserify-shim": "^3.8.10",
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.8.0",
     "grunt-concurrent": "^2.0.0",
