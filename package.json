@@ -9,19 +9,19 @@
     "test": "jshint --reporter=node_modules/jshint-stylish/index.js *.js app/**/*.js"
   },
   "dependencies": {
-    "URIjs": "^1.15.2",
+    "URIjs": "^1.16.0",
     "YoCardsAPICalls": "cameronrohani/YoCardsAPICalls",
-    "angular": "^1.4.1",
-    "angular-animate": "^1.4.1",
+    "angular": "^1.4.3",
+    "angular-animate": "^1.4.3",
     "angular-inview": "^1.5.0",
-    "angular-messages": "^1.4.1",
-    "angular-sanitize": "^1.4.1",
-    "async": "^1.3.0",
+    "angular-messages": "^1.4.3",
+    "angular-sanitize": "^1.4.3",
+    "async": "^1.4.0",
     "jquery": "^2.1.4",
     "jquery-ui": "^1.10.5",
-    "moment": "^2.10.3",
-    "perfect-scrollbar": "^0.6.2",
-    "slick-carousel": "^1.5.5",
+    "moment": "^2.10.5",
+    "perfect-scrollbar": "^0.6.4",
+    "slick-carousel": "^1.5.8",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
