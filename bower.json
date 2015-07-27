@@ -1,7 +1,0 @@
-{
-  "name": "HoverCards",
-  "private": true,
-  "devDependencies": {
-    "sinonjs": "~1.12.2"
-  }
-}

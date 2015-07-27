@@ -6,7 +6,7 @@
 					<div class="profile-image" ng-style="person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
 				</div>
 				<div class="profile-right col-8">
-					<b class="ellipsis instagram-color">{{ (person.accounts[0] === person.selectedAccount && person.selectedAccount.reason && (('account_reason_' + person.selectedAccount.reason + '_with_name_instagram' | copy:('@' + person.selectedAccount.id)) || ('account_reason_' + person.selectedAccount.reason + '_with_name' | copy:('@' + person.selectedAccount.id)))) || ('@' + person.selectedAccount.id) }}</b>
+					<b class="ellipsis instagram-color">{{ (person.accounts[0] === person.selectedAccount && person.selectedAccount.reason && (('instagram_account_reason_' + person.selectedAccount.reason + '_with_name' | copy:('@' + person.selectedAccount.id)) || ('account_reason_' + person.selectedAccount.reason + '_with_name' | copy:('@' + person.selectedAccount.id)))) || ('@' + person.selectedAccount.id) }}</b>
 					<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.name || ('@' + person.selectedAccount.id) }}</a>
 					<div class="profile-cta">
 						<a class="instagram-background" popup="{{ person.selectedAccount | generateUrl }}" popup-size="{ height: 433, width: 720 }">Follow</a>
@@ -35,6 +35,8 @@
 <div ng-if="person.selectedAccount.$err" class="yocards-message-container error-message" ng-class="err.api && 'instagram-message'" ng-init="err = person.selectedAccount.$err">
 	<div class="yocards-message-image"></div>
 	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/authorize_for_forbidden_exceptions.html"></span>
+		<span ng-messages-include="templates/authorize_for_too_many_requests_exceptions.html"></span>
 		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>
 </div>
