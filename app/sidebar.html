@@ -41,7 +41,7 @@
 								
 								<span ng-if="data.discussion.api === 'reddit' && data.discussion.subreddit" class="time">{{ data.discussion.score | score }} <span class="hidden-date">&middot; <a ng-href="{{ data.discussion | generateUrl }}" class="no-yo">{{ data.discussion.date | timeSince:true }}</a> &middot;<i class="zmdi zmdi-more-vert" ng-click="entry.showMenu = !entry.showMenu; $event.stopPropagation()"></i></span></span>
 
-								<i class="zmdi zmdi-more-vert" ng-click="entry.showMenu = !entry.showMenu; $event.stopPropagation()"></i>
+								<i class="zmdi zmdi-more-vert menu-not-reddit" ng-click="entry.showMenu = !entry.showMenu; $event.stopPropagation()"></i>
 							</div>
 							<div ng-if="data.discussion.api === 'reddit' && (data.discussion.api !== data.content.api || data.discussion.id !== data.content.id)" class="col-12">
 								<div class="reddit-header">
@@ -156,7 +156,7 @@
 			<div class="yocards-wecantfindany">
 				<div class="yocards-wecantfindany-message">
 					<b>Uh Oh!</b>
-					<p>This website aint blowing up on a tuesday</p>
+					<p>This web page aint blowing up on a tuesday</p>
 					<span>We searched Twitter, & Reddit. No one's talking about this web page.</span>
 				</div>
 				<div class="yocards-wecantfindany-images">

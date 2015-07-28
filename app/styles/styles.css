@@ -1725,22 +1725,22 @@ h2 {
 .yocards-wecantfindany .yocards-wecantfindany-share {
 	width: 100%;
 	float: left;
-	padding: 16px;
+	padding: 9.5px 16px;
 	border-top: 1px solid #ECEEF1
 }
 .yocards-wecantfindany-share span {
 	display: inline-block;
-	max-height: 20px;
+	max-height: 17px;
 }
 .yocards-wecantfindany-share a {
 	display: inline-block;
 	margin-right: 3px;
 }
 .yocards-wecantfindany-share b {
-	margin-bottom: 8px;
+	margin-bottom: 3px;
 }
 .yocards-wecantfindany-share a img {
-	height: 20px;
+	height: 17px;
 }
 .yocards-message-container {
 	border-radius: 3px;
@@ -2885,6 +2885,14 @@ h2 {
 }
 .zmdi-pin {
 	margin-right: 6px;
+}
+i.menu-not-reddit {
+  color: #727272;
+  padding: 8px 10px;
+  position: absolute;
+  top: 11px;
+  right: 7px;
+  cursor: pointer;
 }
 /*shake it for me*/
 .shakeit {

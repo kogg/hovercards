@@ -45,7 +45,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                 })
                 .finally(function() {
                     window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'service', 'Load Time', _.now() - start, params.api + ' ' + params.type] }, '*');
-                    _.defaults(object, params);
+                    _.defaults(object, _.pick(params, 'api', 'type'));
                 })
                 .then(function(obj) {
                     angular.extend(object, obj);
