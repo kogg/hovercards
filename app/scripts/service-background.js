@@ -84,7 +84,8 @@ module.exports = function() {
             if (type === 'auth') {
                 async.waterfall([
                     client_side_authenticators[api] || function(callback) {
-                        chrome.identity.launchWebAuthFlow({ url: ENDPOINT + '/' + api + '/authenticate', interactive: true }, function(redirect_url) {
+                        chrome.identity.launchWebAuthFlow({ url:         ENDPOINT + '/' + api + '/authenticate?chromium_id=' + chrome.i18n.getMessage('@@extension_id'),
+                                                            interactive: true }, function(redirect_url) {
                             if (chrome.runtime.lastError) {
                                 return callback(_.extend({ status: 401 }, chrome.runtime.lastError));
                             }
