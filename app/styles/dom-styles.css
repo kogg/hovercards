@@ -1,3 +1,9 @@
+.__MSG_@@extension_id__-container * {
+	margin:0 !important;
+	box-sizing:border-box !important;
+	-webkit-box-sizing:border-box !important;
+	-moz-box-sizing:border-box !important;
+}
 .__MSG_@@extension_id__-container {
 	z-index: 2147483647 !important;
 	position: relative !important;
