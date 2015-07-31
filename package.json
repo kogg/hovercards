@@ -5,6 +5,7 @@
   "repository": "cameronrohani/YoCardsExt",
   "reporter": "List",
   "scripts": {
+    "copy:non_js": "rsync -r --exclude=scripts/ app/* dist",
     "start": "grunt develop",
     "test": "jshint --reporter=node_modules/jshint-stylish/index.js *.js app/**/*.js"
   },
