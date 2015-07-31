@@ -3,12 +3,16 @@
   "description": "",
   "version": "0.13.0",
   "repository": "cameronrohani/YoCardsExt",
-  "reporter": "List",
   "scripts": {
-    "start": "grunt develop",
+    "start": "npm run copy:non_js & npm run watchify:background & npm run watchify:everywhere & npm run watchify:sidebar & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
     "test": "jshint --reporter=node_modules/jshint-stylish/index.js *.js app/**/*.js",
-    "copy:non_js": "rsync -r --exclude=scripts/ app/* dist",
-    "watch:non_js": "watch 'npm run copy:non_js' app"
+    "watch:non_js": "watch 'npm run copy:non_js' app",
+    "copy:non_js": "rsync -r --exclude=scripts/* app/* dist",
+    "watchify:background": "watchify app/scripts/background-main.js -o dist/scripts/background-main.js -r ./app/scripts/development-env.js:env -v",
+    "watchify:everywhere": "watchify app/scripts/everywhere-main.js -o dist/scripts/everywhere-main.js -r ./app/scripts/development-env.js:env -v",
+    "watchify:sidebar": "watchify app/scripts/sidebar-main.js -o dist/scripts/sidebar-main.js -r ./app/scripts/development-env.js:env -v",
+    "watchify:soundcloud-player": "watchify app/scripts/soundcloud-player-main.js -o dist/scripts/soundcloud-player-main.js -r ./app/scripts/development-env.js:env -v",
+    "watchify:top-frame": "watchify app/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -r ./app/scripts/development-env.js:env -v"
   },
   "dependencies": {
     "URIjs": "^1.16.0",
@@ -39,7 +43,8 @@
     "jshint": "^2.8.0",
     "jshint-stylish": "^2.0.1",
     "load-grunt-tasks": "^3.2.0",
-    "watch": "^0.16.0"
+    "watch": "^0.16.0",
+    "watchify": "^3.3.1"
   },
   "engines": {
     "node": ">=0.8.0"
