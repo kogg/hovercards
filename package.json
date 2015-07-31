@@ -5,7 +5,7 @@
   "repository": "cameronrohani/YoCardsExt",
   "scripts": {
     "start": "npm run copy:non_js & npm run watchify:background & npm run watchify:everywhere & npm run watchify:sidebar & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
-    "pkg": "npm run copy:non_js && npm run browserify",
+    "pkg": "npm run copy:non_js && npm run browserify && npm run uglify && npm run compress",
     "test": "jshint --reporter=node_modules/jshint-stylish/index.js *.js app/**/*.js",
     "browserify": "npm run browserify:background && npm run browserify:everywhere && npm run browserify:sidebar && npm run browserify:soundcloud-player && npm run browserify:top-frame",
     "browserify:background": "browserify app/scripts/background-main.js -o dist/scripts/background-main.js -r ./app/scripts/production-env.js:env -v",
@@ -13,6 +13,7 @@
     "browserify:sidebar": "browserify app/scripts/sidebar-main.js -o dist/scripts/sidebar-main.js -r ./app/scripts/production-env.js:env -v",
     "browserify:soundcloud-player": "browserify app/scripts/soundcloud-player-main.js -o dist/scripts/soundcloud-player-main.js -r ./app/scripts/production-env.js:env -v",
     "browserify:top-frame": "browserify app/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -r ./app/scripts/production-env.js:env -v",
+    "compress": "zip -q -r build/pkg-$npm_package_version.zip dist",
     "copy:non_js": "rsync -r --exclude=scripts/* app/* dist",
     "uglify": "npm run uglify:background && npm run uglify:everywhere && npm run uglify:sidebar && npm run uglify:soundcloud-player && npm run uglify:top-frame",
     "uglify:background": "uglifyjs dist/scripts/background-main.js -o dist/scripts/background-main.js -c drop_console=true",
