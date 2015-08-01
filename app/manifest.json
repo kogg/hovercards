@@ -41,7 +41,7 @@
         }
     ],
     "background": {
-        "page": "background.html"
+        "scripts": ["scripts/background-main.js"]
     },
     "browser_action": {
         "default_icon": {
