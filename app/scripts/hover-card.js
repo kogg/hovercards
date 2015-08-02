@@ -35,10 +35,10 @@ module.exports = function(selector, get_url) {
             .off(NameSpace);
         current_obj = obj;
         setTimeout(function() { obj.trigger(ShowHoverCard); }, TIMEOUT_BEFORE_CARD);
-        var mouse_x = e.pageX;
+        var last_e = e;
         obj
             .on(MouseMove, function(e) {
-                mouse_x = e.pageX;
+                last_e = e;
             })
             .one(MouseLeave, function() {
                 obj.off(NameSpace);
@@ -63,13 +63,14 @@ module.exports = function(selector, get_url) {
                     .height(CARD_SIZES[identity.type].height)
                     .width(CARD_SIZES[identity.type].width)
                     .offset(function() {
-                        var offset = obj.offset();
-                        return { left: Math.max(PADDING_FROM_EDGES,
+                        var target = $(e.target);
+                        var offset = target.offset();
+                        return { top:  (offset.top + target.outerHeight(true) + CARD_SIZES[identity.type].height + PADDING_FROM_EDGES < $(document).height()) ? offset.top + target.outerHeight(true) : offset.top - CARD_SIZES[identity.type].height,
+                                 left: Math.max(PADDING_FROM_EDGES,
                                                 Math.min($(document).width() - CARD_SIZES[identity.type].width - PADDING_FROM_EDGES,
                                                          Math.max(offset.left,
-                                                                  Math.min(offset.left + obj.width() - CARD_SIZES[identity.type].width,
-                                                                           mouse_x)))),
-                                 top:  (offset.top + obj.height() + CARD_SIZES[identity.type].height + PADDING_FROM_EDGES < $(document).height()) ? offset.top + obj.height() : offset.top - CARD_SIZES[identity.type].height };
+                                                                  Math.min(offset.left + target.outerWidth(true) - CARD_SIZES[identity.type].width,
+                                                                           last_e.pageX)))) };
                     })
                     .on(Click, function() {
                         obj
