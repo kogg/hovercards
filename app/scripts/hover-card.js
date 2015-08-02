@@ -65,11 +65,11 @@ module.exports = function(selector, get_url) {
                     .offset(function() {
                         var target = $(e.target);
                         var offset = target.offset();
-                        return { top:  (offset.top + target.outerHeight(true) + CARD_SIZES[identity.type].height + PADDING_FROM_EDGES < $(document).height()) ? offset.top + target.outerHeight(true) : offset.top - CARD_SIZES[identity.type].height,
+                        return { top:  (offset.top + target.height() + CARD_SIZES[identity.type].height + PADDING_FROM_EDGES < $(document).height()) ? offset.top + target.outerHeight(true) : offset.top - CARD_SIZES[identity.type].height,
                                  left: Math.max(PADDING_FROM_EDGES,
                                                 Math.min($(document).width() - CARD_SIZES[identity.type].width - PADDING_FROM_EDGES,
                                                          Math.max(offset.left,
-                                                                  Math.min(offset.left + target.outerWidth(true) - CARD_SIZES[identity.type].width,
+                                                                  Math.min(offset.left + target.width() - CARD_SIZES[identity.type].width,
                                                                            last_e.pageX)))) };
                     })
                     .on(Click, function() {
