@@ -3,12 +3,16 @@ var $ = require('jquery');
 var common       = require('./common');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
-var CARD_SIZES = { account: { height: 156, width: 300 }, content: { height: 200, width: 300 } };
+var CARD_SIZES = { content:    { height: 200, width: 300 },
+                   discussion: { height: 200, width: 300 },
+                   account:    { height: 156, width: 300 } };
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 var TIMEOUT_BEFORE_CARD = 500;
 var TIMEOUT_BEFORE_FADEOUT = 100;
 
 var NameSpace = '.' + EXTENSION_ID;
+var Click = 'click' + NameSpace;
+var HoverCardClick = 'hovercardclick' + NameSpace;
 var MouseLeave = 'mouseleave' + NameSpace;
 var MouseMove = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
 var ShowHoverCard = 'showhovercard' + NameSpace;
@@ -59,8 +63,17 @@ module.exports = function(selector, get_url) {
                     .width(CARD_SIZES[identity.type].width)
                     .offset(function() {
                         var offset = obj.offset();
-                        return { left: Math.max(Math.min(mouse_x, offset.left + obj.width() - CARD_SIZES[identity.type].width), offset.left),
-                                 top: (offset.top > CARD_SIZES[identity.type].height) ? offset.top - CARD_SIZES[identity.type].height : offset.top + obj.height() };
+                        return { left: Math.min(Math.max(Math.min(mouse_x, offset.left + obj.width() - CARD_SIZES[identity.type].width), offset.left), $(document).width() - CARD_SIZES[identity.type].width),
+                                 top:  (offset.top + obj.height() + CARD_SIZES[identity.type].height < $(document).height()) ? offset.top + obj.height() : offset.top - CARD_SIZES[identity.type].height };
+                    })
+                    .on(Click, function() {
+                        obj
+                            .trigger(HoverCardClick, [url])
+                            .off(NameSpace);
+                        current_obj = $();
+                        hovercard
+                            .off(NameSpace)
+                            .hide();
                     });
                 var both = obj.add(hovercard);
                 both
