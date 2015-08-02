@@ -55,6 +55,10 @@ module.exports = function(selector, get_url) {
                     hovercard = $('<div></div>')
                         .appendTo(document.location.protocol === 'chrome-extension:' ? 'body' : 'html')
                         .addClass(EXTENSION_ID + '-hovercard');
+                    $('<iframe></iframe>')
+                        .appendTo(hovercard)
+                        .attr('src', chrome.extension.getURL('hovercard.html'))
+                        .attr('frameborder', '0');
                 }
                 obj.off(NameSpace);
                 hovercard

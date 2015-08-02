@@ -1,6 +1,10 @@
 .__MSG_@@extension_id__-hovercard {
-	background: pink;
-	z-index: 2147483647;
+	background: pink !important;
+	z-index: 2147483647 !important;
+}
+.__MSG_@@extension_id__-hovercard iframe {
+	height: 100% !important;
+	width: 100% !important;
 }
 .__MSG_@@extension_id__-clickable-yo-trigger {
 	content: "" !important;

@@ -58,6 +58,7 @@
         "128": "images/yocards-logo-128-yo.png"
     },
     "web_accessible_resources": [
+        "hovercard.html",
         "sidebar.html",
         "images/closesidebar.png",
         "images/closebutton.png",
