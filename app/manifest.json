@@ -23,7 +23,7 @@
                 "https://*/*"
             ],
             "css": [
-                "styles/trigger-styles.css"
+                "styles/everywhere.css"
             ],
             "js": [
                 "scripts/everywhere-main.js"
