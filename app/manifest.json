@@ -10,7 +10,7 @@
                 "https://*/*"
             ],
             "css": [
-                "styles/dom-styles.css"
+                "styles/top-frame.css"
             ],
             "js": [
                 "scripts/top-frame-main.js"

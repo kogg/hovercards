@@ -4,7 +4,7 @@
   "version": "0.13.0",
   "repository": "cameronrohani/YoCardsExt",
   "scripts": {
-    "start": "npm run copy:non_js & npm run watchify:background & npm run watchify:everywhere & npm run watchify:sidebar & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
+    "start": "npm run watch:non_js & npm run watchify:background & npm run watchify:everywhere & npm run watchify:sidebar & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
     "pkg": "npm run clean && npm run copy:non_js && npm run browserify && npm run uglify && npm run compress",
     "test": "jshint --reporter=node_modules/jshint-stylish/index.js app/**/*.js",
     "browserify": "npm run browserify:background && npm run browserify:everywhere && npm run browserify:sidebar && npm run browserify:soundcloud-player && npm run browserify:top-frame",
