@@ -50,6 +50,7 @@ module.exports = function(selector, get_url) {
                 }
             })
             .one(ShowHoverCard, function() {
+                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'hovercard', 'show', (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type] }, '*');
                 if (!hovercard.length) {
                     hovercard = $('<div></div>')
                         .appendTo(document.location.protocol === 'chrome-extension:' ? 'body' : 'html')

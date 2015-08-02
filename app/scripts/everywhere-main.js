@@ -18,7 +18,7 @@ if (document.URL.match(/[&?]noyo=1/)) {
 hover_cards('a[href]:not(.no-yo)', function(link) { return link.attr('href'); });
 
 $('html').on('hovercardclick.' + EXTENSION_ID, function(e, url) {
-    window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'hover-card', url: url }, '*');
+    window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'hovercard', url: url }, '*');
 });
 /*
 var $   = require('jquery');
