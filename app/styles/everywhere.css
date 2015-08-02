@@ -1,3 +1,7 @@
+.__MSG_@@extension_id__-hovercard {
+	background: pink;
+	z-index: 2147483647;
+}
 .__MSG_@@extension_id__-clickable-yo-trigger {
 	content: "" !important;
 	position: absolute !important;

@@ -54,8 +54,7 @@ module.exports = function(selector, get_url) {
                 if (!hovercard.length) {
                     hovercard = $('<div></div>')
                         .appendTo(document.location.protocol === 'chrome-extension:' ? 'body' : 'html')
-                        .css('background', 'pink')
-                        .css('z-index', 2147483647);
+                        .addClass(EXTENSION_ID + '-hovercard');
                 }
                 obj.off(NameSpace);
                 hovercard
