@@ -1,3 +1,7 @@
+var hover_cards = require('./hover-card');
+
+hover_cards('a[href]:not(.no-yo,[data-href][data-expanded-url])', function(link) { return link.attr('href'); });
+/*
 var $   = require('jquery');
 var URI = require('URIjs/src/URI');
 
@@ -149,3 +153,4 @@ switch ((document.domain || '').replace(/^www\./, '')) {
 $('html').on(EXTENSION_ID + '-clickable-yo', function(e, url) {
     window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'clickable-yo', url: url }, '*');
 });
+*/
