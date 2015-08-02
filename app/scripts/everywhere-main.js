@@ -1,6 +1,6 @@
 var $ = require('jquery');
 
-var hover_cards = require('./hover-card');
+var hovercard = require('./hovercard');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
@@ -15,7 +15,7 @@ if (document.URL.match(/[&?]noyo=1/)) {
     return;
 }
 
-hover_cards('a[href]:not(.no-yo)', function(link) { return link.attr('href'); });
+hovercard('a[href]:not(.no-yo)', function(link) { return link.attr('href'); });
 
 $('html').on('hovercardclick.' + EXTENSION_ID, function(e, url) {
     window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'hovercard', url: url }, '*');
