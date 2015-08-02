@@ -9,6 +9,7 @@ var CARD_SIZES = { content:    { height: 200, width: 300 },
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 var TIMEOUT_BEFORE_CARD = 500;
 var TIMEOUT_BEFORE_FADEOUT = 100;
+var PADDING_FROM_EDGES = 10;
 
 var NameSpace = '.' + EXTENSION_ID;
 var Click = 'click' + NameSpace;
@@ -63,8 +64,12 @@ module.exports = function(selector, get_url) {
                     .width(CARD_SIZES[identity.type].width)
                     .offset(function() {
                         var offset = obj.offset();
-                        return { left: Math.min(Math.max(Math.min(mouse_x, offset.left + obj.width() - CARD_SIZES[identity.type].width), offset.left), $(document).width() - CARD_SIZES[identity.type].width),
-                                 top:  (offset.top + obj.height() + CARD_SIZES[identity.type].height < $(document).height()) ? offset.top + obj.height() : offset.top - CARD_SIZES[identity.type].height };
+                        return { left: Math.max(PADDING_FROM_EDGES,
+                                                Math.min($(document).width() - CARD_SIZES[identity.type].width - PADDING_FROM_EDGES,
+                                                         Math.max(offset.left,
+                                                                  Math.min(offset.left + obj.width() - CARD_SIZES[identity.type].width,
+                                                                           mouse_x)))),
+                                 top:  (offset.top + obj.height() + CARD_SIZES[identity.type].height + PADDING_FROM_EDGES < $(document).height()) ? offset.top + obj.height() : offset.top - CARD_SIZES[identity.type].height };
                     })
                     .on(Click, function() {
                         obj
