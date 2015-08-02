@@ -117,7 +117,7 @@
 				<div ng-if="entry.selectedPerson.selectedAccount" ng-controller="MoreContentController">
 					<div ng-if="data.moreContent.$resolved || data.moreContent.$err" class="fade-in-animation" shaker>
 						<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'"></div>
-						<a class="view-profile-mini no-yo" ng-href="{{ entry.selectedPerson.selectedAccount | generateUrl }}" analytics-click="viewfullprofile" analytics-label="{{ data.moreContent.api }} account">View Full Profile</a>
+						<a class="view-profile-mini no-yo" ng-href="{{ entry.selectedPerson.selectedAccount | generateUrl }}" analytics-click="full profile shown" analytics-action="viewfullprofile" analytics-label="{{ data.moreContent.api }} account">View Full Profile</a>
 					</div>
 				</div>
 			</div>

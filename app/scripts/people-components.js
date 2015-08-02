@@ -37,7 +37,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         $interval.cancel(interval);
                         can_have_people_watcher();
                         if ($window.innerHeight <= angular.element('.people-card-space').offset().top) {
-                            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people', 'scrolled to'] }, '*');
+                            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people scrolled to', 'somehow'] }, '*');
                             $scope.entry.people_needed_scrolling = true;
                         }
 
@@ -152,14 +152,14 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             if (selectedPerson === oldSelectedPerson || !selectedPerson || !oldSelectedPerson) {
                 return;
             }
-            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people', 'changed person'] }, '*');
+            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people changed', 'somehow'] }, '*');
         });
 
         $scope.$watchGroup(['entry.selectedPerson', 'entry.selectedPerson.selectedAccount'], function(now, old) {
             if (!now[0] || now[1] === old[1] || !now[1] || !old[1] || !_.contains(now[0].accounts, now[1]) || !_.contains(now[0].accounts, old[1])) {
                 return;
             }
-            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people', 'changed account', now[1].api + ' ' + now[1].type] }, '*');
+            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'account changed', 'somehow', now[1].api + ' account'] }, '*');
         });
     }])
     .controller('AccountShimController', ['$scope', 'apiService', function($scope, apiService) {

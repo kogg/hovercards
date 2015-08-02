@@ -116,7 +116,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
             if (discussionApi === oldDiscussionApi || !discussionApi || !oldDiscussionApi) {
                 return;
             }
-            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'discussions', 'changed discussion', discussionApi + ' discussion'] }, '*');
+            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'discussions changed', 'somehow', discussionApi + ' discussion'] }, '*');
         });
     }])
     .controller('UrlDiscussionController', ['$scope', 'apiService', function($scope, apiService) {
@@ -185,7 +185,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                                             $scope.items.sort(function(a, b) {
                                                 return item_pos[a] - item_pos[b];
                                             });
-                                            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'events', 'reordered discussions'] }, '*');
+                                            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'discussions reordered', 'somehow'] }, '*');
                                         });
                                     } });
                 $element.disableSelection();

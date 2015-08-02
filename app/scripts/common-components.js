@@ -13,7 +13,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
             },
             link: function($scope, $element) {
                 $element.one('click', function() {
-                    var request = ['send', 'event', $scope.category, $scope.action || 'clicked'];
+                    var request = ['send', 'event', $scope.category, $scope.action || 'click'];
                     request.push($scope.label);
                     window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: request }, '*');
                 });
