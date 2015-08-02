@@ -4,7 +4,7 @@
   "version": "0.13.0",
   "repository": "cameronrohani/YoCardsExt",
   "scripts": {
-    "start": "npm run copy:non_js & npm run watchify:background & npm run watchify:everywhere & npm run watchify:sidebar & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
+    "start": "npm run watch:non_js & npm run watchify:background & npm run watchify:everywhere & npm run watchify:sidebar & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
     "pkg": "npm run clean && npm run copy:non_js && npm run browserify && npm run uglify && npm run compress",
     "test": "jshint --reporter=node_modules/jshint-stylish/index.js app/**/*.js",
     "browserify": "npm run browserify:background && npm run browserify:everywhere && npm run browserify:sidebar && npm run browserify:soundcloud-player && npm run browserify:top-frame",
@@ -15,7 +15,7 @@
     "browserify:top-frame": "browserify app/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -r ./app/scripts/production-env.js:env -v",
     "clean": "rm -rf dist/*",
     "compress": "zip -q -r build/pkg-$npm_package_version.zip dist",
-    "copy:non_js": "rsync -r --exclude=scripts/* app/* dist && cp node_modules/angular/angular-csp.css dist/styles/ && cp node_modules/slick-carousel/slick/slick.css dist/styles/ && cp node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.css dist/styles/",
+    "copy:non_js": "rsync -r --exclude=scripts/* app/* dist && cp node_modules/angular/angular-csp.css dist/styles/ && cp node_modules/slick-carousel/slick/slick.css dist/styles/ && cp node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css dist/styles/",
     "uglify": "npm run uglify:background && npm run uglify:everywhere && npm run uglify:sidebar && npm run uglify:soundcloud-player && npm run uglify:top-frame",
     "uglify:background": "uglifyjs dist/scripts/background-main.js -o dist/scripts/background-main.js -c drop_console=true,warnings=false",
     "uglify:everywhere": "uglifyjs dist/scripts/everywhere-main.js -o dist/scripts/everywhere-main.js -c drop_console=true,warnings=false",
