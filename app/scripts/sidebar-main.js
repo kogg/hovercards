@@ -13,7 +13,6 @@ angular.bootstrap(document, [angular.module('app', [// Dependencies
                                                     require('./common-components'),
 
                                                     // Data Related Components
-                                                    require('./entry-components'),
                                                     require('./content-components'),
                                                     require('./discussion-components'),
                                                     require('./people-components'),
