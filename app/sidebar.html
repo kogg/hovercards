@@ -177,7 +177,9 @@
 									<span>{{ data.discussion.api + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 								</div>
 								<div ng-if="data.discussion.api === 'reddit'" class="col-12">
-									<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'"></div>
+									<div class="reddit-header">
+										<a class="no-yo" ng-href="{{:: data.discussion | generateUrl }}">{{:: data.discussion.name }}</a>
+									</div>
 								</div>
 							</div>
 						</div>
