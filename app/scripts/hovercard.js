@@ -51,6 +51,9 @@ module.exports = function(selector, get_url) {
         if (obj.is(current_obj) || obj.has(current_obj).length || !(url = common.massage_url(get_url(obj))) || !(identity = network_urls.identify(url))) {
             return;
         }
+        if (identity.type !== 'content' && identity.type !== 'account') {
+            return;
+        }
         current_obj.off(NameSpace);
         hovercard
             .hide()

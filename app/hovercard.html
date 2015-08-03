@@ -1,71 +1,71 @@
-<html ng-csp ng-controller="ViewController">
+<html ng-csp>
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="styles/angular-csp.css">
 	<link rel="stylesheet" href="styles/sidebar.css">
 	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
 </head>
-<body>
-	<div class="hovercard">
-		<div class="row">
-			<div class="video-hovercard-copy col-5">
-				<b class="youtube-color ellipsis"> 20th Century Fox</b>
-				<h1 collapse-at="19 * 5">'Deadpool' Official Trailer Sneak Peek Featuring test</h1>
-				<div class="row">
-					<div class="col-8">
-					<b><i class="zmdi zmdi-eye"></i>745k</b>
-					<b><i class="zmdi zmdi-thumb-up"></i>35.9k</b>
-					</div>
-					<div class="col-4">
-						<div class="network-holder">
-							<div class="profile-network network-circle-youtube"></div>
-							<div class="additional-networks">+1</div>
+<body class="ng-cloak" ng-cloak>
+	<div ng-controller="EntryController">
+		<div class="hovercard" ng-if="entry.type === 'content'">
+			<div class="row">
+				<div class="video-hovercard-copy col-5">
+					<b class="youtube-color ellipsis"> 20th Century Fox</b>
+					<h1 collapse-at="19 * 5">'Deadpool' Official Trailer Sneak Peek Featuring test</h1>
+					<div class="row">
+						<div class="col-8">
+						<b><i class="zmdi zmdi-eye"></i>745k</b>
+						<b><i class="zmdi zmdi-thumb-up"></i>35.9k</b>
+						</div>
+						<div class="col-4">
+							<div class="network-holder">
+								<div class="profile-network network-circle-youtube"></div>
+								<div class="additional-networks">+1</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-7 video-hovercard" style="background-image:url('https://i.ytimg.com/vi/ByUB4d5OA0o/hqdefault.jpg')">
+				<div class="col-7 video-hovercard" style="background-image:url('https://i.ytimg.com/vi/ByUB4d5OA0o/hqdefault.jpg')">
+				</div>
 			</div>
 		</div>
-	</div>
-	<!--
-	<div class="hovercard">
-		<div class="profile">
-			<div class="profile-card">
-				<div class="profile-top row">
-					<div class="profile-left col-3">
-						<div class="profile-image" style="background-image:url('https://pbs.twimg.com/profile_images/1797992879/Screen_Shot_2012-02-01_at_5.03.35_PM.png')"></div>
-					</div>
-					<div class="profile-right col-7">
-						<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis">Andrew Wilkinson</a>
-						<p class="ellipsis">Founder of Metalab (poop)</p>
-					</div>
-					<div class="col-2">
-						<div class="network-holder">
-							<div class="profile-network network-circle-twitter"></div>
-							<div class="additional-networks">+1</div>
+		<div class="hovercard" ng-if="entry.type === 'account'">
+			<div class="profile">
+				<div class="profile-card">
+					<div class="profile-top row">
+						<div class="profile-left col-3">
+							<div class="profile-image" style="background-image:url('https://pbs.twimg.com/profile_images/1797992879/Screen_Shot_2012-02-01_at_5.03.35_PM.png')"></div>
+						</div>
+						<div class="profile-right col-7">
+							<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis">Andrew Wilkinson</a>
+							<p class="ellipsis">Founder of Metalab (poop)</p>
+						</div>
+						<div class="col-2">
+							<div class="network-holder">
+								<div class="profile-network network-circle-twitter"></div>
+								<div class="additional-networks">+1</div>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="card-stats row">
-					<div class="col-4">
-						<b>Tweets</b>
-						<span>{{ person.selectedAccount.tweets | numsmall }}9,829</span>
-					</div>
-					<div class="col-4">
-						<b>Followers</b>
-						<span>{{ person.selectedAccount.followers | numsmall }}14.4k</span>
-					</div>
-					<div class="col-4">
-						<b>Following</b>
-						<span>{{ person.selectedAccount.following | numsmall }}794</span>
+					<div class="card-stats row">
+						<div class="col-4">
+							<b>Tweets</b>
+							<span>{{ person.selectedAccount.tweets | numsmall }}9,829</span>
+						</div>
+						<div class="col-4">
+							<b>Followers</b>
+							<span>{{ person.selectedAccount.followers | numsmall }}14.4k</span>
+						</div>
+						<div class="col-4">
+							<b>Following</b>
+							<span>{{ person.selectedAccount.following | numsmall }}794</span>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	-->
 	<script src="scripts/hovercard-main.js"></script>
 </body>
 </html>
