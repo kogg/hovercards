@@ -6,16 +6,11 @@ var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize'), require('angular-messages')])
     .directive('analyticsClick', [function() {
         return {
-            scope: {
-                category: '@analyticsClick',
-                action: '@?analyticsAction',
-                label: '@?analyticsLabel'
-            },
-            link: function($scope, $element) {
+            link: function($scope, $element, $attrs) {
                 $element.one('click', function() {
-                    var request = ['send', 'event', $scope.category, $scope.action || 'click'];
-                    request.push($scope.label);
-                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: request }, '*');
+                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', $attrs.analyticsClick,
+                                                                                                          $attrs.analyticsAction || 'click',
+                                                                                                          $attrs.analyticsLabel] }, '*');
                 });
             }
         };
