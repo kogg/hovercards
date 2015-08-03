@@ -108,9 +108,7 @@ module.exports = function(selector, get_url) {
                         return { top:  (offset.top + target.height() + CARD_SIZES[identity.type].height + PADDING_FROM_EDGES < $(window).scrollTop() + $(window).height()) ? offset.top + target.height() : offset.top - CARD_SIZES[identity.type].height,
                                  left: Math.max(PADDING_FROM_EDGES,
                                                 Math.min($(window).scrollLeft() + $(window).width() - CARD_SIZES[identity.type].width - PADDING_FROM_EDGES,
-                                                         Math.max(offset.left,
-                                                                  Math.min(offset.left + target.width() - CARD_SIZES[identity.type].width,
-                                                                           last_e.pageX)))) };
+                                                         last_e.pageX + 1)) };
                     })
                     .on(Click, function() {
                         obj
