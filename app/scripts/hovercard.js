@@ -21,6 +21,28 @@ var ShowHoverCard = 'showhovercard' + NameSpace;
 var hovercard = $();
 var current_obj = $();
 
+var going_to_send;
+var send_message = function(message) { going_to_send = message; };
+var get_ready = function(frame) {
+    get_ready = function() { };
+    send_message = function(message) { frame.postMessage(message, '*'); };
+    if (going_to_send) {
+        send_message(going_to_send);
+    }
+    going_to_send = undefined;
+};
+
+window.addEventListener('message', function(event) {
+    if (!event || !event.data) {
+        return;
+    }
+    switch (event.data.msg) {
+        case EXTENSION_ID + '-hovercard-clicked':
+            hovercard.trigger('click');
+            break;
+    }
+}, false);
+
 module.exports = function(selector, get_url) {
     $('html').on(MouseMove, selector, function(e) {
         var obj = $(this);
@@ -55,7 +77,22 @@ module.exports = function(selector, get_url) {
                     hovercard = $('<div></div>')
                         .appendTo(document.location.protocol === 'chrome-extension:' ? 'body' : 'html')
                         .addClass(EXTENSION_ID + '-hovercard');
+                    window.addEventListener('message', function(event) {
+                        if (!event || !event.data) {
+                            return;
+                        }
+                        switch (event.data.msg) {
+                            case EXTENSION_ID + '-hovercard-ready':
+                                get_ready(event.source);
+                                break;
+                        }
+                    }, false);
+                    $('<iframe></iframe>')
+                        .appendTo(hovercard)
+                        .attr('src', chrome.extension.getURL('hovercard.html'))
+                        .attr('frameborder', '0');
                 }
+                send_message({ msg: EXTENSION_ID + '-load', identity: identity });
                 obj.off(NameSpace);
                 hovercard
                     .off(NameSpace)
