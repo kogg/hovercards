@@ -2,7 +2,7 @@ var angular = require('angular');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ViewComponents', [])
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'SidebarComponents', [])
     .controller('ViewController', ['$scope', '$document', '$window', function($scope, $document, $window) {
         $scope.view = { at: {} };
 
@@ -29,4 +29,3 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'View
         }, false);
     }])
     .name;
-
