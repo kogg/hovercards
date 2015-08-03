@@ -154,13 +154,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             }
             window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people changed', 'somehow'] }, '*');
         });
-
-        $scope.$watchGroup(['entry.selectedPerson', 'entry.selectedPerson.selectedAccount'], function(now, old) {
-            if (!now[0] || now[1] === old[1] || !now[1] || !old[1] || !_.contains(now[0].accounts, now[1]) || !_.contains(now[0].accounts, old[1])) {
-                return;
-            }
-            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'account changed', 'somehow', now[1].api + ' account'] }, '*');
-        });
     }])
     .controller('AccountShimController', ['$scope', 'apiService', function($scope, apiService) {
         var doIt = $scope.$watch('person_to_load', function(request) {

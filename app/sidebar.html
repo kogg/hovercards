@@ -126,7 +126,7 @@
 		<div ng-if="!entry.$err && entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)" class="network-menu-space">
 			<div ng-if="entry.selectedPerson.accounts.length" class="network-menu fade-in-animation">
 				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length">
-					<div class="network-menu-option" ng-class="[account.type + '-option', account === entry.selectedPerson.selectedAccount && 'active']" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account" scroll-to-horizontal="account === entry.selectedPerson.selectedAccount">
+					<div class="network-menu-option" ng-class="[account.type + '-option', account === entry.selectedPerson.selectedAccount && 'active']" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account" scroll-to-horizontal="account === entry.selectedPerson.selectedAccount" analytics-click="account changed" analytics-label="{{ account.api }} account">
 						<span>{{ (account.api + (entry.selectedPerson.accounts.length === 1 ? '_account' : '' )) | copy }}</span>
 					</div>
 				</div>
