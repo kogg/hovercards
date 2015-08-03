@@ -47,10 +47,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
             }
         }, false);
 
-        angular.element(document).on('click', function() {
+        angular.element(document).on('click', function(e) {
             if (!identity) {
                 return;
             }
+            e.preventDefault();
             $window.parent.postMessage({ msg: EXTENSION_ID + '-hovercard-clicked', url: network_urls.generate(identity) }, '*');
         });
     }])
