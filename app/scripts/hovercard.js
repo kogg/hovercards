@@ -5,7 +5,7 @@ var network_urls = require('YoCardsApiCalls/network-urls');
 
 var CARD_SIZES = { content:    { height: 200, width: 300 },
                    discussion: { height: 200, width: 300 },
-                   account:    { height: 156, width: 300 } };
+                   account:    { height: 151, width: 300 } };
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 var TIMEOUT_BEFORE_CARD = 500;
 var TIMEOUT_BEFORE_FADEOUT = 100;
