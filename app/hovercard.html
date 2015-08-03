@@ -7,30 +7,14 @@
 </head>
 <body class="ng-cloak" ng-cloak>
 	<div ng-controller="EntryController">
-		<div class="hovercard" ng-if="entry.type === 'content'">
-			<div class="row">
-				<div class="video-hovercard-copy col-5">
-					<b class="youtube-color ellipsis"> 20th Century Fox</b>
-					<h1 collapse-at="19 * 5">'Deadpool' Official Trailer Sneak Peek Featuring test</h1>
-					<div class="row">
-						<div class="col-8">
-						<b><i class="zmdi zmdi-eye"></i>745k</b>
-						<b><i class="zmdi zmdi-thumb-up"></i>35.9k</b>
-						</div>
-						<div class="col-4">
-							<div class="network-holder">
-								<div class="profile-network network-circle-youtube"></div>
-								<div class="additional-networks">+1</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-7 video-hovercard" style="background-image:url('https://i.ytimg.com/vi/ByUB4d5OA0o/hqdefault.jpg')">
+		<div class="hovercard">
+			<div ng-if="entry.type === 'content'" ng-controller="ContentController">
+				<div class="row" ng-if="data.content.$resolved || data.content.$err">
+					<div ng-include="'templates/' + data.content.api + '_content_hovercard.html'"></div>
 				</div>
 			</div>
-		</div>
-		<div class="hovercard" ng-if="entry.type === 'account'">
-			<div class="profile">
+
+			<div class="profile" ng-if="entry.type === 'account'">
 				<div class="profile-card">
 					<div class="profile-top row">
 						<div class="profile-left col-3">

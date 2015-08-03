@@ -9,6 +9,9 @@ angular.bootstrap(document, [angular.module('app', [// Dependencies
                                                     // Application Components
                                                     require('./hovercard-components'),
                                                     require('./common-components'),
+
+                                                    // Data Related Components
+                                                    require('./content-components'),
 ]).name]);
 
 window.parent.postMessage({ msg: EXTENSION_ID + '-hovercard-ready' }, '*');

@@ -1,0 +1,18 @@
+<div class="video-hovercard-copy col-5">
+	<b class="youtube-color ellipsis"> {{ data.content.author.name || data.content.author.id }}</b>
+	<h1 collapse-at="19 * 5">{{ data.content.name }}</h1>
+	<div class="row">
+		<div class="col-8">
+		<b><i class="zmdi zmdi-eye"></i>{{ data.content.views | numsmall }}</b>
+		<b><i class="zmdi zmdi-thumb-up"></i>{{ data.content.likes | numsmall }}</b>
+		</div>
+		<div class="col-4">
+			<div class="network-holder">
+				<div class="profile-network network-circle-youtube"></div>
+				<div class="additional-networks">+1</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-7 video-hovercard" ng-style="data.content.image && { 'background-image': 'url(' + data.content.image + ')' }"></div>
+</div>
