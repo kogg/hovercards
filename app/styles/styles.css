@@ -552,47 +552,12 @@ b i, .iconic-push {
 	box-shadow: none
 }
 /*Profile Cards HoverCard*/
-.hovercard .profile-image {
+.hovercard .profile-left .profile-image {
 	width: 75px;
 	height: 75px;
 }
 .hovercard .profile-right {
 	height: 75px;
-	padding: 16px 8px 16px 16px
-}
-.hovercard .profile-right a {
-	margin-bottom: 6px;
-}
-.hovercard .profile-card .col-2 {
-	height: 75px;
-	padding: 22px 16px 22px 4px;
-}
-.Hovercard .profile-card .col-2 .network-holder {
-	position: relative;
-}
-.hovercard .profile-network {
-	display: inline-block;
-	width: 30px;
-	height: 30px;
-	border-radius: 50%;
-	background-size: 64%;
-	background-repeat: no-repeat;
-	background-position: center;
-}
-.hovercard .additional-networks {
-	position: absolute;
-	top: -7px;
-	right: -9px;
-	background: #727272;
-	width: 20px;
-	height: 20px;
-	line-height: 17px;
-	border:2px solid white;
-	border-radius: 50%;
-	text-align: center;
-	font-weight: 600;
-	color: white;
-	font-size: 9px;
 }
 /*Video Cards*/
 
