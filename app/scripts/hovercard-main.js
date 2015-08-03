@@ -10,7 +10,6 @@ window.addEventListener('message', function(event) {
     }
     switch (event.data.msg) {
         case EXTENSION_ID + '-load':
-            $('body').html('GIVE ME ' + JSON.stringify(event.data.identity));
             $(document).off('click');
             $(document).on('click', function() {
                 window.parent.postMessage({ msg: EXTENSION_ID + '-hovercard-clicked', url: network_urls.generate(event.data.identity) }, '*');
