@@ -252,6 +252,10 @@ b i, .iconic-push {
 	padding: 0 20px;
 	position: relative;
 }
+.hovercard {
+	cursor: pointer;
+	position: relative;
+}
 .card > div {
 	border-radius:3px;
 }
@@ -567,8 +571,9 @@ b i, .iconic-push {
 	height: 75px;
 	padding: 22px 16px 22px 4px;
 }
-.Hovercard .profile-card .col-2 .network-holder {
+.network-holder {
 	position: relative;
+	text-align: right;
 }
 .hovercard .profile-network {
 	display: inline-block;
@@ -824,6 +829,39 @@ b i, .iconic-push {
 .percent-bar-good {
 	background: #4CAF50;
 	height: 100%;
+}
+/*Video Hovercard*/
+.video-hovercard {
+	background-size: cover;
+	height: 100%;
+	background-position: center;
+}
+.video-hovercard-copy {
+	height: 100%;
+	background: white;
+	position: relative;
+}
+.video-hovercard-copy b {
+	padding:16px 16px 0 16px
+}
+.video-hovercard-copy h1 {
+	text-decoration: none;
+	font-size: 18px;
+	color: black;
+	font-weight: 400;
+	max-height: 107px;
+	overflow: hidden;
+	display: inline-block;
+	padding: 0 16px
+}
+.video-hovercard-copy .row {
+	padding: 5px 16px 15px 16px;
+	width: 100%;
+	position: absolute;
+	bottom: 0
+}
+.video-hovercard-copy .row b {
+	padding: 0
 }
 /*comments*/
 .comment {
@@ -1369,7 +1407,7 @@ h2 {
 	margin-right: 0px
 }
 .network-circle-youtube {
-	background-color: #d5272a;
+	background-color: #e94639;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
 }
 .network-circle-soundcloud {
