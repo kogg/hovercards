@@ -32,6 +32,17 @@ var get_ready = function(frame) {
     going_to_send = undefined;
 };
 
+window.addEventListener('message', function(event) {
+    if (!event || !event.data) {
+        return;
+    }
+    switch (event.data.msg) {
+        case EXTENSION_ID + '-hovercard-clicked':
+            hovercard.trigger('click');
+            break;
+    }
+}, false);
+
 module.exports = function(selector, get_url) {
     $('html').on(MouseMove, selector, function(e) {
         var obj = $(this);
