@@ -72,13 +72,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                     data.discussion = data.discussions[api];
                 });
         });
-
-        $scope.$watch('entry.discussion_api', function(discussionApi, oldDiscussionApi) {
-            if (discussionApi === oldDiscussionApi || !discussionApi || !oldDiscussionApi) {
-                return;
-            }
-            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'discussions changed', 'somehow', discussionApi + ' discussion'] }, '*');
-        });
     }])
     .controller('UrlDiscussionController', ['$scope', 'apiService', function($scope, apiService) {
         $scope.$watch('entry.discussions', function(requests) {

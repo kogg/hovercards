@@ -31,7 +31,7 @@
 						<div class="inline-row">
 							<div class="col-9 ellipsis">
 								<div ng-class="entry.discussion_apis.length > 1 ? 'network-picker' : 'network-pick'">
-									<div class="network-circle" ng-class="['network-circle-' + api, { 'current-network': entry.discussion_api === api, 'network-not-found': data.discussions[api].$err && data.discussions[api].$resolved }]" ng-click="entry.discussion_api = api" ng-repeat="api in entry.discussion_apis"></div>
+									<div ng-repeat="api in entry.discussion_apis" class="network-circle" ng-class="['network-circle-' + api, { 'current-network': entry.discussion_api === api, 'network-not-found': data.discussions[api].$err && data.discussions[api].$resolved }]" ng-click="entry.discussion_api = api" analytics-click="discussion changed" analytics-label="{{ api }} discussion"></div>
 								</div>
 
 								<span ng-show="data.discussion.api !== 'reddit' || !data.discussion.subreddit">{{ data.discussion.api + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
