@@ -15,8 +15,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Side
         });
 
         $window.addEventListener('message', function(event) {
-            var request = event.data;
-            switch(request.msg) {
+            var msg = _.chain(event).result('data').result('msg').value();
+            if (!_.isString(msg)) {
+                return;
+            }
+            switch (msg) {
                 case EXTENSION_ID + '-Esc':
                     if ($scope.view.fullscreen) {
                         $scope.$apply(function() {
@@ -110,6 +113,44 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Side
                     break;
             }
         }, false);
+
+        $scope.$watch('data.content', function(content) {
+            if (!content) {
+                return;
+            }
+            var entry = $scope.entry;
+            content.$promise
+                .then(function(content) {
+                    entry.timing.content(_.now(), content.api);
+                    entry.accounts = _.chain(content.accounts)
+                                      .union(entry.accounts)
+                                      .compact()
+                                      .sortBy(function(account) {
+                                          var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
+                                          if (pos === -1) {
+                                              pos = Infinity;
+                                          }
+                                          return pos;
+                                      })
+                                      .uniq(false, function(account) {
+                                          return account.api + '/' + account.id;
+                                      })
+                                      .value();
+                    return content;
+                })
+                .finally(function() {
+                    entry.discussions = entry.discussions || {};
+                    var for_request = content.$err ? entry.content : content;
+                    if (content.api === 'reddit' || !for_request.api || !for_request.id) {
+                        return;
+                    }
+                    if (!entry.discussions[for_request.api]) {
+                        entry.discussions[for_request.api] = _.defaults({ type: 'discussion' }, for_request);
+                    }
+                    _.defaults(entry.discussions, { reddit:  { api: 'reddit',  type: 'discussion', for: for_request },
+                                                    twitter: { api: 'twitter', type: 'discussion', for: for_request } });
+                });
+        });
 
         $scope.$watch('data.content', function(content, oldContent) {
             if (content || !oldContent || oldContent !== $scope.view.fullscreen) {
