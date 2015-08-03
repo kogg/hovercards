@@ -1,3 +1,4 @@
+var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ContentComponents', [require('./service-components')])
@@ -7,6 +8,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                 $scope.data.content = null;
                 return;
             }
+            var entry = $scope.entry;
             (function reload() {
                 var content = apiService.get(request);
                 $scope.data.content = content;
@@ -19,6 +21,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                     })
                     .then(function(content) {
                         delete content.$err;
+                        entry.timing.content(_.now(), content.api);
                     })
                     .catch(function(err) {
                         err.reload = reload;
