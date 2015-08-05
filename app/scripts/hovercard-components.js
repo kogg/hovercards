@@ -34,6 +34,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
                         $scope.entry[identity.type] = identity;
                     }, 100);
                     break;
+                case EXTENSION_ID + '-hide':
+                    $scope.$apply(function() {
+                        $scope.entry = null;
+                    });
+                    break;
             }
         }, false);
 
