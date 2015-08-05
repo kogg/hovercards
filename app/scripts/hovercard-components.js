@@ -31,14 +31,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
                                 })
                             }
                         };
-                        switch (identity.type) {
-                            case 'content':
-                                $scope.entry.content = identity;
-                                break;
-                            case 'account':
-                                $scope.entry.account = identity;
-                                break;
-                        }
+                        $scope.entry[identity.type] = identity;
                     }, 100);
                     break;
             }
