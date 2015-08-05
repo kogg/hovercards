@@ -831,13 +831,16 @@ b i, .iconic-push {
 	height: 100%;
 }
 /*Video Hovercard*/
+.hovercard span.read-more {
+	display: none !important
+}
 .video-hovercard {
 	background-size: cover;
-	height: 100%;
+	height: 94px;
 	background-position: center;
 }
 .video-hovercard-copy {
-	height: 100%;
+	height: 94px;
 	background: white;
 	position: relative;
 }
@@ -847,12 +850,11 @@ b i, .iconic-push {
 .video-hovercard-copy h1 {
 	text-decoration: none;
 	font-size: 18px;
+	line-height: 20px;
 	color: black;
 	font-weight: 400;
 	max-height: 107px;
-	overflow: hidden;
 	display: block;
-	word-wrap:break-word;
 	padding: 0 16px
 }
 .video-hovercard-copy .row {

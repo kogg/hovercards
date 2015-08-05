@@ -3,7 +3,7 @@ var $ = require('jquery');
 var common       = require('./common');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
-var CARD_SIZES = { content:    { height: 200, width: 300 },
+var CARD_SIZES = { content:    { height: 150, width: 300 },
                    discussion: { height: 200, width: 300 },
                    account:    { height: 131, width: 300 } };
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
