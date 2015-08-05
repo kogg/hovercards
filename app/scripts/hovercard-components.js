@@ -45,6 +45,53 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
             $window.parent.postMessage({ msg: EXTENSION_ID + '-hovercard-clicked', url: network_urls.generate(identity) }, '*');
         });
     }])
+    .controller('DiscussionController', ['$scope', 'apiService', function($scope, apiService) {
+        $scope.$watch('entry.discussions', function(requests) {
+            if (!requests) {
+                return;
+            }
+            var data = $scope.data;
+            data.discussion_count = 0;
+            _.chain(requests)
+             .omit(function(request, api) {
+                 return api === data.content.api ||
+                        (api === 'imgur' && request.as !== 'gallery') ||
+                        (api === 'soundcloud' && request.as !== 'track');
+             })
+             .values()
+             .map(_.partial(apiService.get, _, null, null))
+             .each(function(discussion) {
+                 discussion.$promise.then(function() {
+                     data.discussion_count++;
+                 });
+             })
+             .value();
+        }, true);
+
+        $scope.$watch('entry.discussion_api', function(api) {
+            if (!api) {
+                return;
+            }
+            var entry = $scope.entry;
+            entry.show_header = null;
+            if (!(api in entry.discussions)) {
+                return;
+            }
+            var data = $scope.data;
+            data.discussions[api] = data.discussions[api] || apiService.get(entry.discussions[api]);
+            data.discussions[api].$promise
+                .then(function(discussion) {
+                    entry.timing.discussion(_.now(), api);
+                    _.extend(discussion, _.pick(entry.discussions[api], 'author'));
+                })
+                .finally(function() {
+                    if (entry.discussion_api !== api) {
+                        return;
+                    }
+                    data.discussion = data.discussions[api];
+                });
+        });
+    }])
     .controller('AccountController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
         $scope.$watch('entry.account', function(request) {
             if (!request) {
