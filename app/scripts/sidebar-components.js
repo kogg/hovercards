@@ -120,30 +120,19 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Side
                 return;
             }
             var entry = $scope.entry;
-            content.$promise
-                .then(function(content) {
-                    entry.accounts = _.chain(content.accounts)
-                                      .union(entry.accounts)
-                                      .compact()
-                                      .sortBy(function(account) {
-                                          var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
-                                          return (pos > 0) ? pos : Infinity;
-                                      })
-                                      .uniq(false, function(account) {
-                                          return account.api + '/' + account.id;
-                                      })
-                                      .value();
-                })
-                .finally(function() {
-                    entry.discussions = entry.discussions || {};
-                    var for_request = content.$err ? entry.content : content;
-                    if (content.api === 'reddit' || !for_request.api || !for_request.id) {
-                        return;
-                    }
-                    entry.discussions[for_request.api] = entry.discussions[for_request.api] || _.defaults({ type: 'discussion' }, for_request);
-                    entry.discussions.reddit  = entry.discussions.reddit  || { api: 'reddit',  type: 'discussion', for: for_request };
-                    entry.discussions.twitter = entry.discussions.twitter || { api: 'twitter', type: 'discussion', for: for_request };
-                });
+            content.$promise.then(function(content) {
+                entry.accounts = _.chain(content.accounts)
+                                  .union(entry.accounts)
+                                  .compact()
+                                  .sortBy(function(account) {
+                                      var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
+                                      return (pos > 0) ? pos : Infinity;
+                                  })
+                                  .uniq(false, function(account) {
+                                      return account.api + '/' + account.id;
+                                  })
+                                  .value();
+            });
         });
 
         $scope.$watch('entry.type === "discussion" && data.discussions[entry.api]', function(discussion) {
