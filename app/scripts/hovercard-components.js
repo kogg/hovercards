@@ -5,7 +5,7 @@ var network_urls = require('YoCardsApiCalls/network-urls');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'HovercardComponents', [])
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'HovercardComponents', [require('./service-components')])
     .controller('EntryController', ['$scope', '$window', function($scope, $window) {
         var identity = null;
 
@@ -36,7 +36,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
                                 $scope.entry.content = identity;
                                 break;
                             case 'account':
-                                $scope.entry.accounts = [identity];
+                                $scope.entry.account = identity;
                                 break;
                         }
                     }, 100);
@@ -50,6 +50,33 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
             }
             e.preventDefault();
             $window.parent.postMessage({ msg: EXTENSION_ID + '-hovercard-clicked', url: network_urls.generate(identity) }, '*');
+        });
+    }])
+    .controller('AccountController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
+        $scope.$watch('entry.account', function(request) {
+            if (!request) {
+                $scope.data.account = null;
+                return;
+            }
+            var entry = $scope.entry;
+            (function reload() {
+                var account = apiService.get(request);
+                $scope.data.account = account;
+                var timeout = $timeout(function() {
+                    account.$err = { 'still-waiting': true, api: request.api };
+                }, 5000);
+                account.$promise
+                    .finally(function() {
+                        $timeout.cancel(timeout);
+                    })
+                    .then(function(account) {
+                        delete account.$err;
+                        entry.timing.account(_.now(), account.api);
+                    })
+                    .catch(function(err) {
+                        err.reload = reload;
+                    });
+            }());
         });
     }])
     .name;

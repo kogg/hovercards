@@ -14,38 +14,9 @@
 				</div>
 			</div>
 
-			<div class="profile" ng-if="entry.type === 'account'">
-				<div class="profile-card">
-					<div class="profile-top row">
-						<div class="profile-left col-3">
-							<div class="profile-image" style="background-image:url('https://pbs.twimg.com/profile_images/1797992879/Screen_Shot_2012-02-01_at_5.03.35_PM.png')"></div>
-						</div>
-						<div class="profile-right col-7">
-							<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis">Andrew Wilkinson</a>
-							<p class="ellipsis">Founder of Metalab (poop)</p>
-						</div>
-						<div class="col-2">
-							<div class="network-holder">
-								<div class="profile-network network-circle-twitter"></div>
-								<div class="additional-networks">+1</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="card-stats row">
-						<div class="col-4">
-							<b>Tweets</b>
-							<span>{{ person.selectedAccount.tweets | numsmall }}9,829</span>
-						</div>
-						<div class="col-4">
-							<b>Followers</b>
-							<span>{{ person.selectedAccount.followers | numsmall }}14.4k</span>
-						</div>
-						<div class="col-4">
-							<b>Following</b>
-							<span>{{ person.selectedAccount.following | numsmall }}794</span>
-						</div>
-					</div>
+			<div ng-if="entry.type === 'account'" class="profile" ng-controller="AccountController">
+				<div class="row" ng-if="data.account.$resolved || data.account.$err">
+					<div ng-include="'templates/' + data.account.api + '_account_hovercard.html'"></div>
 				</div>
 			</div>
 		</div>
