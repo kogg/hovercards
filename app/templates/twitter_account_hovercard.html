@@ -1,0 +1,34 @@
+<div class="profile">
+	<div class="profile-card">
+		<div class="profile-top row">
+			<div class="profile-left col-3">
+				<div class="profile-image" ng-style="person.selectedAccount.image && { 'background-image': 'url(' + person.selectedAccount.image + ')' }"></div>
+			</div>
+			<div class="profile-right col-7">
+				<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis">{{ data.content.author.name || data.content.author.id }}</a>
+				<p class="ellipsis">Founder of Metalab (poop)</p>
+			</div>
+			<div class="col-2">
+				<div class="network-holder">
+					<div class="profile-network network-circle-twitter"></div>
+					<div class="additional-networks">+1</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card-stats row">
+			<div class="col-4">
+				<b>Tweets</b>
+				<span>{{ person.selectedAccount.tweets | numsmall }}</span>
+			</div>
+			<div class="col-4">
+				<b>Followers</b>
+				<span>{{ person.selectedAccount.followers | numsmall }}</span>
+			</div>
+			<div class="col-4">
+				<b>Following</b>
+				<span>{{ person.selectedAccount.following | numsmall }}</span>
+			</div>
+		</div>
+	</div>
+</div>

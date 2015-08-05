@@ -851,7 +851,8 @@ b i, .iconic-push {
 	font-weight: 400;
 	max-height: 107px;
 	overflow: hidden;
-	display: inline-block;
+	display: block;
+	word-wrap:break-word;
 	padding: 0 16px
 }
 .video-hovercard-copy .row {
