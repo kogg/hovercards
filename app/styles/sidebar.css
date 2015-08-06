@@ -568,10 +568,28 @@ b i, .iconic-push {
 }
 .hovercard .profile-right {
 	height: 75px;
-	padding: 16px 8px 16px 16px
+	padding: 16px 8px 16px 16px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	flex-direction: column;
 }
+
 .hovercard .profile-right a {
-	margin-bottom: 6px;
+	width: 100%
+}
+.HoverCard .profile-right a {
+	max-width: none;
+}
+.hovercard .profile-right a + p {
+	margin-top: 6px;
+	width: 100%;
 }
 .hovercard .profile-card .col-2 {
 	height: 75px;
