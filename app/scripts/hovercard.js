@@ -3,9 +3,13 @@ var $ = require('jquery');
 var common       = require('./common');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
-var CARD_SIZES = { content:    { height: 150, width: 300 },
-                   discussion: { height: 200, width: 300 },
-                   account:    { height: 131, width: 300 } };
+// FIXME This is dumb
+var CARD_SIZES = { imgur:      { content: { height: 150, width: 300 }, account: { height: 131, width: 300 } },
+                   instagram:  { content: { height: 150, width: 300 }, account: { height: 131, width: 300 } },
+                   reddit:     { content: { height: 150, width: 300 }, account: { height: 131, width: 300 } },
+                   soundcloud: { content: { height: 150, width: 300 }, account: { height: 131, width: 300 } },
+                   twitter:    { content: { height: 150, width: 300 }, account: { height: 131, width: 300 } },
+                   youtube:    { content: { height: 150, width: 300 }, account: { height: 131, width: 300 } } };
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 var TIMEOUT_BEFORE_CARD = 500;
 var TIMEOUT_BEFORE_FADEOUT = 100;
@@ -102,14 +106,14 @@ module.exports = function(selector, get_url) {
                 hovercard
                     .off(NameSpace)
                     .show()
-                    .height(CARD_SIZES[identity.type].height)
-                    .width(CARD_SIZES[identity.type].width)
+                    .height(CARD_SIZES[identity.api][identity.type].height)
+                    .width(CARD_SIZES[identity.api][identity.type].width)
                     .offset(function() {
                         var target = $(e.target);
                         var offset = target.offset();
-                        return { top:  (offset.top + target.height() + CARD_SIZES[identity.type].height + PADDING_FROM_EDGES < $(window).scrollTop() + $(window).height()) ? offset.top + target.height() : offset.top - CARD_SIZES[identity.type].height,
+                        return { top:  (offset.top + target.height() + CARD_SIZES[identity.api][identity.type].height + PADDING_FROM_EDGES < $(window).scrollTop() + $(window).height()) ? offset.top + target.height() : offset.top - CARD_SIZES[identity.api][identity.type].height,
                                  left: Math.max(PADDING_FROM_EDGES,
-                                                Math.min($(window).scrollLeft() + $(window).width() - CARD_SIZES[identity.type].width - PADDING_FROM_EDGES,
+                                                Math.min($(window).scrollLeft() + $(window).width() - CARD_SIZES[identity.api][identity.type].width - PADDING_FROM_EDGES,
                                                          last_e.pageX + 1)) };
                     })
                     .on(Click, function() {
