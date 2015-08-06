@@ -25,6 +25,16 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Cont
                     })
                     .catch(function(err) {
                         err.reload = reload;
+                    })
+                    .finally(function() {
+                        entry.discussions = entry.discussions || {};
+                        var for_request = content.$err ? entry.content : content;
+                        if (content.api === 'reddit' || !for_request.api || !for_request.id) {
+                            return;
+                        }
+                        entry.discussions[for_request.api] = entry.discussions[for_request.api] || _.defaults({ type: 'discussion' }, for_request);
+                        entry.discussions.reddit  = entry.discussions.reddit  || { api: 'reddit',  type: 'discussion', for: for_request };
+                        entry.discussions.twitter = entry.discussions.twitter || { api: 'twitter', type: 'discussion', for: for_request };
                     });
             }());
         });

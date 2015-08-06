@@ -58,6 +58,7 @@ module.exports = function(selector, get_url) {
         hovercard
             .hide()
             .off(NameSpace);
+        send_message({ msg: EXTENSION_ID + '-hide' });
         current_obj = obj;
         setTimeout(function() { obj.trigger(ShowHoverCard); }, TIMEOUT_BEFORE_CARD);
         var last_e = e;
@@ -72,6 +73,7 @@ module.exports = function(selector, get_url) {
                     hovercard
                         .off(NameSpace)
                         .hide();
+                    send_message({ msg: EXTENSION_ID + '-hide' });
                 }
             })
             .one(ShowHoverCard, function() {
@@ -118,6 +120,7 @@ module.exports = function(selector, get_url) {
                         hovercard
                             .off(NameSpace)
                             .hide();
+                        send_message({ msg: EXTENSION_ID + '-hide' });
                     });
                 var both = obj.add(hovercard);
                 both
@@ -132,6 +135,7 @@ module.exports = function(selector, get_url) {
                             hovercard
                                 .off(NameSpace)
                                 .hide();
+                            send_message({ msg: EXTENSION_ID + '-hide' });
                         }, TIMEOUT_BEFORE_FADEOUT);
                         both.one(MouseMove, function() {
                             clearTimeout(kill_timeout);

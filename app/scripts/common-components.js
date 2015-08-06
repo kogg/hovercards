@@ -95,7 +95,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             while (front + 1 < back) {
                                 middle = Math.ceil((front + back) / 2);
                                 insert_into.get(0).nodeValue = string.slice(0, middle) + '... ';
-                                console.log('width', collapsed.width());
                                 if (collapsed.height() <= collapseAt) {
                                     front = middle;
                                 } else {
@@ -103,7 +102,6 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                                 }
                             }
                             insert_into.get(0).nodeValue = string.slice(0, front) + '... ';
-                            console.log('width', collapsed.width());
                             if (collapsed.height() <= collapseAt) {
                                 return true;
                             }
