@@ -1,5 +1,5 @@
 .__MSG_@@extension_id__-hovercard {
-	background: white !important;
+	background: rgba(255,255,255,.96) !important;
 	z-index: 2147483647 !important;
 	overflow: hidden !important;
 	border-radius: 8px !important;

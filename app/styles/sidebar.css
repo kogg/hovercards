@@ -88,6 +88,9 @@ iframe {
 	min-height: 100%;
 	overflow: hidden;
 }
+.fullscreen-active div.__MSG_@@extension_id__-hovercard {
+	min-height: auto
+}
 .fullscreen-active .fullscreen-trigger {
   position: fixed;
   left: 0;
@@ -96,7 +99,7 @@ iframe {
   height: 100%;
 }
 .fullscreen-active .fullscreen-trigger * {
-	height: 100%
+	height: 100%;
 }
 .fullscreen-active .card-text {
 	overflow-x:auto;
@@ -560,6 +563,9 @@ b i, .iconic-push {
 	width: 75px;
 	height: 75px;
 }
+.hovercard, .hovercard .card-stats, .hovercard .video-hovercard-copy, .hovercard .profile-top {
+	background: none;
+}
 .hovercard .profile-right {
 	height: 75px;
 	padding: 16px 8px 16px 16px
@@ -843,6 +849,7 @@ b i, .iconic-push {
 	height: 94px;
 	background: white;
 	position: relative;
+	overflow: hidden;
 }
 .video-hovercard-copy b {
 	padding:16px 16px 0 16px
@@ -853,10 +860,9 @@ b i, .iconic-push {
 	line-height: 20px;
 	color: black;
 	font-weight: 400;
-	max-height: 107px;
 	display: block;
 	padding: 0 16px;
-	width: 143px;
+	width: 175px;
 }
 .video-hovercard-copy .row {
 	padding: 5px 16px 15px 16px;
