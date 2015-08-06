@@ -1,0 +1,40 @@
+<div class="profile-card">
+	<div class="profile-top row">
+		<div class="profile-left col-3">
+			<div class="profile-image imgur-profile"></div>
+		</div>
+		<div class="profile-right col-7">
+			<a ng-href="{{ data.account | generateUrl }}" class="ellipsis">{{ data.account.id }}</a>
+			<p class="ellipsis">{{ data.account.description }}</p>
+		</div>
+		<div class="col-2">
+			<div class="network-holder">
+				<div class="profile-network network-circle-imgur"></div>
+				<div ng-if="data.account.connected.length === 1" class="additional-networks" ng-class="'network-circle-' + data.account.connected[0].api"></div>
+				<div ng-if="data.account.connected.length > 1" class="additional-networks">+{{ data.account.connected.length }}</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-stats row">
+		<div class="col-4">
+			<b>Reputation</b>
+			<span>{{ data.account.reputation | numsmall }}</span>
+		</div>
+		<div class="col-4">
+			<b>Notoriety</b>
+				<span ng-if=" data.account.reputation >= 20000" title="20,000">Glorious</span>
+				<span ng-if=" data.account.reputation >= 8000 && data.account.reputation < 20000" title="8,000 to 19,999">Renowned</span>
+				<span ng-if=" data.account.reputation >= 4000 && data.account.reputation < 8000" title="4,000 to 7,999">Idolized</span>
+				<span ng-if=" data.account.reputation >= 2000 && data.account.reputation < 4000" title="2,000 to 3,999">Trusted</span>
+				<span ng-if=" data.account.reputation >= 1000 && data.account.reputation < 2000" title="1,000 to 1,999">Liked</span>
+				<span ng-if=" data.account.reputation >= 400 && data.account.reputation < 1000" title="400 to 999">Accepted</span>
+				<span ng-if=" data.account.reputation >= 0 && data.account.reputation < 400" title="0 to 399">Neutral</span>
+				<span ng-if=" data.account.reputation < 0" title="-1">Forever Alone</span>
+		</div>
+		<div class="col-4">
+			<b>Account age</b>
+			<span>{{ data.account.date | numsmall }}</span>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,33 @@
+<div class="profile-card">
+	<div class="profile-top row">
+		<div class="profile-left col-3">
+			<div class="profile-image" ng-style="data.account.image && { 'background-image': 'url(' + data.account.image + ')' }"></div>
+		</div>
+		<div class="profile-right col-7">
+			<a ng-href="{{ data.account | generateUrl }}" class="ellipsis">{{ data.account.name }}</a>
+			<p class="ellipsis">{{ data.account.description }}</p>
+		</div>
+		<div class="col-2">
+			<div class="network-holder">
+				<div class="profile-network network-circle-youtube"></div>
+				<div ng-if="data.account.connected.length === 1" class="additional-networks" ng-class="'network-circle-' + data.account.connected[0].api"></div>
+				<div ng-if="data.account.connected.length > 1" class="additional-networks">+{{ data.account.connected.length }}</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-stats row">
+		<div class="col-4">
+			<b>Uploads</b>
+			<span>{{ data.account.videos | numsmall }}</span>
+		</div>
+		<div class="col-4">
+			<b>Subscribers</b>
+			<span>{{ data.account.subscribers | numsmall }}</span>
+		</div>
+		<div class="col-4">
+			<b>Video Views</b>
+			<span>{{ data.account.views | numsmall }}</span>
+		</div>
+	</div>
+</div>

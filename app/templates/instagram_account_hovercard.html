@@ -1,0 +1,33 @@
+<div class="profile-card">
+	<div class="profile-top row">
+		<div class="profile-left col-3">
+			<div class="profile-image" ng-style="data.account.image && { 'background-image': 'url(' + data.account.image + ')' }"></div>
+		</div>
+		<div class="profile-right col-7">
+			<a ng-href="{{ data.account | generateUrl }}" class="ellipsis">{{ data.account.name }}</a>
+			<p class="ellipsis">{{ data.account.description }}</p>
+		</div>
+		<div class="col-2">
+			<div class="network-holder">
+				<div class="profile-network network-circle-instagram"></div>
+				<div ng-if="data.account.connected.length === 1" class="additional-networks" ng-class="'network-circle-' + data.account.connected[0].api"></div>
+				<div ng-if="data.account.connected.length > 1" class="additional-networks">+{{ data.account.connected.length }}</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-stats row">
+		<div class="col-4">
+			<b>Posts</b>
+			<span>{{ data.account.posts | numsmall }}</span>
+		</div>
+		<div class="col-4">
+			<b>Followers</b>
+			<span>{{ data.account.followers | numsmall }}</span>
+		</div>
+		<div class="col-4">
+			<b>Following</b>
+			<span>{{ data.account.following | numsmall }}</span>
+		</div>
+	</div>
+</div>

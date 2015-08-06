@@ -1,0 +1,25 @@
+<div class="profile-card">
+	<div class="profile-top row">
+		<div class="profile-left col-3">
+			<div class="profile-image network-circle-reddit"></div>
+		</div>
+		<div class="profile-right col-9">
+			<a ng-href="{{ data.account | generateUrl }}" class="ellipsis">{{ data.account.id }}</a>
+		</div>
+	</div>
+
+	<div class="card-stats row">
+		<div class="col-4">
+			<b>Link Karma</b>
+			<span>{{ data.account.link_karma | numsmall }}</span>
+		</div>
+		<div class="col-4">
+			<b>Cmnt Karma</b>
+			<span>{{ data.account.comment_karma | numsmall }}</span>
+		</div>
+		<div class="col-4">
+			<b>Account Age</b>
+			<span>{{ data.account.date | timeSince:true }}</span>
+		</div>
+	</div>
+</div>
