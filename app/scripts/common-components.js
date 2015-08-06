@@ -32,7 +32,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                 collapseAt: '=',
                 tolerance: '=?',
                 recollapseAt: '=?',
-                onHeightChange: '&?'
+                onHeightChange: '&?',
+                noMore: '=?'
             },
             link: function($scope, $element) {
                 $element.html('');
@@ -44,7 +45,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                 var collapsed = angular.element('<div class="collapsed ng-hide"></div>').appendTo($element);
                 var expanded = angular.element('<div class="expanded ng-hide"></div>').appendTo($element);
                 // TODO Watch all scope changes
-                $scope.$watch('content', function(content) {
+                $scope.$watchGroup(['content', 'collapseAt', 'tolerance', 'recollapseAt', 'noMore'], function(args) {
+                    var content      = args[0];
+                    var collapseAt   = args[1];
+                    var tolerance    = args[2] || 0;
+                    var recollapseAt = args[3];
+                    var noMore       = args[4];
                     content = $sanitize(content || '');
                     expanded.addClass('ng-hide').html(content);
                     collapsed.addClass('ng-hide').html('');
@@ -53,10 +59,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                     }
 
                     expanded.removeClass('ng-hide');
-                    if (expanded.height() <= $scope.collapseAt + ($scope.tolerance || 0)) {
+                    if (expanded.height() <= collapseAt + tolerance) {
                         return;
                     }
-                    if ($scope.recollapseAt && expanded.height() >= $scope.recollapseAt) {
+                    if (recollapseAt && expanded.height() >= recollapseAt) {
                         angular.element('<span class="read-less">Less</span>')
                             .appendTo(expanded)
                             .before(' ')
@@ -70,7 +76,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                     expanded.addClass('ng-hide');
                     collapsed.removeClass('ng-hide');
 
-                    var more = angular.element('<span class="read-more">More</span>')
+                    var more = !noMore && angular.element('<span class="read-more">More</span>')
                         .click(function(event) {
                             event.stopPropagation();
                             expanded.removeClass('ng-hide');
@@ -89,21 +95,22 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             while (front + 1 < back) {
                                 middle = Math.ceil((front + back) / 2);
                                 insert_into.get(0).nodeValue = string.slice(0, middle) + '... ';
-                                if (collapsed.height() <= $scope.collapseAt) {
+                                console.log('width', collapsed.width());
+                                if (collapsed.height() <= collapseAt) {
                                     front = middle;
                                 } else {
                                     back = middle;
                                 }
                             }
                             insert_into.get(0).nodeValue = string.slice(0, front) + '... ';
-                            if (collapsed.height() <= $scope.collapseAt) {
+                            console.log('width', collapsed.width());
+                            if (collapsed.height() <= collapseAt) {
                                 return true;
-                            } else {
-                                if (read_more) {
-                                    read_more.detach();
-                                }
-                                return false;
                             }
+                            if (read_more) {
+                                read_more.detach();
+                            }
+                            return false;
                         }
                         if (!contents.length) {
                             return false;
@@ -114,7 +121,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
                             middle = Math.ceil((front + back) / 2);
                             var testing = contents.slice(0, middle).add(read_more);
                             testing.appendTo(insert_into);
-                            if (collapsed.height() <= $scope.collapseAt) {
+                            if (collapsed.height() <= collapseAt) {
                                 front = middle;
                             } else {
                                 back = middle;

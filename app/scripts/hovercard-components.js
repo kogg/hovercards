@@ -26,19 +26,12 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
                                 content: _.once(function(time, api) {
                                     $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'hovercard', 'Time until Content Hovercard', time - start, api + ' content'] }, '*');
                                 }),
-                                account: _.once(function(time, needed_scrolling, api) {
+                                account: _.once(function(time, api) {
                                     $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'hovercard', 'Time until Account Hovercard', time - start, api + ' account'] }, '*');
                                 })
                             }
                         };
-                        switch (identity.type) {
-                            case 'content':
-                                $scope.entry.content = identity;
-                                break;
-                            case 'account':
-                                $scope.entry.account = identity;
-                                break;
-                        }
+                        $scope.entry[identity.type] = identity;
                     }, 100);
                     break;
             }

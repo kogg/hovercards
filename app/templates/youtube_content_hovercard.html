@@ -2,8 +2,7 @@
 	<div class="col-5 video-hovercard" ng-style="data.content.image && { 'background-image': 'url(' + data.content.image + ')' }"></div>
 	<div class="video-hovercard-copy col-7">
 		<b class="youtube-color ellipsis"> {{ data.content.author.name || data.content.author.id }}</b>
-		<h1 collapse="data.content.name" collapse-at="20 * 2"></h1>
-	</div>
+		<h1 collapse="data.content.name" collapse-at="20 * 2" no-more="true"></h1>
 	</div>
 </div>
 <div class="card-stats row">
