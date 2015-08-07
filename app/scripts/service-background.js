@@ -3,6 +3,16 @@ var _     = require('underscore');
 var URI   = require('URIjs/src/URI');
 var async = require('async');
 
+// FIXME SUPER SHIM
+(function() {
+    require('http').request = _.wrap(require('http').request, function(request, params, cb) {
+        if (!params.protocol && params.scheme) {
+            params.protocol = params.scheme + ':';
+        }
+        return request(params, cb);
+    });
+}());
+
 var ENDPOINT = 'https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1';
 // var ENDPOINT = 'http://localhost:5000/v1';
 var INSTAGRAM_KEY = '4ffac410cfbf40f59be866c63d5fe37e';
