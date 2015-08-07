@@ -1,8 +1,15 @@
 <div class="row">
-	<div class="col-5 video-hovercard" ng-style="data.content.image && { 'background-image': 'url(' + data.content.image + ')' }"></div>
-	<div class="video-hovercard-copy col-7">
-		<b class="youtube-color ellipsis"> {{ data.content.author.name || data.content.author.id }}</b>
+	<div class="col-4 video-hovercard" ng-style="data.content.image && { 'background-image': 'url(' + data.content.image + ')' }"></div>
+	<div class="video-hovercard-copy col-6">
+		<b class="ellipsis">{{ data.content.author.name || data.content.author.id }}</b>
 		<h1 collapse="data.content.name" collapse-at="20 * 2" no-more="true"></h1>
+	</div>
+	<div class="col-2">
+		<div class="network-holder" ng-controller="DiscussionController">
+			<div class="profile-network network-circle-youtube"></div>
+			<div ng-if="data.content.connected.length === 1" class="additional-networks" ng-class="'network-circle-' + data.content.connected[0].api"></div>
+			<div ng-if="data.discussion_count" class="additional-networks">+{{ data.discussion_count }}</div>
+		</div>
 	</div>
 </div>
 <div class="card-stats row">
