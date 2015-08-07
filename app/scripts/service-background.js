@@ -1,7 +1,8 @@
-var $     = require('jquery');
-var _     = require('underscore');
-var URI   = require('URIjs/src/URI');
-var async = require('async');
+var $       = require('jquery');
+var _       = require('underscore');
+var URI     = require('URIjs/src/URI');
+var async   = require('async');
+var memoize = require('memoizee');
 
 // FIXME SUPER SHIM
 (function() {
@@ -159,7 +160,9 @@ module.exports = function() {
                         client_callers[api][type](_.extend(headers, request), callback);
                     } else {
                         server_callers[api] = server_callers[api] || {};
-                        server_callers[api][type] = server_callers[api][type] || function(request, headers, callback) {
+                        server_callers[api][type] = server_callers[api][type] || memoize(function(request, headers, callback) {
+                            request = JSON.parse(request);
+                            headers = JSON.parse(headers);
                             $.ajax({ url:     ENDPOINT + '/' + api + '/' + type,
                                      data:    request,
                                      headers: headers })
@@ -169,7 +172,7 @@ module.exports = function() {
                                 .fail(function(err) {
                                     callback(err);
                                 });
-                        };
+                        }, { async: true, length: 2, maxAge: 30 * 1000, primitive: true, resolvers: [JSON.stringify, JSON.stringify] });
                         server_callers[api][type](request, headers, callback);
                     }
                 });
