@@ -172,7 +172,7 @@ module.exports = function() {
                                 .fail(function(err) {
                                     callback(err);
                                 });
-                        }, { async: true, length: 2, maxAge: 30 * 1000, primitive: true, resolvers: [JSON.stringify, JSON.stringify] });
+                        }, { async: true, length: 2, maxAge: 5 * 1000, primitive: true, resolvers: [JSON.stringify, JSON.stringify] });
                         server_callers[api][type](request, headers, callback);
                     }
                 });
