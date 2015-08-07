@@ -43,6 +43,7 @@
     "async": "^1.4.0",
     "jquery": "^2.1.4",
     "jquery-ui": "^1.10.5",
+    "memoizee": "^0.3.9",
     "moment": "^2.10.5",
     "perfect-scrollbar": "^0.6.4",
     "slick-carousel": "^1.5.8",
