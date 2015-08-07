@@ -75,6 +75,7 @@ module.exports = function() {
         if (err) {
             return console.error(err);
         }
+        var server_callers = {};
         chrome.runtime.onMessage.addListener(function(message, sender, callback) {
             if (message.type !== 'service') {
                 return;
@@ -157,15 +158,19 @@ module.exports = function() {
                     if (client_callers[api] && client_callers[api][type]) {
                         client_callers[api][type](_.extend(headers, request), callback);
                     } else {
-                        $.ajax({ url:     ENDPOINT + '/' + api + '/' + type,
-                                 data:    request,
-                                 headers: headers })
-                            .done(function(data) {
-                                callback(null, data);
-                            })
-                            .fail(function(err) {
-                                callback(err);
-                            });
+                        server_callers[api] = server_callers[api] || {};
+                        server_callers[api][type] = server_callers[api][type] || function(request, headers, callback) {
+                            $.ajax({ url:     ENDPOINT + '/' + api + '/' + type,
+                                     data:    request,
+                                     headers: headers })
+                                .done(function(data) {
+                                    callback(null, data);
+                                })
+                                .fail(function(err) {
+                                    callback(err);
+                                });
+                        };
+                        server_callers[api][type](request, headers, callback);
                     }
                 });
             }
