@@ -71,6 +71,29 @@ var initialize_client_callers = {
     }
 };
 
+initialize_client_callers = _.mapObject(initialize_client_callers, function(initializer) {
+    return function(callback) {
+        return initializer(function(err, client_caller) {
+            if (err) {
+                return callback(err);
+            }
+            _.chain(client_caller)
+             .functions()
+             .filter(function(method) {
+                 return method.indexOf('__') === 0;
+             })
+             .each(function(method) {
+                 var cache_options = client_caller[method].cache_options || {};
+                 client_caller[method] = memoize(_.wrap(client_caller[method], function(func, args_to_cache, args_not_to_cache, callback) {
+                     args_to_cache = JSON.parse(args_to_cache);
+                     func(args_to_cache, args_not_to_cache, callback);
+                 }), { async: true, length: 1, maxAge: cache_options.ttl || 24 * 60 * 60, primitive: true, resolvers: [JSON.stringify] });
+             });
+            callback(null, client_caller);
+        });
+    };
+});
+
 module.exports = function() {
     async.parallel(initialize_client_callers, function(err, client_callers) {
         if (err) {
