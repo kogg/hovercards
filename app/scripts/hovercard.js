@@ -103,19 +103,20 @@ module.exports = function(selector, get_url) {
                 }
                 send_message({ msg: EXTENSION_ID + '-load', identity: identity });
                 obj.off(NameSpace);
+                var target = $(e.target);
+                var offset = target.offset();
+                var is_top = offset.top - CARD_SIZES[identity.api][identity.type].height - PADDING_FROM_EDGES > $(window).scrollTop();
                 hovercard
                     .off(NameSpace)
                     .show()
+                    .toggleClass(EXTENSION_ID + '-hovercard-from-top', is_top)
+                    .toggleClass(EXTENSION_ID + '-hovercard-from-bottom', !is_top)
                     .height(CARD_SIZES[identity.api][identity.type].height)
                     .width(CARD_SIZES[identity.api][identity.type].width)
-                    .offset(function() {
-                        var target = $(e.target);
-                        var offset = target.offset();
-                        return { top:  (offset.top + target.height() + CARD_SIZES[identity.api][identity.type].height + PADDING_FROM_EDGES < $(window).scrollTop() + $(window).height()) ? offset.top + target.height() : offset.top - CARD_SIZES[identity.api][identity.type].height,
-                                 left: Math.max(PADDING_FROM_EDGES,
-                                                Math.min($(window).scrollLeft() + $(window).width() - CARD_SIZES[identity.api][identity.type].width - PADDING_FROM_EDGES,
-                                                         last_e.pageX + 1)) };
-                    })
+                    .offset({ top:  is_top ? offset.top - CARD_SIZES[identity.api][identity.type].height : offset.top + target.height(),
+                              left: Math.max(PADDING_FROM_EDGES,
+                                             Math.min($(window).scrollLeft() + $(window).width() - CARD_SIZES[identity.api][identity.type].width - PADDING_FROM_EDGES,
+                                                      last_e.pageX + 1)) })
                     .on(Click, function() {
                         obj
                             .trigger(HoverCardClick, [url])
