@@ -559,6 +559,12 @@ b i, .iconic-push {
 	box-shadow: none
 }
 /*Profile Cards HoverCard*/
+.hovercard a:hover {
+	text-decoration: none !important
+}
+.hovercard .profile-card {
+	min-width: 300px;
+}
 .hovercard .profile-image {
 	width: 75px;
 	height: 75px;
