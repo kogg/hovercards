@@ -1,0 +1,22 @@
+<div class="reddit-hovercard">
+	<div class="hovercardrow">
+		<div ng-class="!data.content.image && 'network-circle-reddit'" class="col-4 image-hovercard" ng-style="{ 'background-image': 'url(' + data.content.image + ')' }"></div>
+		<div class="image-hovercard-copy col-8">
+			<div class="flexin">
+				<b class="ellipsis">/r/{{ data.content.subreddit }}</b>
+				<h1 ng-if="data.content.name.length" collapse-at="21 * 2" collapse="data.content.name"></h1>
+				<p ng-if="!data.content.name.length && data.content.description.length" collapse-at="19 * 2" collapse="data.content.description"></p>
+			</div>
+			<div class="hiddenrow cardstatsmini">
+				<div class="col-6">
+					<b>Points</b>
+					<span>{{ data.content.score | numsmall }}</span>
+				</div>
+				<div class="col-6">
+					<b>Upvoted</b>
+					<span>{{ data.content.up_ratio | percent }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

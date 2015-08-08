@@ -8,7 +8,7 @@ var CARD_SIZES = { imgur:      { content:    { height: 150, width: 300 }, accoun
                    instagram:  { content:    { height: 150, width: 300 }, account: { height: 131, width: 300 } },
                    reddit:     { discussion: { height: 150, width: 300 }, account: { height: 131, width: 300 } },
                    soundcloud: { content:    { height: 150, width: 300 }, account: { height: 131, width: 300 } },
-                   twitter:    { content:    { height: 150, width: 300 }, account: { height: 131, width: 300 } },
+                   twitter:    { content:    { height: 164, width: 300 }, account: { height: 131, width: 300 } },
                    youtube:    { content:    { height: 150, width: 300 }, account: { height: 131, width: 300 } } };
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 var TIMEOUT_BEFORE_CARD = 500;

@@ -701,15 +701,29 @@ b i, .iconic-push {
 	bottom: 16px;
 }
 .hovercard .image-text {
-	padding: 16px;
+
 }
 .hovercard .image-text span a.username {
   color: #000;
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
-  width: 94px;
+  width: 200px;
   display: block;
+  padding: 16px 16px 0 16px
+}
+.hovercard .col-8.image-text p {
+	padding: 0 16px
+}
+.hovercard .white-triangle {
+	position: absolute;
+	right: 0;
+	width: 0; 
+	height: 0; 
+	top: 47px;
+	border-top: 6px solid transparent;
+	border-bottom: 6px solid transparent; 
+	border-right:6px solid white; 
 }
 /*Video Cards*/
 
@@ -971,6 +985,9 @@ b i, .iconic-push {
 	padding: 0 8px 0 16px;
 	width: 150px;
 }
+.image-hovercard-copy.col-8 h1 {
+	width: 200px;
+}
 .image-hovercard-copy .flexin {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -1013,6 +1030,9 @@ b i, .iconic-push {
 	border-top: 1px solid #ECEEF1;
 	bottom: 0;
 }
+.hovercard .col-8 .cardstatsmini {
+	width: 200px;
+}
 .hovercard .cardstatsmini .col-4 {
 	padding-top: 1px
 }
@@ -1030,6 +1050,16 @@ b i, .iconic-push {
 	position: relative;
 	background-size: cover;
 	background-position: center;
+}
+.reddit-hovercard .network-circle-reddit {
+	background-size: 50%;
+	background-repeat: no-repeat;
+}
+.image-hovercard.col-4 {
+	width: 100px;
+}
+.twitter-hovercard .image-hovercard.col-4 {
+	height: 164px;
 }
 .image-hovercard-copy b {
 	padding: 0px 16px 0 16px
