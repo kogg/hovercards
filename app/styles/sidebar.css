@@ -665,6 +665,22 @@ b i, .iconic-push {
 	z-index: 1;
 	color: white;
 }
+.hovercard .image-play {
+	width: 40px;
+	height: 40px;
+	font-size: 18px;
+	position: absolute;
+	padding: 12px;
+	text-align: center;
+	color: white;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	margin:auto;
+	border-radius:50%;
+	background: rgba(0,0,0,.5)
+}
 /*hovercard comment card*/
 .hovercard .comment {
 	width: 300px;
@@ -932,6 +948,7 @@ b i, .iconic-push {
 }
 .video-hovercard {
 	background-size: cover;
+	position: relative;
 	height: 94px;
 	background-position: center;
 }
@@ -1010,6 +1027,7 @@ b i, .iconic-push {
 .image-hovercard {
 	height: 150px;
 	width: 150px;
+	position: relative;
 	background-size: cover;
 	background-position: center;
 }
