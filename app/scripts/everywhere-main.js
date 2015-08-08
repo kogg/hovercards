@@ -15,7 +15,9 @@ if (document.URL.match(/[&?]noyo=1/)) {
     return;
 }
 
-hovercard('a[href]:not(.no-yo)', function(link) { return link.attr('href'); });
+hovercard('a[href]:not(.no-yo,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); });
+hovercard('a[data-href]:not(.no-yo,[data-expanded-url])',        function(link) { return link.data('href'); });
+hovercard('a[data-expanded-url]:not(.no-yo,[data-href])',        function(link) { return link.data('expanded-url'); });
 
 $('html').on('hovercardclick.' + EXTENSION_ID, function(e, url) {
     window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'hovercard', url: url }, '*');
