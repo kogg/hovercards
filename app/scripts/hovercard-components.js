@@ -67,8 +67,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
              .values()
              .map(_.partial(apiService.get, _, null, null))
              .each(function(discussion) {
-                 discussion.$promise.then(function() {
+                 discussion.$promise.then(function(discussion) {
                      data.discussion_count++;
+                     data.discussion_api = discussion.api;
                  });
              })
              .value();

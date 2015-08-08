@@ -87,7 +87,7 @@ initialize_client_callers = _.mapObject(initialize_client_callers, function(init
                  client_caller[method] = memoize(_.wrap(client_caller[method], function(func, args_to_cache, args_not_to_cache, callback) {
                      args_to_cache = JSON.parse(args_to_cache);
                      func(args_to_cache, args_not_to_cache, callback);
-                 }), { async: true, length: 1, maxAge: cache_options.ttl || 24 * 60 * 60 * 1000, primitive: true, resolvers: [JSON.stringify] });
+                 }), { async: true, length: 1, maxAge: cache_options.ttl || 5 * 60 * 1000, primitive: true, resolvers: [JSON.stringify] });
              });
             callback(null, client_caller);
         });
