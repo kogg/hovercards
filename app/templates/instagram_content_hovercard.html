@@ -1,5 +1,7 @@
 <div class="hovercardrow">
-	<div class="col-6 image-hovercard" ng-style="data.content.image && { 'background-image': 'url(' + data.content.image + ')' }"></div>
+	<div class="col-6 image-hovercard" ng-style="data.content.image && { 'background-image': 'url(' + data.content.image + ')' }">
+		<div ng-if="data.content.video" class="image-play"><i class="zmdi zmdi-play"></i></div>
+	</div>
 	<div class="image-hovercard-copy col-6">
 		<div class="flexin">
 			<b class="ellipsis"> {{ data.content.author.name || data.content.author.id }}</b>
