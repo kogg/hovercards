@@ -18,10 +18,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
                     $scope.$apply(function() {
                         $scope.data  = {};
                         identity = event.data.identity;
+                        var type_to_load = identity.type !== 'discussion' ? identity.type : 'content';
                         var start = _.now();
                         $scope.entry = {
                             api:  identity.api,
-                            type: identity.type,
+                            type: type_to_load,
                             timing: {
                                 content: _.once(function(time, api) {
                                     $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'hovercard', 'Time until Content Hovercard', time - start, api + ' content'] }, '*');
@@ -31,7 +32,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
                                 })
                             }
                         };
-                        $scope.entry[identity.type] = identity;
+                        $scope.entry[type_to_load] = _.chain(identity).clone().extend({ type: type_to_load }).value();
                     }, 100);
                     break;
                 case EXTENSION_ID + '-hide':
