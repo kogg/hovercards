@@ -9,9 +9,13 @@
 			<p ng-if="!data.content.name.length && data.content.description.length" collapse-at="19 * 2" collapse="data.content.description"></p>
 		</div>
 		<div class="hiddenrow cardstatsmini">
-			<div class="col-8">
+			<div class="col-8" ng-if="data.content.as === 'track'">
 				<b>Plays</b>
 				<span>{{ data.content.plays | numsmall }}</span>
+			</div>
+			<div class="col-8" ng-if="data.content.as === 'playlist'">
+				<b>Songs</b>
+				<span>{{ data.content.tracks | json }}</span>
 			</div>
 			<div class="col-4">
 				<div class="network-holder">
