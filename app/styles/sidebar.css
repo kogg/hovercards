@@ -257,6 +257,7 @@ b i, .iconic-push {
 }
 .hovercard {
 	cursor: pointer;
+	overflow: hidden;
 	position: relative;
 }
 .card > div {
@@ -641,6 +642,8 @@ b i, .iconic-push {
 	text-align: center;
 	font-weight: 600;
 	color: white;
+  background-position: center;
+  background-size: cover;
 	font-size: 9px;
 }
 .profile-image-hovercard {
@@ -649,6 +652,48 @@ b i, .iconic-push {
 	display: inline-block;
 	border-radius: 50%;
 	margin-right: 2px;
+}
+.hovercard .image-numbers {
+	position: relative;
+	padding: 4px;
+	top: 0;
+	left: 0;
+	margin: 12px 16px 16px 16px;
+	background: rgba(0,0,0,.3);
+	display: inline-block;
+	border-radius: 3px;
+	z-index: 1;
+	color: white;
+}
+/*hovercard comment card*/
+.hovercard .comment {
+	width: 300px;
+	height: 150px;
+	overflow: hidden;
+	padding: 16px !important;
+	padding-bottom: 16px !important
+}
+.hovercard .comment .col-10 {
+	padding-top: 0;
+}
+.hovercard .comment .user-context {
+	margin-bottom: 4px;
+}
+.hovercard .comment p.mini-stats {
+	margin-top: 2px;
+	position: absolute;
+	bottom: 16px;
+}
+.hovercard .image-text {
+	padding: 16px;
+}
+.hovercard .image-text span a.username {
+  color: #000;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  width: 94px;
+  display: block;
 }
 /*Video Cards*/
 
@@ -1521,28 +1566,28 @@ h2 {
 	margin-right: 0px
 }
 .network-circle-youtube {
-	background-color: #e94639;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
+	background-color: #e94639 !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png') !important;
 }
 .network-circle-soundcloud {
-	background-color: #fc561e;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png');
+	background-color: #fc561e !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png') !important;
 }
 .network-circle-reddit {
-	background-color: #cfe3f7;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png');
+	background-color: #cfe3f7 !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png') !important;
 }
 .network-circle-twitter {
-	background-color: #59adec;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
+	background-color: #59adec !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png') !important;
 }
 .network-circle-instagram {
-	background-color: #517fa4;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');	
+	background-color: #517fa4 !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png') !important;
 }
 .network-circle-imgur {
-	background-color: black;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/imgur-icon-full_color.png');
+	background-color: black !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/imgur-icon-full_color.png') !important;
 }
 .network-share-dropdown {
   position: absolute;

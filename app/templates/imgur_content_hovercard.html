@@ -1,6 +1,6 @@
 <div class="hovercardrow">
 	<div ng-if="data.content.image" class="col-6 image-hovercard" ng-style="{ 'background-image': 'url(' + data.content.image + ')' }"></div>
-	<div ng-if="data.content.images.length" class="col-6 image-hovercard" ng-style="{ 'background-image': 'url(' + data.content.images[0].image + ')' }"></div>
+	<div ng-if="data.content.images.length" class="col-6 image-hovercard" ng-style="{ 'background-image': 'url(' + data.content.images[0].image + ')' }"><div class="image-numbers"><i class="zmdi zmdi-collection-image"></i> {{:: data.content.images.length }}</div></div>
 	<div class="image-hovercard-copy col-6">
 		<div class="flexin">
 			<b class="ellipsis"> {{ data.content.author.name || data.content.author.id }}</b>
