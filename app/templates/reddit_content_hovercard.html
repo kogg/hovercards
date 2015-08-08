@@ -1,6 +1,8 @@
 <div class="reddit-hovercard">
 	<div class="hovercardrow">
-		<div ng-class="!data.content.image && 'network-circle-reddit'" class="col-4 image-hovercard" ng-style="{ 'background-image': 'url(' + data.content.image + ')' }"></div>
+		<div ng-class="!data.content.image && 'network-circle-reddit'" class="col-4 image-hovercard" ng-style="{ 'background-image': 'url(' + data.content.image + ')' }">
+			<div ng-if="data.content.embed" class="image-play"><i class="zmdi zmdi-play"></i></div>
+		</div>
 		<div class="image-hovercard-copy col-8">
 			<div class="flexin">
 				<b class="ellipsis">/r/{{ data.content.subreddit }}</b>
