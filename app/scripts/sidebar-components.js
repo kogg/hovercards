@@ -3,7 +3,35 @@ var angular = require('angular');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'EntryComponents', [require('./service-components')])
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'SidebarComponents', [require('./service-components')])
+    .controller('ViewController', ['$scope', '$window', function($scope, $window) {
+        $scope.view = { at: {} };
+
+        $scope.$watch('!!view.fullscreen', function(fullscreen, oldFullscreen) {
+            if (fullscreen === oldFullscreen) {
+                return;
+            }
+            $window.top.postMessage({ msg: EXTENSION_ID + '-fullscreen', value: fullscreen }, '*');
+        });
+
+        $window.addEventListener('message', function(event) {
+            var msg = _.chain(event).result('data').result('msg').value();
+            if (!_.isString(msg)) {
+                return;
+            }
+            switch (msg) {
+                case EXTENSION_ID + '-Esc':
+                    if ($scope.view.fullscreen) {
+                        $scope.$apply(function() {
+                            $scope.view.fullscreen = false;
+                        });
+                        return;
+                    }
+                    $window.top.postMessage({ msg: EXTENSION_ID + '-hide', by: 'Esc' }, '*');
+                    break;
+            }
+        }, false);
+    }])
     .controller('EntryController', ['$scope', '$timeout', '$window', 'apiService', function($scope, $timeout, $window, apiService) {
         $scope.service = apiService;
 
@@ -31,22 +59,23 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                         var identity = request.identity;
                         var start = _.now();
                         $scope.entry = {
+                            api:  identity.api,
                             type: identity.type,
                             timing: {
                                 content: _.once(function(time, api) {
-                                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Content Card', time - start, api + ' content'] }, '*');
+                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Content Card', time - start, api + ' content'] }, '*');
                                     $scope.entry.timing.first_card(time, api + ' content');
                                 }),
                                 discussion: _.once(function(time, api) {
-                                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', time - start, api + ' discussion'] }, '*');
+                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', time - start, api + ' discussion'] }, '*');
                                     $scope.entry.timing.first_card(time, api + ' discussion');
                                 }),
                                 account: _.once(function(time, needed_scrolling, api) {
-                                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Account Card (' + (needed_scrolling ? 'Needed Scrolling' : 'Didn\'t need Scrolling') + ')', time - start, api + ' account'] }, '*');
+                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Account Card (' + (needed_scrolling ? 'Needed Scrolling' : 'Didn\'t need Scrolling') + ')', time - start, api + ' account'] }, '*');
                                     $scope.entry.timing.first_card(time, api + ' account');
                                 }),
                                 first_card: _.once(function(time, type) {
-                                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Card', time - start, type] }, '*');
+                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Card', time - start, type] }, '*');
                                 })
                             }
                         };
@@ -85,6 +114,47 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Entr
                     break;
             }
         }, false);
+
+        $scope.$watch('data.content', function(content) {
+            if (!content) {
+                return;
+            }
+            var entry = $scope.entry;
+            content.$promise.then(function(content) {
+                entry.accounts = _.chain(content.accounts)
+                                  .union(entry.accounts)
+                                  .compact()
+                                  .sortBy(function(account) {
+                                      var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
+                                      return (pos > 0) ? pos : Infinity;
+                                  })
+                                  .uniq(false, function(account) {
+                                      return account.api + '/' + account.id;
+                                  })
+                                  .value();
+            });
+        });
+
+        $scope.$watch('entry.type === "discussion" && data.discussions[entry.api]', function(discussion) {
+            if (!discussion) {
+                return;
+            }
+            var entry = $scope.entry;
+            discussion.$promise.finally(function() {
+                entry.content = entry.content || discussion.content;
+                entry.accounts = _.chain(entry.accounts)
+                                  .union(discussion.accounts)
+                                  .compact()
+                                  .sortBy(function(account) {
+                                      var pos = _.indexOf(['author', 'tag', 'mention'], account.reason);
+                                      return (pos > 0) ? pos : Infinity;
+                                  })
+                                  .uniq(false, function(account) {
+                                      return account.api + '/' + account.id;
+                                  })
+                                  .value();
+            });
+        });
 
         $scope.$watch('data.content', function(content, oldContent) {
             if (content || !oldContent || oldContent !== $scope.view.fullscreen) {

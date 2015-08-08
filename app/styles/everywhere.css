@@ -1,3 +1,87 @@
+.__MSG_@@extension_id__-hovercard {
+	background: rgba(255,255,255,.96) !important;
+	z-index: 2147483647 !important;
+	overflow: hidden !important;
+	border-radius: 8px !important;
+	box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
+	cursor: pointer !important;
+}
+.__MSG_@@extension_id__-hovercard iframe {
+	height: 100% !important;
+	width: 100% !important;
+}
+.__MSG_@@extension_id__-hovercard-from-top, .__MSG_@@extension_id__-hovercard-from-bottom {
+	-webkit-animation-duration: .4s;
+	animation-duration: .4s;
+	-webkit-transform:translate3d(0,0,0);
+	animation-fill-mode: forwards;
+	-webkit-animation-fill-mode: forwards;
+}
+.__MSG_@@extension_id__-hovercard-from-top {
+	-webkit-animation-name: __MSG_@@extension_id__-hovercard-fade-down;
+	animation-name: __MSG_@@extension_id__-hovercard-fade-down;
+}
+.__MSG_@@extension_id__-hovercard-from-bottom {
+	-webkit-animation-name: __MSG_@@extension_id__-hovercard-fade-up;
+	animation-name: __MSG_@@extension_id__-hovercard-fade-up;
+}
+@-webkit-keyframes __MSG_@@extension_id__-hovercard-fade-down {
+	0% {
+		opacity: 0;
+		-webkit-transform:translate3d(0,0,0);
+	}
+	1% {
+		opacity: 0;
+		-webkit-transform:translate3d(0,-50px,0);
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform:translate3d(0,0px,0);
+	}
+}
+@keyframes __MSG_@@extension_id__-hovercard-fade-down {
+	0% {
+		opacity: 0;
+		transform:translate3d(0,0,0);
+	}
+	1% {
+		opacity: 0;
+		transform:translate3d(0,-50px,0);
+	}
+	100% {
+		opacity: 1;
+		transform:translate3d(0,0px,0);
+	}
+}
+@-webkit-keyframes __MSG_@@extension_id__-hovercard-fade-up {
+	0% {
+		opacity: 0;
+		-webkit-transform:translate3d(0,0,0);
+	}
+	1% {
+		opacity: 0;
+		-webkit-transform:translate3d(0,50px,0);
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform:translate3d(0,0px,0);
+	}
+}
+@keyframes __MSG_@@extension_id__-hovercard-fade-up {
+	0% {
+		opacity: 0;
+		transform:translate3d(0,0,0);
+	}
+	1% {
+		opacity: 0;
+		transform:translate3d(0,50px,0);
+	}
+	100% {
+		opacity: 1;
+		transform:translate3d(0,0px,0);
+	}
+}
+/*
 .__MSG_@@extension_id__-clickable-yo-trigger {
 	content: "" !important;
 	position: absolute !important;
@@ -135,3 +219,4 @@
 .__MSG_@@extension_id__-clickable-yo-trigger-hide {
 	display: none !important;
 }
+*/

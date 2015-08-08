@@ -2,7 +2,7 @@
     "name": "__MSG_app_name__",
     "short_name": "__MSG_app_short_name__",
     "description": "__MSG_app_description__",
-    "version": "0.13.0",
+    "version": "0.14.0",
     "content_scripts": [
         {
             "matches": [
@@ -10,7 +10,7 @@
                 "https://*/*"
             ],
             "css": [
-                "styles/dom-styles.css"
+                "styles/top-frame.css"
             ],
             "js": [
                 "scripts/top-frame-main.js"
@@ -23,7 +23,7 @@
                 "https://*/*"
             ],
             "css": [
-                "styles/trigger-styles.css"
+                "styles/everywhere.css"
             ],
             "js": [
                 "scripts/everywhere-main.js"
@@ -58,6 +58,7 @@
         "128": "images/yocards-logo-128-yo.png"
     },
     "web_accessible_resources": [
+        "hovercard.html",
         "sidebar.html",
         "images/closesidebar.png",
         "images/closebutton.png",

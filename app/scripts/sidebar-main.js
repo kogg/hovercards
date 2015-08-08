@@ -4,7 +4,23 @@ var common  = require('./common');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-angular.bootstrap(document, [require('./angular-app').name]);
+angular.bootstrap(document, [angular.module('app', [// Dependencies
+                                                    require('angular-animate'),
+                                                    require('angular-inview/angular-inview') && 'angular-inview',
+
+                                                    // Application Components
+                                                    require('./sidebar-components'),
+                                                    require('./common-components'),
+
+                                                    // Data Related Components
+                                                    require('./content-components'),
+                                                    require('./discussion-components'),
+                                                    require('./people-components'),
+                                                    require('./more-content-components'),
+
+                                                    // API Specific Components
+                                                    require('./imgur-components'),
+                                                    require('./reddit-components')]).name]);
 
 if (common.get_scrollbar_width()) {
     require('perfect-scrollbar/jquery')($);

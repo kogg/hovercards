@@ -1,0 +1,52 @@
+<div class="twitter-hovercard">
+	<div class="hovercardrow" ng-if="!data.content.image && !data.content.images.length">
+		<div class="col-4 image-hovercard" ng-style="{ 'background-image': 'url(' + (data.content.author.image) }"><div class="white-triangle"></div></div>
+		<div class="col-8 image-text">
+			<div class="flexin">
+				<div class="user-context">
+					<span>
+						<a class="username ellipsis">{{ data.content.author.name }}</a>
+					</span>
+				</div>
+				<p collapse-at="19 * 3" collapse="data.content.description">{{ data.content.description }}</a></p>
+			</div>
+			<div class="hiddenrow cardstatsmini">
+				<div class="col-6">
+					<b>Retweets</b>
+					<span>{{ data.content.retweets | numsmall }}</span>
+				</div>
+				<div class="col-6">
+					<b>Favourites</b>
+					<span>{{ data.content.favorites | numsmall }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="hovercardrow" ng-if="data.content.image || data.content.images.length">
+		<div class="col-4 image-hovercard" ng-style="{ 'background-image': 'url(' + ((data.content.image.length && data.content.image) || data.content.images[0]) + ':small)' }">
+			<div ng-if="data.content.video" class="image-play"><i class="zmdi zmdi-play"></i></div>
+			<div ng-if="data.content.images.length" class="image-numbers"><i class="zmdi zmdi-collection-image"></i> {{ data.content.images.length }}</div>
+		</div>
+		<div class="col-8 image-text">
+			<div class="flexin">
+				<div class="user-context">
+					<span>
+						<a class="username ellipsis">{{ data.content.author.name }}</a>
+					</span>
+				</div>
+				<p collapse-at="19 * 3" collapse="data.content.description">{{ data.content.description }}</a></p>
+			</div>
+			<div class="hiddenrow cardstatsmini">
+				<div class="col-6">
+					<b>Retweets</b>
+					<span>{{ data.content.retweets | numsmall }}</span>
+				</div>
+				<div class="col-6">
+					<b>Favourites</b>
+					<span>{{ data.content.favorites | numsmall }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,3 +1,28 @@
+var $ = require('jquery');
+
+var hovercard = require('./hovercard');
+
+var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
+
+$(document).on('keydown', function(e) {
+    if (e.which !== 27) {
+        return;
+    }
+    window.top.postMessage({ msg: EXTENSION_ID + '-Esc' }, '*');
+});
+
+if (document.URL.match(/[&?]noyo=1/)) {
+    return;
+}
+
+hovercard('a[href]:not(.no-yo,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); });
+hovercard('a[data-href]:not(.no-yo,[data-expanded-url])',        function(link) { return link.data('href'); });
+hovercard('a[data-expanded-url]:not(.no-yo,[data-href])',        function(link) { return link.data('expanded-url'); });
+
+$('html').on('hovercardclick.' + EXTENSION_ID, function(e, url) {
+    window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'hovercard', url: url }, '*');
+});
+/*
 var $   = require('jquery');
 var URI = require('URIjs/src/URI');
 
@@ -149,3 +174,4 @@ switch ((document.domain || '').replace(/^www\./, '')) {
 $('html').on(EXTENSION_ID + '-clickable-yo', function(e, url) {
     window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'clickable-yo', url: url }, '*');
 });
+*/

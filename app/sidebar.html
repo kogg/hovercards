@@ -3,10 +3,10 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="styles/angular-csp.css">
 	<link rel="stylesheet" href="styles/slick.css">
-	<link rel="stylesheet" href="styles/perfect-scrollbar.css">
-	<link rel="stylesheet" href="styles/styles.css">
+	<link rel="stylesheet" href="styles/perfect-scrollbar.min.css">
+	<link rel="stylesheet" href="styles/sidebar.css">
 	<link rel="stylesheet" href="styles/material-design-iconic-font.min.css">
-	<link rel="stylesheet" href="styles/trigger-styles.css">
+	<link rel="stylesheet" href="styles/everywhere.css">
 </head>
 <body class="ng-cloak" ng-cloak ng-class="{ 'fullscreen-active': view.fullscreen }" stored="order" name="order" default="[]">
 	<div ng-controller="EntryController" ng-click="entry.showMenu = false">
@@ -31,7 +31,7 @@
 						<div class="inline-row">
 							<div class="col-9 ellipsis">
 								<div ng-class="entry.discussion_apis.length > 1 ? 'network-picker' : 'network-pick'">
-									<div class="network-circle" ng-class="['network-circle-' + api, { 'current-network': entry.discussion_api === api, 'network-not-found': data.discussions[api].$err && data.discussions[api].$resolved }]" ng-click="entry.discussion_api = api" ng-repeat="api in entry.discussion_apis"></div>
+									<div ng-repeat="api in entry.discussion_apis" class="network-circle" ng-class="['network-circle-' + api, { 'current-network': entry.discussion_api === api, 'network-not-found': data.discussions[api].$err && data.discussions[api].$resolved }]" ng-click="entry.discussion_api = api" analytics-click="discussion changed" analytics-label="{{ api }} discussion"></div>
 								</div>
 
 								<span ng-show="data.discussion.api !== 'reddit' || !data.discussion.subreddit">{{ data.discussion.api + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
@@ -90,7 +90,7 @@
 		<div ng-if="!entry.$err && entry.type !== 'url' && (!entry.can_have_people || entry.accounts.length)" class="network-menu-space">
 			<div ng-if="entry.selectedPerson.accounts.length" class="network-menu fade-in-animation">
 				<div class="network-menu-container" ng-class="'network-menu-size-' + entry.selectedPerson.accounts.length">
-					<div class="network-menu-option" ng-class="[account.type + '-option', account === entry.selectedPerson.selectedAccount && 'active']" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account" scroll-to-horizontal="account === entry.selectedPerson.selectedAccount">
+					<div class="network-menu-option" ng-class="[account.type + '-option', account === entry.selectedPerson.selectedAccount && 'active']" ng-repeat="account in entry.selectedPerson.accounts" ng-click="entry.selectedPerson.selectedAccount = account" scroll-to-horizontal="account === entry.selectedPerson.selectedAccount" analytics-click="account changed" analytics-label="{{ account.api }} account">
 						<span>{{ (account.api + (entry.selectedPerson.accounts.length === 1 ? '_account' : '' )) | copy }}</span>
 					</div>
 				</div>
@@ -117,7 +117,7 @@
 				<div ng-if="entry.selectedPerson.selectedAccount" ng-controller="MoreContentController">
 					<div ng-if="data.moreContent.$resolved || data.moreContent.$err" class="fade-in-animation" shaker>
 						<div ng-include="'templates/' + data.moreContent.api + '_more_content.html'"></div>
-						<a class="view-profile-mini no-yo" ng-href="{{ entry.selectedPerson.selectedAccount | generateUrl }}" analytics-click="viewfullprofile" analytics-label="{{ data.moreContent.api }} account">View Full Profile</a>
+						<a class="view-profile-mini no-yo" ng-href="{{ entry.selectedPerson.selectedAccount | generateUrl }}" analytics-click="full profile shown" analytics-action="viewfullprofile" analytics-label="{{ data.moreContent.api }} account">View Full Profile</a>
 					</div>
 				</div>
 			</div>
@@ -141,7 +141,9 @@
 									<span>{{ data.discussion.api + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 								</div>
 								<div ng-if="data.discussion.api === 'reddit'" class="col-12">
-									<div ng-include="'templates/' + data.discussion.api + '_discussion_header.html'"></div>
+									<div class="reddit-header">
+										<a class="no-yo" ng-href="{{:: data.discussion | generateUrl }}">{{:: data.discussion.name }}</a>
+									</div>
 								</div>
 							</div>
 						</div>

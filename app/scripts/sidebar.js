@@ -56,7 +56,7 @@ module.exports = function sidebar() {
         .addClass(EXTENSION_ID + '-sidebar-minimizer')
         .click(function() {
             obj.toggleClass(EXTENSION_ID + '-sidebar-minimized');
-            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar', obj.hasClass(EXTENSION_ID + '-sidebar-minimized') ? 'minimized' : 'unminimized'] }, '*');
+            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar ' + (obj.hasClass(EXTENSION_ID + '-sidebar-minimized') ? 'minimized' : 'unminimized'), 'minimizer'] }, '*');
         });
 
     window.addEventListener('message', function(event) {
@@ -80,7 +80,7 @@ module.exports = function sidebar() {
     function sendMessage(message) {
         switch (message.msg) {
             case EXTENSION_ID + '-load':
-                var category;
+                var label;
                 if (message.by !== 'back') {
                     if (_.chain(identity_history).last().isEqual(message.identity).value()) {
                         if (showing) {
@@ -91,8 +91,8 @@ module.exports = function sidebar() {
                                     sidebar_message({ msg: EXTENSION_ID + '-hide', by: message.by });
                                     return;
                             }
-                            category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
-                            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar', 'activated (same) ' + message.by, category] }, '*');
+                            label = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
+                            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar activated (same)', message.by, label] }, '*');
                             sidebar_frame.postMessage({ msg: EXTENSION_ID + '-sameload' }, '*');
                             return;
                         }
@@ -113,9 +113,9 @@ module.exports = function sidebar() {
                     .removeClass(EXTENSION_ID + '-sidebar-minimized')
                     .addClass(EXTENSION_ID + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
-                category = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
-                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar', 'activated ' + message.by, category] }, '*');
-                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'screenview', { screenName: category }] }, '*');
+                label = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
+                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar activated', message.by, label] }, '*');
+                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'screenview', { screenName: label }] }, '*');
                 break;
             case EXTENSION_ID + '-hide':
                 if (!showing) {
@@ -128,7 +128,7 @@ module.exports = function sidebar() {
                     .removeClass(EXTENSION_ID + '-sidebar-enter-cancel-animation')
                     .addClass(EXTENSION_ID + '-sidebar-leave');
                 $(document).off('dblclick', dblclick_for_sidebar);
-                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar', 'deactivated ' + message.by] }, '*');
+                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar deactivated', message.by] }, '*');
                 window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'screenview', { screenName: 'None' }] }, '*');
                 break;
         }

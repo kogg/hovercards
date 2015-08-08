@@ -88,6 +88,9 @@ iframe {
 	min-height: 100%;
 	overflow: hidden;
 }
+.fullscreen-active div.__MSG_@@extension_id__-hovercard {
+	min-height: auto
+}
 .fullscreen-active .fullscreen-trigger {
   position: fixed;
   left: 0;
@@ -96,7 +99,7 @@ iframe {
   height: 100%;
 }
 .fullscreen-active .fullscreen-trigger * {
-	height: 100%
+	height: 100%;
 }
 .fullscreen-active .card-text {
 	overflow-x:auto;
@@ -250,6 +253,11 @@ b i, .iconic-push {
 	margin-bottom: 16px;
 	min-width: 300px;
 	padding: 0 20px;
+	position: relative;
+}
+.hovercard {
+	cursor: pointer;
+	overflow: hidden;
 	position: relative;
 }
 .card > div {
@@ -552,24 +560,170 @@ b i, .iconic-push {
 	box-shadow: none
 }
 /*Profile Cards HoverCard*/
-.hovercard .profile-left .profile-image {
+.hovercard a:hover {
+	text-decoration: none !important
+}
+.hovercard .profile-card {
+	min-width: 300px;
+}
+.hovercard .profile-image {
 	width: 75px;
 	height: 75px;
 }
+.hovercard, .hovercard .card-stats, .hovercard .video-hovercard-copy, .hovercard .profile-top {
+	background: none;
+}
 .hovercard .profile-right {
 	height: 75px;
+	padding: 16px 8px 16px 16px;
 	display: -webkit-box;
 	display: -webkit-flex;
-	display: -ms-flexbox;
 	display: flex;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
-	-ms-flex-align: center;
 	align-items: center;
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
-	-ms-flex-pack: center;
 	justify-content: center;
+	flex-direction: column;
+}
+.video-hovercard-copy + .col-2 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	flex-direction: column;
+	height: 94px;
+	padding-top: 10px;
+	padding-right:8px
+}
+.hovercard .profile-right a {
+	width: 100%
+}
+.HoverCard .profile-right a {
+	max-width: none;
+}
+.hovercard .profile-right a + p {
+	margin-top: 6px;
+	width: 100%;
+}
+.hovercard .profile-card .col-2 {
+	height: 75px;
+	padding: 22px 16px 22px 4px;
+}
+.network-holder {
+	position: relative;
+	text-align: right;
+}
+.hovercard .profile-network {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background-size: 64%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.hovercard .additional-networks {
+	position: absolute;
+	top: -7px;
+	right: -9px;
+	background: #727272;
+	width: 20px;
+	height: 20px;
+	line-height: 17px;
+	border:2px solid white;
+	border-radius: 50%;
+	text-align: center;
+	font-weight: 600;
+	color: white;
+  background-position: center;
+  background-size: cover;
+	font-size: 9px;
+}
+.profile-image-hovercard {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	border-radius: 50%;
+	margin-right: 2px;
+}
+.hovercard .image-numbers {
+	position: relative;
+	padding: 4px;
+	top: 0;
+	left: 0;
+	margin: 12px 16px 16px 16px;
+	background: rgba(0,0,0,.3);
+	display: inline-block;
+	border-radius: 3px;
+	z-index: 1;
+	color: white;
+}
+.hovercard .image-play {
+	width: 40px;
+	height: 40px;
+	font-size: 18px;
+	position: absolute;
+	padding: 12px;
+	text-align: center;
+	color: white;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	margin:auto;
+	border-radius:50%;
+	background: rgba(0,0,0,.5)
+}
+/*hovercard comment card*/
+.hovercard .comment {
+	width: 300px;
+	height: 150px;
+	overflow: hidden;
+	padding: 16px !important;
+	padding-bottom: 16px !important
+}
+.hovercard .comment .col-10 {
+	padding-top: 0;
+}
+.hovercard .comment .user-context {
+	margin-bottom: 4px;
+}
+.hovercard .comment p.mini-stats {
+	margin-top: 2px;
+	position: absolute;
+	bottom: 16px;
+}
+.hovercard .image-text {
+
+}
+.hovercard .image-text span a.username {
+  color: #000;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  width: 200px;
+  display: block;
+  padding: 16px 16px 0 16px
+}
+.hovercard .col-8.image-text p {
+	padding: 0 16px
+}
+.hovercard .white-triangle {
+	position: absolute;
+	right: 0;
+	width: 0; 
+	height: 0; 
+	top: 47px;
+	border-top: 6px solid transparent;
+	border-bottom: 6px solid transparent; 
+	border-right:6px solid white; 
 }
 /*Video Cards*/
 
@@ -801,6 +955,120 @@ b i, .iconic-push {
 .percent-bar-good {
 	background: #4CAF50;
 	height: 100%;
+}
+/*Video Hovercard*/
+.hovercard span.read-more {
+	display: none !important
+}
+.video-hovercard {
+	background-size: cover;
+	position: relative;
+	height: 94px;
+	background-position: center;
+}
+.video-hovercard-copy {
+	height: 94px;
+	background: white;
+	position: relative;
+	overflow: hidden;
+}
+.video-hovercard-copy b {
+	padding:16px 16px 0 16px
+}
+.video-hovercard-copy h1, .image-hovercard-copy h1 {
+	text-decoration: none;
+	font-size: 18px;
+	line-height: 20px;
+	color: black;
+	font-weight: 400;
+	display: block;
+	padding: 0 8px 0 16px;
+	width: 150px;
+}
+.image-hovercard-copy.col-8 h1 {
+	width: 200px;
+}
+.image-hovercard-copy .flexin {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	flex-direction: column;
+	height: 95px;
+}
+.flexin * {
+	width: 100%;
+	display: block;
+	text-align: left;
+}
+.video-hovercard-copy .row {
+	padding: 5px 16px 15px 16px;
+	width: 100%;
+	position: absolute;
+	bottom: 0
+}
+.video-hovercard-copy .row b {
+	padding: 0
+}
+/*image hovercard*/
+.hovercard .hovercardrow {
+	width: 300px;
+	overflow: hidden;
+}
+.hovercard .hiddenrow {
+	overflow: hidden;
+}
+.hovercard .cardstatsmini {
+	position: absolute;
+	width: 150px;
+	padding:9.5px 16px 9.5px 16px;
+	border-top: 1px solid #ECEEF1;
+	bottom: 0;
+}
+.hovercard .col-8 .cardstatsmini {
+	width: 200px;
+}
+.hovercard .cardstatsmini .col-4 {
+	padding-top: 1px
+}
+.hovercard .cardstatsmini span {
+  color: #212121;
+  font-size: 16px;
+}
+.hovercard .cardstatsmini b {
+	padding: 0;
+	margin-bottom: 2px;
+}
+.image-hovercard {
+	height: 150px;
+	width: 150px;
+	position: relative;
+	background-size: cover;
+	background-position: center;
+}
+.reddit-hovercard .network-circle-reddit {
+	background-size: 50%;
+	background-repeat: no-repeat;
+}
+.image-hovercard.col-4 {
+	width: 100px;
+}
+.twitter-hovercard .image-hovercard.col-4 {
+	height: 164px;
+}
+.image-hovercard-copy b {
+	padding: 0px 16px 0 16px
+}
+.image-hovercard-copy h1 {
+	padding: 0 16px;
+}
+.image-hovercard-copy p {
+	padding: 0 16px;
 }
 /*comments*/
 .comment {
@@ -1346,28 +1614,28 @@ h2 {
 	margin-right: 0px
 }
 .network-circle-youtube {
-	background-color: #d5272a;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
+	background-color: #e94639 !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png') !important;
 }
 .network-circle-soundcloud {
-	background-color: #fc561e;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png');
+	background-color: #fc561e !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png') !important;
 }
 .network-circle-reddit {
-	background-color: #cfe3f7;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png');
+	background-color: #cfe3f7 !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png') !important;
 }
 .network-circle-twitter {
-	background-color: #59adec;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
+	background-color: #59adec !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png') !important;
 }
 .network-circle-instagram {
-	background-color: #517fa4;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');	
+	background-color: #517fa4 !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png') !important;
 }
 .network-circle-imgur {
-	background-color: black;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/imgur-icon-full_color.png');
+	background-color: black !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/imgur-icon-full_color.png') !important;
 }
 .network-share-dropdown {
   position: absolute;
