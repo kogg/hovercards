@@ -17,7 +17,10 @@
 </div>
 
 <div class="hovercardrow" ng-if="data.content.image || data.content.images.length">
-	<div class="col-6 image-hovercard" ng-style="{ 'background-image': 'url(' + ((data.content.image.length && data.content.image) || data.content.images[0]) + ':small)' }"></div>
+	<div class="col-6 image-hovercard" ng-style="{ 'background-image': 'url(' + ((data.content.image.length && data.content.image) || data.content.images[0]) + ':small)' }">
+		<div ng-if="data.content.video" class="image-play"><i class="zmdi zmdi-play"></i></div>
+		<div ng-if="data.content.images.length" class="image-numbers"><i class="zmdi zmdi-collection-image"></i> {{ data.content.images.length }}</div>
+	</div>
 	<div class="col-6 image-text">
 		<div class="user-context">
 			<span>
