@@ -1,7 +1,8 @@
-var $     = require('jquery');
-var _     = require('underscore');
-var URI   = require('URIjs/src/URI');
-var async = require('async');
+var $       = require('jquery');
+var _       = require('underscore');
+var URI     = require('URIjs/src/URI');
+var async   = require('async');
+var memoize = require('memoizee');
 
 // FIXME SUPER SHIM
 (function() {
@@ -70,11 +71,35 @@ var initialize_client_callers = {
     }
 };
 
+initialize_client_callers = _.mapObject(initialize_client_callers, function(initializer) {
+    return function(callback) {
+        return initializer(function(err, client_caller) {
+            if (err) {
+                return callback(err);
+            }
+            _.chain(client_caller)
+             .functions()
+             .filter(function(method) {
+                 return method.indexOf('__') === 0;
+             })
+             .each(function(method) {
+                 var cache_options = client_caller[method].cache_options || {};
+                 client_caller[method] = memoize(_.wrap(client_caller[method], function(func, args_to_cache, args_not_to_cache, callback) {
+                     args_to_cache = JSON.parse(args_to_cache);
+                     func(args_to_cache, args_not_to_cache, callback);
+                 }), { async: true, length: 1, maxAge: cache_options.ttl || 24 * 60 * 60 * 1000, primitive: true, resolvers: [JSON.stringify] });
+             });
+            callback(null, client_caller);
+        });
+    };
+});
+
 module.exports = function() {
     async.parallel(initialize_client_callers, function(err, client_callers) {
         if (err) {
             return console.error(err);
         }
+        var server_callers = {};
         chrome.runtime.onMessage.addListener(function(message, sender, callback) {
             if (message.type !== 'service') {
                 return;
@@ -157,15 +182,21 @@ module.exports = function() {
                     if (client_callers[api] && client_callers[api][type]) {
                         client_callers[api][type](_.extend(headers, request), callback);
                     } else {
-                        $.ajax({ url:     ENDPOINT + '/' + api + '/' + type,
-                                 data:    request,
-                                 headers: headers })
-                            .done(function(data) {
-                                callback(null, data);
-                            })
-                            .fail(function(err) {
-                                callback(err);
-                            });
+                        server_callers[api] = server_callers[api] || {};
+                        server_callers[api][type] = server_callers[api][type] || memoize(function(request, headers, callback) {
+                            request = JSON.parse(request);
+                            headers = JSON.parse(headers);
+                            $.ajax({ url:     ENDPOINT + '/' + api + '/' + type,
+                                     data:    request,
+                                     headers: headers })
+                                .done(function(data) {
+                                    callback(null, data);
+                                })
+                                .fail(function(err) {
+                                    callback(err);
+                                });
+                        }, { async: true, length: 2, maxAge: 5 * 60 * 1000, primitive: true, resolvers: [JSON.stringify, JSON.stringify] });
+                        server_callers[api][type](request, headers, callback);
                     }
                 });
             }
