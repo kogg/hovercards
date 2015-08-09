@@ -7,6 +7,9 @@
 </head>
 <body class="ng-cloak hovercard" ng-cloak>
 	<div ng-controller="EntryController">
+		<div class="fade-out-animation" ng-show="service.loading.length">
+			LOADIN SOME STUFF
+		</div>
 		<div ng-if="entry.type === 'content'" ng-controller="ContentController">
 			<div ng-if="data.content.$resolved || data.content.$err">
 				<div ng-include="'templates/' + data.content.api + '_content_hovercard.html'"></div>

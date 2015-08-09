@@ -6,7 +6,8 @@ var network_urls = require('YoCardsApiCalls/network-urls');
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'HovercardComponents', [require('./service-components')])
-    .controller('EntryController', ['$scope', '$window', function($scope, $window) {
+    .controller('EntryController', ['$scope', '$window', 'apiService', function($scope, $window, apiService) {
+        $scope.service = apiService;
         var identity = null;
 
         $window.addEventListener('message', function(event) {
