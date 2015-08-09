@@ -1001,6 +1001,9 @@ b i, .iconic-push {
 	flex-direction: column;
 	height: 95px;
 }
+.reddit-hovercard .image-hovercard-copy .flexin {
+	height: 100px;
+}
 .flexin * {
 	width: 100%;
 	display: block;
@@ -1058,8 +1061,32 @@ b i, .iconic-push {
 .image-hovercard.col-4 {
 	width: 100px;
 }
-.twitter-hovercard .image-hovercard.col-4 {
-	height: 164px;
+.twitter-hovercard .col-8 .user-context b {
+	display: block;
+	padding: 14px 16px 0px 16px;
+	margin-bottom: 2px;
+	padding-bottom: 0;
+}
+.twitter-hovercard .col-8 .user-context {
+	margin-bottom: 2px
+}
+.reddit-hovercard .image-hovercard.col-4 , .twitter-hovercard .image-hovercard.col-4 {
+	height: 100px;
+}
+.hovercard .twitter-hovercard .col-8 .card-stats, .hovercard .reddit-hovercard .col-8 .card-stats {
+	width: 300px;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+.hovercard .reddit-hovercard .col-8 .card-stats b {
+	padding: 0;
+}
+.reddit-hovercard .network-holder {
+	padding-right: 8px;
+}
+.twitter-hovercard .network-holder {
+	padding-right: 8px
 }
 .image-hovercard-copy b {
 	padding: 0px 16px 0 16px

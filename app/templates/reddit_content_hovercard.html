@@ -9,14 +9,21 @@
 				<h1 ng-if="data.content.name.length" collapse-at="21 * 2" collapse="data.content.name"></h1>
 				<p ng-if="!data.content.name.length && data.content.description.length" collapse-at="19 * 2" collapse="data.content.description"></p>
 			</div>
-			<div class="hiddenrow cardstatsmini">
-				<div class="col-6">
+			<div class="hiddenrow card-stats">
+				<div class="col-4">
 					<b>Points</b>
 					<span>{{ data.content.score | numsmall }}</span>
 				</div>
-				<div class="col-6">
+				<div class="col-4">
 					<b>Upvoted</b>
 					<span>{{ data.content.up_ratio | percent }}</span>
+				</div>
+				<div class="col-4">
+					<div class="network-holder" ng-controller="DiscussionController">
+						<div class="profile-network network-circle-reddit"></div>
+						<div ng-if="data.discussion_count === 1" class="additional-networks" ng-class="'network-circle-' + data.discussion_api"></div>
+						<div ng-if="data.discussion_count > 1" class="additional-networks">+{{ data.discussion_count }}</div>
+					</div>
 				</div>
 			</div>
 		</div>

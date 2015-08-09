@@ -5,19 +5,26 @@
 			<div class="flexin">
 				<div class="user-context">
 					<span>
-						<a class="username ellipsis">{{ data.content.author.name }}</a>
+						<b class="username ellipsis">{{ data.content.author.name }}</b>
 					</span>
 				</div>
 				<p collapse-at="19 * 3" collapse="data.content.description">{{ data.content.description }}</a></p>
 			</div>
-			<div class="hiddenrow cardstatsmini">
-				<div class="col-6">
+			<div class="hiddenrow card-stats">
+				<div class="col-4">
 					<b>Retweets</b>
 					<span>{{ data.content.retweets | numsmall }}</span>
 				</div>
-				<div class="col-6">
+				<div class="col-4">
 					<b>Favourites</b>
 					<span>{{ data.content.favorites | numsmall }}</span>
+				</div>
+				<div class="col-4">
+					<div class="network-holder" ng-controller="DiscussionController">
+						<div class="profile-network network-circle-twitter"></div>
+						<div ng-if="data.discussion_count === 1" class="additional-networks" ng-class="'network-circle-' + data.discussion_api"></div>
+						<div ng-if="data.discussion_count > 1" class="additional-networks">+{{ data.discussion_count }}</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -32,19 +39,26 @@
 			<div class="flexin">
 				<div class="user-context">
 					<span>
-						<a class="username ellipsis">{{ data.content.author.name }}</a>
+						<b class="username ellipsis">{{ data.content.author.name }}</b>
 					</span>
 				</div>
 				<p collapse-at="19 * 3" collapse="data.content.description">{{ data.content.description }}</a></p>
 			</div>
-			<div class="hiddenrow cardstatsmini">
-				<div class="col-6">
+			<div class="hiddenrow card-stats">
+				<div class="col-4">
 					<b>Retweets</b>
 					<span>{{ data.content.retweets | numsmall }}</span>
 				</div>
-				<div class="col-6">
+				<div class="col-4">
 					<b>Favourites</b>
 					<span>{{ data.content.favorites | numsmall }}</span>
+				</div>
+				<div class="col-4">
+					<div class="network-holder" ng-controller="DiscussionController">
+						<div class="profile-network network-circle-twitter"></div>
+						<div ng-if="data.discussion_count === 1" class="additional-networks" ng-class="'network-circle-' + data.discussion_api"></div>
+						<div ng-if="data.discussion_count > 1" class="additional-networks">+{{ data.discussion_count }}</div>
+					</div>
 				</div>
 			</div>
 		</div>
