@@ -1,3 +1,4 @@
+var _       = require('underscore');
 var angular = require('angular');
 
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ImgurComponents', [])
@@ -14,6 +15,22 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Imgu
                 i++;
             }
             return Math.floor(size) + suffixes[i] + 'B';
+        };
+    }])
+    .filter('imgurImage', [function() {
+        return function(item, size) {
+            if (!_.isObject(item)) {
+                return null;
+            }
+            return 'http://i.imgur.com/' + item.id + (size || '') + '.jpg';
+        };
+    }])
+    .filter('imgurVideo', [function() {
+        return function(item, size) {
+            if (!_.isObject(item)) {
+                return null;
+            }
+            return 'http://i.imgur.com/' + item.id + (size || '') + '.mp4';
         };
     }])
     .name;
