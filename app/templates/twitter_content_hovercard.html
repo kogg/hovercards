@@ -1,4 +1,4 @@
-<div class="twitter-hovercard">
+<div ng-if="!data.content.$err" class="twitter-hovercard">
 	<div class="hovercardrow" ng-if="!data.content.image && !data.content.images.length">
 		<div class="col-4 image-hovercard" ng-style="{ 'background-image': 'url(' + (data.content.author.image) }"><div class="white-triangle"></div></div>
 		<div class="col-8 image-text">
@@ -63,4 +63,13 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="yocards-message-container error-message" ng-class="err.api && 'twitter-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/authorize_for_forbidden_exceptions.html"></span>
+		<span ng-messages-include="templates/authorize_for_too_many_requests_exceptions.html"></span>
+		<span ng-messages-include="templates/default_exceptions.html"></span>
+	</span>
 </div>

@@ -1,4 +1,4 @@
-<div class="profile-card">
+<div ng-if="!data.account.$err" class="profile-card">
 	<div class="profile-top row">
 		<div class="profile-left col-3">
 			<div class="profile-image" ng-style="data.account.image && { 'background-image': 'url(' + data.account.image + ')' }"></div>
@@ -17,11 +17,12 @@
 	</div>
 
 	<div class="card-stats row">
-		<div class="col-4"  ng-if=" data.account.tracks || !data.selectedAccount.playlists">
+		<div class="col-4" ng-if="data.account.tracks || !data.account.playlists">
 			<b>Tracks</b>
 			<span>{{ data.account.tracks | numsmall }}</span>
 		</div>
-		<div class="col-4" ng-if=" !data.account.tracks && data.account.playlists">
+		<div class="col-4" ng-if="!data.account.tracks && data.account.playlists">
+			<b>Playlists</b>
 			<span>{{ data.account.playlists | numsmall }}</span>
 		</div>
 		<div class="col-4">
@@ -33,4 +34,11 @@
 			<span>{{ data.account.following | numsmall }}</span>
 		</div>
 	</div>
+</div>
+
+<div ng-if="data.account.$err" class="yocards-message-container error-message" ng-class="err.api && 'soundcloud-message'" ng-init="err = data.account.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/default_exceptions.html"></span>
+	</span>
 </div>

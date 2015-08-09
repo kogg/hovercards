@@ -1,4 +1,4 @@
-<div class="hovercardrow">
+<div ng-if="!data.content.$err" class="hovercardrow">
 	<div ng-if="data.content.image" class="col-6 image-hovercard" ng-style="{ 'background-image': 'url(' + data.content.image + ')' }">
 		<div ng-if="data.content.video" class="image-play"><i class="zmdi zmdi-play"></i></div>
 	</div>
@@ -23,4 +23,11 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="yocards-message-container error-message" ng-class="err.api && 'imgur-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/default_exceptions.html"></span>
+	</span>
 </div>

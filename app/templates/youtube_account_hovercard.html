@@ -1,4 +1,4 @@
-<div class="profile-card">
+<div class="profile-card" ng-if="!data.account.$err">
 	<div class="profile-top row">
 		<div class="profile-left col-3">
 			<div class="profile-image" ng-style="data.account.image && { 'background-image': 'url(' + data.account.image + ')' }"></div>
@@ -30,4 +30,11 @@
 			<span>{{ data.account.views | numsmall }}</span>
 		</div>
 	</div>
+</div>
+
+<div ng-if="data.account.$err" class="yocards-message-container error-message" ng-class="err.api && 'youtube-message'" ng-init="err = data.account.$err">
+	<div class="yocards-message-image"></div>
+	<span class="yocards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/default_exceptions.html"></span>
+	</span>
 </div>
