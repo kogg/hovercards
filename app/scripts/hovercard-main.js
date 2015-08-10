@@ -12,6 +12,8 @@ angular.bootstrap(document, [angular.module('app', [// Dependencies
 
                                                     // Data Related Components
                                                     require('./content-components'),
-]).name]);
+
+                                                    // API Specific Components
+                                                    require('./imgur-components')]).name]);
 
 window.parent.postMessage({ msg: EXTENSION_ID + '-hovercard-ready' }, '*');

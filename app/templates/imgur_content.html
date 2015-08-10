@@ -27,9 +27,9 @@
 	<div ng-if=":: data.content.images">
 		<div ng-carousel="data.content.images" slide="data.content.slide" selected="selected_item" weird-dots="true">
 			<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
-				<img data-lazy="{{:: $item.image }}" ng-if=":: !$first && !$second" ng-show="!$item.video || !$selected || view.fullscreen" on-image-load="redoHeight()">
-				<img ng-src="{{:: $item.image }}" ng-if=":: $first || $second" ng-show="!$item.video || !$selected || view.fullscreen" on-image-load="redoHeight()">
-				<video video-src="{{:: $item.video }}" ng-if=":: ($item.video && $selected) || undefined" ng-show="$selected && !view.fullscreen" autoplay loop on-video-load="redoHeight()"></video>
+				<img data-lazy="{{:: $item | imgurImage:'l' }}" ng-if=":: !$first && !$second" ng-show="!$item.video || !$selected || view.fullscreen" on-image-load="redoHeight()">
+				<img ng-src="{{:: $item | imgurImage:'l' }}" ng-if=":: $first || $second" ng-show="!$item.video || !$selected || view.fullscreen" on-image-load="redoHeight()">
+				<video video-src="{{:: $item | imgurVideo }}" ng-if=":: ($item.video && $selected) || undefined" ng-show="$selected && !view.fullscreen" autoplay loop on-video-load="redoHeight()"></video>
 			</div>
 			<div class="card-text album-text" ng-if=":: $item.description">
 				<a ng-href="{{:: $item | generateUrl }}" class="no-yo">{{:: $item.name }}</a>
@@ -39,8 +39,8 @@
 			</div>
 		</div>
 		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
-			<img ng-src="{{ selected_item.image }}" ng-if="!selected_item.video">
-			<video video-src="{{ selected_item.video }}" autoplay loop ng-if="selected_item.video"></video>
+			<img ng-src="{{ selected_item | imgurImage }}" ng-if="!selected_item.video">
+			<video video-src="{{ selected_item | imgurVideo }}" autoplay loop ng-if="selected_item.video"></video>
 		</div>
 	</div>
 
@@ -48,21 +48,21 @@
 	<div ng-if=":: data.content.video" class="twitter-video">
 		<div class="video-top" ng-class="{ 'fullscreen-trigger': view.fullscreen === data.content }" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
 			<div class="video-image">
-				<video video-src="{{:: data.content.video }}" autoplay loop></video>
+				<video video-src="{{:: data.content | imgurVideo }}" autoplay loop></video>
 			</div>
 		</div>
 		<div class="video-top-underlay" ng-click="view.fullscreen=null" style="cursor: zoom-out">
-			<img class="video-image" ng-src="{{:: data.content.image }}">
+			<img class="video-image" ng-src="{{:: data.content | imgurImage:'l' }}">
 		</div>
 	</div>
 
 	<!-- Image -->
 	<div ng-if=":: data.content.image && !data.content.video">
 		<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
-			<img ng-src="{{:: data.content.image }}">
+			<img ng-src="{{:: data.content | imgurImage:'l' }}">
 		</div>
 		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
-			<img ng-src="{{:: data.content.image }}">
+			<img ng-src="{{:: data.content | imgurImage }}">
 		</div>
 	</div>
 
