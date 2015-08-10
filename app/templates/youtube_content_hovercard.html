@@ -10,7 +10,7 @@
 		<div class="col-2">
 			<div class="network-holder" ng-controller="DiscussionController">
 				<div class="profile-network network-circle-youtube"></div>
-				<div ng-if="data.discussion_count === 1" class="additional-networks" ng-class="'network-circle-' + data.discussion_api"></div>
+				<div ng-if="data.discussion_count === 1" class="additional-networks" ng-class="'network-circle-' + data.discussion_api"> Comments</div>
 				<div ng-if="data.discussion_count > 1" class="additional-networks">+{{ data.discussion_count }} Comment Sources</div>
 			</div>
 		</div>
