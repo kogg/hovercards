@@ -3,7 +3,7 @@ var _ = require('underscore');
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 module.exports = function() {
-    chrome.browserAction.onClicked.addListener(function(tab) {
+    chrome.pageAction.onClicked.addListener(function(tab) {
         chrome.tabs.executeScript(tab.id, { code: 'window.top.postMessage({ msg: \'' + EXTENSION_ID + '-activate\', by: \'carlito\', url: \'' + tab.url + '\' }, \'*\');' });
     });
 
@@ -12,9 +12,10 @@ module.exports = function() {
     var yo_paths      = _.chain(sizes).map(function(size) { return [size, 'images/yocards-logo-' + size + '-yo.png']; }).object().value();
 
     chrome.runtime.onMessage.addListener(function(message, sender) {
-        if (message.type !== 'browser-action') {
+        if (message.type !== 'page-action') {
             return;
         }
-        chrome.browserAction.setIcon({ path: message.carlito ? carlito_paths : yo_paths, tabId: sender.tab.id });
+        chrome.pageAction.show(sender.tab.id);
+        chrome.pageAction.setIcon({ path: message.carlito ? carlito_paths : yo_paths, tabId: sender.tab.id });
     });
 };
