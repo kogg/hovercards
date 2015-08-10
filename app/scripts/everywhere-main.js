@@ -15,9 +15,18 @@ if (document.URL.match(/[&?]noyo=1/)) {
     return;
 }
 
-hovercard('a[href]:not(.no-yo,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); });
-hovercard('a[data-href]:not(.no-yo,[data-expanded-url])',        function(link) { return link.data('href'); });
-hovercard('a[data-expanded-url]:not(.no-yo,[data-href])',        function(link) { return link.data('expanded-url'); });
+function accept_identity(identity, obj) {
+    console.log('res?', $('body.res'));
+    return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
+           (identity.api === 'imgur' && identity.type === 'account') ||
+           (identity.api === 'instagram' && identity.type === 'account') ||
+           (identity.api === 'youtube' && document.URL.indexOf('youtube.com/embed') !== -1) ||
+           (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length : !obj.is('.comments,.title')));
+}
+
+hovercard('a[href]:not(.no-yo,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); },         accept_identity);
+hovercard('a[data-href]:not(.no-yo,[data-expanded-url])',        function(link) { return link.data('href'); },         accept_identity);
+hovercard('a[data-expanded-url]:not(.no-yo,[data-href])',        function(link) { return link.data('expanded-url'); }, accept_identity);
 
 $('html').on('hovercardclick.' + EXTENSION_ID, function(e, url) {
     window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'hovercard', url: url }, '*');

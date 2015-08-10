@@ -47,8 +47,7 @@ window.addEventListener('message', function(event) {
     }
 }, false);
 
-module.exports = function(selector, get_url) {
-    var domain_api = document.domain.replace(/\.com$/, '').replace(/^.*\./, '');
+module.exports = function(selector, get_url, accept_identity) {
     $('html').on(MouseMove, selector, function(e) {
         var obj = $(this);
         var url;
@@ -56,7 +55,7 @@ module.exports = function(selector, get_url) {
         if (obj.is(current_obj) || obj.has(current_obj).length || !(url = common.massage_url(get_url(obj))) || !(identity = network_urls.identify(url))) {
             return;
         }
-        if (identity.api === domain_api) {
+        if (accept_identity && !accept_identity(identity, obj)) {
             return;
         }
         current_obj.off(NameSpace);
