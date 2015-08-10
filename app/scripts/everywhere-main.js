@@ -16,7 +16,6 @@ if (document.URL.match(/[&?]noyo=1/)) {
 }
 
 function accept_identity(identity, obj) {
-    console.log('res?', $('body.res'));
     return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
            (identity.api === 'imgur' && identity.type === 'account') ||
            (identity.api === 'instagram' && identity.type === 'account') ||
