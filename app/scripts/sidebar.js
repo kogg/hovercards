@@ -100,7 +100,7 @@ module.exports = function sidebar() {
                         identity_history.push(message.identity);
                     }
                 }
-                chrome.runtime.sendMessage({ type: 'browser-action', carlito: _.isEqual(message.identity, network_urls.identify(document.URL) || { type: 'url', id: document.URL }) });
+                chrome.runtime.sendMessage({ type: 'activated', carlito: _.isEqual(message.identity, network_urls.identify(document.URL) || { type: 'url', id: document.URL }) });
                 if (identity_history.length > 1) {
                     back_button.show();
                 } else {
@@ -121,7 +121,7 @@ module.exports = function sidebar() {
                 if (!showing) {
                     break;
                 }
-                chrome.runtime.sendMessage({ type: 'browser-action', carlito: false });
+                chrome.runtime.sendMessage({ type: 'page-action', carlito: false });
                 showing = false;
                 obj
                     .removeClass(EXTENSION_ID + '-sidebar-enter')

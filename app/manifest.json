@@ -43,7 +43,7 @@
     "background": {
         "scripts": ["scripts/background-main.js"]
     },
-    "browser_action": {
+    "page_action": {
         "default_icon": {
             "16": "images/yocards-logo-16-yo.png",
             "19": "images/yocards-logo-19-yo.png",
