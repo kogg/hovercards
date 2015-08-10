@@ -1,7 +1,5 @@
 var _ = require('underscore');
 
-var network_urls = require('YoCardsApiCalls/network-urls');
-
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 module.exports = function() {
@@ -14,10 +12,10 @@ module.exports = function() {
     var yo_paths      = _.chain(sizes).map(function(size) { return [size, 'images/yocards-logo-' + size + '-yo.png']; }).object().value();
 
     chrome.runtime.onMessage.addListener(function(message, sender) {
-        if (message.type !== 'url-change') {
+        if (message.type !== 'page-action') {
             return;
         }
-        if (network_urls.identify(message.msg)) {
+        if (message.msg) {
             chrome.pageAction.show(sender.tab.id);
         } else {
             chrome.pageAction.hide(sender.tab.id);
