@@ -100,7 +100,7 @@ module.exports = function sidebar() {
                         identity_history.push(message.identity);
                     }
                 }
-                chrome.runtime.sendMessage({ type: 'page-action', carlito: _.isEqual(message.identity, network_urls.identify(document.URL) || { type: 'url', id: document.URL }) });
+                chrome.runtime.sendMessage({ type: 'activated', carlito: _.isEqual(message.identity, network_urls.identify(document.URL) || { type: 'url', id: document.URL }) });
                 if (identity_history.length > 1) {
                     back_button.show();
                 } else {
