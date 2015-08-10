@@ -637,17 +637,39 @@ b i, .iconic-push {
 	top: -7px;
 	right: -9px;
 	background: #727272;
-	width: 20px;
+	width: 100%;
+	max-width: 20px;
 	height: 20px;
 	line-height: 17px;
 	border:2px solid white;
 	border-radius: 50%;
-	text-align: center;
+	text-indent: 3px;
 	font-weight: 600;
 	color: white;
   background-position: center;
   background-size: cover;
 	font-size: 9px;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+	transition:all .3s ease-in-out;
+}
+.network-holder:hover .additional-networks {
+	border-radius: 20px;
+	text-indent: 8px;
+	text-indent: 8px;
+	max-width: 500px;
+	width: auto;
+	background-size: 16px !important;
+	background-repeat: no-repeat;
+	background-position: 4px center;
+	padding-right: 8px;
+}
+.hovercard .network-circle-reddit {
+	color: black
+}
+.one-network {
+	padding-left: 15px;
 }
 .profile-image-hovercard {
 	width: 16px;

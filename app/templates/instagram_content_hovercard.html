@@ -16,8 +16,8 @@
 			<div class="col-4">
 				<div class="network-holder" ng-controller="DiscussionController">
 					<div class="profile-network network-circle-instagram"></div>
-					<div ng-if="data.discussion_count === 1" class="additional-networks" ng-class="'network-circle-' + data.discussion_api"></div>
-					<div ng-if="data.discussion_count > 1" class="additional-networks">+{{ data.discussion_count }}</div>
+					<div ng-if="data.discussion_count === 1" class="additional-networks one-network" ng-class="'network-circle-' + data.discussion_api">Comments Found</div>
+					<div ng-if="data.discussion_count > 1" class="additional-networks comment-sources">+{{ data.discussion_count }} Comment Sources</div>
 				</div>
 			</div>
 		</div>
