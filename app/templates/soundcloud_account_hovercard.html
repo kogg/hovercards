@@ -4,7 +4,7 @@
 			<div class="profile-image" ng-style="data.account.image && { 'background-image': 'url(' + data.account.image + ')' }"></div>
 		</div>
 		<div class="profile-right col-7">
-			<a class="ellipsis">{{ data.account.id }}</a>
+			<a class="ellipsis">{{ person.selectedAccount.name || ('@' + data.account.id) }}</a>
 			<p class="ellipsis" ng-if="data.account.description.length">{{ data.account.description }}</p>
 		</div>
 		<div class="col-2">
