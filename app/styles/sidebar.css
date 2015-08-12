@@ -989,9 +989,6 @@ b i, .iconic-push {
 	height: 100%;
 }
 /*Video Hovercard*/
-.hovercard span.read-more {
-	display: none !important
-}
 .video-hovercard {
 	background-size: cover;
 	position: relative;
