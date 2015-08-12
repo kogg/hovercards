@@ -615,6 +615,12 @@ b i, .iconic-push {
 	margin-top: 6px;
 	width: 100%;
 }
+.hovercard .profile-right a + p * {
+	all:unset;
+}
+.hovercard .profile-right a + p br {
+	display: none;
+}
 .hovercard .profile-card .col-2 {
 	height: 75px;
 	padding: 22px 16px 22px 4px;
