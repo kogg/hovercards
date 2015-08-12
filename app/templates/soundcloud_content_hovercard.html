@@ -5,8 +5,8 @@
 	<div class="image-hovercard-copy col-6">
 		<div class="flexin">
 			<b class="ellipsis"> {{ data.content.author.name || ('@' + data.content.author.id) }}</b>
-			<h1 ng-if="data.content.name.length" collapse-at="21 * 2" collapse="data.content.name"></h1>
-			<p ng-if="!data.content.name.length && data.content.description.length" collapse-at="19 * 2" collapse="data.content.description"></p>
+			<h1 ng-if="data.content.name.length" collapse-at="21 * 2" collapse="data.content.name" no-more="true"></h1>
+			<p ng-if="!data.content.name.length && data.content.description.length" collapse-at="19 * 2" collapse="data.content.description" no-more="true"></p>
 		</div>
 		<div class="hiddenrow cardstatsmini">
 			<div class="col-8" ng-if="data.content.as === 'track'">
