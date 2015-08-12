@@ -121,7 +121,7 @@ module.exports = function sidebar() {
                 if (!showing) {
                     break;
                 }
-                chrome.runtime.sendMessage({ type: 'page-action', carlito: false });
+                chrome.runtime.sendMessage({ type: 'activated', carlito: false });
                 showing = false;
                 obj
                     .removeClass(EXTENSION_ID + '-sidebar-enter')
