@@ -1,7 +1,7 @@
 {
   "name": "YoCardsExt",
   "description": "",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "repository": "cameronrohani/YoCardsExt",
   "scripts": {
     "start": "npm run watch:non_js & npm run watchify:background & npm run watchify:everywhere & npm run watchify:hovercard & npm run watchify:sidebar & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
