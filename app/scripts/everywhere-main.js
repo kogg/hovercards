@@ -23,9 +23,9 @@ function accept_identity(identity, obj) {
            (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length : !obj.is('.comments,.title')));
 }
 
-hovercard('a[href]:not(.no-yo,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); },         accept_identity);
-hovercard('a[data-href]:not(.no-yo,[data-expanded-url])',        function(link) { return link.data('href'); },         accept_identity);
-hovercard('a[data-expanded-url]:not(.no-yo,[data-href])',        function(link) { return link.data('expanded-url'); }, accept_identity);
+hovercard('a[href]:not(.no-yo,.hoverZoomLink,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); },         accept_identity);
+hovercard('a[data-href]:not(.no-yo,.hoverZoomLink,[data-expanded-url])',        function(link) { return link.data('href'); },         accept_identity);
+hovercard('a[data-expanded-url]:not(.no-yo,.hoverZoomLink,[data-href])',        function(link) { return link.data('expanded-url'); }, accept_identity);
 
 // FIXME Twitter follow button hack
 hovercard('iframe.twitter-follow-button:not(.no-yo)', function(iframe) {
