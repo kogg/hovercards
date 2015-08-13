@@ -12,6 +12,7 @@ require('./sidebar')()
 require('./google-analytics')();
 
 var url;
+// FIXME I don't like any of this
 setInterval(function() {
     var new_url = document.URL;
     if (url === new_url) {
@@ -24,8 +25,10 @@ setInterval(function() {
     }
     chrome.runtime.sendMessage({ type: 'service', request: { api: 'reddit', type: 'url', id: url } }, function(response) {
         if (!response || response[0]) {
-            chrome.runtime.sendMessage({ type: 'page-action', msg: false });
-            return;
+            return chrome.runtime.sendMessage({ type: 'page-action', msg: false });
+        }
+        if (response[1].type in { discussion: true, url: true } && (!response[1].comments || !response[1].comments.length)) {
+            return chrome.runtime.sendMessage({ type: 'page-action', msg: false });
         }
         chrome.runtime.sendMessage({ type: 'page-action', msg: true });
     });
