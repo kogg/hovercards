@@ -660,18 +660,6 @@ b i, .iconic-push {
 	overflow: hidden;
 	transition:all .3s ease-in-out;
 }
-.hovercard:hover .additional-networks {
-	border-radius: 20px;
-	text-indent: 8px;
-	text-indent: 8px;
-	max-width: 500px;
-	width: auto;
-	background-size: 16px !important;
-	background-repeat: no-repeat;
-	background-position: 4px center;
-	padding-right: 8px;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)
-}
 .hovercard .network-circle-reddit {
 	color: black
 }

@@ -9,6 +9,17 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
     .controller('EntryController', ['$scope', '$window', function($scope, $window) {
         var identity = null;
 
+        chrome.storage.sync.get('order', function(obj) {
+            if (!obj.order) {
+                obj.order = [];
+            }
+            var original_length = obj.order.length;
+            obj.order = _.union(obj.order, ['reddit', 'twitter', 'imgur', 'instagram', 'soundcloud', 'youtube']);
+            if (original_length !== obj.order.length) {
+                chrome.storage.sync.set(obj);
+            }
+        });
+
         $window.addEventListener('message', function(event) {
             if (!event || !event.data) {
                 return;
@@ -125,5 +136,24 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
                     });
             }());
         });
+    }])
+    .filter('pluck', _.constant(_.pluck))
+    .filter('firstInOrder', [function() {
+        var order = ['reddit', 'twitter', 'imgur', 'instagram', 'soundcloud', 'youtube'];
+        chrome.storage.sync.get('order', function(obj) { order = obj.order; });
+        // FIXME Update when storage changes
+        chrome.storage.onChanged.addListener(function onStorageChanged(changes, area_name) {
+            if (area_name !== 'sync' || !('order' in changes)) {
+                return;
+            }
+            order = changes.order.newValue;
+        });
+
+        return function(apis) {
+            return _.chain(apis)
+                    .sortBy(function(api) { return _.indexOf(order, api); })
+                    .first()
+                    .value();
+        };
     }])
     .name;

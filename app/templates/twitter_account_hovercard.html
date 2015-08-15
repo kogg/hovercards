@@ -10,8 +10,7 @@
 		<div class="col-2">
 			<div class="network-holder">
 				<div class="profile-network network-circle-twitter"></div>
-				<div ng-if="data.account.connected.length === 1" class="additional-networks one-network" ng-class="'network-circle-' + data.account.connected[0].api"> Profile Found</div>
-				<div ng-if="data.account.connected.length > 1" class="additional-networks">+{{ data.account.connected.length }} Profiles Found</div>
+				<div ng-if="data.account.connected.length" class="additional-networks one-network" ng-class="'network-circle-' + (data.account.connected | pluck:'api' | firstInOrder)"></div>
 			</div>
 		</div>
 	</div>
