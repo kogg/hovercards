@@ -34,8 +34,7 @@
 									<div ng-repeat="api in entry.discussion_apis" class="network-circle" ng-class="['network-circle-' + api, { 'current-network': entry.discussion_api === api, 'network-not-found': data.discussions[api].$err && data.discussions[api].$resolved }]" ng-click="entry.discussion_api = api" analytics-click="discussion changed" analytics-label="{{ api }} discussion"></div>
 								</div>
 
-								<span ng-show="data.discussion.api !== 'reddit' || !data.discussion.subreddit">{{ data.discussion.api + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
-								<span ng-show="data.discussion.api === 'reddit' && data.discussion.subreddit"> Reddit {{:: 'reddit_discussion_short' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
+								<span>{{ data.discussion.api + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 							</div>
 							<div class="col-3 reddit-right">
 								
