@@ -174,8 +174,7 @@
 		</div>
 
 		<div ng-repeat="person_to_load in [{ api: 'instagram', type: 'account', id: 'hovercards' },
-		                                   { api: 'twitter', type: 'account', id: 'gethovercards' },
-		                                   ]" ng-controller="AccountShimController" ng-if="entry.$err">
+		                                   { api: 'twitter', type: 'account', id: 'hovercards' }]" ng-controller="AccountShimController" ng-if="entry.$err">
 			<div class="people-card-space" ng-if="!person.selectedAccount.$err">
 				<div class="card bounce-in-animation" ng-if="person.selectedAccount.$resolved" shaker>
 					<div ng-include="'templates/' + (person.selectedAccount.api || person_to_load.api) + '_account.html'"></div>
