@@ -3,6 +3,8 @@
     "app_short_name":  { "message": "yocards" },
     "app_description": { "message": "Description of YoCards" },
 
+    "facebook_post": { "message": "Share $1 on Facebook" },
+
     "imgur":                       { "message": "Imgur" },
     "imgur_account":               { "message": "Imgur User" },
     "imgur_discussion":            { "message": "Imgur Comments" },
@@ -20,6 +22,7 @@
     "reddit_account":          { "message": "Reddit User" },
     "reddit_discussion":       { "message": "Reddit Comments" },
     "reddit_discussion_short": { "message": "Comments" },
+    "reddit_post":             { "message": "Submit $1 to Reddit" },
 
     "soundcloud":                  { "message": "Soundcloud" },
     "soundcloud_account":          { "message": "Soundcloud User" },
@@ -31,6 +34,7 @@
     "twitter_account_reason_author_with_name": { "message": "Tweeted by $1" },
     "twitter_discussion":                      { "message": "Twitter Tweets" },
     "twitter_discussion_short":                { "message": "Tweets" },
+    "twitter_post":                            { "message": "Tweet $1" },
 
     "youtube":                       { "message": "Youtube" },
     "youtube_account":               { "message": "Youtube Channel" },
@@ -49,9 +53,6 @@
     "order_comments_description": { "message": "Order the list to the right, and we'll search for comments in that order next time around!" },
 
     "first_to_post":    { "message": "Be the first to post it" },
-    "post_to_facebook": { "message": "Share $1 on Facebook" },
-    "post_to_reddit":   { "message": "Submit $1 to Reddit" },
-    "post_to_twitter":  { "message": "Tweet $1" },
 
     "err_bad_input_name":                     { "message": "Bad Content" },
     "err_bad_input_text":                     { "message": "This input be bad, yo!" },

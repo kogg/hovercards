@@ -165,9 +165,9 @@
 				<div class="yocards-wecantfindany-share">
 					<b>{{:: 'first_to_post' | copy  }}</b>
 					<span ng-mouseenter="sharehovered=true" ng-mouseleave="sharehovered=false">
-						<a popup="{{ content | shareUrl:'reddit' }}"   title="{{ 'post_to_reddit'   | copy:(content.name || content.description) }}"><img src="/images/Reddit-icon-full_color.png"></a>
-						<a popup="{{ content | shareUrl:'twitter' }}"  title="{{ 'post_to_twitter'  | copy:(content.name || content.description) }}"><img src="/images/twitter-icon-full_color.png"></a>
-						<a popup="{{ content | shareUrl:'facebook' }}" title="{{ 'post_to_facebook' | copy:(content.name || content.description) }}"><img src="/images/facebook-icon-full_color.png"></a>
+						<a popup="{{ content | shareUrl:'reddit' }}"   title="{{ 'reddit_post'   | copy:(content.name || content.description) }}"><img src="/images/Reddit-icon-full_color.png"></a>
+						<a popup="{{ content | shareUrl:'twitter' }}"  title="{{ 'twitter_post'  | copy:(content.name || content.description) }}"><img src="/images/twitter-icon-full_color.png"></a>
+						<a popup="{{ content | shareUrl:'facebook' }}" title="{{ 'facebook_post' | copy:(content.name || content.description) }}"><img src="/images/facebook-icon-full_color.png"></a>
 					</span>
 				</div>
 			</div>

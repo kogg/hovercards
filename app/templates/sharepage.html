@@ -6,8 +6,8 @@
 	<div class="share-circles2"></div>
 	<div class="share-circles3"></div>
 	<div class="sharecontainerhover">
-		<a popup="{{ content | shareUrl:'twitter' }}"  title="{{ 'post_to_twitter'  | copy:(content.name || content.description) }}" class="twiter-circle" analytics-click="content shared" analytics-action="twitter sharecircle" analytics-label="{{ content.api }} content"></a>
-		<a popup="{{ content | shareUrl:'facebook' }}" title="{{ 'post_to_facebook' | copy:(content.name || content.description) }}" class="fb-circle" analytics-click="content shared" analytics-action="facebook sharecircle" analytics-label="{{ content.api }} content"></a>
-		<a popup="{{ content | shareUrl:'reddit' }}"   title="{{ 'post_to_reddit'   | copy:(content.name || content.description) }}" class="reddit-circle" analytics-click="content shared" analytics-action="reddit sharecircle" analytics-label="{{ content.api }} content"></a>
+		<a popup="{{ content | shareUrl:'twitter' }}"  title="{{ 'twitter_post'  | copy:(content.name || content.description) }}" class="twiter-circle" analytics-click="content shared" analytics-action="twitter sharecircle" analytics-label="{{ content.api }} content"></a>
+		<a popup="{{ content | shareUrl:'facebook' }}" title="{{ 'facebook_post' | copy:(content.name || content.description) }}" class="fb-circle" analytics-click="content shared" analytics-action="facebook sharecircle" analytics-label="{{ content.api }} content"></a>
+		<a popup="{{ content | shareUrl:'reddit' }}"   title="{{ 'reddit_post'   | copy:(content.name || content.description) }}" class="reddit-circle" analytics-click="content shared" analytics-action="reddit sharecircle" analytics-label="{{ content.api }} content"></a>
 	</div>
 </div>
