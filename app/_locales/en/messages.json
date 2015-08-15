@@ -3,10 +3,13 @@
     "app_short_name":  { "message": "yocards" },
     "app_description": { "message": "Description of YoCards" },
 
-    "imgur":                  { "message": "Imgur" },
-    "imgur_account":          { "message": "Imgur User" },
-    "imgur_discussion":       { "message": "Imgur Comments" },
-    "imgur_discussion_short": { "message": "Comments" },
+    "imgur":                       { "message": "Imgur" },
+    "imgur_account":               { "message": "Imgur User" },
+    "imgur_discussion":            { "message": "Imgur Comments" },
+    "imgur_discussion_short":      { "message": "Comments" },
+    "imgur_err_no_content_name":   { "message": "No Comments Found" },
+    "imgur_err_no_content_text":   { "message": "Quick! Be the first to comment on this!" },
+    "imgur_err_no_content_action": { "message": "Comment on It!" },
 
     "instagram":                  { "message": "Instagram" },
     "instagram_account":          { "message": "Instagram User" },
