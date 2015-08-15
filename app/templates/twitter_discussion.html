@@ -9,8 +9,8 @@
 <div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content']" ng-init="err = data.discussion.$err">
 	<span ng-messages="err">
 		<span ng-message="not-implemented">
-			<span class="yocards-message-content"><b><i class="zmdi zmdi-error"></i>{{:: 'twitter_err_not_implemented_name' | copy }}</b>{{:: 'twitter_err_not_implemented_text' | copy }}</span>
-			<div class="yocards-message-option" ng-if="data.content">
+			<span class="hovercards-message-content"><b><i class="zmdi zmdi-error"></i>{{:: 'twitter_err_not_implemented_name' | copy }}</b>{{:: 'twitter_err_not_implemented_text' | copy }}</span>
+			<div class="hovercards-message-option" ng-if="data.content">
 				<a popup="{{:: data.content | shareUrl:'twitter' }}">{{:: 'twitter_post' | copy:'It!' }}</a>
 			</div>
 		</span>

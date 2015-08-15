@@ -74,9 +74,9 @@
 
 					<div ng-if="data.people.$err">
 						<div ng-if="data.people.$err['account-error']" ng-init="person=data.people.$err" ng-include="'templates/' + person.selectedAccount.api + '_account.html'" autoscroll="entry.type === 'account'"></div>
-						<div ng-if="!data.people.$err['account-error']" class="yocards-message-container error-message" ng-init="err = data.people.$err">
-							<div class="yocards-message-image"></div>
-							<span class="yocards-message-text" ng-messages="err">
+						<div ng-if="!data.people.$err['account-error']" class="hovercards-message-container error-message" ng-init="err = data.people.$err">
+							<div class="hovercards-message-image"></div>
+							<span class="hovercards-message-text" ng-messages="err">
 								<span ng-messages-include="templates/default_exceptions.html"></span>
 							</span>
 						</div>
@@ -153,16 +153,16 @@
 
 
 		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err" shaker>
-			<div class="yocards-wecantfindany">
-				<div class="yocards-wecantfindany-message">
+			<div class="hovercards-wecantfindany">
+				<div class="hovercards-wecantfindany-message">
 					<b>{{:: 'entry_err_no_content_name' | copy  }}</b>
 					<p>{{:: 'entry_err_no_content_sub_name' | copy  }}</p>
 					<span>{{:: 'entry_err_no_content_text' | copy  }}</span>
 				</div>
-				<div class="yocards-wecantfindany-images">
+				<div class="hovercards-wecantfindany-images">
 					<img src="/images/pepemojis.jpg" ng-class="sharehovered && 'movepepe'">
 				</div>
-				<div class="yocards-wecantfindany-share">
+				<div class="hovercards-wecantfindany-share">
 					<b>{{:: 'first_to_post' | copy  }}</b>
 					<span ng-mouseenter="sharehovered=true" ng-mouseleave="sharehovered=false">
 						<a popup="{{ content | shareUrl:'reddit' }}"   title="{{ 'reddit_post'   | copy:(content.name || content.description) }}"><img src="/images/Reddit-icon-full_color.png"></a>
@@ -173,8 +173,8 @@
 			</div>
 		</div>
 
-		<div ng-repeat="person_to_load in [{ api: 'instagram', type: 'account', id: 'yocards' },
-		                                   { api: 'twitter', type: 'account', id: 'getyocards' },
+		<div ng-repeat="person_to_load in [{ api: 'instagram', type: 'account', id: 'hovercards' },
+		                                   { api: 'twitter', type: 'account', id: 'gethovercards' },
 		                                   ]" ng-controller="AccountShimController" ng-if="entry.$err">
 			<div class="people-card-space" ng-if="!person.selectedAccount.$err">
 				<div class="card bounce-in-animation" ng-if="person.selectedAccount.$resolved" shaker>
