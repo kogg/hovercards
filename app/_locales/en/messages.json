@@ -3,6 +3,38 @@
     "app_short_name":  { "message": "yocards" },
     "app_description": { "message": "Description of YoCards" },
 
+    "imgur":                  { "message": "Imgur" },
+    "imgur_account":          { "message": "Imgur User" },
+    "imgur_discussion":       { "message": "Imgur Comments" },
+    "imgur_discussion_short": { "message": "Comments" },
+
+    "instagram":                  { "message": "Instagram" },
+    "instagram_account":          { "message": "Instagram User" },
+    "instagram_discussion":       { "message": "Instagram Comments" },
+    "instagram_discussion_short": { "message": "Comments" },
+
+    "reddit":                  { "message": "Reddit" },
+    "reddit_account":          { "message": "Reddit User" },
+    "reddit_discussion":       { "message": "Reddit Comments" },
+    "reddit_discussion_short": { "message": "Comments" },
+
+    "soundcloud":                  { "message": "Soundcloud" },
+    "soundcloud_account":          { "message": "Soundcloud User" },
+    "soundcloud_discussion":       { "message": "Soundcloud Comments" },
+    "soundcloud_discussion_short": { "message": "Comments" },
+
+    "twitter":                                 { "message": "Twitter" },
+    "twitter_account":                         { "message": "Twitter User" },
+    "twitter_account_reason_author_with_name": { "message": "Tweeted by $1" },
+    "twitter_discussion":                      { "message": "Twitter Tweets" },
+    "twitter_discussion_short":                { "message": "Tweets" },
+
+    "youtube":                       { "message": "Youtube" },
+    "youtube_account":               { "message": "Youtube Channel" },
+    "youtube_account_reason_author": { "message": "Uploaded by" },
+    "youtube_discussion":            { "message": "Youtube Comments" },
+    "youtube_discussion_short":      { "message": "Comments" },
+
     "account_reason_author":            { "message": "Posted by" },
     "account_reason_author_with_name":  { "message": "Posted by $1" },
     "account_reason_mention":           { "message": "Mentioned" },
@@ -44,37 +76,5 @@
     "authorize_for_too_many_requests_err_authorized_name":   { "message": "$1 Limit" },
     "authorize_for_too_many_requests_err_authorized_text":   { "message": "Wow! You must really like YoCards. Sorry, but you've reached your $1 limit." },
     "authorize_for_too_many_requests_err_unauthorized_name": { "message": "$1 Limit" },
-    "authorize_for_too_many_requests_err_unauthorized_text": { "message": "It looks like $1 has limited YoCards! Try this again later! Authorizing your $1 account with YoCards will give you a higher limit." },
-
-    "imgur":                  { "message": "Imgur" },
-    "imgur_account":          { "message": "Imgur User" },
-    "imgur_discussion":       { "message": "Imgur Comments" },
-    "imgur_discussion_short": { "message": "Comments" },
-
-    "instagram":                  { "message": "Instagram" },
-    "instagram_account":          { "message": "Instagram User" },
-    "instagram_discussion":       { "message": "Instagram Comments" },
-    "instagram_discussion_short": { "message": "Comments" },
-
-    "reddit":                  { "message": "Reddit" },
-    "reddit_account":          { "message": "Reddit User" },
-    "reddit_discussion":       { "message": "Reddit Comments" },
-    "reddit_discussion_short": { "message": "Comments" },
-
-    "soundcloud":                  { "message": "Soundcloud" },
-    "soundcloud_account":          { "message": "Soundcloud User" },
-    "soundcloud_discussion":       { "message": "Soundcloud Comments" },
-    "soundcloud_discussion_short": { "message": "Comments" },
-
-    "twitter":                                 { "message": "Twitter" },
-    "twitter_account":                         { "message": "Twitter User" },
-    "twitter_account_reason_author_with_name": { "message": "Tweeted by $1" },
-    "twitter_discussion":                      { "message": "Twitter Tweets" },
-    "twitter_discussion_short":                { "message": "Tweets" },
-
-    "youtube":                       { "message": "Youtube" },
-    "youtube_account":               { "message": "Youtube Channel" },
-    "youtube_account_reason_author": { "message": "Uploaded by" },
-    "youtube_discussion":            { "message": "Youtube Comments" },
-    "youtube_discussion_short":      { "message": "Comments" }
+    "authorize_for_too_many_requests_err_unauthorized_text": { "message": "It looks like $1 has limited YoCards! Try this again later! Authorizing your $1 account with YoCards will give you a higher limit." }
 }
