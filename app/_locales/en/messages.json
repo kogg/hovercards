@@ -9,9 +9,6 @@
     "imgur_account":               { "message": "Imgur User" },
     "imgur_discussion":            { "message": "Imgur Comments" },
     "imgur_discussion_short":      { "message": "Comments" },
-    "imgur_err_no_content_name":   { "message": "No Comments Found" },
-    "imgur_err_no_content_text":   { "message": "Quick! Be the first to comment on this!" },
-    "imgur_err_no_content_action": { "message": "Comment on It!" },
 
     "instagram":                  { "message": "Instagram" },
     "instagram_account":          { "message": "Instagram User" },
@@ -80,6 +77,10 @@
     "err_too_many_requests_text_api_default": { "message": "our dependency" },
     "err_unauthorized_name":                  { "message": "Sign in Required" },
     "err_unauthorized_text":                  { "message": "We're sorry but you must authorize YoCards with your $1 account to see this!" },
+
+    "not_err_no_content_name":   { "message": "No Comments Found" },
+    "not_err_no_content_text":   { "message": "Quick! Be the first to comment on this!" },
+    "not_err_no_content_action": { "message": "Comment on It!" },
 
     "authorize_for_forbidden_err_authorized_name":           { "message": "Private" },
     "authorize_for_forbidden_err_authorized_text":           { "message": "You can't see this unless you are this $2's friend." },

@@ -16,9 +16,9 @@
 </div>
 
 <div class="no-comments" ng-if="data.discussion.$err['empty-content']">
-	<b><i class="zmdi zmdi-comment-alert"></i> No Comments Found</b>
-	<h2>Quick! Be the first to comment on this!</h2>
-	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">Comment on it!</div></a>
+	<b><i class="zmdi zmdi-comment-alert"></i> {{:: 'not_err_no_content_name' | copy }}</b>
+	<h2>{{:: 'not_err_no_content_text' | copy }}</h2>
+	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">{{:: 'not_err_no_content_action' | copy }}</div></a>
 </div>
 
 <div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content']" ng-init="err = data.discussion.$err">
