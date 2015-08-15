@@ -21,8 +21,7 @@
 				<div class="col-4">
 					<div class="network-holder" ng-controller="DiscussionController">
 						<div class="profile-network network-circle-reddit"></div>
-						<div ng-if="data.discussion_count === 1" class="additional-networks one-network" ng-class="'network-circle-' + data.discussion_api"> Comments</div>
-						<div ng-if="data.discussion_count > 1" class="additional-networks">+{{ data.discussion_count }} Comment Sources</div>
+						<div ng-if="data.discussions.length" class="additional-networks one-network" ng-class="'network-circle-' + (data.discussions | pluck:'api' | firstInOrder)"></div>
 					</div>
 				</div>
 			</div>

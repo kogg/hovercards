@@ -68,7 +68,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
                 return;
             }
             var data = $scope.data;
-            data.discussion_count = 0;
+            data.discussions = [];
             _.chain(requests)
              .omit(function(request, api) {
                  return api === data.content.api ||
@@ -79,36 +79,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
              .map(_.partial(apiService.get, _, null, null))
              .each(function(discussion) {
                  discussion.$promise.then(function(discussion) {
-                     data.discussion_count++;
-                     data.discussion_api = discussion.api;
+                     data.discussions.push(discussion);
                  });
              })
              .value();
         }, true);
-
-        $scope.$watch('entry.discussion_api', function(api) {
-            if (!api) {
-                return;
-            }
-            var entry = $scope.entry;
-            entry.show_header = null;
-            if (!(api in entry.discussions)) {
-                return;
-            }
-            var data = $scope.data;
-            data.discussions[api] = data.discussions[api] || apiService.get(entry.discussions[api]);
-            data.discussions[api].$promise
-                .then(function(discussion) {
-                    entry.timing.discussion(_.now(), api);
-                    _.extend(discussion, _.pick(entry.discussions[api], 'author'));
-                })
-                .finally(function() {
-                    if (entry.discussion_api !== api) {
-                        return;
-                    }
-                    data.discussion = data.discussions[api];
-                });
-        });
     }])
     .controller('AccountController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
         $scope.$watch('entry.account', function(request) {
