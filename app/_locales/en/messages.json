@@ -82,6 +82,9 @@
     "err_no_content_text_comments":   { "message": "Quick! Be the first to comment on this!" },
     "err_no_content_action_comments": { "message": "Comment on It!" },
 
+    "err_forbidden_name_comments_disabled": { "message": "Comments Disabled" },
+    "err_forbidden_text_comments_disabled": { "message": "The comments are disabled!" },
+
     "authorize_for_forbidden_err_authorized_name":           { "message": "Private" },
     "authorize_for_forbidden_err_authorized_text":           { "message": "You can't see this unless you are this $2's friend." },
     "authorize_for_forbidden_err_unauthorized_name":         { "message": "Private" },
