@@ -164,14 +164,14 @@ switch ((document.domain || '').replace(/^www\./, '')) {
                 return;
             }
             $(document).off('keydown', res_key_help);
-            $('<tr><td><b>v</b> or <b>;</b></td><td>Toggle <b>YoCards!</b></td></tr>').prependTo(tbody);
+            $('<tr><td><b>v</b> or <b>;</b></td><td>Toggle <b>HoverCards!</b></td></tr>').prependTo(tbody);
         });
 
         function res_key_setup() {
-            var div = $('<div id="optionContainer-keyboardNav-yocards" class="optionContainer"></div>').prependTo('#allOptionsContainer');
-            $('<label for="yocards" title="Default: v or ;"><b>yocards</b></label>').appendTo(div);
+            var div = $('<div id="optionContainer-keyboardNav-hovercards" class="optionContainer"></div>').prependTo('#allOptionsContainer');
+            $('<label for="hovercards" title="Default: v or ;"><b>hovercards</b></label>').appendTo(div);
             $('<div style="float:left; margin-left: 10px;"><b>v</b> or <b>;</b></div>').appendTo(div);
-            $('<div class="optionDescription">Toggle <b>YoCards</b>!</div>').appendTo(div);
+            $('<div class="optionDescription">Toggle <b>HoverCards</b>!</div>').appendTo(div);
             $('<div class="clear"></div>').appendTo(div);
         }
         if (location.hash === '#!settings/keyboardNav') {
