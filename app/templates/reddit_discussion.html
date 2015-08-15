@@ -7,9 +7,9 @@
 </div>
 
 <div class="no-comments" ng-if="data.discussion.$err['no-content']">
-	<b><i class="zmdi zmdi-comment-alert"></i> No Posts Found</b>
-	<h2>Quick! Be the first to post this to Reddit!</h2>
-	<a popup="{{:: data.content | shareUrl:'reddit' }}"><div class="rippleblack">Post to Reddit</div></a>
+	<b><i class="zmdi zmdi-comment-alert"></i> {{:: 'reddit_err_no_content_name' | copy }}</b>
+	<h2>{{:: 'reddit_err_no_content_text' | copy }}</h2>
+	<a popup="{{:: data.content | shareUrl:'reddit' }}"><div class="rippleblack">{{:: 'reddit_post' | copy }}</div></a>
 </div>
 
 <div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content'] && !data.discussion.$err['no-content']" ng-init="err = data.discussion.$err">

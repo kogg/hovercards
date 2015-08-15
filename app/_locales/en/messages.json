@@ -15,11 +15,13 @@
     "instagram_discussion":       { "message": "Instagram Comments" },
     "instagram_discussion_short": { "message": "Comments" },
 
-    "reddit":                  { "message": "Reddit" },
-    "reddit_account":          { "message": "Reddit User" },
-    "reddit_discussion":       { "message": "Reddit Comments" },
-    "reddit_discussion_short": { "message": "Comments" },
-    "reddit_post":             { "message": "Submit $1 to Reddit" },
+    "reddit":                     { "message": "Reddit" },
+    "reddit_account":             { "message": "Reddit User" },
+    "reddit_discussion":          { "message": "Reddit Comments" },
+    "reddit_discussion_short":    { "message": "Comments" },
+    "reddit_post":                { "message": "Post $1 to Reddit" },
+    "reddit_err_no_content_name": { "message": "No Posts Found" },
+    "reddit_err_no_content_text": { "message": "Quick! Be the first to post this to Reddit!" },
 
     "soundcloud":                  { "message": "Soundcloud" },
     "soundcloud_account":          { "message": "Soundcloud User" },
@@ -32,6 +34,8 @@
     "twitter_discussion":                      { "message": "Twitter Tweets" },
     "twitter_discussion_short":                { "message": "Tweets" },
     "twitter_post":                            { "message": "Tweet $1" },
+    "twitter_err_no_content_name":             { "message": "No Tweets Found" },
+    "twitter_err_no_content_text":             { "message": "Quick! Be the first to tweet about this!" },
 
     "youtube":                       { "message": "Youtube" },
     "youtube_account":               { "message": "Youtube Channel" },
