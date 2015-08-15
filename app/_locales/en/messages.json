@@ -78,9 +78,9 @@
     "err_unauthorized_name":                  { "message": "Sign in Required" },
     "err_unauthorized_text":                  { "message": "We're sorry but you must authorize YoCards with your $1 account to see this!" },
 
-    "not_err_no_content_name":   { "message": "No Comments Found" },
-    "not_err_no_content_text":   { "message": "Quick! Be the first to comment on this!" },
-    "not_err_no_content_action": { "message": "Comment on It!" },
+    "err_no_content_name_comments":   { "message": "No Comments Found" },
+    "err_no_content_text_comments":   { "message": "Quick! Be the first to comment on this!" },
+    "err_no_content_action_comments": { "message": "Comment on It!" },
 
     "authorize_for_forbidden_err_authorized_name":           { "message": "Private" },
     "authorize_for_forbidden_err_authorized_text":           { "message": "You can't see this unless you are this $2's friend." },

@@ -1,9 +1,9 @@
 <div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit_discussion_comment.html'" ng-repeat="comment in data.discussion.comments" ng-if="!data.discussion.$err"></div>
 
 <div class="no-comments" ng-if="data.discussion.$err['empty-content']">
-	<b><i class="zmdi zmdi-comment-alert"></i> {{:: 'not_err_no_content_name' | copy }}</b>
-	<h2>{{:: 'not_err_no_content_text' | copy }}</h2>
-	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">{{:: 'not_err_no_content_action' | copy }}</div></a>
+	<b><i class="zmdi zmdi-comment-alert"></i> {{:: 'err_no_content_name_comments' | copy }}</b>
+	<h2>{{:: 'err_no_content_text_comments' | copy }}</h2>
+	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">{{:: 'err_no_content_action_comments' | copy }}</div></a>
 </div>
 
 <div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content']" ng-init="err = data.discussion.$err">
