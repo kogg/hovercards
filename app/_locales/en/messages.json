@@ -42,6 +42,14 @@
     "account_reason_tag":               { "message": "Tagged" },
     "account_reason_tag_with_name":     { "message": "Tagged $1" },
 
+    "order_comments_name":        { "message": "Where do you want to see comments from?" },
+    "order_comments_description": { "message": "Order the list to the right, and we'll search for comments in that order next time around!" },
+
+    "first_to_post":    { "message": "Be the first to post it" },
+    "post_to_facebook": { "message": "Share $1 on Facebook" },
+    "post_to_reddit":   { "message": "Submit $1 to Reddit" },
+    "post_to_twitter":  { "message": "Tweet $1" },
+
     "err_bad_input_name":                     { "message": "Bad Content" },
     "err_bad_input_text":                     { "message": "This input be bad, yo!" },
     "err_dependency_down_name":               { "message": "$1 Issues" },
@@ -76,5 +84,9 @@
     "authorize_for_too_many_requests_err_authorized_name":   { "message": "$1 Limit" },
     "authorize_for_too_many_requests_err_authorized_text":   { "message": "Wow! You must really like YoCards. Sorry, but you've reached your $1 limit." },
     "authorize_for_too_many_requests_err_unauthorized_name": { "message": "$1 Limit" },
-    "authorize_for_too_many_requests_err_unauthorized_text": { "message": "It looks like $1 has limited YoCards! Try this again later! Authorizing your $1 account with YoCards will give you a higher limit." }
+    "authorize_for_too_many_requests_err_unauthorized_text": { "message": "It looks like $1 has limited YoCards! Try this again later! Authorizing your $1 account with YoCards will give you a higher limit." },
+
+    "entry_err_no_content_name":     { "message": "Uh Oh!" },
+    "entry_err_no_content_sub_name": { "message": "This web page aint blowing up on a tuesday" },
+    "entry_err_no_content_text":     { "message": "We searched Twitter, & Reddit. No one's talking about this web page." }
 }

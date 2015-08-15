@@ -37,7 +37,6 @@
 								<span>{{ data.discussion.api + '_discussion' | copy }} {{ data.discussion.count ? '(' + (data.discussion.count | numsmall) + ')' : '' }}</span>
 							</div>
 							<div class="col-3 reddit-right">
-								
 								<span ng-if="data.discussion.api === 'reddit' && data.discussion.subreddit" class="time">{{ data.discussion.score | score }} <span class="hidden-date">&middot; <a ng-href="{{ data.discussion | generateUrl }}" class="no-yo">{{ data.discussion.date | timeSince:true }}</a> &middot;<i class="zmdi zmdi-more-vert" ng-click="entry.showMenu = !entry.showMenu; $event.stopPropagation()"></i></span></span>
 
 								<i class="zmdi zmdi-more-vert menu-not-reddit" ng-click="entry.showMenu = !entry.showMenu; $event.stopPropagation()"></i>
@@ -50,8 +49,8 @@
 						</div>
 						<div class="menu" ng-show="entry.showMenu" ng-click="$event.stopPropagation()">
 							<div class="menu-description">
-								<h2>Where do you want to see comments from?</h2>
-								<p>Order the list to the right, and we'll search for comments in that order next time around!</p>
+								<h2>{{:: 'order_comments_name' | copy }}</h2>
+								<p>{{:: 'order_comments_description' | copy }}</p>
 							</div>
 							<ul id="sortable" sortable="order">
 								<li ng-class="{ selected: entry.discussion_api === api }" ng-repeat="api in order">
@@ -156,19 +155,19 @@
 		<div class="card bounce-in-animation fade-out-animation" ng-if="entry.$err" shaker>
 			<div class="yocards-wecantfindany">
 				<div class="yocards-wecantfindany-message">
-					<b>Uh Oh!</b>
-					<p>This web page aint blowing up on a tuesday</p>
-					<span>We searched Twitter, & Reddit. No one's talking about this web page.</span>
+					<b>{{:: 'entry_err_no_content_name' | copy  }}</b>
+					<p>{{:: 'entry_err_no_content_sub_name' | copy  }}</p>
+					<span>{{:: 'entry_err_no_content_text' | copy  }}</span>
 				</div>
 				<div class="yocards-wecantfindany-images">
 					<img src="/images/pepemojis.jpg" ng-class="sharehovered && 'movepepe'">
 				</div>
 				<div class="yocards-wecantfindany-share">
-					<b>Be the first to post it</b>
+					<b>{{:: 'first_to_post' | copy  }}</b>
 					<span ng-mouseenter="sharehovered=true" ng-mouseleave="sharehovered=false">
-						<a popup="{{ content | shareUrl:'reddit' }}" title="Submit {{ content.name || content.description }} to Reddit"><img src="/images/Reddit-icon-full_color.png"></a>
-						<a popup="{{ content | shareUrl:'twitter' }}" title="Tweet {{ content.name || content.description }}"><img src="/images/twitter-icon-full_color.png"></a>
-						<a popup="{{ content | shareUrl:'facebook' }}" title="Share {{ content.name || content.description }} on Facebook"><img src="/images/facebook-icon-full_color.png"></a>
+						<a popup="{{ content | shareUrl:'reddit' }}"   title="{{ 'post_to_reddit' | copy:(content.name || content.description) }}"><img src="/images/Reddit-icon-full_color.png"></a>
+						<a popup="{{ content | shareUrl:'twitter' }}"  title="{{ 'post_to_twitter' | copy:(content.name || content.description) }}"><img src="/images/twitter-icon-full_color.png"></a>
+						<a popup="{{ content | shareUrl:'facebook' }}" title="{{ 'post_to_facebook' | copy:(content.name || content.description) }}"><img src="/images/facebook-icon-full_color.png"></a>
 					</span>
 				</div>
 			</div>
