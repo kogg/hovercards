@@ -36,6 +36,8 @@
     "twitter_post":                            { "message": "Tweet $1" },
     "twitter_err_no_content_name":             { "message": "No Tweets Found" },
     "twitter_err_no_content_text":             { "message": "Quick! Be the first to tweet about this!" },
+    "twitter_err_not_implemented_name":        { "message": "Can't Do it" },
+    "twitter_err_not_implemented_text":        { "message": "Sorry, Twitter got rid of their replies API recently. We've found a way to get these that works most of the time, but we just couldn't this time." },
 
     "youtube":                       { "message": "Youtube" },
     "youtube_account":               { "message": "Youtube Channel" },
