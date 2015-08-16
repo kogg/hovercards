@@ -1,27 +1,27 @@
-<div class="profile-card">
+<div ng-if="!data.account.$err" class="profile-card">
 	<div class="profile-top row">
 		<div class="profile-left col-3">
 			<div class="profile-image" ng-style="data.account.image && { 'background-image': 'url(' + data.account.image + ')' }"></div>
 		</div>
 		<div class="profile-right col-7">
-			<a class="ellipsis">{{ data.account.id }}</a>
-			<p class="ellipsis" ng-if="data.account.description.length">{{ data.account.description }}</p>
+			<a class="ellipsis">{{ person.selectedAccount.name || ('@' + data.account.id) }}</a>
+			<p class="ellipsis" ng-if="data.account.description.length" ng-bind-html="data.account.description"></p>
 		</div>
 		<div class="col-2">
 			<div class="network-holder">
 				<div class="profile-network network-circle-soundcloud"></div>
-				<div ng-if="data.account.connected.length === 1" class="additional-networks" ng-class="'network-circle-' + data.account.connected[0].api"></div>
-				<div ng-if="data.account.connected.length > 1" class="additional-networks">+{{ data.account.connected.length }}</div>
+				<div ng-if="data.account.connected.length" class="additional-networks one-network" ng-class="'network-circle-' + (data.account.connected | pluck:'api' | firstInOrder)"></div>
 			</div>
 		</div>
 	</div>
 
 	<div class="card-stats row">
-		<div class="col-4"  ng-if=" data.account.tracks || !data.selectedAccount.playlists">
+		<div class="col-4" ng-if="data.account.tracks || !data.account.playlists">
 			<b>Tracks</b>
 			<span>{{ data.account.tracks | numsmall }}</span>
 		</div>
-		<div class="col-4" ng-if=" !data.account.tracks && data.account.playlists">
+		<div class="col-4" ng-if="!data.account.tracks && data.account.playlists">
+			<b>Playlists</b>
 			<span>{{ data.account.playlists | numsmall }}</span>
 		</div>
 		<div class="col-4">
@@ -33,4 +33,11 @@
 			<span>{{ data.account.following | numsmall }}</span>
 		</div>
 	</div>
+</div>
+
+<div ng-if="data.account.$err" class="hovercards-message-container error-message" ng-class="err.api && 'soundcloud-message'" ng-init="err = data.account.$err">
+	<div class="hovercards-message-image"></div>
+	<span class="hovercards-message-text" ng-messages="err">
+		<span ng-messages-include="templates/default_exceptions.html"></span>
+	</span>
 </div>

@@ -315,6 +315,9 @@ b i, .iconic-push {
 .not-available span {
 	color: #727272
 }
+.hovercard .hovercards-message-container {
+	height: 100%
+}
 .card-stats-tag:hover .card-stats-tag-img {
 	z-index: 2;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -612,6 +615,12 @@ b i, .iconic-push {
 	margin-top: 6px;
 	width: 100%;
 }
+.hovercard .profile-right a + p * {
+	all:unset;
+}
+.hovercard .profile-right a + p br {
+	display: none;
+}
 .hovercard .profile-card .col-2 {
 	height: 75px;
 	padding: 22px 16px 22px 4px;
@@ -634,17 +643,28 @@ b i, .iconic-push {
 	top: -7px;
 	right: -9px;
 	background: #727272;
-	width: 20px;
+	width: 100%;
+	max-width: 20px;
 	height: 20px;
 	line-height: 17px;
 	border:2px solid white;
 	border-radius: 50%;
-	text-align: center;
+	text-indent: 3px;
 	font-weight: 600;
 	color: white;
   background-position: center;
   background-size: cover;
 	font-size: 9px;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+	transition:all .3s ease-in-out;
+}
+.hovercard .network-circle-reddit {
+	color: black
+}
+.one-network {
+	padding-left: 15px;
 }
 .profile-image-hovercard {
 	width: 16px;
@@ -957,9 +977,6 @@ b i, .iconic-push {
 	height: 100%;
 }
 /*Video Hovercard*/
-.hovercard span.read-more {
-	display: none !important
-}
 .video-hovercard {
 	background-size: cover;
 	position: relative;
@@ -1000,6 +1017,9 @@ b i, .iconic-push {
 	justify-content: center;
 	flex-direction: column;
 	height: 95px;
+}
+.reddit-hovercard .image-hovercard-copy .flexin {
+	height: 100px;
 }
 .flexin * {
 	width: 100%;
@@ -1058,8 +1078,32 @@ b i, .iconic-push {
 .image-hovercard.col-4 {
 	width: 100px;
 }
-.twitter-hovercard .image-hovercard.col-4 {
-	height: 164px;
+.twitter-hovercard .col-8 .user-context b {
+	display: block;
+	padding: 14px 16px 0px 16px;
+	margin-bottom: 2px;
+	padding-bottom: 0;
+}
+.twitter-hovercard .col-8 .user-context {
+	margin-bottom: 2px
+}
+.reddit-hovercard .image-hovercard.col-4 , .twitter-hovercard .image-hovercard.col-4 {
+	height: 100px;
+}
+.hovercard .twitter-hovercard .col-8 .card-stats, .hovercard .reddit-hovercard .col-8 .card-stats {
+	width: 300px;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+.hovercard .reddit-hovercard .col-8 .card-stats b {
+	padding: 0;
+}
+.reddit-hovercard .network-holder {
+	padding-right: 8px;
+}
+.twitter-hovercard .network-holder {
+	padding-right: 8px
 }
 .image-hovercard-copy b {
 	padding: 0px 16px 0 16px
@@ -1951,16 +1995,16 @@ h2 {
 }
 
 /*Message Cards*/
-.yocards-wecantfindany {
+.hovercards-wecantfindany {
 	background: white;
 	overflow: auto;
 }
-.yocards-wecantfindany .yocards-wecantfindany-message {
+.hovercards-wecantfindany .hovercards-wecantfindany-message {
 	float: left;
 	width: 66.666%;
 	padding: 16px;
 }
-.yocards-wecantfindany .yocards-wecantfindany-message p {
+.hovercards-wecantfindany .hovercards-wecantfindany-message p {
 	text-decoration: none;
 	font-size: 18px;
 	color: #000;
@@ -1969,13 +2013,13 @@ h2 {
 	margin-bottom: 8px;
 	display: block;
 }
-.yocards-wecantfindany .yocards-wecantfindany-message span {
+.hovercards-wecantfindany .hovercards-wecantfindany-message span {
   line-height: 19px;
   font-weight: 400;
   font-size: 15px;
   color: #727272;
 }
-.yocards-wecantfindany .yocards-wecantfindany-images {
+.hovercards-wecantfindany .hovercards-wecantfindany-images {
   float: left;
   width: 33.333%;
   background-color: #DAF0C5;
@@ -1983,7 +2027,7 @@ h2 {
   overflow: hidden;
   position: relative;
 }
-.yocards-wecantfindany .yocards-wecantfindany-images img {
+.hovercards-wecantfindany .hovercards-wecantfindany-images img {
 	max-height:182px;
 	left: -83px;
 	position: absolute;
@@ -1993,7 +2037,7 @@ h2 {
 	transition:all .3s ease-in-out;
 	transform: translate3d(-150px,0,0)
 }
-.yocards-wecantfindany .yocards-wecantfindany-message a {
+.hovercards-wecantfindany .hovercards-wecantfindany-message a {
 	color: #2196F3;
 	text-decoration: none;
 	display: inline-block;
@@ -2004,39 +2048,39 @@ h2 {
 	font-size: 15px;
 	text-overflow: ellipsis;
 }
-.yocards-wecantfindany b {
+.hovercards-wecantfindany b {
 	color: #5650fb
 }
 
-.yocards-wecantfindany .yocards-wecantfindany-share {
+.hovercards-wecantfindany .hovercards-wecantfindany-share {
 	width: 100%;
 	float: left;
 	padding: 9.5px 16px;
 	border-top: 1px solid #ECEEF1
 }
-.yocards-wecantfindany-share span {
+.hovercards-wecantfindany-share span {
 	display: inline-block;
 	max-height: 17px;
 }
-.yocards-wecantfindany-share a {
+.hovercards-wecantfindany-share a {
 	display: inline-block;
 	margin-right: 3px;
 }
-.yocards-wecantfindany-share b {
+.hovercards-wecantfindany-share b {
 	margin-bottom: 3px;
 }
-.yocards-wecantfindany-share a img {
+.hovercards-wecantfindany-share a img {
 	height: 17px;
 }
-.yocards-message-container {
+.hovercards-message-container {
 	border-radius: 3px;
 	overflow: hidden;
 	position: relative;
 }
-.social-profile .yocards-message-container {
+.social-profile .hovercards-message-container {
 	margin:0 20px;
 }
-.yocards-message-image {
+.hovercards-message-image {
 	width: 33.333333%;
 	line-height: 100px;
 	background-size: 100%;
@@ -2052,7 +2096,7 @@ h2 {
 	background-repeat: no-repeat;
 	border-right: none;
 }
-.yocards-message-text {
+.hovercards-message-text {
 	float: right;
 	border-left: none;
 	width: 66.666666%;
@@ -2064,15 +2108,15 @@ h2 {
   font-weight: 500;
 	background: white;
 }
-.yocards-message-text .yocards-message-content {
+.hovercards-message-text .hovercards-message-content {
 	display: block;
 	padding: 16px
 }
-.social-profile .yocards-message-text {
+.social-profile .hovercards-message-text {
   border: 1px solid #ECEEF1;
   border-left: none;
 }
-.yocards-message-content a {
+.hovercards-message-content a {
 	color: #2196F3;
 	text-decoration: none;
 	display: inline-block;
@@ -2082,99 +2126,99 @@ h2 {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-.yocards-message-content a:hover {
+.hovercards-message-content a:hover {
 	text-decoration: underline;
 }
-.yocards-message-content {
+.hovercards-message-content {
 	padding: 16px 16px 14px 16px;
 	display: block;
 }
-.yocards-message-content  {
+.hovercards-message-content  {
   line-height: 19px;
   font-weight: 400;
   font-size: 15px;
   color: #727272;
 }
-.yocards-message-option {
+.hovercards-message-option {
 	padding: 16px;
 	border-top: 1px solid #ECEEF1;
 }
-.yocards-message-option a {
+.hovercards-message-option a {
 	color: #2196F3;
   font-weight: 400;
   font-size: 14px;
   text-decoration: none;
 }
-.yocards-message-option a:hover {
+.hovercards-message-option a:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
 
 /*message type*/
-.error-message .yocards-message-text b {
+.error-message .hovercards-message-text b {
 	color: #FF4F29
 }
-.error-message .yocards-message-image {
+.error-message .hovercards-message-image {
 	background:#FF4F29;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/error.png');
   background-size: auto 100%;
   background-repeat: no-repeat;
   background-position: bottom -1px left;
 }
-.twitter-message .yocards-message-text b {
+.twitter-message .hovercards-message-text b {
 	color: #55acee
 }
-.twitter-message .yocards-message-image {
+.twitter-message .hovercards-message-image {
 	background:#55acee;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter_logo_white.png');
 	background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
 }
-.instagram-message .yocards-message-text b {
+.instagram-message .hovercards-message-text b {
 	color: #517fa4
 }
-.instagram-message .yocards-message-image {
+.instagram-message .hovercards-message-image {
 	background:#517fa4;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');
 	background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
 }
-.youtube-message .yocards-message-text b {
+.youtube-message .hovercards-message-text b {
 	color: #e94639
 }
-.youtube-message .yocards-message-image {
+.youtube-message .hovercards-message-image {
 	background:#e94639;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/YouTube-icon-full_color.png');
 	background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
 }
-.soundcloud-message .yocards-message-text b {
+.soundcloud-message .hovercards-message-text b {
 	color: #fc561e
 }
-.soundcloud-message .yocards-message-image {
+.soundcloud-message .hovercards-message-image {
 	background:#fc561e;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/SoundCloud-icon-full_color.png');
 	background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
 }
-.imgur-message .yocards-message-text b {
+.imgur-message .hovercards-message-text b {
 	color: #000
 }
-.imgur-message .yocards-message-image {
+.imgur-message .hovercards-message-image {
 	background:#000;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Imgur-icon-full_color.png');
 	background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
 }
-.reddit-message .yocards-message-text b {
+.reddit-message .hovercards-message-text b {
 	color: #ff4500
 }
-.reddit-message .yocards-message-image {
+.reddit-message .hovercards-message-image {
 	background:#cee3f8;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reddit-icon-full_color.png');
 	background-size: 80%;

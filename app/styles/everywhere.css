@@ -5,6 +5,7 @@
 	border-radius: 8px !important;
 	box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
 	cursor: pointer !important;
+	position: absolute !important;
 }
 .__MSG_@@extension_id__-hovercard iframe {
 	height: 100% !important;
@@ -152,19 +153,19 @@
 .__MSG_@@extension_id__-clickable-yo-trigger-imgur .__MSG_@@extension_id__-image-hidden {
 	background: #000 !important;
 }
-.__MSG_@@extension_id__-clickable-yo-trigger-reddit .yocardsyopoppyimgur,
-.__MSG_@@extension_id__-clickable-yo-trigger-reddit .yocardsyopoppywhite,
-.__MSG_@@extension_id__-clickable-yo-trigger-imgur .yocardsyopoppyreddit,
-.__MSG_@@extension_id__-clickable-yo-trigger-imgur .yocardsyopoppywhite {
+.__MSG_@@extension_id__-clickable-yo-trigger-reddit .hovercardsyopoppyimgur,
+.__MSG_@@extension_id__-clickable-yo-trigger-reddit .hovercardsyopoppywhite,
+.__MSG_@@extension_id__-clickable-yo-trigger-imgur .hovercardsyopoppyreddit,
+.__MSG_@@extension_id__-clickable-yo-trigger-imgur .hovercardsyopoppywhite {
 	display: none !important;
 }
-.yocardsyopoppyreddit, .yocardsyopoppyimgur {
+.hovercardsyopoppyreddit, .hovercardsyopoppyimgur {
 	display: none !important;
 }
-.__MSG_@@extension_id__-clickable-yo-trigger-reddit .yocardsyopoppyreddit {
+.__MSG_@@extension_id__-clickable-yo-trigger-reddit .hovercardsyopoppyreddit {
 	display: block !important
 }
-.__MSG_@@extension_id__-clickable-yo-trigger-imgur .yocardsyopoppyimgur {
+.__MSG_@@extension_id__-clickable-yo-trigger-imgur .hovercardsyopoppyimgur {
 	display: block !important
 }
 .__MSG_@@extension_id__-clickable-yo-trigger-clicked {

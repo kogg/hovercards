@@ -9,6 +9,17 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
     .controller('EntryController', ['$scope', '$window', function($scope, $window) {
         var identity = null;
 
+        chrome.storage.sync.get('order', function(obj) {
+            if (!obj.order) {
+                obj.order = [];
+            }
+            var original_length = obj.order.length;
+            obj.order = _.union(obj.order, ['reddit', 'twitter', 'imgur', 'instagram', 'soundcloud', 'youtube']);
+            if (original_length !== obj.order.length) {
+                chrome.storage.sync.set(obj);
+            }
+        });
+
         $window.addEventListener('message', function(event) {
             if (!event || !event.data) {
                 return;
@@ -57,7 +68,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
                 return;
             }
             var data = $scope.data;
-            data.discussion_count = 0;
+            data.discussions = [];
             _.chain(requests)
              .omit(function(request, api) {
                  return api === data.content.api ||
@@ -68,36 +79,11 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
              .map(_.partial(apiService.get, _, null, null))
              .each(function(discussion) {
                  discussion.$promise.then(function(discussion) {
-                     data.discussion_count++;
-                     data.discussion_api = discussion.api;
+                     data.discussions.push(discussion);
                  });
              })
              .value();
         }, true);
-
-        $scope.$watch('entry.discussion_api', function(api) {
-            if (!api) {
-                return;
-            }
-            var entry = $scope.entry;
-            entry.show_header = null;
-            if (!(api in entry.discussions)) {
-                return;
-            }
-            var data = $scope.data;
-            data.discussions[api] = data.discussions[api] || apiService.get(entry.discussions[api]);
-            data.discussions[api].$promise
-                .then(function(discussion) {
-                    entry.timing.discussion(_.now(), api);
-                    _.extend(discussion, _.pick(entry.discussions[api], 'author'));
-                })
-                .finally(function() {
-                    if (entry.discussion_api !== api) {
-                        return;
-                    }
-                    data.discussion = data.discussions[api];
-                });
-        });
     }])
     .controller('AccountController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
         $scope.$watch('entry.account', function(request) {
@@ -125,5 +111,24 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
                     });
             }());
         });
+    }])
+    .filter('pluck', _.constant(_.pluck))
+    .filter('firstInOrder', [function() {
+        var order = ['reddit', 'twitter', 'imgur', 'instagram', 'soundcloud', 'youtube'];
+        chrome.storage.sync.get('order', function(obj) { order = obj.order; });
+        // FIXME Update when storage changes
+        chrome.storage.onChanged.addListener(function onStorageChanged(changes, area_name) {
+            if (area_name !== 'sync' || !('order' in changes)) {
+                return;
+            }
+            order = changes.order.newValue;
+        });
+
+        return function(apis) {
+            return _.chain(apis)
+                    .sortBy(function(api) { return _.indexOf(order, api); })
+                    .first()
+                    .value();
+        };
     }])
     .name;

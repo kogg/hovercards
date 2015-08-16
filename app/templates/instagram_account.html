@@ -32,9 +32,9 @@
 	</div>
 </div>
 
-<div ng-if="person.selectedAccount.$err" class="yocards-message-container error-message" ng-class="err.api && 'instagram-message'" ng-init="err = person.selectedAccount.$err">
-	<div class="yocards-message-image"></div>
-	<span class="yocards-message-text" ng-messages="err">
+<div ng-if="person.selectedAccount.$err" class="hovercards-message-container error-message" ng-class="err.api && 'instagram-message'" ng-init="err = person.selectedAccount.$err">
+	<div class="hovercards-message-image"></div>
+	<span class="hovercards-message-text" ng-messages="err">
 		<span ng-messages-include="templates/authorize_for_forbidden_exceptions.html"></span>
 		<span ng-messages-include="templates/authorize_for_too_many_requests_exceptions.html"></span>
 		<span ng-messages-include="templates/default_exceptions.html"></span>

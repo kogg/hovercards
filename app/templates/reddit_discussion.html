@@ -1,15 +1,15 @@
 <div class="comment row" ng-class="{ 'comment-close': comment.close }" ng-include="'templates/reddit_discussion_comment.html'" ng-repeat="comment in data.discussion.comments" ng-if="!data.discussion.$err"></div>
 
 <div class="no-comments" ng-if="data.discussion.$err['empty-content']">
-	<b><i class="zmdi zmdi-comment-alert"></i> No Comments Found</b>
-	<h2>Quick! Be the first to comment on this!</h2>
-	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">Comment on It!</div></a>
+	<b><i class="zmdi zmdi-comment-alert"></i> {{:: 'err_no_content_name_comments' | copy }}</b>
+	<h2>{{:: 'err_no_content_text_comments' | copy }}</h2>
+	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">{{:: 'err_no_content_action_comments' | copy }}</div></a>
 </div>
 
 <div class="no-comments" ng-if="data.discussion.$err['no-content']">
-	<b><i class="zmdi zmdi-comment-alert"></i> No Posts Found</b>
-	<h2>Quick! Be the first to post this to Reddit!</h2>
-	<a popup="{{:: data.content | shareUrl:'reddit' }}"><div class="rippleblack">Post to Reddit</div></a>
+	<b><i class="zmdi zmdi-comment-alert"></i> {{:: 'reddit_err_no_content_name' | copy }}</b>
+	<h2>{{:: 'reddit_err_no_content_text' | copy }}</h2>
+	<a popup="{{:: data.content | shareUrl:'reddit' }}"><div class="rippleblack">{{:: 'reddit_post' | copy }}</div></a>
 </div>
 
 <div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content'] && !data.discussion.$err['no-content']" ng-init="err = data.discussion.$err">

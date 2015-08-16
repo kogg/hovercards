@@ -2,7 +2,7 @@
     "name": "__MSG_app_name__",
     "short_name": "__MSG_app_short_name__",
     "description": "__MSG_app_description__",
-    "version": "0.14.1",
+    "version": "0.15.0",
     "content_scripts": [
         {
             "matches": [
@@ -43,19 +43,19 @@
     "background": {
         "scripts": ["scripts/background-main.js"]
     },
-    "browser_action": {
+    "page_action": {
         "default_icon": {
-            "16": "images/yocards-logo-16-yo.png",
-            "19": "images/yocards-logo-19-yo.png",
-            "38": "images/yocards-logo-38-yo.png",
-            "128": "images/yocards-logo-128-yo.png"
+            "16": "images/logo-16-yo.png",
+            "19": "images/logo-19-yo.png",
+            "38": "images/logo-38-yo.png",
+            "128": "images/logo-128-yo.png"
         }
     },
     "icons": {
-        "16": "images/yocards-logo-16-yo.png",
-        "19": "images/yocards-logo-19-yo.png",
-        "38": "images/yocards-logo-38-yo.png",
-        "128": "images/yocards-logo-128-yo.png"
+        "16": "images/logo-16-yo.png",
+        "19": "images/logo-19-yo.png",
+        "38": "images/logo-38-yo.png",
+        "128": "images/logo-128-yo.png"
     },
     "web_accessible_resources": [
         "hovercard.html",

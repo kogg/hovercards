@@ -1,20 +1,17 @@
 <div ng-repeat="tweet in data.discussion.comments" ng-include="'templates/twitter_tweet.html'" class="comment row" ng-if="!data.discussion.$err"></div>
 
 <div class="no-comments" ng-if="data.discussion.$err['empty-content']">
-	<b><i class="zmdi zmdi-comment-alert"></i> No Tweets Found</b>
-	<h2>Quick! Be the first to tweet about this!</h2>
-	<a popup="{{:: data.content | shareUrl:'twitter' }}"><div class="rippleblack">Tweet It!</div></a>
+	<b><i class="zmdi zmdi-comment-alert"></i> {{:: 'twitter_err_no_content_name' | copy }}</b>
+	<h2>{{:: 'twitter_err_no_content_text' | copy }}</h2>
+	<a popup="{{:: data.content | shareUrl:'twitter' }}"><div class="rippleblack">{{:: 'twitter_post' | copy:'It!' }}</div></a>
 </div>
 
 <div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content']" ng-init="err = data.discussion.$err">
 	<span ng-messages="err">
 		<span ng-message="not-implemented">
-			<span class="yocards-message-content"><b><i class="zmdi zmdi-error"></i>Can't Do it</b>Sorry, {{:: 'twitter' | copy }} got rid of their replies API recently. We've found a way to get these that works most of the time, but we just couldn't this time.</span>
-			<div class="yocards-message-option">
-				<a ng-href="#">Get real mad at {{:: 'twitter' | copy }}</a>
-			</div>
-			<div class="yocards-message-option" ng-if="data.content">
-				<a popup="{{:: data.content | shareUrl:'twitter' }}">post it?</a>
+			<span class="hovercards-message-content"><b><i class="zmdi zmdi-error"></i>{{:: 'twitter_err_not_implemented_name' | copy }}</b>{{:: 'twitter_err_not_implemented_text' | copy }}</span>
+			<div class="hovercards-message-option" ng-if="data.content">
+				<a popup="{{:: data.content | shareUrl:'twitter' }}">{{:: 'twitter_post' | copy:'It!' }}</a>
 			</div>
 		</span>
 

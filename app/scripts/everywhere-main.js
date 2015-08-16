@@ -15,9 +15,26 @@ if (document.URL.match(/[&?]noyo=1/)) {
     return;
 }
 
-hovercard('a[href]:not(.no-yo,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); });
-hovercard('a[data-href]:not(.no-yo,[data-expanded-url])',        function(link) { return link.data('href'); });
-hovercard('a[data-expanded-url]:not(.no-yo,[data-href])',        function(link) { return link.data('expanded-url'); });
+function accept_identity(identity, obj) {
+    return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
+           (identity.api === 'imgur' && identity.type === 'account') ||
+           (identity.api === 'instagram' && identity.type === 'account') ||
+           (identity.api === 'youtube' && document.URL.indexOf('youtube.com/embed') !== -1) ||
+           (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length : !obj.is('.comments,.title')));
+}
+
+hovercard('a[href]:not(.no-yo,.hoverZoomLink,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); },         accept_identity);
+hovercard('a[data-href]:not(.no-yo,.hoverZoomLink,[data-expanded-url])',        function(link) { return link.data('href'); },         accept_identity);
+hovercard('a[data-expanded-url]:not(.no-yo,.hoverZoomLink,[data-href])',        function(link) { return link.data('expanded-url'); }, accept_identity);
+
+// FIXME Twitter follow button hack
+hovercard('iframe.twitter-follow-button:not(.no-yo)', function(iframe) {
+    var match = iframe.attr('src').match(/[?&]screen_name=([a-zA-Z0-9_]+)(?:&|$)/);
+    if (!match || !match[1]) {
+        return;
+    }
+    return 'https://twitter.com/' + match[1];
+}, accept_identity);
 
 $('html').on('hovercardclick.' + EXTENSION_ID, function(e, url) {
     window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'hovercard', url: url }, '*');
@@ -147,14 +164,14 @@ switch ((document.domain || '').replace(/^www\./, '')) {
                 return;
             }
             $(document).off('keydown', res_key_help);
-            $('<tr><td><b>v</b> or <b>;</b></td><td>Toggle <b>YoCards!</b></td></tr>').prependTo(tbody);
+            $('<tr><td><b>v</b> or <b>;</b></td><td>Toggle <b>HoverCards!</b></td></tr>').prependTo(tbody);
         });
 
         function res_key_setup() {
-            var div = $('<div id="optionContainer-keyboardNav-yocards" class="optionContainer"></div>').prependTo('#allOptionsContainer');
-            $('<label for="yocards" title="Default: v or ;"><b>yocards</b></label>').appendTo(div);
+            var div = $('<div id="optionContainer-keyboardNav-hovercards" class="optionContainer"></div>').prependTo('#allOptionsContainer');
+            $('<label for="hovercards" title="Default: v or ;"><b>hovercards</b></label>').appendTo(div);
             $('<div style="float:left; margin-left: 10px;"><b>v</b> or <b>;</b></div>').appendTo(div);
-            $('<div class="optionDescription">Toggle <b>YoCards</b>!</div>').appendTo(div);
+            $('<div class="optionDescription">Toggle <b>HoverCards</b>!</div>').appendTo(div);
             $('<div class="clear"></div>').appendTo(div);
         }
         if (location.hash === '#!settings/keyboardNav') {

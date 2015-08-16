@@ -14,10 +14,10 @@ var memoize = require('memoizee');
     });
 }());
 
-var ENDPOINT = 'https://' + chrome.i18n.getMessage('app_short_name') + '.herokuapp.com/v1';
+var ENDPOINT = 'https://hovercards.herokuapp.com/v1';
 // var ENDPOINT = 'http://localhost:5000/v1';
-var INSTAGRAM_KEY = '4ffac410cfbf40f59be866c63d5fe37e';
-var REDDIT_KEY = 'fNtoQI4_wDq21w';
+var INSTAGRAM_KEY = '41e56061c1e34fbbb16ab1d095dad78b';
+var REDDIT_KEY = '0jXqEudQPqSL6w';
 var SOUNDCLOUD_KEY = '78a827254bd7a5e3bba61aa18922bf2e';
 
 var client_side_authenticators = {

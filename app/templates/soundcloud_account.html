@@ -7,7 +7,7 @@
 				</div>
 				<div class="profile-right col-8">
 					<b class="ellipsis soundcloud-color">{{ (person.accounts[0] === person.selectedAccount && person.selectedAccount.reason && (('soundcloud_account_reason_' + person.selectedAccount.reason + '_with_name' | copy:('@' + person.selectedAccount.id)) || ('account_reason_' + person.selectedAccount.reason + '_with_name' | copy:('@' + person.selectedAccount.id)))) || ('@' + person.selectedAccount.id) }}</b>
-					<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.name || person.selectedAccount.id }}</a>
+					<a ng-href="{{ person.selectedAccount | generateUrl }}" class="ellipsis no-yo">{{ person.selectedAccount.name || ('@' + person.selectedAccount.id) }}</a>
 					<div class="profile-cta">
 						<a class="soundcloud-background" popup="https://soundcloud.com/{{ person.selectedAccount.id }}" popup-size="{ height: 370, width: 640 }">Follow</a>
 					</div>
@@ -36,9 +36,9 @@
 	</div>
 </div>
 
-<div ng-if="person.selectedAccount.$err" class="yocards-message-container error-message" ng-class="err.api && 'soundcloud-message'" ng-init="err = person.selectedAccount.$err">
-	<div class="yocards-message-image"></div>
-	<span class="yocards-message-text" ng-messages="err">
+<div ng-if="person.selectedAccount.$err" class="hovercards-message-container error-message" ng-class="err.api && 'soundcloud-message'" ng-init="err = person.selectedAccount.$err">
+	<div class="hovercards-message-image"></div>
+	<span class="hovercards-message-text" ng-messages="err">
 		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>
 </div>

@@ -18,8 +18,8 @@
 	<div ng-if=":: data.content.images">
 		<div ng-carousel="data.content.images" selected="selected_item" weird-dots="true">
 			<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
-				<img data-lazy="{{:: $item }}:small" ng-if=":: !$first && !$second" on-image-load="redoHeight()">
-				<img ng-src="{{:: $item }}:small" ng-if=":: $first || $second" on-image-load="redoHeight()">
+				<img data-lazy="{{:: $item }}:medium" ng-if=":: !$first && !$second" on-image-load="redoHeight()">
+				<img ng-src="{{:: $item }}:medium" ng-if=":: $first || $second" on-image-load="redoHeight()">
 			</div>
 		</div>
 		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
@@ -35,7 +35,7 @@
 			</div>
 		</div>
 		<div class="video-top-underlay" ng-style="{ cursor: !playing && 'pointer'}">
-			<img ng-src="{{:: data.content.image }}" ng-click="playing = true" class="video-image">
+			<img ng-src="{{:: data.content.image }}:medium" ng-click="playing = true" class="video-image">
 			<div class="play-video twitter-background" ng-click="playing = true" ng-class="{ 'play-video-clicked': playing }"></div>
 			<div class="video-cta twitter-background" ng-click="view.fullscreen=data.content" ng-class="{ 'button-vanish': view.fullscreen === data.content }">
 				<i class="zmdi zmdi-fullscreen"></i>
@@ -54,14 +54,14 @@
 			</div>
 		</div>
 		<div class="video-top-underlay" ng-click="view.fullscreen=null" style="cursor: zoom-out">
-			<img class="video-image" ng-src="{{:: data.content.image }}:small">
+			<img class="video-image" ng-src="{{:: data.content.image }}:medium">
 		</div>
 	</div>
 
 	<!-- Image -->
 	<div ng-if=":: data.content.image && !data.content.video">
 		<div class="content-top" ng-click="view.fullscreen=(view.fullscreen === data.content) ? null : data.content" ng-style="{ cursor: (view.fullscreen === data.content) ? 'zoom-out' : 'zoom-in' }">
-			<img ng-src="{{:: data.content.image }}:small">
+			<img ng-src="{{:: data.content.image }}:medium">
 		</div>
 		<div class="fullscreen-image" ng-show="view.fullscreen === data.content" ng-click="view.fullscreen=null">
 			<img ng-src="{{:: data.content.image }}:large">
@@ -80,7 +80,7 @@
 				</div>
 				<p collapse=":: data.content.quoted.description" collapse-at="19 * 7" tolerance="19 * 3" recollapse-at="19 * 15"></p>
 				<div class="quoted-image-container" ng-if=":: data.content.quoted.image">
-					<img ng-src="{{:: data.content.quoted.image }}:small">
+					<img ng-src="{{:: data.content.quoted.image }}:medium">
 				</div>
 			</div>
 			<div class="response" ng-if=":: data.content.replied_to ">
@@ -92,7 +92,7 @@
 				</div>
 				<p collapse=":: data.content.replied_to.description" collapse-at="19 * 7" tolerance="19 * 3" recollapse-at="19 * 15"></p>
 				<div class="response-image-container" ng-if=":: data.content.replied_to.image">
-					<img ng-src="{{:: data.content.replied_to.image }}:small">
+					<img ng-src="{{:: data.content.replied_to.image }}:medium">
 				</div>
 			</div>
 		</div>
@@ -110,9 +110,9 @@
 	</div>
 </div>
 
-<div class="yocards-message-container error-message" ng-class="err.api && 'twitter-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
-	<div class="yocards-message-image"></div>
-	<span class="yocards-message-text" ng-messages="err">
+<div class="hovercards-message-container error-message" ng-class="err.api && 'twitter-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
+	<div class="hovercards-message-image"></div>
+	<span class="hovercards-message-text" ng-messages="err">
 		<span ng-messages-include="templates/authorize_for_forbidden_exceptions.html"></span>
 		<span ng-messages-include="templates/authorize_for_too_many_requests_exceptions.html"></span>
 		<span ng-messages-include="templates/default_exceptions.html"></span>

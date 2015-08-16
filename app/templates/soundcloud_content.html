@@ -6,7 +6,7 @@
 				<div class="network-pick">
 					<div class="network-circle network-circle-soundcloud"></div>
 				</div>
-				<span class="ellipsis">Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || data.content.author.id }}</a></span>
+				<span class="ellipsis">Posted by <a ng-href="{{:: data.content.author | generateUrl }}" class="no-yo">{{:: data.content.author.name || ('@' + data.content.author.id) }}</a></span>
 			</div>
 			<div class="col-2">
 				<span><a ng-href="{{:: data.content | generateUrl }}" class="no-yo">{{:: data.content.date | timeSince:true }}</a></span>
@@ -40,9 +40,9 @@
 	</div>
 </div>
 
-<div class="yocards-message-container error-message" ng-class="err.api && 'soundcloud-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
-	<div class="yocards-message-image"></div>
-	<span class="yocards-message-text" ng-messages="err">
+<div class="hovercards-message-container error-message" ng-class="err.api && 'soundcloud-message'" ng-if="data.content.$err" ng-init="err = data.content.$err">
+	<div class="hovercards-message-image"></div>
+	<span class="hovercards-message-text" ng-messages="err">
 		<span ng-messages-include="templates/default_exceptions.html"></span>
 	</span>
 </div>

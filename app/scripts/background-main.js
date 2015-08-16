@@ -1,2 +1,2 @@
 require('./service-background')();
-require('./browser-action-background')();
+require('./page-action-background')();

@@ -7,7 +7,7 @@
 	<div class="col-10">
 		<div class="user-context">
 			<span>
-				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name }} <span class="time-stamp">({{:: comment.track_time | timestamp }})</span></a>
+				<a ng-href="{{:: comment.author | generateUrl }}">{{:: comment.author.name || ('@' + comment.author.id) }} <span class="time-stamp">({{:: comment.track_time | timestamp }})</span></a>
 			</span>
 			<span class="time"><a ng-href="{{:: data.discussion | generateUrl }}/comment-{{:: comment.id }}">{{:: comment.date | timeSince:true }}</a></span>
 		</div>
@@ -16,14 +16,14 @@
 </div>
 
 <div class="no-comments" ng-if="data.discussion.$err['empty-content']">
-	<b><i class="zmdi zmdi-comment-alert"></i> No Comments Found</b>
-	<h2>Quick! Be the first to comment on this!</h2>
-	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">Comment on it!</div></a>
+	<b><i class="zmdi zmdi-comment-alert"></i> {{:: 'err_no_content_name_comments' | copy }}</b>
+	<h2>{{:: 'err_no_content_text_comments' | copy }}</h2>
+	<a ng-href="{{:: data.discussion | generateUrl }}"><div class="rippleblack">{{:: 'err_no_content_action_comments' | copy }}</div></a>
 </div>
 
 <div class="no-comments" ng-if="data.discussion.$err.forbidden">
-	<b><i class="zmdi zmdi-comment-alert"></i> Comments Disabled</b>
-	<h2>The comments are disabled!</h2>
+	<b><i class="zmdi zmdi-comment-alert"></i> {{:: 'err_forbidden_name_comments_disabled' | copy }}</b>
+	<h2>{{:: 'err_forbidden_text_comments_disabled' | copy }}</h2>
 </div>
 
 <div class="discussion-error" ng-if="data.discussion.$err && !data.discussion.$err['empty-content'] && !data.discussion.$err.forbidden" ng-init="err = data.discussion.$err">
