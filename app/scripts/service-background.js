@@ -14,7 +14,7 @@ var memoize = require('memoizee');
     });
 }());
 
-var ENDPOINT = 'https://yocards.herokuapp.com/v1';
+var ENDPOINT = 'https://hovercards.herokuapp.com/v1';
 // var ENDPOINT = 'http://localhost:5000/v1';
 var INSTAGRAM_KEY = '41e56061c1e34fbbb16ab1d095dad78b';
 var REDDIT_KEY = '0jXqEudQPqSL6w';
