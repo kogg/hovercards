@@ -50,7 +50,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                     angular.extend(object, obj);
                     if ((params.type in { discussion: true, url: true } && (!object.comments || !object.comments.length)) ||
                         (params.type === 'more_content'                 && (!object.content  || !object.content.length))) {
-                        return $q.reject({ 'empty-content': true, api: api_specific_errors['empty-content'] && params.api });
+                        return $q.reject({ 'empty-content': true, api: api_specific_errors['empty-content'] && params.api, status: 'empty' });
                     }
                     return object;
                 })
