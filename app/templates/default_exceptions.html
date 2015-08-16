@@ -1,4 +1,4 @@
-<span ng-repeat="type in ['bad-input', 'empty-content', 'forbidden', 'no-content', 'not-implemented', 'our-problem', 'still-waiting', 'too-many-requests', 'unauthorized']" ng-message="{{ type }}">
+<span ng-repeat="type in ['bad-input', 'dependency-down', 'empty-content', 'forbidden', 'no-content', 'not-implemented', 'our-problem', 'still-waiting', 'too-many-requests', 'unauthorized']" ng-message="{{ type }}">
 	<span class="hovercards-message-content">
 		<b>{{ 'err_' + type +  '_name' | copy:((err.api || 'err_' + type +  '_name_api_default') | copy) }}</b>
 		{{ 'err_' + type +  '_text' | copy:((err.api || 'err_' + type +  '_text_api_default') | copy) }}
