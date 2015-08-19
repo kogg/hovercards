@@ -63,19 +63,13 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Side
                             type: identity.type,
                             timing: {
                                 content: _.once(function(time, api) {
-                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Content Card', time - start, api + ' content'] }, '*');
-                                    $scope.entry.timing.first_card(time, api + ' content');
+                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'sidebar', 'card loaded', time - start, api + ' content'] }, '*');
                                 }),
                                 discussion: _.once(function(time, api) {
-                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Discussion Card', time - start, api + ' discussion'] }, '*');
-                                    $scope.entry.timing.first_card(time, api + ' discussion');
+                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'sidebar', 'card loaded', time - start, api + ' discussion'] }, '*');
                                 }),
                                 account: _.once(function(time, needed_scrolling, api) {
-                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Account Card (' + (needed_scrolling ? 'Needed Scrolling' : 'Didn\'t need Scrolling') + ')', time - start, api + ' account'] }, '*');
-                                    $scope.entry.timing.first_card(time, api + ' account');
-                                }),
-                                first_card: _.once(function(time, type) {
-                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'cards', 'Time until First Card', time - start, type] }, '*');
+                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'sidebar', 'card loaded (' + (needed_scrolling ? 'Needed Scrolling' : 'Didn\'t need Scrolling') + ')', time - start, api + ' account'] }, '*');
                                 })
                             }
                         };
