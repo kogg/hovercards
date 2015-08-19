@@ -69,7 +69,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Side
                                     $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'sidebar', 'card loaded', time - start, api + ' discussion'] }, '*');
                                 }),
                                 account: _.once(function(time, needed_scrolling, api) {
-                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'sidebar', 'card loaded (' + (needed_scrolling ? 'Needed Scrolling' : 'Didn\'t need Scrolling') + ')', time - start, api + ' account'] }, '*');
+                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'sidebar', 'card loaded' + (needed_scrolling ? ' (Needed Scrolling)' : ''), time - start, api + ' account'] }, '*');
                                 })
                             }
                         };
