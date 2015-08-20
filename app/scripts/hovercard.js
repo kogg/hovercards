@@ -69,7 +69,7 @@ module.exports = function(selector, get_url, accept_identity) {
             .on(MouseMove, function(e) {
                 last_e = e;
             })
-            .one(MouseLeave, function() {
+            .one(MouseLeave + ' ' + Click, function() {
                 obj.off(NameSpace);
                 if (current_obj.is(obj)) {
                     current_obj = $();
@@ -129,6 +129,11 @@ module.exports = function(selector, get_url, accept_identity) {
                         hovercard.trigger(Cleanup);
                         send_message({ msg: EXTENSION_ID + '-hide' });
                     });
+                obj.on('click', function() {
+                    obj.off(NameSpace);
+                    current_obj = $();
+                    hovercard.trigger(Cleanup);
+                });
                 var both = obj.add(hovercard);
                 both.on(MouseLeave, function(e) {
                     var to = $(e.toElement);
