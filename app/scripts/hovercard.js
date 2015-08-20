@@ -116,7 +116,7 @@ module.exports = function(selector, get_url, accept_identity) {
                                              Math.min($(window).scrollLeft() + $(window).width() - CARD_SIZES[identity.api][identity.type].width - PADDING_FROM_EDGES,
                                                       last_e.pageX + 1)) })
                     .on(Cleanup, function() {
-                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'hovercard', 'card showing', Date.now() - start, (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type] }, '*');
+                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'hovercard', 'showing', Date.now() - start, (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type] }, '*');
                         hovercard
                             .off(NameSpace)
                             .hide();
