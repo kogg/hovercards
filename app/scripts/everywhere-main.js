@@ -20,7 +20,7 @@ function accept_identity(identity, obj) {
            (identity.api === 'imgur' && identity.type === 'account') ||
            (identity.api === 'instagram' && identity.type === 'account') ||
            (identity.api === 'youtube' && document.URL.indexOf('youtube.com/embed') !== -1) ||
-           (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length : !obj.is('.comments,.title')));
+           (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length : obj.parents('.usertext-body,.search-result-body').length));
 }
 
 hovercard('a[href]:not(.no-yo,.hoverZoomLink,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); },         accept_identity);

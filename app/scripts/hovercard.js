@@ -16,6 +16,7 @@ var TIMEOUT_BEFORE_FADEOUT = 100;
 var PADDING_FROM_EDGES = 10;
 
 var NameSpace = '.' + EXTENSION_ID;
+var Cleanup = 'cleanup' + NameSpace;
 var Click = 'click' + NameSpace;
 var HoverCardClick = 'hovercardclick' + NameSpace;
 var MouseLeave = 'mouseleave' + NameSpace;
@@ -59,9 +60,7 @@ module.exports = function(selector, get_url, accept_identity) {
             return;
         }
         current_obj.off(NameSpace);
-        hovercard
-            .hide()
-            .off(NameSpace);
+        hovercard.trigger(Cleanup);
         send_message({ msg: EXTENSION_ID + '-hide' });
         current_obj = obj;
         setTimeout(function() { obj.trigger(ShowHoverCard); }, TIMEOUT_BEFORE_CARD);
@@ -70,13 +69,11 @@ module.exports = function(selector, get_url, accept_identity) {
             .on(MouseMove, function(e) {
                 last_e = e;
             })
-            .one(MouseLeave, function() {
+            .one(MouseLeave + ' ' + Click, function() {
                 obj.off(NameSpace);
                 if (current_obj.is(obj)) {
                     current_obj = $();
-                    hovercard
-                        .off(NameSpace)
-                        .hide();
+                    hovercard.trigger(Cleanup);
                     send_message({ msg: EXTENSION_ID + '-hide' });
                 }
             })
@@ -106,8 +103,9 @@ module.exports = function(selector, get_url, accept_identity) {
                 var target = $(e.target);
                 var offset = target.offset();
                 var is_top = offset.top - CARD_SIZES[identity.api][identity.type].height - PADDING_FROM_EDGES > $(window).scrollTop();
+                var start = Date.now();
                 hovercard
-                    .off(NameSpace)
+                    .trigger(Cleanup)
                     .show()
                     .toggleClass(EXTENSION_ID + '-hovercard-from-top', is_top)
                     .toggleClass(EXTENSION_ID + '-hovercard-from-bottom', !is_top)
@@ -117,35 +115,41 @@ module.exports = function(selector, get_url, accept_identity) {
                               left: Math.max(PADDING_FROM_EDGES,
                                              Math.min($(window).scrollLeft() + $(window).width() - CARD_SIZES[identity.api][identity.type].width - PADDING_FROM_EDGES,
                                                       last_e.pageX + 1)) })
+                    .on(Cleanup, function() {
+                        window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'hovercard', 'showing', Date.now() - start, (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type] }, '*');
+                        hovercard
+                            .off(NameSpace)
+                            .hide();
+                    })
                     .on(Click, function() {
                         obj
                             .trigger(HoverCardClick, [url])
                             .off(NameSpace);
                         current_obj = $();
-                        hovercard
-                            .off(NameSpace)
-                            .hide();
+                        hovercard.trigger(Cleanup);
                         send_message({ msg: EXTENSION_ID + '-hide' });
                     });
+                obj.on('click', function() {
+                    obj.off(NameSpace);
+                    current_obj = $();
+                    hovercard.trigger(Cleanup);
+                });
                 var both = obj.add(hovercard);
-                both
-                    .on(MouseLeave, function(e) {
-                        var to = $(e.toElement);
-                        if (both.is(to) || both.has(to).length) {
-                            return;
-                        }
-                        var kill_timeout = setTimeout(function() {
-                            obj.off(NameSpace);
-                            current_obj = $();
-                            hovercard
-                                .off(NameSpace)
-                                .hide();
-                            send_message({ msg: EXTENSION_ID + '-hide' });
-                        }, TIMEOUT_BEFORE_FADEOUT);
-                        both.one(MouseMove, function() {
-                            clearTimeout(kill_timeout);
-                        });
+                both.on(MouseLeave, function(e) {
+                    var to = $(e.toElement);
+                    if (both.is(to) || both.has(to).length) {
+                        return;
+                    }
+                    var kill_timeout = setTimeout(function() {
+                        obj.off(NameSpace);
+                        current_obj = $();
+                        hovercard.trigger(Cleanup);
+                        send_message({ msg: EXTENSION_ID + '-hide' });
+                    }, TIMEOUT_BEFORE_FADEOUT);
+                    both.one(MouseMove, function() {
+                        clearTimeout(kill_timeout);
                     });
+                });
             });
     });
 };

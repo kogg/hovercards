@@ -36,10 +36,10 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Hove
                             type: type_to_load,
                             timing: {
                                 content: _.once(function(time, api) {
-                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'hovercard', 'Time until Content Hovercard', time - start, api + ' content'] }, '*');
+                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'hovercard', 'card loaded', time - start, api + ' content'] }, '*');
                                 }),
                                 account: _.once(function(time, api) {
-                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'hovercard', 'Time until Account Hovercard', time - start, api + ' account'] }, '*');
+                                    $window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'timing', 'hovercard', 'card loaded', time - start, api + ' account'] }, '*');
                                 })
                             }
                         };
