@@ -14,7 +14,7 @@
     "browserify:sidebar": "browserify app/scripts/sidebar-main.js -o dist/scripts/sidebar-main.js -r ./app/scripts/production-env.js:env -v",
     "browserify:soundcloud-player": "browserify app/scripts/soundcloud-player-main.js -o dist/scripts/soundcloud-player-main.js -r ./app/scripts/production-env.js:env -v",
     "browserify:top-frame": "browserify app/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -r ./app/scripts/production-env.js:env -v",
-    "clean": "rm -rf dist/*",
+    "clean": "rm -rf dist/* *.pem *.nex",
     "compress": "zip -q -r build/pkg-$npm_package_version.zip dist",
     "copy:non_js": "rsync -r --exclude=scripts/* app/* dist && cp node_modules/angular/angular-csp.css dist/styles/ && cp node_modules/slick-carousel/slick/slick.css dist/styles/ && cp node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css dist/styles/",
     "uglify": "npm run uglify:background && npm run uglify:everywhere && npm run uglify:hovercard && npm run uglify:sidebar && npm run uglify:soundcloud-player && npm run uglify:top-frame",
