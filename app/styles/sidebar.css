@@ -2143,6 +2143,10 @@ h2 {
 	padding: 16px;
 	border-top: 1px solid #ECEEF1;
 }
+.hovercard .hovercards-message-option {
+	position: absolute;
+	bottom: 0;
+}
 .hovercards-message-option a {
 	color: #2196F3;
   font-weight: 400;
@@ -2153,7 +2157,9 @@ h2 {
 	text-decoration: underline;
 	cursor: pointer;
 }
-
+.hovercard .hovercards-message-option a:hover {
+	text-decoration: underline !important
+}
 /*message type*/
 .error-message .hovercards-message-text b {
 	color: #FF4F29
