@@ -259,6 +259,7 @@ b i, .iconic-push {
 	cursor: pointer;
 	overflow: hidden;
 	position: relative;
+	background: white;
 }
 .card > div {
 	border-radius:3px;
@@ -573,9 +574,6 @@ b i, .iconic-push {
 	width: 75px;
 	height: 75px;
 }
-.hovercard, .hovercard .card-stats, .hovercard .video-hovercard-copy, .hovercard .profile-top {
-	background: none;
-}
 .hovercard .profile-right {
 	height: 75px;
 	padding: 16px 8px 16px 16px;
@@ -845,6 +843,10 @@ b i, .iconic-push {
 }
 .instagram-video video, .instagram-video .video-top, .instagram-video .video-top-underlay {
 	height: 298px;
+	max-width: 300px;
+}
+.fullscreen-active .instagram-video video, .fullscreen-active  .instagram-video .video-top, .fullscreen-active  .instagram-video .video-top-underlay {
+	max-width: 100% !important
 }
 .fullscreen-active .instagram-video .video-image, .fullscreen-active .instagram-video .video-top {
 	height: 100%;
@@ -1039,6 +1041,9 @@ b i, .iconic-push {
 .hovercard .hovercardrow {
 	width: 300px;
 	overflow: hidden;
+	background: white;
+	z-index: 2;
+	position: relative;
 }
 .hovercard .hiddenrow {
 	overflow: hidden;
@@ -2116,6 +2121,31 @@ h2 {
   border: 1px solid #ECEEF1;
   border-left: none;
 }
+.hovercards-message-content b {
+	margin-bottom: 0px !important
+}
+.hovercards-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  margin-top: -25px;
+  margin-left: -25px;
+	z-index: 0;
+  -webkit-animation: rotation 1s infinite linear;
+  animation: rotation 1s infinite linear;
+}
+
+keyframes rotation {
+  from {-webkit-transform: rotate(0deg);}
+  to   {-webkit-transform: rotate(359deg);}
+}
+@-webkit-keyframes rotation {
+  from {-webkit-transform: rotate(0deg);}
+  to   {-webkit-transform: rotate(359deg);}
+}
+
 .hovercards-message-content a {
 	color: #2196F3;
 	text-decoration: none;
