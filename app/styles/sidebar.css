@@ -1022,6 +1022,7 @@ b i, .iconic-push {
 }
 .reddit-hovercard .image-hovercard-copy .flexin {
 	height: 100px;
+	background: white;
 }
 .flexin * {
 	width: 100%;
@@ -1043,7 +1044,6 @@ b i, .iconic-push {
 	overflow: hidden;
 	background: white;
 	z-index: 2;
-	position: relative;
 }
 .hovercard .hiddenrow {
 	overflow: hidden;
