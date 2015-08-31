@@ -719,7 +719,8 @@ b i, .iconic-push {
 	bottom: 16px;
 }
 .hovercard .image-text {
-
+	background: white;
+	z-index: 2;
 }
 .hovercard .image-text span a.username {
   color: #000;
@@ -732,6 +733,18 @@ b i, .iconic-push {
 }
 .hovercard .col-8.image-text p {
 	padding: 0 16px
+}
+.hovercard .col-4 .additional-networks{
+	right: -2px;
+	top: -5px
+}
+.hidden-date .zmdi-more-vert {
+	padding: 6px;
+	margin-left: -1px;
+	cursor: pointer;
+}
+.hovercard .col-4 .network-holder {
+	padding-top: 3px;
 }
 .hovercard .white-triangle {
 	position: absolute;
@@ -1018,6 +1031,9 @@ b i, .iconic-push {
 	-webkit-justify-content: center;
 	justify-content: center;
 	flex-direction: column;
+	background: white;
+	z-index: 20;
+	position: relative;
 	height: 95px;
 }
 .reddit-hovercard .image-hovercard-copy .flexin {
@@ -1053,6 +1069,7 @@ b i, .iconic-push {
 	width: 150px;
 	padding:9.5px 16px 9.5px 16px;
 	border-top: 1px solid #ECEEF1;
+	background: white;
 	bottom: 0;
 }
 .hovercard .col-8 .cardstatsmini {

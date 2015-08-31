@@ -8,8 +8,8 @@ module.exports = function() {
     });
 
     var sizes = ['19', '38'];
-    var carlito_paths = _.chain(sizes).map(function(size) { return [size, 'images/logo-' + size + '.png']; }).object().value();
-    var yo_paths      = _.chain(sizes).map(function(size) { return [size, 'images/logo-' + size + '-yo.png']; }).object().value();
+    var carlito_paths = _.chain(sizes).map(function(size) { return [size, 'images/logo-' + size + '-active.png']; }).object().value();
+    var yo_paths      = _.chain(sizes).map(function(size) { return [size, 'images/logo-' + size + '.png']; }).object().value();
 
     chrome.runtime.onMessage.addListener(function(message, sender) {
         if (message.type !== 'page-action') {
