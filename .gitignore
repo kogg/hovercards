@@ -1,4 +1,6 @@
-.sass-cache
-.tmp
-npm-debug.log
+*.nex
+*.pem
+*.sass-cache
+*.tmp
 node_modules/
+npm-debug.log

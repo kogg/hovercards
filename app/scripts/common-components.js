@@ -3,7 +3,10 @@ var angular = require('angular');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', [require('angular-sanitize'), require('angular-messages')])
+module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'CommonComponents', ['ngAnimate', require('angular-sanitize'), require('angular-messages')])
+    .config(function($animateProvider) {
+        $animateProvider.classNameFilter(/^(?:(?!ng-animate-disabled).)*$/);
+    })
     .directive('analyticsClick', [function() {
         return {
             link: function($scope, $element, $attrs) {

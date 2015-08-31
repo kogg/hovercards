@@ -4,6 +4,6 @@
 		{{ (user ? 'authorize_for_forbidden_err_authorized_text' : 'authorize_for_forbidden_err_unauthorized_text') | copy:(err.api | copy):((err.api + '_account') | copy) }}
 	</span>
 	<div class="hovercards-message-option" ng-if="!user">
-		<a authorize="err.api" on-authorized="err.reload()">Sign into {{ err.api | copy }}</a>
+		<a authorize="err.api" on-authorized="err.reload()">Sign in with {{ err.api | copy }}</a>
 	</div>
 </span>

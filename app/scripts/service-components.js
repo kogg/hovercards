@@ -85,7 +85,8 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                     if (!api) {
                         return;
                     }
-                    $element.click(handler = function() {
+                    $element.click(handler = function(e) {
+                        e.stopImmediatePropagation();
                         $element.unbind('click', handler);
                         apiService.get({ api: api, type: 'auth' })
                             .$promise

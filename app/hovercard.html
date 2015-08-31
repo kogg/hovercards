@@ -7,6 +7,7 @@
 </head>
 <body class="ng-cloak hovercard" ng-cloak>
 	<div ng-controller="EntryController">
+		<img src="images/loading.png" class="hovercards-loading ng-animate-disabled" ng-show="(data.content && !data.content.$resolved) || (data.account && !data.account.$resolved)">
 		<div ng-if="entry.type === 'content'" ng-controller="ContentController">
 			<div ng-if="data.content.$resolved || data.content.$err">
 				<div ng-include="'templates/' + data.content.api + '_content_hovercard.html'"></div>

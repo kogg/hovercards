@@ -259,6 +259,7 @@ b i, .iconic-push {
 	cursor: pointer;
 	overflow: hidden;
 	position: relative;
+	background: white;
 }
 .card > div {
 	border-radius:3px;
@@ -573,9 +574,6 @@ b i, .iconic-push {
 	width: 75px;
 	height: 75px;
 }
-.hovercard, .hovercard .card-stats, .hovercard .video-hovercard-copy, .hovercard .profile-top {
-	background: none;
-}
 .hovercard .profile-right {
 	height: 75px;
 	padding: 16px 8px 16px 16px;
@@ -721,7 +719,8 @@ b i, .iconic-push {
 	bottom: 16px;
 }
 .hovercard .image-text {
-
+	background: white;
+	z-index: 2;
 }
 .hovercard .image-text span a.username {
   color: #000;
@@ -734,6 +733,18 @@ b i, .iconic-push {
 }
 .hovercard .col-8.image-text p {
 	padding: 0 16px
+}
+.hovercard .col-4 .additional-networks{
+	right: -2px;
+	top: -5px
+}
+.hidden-date .zmdi-more-vert {
+	padding: 6px;
+	margin-left: -1px;
+	cursor: pointer;
+}
+.hovercard .col-4 .network-holder {
+	padding-top: 3px;
 }
 .hovercard .white-triangle {
 	position: absolute;
@@ -845,6 +856,10 @@ b i, .iconic-push {
 }
 .instagram-video video, .instagram-video .video-top, .instagram-video .video-top-underlay {
 	height: 298px;
+	max-width: 300px;
+}
+.fullscreen-active .instagram-video video, .fullscreen-active  .instagram-video .video-top, .fullscreen-active  .instagram-video .video-top-underlay {
+	max-width: 100% !important
 }
 .fullscreen-active .instagram-video .video-image, .fullscreen-active .instagram-video .video-top {
 	height: 100%;
@@ -1016,10 +1031,14 @@ b i, .iconic-push {
 	-webkit-justify-content: center;
 	justify-content: center;
 	flex-direction: column;
+	background: white;
+	z-index: 20;
+	position: relative;
 	height: 95px;
 }
 .reddit-hovercard .image-hovercard-copy .flexin {
 	height: 100px;
+	background: white;
 }
 .flexin * {
 	width: 100%;
@@ -1039,6 +1058,8 @@ b i, .iconic-push {
 .hovercard .hovercardrow {
 	width: 300px;
 	overflow: hidden;
+	background: white;
+	z-index: 2;
 }
 .hovercard .hiddenrow {
 	overflow: hidden;
@@ -1048,6 +1069,7 @@ b i, .iconic-push {
 	width: 150px;
 	padding:9.5px 16px 9.5px 16px;
 	border-top: 1px solid #ECEEF1;
+	background: white;
 	bottom: 0;
 }
 .hovercard .col-8 .cardstatsmini {
@@ -2116,6 +2138,31 @@ h2 {
   border: 1px solid #ECEEF1;
   border-left: none;
 }
+.hovercards-message-content b {
+	margin-bottom: 0px !important
+}
+.hovercards-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  margin-top: -25px;
+  margin-left: -25px;
+	z-index: 0;
+  -webkit-animation: rotation 1s infinite linear;
+  animation: rotation 1s infinite linear;
+}
+
+keyframes rotation {
+  from {-webkit-transform: rotate(0deg);}
+  to   {-webkit-transform: rotate(359deg);}
+}
+@-webkit-keyframes rotation {
+  from {-webkit-transform: rotate(0deg);}
+  to   {-webkit-transform: rotate(359deg);}
+}
+
 .hovercards-message-content a {
 	color: #2196F3;
 	text-decoration: none;
@@ -2143,6 +2190,10 @@ h2 {
 	padding: 16px;
 	border-top: 1px solid #ECEEF1;
 }
+.hovercard .hovercards-message-option {
+	position: absolute;
+	bottom: 0;
+}
 .hovercards-message-option a {
 	color: #2196F3;
   font-weight: 400;
@@ -2153,13 +2204,15 @@ h2 {
 	text-decoration: underline;
 	cursor: pointer;
 }
-
+.hovercard .hovercards-message-option a:hover {
+	text-decoration: underline !important
+}
 /*message type*/
 .error-message .hovercards-message-text b {
-	color: #FF4F29
+	color: #000
 }
 .error-message .hovercards-message-image {
-	background:#FF4F29;
+	background:#dbf0c5;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/error.png');
   background-size: auto 100%;
   background-repeat: no-repeat;
