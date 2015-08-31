@@ -2209,10 +2209,10 @@ keyframes rotation {
 }
 /*message type*/
 .error-message .hovercards-message-text b {
-	color: #FF4F29
+	color: #000
 }
 .error-message .hovercards-message-image {
-	background:#FF4F29;
+	background:#dbf0c5;
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/error.png');
   background-size: auto 100%;
   background-repeat: no-repeat;
