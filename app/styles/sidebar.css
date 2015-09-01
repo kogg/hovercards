@@ -610,7 +610,7 @@ b i, .iconic-push {
 	max-width: none;
 }
 .hovercard .profile-right a + p {
-	margin-top: 6px;
+	line-height: 22px;
 	width: 100%;
 }
 .hovercard .profile-right a + p * {
