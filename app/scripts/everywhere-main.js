@@ -17,10 +17,11 @@ if (document.URL.match(/[&?]noyo=1/)) {
 
 function accept_identity(identity, obj) {
     return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
-           (identity.api === 'imgur' && identity.type === 'account') ||
-           (identity.api === 'instagram' && identity.type === 'account') ||
+           (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) ||
+           (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) ||
            (identity.api === 'youtube' && document.URL.indexOf('youtube.com/embed') !== -1) ||
-           (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length : obj.parents('.usertext-body,.search-result-body').length));
+           (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length :
+                                                                        obj.parents('.usertext-body,.search-result-body').length));
 }
 
 hovercard('a[href]:not(.no-yo,.hoverZoomLink,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); },         accept_identity);
