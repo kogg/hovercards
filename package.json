@@ -1,7 +1,7 @@
 {
   "name": "YoCardsExt",
   "description": "",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "cameronrohani/YoCardsExt",
   "scripts": {
     "start": "npm run watch:non_js & npm run watchify:background & npm run watchify:everywhere & npm run watchify:iframes & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "URIjs": "^1.16.0",
-    "YoCardsAPICalls": "cameronrohani/YoCardsAPICalls#v1.0.0",
+    "YoCardsAPICalls": "cameronrohani/YoCardsAPICalls#v1.0.2",
     "angular": "^1.4.3",
     "angular-animate": "^1.4.3",
     "angular-inview": "^1.5.0",
