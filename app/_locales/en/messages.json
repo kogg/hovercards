@@ -1,7 +1,7 @@
 {
     "app_name":        { "message": "HoverCards" },
     "app_short_name":  { "message": "hovercards" },
-    "app_description": { "message": "Get more content. Open less tabs." },
+    "app_description": { "message": "Get more content. Open fewer tabs." },
 
     "facebook_post": { "message": "Share $1 on Facebook" },
 
