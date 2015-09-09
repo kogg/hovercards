@@ -15,27 +15,41 @@ if (document.URL.match(/[&?]noyo=1/)) {
     return;
 }
 
-function accept_identity(identity, obj) {
-    return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
-           (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) ||
-           (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) ||
-           (identity.api === 'youtube' && document.URL.indexOf('youtube.com/embed') !== -1) ||
-           (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length :
-                                                                        obj.parents('.usertext-body,.search-result-body').length));
-}
+chrome.storage.sync.get('disabled', function(obj) {
+    var disabled = obj.disabled || { };
 
-hovercard('a[href]:not(.no-yo,.hoverZoomLink,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); },         accept_identity);
-hovercard('a[data-href]:not(.no-yo,.hoverZoomLink,[data-expanded-url])',        function(link) { return link.data('href'); },         accept_identity);
-hovercard('a[data-expanded-url]:not(.no-yo,.hoverZoomLink,[data-href])',        function(link) { return link.data('expanded-url'); }, accept_identity);
+    chrome.storage.onChanged.addListener(function(changes, area_name) {
+        if (area_name !== 'sync' || !('disabled' in changes)) {
+            return;
+        }
+        disabled = changes.disabled.newValue;
+    });
 
-// FIXME Twitter follow button hack
-hovercard('iframe.twitter-follow-button:not(.no-yo)', function(iframe) {
-    var match = iframe.attr('src').match(/[?&]screen_name=([a-zA-Z0-9_]+)(?:&|$)/);
-    if (!match || !match[1]) {
-        return;
+    function accept_identity(identity, obj) {
+        if (disabled[identity.api] && disabled[identity.api][identity.type]) {
+            return false;
+        }
+        return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
+               (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) ||
+               (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) ||
+               (identity.api === 'youtube' && document.URL.indexOf('youtube.com/embed') !== -1) ||
+               (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length :
+                                                                            obj.parents('.usertext-body,.search-result-body').length));
     }
-    return 'https://twitter.com/' + match[1];
-}, accept_identity);
+
+    hovercard('a[href]:not(.no-yo,.hoverZoomLink,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); },         accept_identity);
+    hovercard('a[data-href]:not(.no-yo,.hoverZoomLink,[data-expanded-url])',        function(link) { return link.data('href'); },         accept_identity);
+    hovercard('a[data-expanded-url]:not(.no-yo,.hoverZoomLink,[data-href])',        function(link) { return link.data('expanded-url'); }, accept_identity);
+
+    // FIXME Twitter follow button hack
+    hovercard('iframe.twitter-follow-button:not(.no-yo)', function(iframe) {
+        var match = iframe.attr('src').match(/[?&]screen_name=([a-zA-Z0-9_]+)(?:&|$)/);
+        if (!match || !match[1]) {
+            return;
+        }
+        return 'https://twitter.com/' + match[1];
+    }, accept_identity);
+});
 
 $('html').on('hovercardclick.' + EXTENSION_ID, function(e, url) {
     window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'hovercard', url: url }, '*');
