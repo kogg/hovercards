@@ -18,6 +18,13 @@ if (document.URL.match(/[&?]noyo=1/)) {
 chrome.storage.sync.get('disabled', function(obj) {
     var disabled = obj.disabled || { };
 
+    chrome.storage.onChanged.addListener(function(changes, area_name) {
+        if (area_name !== 'sync' || !('disabled' in changes)) {
+            return;
+        }
+        disabled = changes.disabled.newValue;
+    });
+
     function accept_identity(identity, obj) {
         if (disabled[identity.api] && disabled[identity.api][identity.type]) {
             return false;
