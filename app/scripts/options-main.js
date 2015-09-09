@@ -3,6 +3,7 @@ var $ = require('jquery');
 $(function() {
     chrome.storage.sync.get('disabled', function(obj) {
         var disabled;
+        var $save_button = $('#save');
 
         function set_disabled(new_disabled) {
             disabled = new_disabled;
@@ -30,11 +31,23 @@ $(function() {
 
         $('body').on('click', '.setting-card', function() {
             var input = $(this).find('input');
-            input.prop('checked', !input.prop('checked'));
+            input
+                .prop('checked', !input.prop('checked'))
+                .change();
         });
 
-        $('#save').on('click', function() {
-            console.log('trying to save...');
+        $('body').on('change', 'input', function() {
+            $save_button
+                .removeClass('settings-saved')
+                .removeClass('settings-error')
+                .text('Save My Settings');
+        });
+
+        $save_button.on('click', function() {
+            $save_button
+                .removeClass('settings-saved')
+                .removeClass('settings-error')
+                .text('Saving...');
             chrome.storage.sync.set({ disabled : { imgur:      { content: !$('#imgur-content').prop('checked'),      account: !$('#imgur-account').prop('checked') },
                                                    instagram:  { content: !$('#instagram-content').prop('checked'),  account: !$('#instagram-account').prop('checked') },
                                                    reddit:     { content: !$('#reddit-content').prop('checked'),     account: !$('#reddit-account').prop('checked') },
@@ -42,7 +55,14 @@ $(function() {
                                                    twitter:    { content: !$('#twitter-content').prop('checked'),    account: !$('#twitter-account').prop('checked') },
                                                    youtube:    { content: !$('#youtube-content').prop('checked'),    account: !$('#youtube-account').prop('checked') } } },
                 function() {
-                    console.log('saved!');
+                    if (chrome.runtime.lastError) {
+                        return $save_button
+                            .addClass('settings-error')
+                            .text('Error: ' + chrome.runtime.lastError.message);
+                    }
+                    $save_button
+                        .addClass('settings-saved')
+                        .text('Saved!');
                 });
         });
     });
