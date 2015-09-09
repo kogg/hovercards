@@ -205,18 +205,20 @@ module.exports = function() {
         });
     });
     chrome.storage.sync.get(['feedback_url', 'last_interacted_feedback_url', 'last_feedback_retrieval'], function(obj) {
-        console.log(obj);
-        if (!obj.last_feedback_retrieval || Date.now() - obj.last_feedback_retrieval >= 24 * 60 * 60 * 1000) {
-            $.ajax({ url: ENDPOINT + '/feedback_url' })
-                .done(function(data) {
-                    obj.feedback_url = data;
-                    chrome.storage.sync.set({ feedback_url: obj.feedback_url });
-                })
-                .always(function() {
-                    obj.last_feedback_retrieval = Date.now();
-                    chrome.storage.sync.set({ last_feedback_retrieval: obj.last_feedback_retrieval });
-                });
-        }
+        (function retrieve_feedback_url() {
+            setTimeout(function() {
+                $.ajax({ url: ENDPOINT + '/feedback_url' })
+                    .done(function(data) {
+                        obj.feedback_url = data;
+                        chrome.storage.sync.set({ feedback_url: obj.feedback_url });
+                    })
+                    .always(function() {
+                        obj.last_feedback_retrieval = Date.now();
+                        chrome.storage.sync.set({ last_feedback_retrieval: obj.last_feedback_retrieval });
+                        retrieve_feedback_url();
+                    });
+            }, Math.max(0, (obj.last_feedback_retrieval || 0) + 24 * 60 * 60 * 1000 - Date.now()));
+        }());
         chrome.runtime.onMessage.addListener(function(message, sender, callback) {
             switch (message.type) {
                 case 'feedback_url':
