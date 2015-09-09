@@ -56,14 +56,14 @@
 		button {
 			padding: 12px;
 			border-radius: 30px !important;
-			background: #349cef !important;
 			border:0 !important;
 			color: white !important;
 			text-align: center;
 			outline:0 !important;
 			text-shadow:none !important;
-			margin:auto !important;
+			margin: 8px auto !important;
 			width: 150px;
+			background: #349cef !important;
 			font-weight: bold !important;
 			box-shadow: 0 0px 0px rgba(0,0,0,0), 0 0px 0px rgba(0,0,0,0) !important;
 			transition:all .1s ease-in-out;
@@ -75,6 +75,20 @@
 			transform: scale(1.05);
 			box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !important;
 		}
+		button.settings-saved {
+			background: #4cbb91 !important;
+			-webkit-transform: scale(1);
+			transform: scale(1);
+			cursor: default !important;
+			box-shadow: 0 0px 0px rgba(0,0,0,0), 0 0px 0px rgba(0,0,0,0) !important;
+		}
+		button.settings-error{
+			background: #e94639 !important;
+			-webkit-transform: scale(1);
+			transform: scale(1);
+			cursor: default !important;
+			box-shadow: 0 0px 0px rgba(0,0,0,0), 0 0px 0px rgba(0,0,0,0) !important;
+		}
 	</style>
 </head>
 
@@ -84,7 +98,7 @@
 			<div class="col-6">
 				<div class="setting-card">
 					<img src="images/imgur-icon-full_color.png">
-					<span>Photo HoverCards:</span>
+					<span>Image HoverCards</span>
 					<label>
 						<input type="checkbox" id="imgur-content">
 						Show me this!
@@ -94,7 +108,7 @@
 			<div class="col-6">
 				<div class="setting-card">
 					<img src="images/imgur-icon-full_color.png">
-					<span>Account HoverCards</span>
+					<span>User HoverCards</span>
 					<label>
 						<input type="checkbox" id="imgur-account">
 						Show me this!
@@ -106,7 +120,7 @@
 			<div class="col-6">
 				<div class="setting-card">
 					<img src="images/SoundCloud-icon-full_color.png">
-					<span>SoundCloud Song:</span>
+					<span>SoundCloud Song</span>
 					<label>
 						<input type="checkbox" id="soundcloud-content">
 						Show me this!
@@ -116,7 +130,7 @@
 			<div class="col-6">
 				<div class="setting-card">
 					<img src="images/SoundCloud-icon-full_color.png">
-					<span>Account HoverCards</span>
+					<span>User HoverCards</span>
 					<label>
 						<input type="checkbox" id="soundcloud-account">
 						Show me this!
@@ -138,7 +152,7 @@
 			<div class="col-6">
 				<div class="setting-card">
 					<img src="images/Youtube-icon-full_color.png">
-					<span>Account HoverCards</span>
+					<span>Channel HoverCards</span>
 					<label>
 						<input type="checkbox" id="youtube-account">
 						Show me this!
@@ -150,7 +164,7 @@
 			<div class="col-6">
 				<div class="setting-card">
 					<img src="images/instagram-icon-full_color.png">
-					<span>Photo HoverCards</span>
+					<span>Image HoverCards</span>
 					<label>
 						<input type="checkbox" id="instagram-content">
 						Show me this!
@@ -160,7 +174,7 @@
 			<div class="col-6">
 				<div class="setting-card">
 					<img src="images/instagram-icon-full_color.png">
-					<span>Account HoverCards</span>
+					<span>User HoverCards</span>
 					<label>
 						<input type="checkbox" id="instagram-account">
 						Show me this!
@@ -182,7 +196,7 @@
 			<div class="col-6">
 				<div class="setting-card">
 					<img src="images/Reddit-icon-full_color.png">
-					<span>Account HoverCards</span>
+					<span>User HoverCards</span>
 					<label>
 						<input type="checkbox" id="reddit-account">
 						Show me this!
@@ -204,7 +218,7 @@
 			<div class="col-6">
 				<div class="setting-card">
 					<img src="images/Twitter-icon-full_color.png">
-					<span>Account HoverCards</span>
+					<span>User HoverCards</span>
 					<label>
 						<input type="checkbox" id="twitter-account">
 						Show me this!
