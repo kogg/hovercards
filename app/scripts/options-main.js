@@ -29,13 +29,6 @@ $(function() {
             set_disabled(changes.disabled.newValue);
         });
 
-        $('body').on('click', '.setting-card', function() {
-            var input = $(this).find('input');
-            input
-                .prop('checked', !input.prop('checked'))
-                .change();
-        });
-
         $('body').on('change', 'input', function() {
             $save_button
                 .removeClass('settings-saved')

@@ -35,7 +35,6 @@ module.exports = function sidebar() {
         });
 
     var iframe = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
-        .appendTo(obj)
         .attr('src', chrome.extension.getURL('sidebar.html'))
         .attr('frameborder', '0')
         .mouseenter(function() {
@@ -51,7 +50,7 @@ module.exports = function sidebar() {
         obj.addClass(EXTENSION_ID + '-sidebar-enter-cancel-animation');
     });
 
-    $('<div></div>')
+    var minimizer = $('<div></div>')
         .appendTo(obj)
         .addClass(EXTENSION_ID + '-sidebar-minimizer')
         .click(function() {
@@ -166,6 +165,11 @@ module.exports = function sidebar() {
                 var message = { msg: EXTENSION_ID + '-load', by: request.by, identity: possible_identity };
                 if (!sidebar_frame) {
                     on_deck = message;
+                    if (!iframe.is('.on-dom')) {
+                        iframe
+                            .addClass('on-dom')
+                            .insertBefore(minimizer);
+                    }
                     return;
                 }
                 sendMessage(message);
@@ -179,6 +183,11 @@ module.exports = function sidebar() {
             case EXTENSION_ID + '-hide':
                 if (!sidebar_frame) {
                     on_deck = null;
+                    if (!iframe.is('.on-dom')) {
+                        iframe
+                            .addClass('on-dom')
+                            .insertBefore(minimizer);
+                    }
                     return;
                 }
                 sendMessage({ msg: EXTENSION_ID + '-hide', by: request.by });
