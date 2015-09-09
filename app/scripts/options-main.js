@@ -6,21 +6,18 @@ $(function() {
 
         function set_disabled(new_disabled) {
             disabled = new_disabled;
-            if (!disabled) {
-                return;
-            }
-            $('#imgur-content').prop('checked',      !(disabled.imgur      && disabled.imgur.content));
-            $('#imgur-account').prop('checked',      !(disabled.imgur      && disabled.imgur.account));
-            $('#instagram-content').prop('checked',  !(disabled.instagram  && disabled.instagram.content));
-            $('#instagram-account').prop('checked',  !(disabled.instagram  && disabled.instagram.account));
-            $('#reddit-content').prop('checked',     !(disabled.reddit     && disabled.reddit.content));
-            $('#reddit-account').prop('checked',     !(disabled.reddit     && disabled.reddit.account));
-            $('#soundcloud-content').prop('checked', !(disabled.soundcloud && disabled.soundcloud.content));
-            $('#soundcloud-account').prop('checked', !(disabled.soundcloud && disabled.soundcloud.account));
-            $('#twitter-content').prop('checked',    !(disabled.twitter    && disabled.twitter.content));
-            $('#twitter-account').prop('checked',    !(disabled.twitter    && disabled.twitter.account));
-            $('#youtube-content').prop('checked',    !(disabled.youtube    && disabled.youtube.content));
-            $('#youtube-account').prop('checked',    !(disabled.youtube    && disabled.youtube.account));
+            $('#imgur-content').prop('checked',      !(disabled && disabled.imgur      && disabled.imgur.content));
+            $('#imgur-account').prop('checked',      !(disabled && disabled.imgur      && disabled.imgur.account));
+            $('#instagram-content').prop('checked',  !(disabled && disabled.instagram  && disabled.instagram.content));
+            $('#instagram-account').prop('checked',  !(disabled && disabled.instagram  && disabled.instagram.account));
+            $('#reddit-content').prop('checked',     !(disabled && disabled.reddit     && disabled.reddit.content));
+            $('#reddit-account').prop('checked',     !(disabled && disabled.reddit     && disabled.reddit.account));
+            $('#soundcloud-content').prop('checked', !(disabled && disabled.soundcloud && disabled.soundcloud.content));
+            $('#soundcloud-account').prop('checked', !(disabled && disabled.soundcloud && disabled.soundcloud.account));
+            $('#twitter-content').prop('checked',    !(disabled && disabled.twitter    && disabled.twitter.content));
+            $('#twitter-account').prop('checked',    !(disabled && disabled.twitter    && disabled.twitter.account));
+            $('#youtube-content').prop('checked',    !(disabled && disabled.youtube    && disabled.youtube.content));
+            $('#youtube-account').prop('checked',    !(disabled && disabled.youtube    && disabled.youtube.account));
         }
         set_disabled(obj.disabled);
 
