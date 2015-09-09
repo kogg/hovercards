@@ -3,123 +3,204 @@
 <head>
 	<title>My Test Extension Options</title>
 	<style>
-		body: { padding: 10px; }
+		* {
+			box-sizing:border-box;
+			margin: 0 !important
+		}
+		.content-container {
+			padding: 10px;background-color: #ECEEF1 !important
+		}
 		.row {
 			max-width: 980px;
 			overflow: auto;
-			margin:0 auto 16px;
+			margin:0 auto 10px !important;
 		}
 		.col-6 {
 			width: 50%;
 			float: left;
 		}
+		.col-6:first-of-type {
+			padding-right: 5px;
+		}
+		.col-6:last-of-type {
+			padding-left: 5px;
+		}
+		.setting-card {
+			border:1px solid rgba(0,0,0,.15);
+			padding: 12px;
+			background: white;
+			overflow: auto;
+			border-radius: 3px;
+		}
 		span {
 			display: block;
-			margin-bottom: 8px;
+			font-weight: bold;
+			padding-left: 38px;
+			padding-bottom: 1px;
+		}
+		img {
+			width: 28px;
+			float: left;
+		}
+		label {
+			padding-left: 11px;
+			color: rgba(0,0,0,.4)
+		}
+		button {
+			padding: 12px;
+			border-radius: 30px !important;
+			background: #349cef !important;
+			border:0 !important;
+			color: white !important;
+			text-align: center;
+			outline:0 !important;
+			text-shadow:none !important;
+			margin:auto !important;
+			width: 150px;
+			font-weight: bold !important;
+			box-shadow: none !important;
+			display: block;
 		}
 	</style>
 </head>
 
 <body>
-	<div class="row">
-		<div class="col-6">
-			<span>Imgur Account:</span>
-			<label>
-				<input type="checkbox" id="imgur-account">
-				I like colors.
-			</label>
+	<div class="content-container">
+		<div class="row">
+			<div class="col-6">
+				<div class="setting-card">
+					<img src="images/imgur-icon-full_color.png">
+					<span>Photo HoverCards:</span>
+					<label>
+						<input type="checkbox" id="imgur-content">
+						Show me this!
+					</label>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="setting-card">
+					<img src="images/imgur-icon-full_color.png">
+					<span>Account HoverCards</span>
+					<label>
+						<input type="checkbox" id="imgur-account">
+						Show me this!
+					</label>
+				</div>
+			</div>
 		</div>
-		<div class="col-6">
-			<span>Imgur Photo:</span>
-			<label>
-				<input type="checkbox" id="imgur-content">
-				I like colors.
-			</label>
+		<div class="row">
+			<div class="col-6">
+				<div class="setting-card">
+					<img src="images/SoundCloud-icon-full_color.png">
+					<span>SoundCloud Song:</span>
+					<label>
+						<input type="checkbox" id="soundcloud-content">
+						Show me this!
+					</label>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="setting-card">
+					<img src="images/SoundCloud-icon-full_color.png">
+					<span>Account HoverCards</span>
+					<label>
+						<input type="checkbox" id="soundcloud-account">
+						Show me this!
+					</label>
+				</div>
+			</div>
 		</div>
+		<div class="row">
+			<div class="col-6">
+				<div class="setting-card">
+					<img src="images/Youtube-icon-full_color.png">
+					<span>Video HoverCards</span>
+					<label>
+						<input type="checkbox" id="youtube-content">
+						Show me this!
+					</label>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="setting-card">
+					<img src="images/Youtube-icon-full_color.png">
+					<span>Account HoverCards</span>
+					<label>
+						<input type="checkbox" id="youtube-account">
+						Show me this!
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				<div class="setting-card">
+					<img src="images/instagram-icon-full_color.png">
+					<span>Photo HoverCards</span>
+					<label>
+						<input type="checkbox" id="instagram-content">
+						Show me this!
+					</label>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="setting-card">
+					<img src="images/instagram-icon-full_color.png">
+					<span>Account HoverCards</span>
+					<label>
+						<input type="checkbox" id="instagram-account">
+						Show me this!
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				<div class="setting-card">
+					<img src="images/Reddit-icon-full_color.png">
+					<span>Posts HoverCards</span>
+					<label>
+						<input type="checkbox" id="reddit-content">
+						Show me this!
+					</label>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="setting-card">
+					<img src="images/Reddit-icon-full_color.png">
+					<span>Account HoverCards</span>
+					<label>
+						<input type="checkbox" id="reddit-account">
+						Show me this!
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				<div class="setting-card">
+					<img src="images/Twitter-icon-full_color.png">
+					<span>Tweet HoverCards</span>
+					<label>
+						<input type="checkbox" id="twitter-content">
+						Show me this!
+					</label>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="setting-card">
+					<img src="images/Twitter-icon-full_color.png">
+					<span>Account HoverCards</span>
+					<label>
+						<input type="checkbox" id="twitter-account">
+						Show me this!
+					</label>
+				</div>
+			</div>
+		</div>
+		<div id="status"></div>
+		<button id="save">Save My Options</button>
 	</div>
-	<div class="row">
-		<div class="col-6">
-			<span>SoundCloud Account:</span>
-			<label>
-				<input type="checkbox" id="soundcloud-account">
-				I like colors.
-			</label>
-		</div>
-		<div class="col-6">
-			<span>SoundCloud Song:</span>
-			<label>
-				<input type="checkbox" id="soundcloud-content">
-				I like colors.
-			</label>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-6">
-			<span>Youtube Account:</span>
-			<label>
-				<input type="checkbox" id="youtube-account">
-				I like colors.
-			</label>
-		</div>
-		<div class="col-6">
-			<span>Youtube Video:</span>
-			<label>
-				<input type="checkbox" id="youtube-content">
-				I like colors.
-			</label>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-6">
-			<span>Instagram Account:</span>
-			<label>
-				<input type="checkbox" id="instagram-account">
-				I like colors.
-			</label>
-		</div>
-		<div class="col-6">
-			<span>Instagram Photo/Video:</span>
-			<label>
-				<input type="checkbox" id="instagram-content">
-				I like colors.
-			</label>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-6">
-			<span>Reddit Account:</span>
-			<label>
-				<input type="checkbox" id="reddit-account">
-				I like colors.
-			</label>
-		</div>
-		<div class="col-6">
-			<span>Reddit Post:</span>
-			<label>
-				<input type="checkbox" id="reddit-content">
-				I like colors.
-			</label>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-6">
-			<span>Twitter Account:</span>
-			<label>
-				<input type="checkbox" id="twitter-account">
-				I like colors.
-			</label>
-		</div>
-		<div class="col-6">
-			<span>Tweet</span>
-			<label>
-				<input type="checkbox" id="twitter-content">
-				I like colors.
-			</label>
-		</div>
-	</div>
-	<div id="status"></div>
-	<button id="save">Save</button>
-
 	<script src="scripts/options.js"></script>
 </body>
 </html>
