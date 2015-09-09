@@ -44,7 +44,8 @@
 		}
 		label {
 			padding-left: 11px;
-			color: rgba(0,0,0,.4)
+			color: rgba(0,0,0,.4);
+			cursor: pointer;
 		}
 		button {
 			padding: 12px;
@@ -58,8 +59,15 @@
 			margin:auto !important;
 			width: 150px;
 			font-weight: bold !important;
-			box-shadow: none !important;
+			box-shadow: 0 0px 0px rgba(0,0,0,0), 0 0px 0px rgba(0,0,0,0) !important;
+			transition:all .1s ease-in-out;
 			display: block;
+			cursor: pointer !important;
+		}
+		button:hover {
+			-webkit-transform: scale(1.05);
+			transform: scale(1.05);
+			box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !important;
 		}
 	</style>
 </head>
