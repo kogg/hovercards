@@ -28,6 +28,11 @@ $(function() {
             set_disabled(changes.disabled.newValue);
         });
 
+        $('body').on('click', '.setting-card', function() {
+            var input = $(this).find('input');
+            input.prop('checked', !input.prop('checked'));
+        });
+
         $('#save').on('click', function() {
             console.log('trying to save...');
             chrome.storage.sync.set({ disabled : { imgur:      { content: !$('#imgur-content').prop('checked'),      account: !$('#imgur-account').prop('checked') },
