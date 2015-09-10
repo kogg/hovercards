@@ -109,7 +109,7 @@ module.exports = function(selector, get_url, accept_identity) {
                     }, false);
                     if (feedback.show()) {
                         feedback.obj = $('<div class="feedback-link"></div>').appendTo(hovercard);
-                        $('<a href="' + feedback.feedback_url + '" target="_blank"><img src="carlitoball"><strong>Text bull shit bullshit</strong></a>')
+                        $('<a href="' + feedback.feedback_url + '" target="_blank"><img src="'+chrome.extension.getURL('images/logo-128.png')+'"><strong>Text bull shit bullshit</strong></a>')
                             .appendTo(feedback.obj)
                             .on('click', function(e) {
                                 e.stopPropagation();

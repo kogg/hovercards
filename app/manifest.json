@@ -65,6 +65,7 @@
     "web_accessible_resources": [
         "hovercard.html",
         "sidebar.html",
+        "images/logo-128.png",
         "images/closesidebar.png",
         "images/closebutton.png",
         "images/backbutton.png",
