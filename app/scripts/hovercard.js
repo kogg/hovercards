@@ -48,6 +48,20 @@ window.addEventListener('message', function(event) {
     }
 }, false);
 
+var feedback;
+
+chrome.storage.sync.get(['feedback_url', 'last_interacted_feedback_url'], function(obj) {
+    feedback = obj;
+    feedback.show = function() {
+        return feedback.feedback_url && feedback.feedback_url !== feedback.last_interacted_feedback_url;
+    };
+    feedback.interact = function() {
+        feedback.last_interacted_feedback_url = feedback.feedback_url;
+        chrome.storage.sync.set({ last_interacted_feedback_url: feedback.last_interacted_feedback_url });
+    };
+    feedback.obj = { height: function() { return 0; } };
+});
+
 module.exports = function(selector, get_url, accept_identity) {
     $('html').on(MouseMove, selector, function(e) {
         var obj = $(this);
@@ -93,6 +107,32 @@ module.exports = function(selector, get_url, accept_identity) {
                                 break;
                         }
                     }, false);
+                    if (feedback.show()) {
+                        feedback.obj = $('<div class="feedback-link"></div>').appendTo(hovercard);
+                        $('<a href="' + feedback.feedback_url + '" target="_blank"><img src="carlitoball"><strong>Text bull shit bullshit</strong></a>')
+                            .appendTo(feedback.obj)
+                            .on('click', function(e) {
+                                e.stopPropagation();
+                                feedback.interact();
+                                feedback.obj.remove();
+                                feedback.obj = { height: function() { return 0; } };
+                                obj.off(NameSpace);
+                                current_obj = $();
+                                hovercard.trigger(Cleanup);
+                            });
+                        $('<span>x</span>')
+                            .appendTo(feedback.obj)
+                            .on('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                feedback.interact();
+                                feedback.obj.remove();
+                                feedback.obj = { height: function() { return 0; } };
+                                obj.off(NameSpace);
+                                current_obj = $();
+                                hovercard.trigger(Cleanup);
+                            });
+                    }
                     $('<iframe></iframe>')
                         .appendTo(hovercard)
                         .attr('src', chrome.extension.getURL('hovercard.html'))
@@ -102,16 +142,16 @@ module.exports = function(selector, get_url, accept_identity) {
                 obj.off(NameSpace);
                 var target = $(e.target);
                 var offset = target.offset();
-                var is_top = offset.top - CARD_SIZES[identity.api][identity.type].height - PADDING_FROM_EDGES > $(window).scrollTop();
+                var is_top = offset.top - (CARD_SIZES[identity.api][identity.type].height + feedback.obj.height()) - PADDING_FROM_EDGES > $(window).scrollTop();
                 var start = Date.now();
                 hovercard
                     .trigger(Cleanup)
                     .show()
                     .toggleClass(EXTENSION_ID + '-hovercard-from-top', is_top)
                     .toggleClass(EXTENSION_ID + '-hovercard-from-bottom', !is_top)
-                    .height(CARD_SIZES[identity.api][identity.type].height)
+                    .height(CARD_SIZES[identity.api][identity.type].height + feedback.obj.height())
                     .width(CARD_SIZES[identity.api][identity.type].width)
-                    .offset({ top:  is_top ? offset.top - CARD_SIZES[identity.api][identity.type].height : offset.top + target.height(),
+                    .offset({ top:  is_top ? offset.top - (CARD_SIZES[identity.api][identity.type].height + feedback.obj.height()) : offset.top + target.height(),
                               left: Math.max(PADDING_FROM_EDGES,
                                              Math.min($(window).scrollLeft() + $(window).width() - CARD_SIZES[identity.api][identity.type].width - PADDING_FROM_EDGES,
                                                       last_e.pageX + 1)) })

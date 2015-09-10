@@ -207,9 +207,15 @@ module.exports = function() {
     chrome.storage.sync.get(['feedback_url', 'last_interacted_feedback_url', 'last_feedback_retrieval'], function(obj) {
         (function retrieve_feedback_url() {
             setTimeout(function() {
+                obj.feedback_url = 'test';
+                chrome.storage.sync.set({ feedback_url: obj.feedback_url });
+                obj.last_feedback_retrieval = Date.now();
+                chrome.storage.sync.set({ last_feedback_retrieval: obj.last_feedback_retrieval });
+                retrieve_feedback_url();
+                /*
                 $.ajax({ url: ENDPOINT + '/feedback_url' })
                     .done(function(data) {
-                        obj.feedback_url = data;
+                        obj.feedback_url = data.url;
                         chrome.storage.sync.set({ feedback_url: obj.feedback_url });
                     })
                     .always(function() {
@@ -217,22 +223,8 @@ module.exports = function() {
                         chrome.storage.sync.set({ last_feedback_retrieval: obj.last_feedback_retrieval });
                         retrieve_feedback_url();
                     });
+                */
             }, Math.max(0, (obj.last_feedback_retrieval || 0) + 24 * 60 * 60 * 1000 - Date.now()));
         }());
-        chrome.runtime.onMessage.addListener(function(message, sender, callback) {
-            switch (message.type) {
-                case 'feedback_url':
-                    if (obj.feedback_url && obj.feedback_url !== obj.last_interacted_feedback_url) {
-                        callback(obj.feedback_url);
-                    } else {
-                        callback(null);
-                    }
-                    break;
-                case 'interacted_with_feedback':
-                    obj.last_interacted_feedback_url = obj.feedback_url;
-                    chrome.storage.sync.set({ last_interacted_feedback_url: obj.last_interacted_feedback_url });
-                    break;
-            }
-        });
     });
 };
