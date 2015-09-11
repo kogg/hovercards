@@ -53,7 +53,7 @@ var feedback;
 chrome.storage.sync.get(['feedback_url', 'last_interacted_feedback_url'], function(obj) {
     feedback = obj;
     feedback.show = function() {
-        return feedback.feedback_url && feedback.feedback_url !== feedback.last_interacted_feedback_url;
+        return feedback.feedback_url && feedback.feedback_url.length && feedback.feedback_url !== feedback.last_interacted_feedback_url;
     };
     feedback.interact = function() {
         feedback.last_interacted_feedback_url = feedback.feedback_url;
