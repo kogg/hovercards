@@ -98,12 +98,12 @@
 	height: 38px !important;
 }
 .feedback-link-bottom {
-	position: absolute;
-	-webkit-transform: translate(0,100%);
-	transform: translate(0,100%);
-	bottom: 0;
+	-webkit-transform: translate(0,100%) !important;
+	transform: translate(0,100%) !important;
+	bottom: 0 !important;
 	border-radius: 0 0 3px 3px !important;
-	margin-top: -3px !important;
+	margin-top: 0px !important;
+	margin-bottom: 3px !important;
 }
 .feedback-link * {
 	all:unset;
