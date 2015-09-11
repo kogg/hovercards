@@ -91,35 +91,56 @@
 	padding: 8px !important;
 	line-height: 24px !important;
 	display: block !important;
+	width: 300px !important;
 	box-sizing:border-box !important;
+	border-radius: 3px 3px 0 0 !important;
+	margin-top: 3px;
+	height: 38px !important;
+}
+.feedback-link-bottom {
+	position: absolute;
+	-webkit-transform: translate(0,100%);
+	transform: translate(0,100%);
+	bottom: 0;
+	border-radius: 0 0 3px 3px !important;
+	margin-top: -3px !important;
 }
 .feedback-link * {
 	all:unset;
 }
 .feedback-link a {
-	line-height: 24px;
+	line-height: 22px !important;
+	display: inline-block !important;
 }
 .feedback-link a strong {
-	vertical-align: top;
-	background-color: white;
-	padding: 2px 8px;
-	display: inline-block;
-	font-family: arial, sans-serif;
-	border-radius: 4px;
+	vertical-align: top !important;
+	background-color: white !important;
+	padding: 0px 4px !important;
+	line-height: 22px !important;
+	display: inline-block !important;
+	font-size: 13px !important;
+	font-family: arial, sans-serif !important;
+	border-radius: 4px !important;
 }
 .feedback-link img {
-	height: 28px;
+	height: 22px !important;
 	margin-right: 8px
 }
 .feedback-link span {
-	vertical-align: top;
-	float: right;
-	height: 28px;
-	width: 28px;
-	border-radius: 50%;
-	text-align: center;
-	background: pink;
-	font-family: arial, sans-serif;
-	line-height: 28px;
+	vertical-align: top !important;
+	float: right !important;
+	height: 22px !important;
+	width: 22px !important;
+	border-radius: 50% !important;
+	text-align: center !important;
+	background: white !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/closebutton.png') !important;
+	background-size: 50% !important;
+	opacity: .5 !important;
+	background-repeat: no-repeat !important;
+	background-position:center !important; 
+	display: inline-block !important;
 }
-
+.feedback-link span:hover {
+	opacity: 1 !important
+}

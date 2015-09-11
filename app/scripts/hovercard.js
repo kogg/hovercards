@@ -108,7 +108,7 @@ module.exports = function(selector, get_url, accept_identity) {
                     }, false);
                     if (feedback.show()) {
                         feedback.obj = $('<div class="feedback-link"></div>').appendTo(hovercard);
-                        $('<a href="' + feedback.feedback_url + '" target="_blank"><img src="'+chrome.extension.getURL('images/logo-128.png')+'"><strong>Text bull shit bullshit</strong></a>')
+                        $('<a href="' + feedback.feedback_url + '" target="_blank"><img src="'+chrome.extension.getURL('images/logo-128.png')+'"><strong>Hey you! Can you give me feedback?</strong></a>')
                             .appendTo(feedback.obj)
                             .on('click', function(e) {
                                 e.stopPropagation();
@@ -118,7 +118,7 @@ module.exports = function(selector, get_url, accept_identity) {
                                 current_obj = $();
                                 hovercard.trigger(Cleanup);
                             });
-                        $('<span>x</span>')
+                        $('<span></span>')
                             .appendTo(feedback.obj)
                             .on('click', function(e) {
                                 e.preventDefault();
