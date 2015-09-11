@@ -165,7 +165,7 @@
 	line-height: 22px !important;
 	display: inline-block !important;
 }
-.feedback-link a strong {
+.feedback-link a div {
 	vertical-align: top !important;
 	background-color: white !important;
 	padding: 0px 4px !important;
@@ -175,6 +175,19 @@
 	font-family: arial, sans-serif !important;
 	border-radius: 4px !important;
 	position: relative !important;
+}
+.feedback-link a div:after {
+	content: "";
+	width: 0 !important;
+	height: 0 !important;
+	border-top: 6px solid transparent !important;
+	border-bottom: 6px solid transparent !important;
+	border-right:6px solid white !important;
+	position: absolute !important;
+	left: -5px !important;
+	top:50%;
+	margin-top: -6px;
+	display: block;
 }
 .feedback-link img {
 	height: 22px !important;
