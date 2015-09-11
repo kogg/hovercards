@@ -1,8 +1,8 @@
 .__MSG_@@extension_id__-hovercard {
 	background: rgba(255,255,255,.96) !important;
 	z-index: 2147483647 !important;
-	overflow: visible; !important;
 	border-radius: 8px !important;
+	border-radius: 3px !important;
 	box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
 	cursor: pointer !important;
 	position: absolute !important;
@@ -10,6 +10,7 @@
 .__MSG_@@extension_id__-hovercard iframe {
 	height: 100% !important;
 	width: 100% !important;
+	border-radius: 3px !important
 }
 .__MSG_@@extension_id__-hovercard-from-top, .__MSG_@@extension_id__-hovercard-from-bottom {
 	-webkit-animation-duration: .4s;
@@ -84,6 +85,7 @@
 }
 .feedback-link {
 	background: #b1e8f6 !important;
+	position: absolute;
 	-webkit-transform: translate(0,-100%);
 	transform: translate(0,-100%);
 	padding: 8px !important;
