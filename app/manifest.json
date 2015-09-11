@@ -2,7 +2,7 @@
     "name": "__MSG_app_name__",
     "short_name": "__MSG_app_short_name__",
     "description": "__MSG_app_description__",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "content_scripts": [
         {
             "matches": [
@@ -65,6 +65,7 @@
     "web_accessible_resources": [
         "hovercard.html",
         "sidebar.html",
+        "images/logo-128.png",
         "images/closesidebar.png",
         "images/closebutton.png",
         "images/backbutton.png",

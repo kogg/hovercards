@@ -48,6 +48,20 @@ window.addEventListener('message', function(event) {
     }
 }, false);
 
+var feedback;
+
+chrome.storage.sync.get(['feedback_url', 'last_interacted_feedback_url'], function(obj) {
+    feedback = obj;
+    feedback.show = function() {
+        return feedback.feedback_url && feedback.feedback_url.length && feedback.feedback_url !== feedback.last_interacted_feedback_url;
+    };
+    feedback.interact = function() {
+        feedback.last_interacted_feedback_url = feedback.feedback_url;
+        chrome.storage.sync.set({ last_interacted_feedback_url: feedback.last_interacted_feedback_url });
+    };
+    feedback.obj = { toggleClass: function() {}, length: 0 };
+});
+
 module.exports = function(selector, get_url, accept_identity) {
     $('html').on(MouseMove, selector, function(e) {
         var obj = $(this);
@@ -93,6 +107,32 @@ module.exports = function(selector, get_url, accept_identity) {
                                 break;
                         }
                     }, false);
+                    if (feedback.show()) {
+                        feedback.obj = $('<div class="feedback-link"></div>').appendTo(hovercard);
+                        $('<a href="' + feedback.feedback_url + '" target="_blank"><img src="'+chrome.extension.getURL('images/logo-128.png')+'"><div>Hey you! Can you give me feedback?</div></a>')
+                            .appendTo(feedback.obj)
+                            .on('click', function(e) {
+                                e.stopPropagation();
+                                feedback.interact();
+                                feedback.obj.remove();
+                                feedback.obj = { toggleClass: function() {}, length: 0 };
+                                obj.off(NameSpace);
+                                current_obj = $();
+                                hovercard.trigger(Cleanup);
+                            });
+                        $('<span></span>')
+                            .appendTo(feedback.obj)
+                            .on('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                feedback.interact();
+                                feedback.obj.remove();
+                                feedback.obj = { toggleClass: function() {}, length: 0 };
+                                obj.off(NameSpace);
+                                current_obj = $();
+                                hovercard.trigger(Cleanup);
+                            });
+                    }
                     $('<iframe></iframe>')
                         .appendTo(hovercard)
                         .attr('src', chrome.extension.getURL('hovercard.html'))
@@ -102,7 +142,8 @@ module.exports = function(selector, get_url, accept_identity) {
                 obj.off(NameSpace);
                 var target = $(e.target);
                 var offset = target.offset();
-                var is_top = offset.top - CARD_SIZES[identity.api][identity.type].height - PADDING_FROM_EDGES > $(window).scrollTop();
+                var is_top = offset.top - CARD_SIZES[identity.api][identity.type].height - (feedback.obj.length ? 38 : 0) - PADDING_FROM_EDGES > $(window).scrollTop();
+                feedback.obj.toggleClass('feedback-link-bottom', !is_top);
                 var start = Date.now();
                 hovercard
                     .trigger(Cleanup)
