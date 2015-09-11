@@ -59,6 +59,7 @@ chrome.storage.sync.get(['feedback_url', 'last_interacted_feedback_url'], functi
         feedback.last_interacted_feedback_url = feedback.feedback_url;
         chrome.storage.sync.set({ last_interacted_feedback_url: feedback.last_interacted_feedback_url });
     };
+    feedback.obj = { toggleClass: function() {}, length: 0 };
 });
 
 module.exports = function(selector, get_url, accept_identity) {
@@ -114,6 +115,7 @@ module.exports = function(selector, get_url, accept_identity) {
                                 e.stopPropagation();
                                 feedback.interact();
                                 feedback.obj.remove();
+                                feedback.obj = { toggleClass: function() {}, length: 0 };
                                 obj.off(NameSpace);
                                 current_obj = $();
                                 hovercard.trigger(Cleanup);
@@ -125,6 +127,7 @@ module.exports = function(selector, get_url, accept_identity) {
                                 e.stopPropagation();
                                 feedback.interact();
                                 feedback.obj.remove();
+                                feedback.obj = { toggleClass: function() {}, length: 0 };
                                 obj.off(NameSpace);
                                 current_obj = $();
                                 hovercard.trigger(Cleanup);
@@ -139,7 +142,8 @@ module.exports = function(selector, get_url, accept_identity) {
                 obj.off(NameSpace);
                 var target = $(e.target);
                 var offset = target.offset();
-                var is_top = offset.top - CARD_SIZES[identity.api][identity.type].height - PADDING_FROM_EDGES > $(window).scrollTop();
+                var is_top = offset.top - CARD_SIZES[identity.api][identity.type].height - (feedback.obj.length ? 38 : 0) - PADDING_FROM_EDGES > $(window).scrollTop();
+                feedback.obj.toggleClass('feedback-list-bottom', !is_top);
                 var start = Date.now();
                 hovercard
                     .trigger(Cleanup)
