@@ -143,7 +143,7 @@ module.exports = function(selector, get_url, accept_identity) {
                 var target = $(e.target);
                 var offset = target.offset();
                 var is_top = offset.top - CARD_SIZES[identity.api][identity.type].height - (feedback.obj.length ? 38 : 0) - PADDING_FROM_EDGES > $(window).scrollTop();
-                feedback.obj.toggleClass('feedback-list-bottom', !is_top);
+                feedback.obj.toggleClass('feedback-link-bottom', !is_top);
                 var start = Date.now();
                 hovercard
                     .trigger(Cleanup)
