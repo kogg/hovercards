@@ -1,6 +1,6 @@
 var $ = require('jquery');
 
-require('./analytics/anywhere')();
+require('./analytics/top-frame')();
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
