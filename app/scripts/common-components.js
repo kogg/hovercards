@@ -11,9 +11,9 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Comm
         return {
             link: function($scope, $element, $attrs) {
                 $element.one('click', function() {
-                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', $attrs.analyticsClick,
-                                                                                                          $attrs.analyticsAction || 'click',
-                                                                                                          $attrs.analyticsLabel] }, '*');
+                    $element.trigger('analytics.' + EXTENSION_ID, ['send', 'event', $attrs.analyticsClick,
+                                                                                    $attrs.analyticsAction || 'click',
+                                                                                    $attrs.analyticsLabel]);
                 });
             }
         };

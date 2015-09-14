@@ -37,7 +37,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         $interval.cancel(interval);
                         can_have_people_watcher();
                         if ($window.innerHeight <= angular.element('.people-card-space').offset().top) {
-                            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people scrolled to', 'somehow'] }, '*');
+                            angular.element('html').trigger('analytics.' + EXTENSION_ID, ['send', 'event', 'people scrolled to', 'somehow']);
                             $scope.entry.people_needed_scrolling = true;
                         }
 
@@ -152,7 +152,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             if (selectedPerson === oldSelectedPerson || !selectedPerson || !oldSelectedPerson) {
                 return;
             }
-            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'people changed', 'somehow'] }, '*');
+            angular.element('html').trigger('analytics.' + EXTENSION_ID, ['send', 'event', 'people changed', 'somehow']);
         });
     }])
     .controller('AccountShimController', ['$scope', 'apiService', function($scope, apiService) {

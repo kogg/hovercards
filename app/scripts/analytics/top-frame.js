@@ -75,7 +75,6 @@ module.exports = function($html) {
         if (message.msg !== EXTENSION_ID + '-analytics') {
             return;
         }
-        console.log('got from some other frame', message.request);
         $html.trigger('analytics.' + EXTENSION_ID, message.request);
     });
 };

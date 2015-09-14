@@ -56,7 +56,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                 })
                 .catch(function(err) {
                     object.$err = err;
-                    window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'exception', { exDescription: params.api + ' ' + params.type + ' ' + (err.status || ''), exFatal: false }] }, '*');
+                    angular.element('html').trigger('analytics.' + EXTENSION_ID, ['send', 'exception', { exDescription: params.api + ' ' + params.type + ' ' + (err.status || ''), exFatal: false }]);
                     return $q.reject(object.$err);
                 })
                 .finally(function() {
