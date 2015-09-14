@@ -1,3 +1,6 @@
+// New Stuff
+require('./analytics/top-frame')();
+
 var $ = require('jquery');
 
 var network_urls = require('YoCardsApiCalls/network-urls');

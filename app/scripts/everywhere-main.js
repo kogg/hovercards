@@ -1,3 +1,6 @@
+// New Stuff
+require('./analytics/every-frame')();
+
 var $ = require('jquery');
 
 var hovercard = require('./hovercard');

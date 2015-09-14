@@ -1,1 +1,0 @@
-require('./analytics/every-frame')();
