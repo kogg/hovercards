@@ -1,3 +1,6 @@
+// New Stuff
+require('./analytics/every-frame')();
+
 var $       = require('jquery');
 var angular = require('angular');
 var common  = require('./common');

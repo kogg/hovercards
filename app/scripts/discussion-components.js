@@ -139,7 +139,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                                             $scope.items.sort(function(a, b) {
                                                 return item_pos[a] - item_pos[b];
                                             });
-                                            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'discussions reordered', 'somehow'] }, '*');
+                                            $element.trigger('analytics.' + EXTENSION_ID, ['send', 'event', 'discussions reordered', 'somehow']);
                                         });
                                     } });
                 $element.disableSelection();

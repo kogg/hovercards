@@ -55,7 +55,7 @@ module.exports = function sidebar() {
         .addClass(EXTENSION_ID + '-sidebar-minimizer')
         .click(function() {
             obj.toggleClass(EXTENSION_ID + '-sidebar-minimized');
-            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar ' + (obj.hasClass(EXTENSION_ID + '-sidebar-minimized') ? 'minimized' : 'unminimized'), 'minimizer'] }, '*');
+            $('html').trigger('analytics.' + EXTENSION_ID, ['send', 'event', 'sidebar ' + (obj.hasClass(EXTENSION_ID + '-sidebar-minimized') ? 'minimized' : 'unminimized'), 'minimizer']);
         });
 
     window.addEventListener('message', function(event) {
@@ -91,7 +91,7 @@ module.exports = function sidebar() {
                                     return;
                             }
                             label = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
-                            window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar activated (same)', message.by, label] }, '*');
+                            $('html').trigger('analytics.' + EXTENSION_ID, ['send', 'event', 'sidebar activated (same)', message.by, label]);
                             sidebar_frame.postMessage({ msg: EXTENSION_ID + '-sameload' }, '*');
                             return;
                         }
@@ -113,7 +113,7 @@ module.exports = function sidebar() {
                     .addClass(EXTENSION_ID + '-sidebar-enter');
                 $(document).on('dblclick', dblclick_for_sidebar);
                 label = (message.identity.type === 'url') ? 'url' : message.identity.api + ' ' + message.identity.type;
-                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar activated', message.by, label] }, '*');
+                $('html').trigger('analytics.' + EXTENSION_ID, ['send', 'event', 'sidebar activated', message.by, label]);
                 break;
             case EXTENSION_ID + '-hide':
                 if (!showing) {
@@ -126,7 +126,7 @@ module.exports = function sidebar() {
                     .removeClass(EXTENSION_ID + '-sidebar-enter-cancel-animation')
                     .addClass(EXTENSION_ID + '-sidebar-leave');
                 $(document).off('dblclick', dblclick_for_sidebar);
-                window.top.postMessage({ msg: EXTENSION_ID + '-analytics', request: ['send', 'event', 'sidebar deactivated', message.by] }, '*');
+                $('html').trigger('analytics.' + EXTENSION_ID, ['send', 'event', 'sidebar deactivated', message.by]);
                 break;
         }
         sidebar_frame.postMessage(message, '*');

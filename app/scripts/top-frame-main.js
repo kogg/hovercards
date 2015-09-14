@@ -1,3 +1,6 @@
+// New Stuff
+require('./analytics/top-frame')();
+
 var $ = require('jquery');
 
 var network_urls = require('YoCardsApiCalls/network-urls');
@@ -8,8 +11,6 @@ var container = $('<div></div>')
 
 require('./sidebar')()
     .appendTo(container);
-
-require('./google-analytics')();
 
 var url;
 // FIXME I don't like any of this
