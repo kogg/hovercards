@@ -9,8 +9,6 @@ var container = $('<div></div>')
 require('./sidebar')()
     .appendTo(container);
 
-require('./google-analytics')();
-
 var url;
 // FIXME I don't like any of this
 setInterval(function() {
