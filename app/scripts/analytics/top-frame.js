@@ -36,7 +36,7 @@ if (env.analytics_id) {
                     (window.ga.q = window.ga.q || []).push(arguments);
                 };
                 window.ga.l = 1 * new Date();
-                require('../analytics-local');
+                require('./analytics-local');
 
                 window.ga('create', env.analytics_id, { 'userId': user_id });
                 window.ga('set', { appName: chrome.i18n.getMessage('app_name'), appVersion: chrome.runtime.getManifest().version });
