@@ -1,5 +1,4 @@
 var $   = require('jquery');
-var _   = require('underscore');
 var env = require('env');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
@@ -18,8 +17,12 @@ if (env.analytics_id) {
         });
 
         function setup(user_id, needs_set) {
+            var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             if (!user_id || !user_id.length) {
-                user_id = _.times(25, _.partial(_.sample, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', 1, 1)).join('');
+                user_id = '';
+                for (var i = 0; i < 25; i++) {
+                    user_id += ALPHANUMERIC[Math.floor(Math.random() * ALPHANUMERIC.length)];
+                }
                 needs_set = true;
             }
             if (needs_set) {
