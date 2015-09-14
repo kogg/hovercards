@@ -13,7 +13,7 @@
     "browserify:iframes": "browserify app/scripts/hovercard-main.js app/scripts/sidebar-main.js -p [ factor-bundle -o dist/scripts/hovercard-main.js -o dist/scripts/sidebar-main.js ] -o dist/scripts/common-main.js -r ./app/scripts/production-env.js:env -v",
     "browserify:options": "browserify app/scripts/options-main.js -o dist/scripts/options-main.js -r ./app/scripts/production-env.js:env -v",
     "browserify:soundcloud-player": "browserify app/scripts/soundcloud-player-main.js -o dist/scripts/soundcloud-player-main.js -r ./app/scripts/production-env.js:env -v",
-    "browserify:top-frame": "browserify app/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -r ./app/scripts/production-env.js:env -v",
+    "browserify:top-frame": "browserify app/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -r ./app/scripts/production-env.js:env -v && browserify app/scripts/top-frame.js -o dist/scripts/top-frame.js -r ./app/scripts/production-env.js:env -v",
     "clean": "rm -rf dist/* *.pem *.nex",
     "compress": "zip -q -r build/pkg-$npm_package_version.zip dist",
     "copy:non_js": "rsync -r --exclude=scripts/* app/* dist && cp node_modules/angular/angular-csp.css dist/styles/ && cp node_modules/slick-carousel/slick/slick.css dist/styles/ && cp node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css dist/styles/",
@@ -25,14 +25,14 @@
     "uglify:options": "uglifyjs dist/scripts/options-main.js -o dist/scripts/options-main.js -c drop_console=true,warnings=false",
     "uglify:sidebar": "uglifyjs dist/scripts/sidebar-main.js -o dist/scripts/sidebar-main.js -c drop_console=true,warnings=false",
     "uglify:soundcloud-player": "uglifyjs dist/scripts/soundcloud-player-main.js -o dist/scripts/soundcloud-player-main.js -c drop_console=true,warnings=false",
-    "uglify:top-frame": "uglifyjs dist/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -c drop_console=true,warnings=false",
+    "uglify:top-frame": "uglifyjs dist/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -c drop_console=true,warnings=false && uglifyjs dist/scripts/top-frame.js -o dist/scripts/top-frame.js -c drop_console=true,warnings=false",
     "watch:non_js": "watch 'npm run copy:non_js' app",
     "watchify:background": "watchify app/scripts/background-main.js -o dist/scripts/background-main.js -r ./app/scripts/development-env.js:env -v -d",
     "watchify:everywhere": "watchify app/scripts/everywhere-main.js -o dist/scripts/everywhere-main.js -r ./app/scripts/development-env.js:env -v -d",
     "watchify:iframes": "watchify app/scripts/hovercard-main.js app/scripts/sidebar-main.js -p [ factor-bundle -o dist/scripts/hovercard-main.js -o dist/scripts/sidebar-main.js ] -o dist/scripts/common-main.js -r ./app/scripts/development-env.js:env -v",
     "watchify:options": "watchify app/scripts/options-main.js -o dist/scripts/options-main.js -r ./app/scripts/development-env.js:env -v -d",
     "watchify:soundcloud-player": "watchify app/scripts/soundcloud-player-main.js -o dist/scripts/soundcloud-player-main.js -r ./app/scripts/development-env.js:env -v -d",
-    "watchify:top-frame": "watchify app/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -r ./app/scripts/development-env.js:env -v -d"
+    "watchify:top-frame": "watchify app/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -r ./app/scripts/development-env.js:env -v -d & watchify app/scripts/top-frame.js -o dist/scripts/top-frame.js -r ./app/scripts/development-env.js:env -v -d"
   },
   "dependencies": {
     "URIjs": "^1.16.0",

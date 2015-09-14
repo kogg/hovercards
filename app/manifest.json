@@ -13,7 +13,8 @@
                 "styles/top-frame.css"
             ],
             "js": [
-                "scripts/top-frame-main.js"
+                "scripts/top-frame-main.js",
+                "scripts/top-frame.js"
             ],
             "all_frames": false
         },
