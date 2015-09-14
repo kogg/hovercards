@@ -3,10 +3,6 @@ var $ = require('jquery');
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 module.exports = function($html) {
-    if (window.self === window.top) {
-        return;
-    }
-
     $html = $($html || 'html');
 
     $html.on('analytics.' + EXTENSION_ID, function() {
