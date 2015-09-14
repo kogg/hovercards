@@ -24,15 +24,13 @@ function get_user_id(callback) {
 }
 
 if (env.analytics_id) {
-    module.exports = function($body) {
-        $body = $($body || 'body');
-
+    module.exports = function($html) {
         get_user_id(function(err, user_id) {
             if (err) {
                 return console.error('error getting user_id', err);
             }
 
-            $body.one('analytics.' + EXTENSION_ID, function() {
+            $html.one('analytics.' + EXTENSION_ID, function() {
                 window.GoogleAnalyticsObject = 'ga';
                 window.ga = window.ga || function() {
                     (window.ga.q = window.ga.q || []).push(arguments);
@@ -45,21 +43,19 @@ if (env.analytics_id) {
                 window.ga('send', 'screenview', { screenName: 'None' });
             });
 
-            $body.on('analytics.' + EXTENSION_ID, function() {
+            $html.on('analytics.' + EXTENSION_ID, function() {
                 window.ga.apply(this, Array.prototype.slice.call(arguments, 1));
             });
         });
     };
 } else {
-    module.exports = function($body) {
-        $body = $($body || 'body');
-
+    module.exports = function($html) {
         get_user_id(function(err, user_id) {
             if (err) {
                 return console.error('error getting user_id', err);
             }
 
-            $body.on('analytics.' + EXTENSION_ID, function() {
+            $html.on('analytics.' + EXTENSION_ID, function() {
                 console.debug('google analytics', Array.prototype.slice.call(arguments, 1));
             });
         });
@@ -67,8 +63,10 @@ if (env.analytics_id) {
 }
 
 var old_exports = module.exports;
-module.exports = function($body) {
-    old_exports($body);
+module.exports = function($html) {
+    $html = $($html || 'html');
+
+    old_exports($html);
     window.addEventListener('message', function(event) {
         if (!event || !event.data) {
             return;
@@ -77,6 +75,7 @@ module.exports = function($body) {
         if (message.msg !== EXTENSION_ID + '-analytics') {
             return;
         }
-        $('body').trigger('analytics.' + EXTENSION_ID, message.request);
+        console.log('got from some other frame', message.request);
+        $html.trigger('analytics.' + EXTENSION_ID, message.request);
     });
 };
