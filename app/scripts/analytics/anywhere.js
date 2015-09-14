@@ -4,29 +4,32 @@ var env = require('env');
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 if (env.analytics_id) {
-    module.exports = function($body) {
-        $body = $($body || 'body');
-
+    function get_user_id(callback) {
         chrome.storage.sync.get('user_id', function(obj) {
             if (chrome.runtime.lastError || !obj || !obj.user_id) {
                 return chrome.storage.local.get('user_id', function(obj) {
-                    setup((!chrome.runtime.lastError && obj && obj.user_id) ? obj.user_id : null, true);
+                    var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                    var user_id = !chrome.runtime.lastError && obj && obj.user_id;
+                    if (user_id) {
+                        user_id = '';
+                        for (var i = 0; i < 25; i++) {
+                            user_id += ALPHANUMERIC[Math.floor(Math.random() * ALPHANUMERIC.length)];
+                        }
+                    }
+                    chrome.storage.sync.set({ user_id: user_id });
+                    callback(null, user_id);
                 });
             }
-            setup(obj.user_id);
+            callback(null, obj.user_id);
         });
+    }
 
-        function setup(user_id, needs_set) {
-            var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            if (!user_id || !user_id.length) {
-                user_id = '';
-                for (var i = 0; i < 25; i++) {
-                    user_id += ALPHANUMERIC[Math.floor(Math.random() * ALPHANUMERIC.length)];
-                }
-                needs_set = true;
-            }
-            if (needs_set) {
-                chrome.storage.local.set({ user_id: user_id });
+    module.exports = function($body) {
+        $body = $($body || 'body');
+
+        get_user_id(function(err, user_id) {
+            if (err) {
+                return console.error('error getting user_id', err);
             }
 
             $body.one('analytics.' + EXTENSION_ID, function() {
@@ -45,14 +48,20 @@ if (env.analytics_id) {
             $body.on('analytics.' + EXTENSION_ID, function() {
                 window.ga.apply(this, Array.prototype.slice.call(arguments, 1));
             });
-        }
+        });
     };
 } else {
     module.exports = function($body) {
         $body = $($body || 'body');
 
-        $body.on('analytics.' + EXTENSION_ID, function() {
-            console.debug('google analytics', Array.prototype.slice.call(arguments, 1));
+        get_user_id(function(err, user_id) {
+            if (err) {
+                return console.error('error getting user_id', err);
+            }
+
+            $body.on('analytics.' + EXTENSION_ID, function() {
+                console.debug('google analytics', Array.prototype.slice.call(arguments, 1));
+            });
         });
     };
 }
