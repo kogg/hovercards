@@ -27,6 +27,7 @@
                 "styles/everywhere.css"
             ],
             "js": [
+                "scripts/every-frame.js",
                 "scripts/everywhere-main.js"
             ],
             "all_frames": true
