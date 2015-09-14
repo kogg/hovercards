@@ -92,7 +92,7 @@ module.exports = function(selector, get_url, accept_identity) {
                 }
             })
             .one(ShowHoverCard, function() {
-                $('html').trigger('analytics' + NameSpace, ['send', 'event', 'hovercard shown', 'hover link', (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type, { nonInteraction: true }]);
+                $.analytics('send', 'event', 'hovercard shown', 'hover link', (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type, { nonInteraction: true });
                 if (!hovercard.length) {
                     hovercard = $('<div></div>')
                         .appendTo(document.location.protocol === 'chrome-extension:' ? 'body' : 'html')
@@ -157,7 +157,7 @@ module.exports = function(selector, get_url, accept_identity) {
                                              Math.min($(window).scrollLeft() + $(window).width() - CARD_SIZES[identity.api][identity.type].width - PADDING_FROM_EDGES,
                                                       last_e.pageX + 1)) })
                     .on(Cleanup, function() {
-                        $('html').trigger('analytics' + NameSpace, ['send', 'timing', 'hovercard', 'showing', Date.now() - start, (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type]);
+                        $.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - start, (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type);
                         hovercard
                             .off(NameSpace)
                             .hide();

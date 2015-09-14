@@ -1,8 +1,6 @@
 var _       = require('underscore');
 var angular = require('angular');
 
-var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
-
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'ServiceComponents', [])
     .factory('apiService', ['$q', function($q) {
         var errors = { 0:   'our-problem',
@@ -56,7 +54,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Serv
                 })
                 .catch(function(err) {
                     object.$err = err;
-                    angular.element('html').trigger('analytics.' + EXTENSION_ID, ['send', 'exception', { exDescription: params.api + ' ' + params.type + ' ' + (err.status || ''), exFatal: false }]);
+                    angular.element.analytics('send', 'exception', { exDescription: params.api + ' ' + params.type + ' ' + (err.status || ''), exFatal: false });
                     return $q.reject(object.$err);
                 })
                 .finally(function() {

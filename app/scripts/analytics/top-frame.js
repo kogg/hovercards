@@ -30,7 +30,7 @@ if (env.analytics_id) {
                 return console.error('error getting user_id', err);
             }
 
-            $html.one('analytics.' + EXTENSION_ID, function() {
+            $.analytics = function() {
                 window.GoogleAnalyticsObject = 'ga';
                 window.ga = window.ga || function() {
                     (window.ga.q = window.ga.q || []).push(arguments);
@@ -41,32 +41,24 @@ if (env.analytics_id) {
                 window.ga('create', env.analytics_id, { 'userId': user_id });
                 window.ga('set', { appName: chrome.i18n.getMessage('app_name'), appVersion: chrome.runtime.getManifest().version });
                 window.ga('send', 'screenview', { screenName: 'None' });
-            });
-
-            $html.on('analytics.' + EXTENSION_ID, function() {
-                window.ga.apply(this, Array.prototype.slice.call(arguments, 1));
-            });
+                window.ga.apply(this, Array.prototype.slice.call(arguments));
+                $.analytics = function() {
+                    window.ga.apply(this, Array.prototype.slice.call(arguments));
+                };
+            };
         });
     };
 } else {
-    module.exports = function($html) {
-        get_user_id(function(err, user_id) {
-            if (err) {
-                return console.error('error getting user_id', err);
-            }
-
-            $html.on('analytics.' + EXTENSION_ID, function() {
-                console.debug('google analytics', Array.prototype.slice.call(arguments, 1));
-            });
-        });
+    module.exports = function() {
+        $.analytics = function() {
+            console.debug('google analytics', Array.prototype.slice.call(arguments));
+        };
     };
 }
 
 var old_exports = module.exports;
-module.exports = function($html) {
-    $html = $($html || 'html');
-
-    old_exports($html);
+module.exports = function() {
+    old_exports();
     window.addEventListener('message', function(event) {
         if (!event || !event.data) {
             return;
@@ -75,6 +67,6 @@ module.exports = function($html) {
         if (message.msg !== EXTENSION_ID + '-analytics') {
             return;
         }
-        $html.trigger('analytics.' + EXTENSION_ID, message.request);
+        $.analytics.apply(this, message.request);
     });
 };

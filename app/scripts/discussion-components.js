@@ -1,8 +1,6 @@
 var _       = require('underscore');
 var angular = require('angular');
 
-var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
-
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'DiscussionComponents', [require('./service-components')])
     .controller('DiscussionController', ['$scope', '$timeout', 'apiService', function($scope, $timeout, apiService) {
         $scope.$watch('[entry.discussions, order]', function(parts) {
@@ -139,7 +137,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Disc
                                             $scope.items.sort(function(a, b) {
                                                 return item_pos[a] - item_pos[b];
                                             });
-                                            $element.trigger('analytics.' + EXTENSION_ID, ['send', 'event', 'discussions reordered', 'somehow']);
+                                            angular.element.analytics('send', 'event', 'discussions reordered', 'somehow');
                                         });
                                     } });
                 $element.disableSelection();

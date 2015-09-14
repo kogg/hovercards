@@ -1,8 +1,6 @@
 var _       = require('underscore');
 var angular = require('angular');
 
-var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
-
 module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'PeopleComponents', [require('./service-components')])
     .controller('PeopleController', ['$scope', '$interval', '$timeout', '$window', 'apiService', function($scope, $interval, $timeout, $window, apiService) {
         var others_exist_watcher = $scope.$watch('entry.type', function(type) {
@@ -37,7 +35,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
                         $interval.cancel(interval);
                         can_have_people_watcher();
                         if ($window.innerHeight <= angular.element('.people-card-space').offset().top) {
-                            angular.element('html').trigger('analytics.' + EXTENSION_ID, ['send', 'event', 'people scrolled to', 'somehow']);
+                            angular.element.analytics('send', 'event', 'people scrolled to', 'somehow');
                             $scope.entry.people_needed_scrolling = true;
                         }
 
@@ -152,7 +150,7 @@ module.exports = angular.module(chrome.i18n.getMessage('app_short_name') + 'Peop
             if (selectedPerson === oldSelectedPerson || !selectedPerson || !oldSelectedPerson) {
                 return;
             }
-            angular.element('html').trigger('analytics.' + EXTENSION_ID, ['send', 'event', 'people changed', 'somehow']);
+            angular.element.analytics('send', 'event', 'people changed', 'somehow');
         });
     }])
     .controller('AccountShimController', ['$scope', 'apiService', function($scope, apiService) {
