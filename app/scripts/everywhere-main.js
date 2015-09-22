@@ -1,6 +1,18 @@
 // New Stuff
 require('./analytics/any-frame')();
+require('./hovercard/any-frame')('a[href]:not(.no-yo,.hoverZoomLink,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); });
+require('./hovercard/any-frame')('a[data-href]:not(.no-yo,.hoverZoomLink,[data-expanded-url])',        function(link) { return link.data('href'); });
+require('./hovercard/any-frame')('a[data-expanded-url]:not(.no-yo,.hoverZoomLink,[data-href])',        function(link) { return link.data('expanded-url'); });
+// FIXME Twitter follow button hack
+require('./hovercard/any-frame')('iframe.twitter-follow-button:not(.no-yo)', function(iframe) {
+    var match = iframe.attr('src').match(/[?&]screen_name=([a-zA-Z0-9_]+)(?:&|$)/);
+    if (!match || !match[1]) {
+        return;
+    }
+    return 'https://twitter.com/' + match[1];
+});
 
+/*
 var $ = require('jquery');
 
 var hovercard = require('./hovercard');
@@ -58,3 +70,4 @@ chrome.storage.sync.get('disabled', function(obj) {
 $('html').on('hovercardclick.' + EXTENSION_ID, function(e, url) {
     window.top.postMessage({ msg: EXTENSION_ID + '-activate', by: 'hovercard', url: url }, '*');
 });
+*/
