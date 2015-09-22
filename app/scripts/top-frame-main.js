@@ -1,5 +1,5 @@
 // New Stuff
-require('./analytics/top-frame')();
+require('./analytics/top-frame');
 
 var $ = require('jquery');
 

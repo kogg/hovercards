@@ -1,5 +1,5 @@
 // New Stuff
-require('./analytics/any-frame')();
+require('./analytics/any-frame');
 require('./hovercard/any-frame')('a[href]:not(.no-yo,.hoverZoomLink,[data-href],[data-expanded-url])', function(link) { return link.attr('href'); });
 require('./hovercard/any-frame')('a[data-href]:not(.no-yo,.hoverZoomLink,[data-expanded-url])',        function(link) { return link.data('href'); });
 require('./hovercard/any-frame')('a[data-expanded-url]:not(.no-yo,.hoverZoomLink,[data-href])',        function(link) { return link.data('expanded-url'); });
