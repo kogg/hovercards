@@ -1,5 +1,5 @@
 // New Stuff
-require('./analytics/any-frame')();
+require('./analytics/any-frame');
 
 var $       = require('jquery');
 var angular = require('angular');

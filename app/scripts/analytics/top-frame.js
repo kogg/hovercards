@@ -24,49 +24,49 @@ function get_user_id(callback) {
 }
 
 if (env.analytics_id) {
-    module.exports = function($html) {
-        get_user_id(function(err, user_id) {
-            if (err) {
-                return console.error('error getting user_id', err);
-            }
-
-            $.analytics = function() {
-                window.GoogleAnalyticsObject = 'ga';
-                window.ga = window.ga || function() {
-                    (window.ga.q = window.ga.q || []).push(arguments);
-                };
-                window.ga.l = 1 * new Date();
-                require('./analytics-local');
-
-                window.ga('create', env.analytics_id, { 'userId': user_id });
-                window.ga('set', { appName: chrome.i18n.getMessage('app_name'), appVersion: chrome.runtime.getManifest().version });
-                window.ga('send', 'screenview', { screenName: 'None' });
-                window.ga.apply(this, Array.prototype.slice.call(arguments));
-                $.analytics = function() {
-                    window.ga.apply(this, Array.prototype.slice.call(arguments));
-                };
-            };
-        });
+    var analytics_queue = [];
+    $.analytics = function() {
+        analytics_queue.push(arguments);
     };
-} else {
-    module.exports = function() {
+    get_user_id(function(err, user_id) {
+        if (err) {
+            return console.error('error getting user_id', err);
+        }
+
         $.analytics = function() {
-            console.debug('google analytics', Array.prototype.slice.call(arguments));
+            window.GoogleAnalyticsObject = 'ga';
+            window.ga = window.ga || function() {
+                (window.ga.q = window.ga.q || []).push(arguments);
+            };
+            window.ga.l = 1 * new Date();
+            require('./analytics-local');
+
+            window.ga('create', env.analytics_id, { 'userId': user_id });
+            window.ga('set', { appName: chrome.i18n.getMessage('app_name'), appVersion: chrome.runtime.getManifest().version });
+            window.ga('send', 'screenview', { screenName: 'None' });
+            window.ga.apply(this, Array.prototype.slice.call(arguments));
+            $.analytics = function() {
+                window.ga.apply(this, Array.prototype.slice.call(arguments));
+            };
         };
+
+        analytics_queue.forEach(function(args) {
+            $.analytics.apply($.analytics, args);
+        });
+    });
+} else {
+    $.analytics = function() {
+        console.debug('google analytics', Array.prototype.slice.call(arguments));
     };
 }
 
-var old_exports = module.exports;
-module.exports = function() {
-    old_exports();
-    window.addEventListener('message', function(event) {
-        if (!event || !event.data) {
-            return;
-        }
-        var message = event.data;
-        if (message.msg !== EXTENSION_ID + '-analytics') {
-            return;
-        }
-        $.analytics.apply(this, message.request);
-    });
-};
+window.addEventListener('message', function(event) {
+    if (!event || !event.data) {
+        return;
+    }
+    var message = event.data;
+    if (message.msg !== EXTENSION_ID + '-analytics') {
+        return;
+    }
+    $.analytics.apply(this, message.request);
+});
