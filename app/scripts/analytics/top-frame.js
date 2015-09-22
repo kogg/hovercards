@@ -24,7 +24,7 @@ function get_user_id(callback) {
 }
 
 if (env.analytics_id) {
-    module.exports = function($html) {
+    module.exports = function() {
         get_user_id(function(err, user_id) {
             if (err) {
                 return console.error('error getting user_id', err);
