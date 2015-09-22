@@ -35,14 +35,14 @@ module.exports = function(selector, get_url) {
                 obj.trigger(Cleanup);
                 console.log('show card for', obj);
             })
-            .on(MouseMove, function(e) {
-                last_e = e;
-            })
             .one(MouseLeave + ' ' + Click, function() {
                 obj.trigger(Cleanup);
                 if (current_obj.is(obj)) {
                     current_obj = $();
                 }
+            })
+            .on(MouseMove, function(e) {
+                last_e = e;
             })
             .on(Cleanup, function() {
                 console.log('cleanup for', obj);
