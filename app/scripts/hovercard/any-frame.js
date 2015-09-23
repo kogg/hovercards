@@ -96,7 +96,6 @@ $.fn.extend({
                 .addFeedback(obj)
                 .appendTo('html');
             position_hovercard(hovercard, obj, e);
-            hovercard.positionFeedback();
             obj
                 .one(Click, function() {
                     obj.trigger(Cleanup);
@@ -150,7 +149,7 @@ function accept_identity(identity, obj) {
 function position_hovercard(hovercard, obj, e) {
     var obj_offset = obj.offset();
     var hovercard_height = hovercard.height();
-    var is_top = obj_offset.top - hovercard_height - PADDING_FROM_EDGES - (/* TODO Screw this noise */ hovercard.has('.feedback-link').length ? 38 : 0) > $(window).scrollTop();
+    var is_top = obj_offset.top - hovercard_height - PADDING_FROM_EDGES - hovercard.feedback_height() > $(window).scrollTop();
     hovercard
         .toggleClass(EXTENSION_ID + '-hovercard-from-top', is_top)
         .toggleClass(EXTENSION_ID + '-hovercard-from-bottom', !is_top)
@@ -158,4 +157,5 @@ function position_hovercard(hovercard, obj, e) {
                   left: Math.max(PADDING_FROM_EDGES,
                                  Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
                                           (e ? e.pageX : obj_offset.left) + 1)) })
+    hovercard.positionFeedback();
 }
