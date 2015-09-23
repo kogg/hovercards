@@ -16,17 +16,25 @@ $.fn.extend({
         if (!show_feedback) {
             return this;
         }
-        $('<div class="feedback-link"></div>')
-            .append('<a href="' + feedback_url + '" target="_blank"><img src="' + chrome.extension.getURL('images/logo-128.png') + '"><div>Hey you! Can you give me feedback?</div></a>')
-            .append('<span></span>')
-            .on('click', function(e) {
+        var feedback_obj = $('<div class="feedback-link"></div>')
+            .on(Click, function(e) {
                 e.stopPropagation();
                 last_interacted_feedback_url = feedback_url;
                 chrome.storage.sync.set({ last_interacted_feedback_url: last_interacted_feedback_url });
                 show_feedback = false;
                 obj.trigger(Cleanup);
+            });
+        $('<a href="' + feedback_url + '" target="_blank"><img src="' + chrome.extension.getURL('images/logo-128.png') + '"><div>Hey you! Can you give me feedback?</div></a>')
+            .on(Click, function() {
+                $.analytics('send', 'event', 'went to feedback', 'click', 'hovercard link');
             })
-            .appendTo(this);
+            .appendTo(feedback_obj);
+        $('<span></span>')
+            .on(Click, function() {
+                $.analytics('send', 'event', 'ignored feedback', 'click', 'hovercard link');
+            })
+            .appendTo(feedback_obj);
+        feedback_obj.appendTo(this);
         return this;
     },
     // TODO Get rid of this crap
