@@ -34,7 +34,7 @@ var MouseLeave    = 'mouseleave' + NameSpace;
 var MouseMove     = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
 var ShowHoverCard = 'showhovercard' + NameSpace;
 
-var current_obj = null;
+var current_obj;
 
 HOVERABLE_THINGS.forEach(function(hoverable) {
     $('html').on(MouseMove, hoverable.selector, function(e) {
@@ -42,6 +42,9 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
         var url;
         var identity;
         if (obj.is(current_obj) || obj.has(current_obj).length || !(url = common.massage_url(hoverable.get_url(obj))) || !(identity = network_urls.identify(url))) {
+            return;
+        }
+        if (!accept_identity(identity, obj)) {
             return;
         }
         var last_e = e;
@@ -116,6 +119,31 @@ $.fn.extend({
         });
     }
 });
+
+var disabled;
+// FIXME Move this out into its own "feature"
+chrome.storage.sync.get('disabled', function(obj) {
+    disabled = obj.disabled || {};
+
+    chrome.storage.onChanged.addListener(function(changes, area_name) {
+        if (area_name !== 'sync' || !('disabled' in changes)) {
+            return;
+        }
+        disabled = changes.disabled.newValue;
+    });
+});
+function accept_identity(identity, obj) {
+    if (!disabled || (disabled[identity.api] && disabled[identity.api][identity.type])) {
+        return false;
+    }
+    return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
+           (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) ||
+           (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) ||
+           (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length :
+                                                                        obj.parents('.usertext-body,.search-result-body').length)) ||
+           (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com') ||
+           (identity.api === 'youtube' && document.URL.indexOf('youtube.com/embed') !== -1);
+}
 
 function position_hovercard(hovercard, obj, e) {
     var obj_offset = obj.offset();
