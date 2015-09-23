@@ -150,7 +150,7 @@
   98% { -webkit-transform: translate(-0.5px, 1.5px) rotate(-0.5deg); }
 }
 
-.feedback-link-bottom {
+.__MSG_@@extension_id__-hovercard-from-bottom .feedback-link {
 	-webkit-transform: translate(0,100%) !important;
 	transform: translate(0,100%) !important;
 	bottom: 0 !important;

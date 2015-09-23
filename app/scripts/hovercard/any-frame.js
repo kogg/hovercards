@@ -157,5 +157,4 @@ function position_hovercard(hovercard, obj, e) {
                   left: Math.max(PADDING_FROM_EDGES,
                                  Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
                                           (e ? e.pageX : obj_offset.left) + 1)) })
-    hovercard.positionFeedback();
 }

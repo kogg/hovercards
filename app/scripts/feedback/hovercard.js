@@ -40,11 +40,6 @@ $.fn.extend({
     // TODO Get rid of this crap
     feedback_height: function() {
         return this.has('.feedback-link').length ? 38 : 0;
-    },
-    // TODO Get rid of this crap
-    positionFeedback: function() {
-        this.find('.feedback-link').toggleClass('feedback-link-bottom', this.hasClass(EXTENSION_ID + '-hovercard-from-bottom'));
-        return this;
     }
 });
 
