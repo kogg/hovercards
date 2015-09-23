@@ -7,8 +7,9 @@ var NameSpace = '.' + EXTENSION_ID;
 var Cleanup = 'cleanup' + NameSpace;
 var Click   = 'click' + NameSpace;
 
-var feedback_url = 'http://saiichihashimoto.com';
-var show_feedback = true;
+var feedback_url;
+var last_interacted_feedback_url;
+var show_feedback = false;
 
 $.fn.extend({
     addFeedback: function(obj) {
@@ -20,6 +21,9 @@ $.fn.extend({
             .append('<span></span>')
             .on('click', function(e) {
                 e.stopPropagation();
+                last_interacted_feedback_url = feedback_url;
+                chrome.storage.sync.set({ last_interacted_feedback_url: last_interacted_feedback_url });
+                show_feedback = false;
                 obj.trigger(Cleanup);
             })
             .appendTo(this);
@@ -30,4 +34,18 @@ $.fn.extend({
         this.find('.feedback-link').toggleClass('feedback-link-bottom', this.hasClass(EXTENSION_ID + '-hovercard-from-bottom'));
         return this;
     }
+});
+
+chrome.storage.sync.get(['feedback_url', 'last_interacted_feedback_url'], function(obj) {
+    chrome.storage.onChanged.addListener(function(changes, area_name) {
+        if (area_name !== 'sync' || !('feedback_url' in changes || 'last_interacted_feedback_url' in changes)) {
+            return;
+        }
+        feedback_url = obj.feedback_url;
+        last_interacted_feedback_url = obj.last_interacted_feedback_url;
+        show_feedback = feedback_url && feedback_url.length && feedback_url !== last_interacted_feedback_url;
+    });
+    feedback_url = obj.feedback_url;
+    last_interacted_feedback_url = obj.last_interacted_feedback_url;
+    show_feedback = feedback_url && feedback_url.length && feedback_url !== last_interacted_feedback_url;
 });

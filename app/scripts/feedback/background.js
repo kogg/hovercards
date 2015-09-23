@@ -4,7 +4,7 @@ var $ = require('jquery');
 var ENDPOINT = 'https://hovercards.herokuapp.com/v1';
 // var ENDPOINT = 'http://localhost:5000/v1';
 
-chrome.storage.sync.get(['feedback_url', 'last_interacted_feedback_url', 'last_feedback_retrieval'], function(obj) {
+chrome.storage.sync.get(['feedback_url', 'last_feedback_retrieval'], function(obj) {
     (function retrieve_feedback_url() {
         setTimeout(function() {
             $.ajax({ url: ENDPOINT + '/feedback_url' })
