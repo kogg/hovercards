@@ -1,6 +1,6 @@
 // New Stuff
 require('./analytics/any-frame');
-var new_way_hovercards = false;
+var new_way_hovercards = true;
 if (new_way_hovercards) {
     require('./hovercard/any-frame');
 } else {
