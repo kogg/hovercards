@@ -90,8 +90,9 @@ $.fn.extend({
                 .addClass(EXTENSION_ID + '-hovercard')
                 .height(100) // FIXME Remove this
                 .width(300) // FIXME Remove this
-                .on(Click, function() {
-                    obj.trigger(Cleanup);
+                .attr('data-identity-' + EXTENSION_ID, JSON.stringify(identity))
+                .one(Click, function() {
+                    obj.trigger(Cleanup, [1]);
                 })
                 .addFeedback(obj)
                 .appendTo('html');
@@ -100,9 +101,11 @@ $.fn.extend({
                 .one(Click, function() {
                     obj.trigger(Cleanup);
                 })
-                .one(Cleanup, function() {
+                .one(Cleanup, function(e, keep_hovercard) {
                     $.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - start, analytics_label);
-                    hovercard.remove();
+                    if (!keep_hovercard) {
+                        hovercard.remove();
+                    }
                     obj.off(NameSpace);
                     current_obj = !current_obj.is(obj) && current_obj;
                 });

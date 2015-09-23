@@ -10,12 +10,12 @@
                 "https://*/*"
             ],
             "css": [
-                "styles/top-frame.css"
+                "styles/everywhere.css"
             ],
             "js": [
-                "scripts/top-frame-main.js"
+                "scripts/everywhere-main.js"
             ],
-            "all_frames": false
+            "all_frames": true
         },
         {
             "matches": [
@@ -23,12 +23,12 @@
                 "https://*/*"
             ],
             "css": [
-                "styles/everywhere.css"
+                "styles/top-frame.css"
             ],
             "js": [
-                "scripts/everywhere-main.js"
+                "scripts/top-frame-main.js"
             ],
-            "all_frames": true
+            "all_frames": false
         },
         {
             "matches": [

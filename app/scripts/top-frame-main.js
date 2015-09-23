@@ -1,6 +1,7 @@
 // New Stuff
 require('./analytics/top-frame');
-
+require('./modal/top-frame');
+/*
 var $ = require('jquery');
 
 var network_urls = require('YoCardsApiCalls/network-urls');
@@ -34,3 +35,4 @@ setInterval(function() {
         chrome.runtime.sendMessage({ type: 'page-action', msg: true });
     });
 }, 500);
+*/
