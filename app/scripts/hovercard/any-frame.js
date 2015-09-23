@@ -36,50 +36,6 @@ var ShowHoverCard = 'showhovercard' + NameSpace;
 
 var current_obj = null;
 
-$.fn.extend({
-    hovercard: function(identity, e) {
-        if (typeof identity === 'string') {
-            identity = network_urls.identify(identity);
-        }
-        if (!identity) {
-            return this;
-        }
-        var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
-        return this.each(function() {
-            $.analytics('send', 'event', 'hovercard shown', 'hover link', analytics_label, { nonInteraction: true });
-            var start = Date.now();
-            var obj = $(this);
-            var hovercard = $('<div></div>')
-                .addClass(EXTENSION_ID + '-hovercard')
-                .height(100) // FIXME Remove this
-                .width(300) // FIXME Remove this
-                .appendTo('html');
-            obj
-                .one(Click, function() {
-                    obj.trigger(Cleanup);
-                })
-                .one(Cleanup, function() {
-                    $.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - start, analytics_label);
-                    hovercard.remove();
-                    obj.off(NameSpace);
-                    current_obj = current_obj.is(obj) ? null : current_obj;
-                });
-            var both = obj.add(hovercard);
-            both.on(MouseLeave, function(e) {
-                var to = $(e.toElement);
-                if (both.is(to) || both.has(to).length) {
-                    return;
-                }
-                var kill_timeout = setTimeout(function() { obj.trigger(Cleanup); }, TIMEOUT_BEFORE_FADEOUT);
-                both.one(MouseMove, function() {
-                    clearTimeout(kill_timeout);
-                });
-            });
-            position_hovercard(hovercard, obj, e);
-        });
-    }
-});
-
 HOVERABLE_THINGS.forEach(function(hoverable) {
     $('html').on(MouseMove, hoverable.selector, function(e) {
         var obj = $(this);
@@ -101,7 +57,7 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
             })
             .one(MouseLeave + ' ' + Click, function() {
                 obj.trigger(Cleanup);
-                current_obj = current_obj.is(obj) ? null : current_obj;
+                current_obj = !current_obj.is(obj) && current_obj;
             })
             .on(MouseMove, function(e) {
                 last_e = e;
@@ -112,6 +68,53 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
                 timeout = null;
             });
     });
+});
+
+$.fn.extend({
+    hovercard: function(identity, e) {
+        if (typeof identity === 'string') {
+            identity = network_urls.identify(identity);
+        }
+        if (!identity) {
+            return this;
+        }
+        var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
+        return this.each(function() {
+            $.analytics('send', 'event', 'hovercard shown', 'hover link', analytics_label, { nonInteraction: true });
+            var start = Date.now();
+            var obj = $(this);
+            var hovercard = $('<div></div>')
+                .addClass(EXTENSION_ID + '-hovercard')
+                .height(100) // FIXME Remove this
+                .width(300) // FIXME Remove this
+                .on(Click, function() {
+                    obj.trigger(Cleanup);
+                })
+                .appendTo('html');
+            position_hovercard(hovercard, obj, e);
+            obj
+                .one(Click, function() {
+                    obj.trigger(Cleanup);
+                })
+                .one(Cleanup, function() {
+                    $.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - start, analytics_label);
+                    hovercard.remove();
+                    obj.off(NameSpace);
+                    current_obj = !current_obj.is(obj) && current_obj;
+                });
+            var both = obj.add(hovercard);
+            both.on(MouseLeave, function(e) {
+                var to = $(e.toElement);
+                if (both.is(to) || both.has(to).length) {
+                    return;
+                }
+                var kill_timeout = setTimeout(function() { obj.trigger(Cleanup); }, TIMEOUT_BEFORE_FADEOUT);
+                both.one(MouseMove, function() {
+                    clearTimeout(kill_timeout);
+                });
+            });
+        });
+    }
 });
 
 function position_hovercard(hovercard, obj, e) {
