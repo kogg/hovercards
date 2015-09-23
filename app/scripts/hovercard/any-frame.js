@@ -6,7 +6,6 @@ var $            = require('jquery');
 var common       = require('../common');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
-var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 var HOVERABLE_THINGS = [
     { selector: 'a[href]:not(.no-yo,.hoverZoomLink,[data-href],[data-expanded-url])', get_url: function(link) { return link.attr('href'); } },
     { selector: 'a[data-href]:not(.no-yo,.hoverZoomLink,[data-expanded-url])',        get_url: function(link) { return link.data('href'); } },
@@ -22,7 +21,10 @@ var HOVERABLE_THINGS = [
       } },
 ];
 
+var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
+var PADDING_FROM_EDGES = 10;
 var TIMEOUT_BEFORE_CARD = 500;
+var TIMEOUT_BEFORE_FADEOUT = 100;
 
 var NameSpace = '.' + EXTENSION_ID;
 
@@ -37,13 +39,44 @@ var current_obj = null;
 $.fn.extend({
     hovercard: function(identity, e) {
         if (typeof identity === 'string') {
-            identity = network_urls.identify(url);
+            identity = network_urls.identify(identity);
         }
         if (!identity) {
             return this;
         }
-        $.analytics('send', 'event', 'hovercard shown', 'hover link', (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type, { nonInteraction: true });
-        return this;
+        var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
+        return this.each(function() {
+            $.analytics('send', 'event', 'hovercard shown', 'hover link', analytics_label, { nonInteraction: true });
+            var start = Date.now();
+            var obj = $(this);
+            var hovercard = $('<div></div>')
+                .addClass(EXTENSION_ID + '-hovercard')
+                .height(100) // FIXME Remove this
+                .width(300) // FIXME Remove this
+                .appendTo('html');
+            obj
+                .one(Click, function() {
+                    obj.trigger(Cleanup);
+                })
+                .one(Cleanup, function() {
+                    $.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - start, analytics_label);
+                    hovercard.remove();
+                    obj.off(NameSpace);
+                    current_obj = current_obj.is(obj) ? null : current_obj;
+                });
+            var both = obj.add(hovercard);
+            both.on(MouseLeave, function(e) {
+                var to = $(e.toElement);
+                if (both.is(to) || both.has(to).length) {
+                    return;
+                }
+                var kill_timeout = setTimeout(function() { obj.trigger(Cleanup); }, TIMEOUT_BEFORE_FADEOUT);
+                both.one(MouseMove, function() {
+                    clearTimeout(kill_timeout);
+                });
+            });
+            position_hovercard(hovercard, obj, e);
+        });
     }
 });
 
@@ -73,10 +106,23 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
             .on(MouseMove, function(e) {
                 last_e = e;
             })
-            .on(Cleanup, function() {
+            .one(Cleanup, function() {
                 obj.off(NameSpace);
                 clearTimeout(timeout);
                 timeout = null;
             });
     });
 });
+
+function position_hovercard(hovercard, obj, e) {
+    var obj_offset = obj.offset();
+    var hovercard_height = hovercard.height();
+    var is_top = obj_offset.top - hovercard_height - PADDING_FROM_EDGES > $(window).scrollTop();
+    hovercard
+        .toggleClass(EXTENSION_ID + '-hovercard-from-top', is_top)
+        .toggleClass(EXTENSION_ID + '-hovercard-from-bottom', !is_top)
+        .offset({ top:  is_top ? obj_offset.top - hovercard_height : obj_offset.top + obj.height(),
+                  left: Math.max(PADDING_FROM_EDGES,
+                                 Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
+                                          (e ? e.pageX : obj_offset.left) + 1)) })
+}
