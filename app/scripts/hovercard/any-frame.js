@@ -28,11 +28,10 @@ var TIMEOUT_BEFORE_FADEOUT = 100;
 
 var NameSpace = '.' + EXTENSION_ID;
 
-var Cleanup       = 'cleanup' + NameSpace;
-var Click         = 'click' + NameSpace;
-var MouseLeave    = 'mouseleave' + NameSpace;
-var MouseMove     = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
-var ShowHoverCard = 'showhovercard' + NameSpace;
+var Cleanup    = 'cleanup' + NameSpace;
+var Click      = 'click' + NameSpace;
+var MouseLeave = 'mouseleave' + NameSpace;
+var MouseMove  = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
 
 var current_obj;
 
@@ -41,34 +40,33 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
         var obj = $(this);
         var url;
         var identity;
-        if (obj.is(current_obj) || obj.has(current_obj).length || !(url = common.massage_url(hoverable.get_url(obj))) || !(identity = network_urls.identify(url))) {
+        if (obj.is(current_obj) || obj.has(current_obj).length ||
+            !(url = common.massage_url(hoverable.get_url(obj))) ||
+            !(identity = network_urls.identify(url)) ||
+            !accept_identity(identity, obj)) {
             return;
         }
-        if (!accept_identity(identity, obj)) {
-            return;
-        }
-        var last_e = e;
-        var timeout = setTimeout(function() { obj.trigger(ShowHoverCard); }, TIMEOUT_BEFORE_CARD);
         if (current_obj) {
             current_obj.trigger(Cleanup);
         }
+        var last_e = e;
+        var timeout = setTimeout(function() {
+            obj
+                .trigger(Cleanup)
+                .hovercard(identity, last_e);
+        }, TIMEOUT_BEFORE_CARD);
         current_obj = obj
-            .one(ShowHoverCard, function() {
-                obj
-                    .trigger(Cleanup)
-                    .hovercard(identity, last_e);
-            })
-            .one(MouseLeave + ' ' + Click, function() {
+            .one(Click + ' ' + MouseLeave, function() {
                 obj.trigger(Cleanup);
                 current_obj = !current_obj.is(obj) && current_obj;
-            })
-            .on(MouseMove, function(e) {
-                last_e = e;
             })
             .one(Cleanup, function() {
                 obj.off(NameSpace);
                 clearTimeout(timeout);
                 timeout = null;
+            })
+            .on(MouseMove, function(e) {
+                last_e = e;
             });
     });
 });
