@@ -6,6 +6,8 @@ var $            = require('jquery');
 var common       = require('../common');
 var network_urls = require('YoCardsApiCalls/network-urls');
 
+require('../feedback/hovercard');
+
 var HOVERABLE_THINGS = [
     { selector: 'a[href]:not(.no-yo,.hoverZoomLink,[data-href],[data-expanded-url])', get_url: function(link) { return link.attr('href'); } },
     { selector: 'a[data-href]:not(.no-yo,.hoverZoomLink,[data-expanded-url])',        get_url: function(link) { return link.data('href'); } },
@@ -91,8 +93,10 @@ $.fn.extend({
                 .on(Click, function() {
                     obj.trigger(Cleanup);
                 })
+                .addFeedback(obj)
                 .appendTo('html');
             position_hovercard(hovercard, obj, e);
+            hovercard.positionFeedback();
             obj
                 .one(Click, function() {
                     obj.trigger(Cleanup);
@@ -146,7 +150,7 @@ function accept_identity(identity, obj) {
 function position_hovercard(hovercard, obj, e) {
     var obj_offset = obj.offset();
     var hovercard_height = hovercard.height();
-    var is_top = obj_offset.top - hovercard_height - PADDING_FROM_EDGES > $(window).scrollTop();
+    var is_top = obj_offset.top - hovercard_height - PADDING_FROM_EDGES - (/* TODO Screw this noise */ hovercard.has('.feedback-link').length ? 38 : 0) > $(window).scrollTop();
     hovercard
         .toggleClass(EXTENSION_ID + '-hovercard-from-top', is_top)
         .toggleClass(EXTENSION_ID + '-hovercard-from-bottom', !is_top)
