@@ -228,3 +228,25 @@
 
 
 
+/* modal */
+.__MSG_@@extension_id__-modal-container {
+	animation: __MSG_@@extension_id__-modal-container-animation .1s ease-in-out 1 !important;
+	background: rgba(0,0,0,0.9) !important;
+	bottom: 0 !important;
+	left: 0 !important;
+	position: fixed !important;
+	right: 0 !important;
+	top: 0 !important;
+	z-index: 2147483647 !important;
+}
+@keyframes __MSG_@@extension_id__-modal-container-animation {
+	from { background: rgba(0,0,0,0.1); }
+	to { background: rgba(0,0,0,0.9); }
+}
+.__MSG_@@extension_id__-modal-container-leave {
+	animation: __MSG_@@extension_id__-modal-container-leave-animation .1s ease-in-out 1 !important;
+}
+@keyframes __MSG_@@extension_id__-modal-container-leave-animation {
+	from { background: rgba(0,0,0,0.9); }
+	to { background: rgba(0,0,0,0.1); }
+}

@@ -7,7 +7,7 @@ var NameSpace = '.' + EXTENSION_ID;
 var Cleanup = 'cleanup' + NameSpace;
 var Click   = 'click' + NameSpace;
 
-$('html').one(Click, '.' + EXTENSION_ID + '-hovercard', function() {
+$('html').on(Click, '.' + EXTENSION_ID + '-hovercard', function() {
     var hovercard = $(this);
     $.modal(hovercard.data('identity-' + EXTENSION_ID), hovercard);
 });
