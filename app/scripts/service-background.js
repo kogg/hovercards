@@ -2,6 +2,7 @@ var $       = require('jquery');
 var _       = require('underscore');
 var URI     = require('URIjs/src/URI');
 var async   = require('async');
+var env     = require('env');
 var memoize = require('memoizee');
 
 // FIXME SUPER SHIM
@@ -15,8 +16,6 @@ var memoize = require('memoizee');
 }());
 
 // TODO Put this in a common place
-var ENDPOINT = 'https://hovercards.herokuapp.com/v1';
-// var ENDPOINT = 'http://localhost:5000/v1';
 var INSTAGRAM_KEY = '41e56061c1e34fbbb16ab1d095dad78b';
 var REDDIT_KEY = '0jXqEudQPqSL6w';
 var SOUNDCLOUD_KEY = '78a827254bd7a5e3bba61aa18922bf2e';
@@ -120,7 +119,7 @@ module.exports = function() {
             if (type === 'auth') {
                 async.waterfall([
                     client_side_authenticators[api] || function(callback) {
-                        chrome.identity.launchWebAuthFlow({ url:         ENDPOINT + '/' + api + '/authenticate?chromium_id=' + chrome.i18n.getMessage('@@extension_id'),
+                        chrome.identity.launchWebAuthFlow({ url:         env.endpoint + '/' + api + '/authenticate?chromium_id=' + chrome.i18n.getMessage('@@extension_id'),
                                                             interactive: true }, function(redirect_url) {
                             if (chrome.runtime.lastError) {
                                 return callback(_.extend({ status: 401 }, chrome.runtime.lastError));
@@ -187,7 +186,7 @@ module.exports = function() {
                         server_callers[api][type] = server_callers[api][type] || memoize(function(request, headers, callback) {
                             request = JSON.parse(request);
                             headers = JSON.parse(headers);
-                            $.ajax({ url:     ENDPOINT + '/' + api + '/' + type,
+                            $.ajax({ url:     env.endpoint + '/' + api + '/' + type,
                                      data:    request,
                                      headers: headers })
                                 .done(function(data) {

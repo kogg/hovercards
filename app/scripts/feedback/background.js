@@ -1,13 +1,10 @@
-var $ = require('jquery');
-
-// TODO Put this in a common place
-var ENDPOINT = 'https://hovercards.herokuapp.com/v1';
-// var ENDPOINT = 'http://localhost:5000/v1';
+var $   = require('jquery');
+var env = require('env');
 
 chrome.storage.sync.get(['feedback_url', 'last_feedback_retrieval'], function(obj) {
     (function retrieve_feedback_url() {
         setTimeout(function() {
-            $.ajax({ url: ENDPOINT + '/feedback_url' })
+            $.ajax({ url: env.endpoint + '/feedback_url' })
                 .done(function(data) {
                     obj.feedback_url = data.feedback_url;
                     chrome.storage.sync.set({ feedback_url: obj.feedback_url });
