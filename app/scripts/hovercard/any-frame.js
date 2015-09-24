@@ -88,9 +88,8 @@ $.fn.extend({
             var obj = $(this);
             var hovercard = $('<div></div>')
                 .addClass(EXTENSION_ID + '-hovercard')
-                .height(100) // FIXME Remove this
-                .width(300) // FIXME Remove this
                 .attr('data-identity-' + EXTENSION_ID, JSON.stringify(identity))
+                .text('this is some crap')
                 .one(Click, function() {
                     obj.trigger(Cleanup, [1]);
                 })
@@ -103,7 +102,11 @@ $.fn.extend({
                 })
                 .one(Cleanup, function(e, keep_hovercard) {
                     $.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - start, analytics_label);
-                    if (!keep_hovercard) {
+                    if (keep_hovercard) {
+                        hovercard
+                            .removeClass(EXTENSION_ID + '-hovercard-from-top')
+                            .removeClass(EXTENSION_ID + '-hovercard-from-bottom');
+                    } else {
                         hovercard.remove();
                     }
                     obj.off(NameSpace);

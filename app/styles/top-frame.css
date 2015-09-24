@@ -229,24 +229,34 @@
 
 
 /* modal */
-.__MSG_@@extension_id__-modal-container {
-	animation: __MSG_@@extension_id__-modal-container-animation .1s ease-in-out 1 !important;
+.__MSG_@@extension_id__-modal-backdrop {
+	animation: __MSG_@@extension_id__-modal-backdrop-animation .1s ease-in-out 1 !important;
 	background: rgba(0,0,0,0.9) !important;
 	bottom: 0 !important;
 	left: 0 !important;
 	position: fixed !important;
 	right: 0 !important;
 	top: 0 !important;
-	z-index: 2147483647 !important;
+	z-index: 2147483646 !important;
 }
-@keyframes __MSG_@@extension_id__-modal-container-animation {
+@keyframes __MSG_@@extension_id__-modal-backdrop-animation {
 	from { background: rgba(0,0,0,0.1); }
 	to { background: rgba(0,0,0,0.9); }
 }
-.__MSG_@@extension_id__-modal-container-leave {
-	animation: __MSG_@@extension_id__-modal-container-leave-animation .1s ease-in-out 1 !important;
+.__MSG_@@extension_id__-modal-backdrop-leave {
+	animation: __MSG_@@extension_id__-modal-backdrop-leave-animation .1s ease-in-out 1 !important;
 }
-@keyframes __MSG_@@extension_id__-modal-container-leave-animation {
+@keyframes __MSG_@@extension_id__-modal-backdrop-leave-animation {
 	from { background: rgba(0,0,0,0.9); }
 	to { background: rgba(0,0,0,0.1); }
+}
+.__MSG_@@extension_id__-modal {
+	z-index: 2147483647 !important;
+}
+.__MSG_@@extension_id__-modal-leave {
+	animation: __MSG_@@extension_id__-modal-leave-animation .1s ease-in-out 1 !important;
+}
+@keyframes __MSG_@@extension_id__-modal-leave-animation {
+	from { opacity: 1; }
+	to { opacity: 0; }
 }

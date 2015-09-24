@@ -14,6 +14,6 @@ $.modal = function(identity) {
     window.top.postMessage({ msg: EXTENSION_ID + '-modal', identity: identity }, '*');
 };
 
-$('html').one(Click, '.' + EXTENSION_ID + '-hovercard', function() {
+$('html').on(Click, '.' + EXTENSION_ID + '-hovercard:not(.' + EXTENSION_ID + '-modal)', function() {
     $(this).remove();
 });
