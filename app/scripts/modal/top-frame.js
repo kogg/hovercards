@@ -39,7 +39,12 @@ $.modal = function(identity, hovercard) {
             .css('width', modal_container.width() + 1);
         modal = hovercard;
     } else {
-        modal_container = $('<div></div>').appendTo('html');
+        modal_container = $('<div></div>')
+            .css('height', '100%')
+            .css('width', '100%')
+            .offset({ top:  $(window).scrollTop(),
+                      left: $(window).scrollLeft() })
+            .appendTo('html');
         modal = $('<div></div>').appendTo(modal_container);
     }
     modal_container.addClass(EXTENSION_ID + '-modal-container')
@@ -49,7 +54,7 @@ $.modal = function(identity, hovercard) {
             .css('height', '100%')
             .css('width', '100%')
             .offset({ top:  $(window).scrollTop(),
-                      left: $(window).scrollLeft() })
+                      left: $(window).scrollLeft() });
     });
 
     $(document).on(Keydown, modal_backdrop_leave);

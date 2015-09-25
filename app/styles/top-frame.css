@@ -260,8 +260,11 @@
 	z-index: 2147483647 !important;
 }
 .__MSG_@@extension_id__-modal {
+	background: rgba(255,255,255,.96) !important;
+	border-radius: 3px !important;
+	box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
+	cursor: auto !important;
 	pointer-events: auto !important;
-	z-index: 2147483647 !important;
 }
 .__MSG_@@extension_id__-modal-leave {
 	animation: __MSG_@@extension_id__-modal-leave-animation .1s ease-in-out 1 !important;
