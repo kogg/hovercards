@@ -27,12 +27,30 @@ $.fn.extend({
     }
 });
 
-$.modal = function(identity, obj_to_transform) {
+$.modal = function(identity, hovercard) {
     var modal_backdrop = $('<div class="' + EXTENSION_ID + '-modal-backdrop"></div>').appendTo('html');
 
-    var modal = (obj_to_transform || $('<div></div>').appendTo('html'))
-        .addClass(EXTENSION_ID + '-modal');
-
+    var modal_container;
+    var modal;
+    if (hovercard) {
+        modal_container = hovercard.parent();
+        modal_container
+            .css('height', modal_container.height() + 1)
+            .css('width', modal_container.width() + 1);
+        modal = hovercard;
+    } else {
+        modal_container = $('<div></div>').appendTo('html');
+        modal = $('<div></div>').appendTo(modal_container);
+    }
+    modal_container.addClass(EXTENSION_ID + '-modal-container')
+    modal.addClass(EXTENSION_ID + '-modal')
+    setTimeout(function() {
+        modal_container
+            .css('height', '100%')
+            .css('width', '100%')
+            .offset({ top:  $(window).scrollTop(),
+                      left: $(window).scrollLeft() })
+    });
 
     $(document).on(Keydown, modal_backdrop_leave);
     $(window).one(Scroll, modal_backdrop_leave);
@@ -48,7 +66,7 @@ $.modal = function(identity, obj_to_transform) {
         modal_backdrop.off(Click, modal_backdrop_leave);
 
         modal.toggleAnimationClass(EXTENSION_ID + '-modal-leave', function() {
-            modal.remove();
+            modal_container.remove();
         });
         modal_backdrop.toggleAnimationClass(EXTENSION_ID + '-modal-backdrop-leave', function() {
             modal_backdrop.remove();

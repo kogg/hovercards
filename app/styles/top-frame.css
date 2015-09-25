@@ -250,7 +250,17 @@
 	from { background: rgba(0,0,0,0.9); }
 	to { background: rgba(0,0,0,0.1); }
 }
+.__MSG_@@extension_id__-modal-container {
+	align-items: center !important;
+	display: flex !important;
+	justify-content: center !important;
+	pointer-events: none !important;
+	position: absolute !important;
+	transition: left .5s, top .5s, height .5s, width .5s !important;
+	z-index: 2147483647 !important;
+}
 .__MSG_@@extension_id__-modal {
+	pointer-events: auto !important;
 	z-index: 2147483647 !important;
 }
 .__MSG_@@extension_id__-modal-leave {
