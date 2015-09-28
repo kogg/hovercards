@@ -26,12 +26,12 @@ $.fn.extend({
             });
         $('<a href="' + feedback_url + '" target="_blank"><img src="' + chrome.extension.getURL('images/logo-128.png') + '"><div>Hey you! Can you give me feedback?</div></a>')
             .on(Click, function() {
-                $.analytics('send', 'event', 'feedback opened', 'click', 'hovercard link');
+                $.analytics('send', 'event', 'feedback opened', 'hovercard link clicked');
             })
             .appendTo(feedback_obj);
         $('<span></span>')
             .on(Click, function() {
-                $.analytics('send', 'event', 'feedback hid', 'click', 'hovercard link');
+                $.analytics('send', 'event', 'feedback hid', 'hovercard link clicked');
             })
             .appendTo(feedback_obj);
         feedback_obj.appendTo(this);

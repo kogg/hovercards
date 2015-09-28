@@ -1,4 +1,5 @@
-var $ = require('jquery');
+var $            = require('jquery');
+var network_urls = require('YoCardsApiCalls/network-urls');
 require('./common');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
@@ -29,8 +30,17 @@ $.fn.extend({
 });
 
 $.lightbox = function(identity, hovercard) {
-    var lightbox_backdrop = $('<div class="' + EXTENSION_ID + '-lightbox-backdrop"></div>').appendTo('html');
+    if (typeof identity === 'string') {
+        identity = network_urls.identify(identity);
+    }
+    if (!identity) {
+        return this;
+    }
+    var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
+    $.analytics('send', 'event', 'lightbox displayed', 'hovercard clicked', analytics_label, { nonInteraction: true });
+    var start = Date.now();
 
+    var lightbox_backdrop = $('<div class="' + EXTENSION_ID + '-lightbox-backdrop"></div>').appendTo('html');
     var lightbox_container;
     var lightbox;
     var window_scroll = { top: $(window).scrollTop(), left: $(window).scrollLeft() };
@@ -96,9 +106,7 @@ $.lightbox = function(identity, hovercard) {
                 return;
             }
         }
-        $(document).off(Keydown, lightbox_backdrop_leave);
-        $(window).off(Scroll, lightbox_backdrop_leave);
-        lightbox_backdrop.off(Click, lightbox_backdrop_leave);
+        $.analytics('send', 'timing', 'lightbox', 'showing', Date.now() - start, analytics_label);
 
         lightbox.toggleAnimationClass(EXTENSION_ID + '-lightbox-leave', function() {
             lightbox_container.remove();
@@ -106,6 +114,10 @@ $.lightbox = function(identity, hovercard) {
         lightbox_backdrop.toggleAnimationClass(EXTENSION_ID + '-lightbox-backdrop-leave', function() {
             lightbox_backdrop.remove();
         });
+
+        $(document).off(Keydown, lightbox_backdrop_leave);
+        $(window).off(Scroll, lightbox_backdrop_leave);
+        lightbox_backdrop.off(Click, lightbox_backdrop_leave);
     }
 };
 

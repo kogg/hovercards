@@ -83,7 +83,7 @@ $.fn.extend({
         }
         var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
         return this.each(function() {
-            $.analytics('send', 'event', 'hovercard displayed', 'hover', analytics_label, { nonInteraction: true });
+            $.analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
             var start = Date.now();
             var obj = $(this);
             var hovercard_container = $('<div class="' + EXTENSION_ID + '-hovercard-container"></div>');
