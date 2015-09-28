@@ -98,6 +98,9 @@ $.fn.extend({
                 .appendTo(hovercard_container);
             hovercard_container.appendTo('html');
             position_hovercard(hovercard_container, hovercard, obj, e);
+            setInterval(function() {
+                hovercard.append('<div>HoverCard grows!</div>');
+            }, 1000);
             obj
                 .one(Click, function() {
                     obj.trigger(Cleanup);
@@ -156,13 +159,11 @@ function accept_identity(identity, obj) {
 
 function position_hovercard(hovercard_container, hovercard, obj, e) {
     var obj_offset = obj.offset();
-    var hovercard_height = hovercard.height();
-    var is_top = obj_offset.top - hovercard_height - PADDING_FROM_EDGES - hovercard.feedback_height() > $(window).scrollTop();
-    hovercard
-        .toggleClass(EXTENSION_ID + '-hovercard-from-top', is_top)
-        .toggleClass(EXTENSION_ID + '-hovercard-from-bottom', !is_top);
+    var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - hovercard.feedback_height() > $(window).scrollTop();
     hovercard_container
-        .offset({ top:  is_top ? obj_offset.top - hovercard_height : obj_offset.top + obj.height(),
+        .toggleClass(EXTENSION_ID + '-hovercard-from-top', is_top)
+        .toggleClass(EXTENSION_ID + '-hovercard-from-bottom', !is_top)
+        .offset({ top:  obj_offset.top + (!is_top && obj.height()),
                   left: Math.max(PADDING_FROM_EDGES,
                                  Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
                                           (e ? e.pageX : obj_offset.left) + 1)) });
