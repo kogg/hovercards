@@ -32,6 +32,7 @@ $.modal = function(identity, hovercard) {
 
     var modal_container;
     var modal;
+    var window_scroll = { top: $(window).scrollTop(), left: $(window).scrollLeft() };
     if (hovercard) {
         modal_container = hovercard.parent();
         modal = hovercard;
@@ -45,7 +46,8 @@ $.modal = function(identity, hovercard) {
         modal_container = $('<div></div>')
             .css('height', '0')
             .css('width', '0')
-            .offset({ top: $(window).scrollTop() + $(window).height() / 2, left: $(window).scrollLeft() + $(window).width() / 2 })
+            .css('top', window_scroll.top + $(window).height() / 2)
+            .css('left', window_scroll.left + $(window).width() / 2)
             .appendTo('html');
         modal = $('<div></div>')
             .text('this is some other crap')
@@ -56,7 +58,8 @@ $.modal = function(identity, hovercard) {
             .addClass(EXTENSION_ID + '-modal-container')
             .css('height', '100%')
             .css('width', '100%')
-            .offset({ top: $(window).scrollTop(), left: $(window).scrollLeft() });
+            .css('top', window_scroll.top)
+            .css('left', window_scroll.left);
         modal
             .addClass(EXTENSION_ID + '-modal')
             .css('height', '90%')
