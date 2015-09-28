@@ -28,51 +28,51 @@ $.fn.extend({
     }
 });
 
-$.modal = function(identity, hovercard) {
-    var modal_backdrop = $('<div class="' + EXTENSION_ID + '-modal-backdrop"></div>').appendTo('html');
+$.lightbox = function(identity, hovercard) {
+    var lightbox_backdrop = $('<div class="' + EXTENSION_ID + '-lightbox-backdrop"></div>').appendTo('html');
 
-    var modal_container;
-    var modal;
+    var lightbox_container;
+    var lightbox;
     var window_scroll = { top: $(window).scrollTop(), left: $(window).scrollLeft() };
     if (hovercard) {
-        modal_container = hovercard.parent();
-        modal = hovercard;
-        modal_container
-            .css('height', modal_container.height() + 1)
-            .css('width', modal_container.width() + 1);
-        modal
-            .css('height', modal.height() + 1)
-            .css('width', modal.width() + 1);
+        lightbox_container = hovercard.parent();
+        lightbox = hovercard;
+        lightbox_container
+            .css('height', lightbox_container.height() + 1)
+            .css('width', lightbox_container.width() + 1);
+        lightbox
+            .css('height', lightbox.height() + 1)
+            .css('width', lightbox.width() + 1);
     } else {
-        modal_container = $('<div></div>')
+        lightbox_container = $('<div></div>')
             .css('height', '0')
             .css('width', '0')
             .css('top', window_scroll.top + $(window).height() / 2)
             .css('left', window_scroll.left + $(window).width() / 2)
             .appendTo('html');
-        modal = $('<div></div>')
+        lightbox = $('<div></div>')
             .text('this is some other crap')
             .css('height', '0')
             .css('width', '0')
-            .appendTo(modal_container);
+            .appendTo(lightbox_container);
     }
     setTimeout(function() {
-        modal_container
-            .addClass(EXTENSION_ID + '-modal-container')
+        lightbox_container
+            .addClass(EXTENSION_ID + '-lightbox-container')
             .css('height', '100%')
             .css('width', '100%')
             .css('top', window_scroll.top)
             .css('left', window_scroll.left);
-        var clone = modal.clone().addClass(EXTENSION_ID + '-modal').appendTo('html');
-        modal
-            .addClass(EXTENSION_ID + '-modal')
+        var clone = lightbox.clone().addClass(EXTENSION_ID + '-lightbox').appendTo('html');
+        lightbox
+            .addClass(EXTENSION_ID + '-lightbox')
             .css('height', clone.height() + 1)
             .css('width', clone.width() + 1)
             .on(TransitionEnd, function clear_height(e) {
                 if (e.originalEvent.propertyName !== 'height') {
                     return;
                 }
-                modal
+                lightbox
                     .off(TransitionEnd, clear_height)
                     .css('height', '');
             })
@@ -80,31 +80,31 @@ $.modal = function(identity, hovercard) {
                 if (e.originalEvent.propertyName !== 'width') {
                     return;
                 }
-                modal
+                lightbox
                     .off(TransitionEnd, clear_width)
                     .css('width', '');
             });
         clone.remove();
     });
 
-    $(document).on(Keydown, modal_backdrop_leave);
-    $(window).one(Scroll, modal_backdrop_leave);
-    modal_backdrop.one(Click, modal_backdrop_leave);
-    function modal_backdrop_leave(e) {
+    $(document).on(Keydown, lightbox_backdrop_leave);
+    $(window).one(Scroll, lightbox_backdrop_leave);
+    lightbox_backdrop.one(Click, lightbox_backdrop_leave);
+    function lightbox_backdrop_leave(e) {
         if (e.type === 'keydown') {
             if (e.which !== 27) {
                 return;
             }
         }
-        $(document).off(Keydown, modal_backdrop_leave);
-        $(window).off(Scroll, modal_backdrop_leave);
-        modal_backdrop.off(Click, modal_backdrop_leave);
+        $(document).off(Keydown, lightbox_backdrop_leave);
+        $(window).off(Scroll, lightbox_backdrop_leave);
+        lightbox_backdrop.off(Click, lightbox_backdrop_leave);
 
-        modal.toggleAnimationClass(EXTENSION_ID + '-modal-leave', function() {
-            modal_container.remove();
+        lightbox.toggleAnimationClass(EXTENSION_ID + '-lightbox-leave', function() {
+            lightbox_container.remove();
         });
-        modal_backdrop.toggleAnimationClass(EXTENSION_ID + '-modal-backdrop-leave', function() {
-            modal_backdrop.remove();
+        lightbox_backdrop.toggleAnimationClass(EXTENSION_ID + '-lightbox-backdrop-leave', function() {
+            lightbox_backdrop.remove();
         });
     }
 };
@@ -114,8 +114,8 @@ window.addEventListener('message', function(event) {
         return;
     }
     var message = event.data;
-    if (message.msg !== EXTENSION_ID + '-modal') {
+    if (message.msg !== EXTENSION_ID + '-lightbox') {
         return;
     }
-    $.modal(message.identity, message.obj);
+    $.lightbox(message.identity, message.obj);
 });

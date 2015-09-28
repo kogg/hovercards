@@ -1,6 +1,6 @@
 require('./analytics/any-frame');
 require('./hovercard/any-frame');
-require('./modal/any-frame');
+require('./lightbox/any-frame');
 /*
 var $ = require('jquery');
 
