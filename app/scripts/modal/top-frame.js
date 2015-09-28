@@ -61,6 +61,7 @@ $.modal = function(identity, hovercard) {
             .appendTo('html');
         modal = $('<div></div>')
             .addClass(EXTENSION_ID + '-modal')
+            .text('this is some other crap')
             .appendTo(modal_container);
     }
 
