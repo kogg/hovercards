@@ -41,29 +41,27 @@ $.modal = function(identity, hovercard) {
         modal
             .css('height', modal.height() + 1)
             .css('width', modal.width() + 1);
-        setTimeout(function() {
-            modal_container
-                .addClass(EXTENSION_ID + '-modal-container')
-                .css('height', '100%')
-                .css('width', '100%')
-                .offset({ top: $(window).scrollTop(), left: $(window).scrollLeft() });
-            modal
-                .addClass(EXTENSION_ID + '-modal')
-                .css('height', '90%')
-                .css('width', '90%');
-        });
     } else {
         modal_container = $('<div></div>')
-            .addClass(EXTENSION_ID + '-modal-container')
-            .css('height', '100%')
-            .css('width', '100%')
-            .offset({ top: $(window).scrollTop(), left: $(window).scrollLeft() })
+            .css('height', '0')
+            .css('width', '0')
+            .offset({ top: $(window).scrollTop() + $(window).height() / 2, left: $(window).scrollLeft() + $(window).width() / 2 })
             .appendTo('html');
         modal = $('<div></div>')
-            .addClass(EXTENSION_ID + '-modal')
             .text('this is some other crap')
             .appendTo(modal_container);
     }
+    setTimeout(function() {
+        modal_container
+            .addClass(EXTENSION_ID + '-modal-container')
+            .css('height', '100%')
+            .css('width', '100%')
+            .offset({ top: $(window).scrollTop(), left: $(window).scrollLeft() });
+        modal
+            .addClass(EXTENSION_ID + '-modal')
+            .css('height', '90%')
+            .css('width', '90%');
+    });
 
     $(document).on(Keydown, modal_backdrop_leave);
     $(window).one(Scroll, modal_backdrop_leave);
