@@ -34,28 +34,35 @@ $.modal = function(identity, hovercard) {
     var modal;
     if (hovercard) {
         modal_container = hovercard.parent();
+        modal = hovercard;
         modal_container
             .css('height', modal_container.height() + 1)
             .css('width', modal_container.width() + 1);
-        modal = hovercard;
+        modal
+            .css('height', modal.height() + 1)
+            .css('width', modal.width() + 1);
+        setTimeout(function() {
+            modal_container
+                .addClass(EXTENSION_ID + '-modal-container')
+                .css('height', '100%')
+                .css('width', '100%')
+                .offset({ top: $(window).scrollTop(), left: $(window).scrollLeft() });
+            modal
+                .addClass(EXTENSION_ID + '-modal')
+                .css('height', '90%')
+                .css('width', '90%');
+        });
     } else {
         modal_container = $('<div></div>')
+            .addClass(EXTENSION_ID + '-modal-container')
             .css('height', '100%')
             .css('width', '100%')
-            .offset({ top:  $(window).scrollTop(),
-                      left: $(window).scrollLeft() })
+            .offset({ top: $(window).scrollTop(), left: $(window).scrollLeft() })
             .appendTo('html');
-        modal = $('<div></div>').appendTo(modal_container);
+        modal = $('<div></div>')
+            .addClass(EXTENSION_ID + '-modal')
+            .appendTo(modal_container);
     }
-    modal_container.addClass(EXTENSION_ID + '-modal-container')
-    modal.addClass(EXTENSION_ID + '-modal')
-    setTimeout(function() {
-        modal_container
-            .css('height', '100%')
-            .css('width', '100%')
-            .offset({ top:  $(window).scrollTop(),
-                      left: $(window).scrollLeft() });
-    });
 
     $(document).on(Keydown, modal_backdrop_leave);
     $(window).one(Scroll, modal_backdrop_leave);
