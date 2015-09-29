@@ -236,13 +236,13 @@
 	to { background: rgba(0,0,0,0.1); }
 }
 .__MSG_@@extension_id__-lightbox-container {
-	align-items: center !important;
+	align-items: flex-start !important;
 	display: flex !important;
 	justify-content: center !important;
 	pointer-events: none !important;
 	position: absolute !important;
 	transform: translate3d(0,0,0) !important;
-	transition: left .5s, top .5s, transform .5s, height .5s, width .5s !important;
+	transition: left .5s, top .5s, transform .5s, height .5s, width .5s, margin .5s !important;
 	z-index: 2147483647 !important;
 }
 .__MSG_@@extension_id__-lightbox {
@@ -250,9 +250,10 @@
 	border-radius: 3px !important;
 	box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
 	cursor: auto !important;
+	margin: 20px 0 !important;
 	pointer-events: auto !important;
 	transform: translate3d(0,0,0) !important;
-	transition: left .5s, top .5s, transform .5s, height .5s, width .5s !important;
+	transition: left .5s, top .5s, transform .5s, height .5s, width .5s, margin .5s !important;
 }
 .__MSG_@@extension_id__-lightbox-leave {
 	animation: __MSG_@@extension_id__-lightbox-leave-animation .1s ease-in-out 1 !important;

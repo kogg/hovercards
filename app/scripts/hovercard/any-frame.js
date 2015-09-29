@@ -133,9 +133,13 @@ $.fn.extend({
                                          Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
                                                   (e ? e.pageX : obj_offset.left) + 1)) });
 
+            var i = 0;
+            hovercard.prepend('<div id="count"></div>');
             setInterval(function() {
-                hovercard.append('<div>HoverCard grows!</div>');
-            }, 1000);
+                hovercard.find('#count').text(i);
+                hovercard.append('<div>HoverCard grows! ' + i + '</div>');
+                i++;
+            }, 100);
             obj
                 .one(Click, function() {
                     obj.trigger(Cleanup);

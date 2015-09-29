@@ -48,9 +48,6 @@ $.lightbox = function(identity, hovercard) {
         lightbox_container
             .css('height', lightbox_container.height() + 1)
             .css('width', lightbox_container.width() + 1);
-        lightbox
-            .css('height', lightbox.height() + 1)
-            .css('width', lightbox.width() + 1);
     } else {
         lightbox_container = $('<div></div>')
             .css('height', '0')
@@ -60,8 +57,6 @@ $.lightbox = function(identity, hovercard) {
             .appendTo('html');
         lightbox = $('<div></div>')
             .text('this is some other crap')
-            .css('height', '0')
-            .css('width', '0')
             .appendTo(lightbox_container);
     }
     setTimeout(function() {
@@ -70,28 +65,17 @@ $.lightbox = function(identity, hovercard) {
             .css('height', '100%')
             .css('width', '100%')
             .css('top', window_scroll.top)
-            .css('left', window_scroll.left);
-        var clone = lightbox.clone().addClass(EXTENSION_ID + '-lightbox').appendTo('html');
-        lightbox
-            .addClass(EXTENSION_ID + '-lightbox')
-            .css('height', clone.height() + 1)
-            .css('width', clone.width() + 1)
-            .on(TransitionEnd, function clear_height(e) {
+            .css('left', window_scroll.left)
+            .on(TransitionEnd, function set_overflow(e) {
                 if (e.originalEvent.propertyName !== 'height') {
                     return;
                 }
-                lightbox
-                    .off(TransitionEnd, clear_height)
-                    .css('height', '');
-            })
-            .on(TransitionEnd, function clear_width(e) {
-                if (e.originalEvent.propertyName !== 'width') {
-                    return;
-                }
-                lightbox
-                    .off(TransitionEnd, clear_width)
-                    .css('width', '');
+                lightbox_container
+                    .off(TransitionEnd, set_overflow)
+                    .css('overflow', 'auto');
             });
+        var clone = lightbox.clone().addClass(EXTENSION_ID + '-lightbox').appendTo('html');
+        lightbox.addClass(EXTENSION_ID + '-lightbox');
         clone.remove();
     });
 
