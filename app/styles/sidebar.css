@@ -7,7 +7,7 @@
 ::-webkit-scrollbar-track {
     box-shadow: auto !important;
     border-radius: auto !important;
-    background:auto !important;    
+    background:auto !important;
 }
 
 /* Handle */
@@ -17,7 +17,7 @@
     box-shadow:auto !important;
 }
 ::-webkit-scrollbar-thumb:window-inactive {
-    background: auto !important; 
+    background: auto !important;
 }
 @font-face {
 	font-family: "newRobotoo";
@@ -325,7 +325,7 @@ b i, .iconic-push {
   border-radius: 3px;
   transform: translate(-50%, -42px);
   padding: 8px;
-  white-space: nowrap; 
+  white-space: nowrap;
   color: #727272;
   text-decoration: none;
   font-size: 12px;
@@ -734,12 +734,12 @@ b i, .iconic-push {
 .hovercard .white-triangle {
 	position: absolute;
 	right: 0;
-	width: 0; 
-	height: 0; 
+	width: 0;
+	height: 0;
 	top: 47px;
 	border-top: 6px solid transparent;
-	border-bottom: 6px solid transparent; 
-	border-right:6px solid white; 
+	border-bottom: 6px solid transparent;
+	border-right:6px solid white;
 }
 /*Video Cards*/
 
@@ -798,22 +798,22 @@ b i, .iconic-push {
 .play-video-clicked {
 	animation: moveplaybutton 1s forwards;
 	pointer-events:none;
-} 
+}
 
-@keyframes moveplaybutton { 
-    0% { 
+@keyframes moveplaybutton {
+    0% {
       opacity: 1;
       transform: scale(1);
-    } 
-    100% { 
+    }
+    100% {
       opacity: 0;
       transform: scale(2);
-    } 
-} 
+    }
+}
 .play-video-clicked + div {
 	display: block;
 	opacity: 1;
-} 
+}
 .twitter-video {
 	position: relative
 }
@@ -1116,7 +1116,7 @@ b i, .iconic-push {
 }
 .comment span.ellipsis {
 	display: inline-block;
-  width: calc(100% - 80px) !important;	
+  width: calc(100% - 80px) !important;
 }
 .comment span.time-stamp {
 	color: #727272;
@@ -1249,7 +1249,7 @@ b i, .iconic-push {
 .comment p b {
 	font-weight: bold;
 	font-size: 15px;
-	margin:0;	
+	margin:0;
 }
 .comment a:hover {
 	cursor: pointer;
@@ -1405,7 +1405,7 @@ b i, .iconic-push {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Twitter-icon-full_color.png');
 }
 .context-top-instagram {
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');	
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/instagram-icon-full_color.png');
 }
 .context-top + .card-stats {
 	border-top: none;
@@ -1549,7 +1549,7 @@ h2 {
 	height: 30px;
 	border:1px dashed #ECEEF1;
 	background: #e5e5e5 !important;
-} 
+}
 /*comment-picker*/
 .network-picker, .network-pick {
 	display: inline-block;
@@ -1733,7 +1733,7 @@ h2 {
   position: relative;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
-.discussion-error {	
+.discussion-error {
 	background:#fff;
 	border-top:none;
 	border-radius: 0 0 3px 3px;
@@ -1872,7 +1872,7 @@ h2 {
   width: 100%;
 }
 .md pre {
-	overflow-x: scroll;	
+	overflow-x: scroll;
 }
 .md blockquote {
   border-left: 2px solid #ECEEF1;
@@ -2386,7 +2386,7 @@ h2 {
 /*content list*/
 .content-list {
 	padding: 0px 20px;
-} 
+}
 .content-list-link {
 	margin-bottom: 8px;
 	display: block;
@@ -2396,7 +2396,7 @@ h2 {
 	max-width: 125px;
 	max-height: 71px;
 	min-height: 71px;
-	border-radius: 3px; 
+	border-radius: 3px;
 	border: 1px solid #ECEEF1
 }
 .content-list .row .col-8 {
@@ -2696,14 +2696,14 @@ h2 {
 	animation-fill-mode: both;
 	animation-name: fadeIn;
 }
-@keyframes fadeIn { 
+@keyframes fadeIn {
     0% {
     	opacity: 0;
     }
     100% {
     	opacity: 1;
     }
-} 
+}
 .fade-out-animation.ng-leave, .fade-out-animation.ng-hide-add {
 	animation-duration: .4s;
 	animation-fill-mode: both;
@@ -2886,7 +2886,7 @@ h2 {
   width: 30px;
   height: 30px;
   background: white;
-  border-radius: 50%; 
+  border-radius: 50%;
   animation: scale-circle 2.5s;
 }
 .rippleblack .circle {
@@ -3089,7 +3089,7 @@ h2 {
 	background-color: #cee3f8;
 	opacity: 1;
 	transform: translate(4px, 34px);
-	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);	
+	box-shadow: 0 2px 6px rgba(191, 191, 191, 0.56);
 }
 .share-circles-container:hover .share-circles {
 	transform: translate(-34px, -4px);
