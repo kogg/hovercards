@@ -11,8 +11,6 @@ var Keydown       = 'keydown' + NameSpace;
 var Scroll        = 'scroll' + NameSpace;
 var TransitionEnd = 'transitionend' + NameSpace;
 
-var $top = $('html,body');
-
 $.fn.extend({
     toggleAnimationClass: function(className, callback) {
         return this
@@ -97,9 +95,6 @@ $.lightbox = function(identity, hovercard) {
         clone.remove();
     });
 
-    $(document).on(Keydown, lightbox_backdrop_leave);
-    $(window).one(Scroll, lightbox_backdrop_leave);
-    lightbox_backdrop.one(Click, lightbox_backdrop_leave);
     function lightbox_backdrop_leave(e) {
         if (e.type === 'keydown') {
             if (e.which !== 27) {
@@ -119,6 +114,9 @@ $.lightbox = function(identity, hovercard) {
         $(window).off(Scroll, lightbox_backdrop_leave);
         lightbox_backdrop.off(Click, lightbox_backdrop_leave);
     }
+    $(document).on(Keydown, lightbox_backdrop_leave);
+    $(window).one(Scroll, lightbox_backdrop_leave);
+    lightbox_backdrop.one(Click, lightbox_backdrop_leave);
 };
 
 window.addEventListener('message', function(event) {

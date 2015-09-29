@@ -37,6 +37,31 @@ var MouseMove  = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
 
 var current_obj;
 
+var disabled;
+// FIXME Move this out into its own "feature"
+chrome.storage.sync.get('disabled', function(obj) {
+    disabled = obj.disabled || {};
+
+    chrome.storage.onChanged.addListener(function(changes, area_name) {
+        if (area_name !== 'sync' || !('disabled' in changes)) {
+            return;
+        }
+        disabled = changes.disabled.newValue;
+    });
+});
+function accept_identity(identity, obj) {
+    if (!disabled || (disabled[identity.api] && disabled[identity.api][identity.type])) {
+        return false;
+    }
+    return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
+           (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) ||
+           (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) ||
+           (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length :
+                                                                        obj.parents('.usertext-body,.search-result-body').length)) ||
+           (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com') ||
+           (identity.api === 'youtube' && document.URL.indexOf('youtube.com/embed') !== -1);
+}
+
 HOVERABLE_THINGS.forEach(function(hoverable) {
     $('html').on(MouseMove, hoverable.selector, function(e) {
         var obj = $(this);
@@ -97,7 +122,17 @@ $.fn.extend({
                 .addFeedback(obj)
                 .appendTo(hovercard_container);
             hovercard_container.appendTo('html');
-            position_hovercard(hovercard_container, hovercard, obj, e);
+
+            var obj_offset = obj.offset();
+            var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - hovercard.feedback_height() > $(window).scrollTop();
+            hovercard_container
+                .toggleClass(EXTENSION_ID + '-hovercard-from-top', is_top)
+                .toggleClass(EXTENSION_ID + '-hovercard-from-bottom', !is_top)
+                .offset({ top:  obj_offset.top + (!is_top && obj.height()),
+                          left: Math.max(PADDING_FROM_EDGES,
+                                         Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
+                                                  (e ? e.pageX : obj_offset.left) + 1)) });
+
             setInterval(function() {
                 hovercard.append('<div>HoverCard grows!</div>');
             }, 1000);
@@ -131,40 +166,3 @@ $.fn.extend({
         });
     }
 });
-
-var disabled;
-// FIXME Move this out into its own "feature"
-chrome.storage.sync.get('disabled', function(obj) {
-    disabled = obj.disabled || {};
-
-    chrome.storage.onChanged.addListener(function(changes, area_name) {
-        if (area_name !== 'sync' || !('disabled' in changes)) {
-            return;
-        }
-        disabled = changes.disabled.newValue;
-    });
-});
-function accept_identity(identity, obj) {
-    if (!disabled || (disabled[identity.api] && disabled[identity.api][identity.type])) {
-        return false;
-    }
-    return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
-           (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) ||
-           (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) ||
-           (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length :
-                                                                        obj.parents('.usertext-body,.search-result-body').length)) ||
-           (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com') ||
-           (identity.api === 'youtube' && document.URL.indexOf('youtube.com/embed') !== -1);
-}
-
-function position_hovercard(hovercard_container, hovercard, obj, e) {
-    var obj_offset = obj.offset();
-    var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - hovercard.feedback_height() > $(window).scrollTop();
-    hovercard_container
-        .toggleClass(EXTENSION_ID + '-hovercard-from-top', is_top)
-        .toggleClass(EXTENSION_ID + '-hovercard-from-bottom', !is_top)
-        .offset({ top:  obj_offset.top + (!is_top && obj.height()),
-                  left: Math.max(PADDING_FROM_EDGES,
-                                 Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
-                                          (e ? e.pageX : obj_offset.left) + 1)) });
-}
