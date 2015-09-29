@@ -2820,7 +2820,7 @@ keyframes rotation {
   -webkit-animation: colorsmv .76s linear infinite;
 }
 .fullscreen-image {
-	display: none; !important;
+	display: none !important;
 	position: fixed !important;
 	-webkit-transform: translateZ(0) !important;
   width: -webkit-calc(100% - 340px) !important;

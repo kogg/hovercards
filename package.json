@@ -4,8 +4,8 @@
   "version": "1.2.2",
   "repository": "cameronrohani/YoCardsExt",
   "scripts": {
-    "start": "npm run watch:non_js & npm run watchify:background & npm run watchify:everywhere & npm run watchify:iframes & npm run watchify:options & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
-    "pkg": "npm run clean && npm run copy:non_js && npm run browserify && npm run uglify && npm run compress",
+    "start": "npm run watch:non_js & npm run watch:css & npm run watchify:background & npm run watchify:everywhere & npm run watchify:iframes & npm run watchify:options & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
+    "pkg": "npm run clean && npm run copy:non_js && npm run copy:css && npm run browserify && npm run uglify && npm run compress",
     "test": "jshint --reporter=node_modules/jshint-stylish/index.js app/**/*.js",
     "browserify": "npm run browserify:background && npm run browserify:everywhere && npm run browserify:iframes && npm run browserify:options && npm run browserify:soundcloud-player && npm run browserify:top-frame",
     "browserify:background": "browserify app/scripts/background-main.js -o dist/scripts/background-main.js -r ./app/scripts/production-env.js:env -v",
@@ -16,7 +16,8 @@
     "browserify:top-frame": "browserify app/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -r ./app/scripts/production-env.js:env -v",
     "clean": "rm -rf dist/* *.pem *.nex",
     "compress": "zip -q -r build/pkg-$npm_package_version.zip dist",
-    "copy:non_js": "rsync -r --exclude=scripts/* app/* dist && cp node_modules/angular/angular-csp.css dist/styles/ && cp node_modules/slick-carousel/slick/slick.css dist/styles/ && cp node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css dist/styles/",
+    "copy:css": "rsync -rm --include '*/' --include='*.css' --exclude='*' app/* dist && cp node_modules/angular/angular-csp.css dist/styles/ && cp node_modules/slick-carousel/slick/slick.css dist/styles/ && cp node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css dist/styles/ && postcss --use autoprefixer dist/styles/*.css -d dist/styles/",
+    "copy:non_js": "rsync -rm --include '*/' --exclude='*.js' --exclude='*.css' app/* dist",
     "uglify": "npm run uglify:background && npm run uglify:common && npm run uglify:everywhere && npm run uglify:hovercard && npm run uglify:sidebar && npm run uglify:options && npm run uglify:soundcloud-player && npm run uglify:top-frame",
     "uglify:background": "uglifyjs dist/scripts/background-main.js -o dist/scripts/background-main.js -c drop_console=true,warnings=false",
     "uglify:common": "uglifyjs dist/scripts/common-main.js -o dist/scripts/common-main.js -c drop_console=true,warnings=false",
@@ -26,6 +27,7 @@
     "uglify:sidebar": "uglifyjs dist/scripts/sidebar-main.js -o dist/scripts/sidebar-main.js -c drop_console=true,warnings=false",
     "uglify:soundcloud-player": "uglifyjs dist/scripts/soundcloud-player-main.js -o dist/scripts/soundcloud-player-main.js -c drop_console=true,warnings=false",
     "uglify:top-frame": "uglifyjs dist/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -c drop_console=true,warnings=false",
+    "watch:css": "watch 'npm run copy:css' app/styles",
     "watch:non_js": "watch 'npm run copy:non_js' app",
     "watchify:background": "watchify app/scripts/background-main.js -o dist/scripts/background-main.js -r ./app/scripts/development-env.js:env -v -d",
     "watchify:everywhere": "watchify app/scripts/everywhere-main.js -o dist/scripts/everywhere-main.js -r ./app/scripts/development-env.js:env -v -d",
@@ -52,11 +54,13 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "autoprefixer": "^6.0.3",
     "browserify": "^11.0.0",
     "browserify-shim": "^3.8.10",
     "factor-bundle": "^2.5.0",
     "jshint": "^2.8.0",
     "jshint-stylish": "^2.0.1",
+    "postcss-cli": "^2.1.0",
     "uglify-js": "^2.4.24",
     "watch": "^0.16.0",
     "watchify": "^3.3.1"
