@@ -79,7 +79,10 @@ $.lightbox = function(identity, hovercard) {
         clone.remove();
     });
 
-    function lightbox_backdrop_leave(e) {
+    function stop_propagation(e) {
+        e.stopPropagation();
+    }
+    function lightbox_leave(e) {
         if (e.type === 'keydown') {
             if (e.which !== 27) {
                 return;
@@ -94,13 +97,15 @@ $.lightbox = function(identity, hovercard) {
             lightbox_backdrop.remove();
         });
 
-        $(document).off(Keydown, lightbox_backdrop_leave);
-        $(window).off(Scroll, lightbox_backdrop_leave);
-        lightbox_backdrop.off(Click, lightbox_backdrop_leave);
+        lightbox.off(Click, stop_propagation);
+        $(document).off(Keydown, lightbox_leave);
+        $(window).off(Scroll, lightbox_leave);
+        lightbox_container.off(Click, lightbox_leave);
     }
-    $(document).on(Keydown, lightbox_backdrop_leave);
-    $(window).one(Scroll, lightbox_backdrop_leave);
-    lightbox_backdrop.one(Click, lightbox_backdrop_leave);
+    lightbox.on(Click, stop_propagation);
+    $(document).on(Keydown, lightbox_leave);
+    $(window).one(Scroll, lightbox_leave);
+    lightbox_container.one(Click, lightbox_leave);
 };
 
 window.addEventListener('message', function(event) {
