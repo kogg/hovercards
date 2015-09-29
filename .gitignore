@@ -2,5 +2,6 @@
 *.pem
 *.sass-cache
 *.tmp
+.tmp
 node_modules/
 npm-debug.log
