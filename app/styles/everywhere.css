@@ -138,7 +138,7 @@
 	transform: translate(0,100%) !important;
 	bottom: 0 !important;
 	border-radius: 0 0 3px 3px !important;
-	margin-top: 0px !important;
+	margin-top: 0 !important;
 	margin-bottom: 3px !important;
 }
 .feedback-link * {
@@ -151,7 +151,7 @@
 .feedback-link a div {
 	vertical-align: top !important;
 	background-color: white !important;
-	padding: 0px 4px !important;
+	padding: 0 4px !important;
 	line-height: 22px !important;
 	display: inline-block !important;
 	font-size: 13px !important;

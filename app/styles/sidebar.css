@@ -107,7 +107,7 @@ iframe {
 	padding-top:5px;
 }
 .context-top-twitter + .card-text .card-description {
-	padding-top: 0px
+	padding-top: 0
 }
 .card-text .card-description .response, .card-text .card-description .quoted {
 	margin-top: 16px;
@@ -324,7 +324,6 @@ b i, .iconic-push {
 	box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
 	border-radius: 3px;
 	transform: translate(-50%, -42px);
-	padding: 8px;
 	white-space: nowrap;
 	color: #727272;
 	text-decoration: none;
@@ -376,7 +375,7 @@ b i, .iconic-push {
 	content: "";
 	position: absolute;
 	top:-16px;
-	left: 0px;
+	left: 0;
 	height: 16px;
 	background:	white;
 	width: 125%;
@@ -405,8 +404,8 @@ b i, .iconic-push {
 .card-stats-tag-name .profile-cta {
 	position: relative;
 	bottom: inherit;
-	max-width: 0px;
-	margin: 8px 10px 0px 7px;
+	max-width: 0;
+	margin: 8px 10px 0 7px;
 	overflow: visible;
 }
 .card-stats-tag-name a:hover {
@@ -462,7 +461,7 @@ b i, .iconic-push {
 }
 
 .card-stats-mini span:last-of-type {
-	margin-right: 0px;
+	margin-right: 0;
 }
 /*Profile Cards*/
 .profile {
@@ -515,7 +514,7 @@ b i, .iconic-push {
 .profile-cta a {
 	color: #FFF;
 	line-height: 24px;
-	padding: 0px 8px;
+	padding: 0 8px;
 	font-size: 12px;
 	border-radius: 3px;
 	min-width: 86px;
@@ -743,10 +742,6 @@ b i, .iconic-push {
 }
 /*Video Cards*/
 
-.video-card {
-
-}
-
 .video-top, .video-top-underlay {
 	height: 221px;
 	border-top: none;
@@ -764,7 +759,6 @@ b i, .iconic-push {
 	background-size: 20%;
 	background-position: center;
 	position: absolute;
-	top: 0px;
 	z-index: 2;
 	background-repeat: no-repeat;
 	transition: all .4s ease-in-out;
@@ -931,8 +925,6 @@ b i, .iconic-push {
 	box-shadow:0 6px 7.5px 0 rgba(0, 0, 0, 0.24);
 	cursor: pointer;
 }
-.video-cta:active {
-}
 .button-vanish {
 	pointer-events:none;
 	opacity: 0;
@@ -1068,7 +1060,7 @@ b i, .iconic-push {
 }
 .twitter-hovercard .col-8 .user-context b {
 	display: block;
-	padding: 14px 16px 0px 16px;
+	padding: 14px 16px 0 16px;
 	margin-bottom: 2px;
 	padding-bottom: 0;
 }
@@ -1094,7 +1086,7 @@ b i, .iconic-push {
 	padding-right: 8px
 }
 .image-hovercard-copy b {
-	padding: 0px 16px 0 16px
+	padding: 0 16px 0 16px
 }
 .image-hovercard-copy h1 {
 	padding: 0 16px;
@@ -1135,7 +1127,7 @@ b i, .iconic-push {
 }
 .comment-close {
 	overflow: hidden;
-	padding-bottom: 0px;
+	padding-bottom: 0;
 }
 .comment-close-button {
 	position: absolute;
@@ -1284,8 +1276,8 @@ b i, .iconic-push {
 	border-bottom: 1px solid #ECEEF1;
 	border-top-left-radius: 3px !important;
 	border-top-right-radius: 3px !important;
-	border-bottom-left-radius: 0px !important;
-	border-bottom-right-radius: 0px !important;
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
 	background: #fff;
 	background-size: 16px;
 	background-repeat: no-repeat;
@@ -1299,22 +1291,22 @@ b i, .iconic-push {
 	padding-bottom: 10px;
 }
 .card-stats.inline-row {
-	padding-bottom: 0px;
+	padding-bottom: 0;
 }
 .inline-row .col-9 {
-	padding: 16px 0px 6px 16px;
+	padding: 16px 0 6px 16px;
 }
 .inline-row > .col-12 {
 	padding: 16px 16px 6px 16px;
 }
 .inline-row .col-12 + .col-12 {
-	padding: 0px 16px;
+	padding: 0 16px;
 }
 .inline-row .col-3 + .col-12 {
-	padding:0px 16px
+	padding:0 16px
 }
 .inline-row .col-3 {
-	padding: 16px 16px 6px 0px;
+	padding: 16px 16px 6px 0;
 	position: relative;
 	min-height: 40px;
 	white-space: nowrap;
@@ -1330,9 +1322,6 @@ b i, .iconic-push {
 	font-weight: 600;
 	vertical-align:top;
 	max-width: 200px;
-}
-.context-top span {
-
 }
 .context-top span.emoji {
 	font-weight: 100;
@@ -1387,7 +1376,7 @@ b i, .iconic-push {
 	padding: 16px 16px 7px 16px
 }
 .context-top-text-only + div {
-	padding: 0px 16px 16px 16px
+	padding: 0 16px 16px 16px
 }
 .context-top .col-10 span a:first-of-type {
 	color: #000
@@ -1464,7 +1453,6 @@ h2 {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	width: 100%;
 	border:2px solid #dfdfdf;
 	background:#dfdfdf;
 	overflow-y:hidden;
@@ -1473,7 +1461,7 @@ h2 {
 	border-radius: 0 3px 3px 0;
 }
 #sortable li {
-	padding: 0px 12px;
+	padding: 0 12px;
 	line-height: 30px;
 	background: white;
 	position: relative;
@@ -1553,14 +1541,11 @@ h2 {
 /*comment-picker*/
 .network-picker, .network-pick {
 	display: inline-block;
-	margin-right: 0px;
 	cursor: default;
 	vertical-align: top;
 	position: relative;
 	margin-right: 2px;
 	transition:all .3s ease-in-out;
-}
-.network-pick {
 }
 .network-picker {
 	margin-left: 1px;
@@ -1581,16 +1566,11 @@ h2 {
 	margin-right: -13px;
 	transition:all .3s ease-in-out;
 }
-.network-picker .network-circle {
-}
 .network-picker:hover .network-circle {
 	opacity: 1;
 }
 .network-picker:hover .current-network {
 	box-shadow:0 2px 7px 0 rgba(0, 0, 0, 0.19), 0 3px 6px 0 rgba(0, 0, 0, 0.2);
-}
-.network-picker .network-circle:nth-of-type(1) {
-
 }
 .network-picker .network-circle:nth-of-type(2) {
 	z-index: 4;
@@ -1630,7 +1610,7 @@ h2 {
 	cursor: pointer;
 }
 .network-picker .network-circle:last-of-type, .network-pick .network-circle:last-of-type {
-	margin-right: 0px;
+	margin-right: 0;
 }
 .network-circle-options {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/network-options.png');
@@ -1639,7 +1619,7 @@ h2 {
 	margin-right: -4px
 }
 .network-picker .current-network.network-circle:last-of-type.network-not-found {
-	margin-right: 0px
+	margin-right: 0
 }
 .network-circle-youtube {
 	background-color: #e94639 !important;
@@ -1673,7 +1653,6 @@ h2 {
 	box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
 	border-radius: 3px;
 	transform: translate(-50%, -42px);
-	padding: 8px;
 	white-space: nowrap;
 	color: #727272;
 	text-decoration: none;
@@ -1708,7 +1687,6 @@ h2 {
 	color: #4b4fce;
 	font-size: 14px;
 	letter-spacing: 0.1em;
-	position: relative;
 	overflow: hidden;
 	font-weight: 500;
 	text-decoration: none;
@@ -1719,7 +1697,7 @@ h2 {
 	display: block;
 	background: white;
 	max-width: 160px;
-	margin: 8px auto 0px;
+	margin: 8px auto 0;
 }
 .no-comments a div {
 	padding: 11px 14px;
@@ -1791,7 +1769,7 @@ h2 {
 .reddit-title b {
 	margin-top: 0;
 	display: inline-block;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 	color: #727272;
 }
 .reddit-title b:nth-of-type(2) {
@@ -1842,9 +1820,11 @@ h2 {
 	color: #2196F3;
 	font-weight: normal;
 }
+/*
 .child-comment div.md, .child-comment .md p, .card-description div.md p, .card-description div.md {
-/*this is a test check it out later*/
+this is a test check it out later
 }
+*/
 .md a:hover {
 	text-decoration: underline;
 	cursor: pointer;
@@ -2066,9 +2046,6 @@ h2 {
 .hovercards-message-image {
 	width: 33.333333%;
 	line-height: 100px;
-	background-size: 100%;
-	background-position: center;
-	background-repeat: no-repeat;
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -2083,7 +2060,7 @@ h2 {
 	float: right;
 	border-left: none;
 	width: 66.666666%;
-	border-radius: 0px 3px 3px 0px;
+	border-radius: 0 3px 3px 0;
 	overflow: hidden;
 	text-decoration: none;
 	font-size: 14px;
@@ -2100,7 +2077,7 @@ h2 {
 	border-left: none;
 }
 .hovercards-message-content b {
-	margin-bottom: 0px !important
+	margin-bottom: 0 !important
 }
 .hovercards-loading {
 	position: absolute;
@@ -2255,7 +2232,7 @@ h2 {
 	height: 8px;
 }
 .network-menu-container::-webkit-scrollbar-thumb {
-	border-radius: 0px;
+	border-radius: 0;
 	background-color: rgba(0,0,0,.1);
 }
 .network-menu-option {
@@ -2267,8 +2244,6 @@ h2 {
 	margin:0 -1px;
 	position: relative;
 	color: #727272;
-}
-.network-menu-option:first-of-type.active {
 }
 .network-menu-size-1 .network-menu-option:first-of-type.active {
 	padding:0 10px 0 10px;
@@ -2286,10 +2261,6 @@ h2 {
 	left: -10px;
 	bottom: -16px;
 }
-.network-menu-size-1 .network-menu-option {
-}
-.network-menu-size-2 .network-menu-option{
-}
 .network-menu-option:hover {
 	cursor: pointer;
 	color: black;
@@ -2297,10 +2268,10 @@ h2 {
 .network-menu-option span.active:before {
 	content: "";
 	position: absolute;
-	bottom: 0px;
+	bottom: 0;
 	height: 2px;
 	width: 100%;
-	left: 0px;
+	left: 0;
 }
 .youtube-channel-option span.active {
 	color: #e94639;
@@ -2319,7 +2290,7 @@ h2 {
 
 .social-profile {
 	background: white;
-	padding: 20px 0px;
+	padding: 20px 0;
 	min-height: calc(100% - 222px);
 }
 .social-profile-space {
@@ -2385,7 +2356,7 @@ h2 {
 }
 /*content list*/
 .content-list {
-	padding: 0px 20px;
+	padding: 0 20px;
 }
 .content-list-link {
 	margin-bottom: 8px;
@@ -2409,7 +2380,7 @@ h2 {
 .content-list .row .col-8 a {
 	color: #212121;
 	margin-top: 0;
-	padding-top: 0px;
+	padding-top: 0;
 	font-size: 14px;
 	font-weight: 500;
 	text-decoration: none;
@@ -2451,7 +2422,7 @@ h2 {
 
 /*content cards*/
 .content-cards {
-	padding: 0px 20px;
+	padding: 0 20px;
 	overflow: auto
 }
 .content-cards-blocks {
@@ -2497,7 +2468,7 @@ h2 {
 	padding: 8px 20px;
 }
 .soundcloud-profile b {
-	margin-bottom: 0px;
+	margin-bottom: 0;
 	margin-top: 4px;
 	color: rgba(114, 114, 114, 0.75)
 }
@@ -2507,7 +2478,7 @@ h2 {
 	transition:all .3s ease-in-out;
 }
 .soundcloud-profile .col-10 {
-	padding: 8px 0px 8px 16px;
+	padding: 8px 0 8px 16px;
 }
 .soundcloud-profile a {
 	text-decoration: none;
@@ -2602,7 +2573,6 @@ h2 {
 }
 /*twitter content list*/
 .twitter-content-list .comment {
-	border-radius: 0;
 	padding: 16px 20px;
 	border-radius: 0;
 	border: none;
@@ -2687,7 +2657,7 @@ h2 {
 		transform: translateX(-6px);
 	}
 	100% {
-		transform: translateX(0px);
+		transform: translateX(0);
 	}
 }
 
@@ -2709,7 +2679,7 @@ h2 {
 	animation-fill-mode: both;
 	animation-name: bounce-down;
 	position: absolute !important;
-	top: 0px !important;
+	top: 0 !important;
 	width: 340px;
 }
 @keyframes bounce-down {
@@ -2733,7 +2703,6 @@ h2 {
 }
 
 .loader {
-	width: 100%;
 	left: 0;
 	top: 0;
 	overflow: hidden;
@@ -2761,8 +2730,8 @@ h2 {
 	transform: translateZ(0) !important;
 	width: calc(100% - 340px) !important;
 	height: 100% !important;
-	left: 0px !important;
-	top: 0px !important;
+	left: 0 !important;
+	top: 0 !important;
 	background: #292F33 !important;
 	background: rgba(0, 0, 0, 0.8) !important;
 	cursor: zoom-out !important;
@@ -2787,7 +2756,7 @@ h2 {
 	bottom: 0 !important;
 }
 @keyframes colorsmv {
-	0%   { transform: translateX(0px);}
+	0%   { transform: translateX(0);}
 	100% { transform: translateX(720px);}
 }
 /*slick track*/
@@ -2843,7 +2812,7 @@ h2 {
 	height: 8px;
 }
 .slick-dots::-webkit-scrollbar-thumb {
-	border-radius: 0px;
+	border-radius: 0;
 	background-color: rgba(0,0,0,.1);
 }
 .slick-dots li {
@@ -2863,7 +2832,7 @@ h2 {
 .slick-dots li button {
 	-webkit-appearance:none;
 	border:0;
-	font-size: 0px;
+	font-size: 0;
 	color: transparent;
 }
 .album-text {
@@ -2958,8 +2927,8 @@ h2 {
 	top: -2px;
 }
 .fold {
-	width: 0px;
-	height: 0px;
+	width: 0;
+	height: 0;
 	position: relative;
 	transition:all .65s ease-in-out;
 }
@@ -2974,7 +2943,7 @@ h2 {
 	width: 185%;
 	height: 14px;
 	top: -13px;
-	left: 0px;
+	left: 0;
 	background: #ECEEF1
 }
 .fold:after {
@@ -3011,9 +2980,6 @@ h2 {
 }
 .share-circles3 {
 	background: #00aced
-}
-.share-circles-container {
-
 }
 .card:hover .context-top .share-circles, .card:hover .context-top .share-circles2, .card:hover .context-top .share-circles3 {
 	opacity: 1;
@@ -3136,7 +3102,7 @@ h2 {
 .zmdi-pin {
 	margin-right: 6px;
 }
-i.menu-not-reddit {
+.menu-not-reddit {
 	color: #727272;
 	padding: 8px 10px;
 	position: absolute;
@@ -3155,7 +3121,7 @@ i.menu-not-reddit {
 }
 
 @keyframes shake-base {
-	0% { transform: translate(0px, 0px) rotate(0deg); }
+	0% { transform: translate(0, 0) rotate(0deg); }
 	2% { transform: translate(-0.5px, 1.5px) rotate(0.5deg); }
 	4% { transform: translate(-0.5px, 1.5px) rotate(-0.5deg); }
 	6% { transform: translate(-2.5px, -1.5px) rotate(0.5deg); }
