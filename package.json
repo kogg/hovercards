@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run watch:non_js & npm run watch:css & npm run watchify:background & npm run watchify:everywhere & npm run watchify:iframes & npm run watchify:options & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
     "pkg": "npm run clean && npm run copy:non_js && npm run copy:other_css && npm run autoprefixer && npm run browserify && npm run uglify && npm run compress",
-    "test": "jshint --reporter=node_modules/jshint-stylish/index.js app/scripts/**/*.js",
+    "test": "jshint --reporter=node_modules/jshint-stylish/index.js app/scripts/*.js app/scripts/**/*.js",
     "autoprefixer": "postcss --use autoprefixer app/styles/*.css -d dist/styles/",
     "autoprefixer:watch": "postcss --use autoprefixer app/styles/*.css -d dist/styles/ -w",
     "browserify": "npm run browserify:background && npm run browserify:everywhere && npm run browserify:iframes && npm run browserify:options && npm run browserify:soundcloud-player && npm run browserify:top-frame",
