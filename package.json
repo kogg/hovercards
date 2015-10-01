@@ -1,8 +1,8 @@
 {
-  "name": "YoCardsExt",
+  "name": "hovercardsextension",
   "description": "",
   "version": "1.2.2",
-  "repository": "cameronrohani/YoCardsExt",
+  "repository": "cameronrohani/hovercardsextension",
   "scripts": {
     "start": "npm run watch:non_js & npm run watch:css & npm run watchify:background & npm run watchify:everywhere & npm run watchify:iframes & npm run watchify:options & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
     "pkg": "npm run clean && npm run copy:non_js && npm run copy:other_css && npm run autoprefixer && npm run browserify && npm run uglify && npm run compress",
