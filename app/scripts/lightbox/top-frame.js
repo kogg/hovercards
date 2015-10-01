@@ -1,5 +1,5 @@
 var $            = require('jquery');
-var network_urls = require('YoCardsApiCalls/network-urls');
+var network_urls = require('hovercardsshared/network-urls');
 require('./common');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');

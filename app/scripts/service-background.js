@@ -44,7 +44,7 @@ var initialize_client_callers = {
             if (!obj.instagram_user) {
                 return callback();
             }
-            return callback(null, require('YoCardsAPICalls/instagram')({ user: obj.instagram_user }));
+            return callback(null, require('hovercardsshared/instagram')({ user: obj.instagram_user }));
         });
     },
     reddit: function(callback) {
@@ -62,12 +62,12 @@ var initialize_client_callers = {
                 });
             },
             function(device_id, callback) {
-                callback(null, require('YoCardsAPICalls/reddit')({ key: REDDIT_KEY, device: device_id }));
+                callback(null, require('hovercardsshared/reddit')({ key: REDDIT_KEY, device: device_id }));
             }
         ], callback);
     },
     soundcloud: function(callback) {
-        callback(null, require('YoCardsAPICalls/soundcloud')({ key: SOUNDCLOUD_KEY }));
+        callback(null, require('hovercardsshared/soundcloud')({ key: SOUNDCLOUD_KEY }));
     }
 };
 

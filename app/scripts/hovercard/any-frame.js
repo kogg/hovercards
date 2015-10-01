@@ -4,7 +4,7 @@ if (document.URL.match(/[&?]hovercards=0/)) {
 
 var $            = require('jquery');
 var common       = require('../common');
-var network_urls = require('YoCardsApiCalls/network-urls');
+var network_urls = require('hovercardsshared/network-urls');
 
 require('../feedback/hovercard');
 
