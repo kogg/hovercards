@@ -47,7 +47,7 @@
     "angular-messages": "^1.4.3",
     "angular-sanitize": "^1.4.3",
     "async": "^1.4.0",
-    "hovercardsshared": "cameronrohani/hovercardsshared#v1.0.2",
+    "hovercardsshared": "cameronrohani/hovercardsshared#v1.1.0",
     "jquery": "^2.1.4",
     "jquery-ui": "^1.10.5",
     "memoizee": "^0.3.9",
