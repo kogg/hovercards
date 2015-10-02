@@ -4,7 +4,7 @@ require('./lightbox/top-frame');
 /*
 var $ = require('jquery');
 
-var network_urls = require('hovercardsshared/network-urls');
+var network_urls = require('hovercardsshared/apis/network-urls');
 
 var container = $('<div></div>')
     .appendTo('html')

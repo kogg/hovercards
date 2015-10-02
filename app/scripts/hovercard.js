@@ -1,7 +1,7 @@
 var $ = require('jquery');
 
 var common       = require('./common');
-var network_urls = require('hovercardsshared/network-urls');
+var network_urls = require('hovercardsshared/apis/network-urls');
 
 // FIXME This is dumb
 var CARD_SIZES = { imgur:      { content:    { height: 150, width: 300 }, account: { height: 131, width: 300 } },

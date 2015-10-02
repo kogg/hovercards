@@ -1,7 +1,7 @@
 var _       = require('underscore');
 var angular = require('angular');
 
-var network_urls = require('hovercardsshared/network-urls');
+var network_urls = require('hovercardsshared/apis/network-urls');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
