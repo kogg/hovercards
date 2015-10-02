@@ -4,6 +4,7 @@
   "version": "1.2.2",
   "repository": "cameronrohani/hovercardsextension",
   "scripts": {
+    "hooks": "rm -rf .git/hooks && ln -s ../hooks .git/hooks",
     "test": "npm run test:js",
     "test:js": "jshint --reporter=node_modules/jshint-stylish/index.js app/scripts/*.js app/scripts/**/*.js",
     "start": "npm run process:other:watch & npm run process:css:watch & npm run process:js:watch && wait",
