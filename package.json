@@ -4,7 +4,8 @@
   "version": "1.2.2",
   "repository": "cameronrohani/hovercardsextension",
   "scripts": {
-    "test": "npm run test:js",
+    "test": "npm run test:css && npm run test:js",
+    "test:css": "rm -rf .tmp/* && mkdir -p .tmp && cp -r ./app/styles .tmp/ && sed -i '' 's/__MSG_@@extension_id__/EXTENSION_ID/g' .tmp/styles/*.css && csslint --format=compact --quiet .tmp/styles/*",
     "test:js": "jshint --reporter=node_modules/jshint-stylish/index.js app/scripts/*.js app/scripts/**/*.js",
     "start": "npm run process:other:watch & npm run process:css:watch & npm run process:js:watch && wait",
     "pkg": "npm run clean && npm run process:other && npm run process:css && npm run process:js && zip -q -r build/pkg-$npm_package_version.zip dist",
@@ -46,8 +47,10 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "autoprefixer": "^6.0.3",
     "browserify": "^11.0.0",
     "browserify-shim": "^3.8.10",
+    "csslint": "^0.10.0",
     "factor-bundle": "^2.5.0",
     "jshint": "^2.8.0",
     "jshint-stylish": "^2.0.1",
