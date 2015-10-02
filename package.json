@@ -4,7 +4,6 @@
   "version": "1.2.2",
   "repository": "cameronrohani/hovercardsextension",
   "scripts": {
-    "hooks": "rm -rf .git/hooks && ln -s ../hooks .git/hooks",
     "test": "npm run test:js",
     "test:js": "jshint --reporter=node_modules/jshint-stylish/index.js app/scripts/*.js app/scripts/**/*.js",
     "start": "npm run process:other:watch & npm run process:css:watch & npm run process:js:watch && wait",
@@ -25,7 +24,9 @@
     "process:js:top-frame": "mkdir -p dist/scripts && browserify app/scripts/top-frame-main.js -r ./app/scripts/production-env.js:env | uglifyjs -c drop_console=true,warnings=false > dist/scripts/top-frame-main.js",
     "process:js:top-frame:watch": "mkdir -p dist/scripts && watchify app/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -r ./app/scripts/development-env.js:env -v -d",
     "process:other": "rsync -rm --include '*/' --exclude='*.js' --exclude='*.css' app/* dist",
-    "process:other:watch": "watch 'npm run process:other' app"
+    "process:other:watch": "watch 'npm run process:other' app",
+    "postinstall": "rm -rf .git/hooks && ln -s ../hooks .git/hooks",
+    "postuninstall": "rm -rf .git/hooks"
   },
   "dependencies": {
     "URIjs": "^1.16.0",
