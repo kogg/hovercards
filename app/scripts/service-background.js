@@ -1,6 +1,6 @@
 var $       = require('jquery');
 var _       = require('underscore');
-var URI     = require('URIjs/src/URI');
+var URI     = require('urijs/src/URI');
 var async   = require('async');
 var env     = require('env');
 var memoize = require('memoizee');
