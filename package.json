@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",
-    "browserify": "^11.0.0",
+    "browserify": "^11.2.0",
     "browserify-shim": "^3.8.10",
     "csslint": "^0.10.0",
     "factor-bundle": "^2.5.0",
@@ -54,7 +54,7 @@
     "postcss-cli": "^2.1.0",
     "uglify-js": "^2.4.24",
     "watch": "^0.16.0",
-    "watchify": "^3.3.1"
+    "watchify": "^3.4.0"
   },
   "engines": {
     "node": ">=0.8.0"
