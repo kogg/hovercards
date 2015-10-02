@@ -10,7 +10,8 @@
                 "https://*/*"
             ],
             "css": [
-                "styles/everywhere.css"
+                "styles/hovercards.css",
+                "styles/feedback.css"
             ],
             "js": [
                 "scripts/everywhere-main.js"
@@ -23,7 +24,7 @@
                 "https://*/*"
             ],
             "css": [
-                "styles/top-frame.css"
+                "styles/lightbox.css"
             ],
             "js": [
                 "scripts/top-frame-main.js"
