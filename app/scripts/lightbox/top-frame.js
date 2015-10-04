@@ -32,7 +32,7 @@ $.lightbox = function(identity, hovercard) {
         identity = network_urls.identify(identity);
     }
     if (!identity) {
-        return this;
+        return;
     }
     var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
     $.analytics('send', 'event', 'lightbox displayed', 'hovercard clicked', analytics_label, { nonInteraction: true });

@@ -115,12 +115,19 @@ $.fn.extend({
             var hovercard = $('<div></div>')
                 .addClass(EXTENSION_ID + '-hovercard')
                 .attr('data-identity-' + EXTENSION_ID, JSON.stringify(identity))
-                .text('this is some crap')
                 .one(Click, function() {
                     obj.trigger(Cleanup, [1]);
                 })
                 .addFeedback(obj)
                 .appendTo(hovercard_container);
+            // FIXME
+            hovercard.html('Loading...');
+            $.service(identity, function(err, data) {
+                if (err) {
+                    return hovercard.html(err);
+                }
+                hovercard.html(JSON.stringify(data));
+            });
             hovercard_container.appendTo('html');
 
             var obj_offset = obj.offset();
@@ -133,7 +140,6 @@ $.fn.extend({
                                          Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
                                                   (e ? e.pageX : obj_offset.left) + 1)) });
 
-            hovercard.html('content'/*require('hovercardsshared/views/test.tpl')()*/);
             obj
                 .one(Click, function() {
                     obj.trigger(Cleanup);
