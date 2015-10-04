@@ -35,6 +35,21 @@ var Click      = 'click' + NameSpace;
 var MouseLeave = 'mouseleave' + NameSpace;
 var MouseMove  = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
 
+var templates = {
+    'loading':            require('hovercardsshared/views/loading.tpl'),
+    'imgur-content':      require('hovercardsshared/views/imgur-content.tpl'),
+    'imgur-account':      require('hovercardsshared/views/imgur-account.tpl'),
+    'instagram-content':  require('hovercardsshared/views/instagram-content.tpl'),
+    'instagram-account':  require('hovercardsshared/views/instagram-account.tpl'),
+    'reddit-content':     require('hovercardsshared/views/reddit-content.tpl'),
+    'reddit-account':     require('hovercardsshared/views/reddit-account.tpl'),
+    'soundcloud-content': require('hovercardsshared/views/soundcloud-content.tpl'),
+    'soundcloud-account': require('hovercardsshared/views/soundcloud-account.tpl'),
+    'twitter-content':    require('hovercardsshared/views/twitter-content.tpl'),
+    'twitter-account':    require('hovercardsshared/views/twitter-account.tpl'),
+    'youtube-content':    require('hovercardsshared/views/youtube-content.tpl'),
+    'youtube-account':    require('hovercardsshared/views/youtube-account.tpl')
+};
 var current_obj;
 
 var disabled;
@@ -115,18 +130,18 @@ $.fn.extend({
             var hovercard = $('<div></div>')
                 .addClass(EXTENSION_ID + '-hovercard')
                 .attr('data-identity-' + EXTENSION_ID, JSON.stringify(identity))
+                .html(templates.loading())
                 .one(Click, function() {
                     obj.trigger(Cleanup, [1]);
                 })
                 .addFeedback(obj)
                 .appendTo(hovercard_container);
             // FIXME
-            hovercard.html('Loading...');
             $.service(identity, function(err, data) {
                 if (err) {
                     return hovercard.html(err);
                 }
-                hovercard.html(JSON.stringify(data));
+                hovercard.html(templates[identity.api + '-' + identity.type](data));
             });
             hovercard_container.appendTo('html');
 
