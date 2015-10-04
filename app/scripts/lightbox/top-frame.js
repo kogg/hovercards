@@ -97,9 +97,7 @@ $.lightbox = function(identity, hovercard) {
                     .off(TransitionEnd, set_overflow)
                     .css('overflow', 'auto');
             });
-        var clone = lightbox.clone().addClass(EXTENSION_ID + '-lightbox').appendTo('html');
         lightbox.addClass(EXTENSION_ID + '-lightbox');
-        clone.remove();
     });
 
     function stop_propagation(e) {
