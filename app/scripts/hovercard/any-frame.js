@@ -133,7 +133,7 @@ $.fn.extend({
                                          Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
                                                   (e ? e.pageX : obj_offset.left) + 1)) });
 
-            hovercard.html(require('hovercardsshared/views/test.tpl')());
+            hovercard.html('content'/*require('hovercardsshared/views/test.tpl')()*/);
             obj
                 .one(Click, function() {
                     obj.trigger(Cleanup);
