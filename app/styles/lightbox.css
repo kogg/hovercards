@@ -1,0 +1,49 @@
+/* lightbox */
+.__MSG_@@extension_id__-lightbox-backdrop {
+	animation: __MSG_@@extension_id__-lightbox-backdrop-animation .1s ease-in-out 1 !important;
+	background: rgba(0,0,0,0.9) !important;
+	bottom: 0 !important;
+	left: 0 !important;
+	position: fixed !important;
+	right: 0 !important;
+	top: 0 !important;
+	z-index: 2147483646 !important;
+}
+@keyframes __MSG_@@extension_id__-lightbox-backdrop-animation {
+	from { background: rgba(0,0,0,0.1); }
+	to { background: rgba(0,0,0,0.9); }
+}
+.__MSG_@@extension_id__-lightbox-backdrop-leave {
+	animation: __MSG_@@extension_id__-lightbox-backdrop-leave-animation .1s ease-in-out 1 !important;
+}
+@keyframes __MSG_@@extension_id__-lightbox-backdrop-leave-animation {
+	from { background: rgba(0,0,0,0.9); }
+	to { background: rgba(0,0,0,0.1); }
+}
+.__MSG_@@extension_id__-lightbox-container {
+	align-items: flex-start !important;
+	display: flex !important;
+	justify-content: center !important;
+	pointer-events: auto !important;
+	position: absolute !important;
+	transform: translate3d(0,0,0) !important;
+	transition: left .5s, top .5s, transform .5s, height .5s, width .5s, margin .5s !important;
+	z-index: 2147483647 !important;
+}
+.__MSG_@@extension_id__-lightbox {
+	background: rgba(255,255,255,.96) !important;
+	border-radius: 3px !important;
+	box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
+	cursor: auto !important;
+	margin: 20px 0 !important;
+	pointer-events: auto !important;
+	transform: translate3d(0,0,0) !important;
+	transition: left .5s, top .5s, transform .5s, height .5s, width .5s, margin .5s !important;
+}
+.__MSG_@@extension_id__-lightbox-leave {
+	animation: __MSG_@@extension_id__-lightbox-leave-animation .1s ease-in-out 1 !important;
+}
+@keyframes __MSG_@@extension_id__-lightbox-leave-animation {
+	from { opacity: 1; }
+	to { opacity: 0; }
+}
