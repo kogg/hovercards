@@ -1,6 +1,5 @@
 // New Stuff
 require('./analytics/top-frame');
-require('./service/any-frame');
 require('./lightbox/top-frame');
 /*
 var $ = require('jquery');
