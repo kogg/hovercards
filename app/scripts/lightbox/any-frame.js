@@ -1,5 +1,5 @@
 if (window === window.top) {
-    return;
+	return;
 }
 var $ = require('jquery');
 require('./common');
@@ -11,9 +11,9 @@ var NameSpace = '.' + EXTENSION_ID;
 var Click = 'click' + NameSpace;
 
 $.lightbox = function(identity) {
-    window.top.postMessage({ msg: EXTENSION_ID + '-lightbox', identity: identity }, '*');
+	window.top.postMessage({ msg: EXTENSION_ID + '-lightbox', identity: identity }, '*');
 };
 
 $('html').on(Click, '.' + EXTENSION_ID + '-hovercard:not(.' + EXTENSION_ID + '-lightbox)', function() {
-    $(this).remove();
+	$(this).remove();
 });
