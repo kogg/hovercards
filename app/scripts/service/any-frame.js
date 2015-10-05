@@ -1,5 +1,5 @@
 var $            = require('jquery');
-var network_urls = require('hovercardsshared/apis/network-urls');
+var network_urls = require('hovercardsshared/old-apis/network-urls');
 
 $.service = function(identity, callback) {
 	if (typeof identity === 'string') {
