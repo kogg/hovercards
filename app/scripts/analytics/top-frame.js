@@ -1,20 +1,15 @@
 var $   = require('jquery');
+var _   = require('underscore');
 var env = require('env');
 
+var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 function get_user_id(callback) {
 	chrome.storage.sync.get('user_id', function(obj) {
 		if (chrome.runtime.lastError || !obj || !obj.user_id) {
 			return chrome.storage.local.get('user_id', function(obj) {
-				var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-				var user_id = !chrome.runtime.lastError && obj && obj.user_id;
-				if (user_id) {
-					user_id = '';
-					for (var i = 0; i < 25; i++) {
-						user_id += ALPHANUMERIC[Math.floor(Math.random() * ALPHANUMERIC.length)];
-					}
-				}
+				var user_id = (!chrome.runtime.lastError && obj && obj.user_id) || _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('');
 				chrome.storage.sync.set({ user_id: user_id });
 				callback(null, user_id);
 			});
