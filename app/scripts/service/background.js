@@ -79,11 +79,11 @@ chrome.storage.local.get('device_id', function(obj) {
 	}
 
 	var api_callers = { imgur:      initialize_caller('imgur'),
-						instagram:  initialize_caller('instagram',  { client: require('hovercardsshared/old-apis/instagram'),  client_on_auth: true }),
-						reddit:     initialize_caller('reddit',     { client: require('hovercardsshared/old-apis/reddit'),     client_args: { key: REDDIT_KEY } }),
-						soundcloud: initialize_caller('soundcloud', { client: require('hovercardsshared/old-apis/soundcloud'), client_args: { key: SOUNDCLOUD_KEY } }),
-						twitter:    initialize_caller('twitter'),
-						youtube:    initialize_caller('youtube') };
+	                    instagram:  initialize_caller('instagram',  { client: require('hovercardsshared/old-apis/instagram'),  client_on_auth: true }),
+	                    reddit:     initialize_caller('reddit',     { client: require('hovercardsshared/old-apis/reddit'),     client_args: { key: REDDIT_KEY } }),
+	                    soundcloud: initialize_caller('soundcloud', { client: require('hovercardsshared/old-apis/soundcloud'), client_args: { key: SOUNDCLOUD_KEY } }),
+	                    twitter:    initialize_caller('twitter'),
+	                    youtube:    initialize_caller('youtube') };
 
 	chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 		if (!message || message.type !== 'service' || !message.identity || !api_callers[message.identity.api] || !api_callers[message.identity.api][message.identity.type]) {
