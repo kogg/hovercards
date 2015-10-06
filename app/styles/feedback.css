@@ -1,4 +1,4 @@
-.feedback-link {
+.feedback {
 	background: #eceef1 !important;
 	position: absolute;
 	transform: translate(0,-100%);
@@ -11,7 +11,7 @@
 	margin-top: 3px;
 	height: 38px !important;
 }
-.feedback-link:hover img {
+.feedback:hover .feedback__image {
 	animation-name: shake-base;
 	animation-duration: 100ms;
 	animation-iteration-count: infinite;
@@ -19,6 +19,67 @@
 	animation-delay: 0s;
 	animation-play-state: running;
 }
+.hovercard-container--bottom .feedback {
+	transform: translate(0,100%) !important;
+	bottom: 0 !important;
+	border-radius: 0 0 3px 3px !important;
+	margin-top: 0 !important;
+	margin-bottom: 3px !important;
+}
+.feedback * {
+	all:unset;
+}
+.feedback__link {
+	line-height: 22px !important;
+	display: inline-block !important;
+}
+.feedback__message {
+	vertical-align: top !important;
+	background-color: white !important;
+	padding: 0 4px !important;
+	line-height: 22px !important;
+	display: inline-block !important;
+	font-size: 13px !important;
+	font-family: arial, sans-serif !important;
+	border-radius: 4px !important;
+	position: relative !important;
+}
+.feedback__message:after {
+	content: "";
+	width: 0 !important;
+	height: 0 !important;
+	border-top: 6px solid transparent !important;
+	border-bottom: 6px solid transparent !important;
+	border-right:6px solid white !important;
+	position: absolute !important;
+	left: -5px !important;
+	top:50%;
+	margin-top: -6px;
+	display: block;
+}
+.feedback__image {
+	height: 22px !important;
+	margin-right: 8px
+}
+.feedback__close {
+	vertical-align: top !important;
+	float: right !important;
+	height: 22px !important;
+	width: 22px !important;
+	border-radius: 50% !important;
+	text-align: center !important;
+	background: white !important;
+	background-image: url('chrome-extension://__MSG_@@extension_id__/images/closebutton.png') !important;
+	background-size: 50% !important;
+	opacity: .5 !important;
+	background-repeat: no-repeat !important;
+	background-position:center !important;
+	display: inline-block !important;
+}
+.feedback__close:hover {
+	opacity: 1 !important
+}
+
 @keyframes shake-base {
 	0% { transform: translate(0px, 0px) rotate(0deg); }
 	2% { transform: translate(-0.5px, 1.5px) rotate(0.5deg); }
@@ -70,65 +131,4 @@
 	94% { transform: translate(0.5px, -0.5px) rotate(-0.5deg); }
 	96% { transform: translate(-2.5px, -2.5px) rotate(0.5deg); }
 	98% { transform: translate(-0.5px, 1.5px) rotate(-0.5deg); }
-}
-
-.hovercard-from-bottom .feedback-link {
-	transform: translate(0,100%) !important;
-	bottom: 0 !important;
-	border-radius: 0 0 3px 3px !important;
-	margin-top: 0 !important;
-	margin-bottom: 3px !important;
-}
-.feedback-link * {
-	all:unset;
-}
-.feedback-link a {
-	line-height: 22px !important;
-	display: inline-block !important;
-}
-.feedback-link a div {
-	vertical-align: top !important;
-	background-color: white !important;
-	padding: 0 4px !important;
-	line-height: 22px !important;
-	display: inline-block !important;
-	font-size: 13px !important;
-	font-family: arial, sans-serif !important;
-	border-radius: 4px !important;
-	position: relative !important;
-}
-.feedback-link a div:after {
-	content: "";
-	width: 0 !important;
-	height: 0 !important;
-	border-top: 6px solid transparent !important;
-	border-bottom: 6px solid transparent !important;
-	border-right:6px solid white !important;
-	position: absolute !important;
-	left: -5px !important;
-	top:50%;
-	margin-top: -6px;
-	display: block;
-}
-.feedback-link img {
-	height: 22px !important;
-	margin-right: 8px
-}
-.feedback-link span {
-	vertical-align: top !important;
-	float: right !important;
-	height: 22px !important;
-	width: 22px !important;
-	border-radius: 50% !important;
-	text-align: center !important;
-	background: white !important;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/closebutton.png') !important;
-	background-size: 50% !important;
-	opacity: .5 !important;
-	background-repeat: no-repeat !important;
-	background-position:center !important;
-	display: inline-block !important;
-}
-.feedback-link span:hover {
-	opacity: 1 !important
 }

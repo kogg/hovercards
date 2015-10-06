@@ -16,7 +16,7 @@ $.fn.extend({
 		if (!show_feedback) {
 			return this;
 		}
-		var feedback_obj = $('<div class="feedback-link"></div>')
+		var feedback_obj = $('<div class="' + EXTENSION_ID + '-feedback"></div>')
 			.on(Click, function(e) {
 				e.stopPropagation();
 				last_interacted_feedback_url = feedback_url;
@@ -24,12 +24,14 @@ $.fn.extend({
 				show_feedback = false;
 				obj.trigger(Cleanup);
 			});
-		$('<a href="' + feedback_url + '" target="_blank"><img src="' + chrome.extension.getURL('images/logo-128.png') + '"><div>Hey you! Can you give me feedback?</div></a>')
+		$('<a class="' + EXTENSION_ID + '-feedback__link" href="' + feedback_url + '" target="_blank"></a>')
+			.append('<img class="' + EXTENSION_ID + '-feedback__image" src="' + chrome.extension.getURL('images/logo-128.png') + '">')
+			.append('<div class="' + EXTENSION_ID + '-feedback__message">Hey you! Can you give me feedback?</div>')
 			.on(Click, function() {
 				$.analytics('send', 'event', 'feedback opened', 'hovercard link clicked');
 			})
 			.appendTo(feedback_obj);
-		$('<span></span>')
+		$('<span class="' + EXTENSION_ID + '-feedback__close"></span>')
 			.on(Click, function() {
 				$.analytics('send', 'event', 'feedback hid', 'hovercard link clicked');
 			})
@@ -39,7 +41,7 @@ $.fn.extend({
 	},
 	// TODO Get rid of this crap
 	feedback_height: function() {
-		return this.has('.feedback-link').length ? 38 : 0;
+		return this.has('.feedback').length ? 38 : 0;
 	}
 });
 
