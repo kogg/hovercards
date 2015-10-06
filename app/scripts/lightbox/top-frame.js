@@ -71,15 +71,16 @@ $.lightbox = function(identity, hovercard) {
 			.css('top', window_scroll.top + $(window).height() / 2)
 			.css('left', window_scroll.left + $(window).width() / 2)
 			.appendTo('html');
+		var loading = $('<div></div>').append(templates.loading());
 		lightbox = $('<div></div>')
-			.html(templates.loading())
+			.append(loading)
 			.appendTo(lightbox_container);
 		// FIXME
 		$.service(identity, function(err, data) {
 			if (err) {
-				return hovercard.html(err);
+				return loading.replaceWith(err + '');
 			}
-			lightbox.html(templates[identity.api + '-' + identity.type](data));
+			loading.replaceWith(templates[identity.api + '-' + identity.type](data));
 		});
 	}
 	setTimeout(function() {

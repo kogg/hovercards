@@ -5,7 +5,7 @@ var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 var NameSpace = '.' + EXTENSION_ID;
 
 var Cleanup = 'cleanup' + NameSpace;
-var Click	= 'click' + NameSpace;
+var Click   = 'click' + NameSpace;
 
 var feedback_url;
 var last_interacted_feedback_url;

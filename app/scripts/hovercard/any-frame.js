@@ -126,10 +126,11 @@ $.fn.extend({
 			var start = Date.now();
 			var obj = $(this);
 			var hovercard_container = $('<div class="' + EXTENSION_ID + '-hovercard-container"></div>');
+			var loading = $('<div></div>').append(templates.loading());
 			var hovercard = $('<div></div>')
 				.addClass(EXTENSION_ID + '-hovercard')
 				.attr('data-identity-' + EXTENSION_ID, JSON.stringify(identity))
-				.html(templates.loading())
+				.append(loading)
 				.one(Click, function() {
 					obj.trigger(Cleanup, [1]);
 				})
@@ -138,9 +139,9 @@ $.fn.extend({
 			// FIXME
 			$.service(identity, function(err, data) {
 				if (err) {
-					return hovercard.html(err);
+					return loading.replaceWith(err + '');
 				}
-				hovercard.html(templates[identity.api + '-' + identity.type](data));
+				loading.replaceWith(templates[identity.api + '-' + identity.type](data));
 			});
 			hovercard_container.appendTo('html');
 
