@@ -1,4 +1,4 @@
-.__MSG_@@extension_id__-hovercard-container {
+.hovercard-container {
 	align-items: flex-start !important;
 	display: flex !important;
 	justify-content: center !important;
@@ -6,7 +6,7 @@
 	position: absolute !important;
 	z-index: 2147483647 !important;
 }
-.__MSG_@@extension_id__-hovercard {
+.hovercard {
 	background: rgba(255,255,255,.96) !important;
 	border-radius: 3px !important;
 	box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
@@ -14,21 +14,21 @@
 	margin: 0 !important;
 	pointer-events: auto !important;
 }
-.__MSG_@@extension_id__-hovercard-from-top, .__MSG_@@extension_id__-hovercard-from-bottom {
+.hovercard-from-top, .hovercard-from-bottom {
 	animation-duration: .4s;
 	transform: translate3d(0,0,0);
 	animation-fill-mode: forwards;
 }
-.__MSG_@@extension_id__-hovercard-from-top {
-	animation-name: __MSG_@@extension_id__-hovercard-fade-down;
+.hovercard-from-top {
+	animation-name: hovercard-fade-down;
 }
-.__MSG_@@extension_id__-hovercard-from-top .__MSG_@@extension_id__-hovercard {
+.hovercard-from-top .hovercard {
 	transform: translate3d(0,-100%,0);
 }
-.__MSG_@@extension_id__-hovercard-from-bottom {
-	animation-name: __MSG_@@extension_id__-hovercard-fade-up;
+.hovercard-from-bottom {
+	animation-name: hovercard-fade-up;
 }
-@keyframes __MSG_@@extension_id__-hovercard-fade-down {
+@keyframes hovercard-fade-down {
 	0% {
 		opacity: 0;
 		transform:translate3d(0,0,0);
@@ -42,7 +42,7 @@
 		transform:translate3d(0,0,0);
 	}
 }
-@keyframes __MSG_@@extension_id__-hovercard-fade-up {
+@keyframes hovercard-fade-up {
 	0% {
 		opacity: 0;
 		transform:translate3d(0,0,0);

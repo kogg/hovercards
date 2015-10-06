@@ -5,13 +5,13 @@
   "repository": "cameronrohani/hovercardsextension",
   "scripts": {
     "test": "npm run csslint && npm run jshint",
-    "csslint": "rm -rf .tmp/* && mkdir -p .tmp && cp -r ./app/styles .tmp/ && sed -i '' 's/__MSG_@@extension_id__/EXTENSION_ID/g' .tmp/styles/*.css && csslint --format=compact --quiet .tmp/styles/*",
-    "jshint": "jshint --reporter=node_modules/jshint-stylish/index.js app/scripts/*.js app/scripts/**/*.js",
+    "csslint": "csslint --format=compact --quiet app/styles/*",
+    "jshint": "jshint --reporter=node_modules/jshint-stylish app/scripts/*.js app/scripts/**/*.js",
     "start": "npm run process:other:watch & npm run postcss:watch & npm run process:js:watch && wait",
     "pkg": "npm run clean && npm run process:other && npm run postcss && npm run process:js && zip -q -r build/pkg-$npm_package_version.zip dist",
     "clean": "rm -rf dist/* *.pem *.nex",
-    "postcss": "mkdir -p dist/styles && postcss --use autoprefixer node_modules/hovercardsshared/styles/*.css -d dist/styles/ && postcss --use autoprefixer app/styles/*.css -d dist/styles/",
-    "postcss:watch": "mkdir -p dist/styles && postcss --use autoprefixer node_modules/hovercardsshared/styles/*.css -w -d dist/styles/ & postcss --use autoprefixer app/styles/*.css -w -d dist/styles/",
+    "postcss": "mkdir -p dist/styles && postcss $npm_package_config_postcss_args node_modules/hovercardsshared/styles/*.css -d dist/styles/ && postcss $npm_package_config_postcss_args app/styles/*.css -d dist/styles/",
+    "postcss:watch": "mkdir -p dist/styles && postcss $npm_package_config_postcss_args node_modules/hovercardsshared/styles/*.css -w -d dist/styles/ & postcss $npm_package_config_postcss_args app/styles/*.css -w -d dist/styles/",
     "process:js": "mkdir -p dist/scripts && npm run browserify && npm run browserify:frames && npm run uglifyjs",
     "process:js:watch": "npm run watchify:background & npm run watchify:frames & npm run watchify:options & npm run watchify:soundcloud-player",
     "browserify": "mkdir -p dist/scripts && find app/scripts -name \\*main.js | xargs -n 1 basename | xargs -I FILENAME browserify app/scripts/FILENAME -o dist/scripts/FILENAME -r ./app/scripts/production-env.js:env -t [ jstify --templateOpts [ --variable data ] ]",
@@ -25,6 +25,9 @@
     "process:other:watch": "watch 'npm run process:other' app",
     "postinstall": "rm -rf .git/hooks && ln -s ../hooks .git/hooks",
     "postuninstall": "rm -rf .git/hooks"
+  },
+  "config": {
+    "postcss_args": "--use postcss-class-prefix --postcss-class-prefix __MSG_@@extension_id__- --use autoprefixer"
   },
   "dependencies": {
     "angular": "^1.4.7",
@@ -51,6 +54,7 @@
     "jshint": "^2.8.0",
     "jshint-stylish": "^2.0.1",
     "jstify": "^0.12.0",
+    "postcss-class-prefix": "^0.3.0",
     "postcss-cli": "^2.1.0",
     "uglify-js": "^2.4.24",
     "watch": "^0.16.0",

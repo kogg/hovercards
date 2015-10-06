@@ -30,7 +30,7 @@ var templates = {
 $.fn.extend({
 	toggleAnimationClass: function(className, callback) {
 		return this
-			.addClass(className)
+			.addClass(EXTENSION_ID + '-' + className)
 			.on('animationend', function animationend(e) {
 				if (e.originalEvent.animationName !== className + '-animation') {
 					return;
@@ -111,10 +111,10 @@ $.lightbox = function(identity, hovercard) {
 		}
 		$.analytics('send', 'timing', 'lightbox', 'showing', Date.now() - start, analytics_label);
 
-		lightbox.toggleAnimationClass(EXTENSION_ID + '-lightbox-leave', function() {
+		lightbox.toggleAnimationClass('lightbox-leave', function() {
 			lightbox_container.remove();
 		});
-		lightbox_backdrop.toggleAnimationClass(EXTENSION_ID + '-lightbox-backdrop-leave', function() {
+		lightbox_backdrop.toggleAnimationClass('lightbox-backdrop-leave', function() {
 			lightbox_backdrop.remove();
 		});
 

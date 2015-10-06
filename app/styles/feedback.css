@@ -72,7 +72,7 @@
 	98% { transform: translate(-0.5px, 1.5px) rotate(-0.5deg); }
 }
 
-.__MSG_@@extension_id__-hovercard-from-bottom .feedback-link {
+.hovercard-from-bottom .feedback-link {
 	transform: translate(0,100%) !important;
 	bottom: 0 !important;
 	border-radius: 0 0 3px 3px !important;
