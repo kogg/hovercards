@@ -46,7 +46,6 @@
   "devDependencies": {
     "autoprefixer": "^6.0.3",
     "browserify": "^11.2.0",
-    "browserify-shim": "^3.8.10",
     "csslint": "^0.10.0",
     "factor-bundle": "^2.5.0",
     "jshint": "^2.8.0",
@@ -59,16 +58,5 @@
   },
   "engines": {
     "node": ">=0.8.0"
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browser": {
-    "jquery": "./node_modules/jquery/dist/jquery.js"
-  },
-  "browserify-shim": {
-    "jquery": "$"
   }
 }
