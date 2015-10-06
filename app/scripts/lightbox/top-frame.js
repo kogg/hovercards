@@ -103,12 +103,13 @@ $.lightbox = function(identity, hovercard) {
 	function stop_propagation(e) {
 		e.stopPropagation();
 	}
-	function lightbox_leave(e) {
-		if (e.type === 'keydown') {
-			if (e.which !== 27) {
-				return;
-			}
+	function keydown(e) {
+		if (e.which !== 27) {
+			return;
 		}
+		lightbox_leave();
+	}
+	function lightbox_leave() {
 		$.analytics('send', 'timing', 'lightbox', 'showing', Date.now() - start, analytics_label);
 
 		lightbox.toggleAnimationClass('lightbox--leave', function() {
@@ -119,12 +120,12 @@ $.lightbox = function(identity, hovercard) {
 		});
 
 		lightbox.off(Click, stop_propagation);
-		$(document).off(Keydown, lightbox_leave);
+		$(document).off(Keydown, keydown);
 		$(window).off(Scroll, lightbox_leave);
 		lightbox_container.off(Click, lightbox_leave);
 	}
 	lightbox.on(Click, stop_propagation);
-	$(document).on(Keydown, lightbox_leave);
+	$(document).on(Keydown, keydown);
 	$(window).one(Scroll, lightbox_leave);
 	lightbox_container.one(Click, lightbox_leave);
 };
