@@ -18,7 +18,7 @@
     "process:js": "mkdir -p dist/scripts && npm run browserify && npm run uglifyjs",
     "process:other": "rsync -rm --include '*/' --exclude='*.js' --exclude='*.css' app/* dist",
     "process:other:watch": "watch 'npm run process:other' app",
-    "uglifyjs": "mkdir -p dist/scripts && find dist/scripts -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings --stats",
+    "uglifyjs": "mkdir -p dist/scripts && find dist/scripts -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
     "watchify": "mkdir -p dist/scripts && watchify $npm_package_config_browserify_input -p [ factor-bundle $npm_package_config_browserify_output ] $npm_package_config_browserify_args -v -d"
   },
   "config": {
