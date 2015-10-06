@@ -1,4 +1,6 @@
-var _ = require('underscore');
+var _   = require('underscore');
+var $   = require('jquery');
+var env = require('env');
 
 var ALPHANUMERIC   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 var REDDIT_KEY     = '0jXqEudQPqSL6w';
@@ -13,14 +15,19 @@ function initialize_caller(api, opts) {
 	function setup_server_caller() {
 		_.each(['content', 'account'], function(type) {
 			caller[type] = function(args, callback) {
-				chrome.storage.sync.get(api + '_user', function() {
+				chrome.storage.sync.get(api + '_user', function(obj) {
 					if (chrome.runtime.lastError) {
 						return callback(chrome.runtime.lastError);
 					}
-					// TODO Call the backend server
-					setTimeout(function() {
-						callback(null, { some: 'thing' });
-					}, 500 + 500 * Math.random());
+					$.ajax({ url:     env.endpoint + '/' + api + '/' + type,
+							 data:    args,
+							 headers: { device_id: device_id, use: obj[api + '_user'] } })
+						.done(function(data) {
+							callback(null, data);
+						})
+						.fail(function(err) {
+							callback(err);
+						});
 				});
 			};
 		});
@@ -38,8 +45,9 @@ function initialize_caller(api, opts) {
 					return setup_server_caller();
 				}
 				var client = opts.client(_.extend({ device: device_id, user: user_id }, opts.client_args));
-				caller.content = client.content;
-				caller.account = client.account;
+				_.each(['content', 'account'], function(type) {
+					caller[type] = client[type];
+				});
 			}
 
 			setup_client_caller();
