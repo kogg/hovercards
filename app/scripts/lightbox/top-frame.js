@@ -111,10 +111,10 @@ $.lightbox = function(identity, hovercard) {
 		}
 		$.analytics('send', 'timing', 'lightbox', 'showing', Date.now() - start, analytics_label);
 
-		lightbox.toggleAnimationClass('lightbox-leave', function() {
+		lightbox.toggleAnimationClass('lightbox--leave', function() {
 			lightbox_container.remove();
 		});
-		lightbox_backdrop.toggleAnimationClass('lightbox-backdrop-leave', function() {
+		lightbox_backdrop.toggleAnimationClass('lightbox-backdrop--leave', function() {
 			lightbox_backdrop.remove();
 		});
 

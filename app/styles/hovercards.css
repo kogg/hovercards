@@ -43,6 +43,7 @@
 		transform:translate3d(0,0,0);
 	}
 }
+
 @keyframes hovercard-fade-up {
 	0% {
 		opacity: 0;
