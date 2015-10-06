@@ -6,6 +6,20 @@
 	position: absolute !important;
 	z-index: 2147483647 !important;
 }
+.hovercard-container--top, .hovercard-container--bottom {
+	animation-duration: .4s;
+	transform: translate3d(0,0,0);
+	animation-fill-mode: forwards;
+}
+.hovercard-container--top {
+	animation-name: hovercard-fade-down;
+}
+.hovercard-container--top .hovercard {
+	transform: translate3d(0,-100%,0);
+}
+.hovercard-container--bottom {
+	animation-name: hovercard-fade-up;
+}
 .hovercard {
 	background: rgba(255,255,255,.96) !important;
 	border-radius: 3px !important;
@@ -14,20 +28,7 @@
 	margin: 0 !important;
 	pointer-events: auto !important;
 }
-.hovercard-from-top, .hovercard-from-bottom {
-	animation-duration: .4s;
-	transform: translate3d(0,0,0);
-	animation-fill-mode: forwards;
-}
-.hovercard-from-top {
-	animation-name: hovercard-fade-down;
-}
-.hovercard-from-top .hovercard {
-	transform: translate3d(0,-100%,0);
-}
-.hovercard-from-bottom {
-	animation-name: hovercard-fade-up;
-}
+
 @keyframes hovercard-fade-down {
 	0% {
 		opacity: 0;

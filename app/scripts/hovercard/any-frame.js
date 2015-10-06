@@ -147,8 +147,8 @@ $.fn.extend({
 			var obj_offset = obj.offset();
 			var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - hovercard.feedback_height() > $(window).scrollTop();
 			hovercard_container
-				.toggleClass(EXTENSION_ID + '-hovercard-from-top', is_top)
-				.toggleClass(EXTENSION_ID + '-hovercard-from-bottom', !is_top)
+				.toggleClass(EXTENSION_ID + '-hovercard-container--top', is_top)
+				.toggleClass(EXTENSION_ID + '-hovercard-container--bottom', !is_top)
 				.offset({ top:  obj_offset.top + (!is_top && obj.height()),
 				          left: Math.max(PADDING_FROM_EDGES,
 				                         Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
@@ -162,8 +162,8 @@ $.fn.extend({
 					$.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - start, analytics_label);
 					if (keep_hovercard) {
 						hovercard
-							.removeClass(EXTENSION_ID + '-hovercard-from-top')
-							.removeClass(EXTENSION_ID + '-hovercard-from-bottom');
+							.removeClass(EXTENSION_ID + '-hovercard-container--top')
+							.removeClass(EXTENSION_ID + '-hovercard-container--bottom');
 					} else {
 						hovercard_container.remove();
 					}

@@ -19,7 +19,7 @@
 	animation-delay: 0s;
 	animation-play-state: running;
 }
-.hovercard-from-bottom .feedback {
+.hovercard-container--bottom .feedback {
 	transform: translate(0,100%) !important;
 	bottom: 0 !important;
 	border-radius: 0 0 3px 3px !important;
