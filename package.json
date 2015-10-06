@@ -27,7 +27,7 @@
       "output": "-o dist/scripts/background-main.js -o dist/scripts/everywhere-main.js -o dist/scripts/top-frame-main.js -o dist/scripts/options-main.js -o dist/scripts/soundcloud-player-main.js"
     },
     "postcss": {
-      "args": "--use postcss-class-prefix --postcss-class-prefix __MSG_@@extension_id__- --use autoprefixer"
+      "args": "--use postcss-class-prefix --postcss-class-prefix __MSG_@@extension_id__- --use postcss-color-rgba-fallback --use autoprefixer"
     }
   },
   "dependencies": {
@@ -57,6 +57,7 @@
     "jstify": "^0.12.0",
     "postcss-class-prefix": "^0.3.0",
     "postcss-cli": "^2.1.0",
+    "postcss-color-rgba-fallback": "^2.0.0",
     "uglify-js": "^2.4.24",
     "watch": "^0.16.0",
     "watchify": "^3.4.0"
