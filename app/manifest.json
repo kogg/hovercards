@@ -43,7 +43,10 @@
         }
     ],
     "background": {
-        "scripts": ["scripts/background-main.js"]
+        "scripts": [
+            "scripts/common-main.js",
+            "scripts/background-main.js"
+        ]
     },
     "options_page": "options.html",
     "options_ui": {
