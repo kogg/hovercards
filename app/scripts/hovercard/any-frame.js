@@ -35,19 +35,19 @@ var MouseLeave = 'mouseleave' + NameSpace;
 var MouseMove  = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
 
 var templates = {
-	'loading'            : require('hovercardsshared/views/loading.tpl'),
-	'imgur-content'      : require('hovercardsshared/views/imgur-content.tpl'),
-	'imgur-account'      : require('hovercardsshared/views/imgur-account.tpl'),
-	'instagram-content'  : require('hovercardsshared/views/instagram-content.tpl'),
-	'instagram-account'  : require('hovercardsshared/views/instagram-account.tpl'),
-	'reddit-content'     : require('hovercardsshared/views/reddit-content.tpl'),
-	'reddit-account'     : require('hovercardsshared/views/reddit-account.tpl'),
-	'soundcloud-content' : require('hovercardsshared/views/soundcloud-content.tpl'),
-	'soundcloud-account' : require('hovercardsshared/views/soundcloud-account.tpl'),
-	'twitter-content'    : require('hovercardsshared/views/twitter-content.tpl'),
-	'twitter-account'    : require('hovercardsshared/views/twitter-account.tpl'),
-	'youtube-content'    : require('hovercardsshared/views/youtube-content.tpl'),
-	'youtube-account'    : require('hovercardsshared/views/youtube-account.tpl')
+	'loading':             require('hovercardsshared/views/loading.tpl'),
+	'imgur-content':       require('hovercardsshared/views/imgur-content.tpl'),
+	'imgur-account':       require('hovercardsshared/views/imgur-account.tpl'),
+	'instagram-content':   require('hovercardsshared/views/instagram-content.tpl'),
+	'instagram-account':   require('hovercardsshared/views/instagram-account.tpl'),
+	'reddit-content':      require('hovercardsshared/views/reddit-content.tpl'),
+	'reddit-account':      require('hovercardsshared/views/reddit-account.tpl'),
+	'soundcloud-content':  require('hovercardsshared/views/soundcloud-content.tpl'),
+	'soundcloud-account':  require('hovercardsshared/views/soundcloud-account.tpl'),
+	'twitter-content':     require('hovercardsshared/views/twitter-content.tpl'),
+	'twitter-account':     require('hovercardsshared/views/twitter-account.tpl'),
+	'youtube-content':     require('hovercardsshared/views/youtube-content.tpl'),
+	'youtube-account':     require('hovercardsshared/views/youtube-account.tpl')
 };
 var current_obj;
 
