@@ -1,0 +1,4 @@
+{
+	"use": ["postcss-class-prefix", "postcss-color-rgba-fallback", "autoprefixer"],
+	"postcss-class-prefix": "__MSG_@@extension_id__-"
+}
