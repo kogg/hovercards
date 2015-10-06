@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run process:other:watch & npm run postcss:watch & npm run watchify && wait",
     "test": "npm run csslint && npm run jshint",
-    "pkg": "npm run clean && npm run process:other && npm run postcss && npm run process:js && zip -q -r build/pkg-$npm_package_version.zip dist",
+    "pkg": "npm run clean && npm run process:other && npm run postcss && npm run browserify && npm run uglifyjs && zip -q -r build/pkg-$npm_package_version.zip dist",
     "clean": "rm -rf dist/* *.pem *.nex",
     "browserify": "mkdir -p dist/scripts && browserify $npm_package_config_browserify_input -p [ factor-bundle $npm_package_config_browserify_output ] $npm_package_config_browserify_args",
     "csslint": "csslint --format=compact --quiet app/styles/*",
@@ -15,7 +15,6 @@
     "postcss:watch": "npm run postcss -- -w",
     "postinstall": "rm -rf .git/hooks && ln -s ../hooks .git/hooks",
     "postuninstall": "rm -rf .git/hooks",
-    "process:js": "mkdir -p dist/scripts && npm run browserify && npm run uglifyjs",
     "process:other": "rsync -rm --include '*/' --exclude='*.js' --exclude='*.css' app/* dist",
     "process:other:watch": "watch 'npm run process:other' app",
     "uglifyjs": "mkdir -p dist/scripts && find dist/scripts -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
