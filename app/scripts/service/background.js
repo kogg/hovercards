@@ -90,7 +90,7 @@ chrome.storage.local.get('device_id', function(obj) {
 			return;
 		}
 
-		api_callers[message.identity.api][message.identity.type](message.identity, _.wrap(callback, function(callback, err, result) {
+		api_callers[message.identity.api][message.identity.type](_.omit(message.identity, 'api', 'type'), _.wrap(callback, function(callback, err, result) {
 			callback([err, result]);
 		}));
 
