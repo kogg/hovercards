@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var _ = require('underscore');
 
 $.authenticate = function(api, callback) {
 	if (!api) {
@@ -6,8 +7,8 @@ $.authenticate = function(api, callback) {
 		return callback({ status: 400 });
 	}
 	chrome.runtime.sendMessage({ type: 'auth', api: api }, function(combined_response) {
-		if (chrome.runtime.lastError || !combined_response || !combined_response.length) {
-			$.analytics('send', 'exception', { exDescription: (chrome.runtime.lastError && chrome.runtime.lastError.message) || 'Authentcation Failed without Explanation',
+		if (chrome.runtime.lastError || _.isEmpty(combined_response)) {
+			$.analytics('send', 'exception', { exDescription: (chrome.runtime.lastError && chrome.runtime.lastError.message) || 'Authentication Failed without Explanation',
 			                                   exFatal: true });
 			return callback({ 'our-problem': true });
 		}

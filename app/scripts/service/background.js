@@ -93,11 +93,12 @@ chrome.storage.local.get('device_id', function(obj) {
 		var api      = _.result(identity, 'api');
 		var type     = _.result(identity, 'type');
 		if (!api_callers || !api_callers[api] || !_.isFunction(api_callers[api][type])) {
+			// FIXME
 			return;
 		}
 
-		api_callers[api][type](_.omit(identity, 'api', 'type'), _.wrap(callback, function(callback, err, result) {
-			callback([err, result]);
+		api_callers[api][type](_.omit(identity, 'api', 'type'), _.wrap(callback, function(callback) {
+			callback(_.toArray(arguments).splice(1));
 		}));
 
 		return true;
