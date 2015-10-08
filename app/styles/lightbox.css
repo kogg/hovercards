@@ -1,6 +1,12 @@
-.flex-container--lightbox {
+.lightbox-container {
+	align-items: flex-start !important;
+	display: flex !important;
+	justify-content: center !important;
 	pointer-events: auto !important;
+	position: absolute !important;
+	transform: translate3d(0,0,0) !important;
 	transition: left .5s, top .5s, transform .5s, height .5s, width .5s, margin .5s !important;
+	z-index: 2147483647 !important;
 }
 .lightbox {
 	background: rgba(255,255,255,.96) !important;

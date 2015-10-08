@@ -10,7 +10,6 @@
                 "https://*/*"
             ],
             "css": [
-                "styles/flex-container.css",
                 "styles/hovercards.css",
                 "styles/feedback.css"
             ],

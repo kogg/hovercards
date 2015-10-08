@@ -66,7 +66,6 @@ $.lightbox = function(identity, hovercard) {
 			.css('width', lightbox_container.width() + 1);
 	} else {
 		lightbox_container = $('<div></div>')
-			.addClass(EXTENSION_ID + '-flex-container')
 			.css('height', '0')
 			.css('width', '0')
 			.css('top', window_scroll.top + $(window).height() / 2)
@@ -86,7 +85,7 @@ $.lightbox = function(identity, hovercard) {
 	}
 	setTimeout(function() {
 		lightbox_container
-			.addClass(EXTENSION_ID + '-flex-container--lightbox')
+			.addClass(EXTENSION_ID + '-lightbox-container')
 			.css('height', '100%')
 			.css('width', '100%')
 			.css('top', window_scroll.top)

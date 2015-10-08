@@ -125,9 +125,7 @@ $.fn.extend({
 			$.analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
 			var start = Date.now();
 			var obj = $(this);
-			var hovercard_container = $('<div></div>')
-				.addClass(EXTENSION_ID + '-flex-container')
-				.addClass(EXTENSION_ID + '-flex-container--hovercard');
+			var hovercard_container = $('<div class="' + EXTENSION_ID + '-hovercard-container"></div>');
 			var loading = $('<div></div>').append(templates.loading());
 			var hovercard = $('<div></div>')
 				.addClass(EXTENSION_ID + '-hovercard')
@@ -150,8 +148,8 @@ $.fn.extend({
 			var obj_offset = obj.offset();
 			var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - hovercard.feedback_height() > $(window).scrollTop();
 			hovercard_container
-				.toggleClass(EXTENSION_ID + '-flex-container--hovercard--top', is_top)
-				.toggleClass(EXTENSION_ID + '-flex-container--hovercard--bottom', !is_top)
+				.toggleClass(EXTENSION_ID + '-hovercard-container--top', is_top)
+				.toggleClass(EXTENSION_ID + '-hovercard-container--bottom', !is_top)
 				.offset({ top:  obj_offset.top + (!is_top && obj.height()),
 				          left: Math.max(PADDING_FROM_EDGES,
 				                         Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
@@ -165,8 +163,8 @@ $.fn.extend({
 					$.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - start, analytics_label);
 					if (keep_hovercard) {
 						hovercard
-							.removeClass(EXTENSION_ID + '-flex-container--hovercard--top')
-							.removeClass(EXTENSION_ID + '-flex-container--hovercard--bottom');
+							.removeClass(EXTENSION_ID + '-hovercard-container--top')
+							.removeClass(EXTENSION_ID + '-hovercard-container--bottom');
 					} else {
 						hovercard_container.remove();
 					}

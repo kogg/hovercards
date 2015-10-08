@@ -1,9 +1,0 @@
-.flex-container {
-	align-items: flex-start !important;
-	display: flex !important;
-	justify-content: center !important;
-	pointer-events: none !important;
-	position: absolute !important;
-	transform: translate3d(0,0,0) !important;
-	z-index: 2147483647 !important;
-}
