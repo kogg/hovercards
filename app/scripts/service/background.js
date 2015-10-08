@@ -86,12 +86,19 @@ chrome.storage.local.get('device_id', function(obj) {
 	                    youtube:    initialize_caller('youtube') };
 
 	chrome.runtime.onMessage.addListener(function(message, sender, callback) {
-		if (!message || message.type !== 'service' || !message.identity || !api_callers[message.identity.api] || !api_callers[message.identity.api][message.identity.type]) {
+		if (_.result(message, 'type') !== 'service') {
+			return;
+		}
+		var identity = message.identity;
+		var api      = _.result(identity, 'api');
+		var type     = _.result(identity, 'type');
+		if (!api_callers || !api_callers[api] || !_.isFunction(api_callers[api][type])) {
+			// FIXME
 			return;
 		}
 
-		api_callers[message.identity.api][message.identity.type](_.omit(message.identity, 'api', 'type'), _.wrap(callback, function(callback, err, result) {
-			callback([err, result]);
+		api_callers[api][type](_.omit(identity, 'api', 'type'), _.wrap(callback, function(callback) {
+			callback(_.toArray(arguments).splice(1));
 		}));
 
 		return true;

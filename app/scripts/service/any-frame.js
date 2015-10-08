@@ -1,4 +1,5 @@
 var $            = require('jquery');
+var _            = require('underscore');
 var network_urls = require('hovercardsshared/old-apis/network-urls');
 
 $.service = function(identity, callback) {
@@ -6,11 +7,12 @@ $.service = function(identity, callback) {
 		identity = network_urls.identify(identity);
 	}
 	if (!identity) {
-		return;
+		// FIXME
+		return callback({ status: 400 });
 	}
 	chrome.runtime.sendMessage({ type: 'service', identity: identity }, function(combined_response) {
-		if (chrome.runtime.lastError || !combined_response || !combined_response.length) {
-			$.analytics('send', 'exception', { exDescription: (chrome.runtime.lastError && chrome.runtime.lastError.message) || 'Service Died without Explanation',
+		if (chrome.runtime.lastError || _.isEmpty(combined_response)) {
+			$.analytics('send', 'exception', { exDescription: (chrome.runtime.lastError && chrome.runtime.lastError.message) || 'Service Failed without Explanation',
 			                                   exFatal: true });
 			return callback({ 'our-problem': true });
 		}
