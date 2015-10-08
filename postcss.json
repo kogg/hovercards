@@ -1,4 +1,4 @@
 {
-	"use": ["postcss-class-prefix", "postcss-color-rgba-fallback", "autoprefixer"],
+	"use": ["postcss-class-prefix", "postcss-color-rgba-fallback", "autoprefixer", "postcss-reporter"],
 	"postcss-class-prefix": "__MSG_@@extension_id__-"
 }

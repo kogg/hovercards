@@ -55,6 +55,7 @@
     "postcss-class-prefix": "^0.3.0",
     "postcss-cli": "^2.1.0",
     "postcss-color-rgba-fallback": "^2.0.0",
+    "postcss-reporter": "^1.2.1",
     "uglify-js": "^2.4.24",
     "watch": "^0.16.0",
     "watchify": "^3.4.0"
