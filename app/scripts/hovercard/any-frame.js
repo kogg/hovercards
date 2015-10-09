@@ -29,6 +29,7 @@ var TIMEOUT_BEFORE_FADEOUT = 100;
 
 var NameSpace = '.' + EXTENSION_ID;
 
+var Blur       = 'blur' + NameSpace;
 var Cleanup    = 'cleanup' + NameSpace;
 var Click      = 'click' + NameSpace;
 var MouseLeave = 'mouseleave' + NameSpace;
@@ -96,12 +97,17 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 				.trigger(Cleanup)
 				.hovercard(identity, last_e);
 		}, TIMEOUT_BEFORE_CARD);
-		current_obj = obj
-			.one(Click + ' ' + MouseLeave, function() {
-				obj.trigger(Cleanup);
+		function kill_it() {
+			obj.trigger(Cleanup);
+			if (current_obj) {
 				current_obj = !current_obj.is(obj) && current_obj;
-			})
+			}
+		}
+		$(window).on(Blur, kill_it);
+		current_obj = obj
+			.one(Click + ' ' + MouseLeave, kill_it)
 			.one(Cleanup, function() {
+				$(window).off(Blur, kill_it);
 				obj.off(NameSpace);
 				clearTimeout(timeout);
 				timeout = null;
@@ -156,10 +162,12 @@ $.fn.extend({
 				                         Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
 				                                  (e ? e.pageX : obj_offset.left) + 1)) });
 
+			function kill_it() {
+				obj.trigger(Cleanup);
+			}
+			$(window).on(Blur, kill_it);
 			obj
-				.one(Click, function() {
-					obj.trigger(Cleanup);
-				})
+				.one(Click, kill_it)
 				.one(Cleanup, function(e, keep_hovercard) {
 					$.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
 					if (keep_hovercard) {
@@ -169,6 +177,7 @@ $.fn.extend({
 					} else {
 						hovercard_container.remove();
 					}
+					$(window).off(Blur, kill_it);
 					obj.off(NameSpace);
 					current_obj = !current_obj.is(obj) && current_obj;
 				});
@@ -178,7 +187,7 @@ $.fn.extend({
 				if (both.is(to) || both.has(to).length) {
 					return;
 				}
-				var kill_timeout = setTimeout(function() { obj.trigger(Cleanup); }, TIMEOUT_BEFORE_FADEOUT);
+				var kill_timeout = setTimeout(kill_it, TIMEOUT_BEFORE_FADEOUT);
 				both.one(MouseMove, function() {
 					clearTimeout(kill_timeout);
 				});
