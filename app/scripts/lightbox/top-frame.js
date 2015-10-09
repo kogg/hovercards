@@ -4,13 +4,6 @@ require('./common');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-var NameSpace = '.' + EXTENSION_ID;
-
-var Click         = 'click' + NameSpace;
-var Keydown       = 'keydown' + NameSpace;
-var Scroll        = 'scroll' + NameSpace;
-var TransitionEnd = 'transitionend' + NameSpace;
-
 var templates = {
 	'loading':             require('hovercardsshared/views/loading.tpl'),
 	'imgur-content':       require('hovercardsshared/views/imgur-content.tpl'),
@@ -90,12 +83,12 @@ $.lightbox = function(identity, hovercard) {
 			.css('width', '100%')
 			.css('top', window_scroll.top)
 			.css('left', window_scroll.left)
-			.on(TransitionEnd, function set_overflow(e) {
+			.on('transitionend', function set_overflow(e) {
 				if (e.originalEvent.propertyName !== 'height') {
 					return;
 				}
 				lightbox_container
-					.off(TransitionEnd, set_overflow)
+					.off('transitionend', set_overflow)
 					.css('overflow', 'auto');
 			});
 		lightbox.addClass(EXTENSION_ID + '-lightbox');
@@ -120,15 +113,15 @@ $.lightbox = function(identity, hovercard) {
 			lightbox_backdrop.remove();
 		});
 
-		lightbox.off(Click, stop_propagation);
-		$(document).off(Keydown, keydown);
-		$(window).off(Scroll, lightbox_leave);
-		lightbox_container.off(Click, lightbox_leave);
+		lightbox.off('click', stop_propagation);
+		$(document).off('keydown', keydown);
+		$(window).off('scroll', lightbox_leave);
+		lightbox_container.off('click', lightbox_leave);
 	}
-	lightbox.on(Click, stop_propagation);
-	$(document).on(Keydown, keydown);
-	$(window).one(Scroll, lightbox_leave);
-	lightbox_container.one(Click, lightbox_leave);
+	lightbox.on('click', stop_propagation);
+	$(document).on('keydown', keydown);
+	$(window).one('scroll', lightbox_leave);
+	lightbox_container.one('click', lightbox_leave);
 };
 
 window.addEventListener('message', function(event) {
