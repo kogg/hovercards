@@ -17,14 +17,16 @@ function initialize_caller(api, opts) {
 			caller[type] = function(args, callback) {
 				chrome.storage.sync.get(api + '_user', function(obj) {
 					obj = obj || {};
-					$.ajax({ url:     env.endpoint + '/' + api + '/' + type,
-							 data:    _.omit(args, 'api', 'type'),
-							 headers: { device_id: device_id, user: obj[api + '_user'] } })
+					$.ajax({ url:      env.endpoint + '/' + api + '/' + type,
+					         data:     _.omit(args, 'api', 'type'),
+					         dataType: 'json',
+					         jsonp:    false,
+					         headers:  { device_id: device_id, user: obj[api + '_user'] } })
 						.done(function(data) {
 							callback(null, data);
 						})
 						.fail(function(err) {
-							callback(_.defaults(err, { status: 500 }));
+							callback(err.responseJSON || { message: err.statusText, status: err.status || 500 });
 						});
 				});
 			};
