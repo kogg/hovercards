@@ -16,17 +16,15 @@ function initialize_caller(api, opts) {
 		_.each(['content', 'account'], function(type) {
 			caller[type] = function(args, callback) {
 				chrome.storage.sync.get(api + '_user', function(obj) {
-					if (chrome.runtime.lastError) {
-						return callback(chrome.runtime.lastError);
-					}
+					obj = obj || {};
 					$.ajax({ url:     env.endpoint + '/' + api + '/' + type,
 							 data:    args,
-							 headers: { device_id: device_id, use: obj[api + '_user'] } })
+							 headers: { device_id: device_id, user: obj[api + '_user'] } })
 						.done(function(data) {
 							callback(null, data);
 						})
 						.fail(function(err) {
-							callback(err);
+							callback(_.defaults(err, { status: 500 }));
 						});
 				});
 			};
@@ -35,10 +33,7 @@ function initialize_caller(api, opts) {
 
 	if (opts.client) {
 		chrome.storage.sync.get(api + '_user', function(obj) {
-			if (chrome.runtime.lastError) {
-				// TODO
-				return;
-			}
+			obj = obj || {};
 			var user_id = obj.user_id;
 			function setup_client_caller() {
 				if (opts.client_on_auth && (!user_id || !user_id.length)) {
@@ -67,11 +62,8 @@ function initialize_caller(api, opts) {
 }
 
 chrome.storage.local.get('device_id', function(obj) {
-	if (chrome.runtime.lastError) {
-		// TODO
-		return;
-	}
-	if (chrome.runtime.lastError || !obj || !obj.device_id || !obj.device_id.length) {
+	obj = obj || {};
+	if (!obj.device_id || !obj.device_id.length) {
 		device_id = _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('');
 		chrome.storage.local.set({ device_id: device_id });
 	} else {
@@ -89,17 +81,17 @@ chrome.storage.local.get('device_id', function(obj) {
 		if (_.result(message, 'type') !== 'service') {
 			return;
 		}
+		callback = _.wrap(callback, function(callback, err, response) {
+			callback([err, response]);
+		});
 		var identity = message.identity;
 		var api      = _.result(identity, 'api');
 		var type     = _.result(identity, 'type');
-		if (!api_callers || !api_callers[api] || !_.isFunction(api_callers[api][type])) {
-			// FIXME
-			return;
+		if (api_callers[api] && _.isFunction(api_callers[api][type])) {
+			api_callers[api][type](identity, callback);
+		} else {
+			callback({ message: 'Missing caller', status: 500 });
 		}
-
-		api_callers[api][type](_.omit(identity, 'api', 'type'), _.wrap(callback, function(callback) {
-			callback(_.toArray(arguments).splice(1));
-		}));
 
 		return true;
 	});

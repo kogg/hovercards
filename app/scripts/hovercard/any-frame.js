@@ -52,7 +52,7 @@ var templates = {
 var current_obj;
 
 var disabled;
-// FIXME Move this out into its own "feature"
+// FIXME Maybe move this out into its own "feature"
 chrome.storage.sync.get('disabled', function(obj) {
 	disabled = obj.disabled || {};
 
@@ -118,12 +118,12 @@ $.fn.extend({
 			identity = network_urls.identify(identity);
 		}
 		if (!identity) {
-			return this;
+			return $();
 		}
 		var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
 		return this.each(function() {
 			$.analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
-			var start = Date.now();
+			var hovercard_start = Date.now();
 			var obj = $(this);
 			var hovercard_container = $('<div class="' + EXTENSION_ID + '-hovercard-container"></div>');
 			var loading = $('<div></div>').append(templates.loading());
@@ -136,10 +136,11 @@ $.fn.extend({
 				})
 				.addFeedback(obj)
 				.appendTo(hovercard_container);
-			// FIXME
+
+			// TODO
 			$.service(identity, function(err, data) {
 				if (err) {
-					return loading.replaceWith(err + '');
+					return loading.replaceWith((err.message || 'ERROR') + '');
 				}
 				loading.replaceWith(templates[identity.api + '-' + identity.type](data));
 			});
@@ -160,7 +161,7 @@ $.fn.extend({
 					obj.trigger(Cleanup);
 				})
 				.one(Cleanup, function(e, keep_hovercard) {
-					$.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - start, analytics_label);
+					$.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
 					if (keep_hovercard) {
 						hovercard
 							.removeClass(EXTENSION_ID + '-hovercard-container--top')

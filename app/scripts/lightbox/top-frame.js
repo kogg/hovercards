@@ -52,7 +52,7 @@ $.lightbox = function(identity, hovercard) {
 	}
 	var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
 	$.analytics('send', 'event', 'lightbox displayed', 'hovercard clicked', analytics_label, { nonInteraction: true });
-	var start = Date.now();
+	var lightbox_start = Date.now();
 
 	var lightbox_backdrop = $('<div class="' + EXTENSION_ID + '-lightbox-backdrop"></div>').appendTo('html');
 	var lightbox_container;
@@ -75,10 +75,10 @@ $.lightbox = function(identity, hovercard) {
 		lightbox = $('<div></div>')
 			.append(loading)
 			.appendTo(lightbox_container);
-		// FIXME
+		// TODO
 		$.service(identity, function(err, data) {
 			if (err) {
-				return loading.replaceWith(err + '');
+				return loading.replaceWith((err.message || 'ERROR') + '');
 			}
 			loading.replaceWith(templates[identity.api + '-' + identity.type](data));
 		});
@@ -111,7 +111,7 @@ $.lightbox = function(identity, hovercard) {
 		lightbox_leave();
 	}
 	function lightbox_leave() {
-		$.analytics('send', 'timing', 'lightbox', 'showing', Date.now() - start, analytics_label);
+		$.analytics('send', 'timing', 'lightbox', 'showing', Date.now() - lightbox_start, analytics_label);
 
 		lightbox.toggleAnimationClass('lightbox--leave', function() {
 			lightbox_container.remove();

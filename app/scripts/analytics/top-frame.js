@@ -6,11 +6,8 @@ var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 window.addEventListener('message', function(event) {
-	if (!event || !event.data) {
-		return;
-	}
-	var message = event.data;
-	if (message.msg !== EXTENSION_ID + '-analytics') {
+	var message = event && event.data;
+	if (!message || (message && message.msg) !== EXTENSION_ID + '-analytics') {
 		return;
 	}
 	$.analytics.apply(this, message.request);
@@ -18,7 +15,7 @@ window.addEventListener('message', function(event) {
 
 if (!env.analytics_id) {
 	$.analytics = function() {
-		console.debug('google analytics', Array.prototype.slice.call(arguments));
+		console.debug('google analytics', _.toArray(arguments));
 	};
 	return;
 }
@@ -42,7 +39,8 @@ $.analytics = function() {
 };
 get_user_id(function(err, user_id) {
 	if (err) {
-		return console.error('error getting user_id', err);
+		// TODO Programmed to never happen but you know
+		return;
 	}
 
 	$.analytics = function() {
@@ -56,9 +54,9 @@ get_user_id(function(err, user_id) {
 		window.ga('create', env.analytics_id, { 'userId': user_id });
 		window.ga('set', { appName: chrome.i18n.getMessage('app_name'), appVersion: chrome.runtime.getManifest().version });
 		window.ga('send', 'screenview', { screenName: 'None' });
-		window.ga.apply(this, Array.prototype.slice.call(arguments));
+		window.ga.apply(this, _.toArray(arguments));
 		$.analytics = function() {
-			window.ga.apply(this, Array.prototype.slice.call(arguments));
+			window.ga.apply(this, _.toArray(arguments));
 		};
 	};
 
