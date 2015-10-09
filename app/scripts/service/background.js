@@ -90,7 +90,7 @@ chrome.storage.local.get('device_id', function(obj) {
 		if (api_callers[api] && _.isFunction(api_callers[api][type])) {
 			api_callers[api][type](identity, callback);
 		} else {
-			callback({ message: 'Missing caller', status: 500 });
+			callback({ message: 'Unable to handle identity', status: 500 });
 		}
 
 		return true;
