@@ -1,6 +1,6 @@
 var $            = require('jquery');
 var _            = require('underscore');
-var network_urls = require('hovercardsshared/old-apis/network-urls');
+var network_urls = require('hovercardsshared/network-urls');
 
 $.service = function(identity, callback) {
 	if (typeof identity === 'string') {
