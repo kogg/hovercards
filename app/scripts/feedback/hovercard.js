@@ -1,4 +1,7 @@
 var $ = require('jquery');
+var _ = require('underscore');
+
+require('../mixins');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
@@ -16,7 +19,8 @@ $.fn.extend({
 		if (!show_feedback) {
 			return this;
 		}
-		var feedback_obj = $('<div class="' + EXTENSION_ID + '-feedback"></div>')
+		var feedback_obj = $('<div></div>')
+			.addClass(_.prefix('feedback'))
 			.on(Click, function(e) {
 				e.stopPropagation();
 				last_interacted_feedback_url = feedback_url;
@@ -24,14 +28,16 @@ $.fn.extend({
 				show_feedback = false;
 				obj.trigger(Cleanup);
 			});
-		$('<a class="' + EXTENSION_ID + '-feedback__link" href="' + feedback_url + '" target="_blank"></a>')
-			.append('<img class="' + EXTENSION_ID + '-feedback__image" src="' + chrome.extension.getURL('images/logo-128.png') + '">')
-			.append('<div class="' + EXTENSION_ID + '-feedback__message">Hey you! Can you give me feedback?</div>')
+		$('<a href="' + feedback_url + '" target="_blank"></a>')
+			.addClass(_.prefix('feedback__link'))
+			.append('<img class="' + _.prefix('feedback__image') + '" src="' + chrome.extension.getURL('images/logo-128.png') + '">')
+			.append('<div class="' + _.prefix('feedback__message') + '">Hey you! Can you give me feedback?</div>')
 			.on(Click, function() {
 				$.analytics('send', 'event', 'feedback opened', 'hovercard link clicked');
 			})
 			.appendTo(feedback_obj);
-		$('<span class="' + EXTENSION_ID + '-feedback__close"></span>')
+		$('<span></span>')
+			.addClass(_.prefix('feedback__close'))
 			.on(Click, function() {
 				$.analytics('send', 'event', 'feedback hid', 'hovercard link clicked');
 			})

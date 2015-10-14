@@ -1,5 +1,5 @@
-<div class="<% print(_.class('container')) %>">
-	<div class="<% print(_.class('contained')) %>">
+<div class="<% print(_.prefix('container')) %>">
+	<div class="<% print(_.prefix('contained')) %>">
 		Test Content
 	</div>
 </div>

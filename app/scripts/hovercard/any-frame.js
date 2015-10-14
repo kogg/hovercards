@@ -119,10 +119,10 @@ $.fn.extend({
 			var hovercard_start = Date.now();
 			var obj = $(this);
 			var hovercard_container = $(require('../../views/container.tpl')())
-				.addClass(_.class('container--hovercard'));
-			var hovercard = hovercard_container.find('.' + _.class('contained'))
-				.addClass(_.class('hovercard'))
-				.attr('data-identity-' + EXTENSION_ID, JSON.stringify(identity)) // TODO Just make this data?
+				.addClass(_.prefix('container--hovercard'));
+			var hovercard = hovercard_container.find('.' + _.prefix('contained'))
+				.addClass(_.prefix('hovercard'))
+				.data(_.prefix('identity'), identity)
 				.one(Click, function() {
 					obj.trigger(Cleanup, [1]);
 				})
@@ -133,8 +133,8 @@ $.fn.extend({
 			var obj_offset = obj.offset();
 			var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - hovercard.feedback_height() > $(window).scrollTop();
 			hovercard_container
-				.toggleClass(_.class('container--hovercard--top'), is_top)
-				.toggleClass(_.class('container--hovercard--bottom'), !is_top)
+				.toggleClass(_.prefix('container--hovercard--top'), is_top)
+				.toggleClass(_.prefix('container--hovercard--bottom'), !is_top)
 				.offset({ top:  obj_offset.top + (!is_top && obj.height()),
 				          left: Math.max(PADDING_FROM_EDGES,
 				                         Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
@@ -150,8 +150,8 @@ $.fn.extend({
 					$.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
 					if (keep_hovercard) {
 						hovercard
-							.removeClass(_.class('container--hovercard--top'))
-							.removeClass(_.class('container--hovercard--bottom'));
+							.removeClass(_.prefix('container--hovercard--top'))
+							.removeClass(_.prefix('container--hovercard--bottom'));
 					} else {
 						hovercard_container.remove();
 					}

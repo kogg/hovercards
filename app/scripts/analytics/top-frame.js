@@ -2,12 +2,13 @@ var $   = require('jquery');
 var _   = require('underscore');
 var env = require('env');
 
+require('../mixins');
+
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 window.addEventListener('message', function(event) {
 	var message = event && event.data;
-	if (!message || (message && message.msg) !== EXTENSION_ID + '-analytics') {
+	if (!message || (message && message.msg) !== _.prefix('analytics')) {
 		return;
 	}
 	$.analytics.apply(this, message.request);

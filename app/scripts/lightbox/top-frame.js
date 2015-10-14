@@ -4,19 +4,17 @@ var network_urls = require('hovercardsshared/network-urls');
 require('../mixins');
 require('./common');
 
-var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
-
 $.fn.extend({
 	toggleAnimationClass: function(className, callback) {
 		return this
-			.addClass(_.class(className))
+			.addClass(_.prefix(className))
 			.on('animationend', function animationend(e) {
 				if (e.originalEvent.animationName !== className + '-animation') {
 					return;
 				}
 				$(this)
 					.off('animationend', animationend)
-					.removeClass(_.class(className));
+					.removeClass(_.prefix(className));
 				(callback || $.noop)();
 			});
 	}
@@ -34,14 +32,14 @@ $.lightbox = function(identity, hovercard) {
 	var lightbox_start = Date.now();
 
 	var lightbox_backdrop = $('<div></div>')
-		.addClass(_.class('lightbox-backdrop'))
+		.addClass(_.prefix('lightbox-backdrop'))
 		.appendTo('html');
 	var lightbox_container;
 	var lightbox;
 	var window_scroll = { top: $(window).scrollTop(), left: $(window).scrollLeft() };
 	if (hovercard) {
 		lightbox = hovercard;
-		lightbox_container = lightbox.parents('.' + _.class('container'));
+		lightbox_container = lightbox.parents('.' + _.prefix('container'));
 		lightbox_container
 			.css('height', lightbox_container.height() + 1)
 			.css('width', lightbox_container.width() + 1);
@@ -52,14 +50,14 @@ $.lightbox = function(identity, hovercard) {
 			.css('top', window_scroll.top + $(window).height() / 2)
 			.css('left', window_scroll.left + $(window).width() / 2)
 			.appendTo('html');
-		lightbox = lightbox_container.find('.' + _.class('contained'));
+		lightbox = lightbox_container.find('.' + _.prefix('contained'));
 	}
 	setTimeout(function() {
 		lightbox_container
-			.addClass(_.class('container--lightbox'))
-			.removeClass(_.class('container--hovercard'))
-			.removeClass(_.class('container--hovercard--top'))
-			.removeClass(_.class('container--hovercard--bottom'))
+			.addClass(_.prefix('container--lightbox'))
+			.removeClass(_.prefix('container--hovercard'))
+			.removeClass(_.prefix('container--hovercard--top'))
+			.removeClass(_.prefix('container--hovercard--bottom'))
 			.css('height', '100%')
 			.css('width', '100%')
 			.css('top', window_scroll.top)
@@ -73,8 +71,8 @@ $.lightbox = function(identity, hovercard) {
 					.css('overflow', 'auto');
 			});
 		lightbox
-			.addClass(_.class('lightbox'))
-			.removeClass(_.class('hovercard'));
+			.addClass(_.prefix('lightbox'))
+			.removeClass(_.prefix('hovercard'));
 	});
 
 	function stop_propagation(e) {
@@ -112,7 +110,7 @@ window.addEventListener('message', function(event) {
 		return;
 	}
 	var message = event.data;
-	if (message.msg !== EXTENSION_ID + '-lightbox') {
+	if (message.msg !== _.prefix('lightbox')) {
 		return;
 	}
 	$.lightbox(message.identity, message.obj);
