@@ -13,8 +13,8 @@
                 "everywhere.css"
             ],
             "js": [
-                "common-main.js",
-                "everywhere-main.js"
+                "common.js",
+                "everywhere.js"
             ],
             "all_frames": true
         },
@@ -27,7 +27,7 @@
                 "top-frame.css"
             ],
             "js": [
-                "top-frame-main.js"
+                "top-frame.js"
             ],
             "all_frames": false
         },
@@ -36,15 +36,15 @@
                 "https://w.soundcloud.com/player/*"
             ],
             "js": [
-                "soundcloud-player-main.js"
+                "soundcloud-player.js"
             ],
             "all_frames": true
         }
     ],
     "background": {
         "scripts": [
-            "common-main.js",
-            "background-main.js"
+            "common.js",
+            "background.js"
         ]
     },
     "options_page": "options/page.html",
