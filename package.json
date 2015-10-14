@@ -23,8 +23,8 @@
   "config": {
     "browserify": {
       "args": "-o dist/common-main.js -r ./app/scripts/development-env.js:env -t [ jstify --templateOpts [ --variable data ] ]",
-      "input": "app/background-main.js app/everywhere-main.js app/top-frame-main.js app/options-main.js app/soundcloud-player-main.js",
-      "output": "-o dist/background-main.js -o dist/everywhere-main.js -o dist/top-frame-main.js -o dist/options-main.js -o dist/soundcloud-player-main.js"
+      "input": "app/background-main.js app/everywhere-main.js app/top-frame-main.js app/options/main.js app/soundcloud-player-main.js",
+      "output": "-o dist/background-main.js -o dist/everywhere-main.js -o dist/top-frame-main.js -o dist/options/main.js -o dist/soundcloud-player-main.js"
     }
   },
   "dependencies": {
