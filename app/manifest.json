@@ -10,8 +10,7 @@
                 "https://*/*"
             ],
             "css": [
-                "hovercard/styles.css",
-                "feedback/styles.css"
+                "everywhere.css"
             ],
             "js": [
                 "common-main.js",
@@ -25,7 +24,7 @@
                 "https://*/*"
             ],
             "css": [
-                "lightbox/styles.css"
+                "top-frame.css"
             ],
             "js": [
                 "top-frame-main.js"
