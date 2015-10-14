@@ -1,4 +1,4 @@
-.hovercard-container {
+.container--hovercard {
 	align-items: flex-start !important;
 	display: flex !important;
 	justify-content: center !important;
@@ -6,18 +6,18 @@
 	position: absolute !important;
 	z-index: 2147483647 !important;
 }
-.hovercard-container--top, .hovercard-container--bottom {
+.container--hovercard--top, .container--hovercard--bottom {
 	animation-duration: .4s;
 	transform: translate3d(0,0,0);
 	animation-fill-mode: forwards;
 }
-.hovercard-container--top {
+.container--hovercard--top {
 	animation-name: hovercard-fade-down;
 }
-.hovercard-container--top .hovercard {
+.container--hovercard--top .hovercard {
 	transform: translate3d(0,-100%,0);
 }
-.hovercard-container--bottom {
+.container--hovercard--bottom {
 	animation-name: hovercard-fade-up;
 }
 .hovercard {

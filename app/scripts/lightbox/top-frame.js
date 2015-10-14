@@ -1,36 +1,22 @@
 var $            = require('jquery');
+var _            = require('underscore');
 var network_urls = require('hovercardsshared/network-urls');
+require('../mixins');
 require('./common');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-var templates = {
-	'loading':             require('hovercardsshared/views/loading.tpl'),
-	'imgur-content':       require('hovercardsshared/views/imgur-content.tpl'),
-	'imgur-account':       require('hovercardsshared/views/imgur-account.tpl'),
-	'instagram-content':   require('hovercardsshared/views/instagram-content.tpl'),
-	'instagram-account':   require('hovercardsshared/views/instagram-account.tpl'),
-	'reddit-content':      require('hovercardsshared/views/reddit-content.tpl'),
-	'reddit-account':      require('hovercardsshared/views/reddit-account.tpl'),
-	'soundcloud-content':  require('hovercardsshared/views/soundcloud-content.tpl'),
-	'soundcloud-account':  require('hovercardsshared/views/soundcloud-account.tpl'),
-	'twitter-content':     require('hovercardsshared/views/twitter-content.tpl'),
-	'twitter-account':     require('hovercardsshared/views/twitter-account.tpl'),
-	'youtube-content':     require('hovercardsshared/views/youtube-content.tpl'),
-	'youtube-account':     require('hovercardsshared/views/youtube-account.tpl')
-};
-
 $.fn.extend({
 	toggleAnimationClass: function(className, callback) {
 		return this
-			.addClass(EXTENSION_ID + '-' + className)
+			.addClass(_.class(className))
 			.on('animationend', function animationend(e) {
 				if (e.originalEvent.animationName !== className + '-animation') {
 					return;
 				}
 				$(this)
 					.off('animationend', animationend)
-					.removeClass(className);
+					.removeClass(_.class(className));
 				(callback || $.noop)();
 			});
 	}
@@ -47,38 +33,33 @@ $.lightbox = function(identity, hovercard) {
 	$.analytics('send', 'event', 'lightbox displayed', 'hovercard clicked', analytics_label, { nonInteraction: true });
 	var lightbox_start = Date.now();
 
-	var lightbox_backdrop = $('<div class="' + EXTENSION_ID + '-lightbox-backdrop"></div>').appendTo('html');
+	var lightbox_backdrop = $('<div></div>')
+		.addClass(_.class('lightbox-backdrop'))
+		.appendTo('html');
 	var lightbox_container;
 	var lightbox;
 	var window_scroll = { top: $(window).scrollTop(), left: $(window).scrollLeft() };
 	if (hovercard) {
-		lightbox_container = hovercard.parent();
 		lightbox = hovercard;
+		lightbox_container = lightbox.parents('.' + _.class('container'));
 		lightbox_container
 			.css('height', lightbox_container.height() + 1)
 			.css('width', lightbox_container.width() + 1);
 	} else {
-		lightbox_container = $('<div></div>')
+		lightbox_container = $(require('../../views/container.tpl')())
 			.css('height', '0')
 			.css('width', '0')
 			.css('top', window_scroll.top + $(window).height() / 2)
 			.css('left', window_scroll.left + $(window).width() / 2)
 			.appendTo('html');
-		var loading = $('<div></div>').append(templates.loading());
-		lightbox = $('<div></div>')
-			.append(loading)
-			.appendTo(lightbox_container);
-		// TODO
-		$.service(identity, function(err, data) {
-			if (err) {
-				return loading.replaceWith((err.message || 'ERROR') + '');
-			}
-			loading.replaceWith(templates[identity.api + '-' + identity.type](data));
-		});
+		lightbox = lightbox_container.find('.' + _.class('contained'));
 	}
 	setTimeout(function() {
 		lightbox_container
-			.addClass(EXTENSION_ID + '-lightbox-container')
+			.addClass(_.class('container--lightbox'))
+			.removeClass(_.class('container--hovercard'))
+			.removeClass(_.class('container--hovercard--top'))
+			.removeClass(_.class('container--hovercard--bottom'))
 			.css('height', '100%')
 			.css('width', '100%')
 			.css('top', window_scroll.top)
@@ -91,7 +72,9 @@ $.lightbox = function(identity, hovercard) {
 					.off('transitionend', set_overflow)
 					.css('overflow', 'auto');
 			});
-		lightbox.addClass(EXTENSION_ID + '-lightbox');
+		lightbox
+			.addClass(_.class('lightbox'))
+			.removeClass(_.class('hovercard'));
 	});
 
 	function stop_propagation(e) {
