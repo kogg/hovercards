@@ -4,7 +4,7 @@
   "version": "1.2.2",
   "repository": "cameronrohani/hovercardsextension",
   "scripts": {
-    "start": "npm run process:other:watch & npm run do_postcss:watch & npm run watchify && wait",
+    "start": "npm run process:other:watch & npm run watchify && wait",
     "test": "npm run csslint && npm run jshint",
     "pkg": "npm run clean && npm run process:other && npm run do_postcss && npm run browserify && npm run uglifyjs && zip -q -r build/pkg-$npm_package_version.zip dist",
     "clean": "rm -rf dist/* *.pem *.nex",
@@ -14,11 +14,10 @@
     "pooppostcss": "do_postcss app/**/*.css -d dist/ -c do_postcss.json",
     "predo_postcss": "find app -name \"*.css\" | sed \"s\/app\\/\/\/g\" | sed \"s\/\\/.*.css\/\/g\" | xargs -I % mkdir -p dist/%",
     "do_postcss": "find app -name \"*.css\" | sed \"s\/app\\/\/\/g\" | xargs -I % postcss app/% -o dist/% -c postcss.json",
-    "do_postcss:watch": "npm run do_postcss -- -w",
     "postinstall": "rm -rf .git/hooks && ln -s ../hooks .git/hooks",
     "postuninstall": "rm -rf .git/hooks",
     "process:other": "rsync -rm --include '*/' --exclude='*.js' --exclude='*.css' app/* dist",
-    "process:other:watch": "watch 'npm run process:other' app",
+    "process:other:watch": "watch 'npm run process:other && npm run do_postcss' app",
     "uglifyjs": "mkdir -p dist && find dist -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
     "watchify": "mkdir -p dist && watchify $npm_package_config_browserify_input -p [ factor-bundle $npm_package_config_browserify_output ] $npm_package_config_browserify_args --full-paths -v -d"
   },
