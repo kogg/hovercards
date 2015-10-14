@@ -14,8 +14,8 @@
                 "styles/feedback.css"
             ],
             "js": [
-                "scripts/common-main.js",
-                "scripts/everywhere-main.js"
+                "common-main.js",
+                "everywhere-main.js"
             ],
             "all_frames": true
         },
@@ -28,7 +28,7 @@
                 "styles/lightbox.css"
             ],
             "js": [
-                "scripts/top-frame-main.js"
+                "top-frame-main.js"
             ],
             "all_frames": false
         },
@@ -37,15 +37,15 @@
                 "https://w.soundcloud.com/player/*"
             ],
             "js": [
-                "scripts/soundcloud-player-main.js"
+                "soundcloud-player-main.js"
             ],
             "all_frames": true
         }
     ],
     "background": {
         "scripts": [
-            "scripts/common-main.js",
-            "scripts/background-main.js"
+            "common-main.js",
+            "background-main.js"
         ]
     },
     "options_page": "options.html",

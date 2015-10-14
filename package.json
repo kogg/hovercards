@@ -8,23 +8,23 @@
     "test": "npm run csslint && npm run jshint",
     "pkg": "npm run clean && npm run process:other && npm run postcss && npm run browserify && npm run uglifyjs && zip -q -r build/pkg-$npm_package_version.zip dist",
     "clean": "rm -rf dist/* *.pem *.nex",
-    "browserify": "mkdir -p dist/scripts && browserify $npm_package_config_browserify_input -p [ factor-bundle $npm_package_config_browserify_output ] $npm_package_config_browserify_args",
+    "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input -p [ factor-bundle $npm_package_config_browserify_output ] $npm_package_config_browserify_args",
     "csslint": "csslint --format=compact --quiet app/styles/*",
-    "jshint": "jshint --reporter=node_modules/jshint-stylish app/scripts/*.js app/scripts/**/*.js",
+    "jshint": "jshint --reporter=node_modules/jshint-stylish app/*.js app/**/*.js app/**/**/*.js",
     "postcss": "mkdir -p dist/styles && postcss node_modules/hovercardsshared/styles/*.css -d dist/styles/ -c postcss.json && postcss app/styles/*.css -d dist/styles/ -c postcss.json",
     "postcss:watch": "npm run postcss -- -w",
     "postinstall": "rm -rf .git/hooks && ln -s ../hooks .git/hooks",
     "postuninstall": "rm -rf .git/hooks",
     "process:other": "rsync -rm --include '*/' --exclude='*.js' --exclude='*.css' app/* dist",
     "process:other:watch": "watch 'npm run process:other' app",
-    "uglifyjs": "mkdir -p dist/scripts && find dist/scripts -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
-    "watchify": "mkdir -p dist/scripts && watchify $npm_package_config_browserify_input -p [ factor-bundle $npm_package_config_browserify_output ] $npm_package_config_browserify_args --full-paths -v -d"
+    "uglifyjs": "mkdir -p dist && find dist -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
+    "watchify": "mkdir -p dist && watchify $npm_package_config_browserify_input -p [ factor-bundle $npm_package_config_browserify_output ] $npm_package_config_browserify_args --full-paths -v -d"
   },
   "config": {
     "browserify": {
-      "args": "-o dist/scripts/common-main.js -r ./app/scripts/development-env.js:env -t [ jstify --templateOpts [ --variable data ] ]",
-      "input": "app/scripts/background-main.js app/scripts/everywhere-main.js app/scripts/top-frame-main.js app/scripts/options-main.js app/scripts/soundcloud-player-main.js",
-      "output": "-o dist/scripts/background-main.js -o dist/scripts/everywhere-main.js -o dist/scripts/top-frame-main.js -o dist/scripts/options-main.js -o dist/scripts/soundcloud-player-main.js"
+      "args": "-o dist/common-main.js -r ./app/scripts/development-env.js:env -t [ jstify --templateOpts [ --variable data ] ]",
+      "input": "app/background-main.js app/everywhere-main.js app/top-frame-main.js app/options-main.js app/soundcloud-player-main.js",
+      "output": "-o dist/background-main.js -o dist/everywhere-main.js -o dist/top-frame-main.js -o dist/options-main.js -o dist/soundcloud-player-main.js"
     }
   },
   "dependencies": {
