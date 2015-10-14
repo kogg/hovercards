@@ -3,9 +3,10 @@ if (document.URL.match(/[&?]hovercards=0/)) {
 }
 
 var $            = require('jquery');
-var common       = require('../common');
+var _            = require('underscore');
 var network_urls = require('hovercardsshared/network-urls');
 
+require('../mixins');
 require('../feedback/hovercard');
 
 var HOVERABLE_THINGS = [
@@ -35,21 +36,6 @@ var Click      = 'click' + NameSpace;
 var MouseLeave = 'mouseleave' + NameSpace;
 var MouseMove  = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
 
-var templates = {
-	'loading':             require('hovercardsshared/views/loading.tpl'),
-	'imgur-content':       require('hovercardsshared/views/imgur-content.tpl'),
-	'imgur-account':       require('hovercardsshared/views/imgur-account.tpl'),
-	'instagram-content':   require('hovercardsshared/views/instagram-content.tpl'),
-	'instagram-account':   require('hovercardsshared/views/instagram-account.tpl'),
-	'reddit-content':      require('hovercardsshared/views/reddit-content.tpl'),
-	'reddit-account':      require('hovercardsshared/views/reddit-account.tpl'),
-	'soundcloud-content':  require('hovercardsshared/views/soundcloud-content.tpl'),
-	'soundcloud-account':  require('hovercardsshared/views/soundcloud-account.tpl'),
-	'twitter-content':     require('hovercardsshared/views/twitter-content.tpl'),
-	'twitter-account':     require('hovercardsshared/views/twitter-account.tpl'),
-	'youtube-content':     require('hovercardsshared/views/youtube-content.tpl'),
-	'youtube-account':     require('hovercardsshared/views/youtube-account.tpl')
-};
 var current_obj;
 
 var disabled;
@@ -76,6 +62,28 @@ function accept_identity(identity, obj) {
 	       (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com') ||
 	       (identity.api === 'youtube' && document.URL.indexOf('youtube.com/embed') !== -1);
 }
+function massage_url(url) {
+    if (!url) {
+        return null;
+    }
+    if (url === '#') {
+        return null;
+    }
+    if (url.match(/^javascript:.*/)) {
+        return null;
+    }
+    var a = document.createElement('a');
+    a.href = url;
+    url = a.href;
+    a.href = '';
+    if (a.remove) {
+        a.remove();
+    }
+    if (url === document.URL + '#') {
+        return null;
+    }
+    return url;
+}
 
 HOVERABLE_THINGS.forEach(function(hoverable) {
 	$('html').on(MouseMove, hoverable.selector, function(e) {
@@ -83,7 +91,7 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 		var url;
 		var identity;
 		if (obj.is(current_obj) || obj.has(current_obj).length ||
-		    !(url = common.massage_url(hoverable.get_url(obj))) ||
+		    !(url = massage_url(hoverable.get_url(obj))) ||
 		    !(identity = network_urls.identify(url)) ||
 		    !accept_identity(identity, obj)) {
 			return;
@@ -131,32 +139,23 @@ $.fn.extend({
 			$.analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
 			var hovercard_start = Date.now();
 			var obj = $(this);
-			var hovercard_container = $('<div class="' + EXTENSION_ID + '-hovercard-container"></div>');
-			var loading = $('<div></div>').append(templates.loading());
-			var hovercard = $('<div></div>')
-				.addClass(EXTENSION_ID + '-hovercard')
-				.attr('data-identity-' + EXTENSION_ID, JSON.stringify(identity))
-				.append(loading)
+			var hovercard_container = $(require('../views/container.tpl')())
+				.addClass(_.prefix('container--hovercard'));
+			var hovercard = hovercard_container.find('.' + _.prefix('contained'))
+				.addClass(_.prefix('hovercard'))
+				.data(_.prefix('identity'), identity)
 				.one(Click, function() {
 					obj.trigger(Cleanup, [1]);
 				})
-				.addFeedback(obj)
-				.appendTo(hovercard_container);
+				.addFeedback(obj);
 
-			// TODO
-			$.service(identity, function(err, data) {
-				if (err) {
-					return loading.replaceWith((err.message || 'ERROR') + '');
-				}
-				loading.replaceWith(templates[identity.api + '-' + identity.type](data));
-			});
 			hovercard_container.appendTo('html');
 
 			var obj_offset = obj.offset();
 			var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - hovercard.feedback_height() > $(window).scrollTop();
 			hovercard_container
-				.toggleClass(EXTENSION_ID + '-hovercard-container--top', is_top)
-				.toggleClass(EXTENSION_ID + '-hovercard-container--bottom', !is_top)
+				.toggleClass(_.prefix('container--hovercard--top'), is_top)
+				.toggleClass(_.prefix('container--hovercard--bottom'), !is_top)
 				.offset({ top:  obj_offset.top + (!is_top && obj.height()),
 				          left: Math.max(PADDING_FROM_EDGES,
 				                         Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
@@ -172,8 +171,8 @@ $.fn.extend({
 					$.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
 					if (keep_hovercard) {
 						hovercard
-							.removeClass(EXTENSION_ID + '-hovercard-container--top')
-							.removeClass(EXTENSION_ID + '-hovercard-container--bottom');
+							.removeClass(_.prefix('container--hovercard--top'))
+							.removeClass(_.prefix('container--hovercard--bottom'));
 					} else {
 						hovercard_container.remove();
 					}
