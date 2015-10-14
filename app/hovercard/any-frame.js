@@ -4,7 +4,6 @@ if (document.URL.match(/[&?]hovercards=0/)) {
 
 var $            = require('jquery');
 var _            = require('underscore');
-var common       = require('../common');
 var network_urls = require('hovercardsshared/network-urls');
 
 require('../mixins');
@@ -63,6 +62,28 @@ function accept_identity(identity, obj) {
 	       (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com') ||
 	       (identity.api === 'youtube' && document.URL.indexOf('youtube.com/embed') !== -1);
 }
+function massage_url(url) {
+    if (!url) {
+        return null;
+    }
+    if (url === '#') {
+        return null;
+    }
+    if (url.match(/^javascript:.*/)) {
+        return null;
+    }
+    var a = document.createElement('a');
+    a.href = url;
+    url = a.href;
+    a.href = '';
+    if (a.remove) {
+        a.remove();
+    }
+    if (url === document.URL + '#') {
+        return null;
+    }
+    return url;
+}
 
 HOVERABLE_THINGS.forEach(function(hoverable) {
 	$('html').on(MouseMove, hoverable.selector, function(e) {
@@ -70,7 +91,7 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 		var url;
 		var identity;
 		if (obj.is(current_obj) || obj.has(current_obj).length ||
-		    !(url = common.massage_url(hoverable.get_url(obj))) ||
+		    !(url = massage_url(hoverable.get_url(obj))) ||
 		    !(identity = network_urls.identify(url)) ||
 		    !accept_identity(identity, obj)) {
 			return;
@@ -118,7 +139,7 @@ $.fn.extend({
 			$.analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
 			var hovercard_start = Date.now();
 			var obj = $(this);
-			var hovercard_container = $(require('../../views/container.tpl')())
+			var hovercard_container = $(require('../views/container.tpl')())
 				.addClass(_.prefix('container--hovercard'));
 			var hovercard = hovercard_container.find('.' + _.prefix('contained'))
 				.addClass(_.prefix('hovercard'))

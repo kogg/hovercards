@@ -1,2 +1,2 @@
-require('./scripts/analytics/top-frame');
-require('./scripts/lightbox/top-frame');
+require('./analytics/top-frame');
+require('./lightbox/top-frame');

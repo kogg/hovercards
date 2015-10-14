@@ -1,5 +1,5 @@
-require('./scripts/analytics/any-frame');
-require('./scripts/authentication/any-frame');
-require('./scripts/service/any-frame');
-require('./scripts/hovercard/any-frame');
-require('./scripts/lightbox/any-frame');
+require('./analytics/any-frame');
+require('./authentication/any-frame');
+require('./service/any-frame');
+require('./hovercard/any-frame');
+require('./lightbox/any-frame');

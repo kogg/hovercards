@@ -10,7 +10,7 @@
     "clean": "rm -rf dist/* *.pem *.nex",
     "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input -p [ factor-bundle $npm_package_config_browserify_output ] $npm_package_config_browserify_args",
     "csslint": "csslint --format=compact --quiet app/styles/*",
-    "jshint": "jshint --reporter=node_modules/jshint-stylish app/*.js app/**/*.js app/**/**/*.js",
+    "jshint": "jshint --reporter=node_modules/jshint-stylish app/*.js app/**/*.js",
     "postcss": "mkdir -p dist/styles && postcss node_modules/hovercardsshared/styles/*.css -d dist/styles/ -c postcss.json && postcss app/styles/*.css -d dist/styles/ -c postcss.json",
     "postcss:watch": "npm run postcss -- -w",
     "postinstall": "rm -rf .git/hooks && ln -s ../hooks .git/hooks",
