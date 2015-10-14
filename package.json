@@ -11,7 +11,7 @@
     "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input -p [ factor-bundle $npm_package_config_browserify_output ] -r ./app/production-env.js:env $npm_package_config_browserify_args",
     "csslint": "csslint --format=compact --quiet --exclude-list=app/old app/**/*.css",
     "jshint": "jshint --reporter=node_modules/jshint-stylish app/*.js app/**/*.js",
-    "postcss": "postcss app/*.css -d dist/ -c postcss.json",
+    "postcss": "postcss app/*.css -d dist/ -c postcss.js",
     "better_postcss:watch": "npm run postcss -- -w",
     "postcss:watch": "watch 'npm run postcss' app",
     "postinstall": "rm -rf .git/hooks && ln -s ../hooks .git/hooks",
