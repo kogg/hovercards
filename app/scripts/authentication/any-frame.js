@@ -5,7 +5,7 @@ $.authenticate = function(api, callback) {
 	callback = _.wrap(callback, function(callback, err, response) {
 		if (err) {
 			err.message = 'Authentication - ' + (api && api.length ? api + ' - ' : '') + (err.message || 'No Explanation');
-			$.analytics('send', 'exception', { exDescription: err.message, exFatal: !err.status || err.status >= 500 });
+			$.analytics('send', 'exception', { exDescription: err.message, exFatal: false });
 		}
 		callback(err, response);
 	});

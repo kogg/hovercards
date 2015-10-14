@@ -19,8 +19,8 @@ function initialize_caller(api, opts) {
 			caller[type] = function(args, callback) {
 				chrome.storage.sync.get(api + '_user', function(obj) {
 					obj = obj || {};
-					$.ajax({ url:      env.endpoint + '/' + api + '/' + type,
-					         data:     _.omit(args, 'api', 'type'),
+					$.ajax({ url:      env.endpoint + '/' + api + '/' + type + '/' + args.id,
+					         data:     _.omit(args, 'api', 'type', 'id'),
 					         dataType: 'json',
 					         jsonp:    false,
 					         headers:  { device_id: device_id, user: obj[api + '_user'] } })
