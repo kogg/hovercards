@@ -3,7 +3,8 @@
 	"analytics_id":   "UA-64246820-3",
 	"apis": {
 		"instagram": {
-			"client_on_auth": true
+			"client_on_auth": true,
+			"key": "41e56061c1e34fbbb16ab1d095dad78b"
 		},
 		"reddit": {
 			"key": "0jXqEudQPqSL6w"

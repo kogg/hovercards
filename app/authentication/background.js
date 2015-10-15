@@ -1,10 +1,10 @@
-var _      = require('underscore');
-var config = require('../config');
+var _             = require('underscore');
+var config        = require('../config');
+var shared_config = require('hovercardsshared/config');
 
-var EXTENSION_ID  = chrome.i18n.getMessage('@@extension_id');
-var INSTAGRAM_KEY = '41e56061c1e34fbbb16ab1d095dad78b';
+var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-var auth_urls = { instagram: 'https://instagram.com/oauth/authorize/?client_id=' + INSTAGRAM_KEY +
+var auth_urls = { instagram: 'https://instagram.com/oauth/authorize/?client_id=' + config.instagram.key +
                              '&redirect_uri=https://' + EXTENSION_ID + '.chromiumapp.org/callback' +
                              '&response_type=token' };
 
@@ -17,6 +17,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 	});
 	if (!message.api) {
 		callback({ message: 'Missing \'api\'', status: 400 });
+		return true;
+	}
+	if (!_.chain(shared_config).result('apis').result(message.api).result('can_auth').value()) {
+		callback({ message: message.api + ' cannot be authenticated', status: 400 });
 		return true;
 	}
 	chrome.identity.launchWebAuthFlow({ url:         auth_urls[message.api] || (config.endpoint + '/' + message.api + '/authenticate?chromium_id=' + EXTENSION_ID),
