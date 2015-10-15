@@ -1,6 +1,6 @@
 var $         = require('jquery');
 var _         = require('underscore');
-var constants = require('../common/constants');
+var constants = require('../constants');
 
 require('../common/mixins');
 

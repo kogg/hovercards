@@ -1,5 +1,5 @@
 var $         = require('jquery');
-var constants = require('../common/constants');
+var constants = require('../constants');
 
 chrome.storage.sync.get(['feedback_url', 'last_feedback_retrieval'], function(obj) {
 	(function retrieve_feedback_url() {

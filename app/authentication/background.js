@@ -1,5 +1,5 @@
 var _         = require('underscore');
-var constants = require('../common/constants');
+var constants = require('../constants');
 
 var EXTENSION_ID  = chrome.i18n.getMessage('@@extension_id');
 var INSTAGRAM_KEY = '41e56061c1e34fbbb16ab1d095dad78b';
