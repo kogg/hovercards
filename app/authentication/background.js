@@ -1,5 +1,5 @@
-var _   = require('underscore');
-var env = require('env');
+var _         = require('underscore');
+var constants = require('../constants');
 
 var EXTENSION_ID  = chrome.i18n.getMessage('@@extension_id');
 var INSTAGRAM_KEY = '41e56061c1e34fbbb16ab1d095dad78b';
@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 		callback({ message: 'Missing \'api\'', status: 400 });
 		return true;
 	}
-	chrome.identity.launchWebAuthFlow({ url:         auth_urls[message.api] || (env.endpoint + '/' + message.api + '/authenticate?chromium_id=' + EXTENSION_ID),
+	chrome.identity.launchWebAuthFlow({ url:         auth_urls[message.api] || (constants.endpoint + '/' + message.api + '/authenticate?chromium_id=' + EXTENSION_ID),
 	                                    interactive: true },
 		function(redirect_url) {
 			if (chrome.runtime.lastError) {

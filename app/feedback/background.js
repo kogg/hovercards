@@ -1,10 +1,10 @@
-var $   = require('jquery');
-var env = require('env');
+var $         = require('jquery');
+var constants = require('../constants');
 
 chrome.storage.sync.get(['feedback_url', 'last_feedback_retrieval'], function(obj) {
 	(function retrieve_feedback_url() {
 		setTimeout(function() {
-			$.ajax({ url: env.endpoint + '/feedback' })
+			$.ajax({ url: constants.endpoint + '/feedback' })
 				.done(function(data) {
 					obj.feedback_url = data.feedback_url;
 					chrome.storage.sync.set({ feedback_url: obj.feedback_url });

@@ -1,6 +1,6 @@
-var _   = require('underscore');
-var $   = require('jquery');
-var env = require('env');
+var _         = require('underscore');
+var $         = require('jquery');
+var constants = require('../constants');
 
 var ALPHANUMERIC   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 /*
@@ -19,7 +19,7 @@ function initialize_caller(api, opts) {
 			caller[type] = function(args, callback) {
 				chrome.storage.sync.get(api + '_user', function(obj) {
 					obj = obj || {};
-					$.ajax({ url:      env.endpoint + '/' + api + '/' + type + '/' + args.id,
+					$.ajax({ url:      constants.endpoint + '/' + api + '/' + type + '/' + args.id,
 					         data:     _.omit(args, 'api', 'type', 'id'),
 					         dataType: 'json',
 					         jsonp:    false,
