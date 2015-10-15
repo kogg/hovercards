@@ -1,6 +1,15 @@
 {
 	"endpoint":       "http://localhost:5000/v2",
 	"analytics_id":   "UA-64246820-3",
-	"reddit_key":     "0jXqEudQPqSL6w",
-	"soundcloud_key": "78a827254bd7a5e3bba61aa18922bf2e"
+	"apis": {
+		"instagram": {
+			"client_on_auth": true
+		},
+		"reddit": {
+			"key": "0jXqEudQPqSL6w"
+		},
+		"soundcloud": {
+			"key": "78a827254bd7a5e3bba61aa18922bf2e"
+		}
+	}
 }

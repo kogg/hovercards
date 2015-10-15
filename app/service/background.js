@@ -1,12 +1,13 @@
-var _      = require('underscore');
-var $      = require('jquery');
-var config = require('../config');
+var _             = require('underscore');
+var $             = require('jquery');
+var config        = require('../config');
+var shared_config = require('hovercardsshared/config');
 
 var ALPHANUMERIC   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 var device_id;
 
-function initialize_caller(api, opts) {
+function initialize_caller(api, client, opts) {
 	opts = opts || {};
 	var caller = {};
 
@@ -31,15 +32,15 @@ function initialize_caller(api, opts) {
 		});
 	}
 
-	if (opts.client) {
+	if (client) {
 		chrome.storage.sync.get(api + '_user', function(obj) {
 			obj = obj || {};
 			var user_id = obj.user_id;
 			function setup_client_caller() {
-				if (opts.client_on_auth && (!user_id || !user_id.length)) {
+				if (opts.client_on_auth && _.isEmpty(user_id)) {
 					return setup_server_caller();
 				}
-				var client = opts.client(_.extend({ device: device_id, user: user_id }, opts.client_args));
+				var client = client(_.extend({ device: device_id, user: user_id }, opts));
 				_.each(['content', 'account'], function(type) {
 					caller[type] = client[type];
 				});
@@ -70,17 +71,19 @@ chrome.storage.local.get('device_id', function(obj) {
 		device_id = obj.device_id;
 	}
 
-	var api_callers = { imgur:      initialize_caller('imgur'),
-/*
-	                    instagram:  initialize_caller('instagram',  { client: require('hovercardsshared/instagram'),  client_on_auth: true }),
-	                    reddit:     initialize_caller('reddit',     { client: require('hovercardsshared/reddit'),     client_args: { key: config.reddit_key } }),
-	                    soundcloud: initialize_caller('soundcloud', { client: require('hovercardsshared/soundcloud'), client_args: { key: config.soundcloud_key } }),
-*/
-	                    instagram:  initialize_caller('instagram'),
-	                    reddit:     initialize_caller('reddit'),
-	                    soundcloud: initialize_caller('soundcloud'),
-	                    twitter:    initialize_caller('twitter'),
-	                    youtube:    initialize_caller('youtube') };
+	var api_callers = _.chain({
+	                       // TODO Find a way to dynamically do this. Browserify Transform?
+	                       /*
+	                       instagram:  require('hovercardsshared/instagram'),
+	                       reddit:     require('hovercardsshared/reddit'),
+	                       soundcloud: require('hovercardsshared/soundcloud')
+	                       */
+	                   })
+	                   .defaults(_.map(shared_config.apis, _.constant(null)))
+	                   .mapObject(function(client, api) {
+	                       return initialize_caller(api, client, _.defaults({}, config.apis[api], shared_config.apis[api]));
+	                   })
+	                   .value();
 
 	chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 		if (_.result(message, 'type') !== 'service') {
