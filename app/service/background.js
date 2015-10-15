@@ -3,10 +3,6 @@ var $         = require('jquery');
 var constants = require('../constants');
 
 var ALPHANUMERIC   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-/*
-var REDDIT_KEY     = '0jXqEudQPqSL6w';
-var SOUNDCLOUD_KEY = '78a827254bd7a5e3bba61aa18922bf2e';
-*/
 
 var device_id;
 
@@ -77,8 +73,8 @@ chrome.storage.local.get('device_id', function(obj) {
 	var api_callers = { imgur:      initialize_caller('imgur'),
 /*
 	                    instagram:  initialize_caller('instagram',  { client: require('hovercardsshared/instagram'),  client_on_auth: true }),
-	                    reddit:     initialize_caller('reddit',     { client: require('hovercardsshared/reddit'),     client_args: { key: REDDIT_KEY } }),
-	                    soundcloud: initialize_caller('soundcloud', { client: require('hovercardsshared/soundcloud'), client_args: { key: SOUNDCLOUD_KEY } }),
+	                    reddit:     initialize_caller('reddit',     { client: require('hovercardsshared/reddit'),     client_args: { key: constants.reddit_key } }),
+	                    soundcloud: initialize_caller('soundcloud', { client: require('hovercardsshared/soundcloud'), client_args: { key: constants.soundcloud_key } }),
 */
 	                    instagram:  initialize_caller('instagram'),
 	                    reddit:     initialize_caller('reddit'),
