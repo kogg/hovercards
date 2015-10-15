@@ -1,8 +1,8 @@
 var $            = require('jquery');
 var _            = require('underscore');
 var network_urls = require('hovercardsshared/network-urls');
-require('../mixins');
-require('./common');
+require('../common/mixins');
+require('./both');
 
 $.fn.extend({
 	toggleAnimationClass: function(className, callback) {
@@ -44,7 +44,7 @@ $.lightbox = function(identity, hovercard) {
 			.css('height', lightbox_container.height() + 1)
 			.css('width', lightbox_container.width() + 1);
 	} else {
-		lightbox_container = $(require('../views/container.tpl')())
+		lightbox_container = $(require('../common/container-layout.tpl')())
 			.css('height', '0')
 			.css('width', '0')
 			.css('top', window_scroll.top + $(window).height() / 2)

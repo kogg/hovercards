@@ -1,8 +1,8 @@
 var $         = require('jquery');
 var _         = require('underscore');
-var constants = require('../constants');
+var constants = require('../common/constants');
 
-require('../mixins');
+require('../common/mixins');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 

@@ -6,7 +6,7 @@ var $            = require('jquery');
 var _            = require('underscore');
 var network_urls = require('hovercardsshared/network-urls');
 
-require('../mixins');
+require('../common/mixins');
 require('../feedback/hovercard');
 
 var HOVERABLE_THINGS = [
@@ -139,7 +139,7 @@ $.fn.extend({
 			$.analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
 			var hovercard_start = Date.now();
 			var obj = $(this);
-			var hovercard_container = $(require('../views/container.tpl')())
+			var hovercard_container = $(require('../common/container-layout.tpl')())
 				.addClass(_.prefix('container--hovercard'));
 			var hovercard = hovercard_container.find('.' + _.prefix('contained'))
 				.addClass(_.prefix('hovercard'))

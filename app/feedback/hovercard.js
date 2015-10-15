@@ -1,7 +1,7 @@
 var $ = require('jquery');
 var _ = require('underscore');
 
-require('../mixins');
+require('../common/mixins');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
