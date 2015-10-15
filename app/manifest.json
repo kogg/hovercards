@@ -47,9 +47,9 @@
             "background.js"
         ]
     },
-    "options_page": "options/page.html",
+    "options_page": "options.html",
     "options_ui": {
-        "page": "options/page.html",
+        "page": "options.html",
         "chrome_style": true
     },
     "page_action": {
