@@ -1,6 +1,6 @@
-var _         = require('underscore');
-var $         = require('jquery');
-var constants = require('../constants');
+var _      = require('underscore');
+var $      = require('jquery');
+var config = require('../config');
 
 var ALPHANUMERIC   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -15,7 +15,7 @@ function initialize_caller(api, opts) {
 			caller[type] = function(args, callback) {
 				chrome.storage.sync.get(api + '_user', function(obj) {
 					obj = obj || {};
-					$.ajax({ url:      constants.endpoint + '/' + api + '/' + type + '/' + args.id,
+					$.ajax({ url:      config.endpoint + '/' + api + '/' + type + '/' + args.id,
 					         data:     _.omit(args, 'api', 'type', 'id'),
 					         dataType: 'json',
 					         jsonp:    false,
@@ -73,8 +73,8 @@ chrome.storage.local.get('device_id', function(obj) {
 	var api_callers = { imgur:      initialize_caller('imgur'),
 /*
 	                    instagram:  initialize_caller('instagram',  { client: require('hovercardsshared/instagram'),  client_on_auth: true }),
-	                    reddit:     initialize_caller('reddit',     { client: require('hovercardsshared/reddit'),     client_args: { key: constants.reddit_key } }),
-	                    soundcloud: initialize_caller('soundcloud', { client: require('hovercardsshared/soundcloud'), client_args: { key: constants.soundcloud_key } }),
+	                    reddit:     initialize_caller('reddit',     { client: require('hovercardsshared/reddit'),     client_args: { key: config.reddit_key } }),
+	                    soundcloud: initialize_caller('soundcloud', { client: require('hovercardsshared/soundcloud'), client_args: { key: config.soundcloud_key } }),
 */
 	                    instagram:  initialize_caller('instagram'),
 	                    reddit:     initialize_caller('reddit'),
