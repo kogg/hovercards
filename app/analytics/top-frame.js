@@ -1,5 +1,6 @@
-var $ = require('jquery');
-var _ = require('underscore');
+var $         = require('jquery');
+var _         = require('underscore');
+var constants = require('../constants');
 
 require('../mixins');
 
@@ -46,7 +47,7 @@ switch (process.env.NODE_ENV) {
 				window.ga.l = 1 * new Date();
 				require('./analytics-local');
 
-				window.ga('create', 'UA-64246820-3', { 'userId': user_id });
+				window.ga('create', constants.analytics_id, { 'userId': user_id });
 				window.ga('set', { appName: chrome.i18n.getMessage('app_name'), appVersion: chrome.runtime.getManifest().version });
 				window.ga('send', 'screenview', { screenName: 'None' });
 				window.ga.apply(this, _.toArray(arguments));
