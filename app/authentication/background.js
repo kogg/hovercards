@@ -4,7 +4,7 @@ var shared_config = require('hovercardsshared/config');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-var auth_urls = { instagram: 'https://instagram.com/oauth/authorize/?client_id=' + config.instagram.key +
+var auth_urls = { instagram: 'https://instagram.com/oauth/authorize/?client_id=' + config.apis.instagram.key +
                              '&redirect_uri=https://' + EXTENSION_ID + '.chromiumapp.org/callback' +
                              '&response_type=token' };
 
