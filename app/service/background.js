@@ -79,6 +79,7 @@ chrome.storage.local.get('device_id', function(obj) {
 	                       soundcloud: require('hovercardsshared/soundcloud')
 	                       */
 	                   })
+	                   .defaults(_.map(config.apis, _.constant(null)))
 	                   .defaults(_.map(shared_config.apis, _.constant(null)))
 	                   .mapObject(function(client, api) {
 	                       return initialize_caller(api, client, _.defaults({}, config.apis[api], shared_config.apis[api]));
