@@ -7,7 +7,7 @@ $.authenticate = function(api, callback) {
 			err.message = 'Authentication - ' + (api && api.length ? api + ' - ' : '') + (err.message || 'No Explanation');
 			$.analytics('send', 'exception', { exDescription: err.message, exFatal: false });
 		}
-		callback(err, response);
+		(callback || $.noop)(err, response);
 	});
 	if (!api || !api.length) {
 		return callback({ message: 'Missing \'api\'', status: 400 });

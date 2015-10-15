@@ -4,10 +4,6 @@ var shared_config = require('hovercardsshared/config');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
-var auth_urls = { instagram: 'https://instagram.com/oauth/authorize/?client_id=' + config.apis.instagram.key +
-                             '&redirect_uri=https://' + EXTENSION_ID + '.chromiumapp.org/callback' +
-                             '&response_type=token' };
-
 chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 	if ((message && message.type) !== 'auth') {
 		return;
@@ -19,11 +15,15 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 		callback({ message: 'Missing \'api\'', status: 400 });
 		return true;
 	}
-	if (!_.chain(shared_config).result('apis').result(message.api).result('can_auth').value()) {
-		callback({ message: message.api + ' cannot be authenticated', status: 400 });
+	var api_config = _.defaults({},
+	                            _.chain(config).result('apis').result(message.api).value(),
+	                            _.chain(shared_config).result('apis').result(message.api).value());
+	if (!_.result(api_config, 'can_auth')) {
+		callback({ message: message.api + ' cannot be authenticated', status: 404 });
 		return true;
 	}
-	chrome.identity.launchWebAuthFlow({ url:         auth_urls[message.api] || (config.endpoint + '/' + message.api + '/authenticate?chromium_id=' + EXTENSION_ID),
+	chrome.identity.launchWebAuthFlow({ url:         _.result(api_config, 'client_auth_url', config.endpoint + '/' + message.api + '/authenticate?chromium_id=EXTENSION_ID')
+	                                                  .replace('EXTENSION_ID', EXTENSION_ID),
 	                                    interactive: true },
 		function(redirect_url) {
 			if (chrome.runtime.lastError) {
