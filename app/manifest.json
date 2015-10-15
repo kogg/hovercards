@@ -2,7 +2,7 @@
     "name": "__MSG_app_name__",
     "short_name": "__MSG_app_short_name__",
     "description": "__MSG_app_description__",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "content_scripts": [
         {
             "matches": [
@@ -79,7 +79,7 @@
         "identity",
         "storage"
     ],
-    "content_security_policy": "script-src 'self'; object-src 'self' https://www.youtube.com",
+    "content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self' https://www.youtube.com",
     "default_locale": "en",
     "manifest_version": 2
 }
