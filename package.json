@@ -8,7 +8,7 @@
     "test": "npm run csslint && npm run jshint",
     "pkg": "npm run clean && npm run process:other && npm run postcss && npm run browserify && npm run uglifyjs && zip -q -r build/pkg-$npm_package_version.zip dist",
     "clean": "rm -rf dist/* *.pem *.nex",
-    "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input -t [ envify --NODE_ENV production] $npm_package_config_browserify_args",
+    "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input -t [ envify --NODE_ENV production ] $npm_package_config_browserify_args",
     "csslint": "csslint --format=compact --quiet --exclude-list=app/old app/**/*.css",
     "jshint": "jshint --reporter=node_modules/jshint-stylish app/*.js app/**/*.js",
     "postcss": "postcss app/*.css -d dist/ -c postcss.js",
@@ -19,7 +19,7 @@
     "process:other": "rsync -rm --exclude 'old/' --exclude='*.js' --exclude='*.css' --exclude='*.tpl' app/* dist",
     "process:other:watch": "watch 'npm run process:other' app",
     "uglifyjs": "mkdir -p dist && find dist -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
-    "watchify": "mkdir -p dist && watchify $npm_package_config_browserify_input -t [ envify --NODE_ENV development] $npm_package_config_browserify_args --full-paths -v -d",
+    "watchify": "mkdir -p dist && watchify $npm_package_config_browserify_input -t [ envify --NODE_ENV development ] $npm_package_config_browserify_args --full-paths -v -d",
     "discify": "browserify $npm_package_config_browserify_input --full-paths -t [ jstify --templateOpts [ --variable data ] ] | discify -O"
   },
   "config": {
