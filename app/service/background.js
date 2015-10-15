@@ -76,9 +76,9 @@ chrome.storage.local.get('device_id', function(obj) {
 
 	var api_callers = { imgur:      initialize_caller('imgur'),
 /*
-	                    instagram:  initialize_caller('instagram',  { client: require('hovercardsshared/old-apis/instagram'),  client_on_auth: true }),
-	                    reddit:     initialize_caller('reddit',     { client: require('hovercardsshared/old-apis/reddit'),     client_args: { key: REDDIT_KEY } }),
-	                    soundcloud: initialize_caller('soundcloud', { client: require('hovercardsshared/old-apis/soundcloud'), client_args: { key: SOUNDCLOUD_KEY } }),
+	                    instagram:  initialize_caller('instagram',  { client: require('hovercardsshared/instagram'),  client_on_auth: true }),
+	                    reddit:     initialize_caller('reddit',     { client: require('hovercardsshared/reddit'),     client_args: { key: REDDIT_KEY } }),
+	                    soundcloud: initialize_caller('soundcloud', { client: require('hovercardsshared/soundcloud'), client_args: { key: SOUNDCLOUD_KEY } }),
 */
 	                    instagram:  initialize_caller('instagram'),
 	                    reddit:     initialize_caller('reddit'),
