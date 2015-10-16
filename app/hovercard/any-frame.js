@@ -1,7 +1,3 @@
-if (document.URL.match(/[&?]hovercards=0/)) {
-	return;
-}
-
 var $            = require('jquery');
 var _            = require('underscore');
 var network_urls = require('hovercardsshared/network-urls');

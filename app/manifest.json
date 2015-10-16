@@ -30,15 +30,6 @@
 				"top-frame.js"
 			],
 			"all_frames": false
-		},
-		{
-			"matches": [
-				"https://w.soundcloud.com/player/*"
-			],
-			"js": [
-				"soundcloud-player.js"
-			],
-			"all_frames": true
 		}
 	],
 	"background": {
