@@ -143,9 +143,10 @@ $.fn.extend({
 				.addClass(_.prefix('container--hovercard'));
 			var hovercard = hovercard_container.find('.' + _.prefix('contained'))
 				.addClass(_.prefix('hovercard'))
+				.html(require('hovercardsshared/layouts/content.tpl')(identity))
 				.data(_.prefix('identity'), identity)
 				.one(Click, function() {
-					obj.trigger(Cleanup, [1]);
+					obj.trigger(Cleanup, [true]);
 				})
 				.addFeedback(obj);
 
