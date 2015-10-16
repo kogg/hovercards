@@ -141,9 +141,10 @@ $.fn.extend({
 			var obj = $(this);
 			var hovercard_container = $(require('../layouts/container.tpl')(identity))
 				.addClass(_.prefix('container--hovercard'));
-			var hovercard = hovercard_container.find('.' + _.prefix('contained'))
+			var hovercard = hovercard_container.find('.' + _.prefix('box'))
 				.addClass(_.prefix('hovercard'))
-				.html(require('hovercardsshared/layouts/content.tpl')(identity))
+				.html((identity.type === 'account' ? require('hovercardsshared/layouts/account.tpl') :
+				                                     require('hovercardsshared/layouts/content.tpl'))(identity))
 				.data(_.prefix('identity'), identity)
 				.one(Click, function() {
 					obj.trigger(Cleanup, [true]);

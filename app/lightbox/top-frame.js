@@ -50,7 +50,7 @@ $.lightbox = function(identity, hovercard) {
 			.css('top', window_scroll.top + $(window).height() / 2)
 			.css('left', window_scroll.left + $(window).width() / 2)
 			.appendTo('html');
-		lightbox = lightbox_container.find('.' + _.prefix('contained'));
+		lightbox = lightbox_container.find('.' + _.prefix('box'));
 	}
 	setTimeout(function() {
 		lightbox_container
@@ -72,7 +72,9 @@ $.lightbox = function(identity, hovercard) {
 			});
 		lightbox
 			.addClass(_.prefix('lightbox'))
-			.removeClass(_.prefix('hovercard'));
+			.removeClass(_.prefix('hovercard'))
+			.html((identity.type === 'account' ? require('hovercardsshared/layouts/account.tpl') :
+			                                     require('hovercardsshared/layouts/content.tpl'))(identity));
 	});
 
 	function stop_propagation(e) {
