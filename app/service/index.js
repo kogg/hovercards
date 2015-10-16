@@ -1,9 +1,8 @@
-var $            = require('jquery');
 var _            = require('underscore');
 var analytics    = require('../analytics');
 var network_urls = require('hovercardsshared/network-urls');
 
-$.service = function(identity, callback) {
+module.exports = function(identity, callback) {
 	if (typeof identity === 'string') {
 		identity = network_urls.identify(identity);
 	}
