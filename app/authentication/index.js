@@ -2,7 +2,7 @@ var $         = require('jquery');
 var _         = require('underscore');
 var analytics = require('../analytics');
 
-$.authenticate = function(api, callback) {
+module.exports = function(api, callback) {
 	callback = _.wrap(callback, function(callback, err, response) {
 		if (err) {
 			err.message = 'Authentication - ' + (api && api.length ? api + ' - ' : '') + (err.message || 'No Explanation');
