@@ -20,7 +20,7 @@
     "process:other:watch": "watch 'npm run process:other' app",
     "uglifyjs": "mkdir -p dist && find dist -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
     "watchify": "mkdir -p dist && watchify $npm_package_config_browserify_input -t [ envify --NODE_ENV development ] $npm_package_config_browserify_output --full-paths -v -d",
-    "discify": "browserify $npm_package_config_browserify_input --full-paths | discify -O"
+    "discify": "browserify $npm_package_config_browserify_input --full-paths | uglifyjs -c drop_console,warnings=false | discify -O"
   },
   "config": {
     "browserify": {
