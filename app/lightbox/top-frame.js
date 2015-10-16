@@ -73,8 +73,8 @@ $.lightbox = function(identity, hovercard) {
 		lightbox
 			.addClass(_.prefix('lightbox'))
 			.removeClass(_.prefix('hovercard'))
-			.html((identity.type === 'account' ? require('hovercardsshared/layouts/account.tpl') :
-			                                     require('hovercardsshared/layouts/content.tpl'))(identity));
+			.html((identity.type === 'account' ? require('hovercardsshared/account/layout.tpl') :
+			                                     require('hovercardsshared/content/layout.tpl'))(identity));
 	});
 
 	function stop_propagation(e) {
