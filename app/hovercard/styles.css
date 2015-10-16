@@ -21,14 +21,6 @@
 	pointer-events: auto !important;
 }
 
-.hovercard .discussions {
-	display: none !important;
-}
-
-.hovercard .account-content {
-	display: none !important;
-}
-
 @keyframes hovercard-fade-down {
 	0% {
 		opacity: 0;
