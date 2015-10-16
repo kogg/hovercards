@@ -35,21 +35,9 @@
     ]
   },
   "dependencies": {
-    "angular": "^1.4.7",
-    "angular-animate": "^1.4.7",
-    "angular-inview": "^1.5.0",
-    "angular-messages": "^1.4.7",
-    "angular-sanitize": "^1.4.7",
-    "async": "^1.4.2",
     "hovercardsshared": "cameronrohani/hovercardsshared#v1.1.0",
     "jquery": "^2.1.4",
-    "jquery-ui": "^1.10.5",
-    "memoizee": "^0.3.9",
-    "moment": "^2.10.6",
-    "perfect-scrollbar": "^0.6.4",
-    "slick-carousel": "^1.5.8",
-    "underscore": "^1.8.3",
-    "urijs": "^1.16.1"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",
