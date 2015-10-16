@@ -1,7 +1,8 @@
 module.exports = {
 	"use": ["postcss-import", "autoprefixer", "postcss-color-rgba-fallback", "postcss-class-prefix", "postcss-reporter"],
 	"postcss-import": {
-		onImport: function(sources) {
+		"glob": true,
+		"onImport": function(sources) {
 			console.log('postcss', sources);
 			global.watchCSS(sources);
 		}
