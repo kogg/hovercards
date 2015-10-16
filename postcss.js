@@ -1,5 +1,5 @@
 module.exports = {
-	"use": ["postcss-import", "postcss-class-prefix", "postcss-color-rgba-fallback", "autoprefixer", "postcss-reporter"],
+	"use": ["postcss-import", "autoprefixer", "postcss-color-rgba-fallback", "postcss-class-prefix", "postcss-reporter"],
 	"postcss-import": {
 		onImport: function(sources) {
 			console.log('postcss', sources);
