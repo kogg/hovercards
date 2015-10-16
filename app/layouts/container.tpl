@@ -1,5 +1,3 @@
-<div class="<% print(_.prefix('container')) %>">
-	<div class="<% print(_.prefix('contained')) %>">
-		Test Content
-	</div>
+<div class="<% print(_.chain(['container', data.api && ('container--' + data.api), data.type && ('container--' + data.type)]).compact().map(_.prefix).value().join(' ')) %>">
+	<div class="<% print(_.chain(['contained', data.api, data.type]).compact().map(_.prefix).value().join(' ')) %>">Test Stuff</div>
 </div>

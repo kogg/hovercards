@@ -139,7 +139,7 @@ $.fn.extend({
 			$.analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
 			var hovercard_start = Date.now();
 			var obj = $(this);
-			var hovercard_container = $(require('../layouts/container.tpl')())
+			var hovercard_container = $(require('../layouts/container.tpl')(identity))
 				.addClass(_.prefix('container--hovercard'));
 			var hovercard = hovercard_container.find('.' + _.prefix('contained'))
 				.addClass(_.prefix('hovercard'))
