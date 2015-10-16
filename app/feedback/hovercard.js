@@ -1,5 +1,6 @@
-var $ = require('jquery');
-var _ = require('underscore');
+var $         = require('jquery');
+var _         = require('underscore');
+var analytics = require('../analytics');
 
 require('../common/mixins');
 
@@ -33,13 +34,13 @@ $.fn.extend({
 			.append('<img class="' + _.prefix('feedback__image') + '" src="' + chrome.extension.getURL('images/logo-128.png') + '">')
 			.append('<div class="' + _.prefix('feedback__message') + '">Hey you! Can you give me feedback?</div>')
 			.on(Click, function() {
-				$.analytics('send', 'event', 'feedback opened', 'hovercard link clicked');
+				analytics('send', 'event', 'feedback opened', 'hovercard link clicked');
 			})
 			.appendTo(feedback_obj);
 		$('<span></span>')
 			.addClass(_.prefix('feedback__close'))
 			.on(Click, function() {
-				$.analytics('send', 'event', 'feedback hid', 'hovercard link clicked');
+				analytics('send', 'event', 'feedback hid', 'hovercard link clicked');
 			})
 			.appendTo(feedback_obj);
 		feedback_obj.appendTo(this);

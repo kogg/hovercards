@@ -1,9 +1,6 @@
-if (document.URL.match(/[&?]hovercards=0/)) {
-	return;
-}
-
 var $            = require('jquery');
 var _            = require('underscore');
+var analytics    = require('../analytics');
 var network_urls = require('hovercardsshared/network-urls');
 
 require('../common/mixins');
@@ -136,7 +133,7 @@ $.fn.extend({
 		}
 		var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
 		return this.each(function() {
-			$.analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
+			analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
 			var hovercard_start = Date.now();
 			var obj = $(this);
 			var hovercard_container = $(require('../layouts/container.tpl')(identity))
@@ -170,7 +167,7 @@ $.fn.extend({
 			obj
 				.one(Click, kill_it)
 				.one(Cleanup, function(e, keep_hovercard) {
-					$.analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
+					analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
 					if (keep_hovercard) {
 						hovercard
 							.removeClass(_.prefix('container--hovercard--top'))

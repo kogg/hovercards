@@ -10,11 +10,11 @@
 				"https://*/*"
 			],
 			"css": [
-				"everywhere.css"
+				"every-frame.css"
 			],
 			"js": [
 				"common.js",
-				"everywhere.js"
+				"every-frame.js"
 			],
 			"all_frames": true
 		},
@@ -30,15 +30,6 @@
 				"top-frame.js"
 			],
 			"all_frames": false
-		},
-		{
-			"matches": [
-				"https://w.soundcloud.com/player/*"
-			],
-			"js": [
-				"soundcloud-player.js"
-			],
-			"all_frames": true
 		}
 	],
 	"background": {

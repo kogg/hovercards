@@ -1,2 +1,1 @@
-require('./analytics/top-frame');
-require('./lightbox/top-frame');
+require('./*/top-frame.js', { mode: 'expand' });
