@@ -1,5 +1,6 @@
 var $            = require('jquery');
 var _            = require('underscore');
+var analytics    = require('../analytics');
 var network_urls = require('hovercardsshared/network-urls');
 require('../common/mixins');
 require('./both');
@@ -28,7 +29,7 @@ $.lightbox = function(identity, hovercard) {
 		return;
 	}
 	var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
-	$.analytics('send', 'event', 'lightbox displayed', 'hovercard clicked', analytics_label, { nonInteraction: true });
+	analytics('send', 'event', 'lightbox displayed', 'hovercard clicked', analytics_label, { nonInteraction: true });
 	var lightbox_start = Date.now();
 
 	var lightbox_backdrop = $('<div></div>')
@@ -87,7 +88,7 @@ $.lightbox = function(identity, hovercard) {
 		lightbox_leave();
 	}
 	function lightbox_leave() {
-		$.analytics('send', 'timing', 'lightbox', 'showing', Date.now() - lightbox_start, analytics_label);
+		analytics('send', 'timing', 'lightbox', 'showing', Date.now() - lightbox_start, analytics_label);
 
 		lightbox.toggleAnimationClass('lightbox--leave', function() {
 			lightbox_container.remove();

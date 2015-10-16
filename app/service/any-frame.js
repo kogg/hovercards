@@ -1,5 +1,6 @@
 var $            = require('jquery');
 var _            = require('underscore');
+var analytics    = require('../analytics');
 var network_urls = require('hovercardsshared/network-urls');
 
 $.service = function(identity, callback) {
@@ -11,9 +12,9 @@ $.service = function(identity, callback) {
 		var label = identity && _.compact([identity.api, identity.type]).join(' ');
 		if (err) {
 			err.message = _.compact(['Service', label && label.length && label, err.status, err.message]).join(' - ');
-			$.analytics('send', 'exception', { exDescription: err.message, exFatal: false });
+			analytics('send', 'exception', { exDescription: err.message, exFatal: false });
 		}
-		$.analytics('send', 'timing', 'service', 'loading', Date.now() - service_start, label);
+		analytics('send', 'timing', 'service', 'loading', Date.now() - service_start, label);
 		callback(err, response);
 	});
 	if (!identity) {

@@ -1,8 +1,7 @@
-var $ = require('jquery');
 var _ = require('underscore');
 
 require('../common/mixins');
 
-$.analytics = function() {
+module.exports = function() {
 	window.top.postMessage({ msg: _.prefix('analytics'), request: _.toArray(arguments) }, '*');
 };
