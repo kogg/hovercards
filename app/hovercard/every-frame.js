@@ -60,26 +60,26 @@ function accept_identity(identity, obj) {
 	       (identity.api === 'youtube' && document.URL.indexOf('youtube.com/embed') !== -1);
 }
 function massage_url(url) {
-    if (!url) {
-        return null;
-    }
-    if (url === '#') {
-        return null;
-    }
-    if (url.match(/^javascript:.*/)) {
-        return null;
-    }
-    var a = document.createElement('a');
-    a.href = url;
-    url = a.href;
-    a.href = '';
-    if (a.remove) {
-        a.remove();
-    }
-    if (url === document.URL + '#') {
-        return null;
-    }
-    return url;
+	if (!url) {
+		return null;
+	}
+	if (url === '#') {
+		return null;
+	}
+	if (url.match(/^javascript:.*/)) {
+		return null;
+	}
+	var a = document.createElement('a');
+	a.href = url;
+	url = a.href;
+	a.href = '';
+	if (a.remove) {
+		a.remove();
+	}
+	if (url === document.URL + '#') {
+		return null;
+	}
+	return url;
 }
 
 HOVERABLE_THINGS.forEach(function(hoverable) {
