@@ -50,7 +50,7 @@ $.lightbox = function(identity, hovercard) {
 			.css('top', window_scroll.top + $(window).height() / 2)
 			.css('left', window_scroll.left + $(window).width() / 2)
 			.appendTo('html');
-		lightbox = lightbox_container.find('.' + _.prefix('contained'));
+		lightbox = lightbox_container.find('.' + _.prefix('box'));
 	}
 	setTimeout(function() {
 		lightbox_container

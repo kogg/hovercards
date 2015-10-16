@@ -5,7 +5,7 @@
 	position: absolute !important;
 	z-index: 2147483647 !important;
 }
-.contained {
+.box {
 	background: rgba(255,255,255,.96) !important;
 	border-radius: 3px !important;
 	box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
