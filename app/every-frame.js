@@ -1,2 +1,1 @@
-require('./hovercard/any-frame');
-require('./lightbox/any-frame');
+require('./*/every-frame.js', { mode: 'expand' });
