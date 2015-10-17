@@ -15,14 +15,11 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 		callback({ message: 'Missing \'api\'', status: 400 });
 		return true;
 	}
-	var api_config = _.defaults({},
-	                            _.chain(config).result('apis').result(message.api).value(),
-	                            _.chain(shared_config).result('apis').result(message.api).value());
-	if (!_.result(api_config, 'can_auth')) {
+	if (!_.chain(shared_config).result('apis').result(message.api).result('can_auth').value()) {
 		callback({ message: message.api + ' cannot be authenticated', status: 404 });
 		return true;
 	}
-	chrome.identity.launchWebAuthFlow({ url:         _.result(api_config, 'client_auth_url', config.endpoint + '/' + message.api + '/authenticate?chromium_id=EXTENSION_ID')
+	chrome.identity.launchWebAuthFlow({ url:         _.chain(config).result('apis').result(message.api).result('client_auth_url', config.endpoint + '/' + message.api + '/authenticate?chromium_id=EXTENSION_ID').value()
 	                                                  .replace('EXTENSION_ID', EXTENSION_ID),
 	                                    interactive: true },
 		function(redirect_url) {

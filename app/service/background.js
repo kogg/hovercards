@@ -1,14 +1,12 @@
-var _             = require('underscore');
-var $             = require('jquery');
-var config        = require('../config');
-var shared_config = require('hovercardsshared/config');
+var _      = require('underscore');
+var $      = require('jquery');
+var config = require('../config');
 
 var ALPHANUMERIC   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 var device_id;
 
-function initialize_caller(api, client, opts) {
-	opts = opts || {};
+function initialize_caller(api, client) {
 	var caller = {};
 
 	function setup_server_caller() {
@@ -37,10 +35,10 @@ function initialize_caller(api, client, opts) {
 			obj = obj || {};
 			var user_id = obj.user_id;
 			function setup_client_caller() {
-				if (opts.client_on_auth && _.isEmpty(user_id)) {
+				if (config.apis[api].client_on_auth && _.isEmpty(user_id)) {
 					return setup_server_caller();
 				}
-				var client = client(_.extend({ device: device_id, user: user_id }, opts));
+				var client = client(_.extend({ device: device_id, user: user_id }, config.apis[api]));
 				_.each(['content', 'account'], function(type) {
 					caller[type] = client[type];
 				});
@@ -79,12 +77,9 @@ chrome.storage.local.get('device_id', function(obj) {
 	                       soundcloud: require('hovercardsshared/soundcloud')
 	                       */
 	                   })
-	                   .defaults(_.mapObject(config.apis, _.constant(null)),
-	                             _.mapObject(shared_config.apis, _.constant(null)))
+	                   .defaults(_.mapObject(config.apis, _.constant(null)))
 	                   .mapObject(function(client, api) {
-	                       return initialize_caller(api, client, _.defaults({},
-	                                                                        config.apis[api],
-	                                                                        shared_config.apis[api]));
+	                       return initialize_caller(api, client);
 	                   })
 	                   .value();
 
