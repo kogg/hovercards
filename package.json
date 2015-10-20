@@ -36,14 +36,6 @@
           "NODE_ENV": "production"
         }
       ],
-      [
-        "jstify",
-        {
-          "templateOpts": {
-            "variable": "data"
-          }
-        }
-      ],
       "require-globify"
     ]
   },
@@ -62,7 +54,6 @@
     "factor-bundle": "^2.5.0",
     "jshint": "^2.8.0",
     "jshint-stylish": "^2.0.1",
-    "jstify": "^0.12.0",
     "postcss-class-prefix": "^0.3.0",
     "postcss-cli": "^2.1.0",
     "postcss-color-rgba-fallback": "^2.0.0",
