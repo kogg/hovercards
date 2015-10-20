@@ -1,7 +1,8 @@
 var _ = require('underscore');
 
-require('../common/mixins');
-
 module.exports = function() {
-	window.top.postMessage({ msg: _.prefix('analytics'), request: _.toArray(arguments) }, '*');
+	var args = _.toArray(arguments);
+	chrome.runtime.sendMessage({ type: 'analytics', request: args }, (process.env.NODE_ENV !== 'production') && function() {
+		console.debug('google analytics', args);
+	});
 };
