@@ -136,19 +136,20 @@ $.fn.extend({
 			analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
 			var hovercard_start = Date.now();
 			var obj = $(this);
-			var hovercard_container = $(require('../layouts/container.tpl')(identity))
-				.addClass(_.prefix('container--hovercard'));
-			var hovercard = hovercard_container.find('.' + _.prefix('box'))
+			var hovercard = $('<div></div>')
+				.addClass(_.prefix('box'))
 				.addClass(_.prefix('hovercard'))
-				.html((identity.type === 'account' ? require('hovercardsshared/account/layout.tpl') :
-				                                     require('hovercardsshared/content/layout.tpl'))(identity))
+				.html('test')
 				.data(_.prefix('identity'), identity)
 				.one(Click, function() {
 					obj.trigger(Cleanup, [true]);
 				})
 				.addFeedback(obj);
-
-			hovercard_container.appendTo('html');
+			var hovercard_container = $('<div></div>')
+				.addClass(_.prefix('container'))
+				.addClass(_.prefix('container--hovercard'))
+				.append(hovercard)
+				.appendTo('html');
 
 			var obj_offset = obj.offset();
 			var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - hovercard.feedback_height() > $(window).scrollTop();
