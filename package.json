@@ -36,7 +36,8 @@
           "NODE_ENV": "production"
         }
       ],
-      "require-globify"
+      "require-globify",
+      "ractivate"
     ]
   },
   "dependencies": {
@@ -59,6 +60,7 @@
     "postcss-color-rgba-fallback": "^2.0.0",
     "postcss-import": "^7.0.0",
     "postcss-reporter": "^1.2.1",
+    "ractivate": "^0.2.0",
     "require-globify": "^1.3.0",
     "uglify-js": "^2.4.24",
     "watch": "^0.16.0",
