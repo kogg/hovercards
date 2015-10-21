@@ -10,39 +10,17 @@ var device_id;
 function initialize_caller(api, client) {
 	var caller = {};
 
-	function setup_server_caller() {
-		_.each(['content', 'account'], function(type) {
-			caller[type] = function(args, callback) {
-				chrome.storage.sync.get(api + '_user', function(obj) {
-					obj = obj || {};
-					$.ajax({ url:      config.endpoint + '/' + api + '/' + type + '/' + args.id,
-					         data:     _.omit(args, 'api', 'type', 'id'),
-					         dataType: 'json',
-					         jsonp:    false,
-					         headers:  { device_id: device_id, user: obj[api + '_user'] } })
-						.done(function(data) {
-							callback(null, data);
-						})
-						.fail(function(err) {
-							callback(err.responseJSON || { message: err.statusText, status: err.status || 500 });
-						});
-				});
-			};
-		});
-	}
-
 	if (client) {
 		chrome.storage.sync.get(api + '_user', function(obj) {
 			obj = obj || {};
 			var user_id = obj.user_id;
 			function setup_client_caller() {
 				if (config.apis[api].client_on_auth && _.isEmpty(user_id)) {
-					return setup_server_caller();
+					_.extend(caller, { content: null, discussion: null, account: null, account_content: null });
+					return;
 				}
 				var client = client(_.extend({ device: device_id, user: user_id }, config.apis[api]));
-				_.each(['content', 'account'], function(type) {
-					caller[type] = client[type];
-				});
+				_.extend(caller, _.pick(client, 'content', 'discussion', 'account', 'account_content'));
 			}
 
 			setup_client_caller();
@@ -55,7 +33,7 @@ function initialize_caller(api, client) {
 			});
 		});
 	} else {
-		setup_server_caller();
+		_.extend(caller, { content: null, discussion: null, account: null, account_content: null });
 	}
 
 	return caller;
@@ -102,7 +80,20 @@ chrome.storage.local.get('device_id', function(obj) {
 		if (api_callers[api] && _.isFunction(api_callers[api][type])) {
 			api_callers[api][type](identity, callback);
 		} else {
-			callback({ message: 'Unable to handle identity', status: 500 });
+			chrome.storage.sync.get(api + '_user', function(obj) {
+				obj = obj || {};
+				$.ajax({ url:      config.endpoint + '/' + api + '/' + type + '/' + identity.id,
+						 data:     _.omit(identity, 'api', 'type', 'id'),
+						 dataType: 'json',
+						 jsonp:    false,
+						 headers:  { device_id: device_id, user: obj[api + '_user'] } })
+					.done(function(data) {
+						callback(null, data);
+					})
+					.fail(function(err) {
+						callback(err.responseJSON || { message: err.statusText, status: err.status || 500 });
+					});
+			});
 		}
 
 		return true;
