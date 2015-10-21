@@ -27,6 +27,7 @@
 	margin-bottom: 3px !important;
 }
 .feedback * {
+	/*csslint known-properties:false*/
 	all:unset;
 }
 .feedback__link {
