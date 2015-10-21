@@ -1,5 +1,6 @@
 var _       = require('underscore');
 var Ractive = require('ractive');
+var config  = require('../config');
 var service = require('../service');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
@@ -7,13 +8,18 @@ Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 var templates;
 
 module.exports = function(obj, identity) {
+	var api  = _.result(identity, 'api');
 	var type = _.result(identity, 'type');
 
 	templates = templates || require('../../node_modules/hovercardsshared/*/*.html', { mode: 'hash' });
 
+	if (!config.apis[api]) {
+		return;
+	}
+
 	return new Ractive({
 		el: obj,
-		template: templates[_.result(identity, 'api') + '/' + type] || 'There is no template for this',
+		template: templates[api + '/' + type] || 'There is no template for this',
 		data: function() {
 			var instance = this;
 

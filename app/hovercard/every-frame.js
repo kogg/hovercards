@@ -140,7 +140,6 @@ $.fn.extend({
 			var hovercard = $('<div></div>')
 				.addClass(_.prefix('box'))
 				.addClass(_.prefix('hovercard'))
-				.html('test')
 				.data(_.prefix('identity'), identity)
 				.one(Click, function() {
 					obj.trigger(Cleanup, [true]);

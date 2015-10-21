@@ -46,9 +46,7 @@ $.lightbox = function(identity, hovercard) {
 			.css('height', lightbox_container.height() + 1)
 			.css('width', lightbox_container.width() + 1);
 	} else {
-		lightbox = $('<div></div>')
-			.addClass(_.prefix('box'))
-			.html('test');
+		lightbox = $('<div></div>').addClass(_.prefix('box'));
 
 		template_loading(lightbox, identity);
 
