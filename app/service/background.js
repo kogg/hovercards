@@ -81,12 +81,11 @@ chrome.storage.local.get('device_id', function(obj) {
 			api_callers[api][type](identity, callback);
 		} else {
 			chrome.storage.sync.get(api + '_user', function(obj) {
-				obj = obj || {};
-				$.ajax({ url:      config.endpoint + '/' + api + '/' + type + '/' + identity.id,
-						 data:     _.omit(identity, 'api', 'type', 'id'),
-						 dataType: 'json',
-						 jsonp:    false,
-						 headers:  { device_id: device_id, user: obj[api + '_user'] } })
+				$.ajax({ url:      [config.endpoint, api, type, identity.id].join('/'),
+				         data:     _.omit(identity, 'api', 'type', 'id'),
+				         dataType: 'json',
+				         jsonp:    false,
+				         headers:  { device_id: device_id, user: _.result(obj, api + '_user') } })
 					.done(function(data) {
 						callback(null, data);
 					})
