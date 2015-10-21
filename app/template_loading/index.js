@@ -1,6 +1,7 @@
 var _       = require('underscore');
 var Ractive = require('ractive');
 var service = require('../service');
+require('../common/mixins');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 
@@ -23,7 +24,7 @@ module.exports = function(obj, identity) {
 				                   _.defaults({ loaded: true }, data));
 			});
 
-			return _.defaults({ loaded: false }, identity);
+			return _.defaults({ loaded: false, _: _ }, identity);
 		}
 	});
 };
