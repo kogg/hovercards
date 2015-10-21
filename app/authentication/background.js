@@ -1,15 +1,20 @@
 var _             = require('underscore');
+var analytics     = require('../analytics/background');
 var config        = require('../config');
 var shared_config = require('hovercardsshared/config');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
 
 chrome.runtime.onMessage.addListener(function(message, sender, callback) {
-	if ((message && message.type) !== 'auth') {
+	if (_.result(message, 'type') !== 'auth') {
 		return;
 	}
 	callback = _.wrap(callback, function(callback, err, response) {
-		callback([err, response]);
+		if (err) {
+			err.message = 'Authentication - ' + (_.result(message.api, 'length') ? message.api + ' - ' : '') + (err.message || 'No Explanation');
+			analytics('send', 'exception', { exDescription: err.message, exFatal: false });
+		}
+		(callback || _.noop)([err, response]);
 	});
 	if (!message.api) {
 		callback({ message: 'Missing \'api\'', status: 400 });
