@@ -20,7 +20,7 @@ var config = {
 };
 
 _.each(require('hovercardsshared/config').apis, function(value, api) {
-	config[api] = _.defaults(config[api] || {}, value);
+	config.apis[api] = config.apis[api] && _.defaults(config.apis[api], value);
 });
 
 module.exports = config;
