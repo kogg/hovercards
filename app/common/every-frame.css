@@ -5,8 +5,13 @@
 	position: absolute !important;
 	z-index: 2147483647 !important;
 }
+.container * {
+	box-sizing:border-box;
+	font-family: 'Roboto'
+}
 .box {
-	background: rgba(255,255,255,.96) !important;
+	background: white !important;
 	border-radius: 3px !important;
-	box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
+	min-width: 340px !important;
+	box-shadow: rgba(0, 0, 0, 0.156863) 0px 2px 5px 0px, rgba(0, 0, 0, 0.117647) 0px 2px 10px 0px !important;
 }

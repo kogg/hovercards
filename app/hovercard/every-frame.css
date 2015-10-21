@@ -1,6 +1,14 @@
 .container--hovercard {
 	pointer-events: none !important;
 }
+
+.hovercard {
+	cursor: pointer !important;
+	margin: 0 !important;
+	pointer-events: auto !important;
+}
+
+/*HoverCard Animations*/
 .container--hovercard--top, .container--hovercard--bottom {
 	animation-duration: .4s;
 	transform: translate3d(0,0,0);
@@ -9,16 +17,9 @@
 .container--hovercard--top {
 	animation-name: hovercard-fade-down;
 }
+
 .container--hovercard--top .hovercard {
 	transform: translate3d(0,-100%,0);
-}
-.container--hovercard--bottom {
-	animation-name: hovercard-fade-up;
-}
-.hovercard {
-	cursor: pointer !important;
-	margin: 0 !important;
-	pointer-events: auto !important;
 }
 
 @keyframes hovercard-fade-down {
@@ -36,6 +37,10 @@
 	}
 }
 
+.container--hovercard--bottom {
+	animation-name: hovercard-fade-up;
+}
+
 @keyframes hovercard-fade-up {
 	0% {
 		opacity: 0;
@@ -49,4 +54,12 @@
 		opacity: 1;
 		transform:translate3d(0,0px,0);
 	}
+}
+
+.test {
+	max-width: 340px !important;
+	width: 100% !important;
+	transition:all .3s ease-in-out !important;
+	padding: 16px 12px !important;
+	display: block !important;
 }
