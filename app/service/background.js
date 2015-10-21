@@ -2,7 +2,7 @@ var _      = require('underscore');
 var $      = require('jquery');
 var config = require('../config');
 
-var ALPHANUMERIC   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 var device_id;
 
@@ -71,11 +71,9 @@ chrome.storage.local.get('device_id', function(obj) {
 
 	var api_callers = _.chain({
 	                       // TODO Find a way to dynamically do this. Browserify Transform?
-	                       /*
-	                       instagram:  require('hovercardsshared/instagram'),
-	                       reddit:     require('hovercardsshared/reddit'),
-	                       soundcloud: require('hovercardsshared/soundcloud')
-	                       */
+	                       // instagram:  require('hovercardsshared/instagram'),
+	                       // reddit:     require('hovercardsshared/reddit'),
+	                       // soundcloud: require('hovercardsshared/soundcloud')
 	                   })
 	                   .defaults(_.mapObject(config.apis, _.constant(null)))
 	                   .mapObject(function(client, api) {
