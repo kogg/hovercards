@@ -3,13 +3,13 @@
 	display: flex !important;
 	align-items: center !important;
 	justify-content: center !important;
-	transition: all 10.5s ease-in-out !important;
+	transition: all .3s ease-in-out !important;
 }
 .lightbox {
 	cursor: auto !important;
 	margin: 20px auto !important;
 	transform: translate3d(0,0,0) !important;
-	transition: all 10.5s ease-in-out !important;
+	transition: all .3s ease-in-out !important;
 }
 .lightbox--leave {
 	animation: lightbox--leave-animation .1s ease-in-out 1 !important;
