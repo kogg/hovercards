@@ -1,17 +1,14 @@
 .container {
-	align-items: flex-start !important;
-	display: flex !important;
-	justify-content: center !important;
 	position: absolute !important;
 	z-index: 2147483647 !important;
 }
 .container * {
-	box-sizing:border-box;
-	font-family: 'Roboto'
+	box-sizing: border-box;
+	font-family: 'Roboto';
 }
 .box {
 	background: white !important;
 	border-radius: 3px !important;
-	min-width: 340px !important;
-	box-shadow: rgba(0, 0, 0, 0.156863) 0px 2px 5px 0px, rgba(0, 0, 0, 0.117647) 0px 2px 10px 0px !important;
+	min-width: 300px !important;
+	box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.12) 0px 2px 10px 0px !important;
 }

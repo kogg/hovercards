@@ -1,7 +1,6 @@
 .container--hovercard {
 	pointer-events: none !important;
 }
-
 .hovercard {
 	cursor: pointer !important;
 	margin: 0 !important;
@@ -55,11 +54,17 @@
 		transform:translate3d(0,0px,0);
 	}
 }
-
 .test {
+	width: 9999px;
 	max-width: 340px !important;
-	width: 100% !important;
-	transition:all .3s ease-in-out !important;
 	padding: 16px 12px !important;
 	display: block !important;
+	transition:all .5s ease-in-out !important;
+}
+.lightbox .test {
+	max-width: auto !important;
+	max-width: 650px !important;
+}
+.growpls {
+	width: 100% !important
 }
