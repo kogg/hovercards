@@ -4,33 +4,16 @@ var service = require('../service');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 
-var templates = {};
+var templates;
 
 module.exports = function(obj, identity) {
 	var type = _.result(identity, 'type');
 
-	if (!templates[type]) {
-		switch (type) {
-			case 'content':
-				templates.content = require('hovercardsshared/*/content.html', { mode: 'hash' });
-				break;
-			case 'discussion':
-				templates.discussion = require('hovercardsshared/*/discussion.html', { mode: 'hash' });
-				break;
-			case 'account':
-				templates.account = require('hovercardsshared/*/account.html', { mode: 'hash' });
-				break;
-			case 'account_content':
-				templates.account_content = require('hovercardsshared/*/account_content.html', { mode: 'hash' });
-				break;
-			default:
-				return;
-		}
-	}
+	templates = templates || require('../../node_modules/hovercardsshared/*/*.html', { mode: 'hash' });
 
 	return new Ractive({
 		el: obj,
-		template: templates[type][_.result(identity, 'api')] || 'There is no template for this',
+		template: templates[_.result(identity, 'api') + '/' + type] || 'There is no template for this',
 		data: function() {
 			var instance = this;
 
