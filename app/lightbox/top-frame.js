@@ -82,10 +82,6 @@ $.lightbox = function(identity, hovercard) {
 			.removeClass(_.prefix('hovercard'));
 	});
 
-	setTimeout(function() {
-		lightbox.append(_.times(100, function() { return 'Were u reading that?'; }).join('<br>'));
-	}, 3000);
-
 	function stop_propagation(e) {
 		e.stopPropagation();
 	}
