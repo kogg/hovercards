@@ -87,6 +87,75 @@ function massage_url(url) {
 	return url;
 }
 
+function make_hovercard(obj, identity, e) {
+	if (typeof identity === 'string') {
+		identity = network_urls.identify(identity);
+	}
+	if (!identity) {
+		return $();
+	}
+	var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
+	analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
+	var hovercard_start = Date.now();
+	var hovercard = $('<div></div>')
+		.addClass(_.prefix('box'))
+		.addClass(_.prefix('hovercard'))
+		.data(_.prefix('identity'), identity)
+		.one(Click, function() {
+			obj.trigger(Cleanup, [true]);
+		});
+	feedback(hovercard, obj);
+
+	template_loading(hovercard, identity);
+
+	var hovercard_container = $('<div></div>')
+		.addClass(_.prefix('container'))
+		.addClass(_.prefix('container--hovercard'))
+		.append(hovercard)
+		.appendTo('html');
+
+	var obj_offset = obj.offset();
+	var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - (hovercard.has('.feedback').length ? 38 : 0) > $(window).scrollTop();
+	hovercard_container
+		.toggleClass(_.prefix('container--hovercard--top'), is_top)
+		.toggleClass(_.prefix('container--hovercard--bottom'), !is_top)
+		.offset({ top:  obj_offset.top + (!is_top && obj.height()),
+		          left: Math.max(PADDING_FROM_EDGES,
+		                         Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
+		                                  (e ? e.pageX : obj_offset.left) + 1)) });
+
+	function kill_it() {
+		obj.trigger(Cleanup);
+	}
+	$(window).on(Blur, kill_it);
+	obj
+		.one(Click, kill_it)
+		.one(Cleanup, function(e, keep_hovercard) {
+			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
+			if (keep_hovercard) {
+				hovercard
+					.removeClass(_.prefix('container--hovercard--top'))
+					.removeClass(_.prefix('container--hovercard--bottom'));
+			} else {
+				hovercard_container.remove();
+			}
+			$(window).off(Blur, kill_it);
+			obj.off(NameSpace);
+			current_obj = !current_obj.is(obj) && current_obj;
+		});
+	var both = obj.add(hovercard);
+	both.on(MouseLeave, function(e) {
+		var to = $(e.toElement);
+		if (both.is(to) || both.has(to).length) {
+			return;
+		}
+		var kill_timeout = setTimeout(kill_it, TIMEOUT_BEFORE_FADEOUT);
+		both.one(MouseMove, function() {
+			clearTimeout(kill_timeout);
+		});
+	});
+}
+
 HOVERABLE_THINGS.forEach(function(hoverable) {
 	$('html').on(MouseMove, hoverable.selector, function(e) {
 		var obj = $(this);
@@ -103,9 +172,8 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 		}
 		var last_e = e;
 		var timeout = setTimeout(function() {
-			obj
-				.trigger(Cleanup)
-				.hovercard(identity, last_e);
+			obj.trigger(Cleanup);
+			make_hovercard(obj, identity, last_e);
 		}, TIMEOUT_BEFORE_CARD);
 		function kill_it() {
 			obj.trigger(Cleanup);
@@ -126,78 +194,4 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 				last_e = e;
 			});
 	});
-});
-
-$.fn.extend({
-	hovercard: function(identity, e) {
-		if (typeof identity === 'string') {
-			identity = network_urls.identify(identity);
-		}
-		if (!identity) {
-			return $();
-		}
-		var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
-		return this.each(function() {
-			analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
-			var hovercard_start = Date.now();
-			var obj = $(this);
-			var hovercard = $('<div></div>')
-				.addClass(_.prefix('box'))
-				.addClass(_.prefix('hovercard'))
-				.data(_.prefix('identity'), identity)
-				.one(Click, function() {
-					obj.trigger(Cleanup, [true]);
-				});
-			feedback(hovercard, obj);
-
-			template_loading(hovercard, identity);
-
-			var hovercard_container = $('<div></div>')
-				.addClass(_.prefix('container'))
-				.addClass(_.prefix('container--hovercard'))
-				.append(hovercard)
-				.appendTo('html');
-
-			var obj_offset = obj.offset();
-			var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - (hovercard.has('.feedback').length ? 38 : 0) > $(window).scrollTop();
-			hovercard_container
-				.toggleClass(_.prefix('container--hovercard--top'), is_top)
-				.toggleClass(_.prefix('container--hovercard--bottom'), !is_top)
-				.offset({ top:  obj_offset.top + (!is_top && obj.height()),
-				          left: Math.max(PADDING_FROM_EDGES,
-				                         Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
-				                                  (e ? e.pageX : obj_offset.left) + 1)) });
-
-			function kill_it() {
-				obj.trigger(Cleanup);
-			}
-			$(window).on(Blur, kill_it);
-			obj
-				.one(Click, kill_it)
-				.one(Cleanup, function(e, keep_hovercard) {
-					analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
-					if (keep_hovercard) {
-						hovercard
-							.removeClass(_.prefix('container--hovercard--top'))
-							.removeClass(_.prefix('container--hovercard--bottom'));
-					} else {
-						hovercard_container.remove();
-					}
-					$(window).off(Blur, kill_it);
-					obj.off(NameSpace);
-					current_obj = !current_obj.is(obj) && current_obj;
-				});
-			var both = obj.add(hovercard);
-			both.on(MouseLeave, function(e) {
-				var to = $(e.toElement);
-				if (both.is(to) || both.has(to).length) {
-					return;
-				}
-				var kill_timeout = setTimeout(kill_it, TIMEOUT_BEFORE_FADEOUT);
-				both.one(MouseMove, function() {
-					clearTimeout(kill_timeout);
-				});
-			});
-		});
-	}
 });
