@@ -105,11 +105,13 @@ $.lightbox = function(identity, hovercard) {
 		$(document).off('keydown', keydown);
 		$(window).off('scroll', lightbox_leave);
 		lightbox_container.off('click', lightbox_leave);
+		lightbox_backdrop.off('click', lightbox_leave);
 	}
 	lightbox.on('click', stop_propagation);
 	$(document).on('keydown', keydown);
 	$(window).one('scroll', lightbox_leave);
 	lightbox_container.one('click', lightbox_leave);
+	lightbox_backdrop.one('click', lightbox_leave);
 };
 
 window.addEventListener('message', function(event) {
