@@ -1,7 +1,8 @@
-var $            = require('jquery');
-var _            = require('underscore');
-var analytics    = require('../analytics');
-var network_urls = require('hovercardsshared/network-urls');
+var $                = require('jquery');
+var _                = require('underscore');
+var analytics        = require('../analytics');
+var network_urls     = require('hovercardsshared/network-urls');
+var template_loading = require('../template_loading');
 require('../common/mixins');
 require('./both');
 
@@ -48,6 +49,9 @@ $.lightbox = function(identity, hovercard) {
 		lightbox = $('<div></div>')
 			.addClass(_.prefix('box'))
 			.html('test');
+
+		template_loading(lightbox, identity);
+
 		lightbox_container = $('<div></div>')
 			.addClass(_.prefix('container'))
 			.css('height', '0')
