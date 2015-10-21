@@ -1,6 +1,7 @@
-var _      = require('underscore');
-var $      = require('jquery');
-var config = require('../config');
+var $         = require('jquery');
+var _         = require('underscore');
+var analytics = require('../analytics/background');
+var config    = require('../config');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -85,12 +86,19 @@ chrome.storage.local.get('device_id', function(obj) {
 		if (_.result(message, 'type') !== 'service') {
 			return;
 		}
-		callback = _.wrap(callback, function(callback, err, response) {
-			callback([err, response]);
-		});
+		var service_start = Date.now();
 		var identity = message.identity;
 		var api      = _.result(identity, 'api');
 		var type     = _.result(identity, 'type');
+		callback = _.wrap(callback, function(callback, err, response) {
+			var label = _.compact([api, type]).join(' ');
+			if (err) {
+				err.message = _.compact(['Service', !_.isEmpty(label) && label, err.status, err.message]).join(' - ');
+				analytics('send', 'exception', { exDescription: err.message, exFatal: false });
+			}
+			analytics('send', 'timing', 'service', 'loading', Date.now() - service_start, label);
+			callback([err, response]);
+		});
 		if (api_callers[api] && _.isFunction(api_callers[api][type])) {
 			api_callers[api][type](identity, callback);
 		} else {

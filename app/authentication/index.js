@@ -1,15 +1,7 @@
-var _         = require('underscore');
-var analytics = require('../analytics');
+var _ = require('underscore');
 
 module.exports = function(api, callback) {
-	callback = _.wrap(callback, function(callback, err, response) {
-		if (err) {
-			err.message = 'Authentication - ' + (api && api.length ? api + ' - ' : '') + (err.message || 'No Explanation');
-			analytics('send', 'exception', { exDescription: err.message, exFatal: false });
-		}
-		(callback || _.noop)(err, response);
-	});
-	if (!api || !api.length) {
+	if (!_.result(api, 'length')) {
 		return callback({ message: 'Missing \'api\'', status: 400 });
 	}
 	chrome.runtime.sendMessage({ type: 'auth', api: api }, function(combined_response) {
