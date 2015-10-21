@@ -35,11 +35,11 @@ function initialize_caller(api_config, api) {
 			obj = obj || {};
 			var user_id = obj.user_id;
 			function setup_client_caller() {
-				if (config.apis[api].client_on_auth && _.isEmpty(user_id)) {
+				if (api_config.client_on_auth && _.isEmpty(user_id)) {
 					setup_server_caller();
 					return;
 				}
-				var client = api_config.caller(_.extend({ device: device_id, user: user_id }, config.apis[api]));
+				var client = api_config.caller(_.extend({ device: device_id, user: user_id }, api_config));
 				_.extend(caller, _.pick(client, 'content', 'discussion', 'account', 'account_content'));
 			}
 
