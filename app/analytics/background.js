@@ -3,7 +3,11 @@ var config = require('../config');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-var responder = function(args, callback) { callback(); }; // This name is stupid
+var responder = function(args, callback) { (callback || _.noop)(); }; // This name is stupid
+
+module.exports = function(args) {
+	responder(args);
+};
 
 chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 	if (_.result(message, 'type') !== 'analytics') {
@@ -18,9 +22,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 		}
 		object.hitCallback = _.wrap(object.hitCallback, function(hitCallback) {
 			(hitCallback || _.noop)();
-			callback();
+			(callback || _.noop)();
 		});
-		object.screenName = object.screenName || _.chain(sender).result('tab').result('url').value() || _.result(sender, 'url');
+		var screenName = object.screenName || _.chain(sender).result('tab').result('url').value() || _.result(sender, 'url');
+		if (screenName) {
+			object.screenName = screenName;
+		}
 	}
 	responder(message.request, callback);
 	return true;
@@ -56,7 +63,7 @@ switch (process.env.NODE_ENV) {
 				if (_.chain(args).last().result('hitCallback').isFunction().value()) {
 					return;
 				}
-				callback();
+				(callback || _.noop)();
 			};
 		});
 		break;
@@ -66,7 +73,7 @@ switch (process.env.NODE_ENV) {
 			if (_.chain(args).last().result('hitCallback').isFunction().value()) {
 				return _.last(args).hitCallback();
 			}
-			callback();
+			(callback || _.noop)();
 		};
 		break;
 }
