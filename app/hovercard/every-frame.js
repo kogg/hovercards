@@ -2,11 +2,11 @@ var $                = require('jquery');
 var _                = require('underscore');
 var analytics        = require('../analytics');
 var config           = require('../config');
+var feedback         = require('../feedback/hovercard');
 var network_urls     = require('hovercardsshared/network-urls');
 var template_loading = require('../template_loading');
 
 require('../common/mixins');
-require('../feedback/hovercard');
 
 var HOVERABLE_THINGS = [
 	{ selector: 'a[href]:not(.no-yo,.hoverZoomLink,[data-href],[data-expanded-url])', get_url: function(link) { return link.attr('href'); } },
@@ -147,8 +147,8 @@ $.fn.extend({
 				.data(_.prefix('identity'), identity)
 				.one(Click, function() {
 					obj.trigger(Cleanup, [true]);
-				})
-				.addFeedback(obj);
+				});
+			feedback(hovercard, obj);
 
 			template_loading(hovercard, identity);
 
@@ -159,7 +159,7 @@ $.fn.extend({
 				.appendTo('html');
 
 			var obj_offset = obj.offset();
-			var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - hovercard.feedback_height() > $(window).scrollTop();
+			var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - (hovercard.has('.feedback').length ? 38 : 0) > $(window).scrollTop();
 			hovercard_container
 				.toggleClass(_.prefix('container--hovercard--top'), is_top)
 				.toggleClass(_.prefix('container--hovercard--bottom'), !is_top)
