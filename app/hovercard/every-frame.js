@@ -1,7 +1,8 @@
-var $            = require('jquery');
-var _            = require('underscore');
-var analytics    = require('../analytics');
-var network_urls = require('hovercardsshared/network-urls');
+var $                = require('jquery');
+var _                = require('underscore');
+var analytics        = require('../analytics');
+var network_urls     = require('hovercardsshared/network-urls');
+var template_loading = require('../template_loading');
 
 require('../common/mixins');
 require('../feedback/hovercard');
@@ -145,6 +146,9 @@ $.fn.extend({
 					obj.trigger(Cleanup, [true]);
 				})
 				.addFeedback(obj);
+
+			template_loading(hovercard, identity);
+
 			var hovercard_container = $('<div></div>')
 				.addClass(_.prefix('container'))
 				.addClass(_.prefix('container--hovercard'))
