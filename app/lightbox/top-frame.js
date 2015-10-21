@@ -40,18 +40,22 @@ $.lightbox = function(identity, hovercard) {
 	var window_scroll = { top: $(window).scrollTop(), left: $(window).scrollLeft() };
 	if (hovercard) {
 		lightbox = hovercard;
-		lightbox_container = lightbox.parents('.' + _.prefix('container'));
+		lightbox_container = lightbox.parent();
 		lightbox_container
 			.css('height', lightbox_container.height() + 1)
 			.css('width', lightbox_container.width() + 1);
 	} else {
-		lightbox_container = $(require('../layouts/container.tpl')(identity))
+		lightbox = $('<div></div>')
+			.addClass(_.prefix('box'))
+			.html('test');
+		lightbox_container = $('<div></div>')
+			.addClass(_.prefix('container'))
 			.css('height', '0')
 			.css('width', '0')
 			.css('top', window_scroll.top + $(window).height() / 2)
 			.css('left', window_scroll.left + $(window).width() / 2)
+			.append(lightbox)
 			.appendTo('html');
-		lightbox = lightbox_container.find('.' + _.prefix('box'));
 	}
 	setTimeout(function() {
 		lightbox_container
@@ -73,9 +77,7 @@ $.lightbox = function(identity, hovercard) {
 			});
 		lightbox
 			.addClass(_.prefix('lightbox'))
-			.removeClass(_.prefix('hovercard'))
-			.html((identity.type === 'account' ? require('hovercardsshared/account/layout.tpl') :
-			                                     require('hovercardsshared/content/layout.tpl'))(identity));
+			.removeClass(_.prefix('hovercard'));
 	});
 
 	function stop_propagation(e) {
