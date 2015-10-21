@@ -5,8 +5,8 @@ var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567
 
 var responder = function(args, callback) { (callback || _.noop)(); }; // This name is stupid
 
-module.exports = function(args) {
-	responder(args);
+module.exports = function() {
+	responder(_.toArray(arguments));
 };
 
 chrome.runtime.onMessage.addListener(function(message, sender, callback) {
