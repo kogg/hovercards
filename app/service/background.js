@@ -7,19 +7,39 @@ var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567
 
 var device_id;
 
-function initialize_caller(api, client) {
+function initialize_caller(api_config, api) {
 	var caller = {};
 
-	if (client) {
+	function setup_server_caller() {
+		_.each(['content', 'discussion', 'account', 'account_content'], function(type) {
+			caller[type] = function(identity, callback) {
+				chrome.storage.sync.get(api + '_user', function(obj) {
+					$.ajax({ url:      [config.endpoint, api, type, identity.id].join('/'),
+					         data:     _.omit(identity, 'api', 'type', 'id'),
+					         dataType: 'json',
+					         jsonp:    false,
+					         headers:  { device_id: device_id, user: _.result(obj, api + '_user') } })
+						.done(function(data) {
+							callback(null, data);
+						})
+						.fail(function(err) {
+							callback(err.responseJSON || { message: err.statusText, status: err.status || 500 });
+						});
+				});
+			};
+		});
+	}
+
+	if (api_config.caller) {
 		chrome.storage.sync.get(api + '_user', function(obj) {
 			obj = obj || {};
 			var user_id = obj.user_id;
 			function setup_client_caller() {
 				if (config.apis[api].client_on_auth && _.isEmpty(user_id)) {
-					_.extend(caller, { content: null, discussion: null, account: null, account_content: null });
+					setup_server_caller();
 					return;
 				}
-				var client = client(_.extend({ device: device_id, user: user_id }, config.apis[api]));
+				var client = api_config.caller(_.extend({ device: device_id, user: user_id }, config.apis[api]));
 				_.extend(caller, _.pick(client, 'content', 'discussion', 'account', 'account_content'));
 			}
 
@@ -33,7 +53,7 @@ function initialize_caller(api, client) {
 			});
 		});
 	} else {
-		_.extend(caller, { content: null, discussion: null, account: null, account_content: null });
+		setup_server_caller();
 	}
 
 	return caller;
@@ -48,16 +68,9 @@ chrome.storage.local.get('device_id', function(obj) {
 		device_id = obj.device_id;
 	}
 
-	var api_callers = _.chain({
-	                       // TODO Find a way to dynamically do this. Browserify Transform?
-	                       // instagram:  require('hovercardsshared/instagram'),
-	                       // reddit:     require('hovercardsshared/reddit'),
-	                       // soundcloud: require('hovercardsshared/soundcloud')
-	                   })
-	                   .defaults(_.mapObject(config.apis, _.constant(null)))
-	                   .mapObject(function(client, api) {
-	                       return initialize_caller(api, client);
-	                   })
+	var api_callers = _.chain(config.apis)
+	                   .mapObject(_.clone)
+	                   .mapObject(initialize_caller)
 	                   .value();
 
 	chrome.runtime.onMessage.addListener(function(message, sender, callback) {
@@ -77,22 +90,10 @@ chrome.storage.local.get('device_id', function(obj) {
 			analytics('send', 'timing', 'service', 'loading', Date.now() - service_start, label);
 			callback([err, response]);
 		});
-		if (api_callers[api] && _.isFunction(api_callers[api][type])) {
+		if (api_callers[api]) {
 			api_callers[api][type](identity, callback);
 		} else {
-			chrome.storage.sync.get(api + '_user', function(obj) {
-				$.ajax({ url:      [config.endpoint, api, type, identity.id].join('/'),
-				         data:     _.omit(identity, 'api', 'type', 'id'),
-				         dataType: 'json',
-				         jsonp:    false,
-				         headers:  { device_id: device_id, user: _.result(obj, api + '_user') } })
-					.done(function(data) {
-						callback(null, data);
-					})
-					.fail(function(err) {
-						callback(err.responseJSON || { message: err.statusText, status: err.status || 500 });
-					});
-			});
+			callback({ message: 'Do not recognize api \'' + api + '\'', status: 501 });
 		}
 
 		return true;

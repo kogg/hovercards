@@ -6,13 +6,16 @@ var config = {
 	apis: {
 		/*
 		instagram: {
+			caller: require('hovercardsshared/instagram'),
 			client_on_auth: true,
 			client_auth_url: 'https://instagram.com/oauth/authorize/?client_id=41e56061c1e34fbbb16ab1d095dad78b&redirect_uri=https://EXTENSION_ID.chromiumapp.org/callback&response_type=token'
 		},
 		reddit: {
+			caller: require('hovercardsshared/reddit'),
 			key: '0jXqEudQPqSL6w'
 		},
 		soundcloud: {
+			caller: require('hovercardsshared/soundcloud'),
 			key: '78a827254bd7a5e3bba61aa18922bf2e'
 		}
 		*/
@@ -20,7 +23,10 @@ var config = {
 };
 
 _.each(require('hovercardsshared/config').apis, function(value, api) {
-	config.apis[api] = config.apis[api] && _.defaults(config.apis[api], value);
+	if (!config.apis[api]) {
+		return;
+	}
+	config.apis[api] = _.defaults(config.apis[api], value);
 });
 
 module.exports = config;

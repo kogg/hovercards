@@ -1,6 +1,5 @@
 var _       = require('underscore');
 var Ractive = require('ractive');
-var config  = require('../config');
 var service = require('../service');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
@@ -12,10 +11,6 @@ module.exports = function(obj, identity) {
 	var type = _.result(identity, 'type');
 
 	templates = templates || require('../../node_modules/hovercardsshared/*/*.html', { mode: 'hash' });
-
-	if (!config.apis[api]) {
-		return;
-	}
 
 	return new Ractive({
 		el: obj,

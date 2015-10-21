@@ -1,7 +1,6 @@
 var $                = require('jquery');
 var _                = require('underscore');
 var analytics        = require('../analytics');
-var config           = require('../config');
 var feedback         = require('../feedback/hovercard');
 var network_urls     = require('hovercardsshared/network-urls');
 var template_loading = require('../template_loading');
@@ -51,9 +50,6 @@ chrome.storage.sync.get('disabled', function(obj) {
 });
 function accept_identity(identity, obj) {
 	if (!disabled || (disabled[identity.api] && disabled[identity.api][identity.type])) {
-		return false;
-	}
-	if (!config.apis[identity.api]) {
 		return false;
 	}
 	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
