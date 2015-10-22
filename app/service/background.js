@@ -12,9 +12,31 @@ function initialize_caller(api_config, api) {
 
 	function setup_server_caller() {
 		_.each(['content', 'discussion', 'account', 'account_content'], function(type) {
+			var url;
+			switch (type) {
+				case 'content':
+				case 'account':
+					url = function(identity) {
+						return [config.endpoint, api, type, identity.id].join('/');
+					};
+					break;
+				case 'discussion':
+					url = function(identity) {
+						if (identity['for']) {
+							return [config.endpoint, identity['for'].api, 'content', identity['for'].id, 'discussion', api].join('/');
+						}
+						return [config.endpoint, api, 'content', identity.id, 'discussion'].join('/');
+					};
+					break;
+				case 'account_content':
+					url = function(identity) {
+						return [config.endpoint, api, 'account', identity.id, 'content'].join('/');
+					};
+					break;
+			}
 			caller[type] = function(identity, callback) {
 				chrome.storage.sync.get(api + '_user', function(obj) {
-					$.ajax({ url:      [config.endpoint, api, type, identity.id].join('/'),
+					$.ajax({ url:      url(identity),
 					         data:     _.omit(identity, 'api', 'type', 'id'),
 					         dataType: 'json',
 					         jsonp:    false,
