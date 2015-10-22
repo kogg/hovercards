@@ -1,7 +1,6 @@
 var $                = require('jquery');
 var _                = require('underscore');
 var analytics        = require('../analytics');
-var feedback         = require('../feedback/hovercard');
 var network_urls     = require('hovercardsshared/network-urls');
 var template_loading = require('../template_loading');
 
@@ -101,7 +100,6 @@ function make_hovercard(obj, identity, e) {
 			obj.trigger(Cleanup, [true]);
 		});
 
-	feedback(hovercard, obj);
 	template_loading(hovercard, identity);
 
 	var hovercard_container = $('<div></div>')
@@ -111,7 +109,7 @@ function make_hovercard(obj, identity, e) {
 		.appendTo('html');
 
 	var obj_offset = obj.offset();
-	var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES - (hovercard.has('.feedback').length ? 38 : 0) > $(window).scrollTop();
+	var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES > $(window).scrollTop();
 	hovercard_container
 		.toggleClass(_.prefix('container--hovercard--top'), is_top)
 		.toggleClass(_.prefix('container--hovercard--bottom'), !is_top)
