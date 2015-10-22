@@ -16,7 +16,7 @@ module.exports = function(obj, identity, expanded) {
 	var ractive = obj.data('ractive');
 	if (!ractive) {
 		ractive = new Ractive({ template: layouts[_.result(identity, 'type')],
-		                        data:     _.defaults({ loaded: false, _: _ }, identity),
+		                        data:     _.defaults({ _: _ }, identity),
 		                        el:       obj });
 		obj.data('ractive', ractive);
 	}
@@ -49,7 +49,7 @@ module.exports = function(obj, identity, expanded) {
 					                       .uniq()
 					                       .value();
 					ractive.set('discussions', _.map(discussion_apis, function(api) {
-						return { loaded: false, api: api };
+						return { api: api };
 					}));
 					_.each(discussion_apis, function(api, i) {
 						service((api === identity.api) ? _.defaults({ type: 'discussion' }, identity) :
@@ -63,7 +63,7 @@ module.exports = function(obj, identity, expanded) {
 					});
 					break;
 				case 'account':
-					ractive.set('content', { loaded: false });
+					ractive.set('content', { });
 					service(_.defaults({ type: 'account_content' }, identity), function(err, data) {
 						if (err) {
 							return ractive.set('content', { loaded: true, err: err });
