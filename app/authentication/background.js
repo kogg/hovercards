@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 	}
 	callback = _.wrap(callback, function(callback, err, response) {
 		if (err) {
-			err.message = 'Authentication - ' + (_.result(message.api, 'length') ? message.api + ' - ' : '') + (err.message || 'No Explanation');
+			err.message = 'Authentication - ' + (_.isEmpty(message.api) ? '' : message.api + ' - ') + (err.message || 'No Explanation');
 			analytics('send', 'exception', { exDescription: err.message, exFatal: false });
 		}
 		(callback || _.noop)([err, response]);
@@ -32,7 +32,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 				return callback({ message: chrome.runtime.lastError.message, status: 401 });
 			}
 			var user = redirect_url && (redirect_url.split('#', 2)[1] || '').split('=', 2)[1];
-			if (!user || !user.length) {
+			if (_.isEmpty(user)) {
 				return callback({ message: 'No user token returned for ' + message.api + ': ' + redirect_url, status:  500 });
 			}
 			var obj = {};

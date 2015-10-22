@@ -103,7 +103,7 @@ function initialize_caller(api_config, api) {
 
 chrome.storage.local.get('device_id', function(obj) {
 	obj = obj || {};
-	if (!obj.device_id || !obj.device_id.length) {
+	if (_.isEmpty(obj.device_id)) {
 		device_id = _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('');
 		chrome.storage.local.set({ device_id: device_id });
 	} else {
