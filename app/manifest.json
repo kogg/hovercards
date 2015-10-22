@@ -58,16 +58,7 @@
 		"128": "images/logo-128.png"
 	},
 	"web_accessible_resources": [
-		"hovercard.html",
-		"sidebar.html",
-		"images/logo-128.png",
-		"images/closesidebar.png",
-		"images/closebutton.png",
-		"images/backbutton.png",
-		"images/bringback.png",
-		"images/yopoppyimgur.png",
-		"images/yopoppyreddit.png",
-		"images/yopoppy.png"
+		"assets/*"
 	],
 	"permissions": [
 		"activeTab",

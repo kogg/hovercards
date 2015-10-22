@@ -20,6 +20,7 @@ module.exports = {
 		return (path.indexOf('data:') !== -1) ? path : 'chrome-extension://__MSG_@@extension_id__/' + path;
 	},
 	'postcss-url': {
-		url: 'copy'
+		url: 'copy',
+		assetsPath: 'assets'
 	}
 };
