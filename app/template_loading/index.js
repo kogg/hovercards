@@ -5,17 +5,17 @@ require('../common/mixins');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 
-_.extend(Ractive.partials, require('../../node_modules/hovercardsshared/*/content.html',         { mode: 'hash' }),
-                           require('../../node_modules/hovercardsshared/*/discussion.html',      { mode: 'hash' }),
-                           require('../../node_modules/hovercardsshared/*/account.html',         { mode: 'hash' }),
-                           require('../../node_modules/hovercardsshared/*/account_content.html', { mode: 'hash' }));
+_.extend(Ractive.partials, require('../../node_modules/hovercardsshared/*/@(content|discussion|account|account_content).html', { mode: 'hash' }));
 
-var layouts = require('../../node_modules/hovercardsshared/*/layout.html', { mode: 'hash' });
+var layouts = {
+	content: require('hovercardsshared/content/layout.html'),
+	account: require('hovercardsshared/account/layout.html')
+};
 
 module.exports = function(obj, identity, expanded) {
 	var ractive = obj.data('ractive');
 	if (!ractive) {
-		ractive = new Ractive({ template: layouts[_.result(identity, 'type') + '/layout'],
+		ractive = new Ractive({ template: layouts[_.result(identity, 'type')],
 		                        data:     _.defaults({ loaded: false, _: _ }, identity),
 		                        el:       obj });
 		obj.data('ractive', ractive);
@@ -49,7 +49,8 @@ module.exports = function(obj, identity, expanded) {
 					                       .unshift(identity.api)
 					                       .uniq()
 					                       .value();
-					ractive.set('discussions', _.map(discussion_apis, function(api, i) {
+					ractive.set('discussions', _.map(discussion_apis, _.constant({ loaded: false })));
+					_.each(discussion_apis, function(api, i) {
 						service((api === identity.api) ? _.defaults({ type: 'discussion' }, identity) :
 						                                 { api: api, type: 'discussion', for: identity },
 							function(err, data) {
@@ -58,8 +59,7 @@ module.exports = function(obj, identity, expanded) {
 								}
 								ractive.set('discussions.' + i, _.defaults({ loaded: true }, data));
 							});
-						return { loaded: false };
-					}));
+					});
 					break;
 				case 'account':
 					ractive.set('content', { loaded: false });
