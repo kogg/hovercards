@@ -48,11 +48,23 @@ function initialize_caller(api_config, api) {
 					         dataType: 'json',
 					         jsonp:    false,
 					         headers:  { device_id: device_id, user: user_id } })
-						.done(function(data) {
-							callback(null, data);
+						.done(function(data, textStatus, jqXHR) {
+							callback(null, data, _.chain(jqXHR.getAllResponseHeaders().trim().split('\n'))
+							                      .invoke('split', /:\s*/, 2)
+							                      .filter(function(pair) { return pair[0] !== (pair[0] = pair[0].replace(/^usage-/, '')); })
+							                      .object()
+							                      .mapObject(Number)
+							                      .value());
 						})
-						.fail(function(err) {
-							callback(err.responseJSON || { message: err.statusText, status: err.status || 500 });
+						.fail(function(jqXHR) {
+							callback(_.defaults(jqXHR.responseJSON, { message: jqXHR.statusText, status: jqXHR.status || 500 }),
+							         null,
+							         _.chain(jqXHR.getAllResponseHeaders().trim().split('\n'))
+							          .invoke('split', /:\s*/, 2)
+							          .filter(function(pair) { return pair[0] !== (pair[0] = pair[0].replace(/^usage-/, '')); })
+							          .object()
+							          .mapObject(Number)
+							          .value());
 						});
 				});
 			};
@@ -111,8 +123,11 @@ chrome.storage.local.get('device_id', function(obj) {
 		var identity = message.identity;
 		var api      = _.result(identity, 'api');
 		var type     = _.result(identity, 'type');
-		callback = _.wrap(callback, function(callback, err, response) {
+		callback = _.wrap(callback, function(callback, err, response, usage) {
 			var label = _.compact([api, type]).join(' ');
+			_.each(usage, function(val, key) {
+				console.log(key, val);
+			});
 			if (err) {
 				err.message = _.compact(['Service', !_.isEmpty(label) && label, err.status, err.message]).join(' - ');
 				analytics('send', 'exception', { exDescription: err.message, exFatal: false });
