@@ -19,6 +19,7 @@ var config = {
 			key: '78a827254bd7a5e3bba61aa18922bf2e'
 		}
 		*/
+		youtube: {}
 	}
 };
 

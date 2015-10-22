@@ -35,12 +35,19 @@ function initialize_caller(api_config, api) {
 					break;
 			}
 			caller[type] = function(identity, callback) {
-				chrome.storage.sync.get(api + '_user', function(obj) {
+				(function(callback) {
+					if (!api_config.can_auth) {
+						return callback();
+					}
+					chrome.storage.sync.get(api + '_user', function(obj) {
+						callback((obj || {})[api + '_user']);
+					});
+				})(function(user_id) {
 					$.ajax({ url:      url(identity),
 					         data:     _.omit(identity, 'api', 'type', 'id'),
 					         dataType: 'json',
 					         jsonp:    false,
-					         headers:  { device_id: device_id, user: _.result(obj, api + '_user') } })
+					         headers:  { device_id: device_id, user: user_id } })
 						.done(function(data) {
 							callback(null, data);
 						})
@@ -53,26 +60,27 @@ function initialize_caller(api_config, api) {
 	}
 
 	if (api_config.caller) {
-		chrome.storage.sync.get(api + '_user', function(obj) {
-			obj = obj || {};
-			var user_id = obj.user_id;
-			function setup_client_caller() {
-				if (api_config.client_on_auth && _.isEmpty(user_id)) {
-					setup_server_caller();
-					return;
-				}
-				var client = api_config.caller(_.extend({ device: device_id, user: user_id }, api_config));
-				_.extend(caller, _.pick(client, 'content', 'discussion', 'account', 'account_content'));
+		(function(callback) {
+			if (!api_config.can_auth) {
+				return callback();
 			}
+			chrome.storage.sync.get(api + '_user', function(obj) {
+				callback((obj || {})[api + '_user']);
 
-			setup_client_caller();
-			chrome.storage.onChanged.addListener(function(changes, area_name) {
-				if (area_name !== 'sync' || !((api + '_user') in changes)) {
-					return;
-				}
-				user_id = changes[api + '_user'].newValue;
-				setup_client_caller();
+				chrome.storage.onChanged.addListener(function(changes, area_name) {
+					if (area_name !== 'sync' || !((api + '_user') in changes)) {
+						return;
+					}
+					callback((changes[api + '_user'] || {}).newValue);
+				});
 			});
+		})(function(user_id) {
+			if (api_config.client_on_auth && _.isEmpty(user_id)) {
+				setup_server_caller();
+				return;
+			}
+			var client = api_config.caller(_.extend({ device: device_id, user: user_id }, api_config));
+			_.extend(caller, _.pick(client, 'content', 'discussion', 'account', 'account_content'));
 		});
 	} else {
 		setup_server_caller();
