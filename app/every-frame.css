@@ -1,2 +1,4 @@
+@import "common/every-frame.css";
 @import "*/every-frame.css";
+@import "hovercardsshared/common/styles.css";
 @import "hovercardsshared/*/styles.css";
