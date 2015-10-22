@@ -16,7 +16,7 @@
     "postcss:watch": "watch 'npm run postcss' app",
     "postinstall": "if [ -d .git ]; then rm -rf .git/hooks && ln -s ../hooks .git/hooks; fi",
     "postuninstall": "if [ -d .git ]; then rm -rf .git/hooks; fi",
-    "process:other": "rsync -rm --exclude 'old/' --exclude='*.js' --exclude='*.css' --exclude='*.tpl' app/* dist",
+    "process:other": "rsync -rm --exclude 'old/' --exclude='*.js' --exclude='*.css' app/* dist",
     "process:other:watch": "watch 'npm run process:other' app",
     "uglifyjs": "mkdir -p dist && find dist -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
     "watchify": "mkdir -p dist && watchify $npm_package_config_browserify_input -t [ envify --NODE_ENV development ] $npm_package_config_browserify_output --full-paths -v -d",
