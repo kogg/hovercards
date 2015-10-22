@@ -13,9 +13,13 @@ _.extend(Ractive.partials, require('../../node_modules/hovercardsshared/*/conten
 var layouts = require('../../node_modules/hovercardsshared/*/layout.html', { mode: 'hash' });
 
 module.exports = function(obj, identity, expanded) {
-	var ractive = new Ractive({ template: layouts[_.result(identity, 'type') + '/layout'],
-	                            data:     _.defaults({ loaded: false, _: _ }, identity),
-	                            el:       obj });
+	var ractive = obj.data('ractive');
+	if (!ractive) {
+		ractive = new Ractive({ template: layouts[_.result(identity, 'type') + '/layout'],
+		                        data:     _.defaults({ loaded: false, _: _ }, identity),
+		                        el:       obj });
+		obj.data('ractive', ractive);
+	}
 
 	if (!obj.data('start_template_loading')) {
 		obj.data('start_template_loading', function() {
@@ -24,10 +28,12 @@ module.exports = function(obj, identity, expanded) {
 				if (err) {
 					return ractive.set({ loaded: true, err: err });
 				}
+				ractive.set('as', null);
 				ractive.set(_.defaults({ loaded: true }, data));
 				obj.data('start_template_loading', function() {
 					(obj.data('finish_template_loading') || _.noop)();
 				});
+				obj.data('start_template_loading')();
 			});
 		});
 	}
@@ -38,7 +44,11 @@ module.exports = function(obj, identity, expanded) {
 			var identity = _.pick(ractive.get(), 'api', 'type', 'id', 'as');
 			switch (identity.type) {
 				case 'content':
-					var discussion_apis = _.result(require('hovercardsshared/config').apis[identity.api], 'discussion_apis', []);
+					var discussion_apis = _.chain(require('hovercardsshared/config').apis[identity.api])
+					                       .result('discussion_apis', [])
+					                       .unshift(identity.api)
+					                       .uniq()
+					                       .value();
 					ractive.set('discussions', _.map(discussion_apis, function(api, i) {
 						service((api === identity.api) ? _.defaults({ type: 'discussion' }, identity) :
 						                                 { api: api, type: 'discussion', for: identity },

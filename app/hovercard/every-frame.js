@@ -100,8 +100,8 @@ function make_hovercard(obj, identity, e) {
 		.one(Click, function() {
 			obj.trigger(Cleanup, [true]);
 		});
-	feedback(hovercard, obj);
 
+	feedback(hovercard, obj);
 	template_loading(hovercard, identity);
 
 	var hovercard_container = $('<div></div>')

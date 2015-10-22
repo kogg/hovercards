@@ -48,8 +48,6 @@ $.lightbox = function(identity, hovercard) {
 	} else {
 		lightbox = $('<div></div>').addClass(_.prefix('box'));
 
-		template_loading(lightbox, identity, true);
-
 		lightbox_container = $('<div></div>')
 			.addClass(_.prefix('container'))
 			.css('height', '0')
@@ -59,6 +57,9 @@ $.lightbox = function(identity, hovercard) {
 			.append(lightbox)
 			.appendTo('html');
 	}
+
+	template_loading(lightbox, identity, true);
+
 	setTimeout(function() {
 		lightbox_container
 			.addClass(_.prefix('container--lightbox'))
