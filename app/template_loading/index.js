@@ -62,7 +62,7 @@ module.exports = function(obj, identity, expanded) {
 					}));
 					break;
 				case 'account':
-					ractive.set('content.loaded', false);
+					ractive.set('content', { loaded: false });
 					service(_.defaults({ type: 'account_content' }, identity), function(err, data) {
 						if (err) {
 							return ractive.set('content', { loaded: true, err: err });
