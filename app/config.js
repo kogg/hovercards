@@ -1,7 +1,7 @@
 var _ = require('underscore');
 
 var config = {
-	endpoint: 'http://localhost:5000/v2',
+	endpoint: process.env.NODE_ENV === 'production' ? 'http://hover.cards/v2' : 'http://localhost:5000/v2',
 	analytics_id: 'UA-64246820-3',
 	apis: {
 		/*
