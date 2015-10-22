@@ -51,7 +51,7 @@
 	}
 	100% {
 		opacity: 1;
-		transform:translate3d(0,0px,0);
+		transform:translate3d(0,0,0);
 	}
 }
 .test {
@@ -62,7 +62,7 @@
 	transition:all .5s ease-in-out !important;
 }
 .lightbox .test {
-	max-width: auto !important;
+	max-width: inherit !important;
 	max-width: 650px !important;
 }
 .growpls {
