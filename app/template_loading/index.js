@@ -26,10 +26,9 @@ module.exports = function(obj, identity, expanded) {
 			obj.data('start_template_loading', _.noop);
 			service(identity, function(err, data) {
 				if (err) {
-					return ractive.set({ loaded: true, err: err });
+					return ractive.reset({ loaded: true, _: _, err: err });
 				}
-				ractive.set('as', null);
-				ractive.set(_.defaults({ loaded: true }, data));
+				ractive.reset(_.defaults({ loaded: true, _: _ }, data));
 				obj.data('start_template_loading', function() {
 					(obj.data('finish_template_loading') || _.noop)();
 				});
@@ -49,7 +48,9 @@ module.exports = function(obj, identity, expanded) {
 					                       .unshift(identity.api)
 					                       .uniq()
 					                       .value();
-					ractive.set('discussions', _.map(discussion_apis, _.constant({ loaded: false })));
+					ractive.set('discussions', _.map(discussion_apis, function(api) {
+						return { loaded: false, api: api };
+					}));
 					_.each(discussion_apis, function(api, i) {
 						service((api === identity.api) ? _.defaults({ type: 'discussion' }, identity) :
 						                                 { api: api, type: 'discussion', for: identity },
