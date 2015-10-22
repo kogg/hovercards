@@ -17,7 +17,7 @@ module.exports = {
 		}
 	},
 	'postcss-map-url': function(path) {
-		return 'chrome-extension://__MSG_@@extension_id__/' + path;
+		return (path.indexOf('data:') !== -1) ? path : 'chrome-extension://__MSG_@@extension_id__/' + path;
 	},
 	'postcss-url': {
 		url: 'copy'
