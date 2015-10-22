@@ -70,7 +70,7 @@
 	border-radius: 50% !important;
 	text-align: center !important;
 	background: white !important;
-	background-image: url('chrome-extension://__MSG_@@extension_id__/images/closebutton.png') !important;
+	background-image: url('../images/closebutton.png') !important;
 	background-size: 50% !important;
 	opacity: .5 !important;
 	background-repeat: no-repeat !important;
