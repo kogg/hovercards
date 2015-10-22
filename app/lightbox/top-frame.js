@@ -48,8 +48,6 @@ $.lightbox = function(identity, hovercard) {
 	} else {
 		lightbox = $('<div></div>').addClass(_.prefix('box'));
 
-		template_loading(lightbox, identity);
-
 		lightbox_container = $('<div></div>')
 			.addClass(_.prefix('container'))
 			.css('height', '0')
@@ -59,6 +57,9 @@ $.lightbox = function(identity, hovercard) {
 			.append(lightbox)
 			.appendTo('html');
 	}
+
+	template_loading(lightbox, identity, true);
+
 	setTimeout(function() {
 		lightbox_container
 			.addClass(_.prefix('container--lightbox'))
@@ -105,11 +106,13 @@ $.lightbox = function(identity, hovercard) {
 		$(document).off('keydown', keydown);
 		$(window).off('scroll', lightbox_leave);
 		lightbox_container.off('click', lightbox_leave);
+		lightbox_backdrop.off('click', lightbox_leave);
 	}
 	lightbox.on('click', stop_propagation);
 	$(document).on('keydown', keydown);
 	$(window).one('scroll', lightbox_leave);
 	lightbox_container.one('click', lightbox_leave);
+	lightbox_backdrop.one('click', lightbox_leave);
 };
 
 window.addEventListener('message', function(event) {
