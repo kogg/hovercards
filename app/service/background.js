@@ -156,11 +156,11 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 							setTimeout(function() {
 								delete promises[key];
 							}, api_config['cache_' + name] || api_config.cache_default || 5 * 60 * 1000);
-							return result;
+							return Promise.resolve(result);
 						})
 						.catch(function(err) {
 							delete promises[key];
-							return err;
+							return Promise.reject(err);
 						});
 
 					promises[key]
