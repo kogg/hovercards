@@ -5,9 +5,14 @@ var config    = require('../config');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-var device_id;
+chrome.storage.local.get('device_id', function(obj) {
+	if (!_.isEmpty((obj || {}).device_id)) {
+		return;
+	}
+	chrome.storage.local.set({ device_id: _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('') });
+});
 
-function initialize_caller(api_config, api) {
+var api_callers = _.mapObject(config.apis, function(api_config, api) {
 	var caller = {};
 
 	function setup_server_caller() {
@@ -38,15 +43,28 @@ function initialize_caller(api_config, api) {
 			var promises = {};
 
 			return function(identity, callback) {
-				(function(callback) {
-					if (!api_config.can_auth) {
-						return callback();
-					}
-					chrome.storage.sync.get(api + '_user', function(obj) {
-						callback((obj || {})[api + '_user']);
-					});
-				})(function(user_id) {
-					var key = JSON.stringify(_.omit(identity, 'api', 'type'));
+				Promise.all([
+					new Promise(function(resolve) {
+						chrome.storage.local.get('device_id', function(obj) {
+							resolve((obj || {}).device_id);
+						});
+					}),
+					new Promise(function(resolve) {
+						if (!api_config.can_auth) {
+							return resolve();
+						}
+						chrome.storage.sync.get(api + '_user', function(obj) {
+							resolve((obj || {})[api + '_user']);
+						});
+					})
+				]).then(function(values) {
+					var device_id = values[0];
+					var user_id   = values[1];
+
+					var key = JSON.stringify(_.chain(identity)
+					                          .omit('api', 'type')
+					                          .extend({ device_id: device_id, user: user_id })
+					                          .value());
 
 					var map_header = promises[key] ? _.constant(0) : Number;
 
@@ -89,21 +107,24 @@ function initialize_caller(api_config, api) {
 	}
 
 	if (api_config.caller) {
-		(function(callback) {
-			if (!api_config.can_auth) {
-				return callback();
-			}
-			chrome.storage.sync.get(api + '_user', function(obj) {
-				callback((obj || {})[api + '_user']);
-
-				chrome.storage.onChanged.addListener(function(changes, area_name) {
-					if (area_name !== 'sync' || !((api + '_user') in changes)) {
-						return;
-					}
-					callback((changes[api + '_user'] || {}).newValue);
+		Promise.all([
+			new Promise(function(resolve) {
+				chrome.storage.local.get('device_id', function(obj) {
+					resolve((obj || {}).device_id);
 				});
-			});
-		})(function(user_id) {
+			}),
+			new Promise(function(resolve) {
+				if (!api_config.can_auth) {
+					return resolve();
+				}
+				chrome.storage.sync.get(api + '_user', function(obj) {
+					resolve((obj || {})[api + '_user']);
+				});
+			})
+		]).then(function(values) {
+			var device_id = values[0];
+			var user_id   = values[1];
+
 			if (api_config.client_on_auth && _.isEmpty(user_id)) {
 				setup_server_caller();
 				return;
@@ -143,7 +164,6 @@ function initialize_caller(api_config, api) {
 						.catch(function(err) {
 							callback(err);
 						});
-
 				};
 			}));
 		});
@@ -152,45 +172,33 @@ function initialize_caller(api_config, api) {
 	}
 
 	return caller;
-}
+});
 
-chrome.storage.local.get('device_id', function(obj) {
-	obj = obj || {};
-	if (_.isEmpty(obj.device_id)) {
-		device_id = _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('');
-		chrome.storage.local.set({ device_id: device_id });
+chrome.runtime.onMessage.addListener(function(message, sender, callback) {
+	if (_.result(message, 'type') !== 'service') {
+		return;
+	}
+	var service_start = Date.now();
+	var identity = message.identity;
+	var api      = _.result(identity, 'api');
+	var type     = _.result(identity, 'type');
+	callback = _.wrap(callback, function(callback, err, response, usage) {
+		var label = _.compact([api, type]).join(' ');
+		_.each(usage, function(val, key) {
+			console.log(key, val);
+		});
+		if (err) {
+			err.message = _.compact(['Service', !_.isEmpty(label) && label, err.status, err.message]).join(' - ');
+			analytics('send', 'exception', { exDescription: err.message, exFatal: false });
+		}
+		analytics('send', 'timing', 'service', 'loading', Date.now() - service_start, label);
+		callback([err, response]);
+	});
+	if (api_callers[api]) {
+		api_callers[api][type](identity, callback);
 	} else {
-		device_id = obj.device_id;
+		callback({ message: 'Do not recognize api ' + api, status: 404 });
 	}
 
-	var api_callers = _.mapObject(config.apis, initialize_caller);
-
-	chrome.runtime.onMessage.addListener(function(message, sender, callback) {
-		if (_.result(message, 'type') !== 'service') {
-			return;
-		}
-		var service_start = Date.now();
-		var identity = message.identity;
-		var api      = _.result(identity, 'api');
-		var type     = _.result(identity, 'type');
-		callback = _.wrap(callback, function(callback, err, response, usage) {
-			var label = _.compact([api, type]).join(' ');
-			_.each(usage, function(val, key) {
-				console.log(key, val);
-			});
-			if (err) {
-				err.message = _.compact(['Service', !_.isEmpty(label) && label, err.status, err.message]).join(' - ');
-				analytics('send', 'exception', { exDescription: err.message, exFatal: false });
-			}
-			analytics('send', 'timing', 'service', 'loading', Date.now() - service_start, label);
-			callback([err, response]);
-		});
-		if (api_callers[api]) {
-			api_callers[api][type](identity, callback);
-		} else {
-			callback({ message: 'Do not recognize api ' + api, status: 404 });
-		}
-
-		return true;
-	});
+	return true;
 });
