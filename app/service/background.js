@@ -188,7 +188,7 @@ chrome.storage.local.get('device_id', function(obj) {
 		if (api_callers[api]) {
 			api_callers[api][type](identity, callback);
 		} else {
-			callback({ message: 'Do not recognize api \'' + api + '\'', status: 501 });
+			callback({ message: 'Do not recognize api ' + api, status: 404 });
 		}
 
 		return true;
