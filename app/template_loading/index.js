@@ -6,7 +6,8 @@ require('../common/mixins');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 
-_.extend(Ractive.partials, require('../../node_modules/hovercardsshared/*/@(content|discussion|account|account_content).html', { mode: 'hash' }));
+_.extend(Ractive.partials, require('../../node_modules/hovercardsshared/!(common)/@(content|discussion|account|account_content).html', { mode: 'hash' }),
+                           require('../../node_modules/hovercardsshared/common/*.html', { mode: 'hash' }));
 
 var layouts = {
 	content: require('hovercardsshared/content/layout.html'),
