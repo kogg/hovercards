@@ -35,7 +35,7 @@ function initialize_caller(api_config, api) {
 					break;
 			}
 
-			var cache = {};
+			var promises = {};
 
 			caller[type] = function(identity, callback) {
 				(function(callback) {
@@ -48,23 +48,23 @@ function initialize_caller(api_config, api) {
 				})(function(user_id) {
 					var key = JSON.stringify(_.omit(identity, 'api', 'type'));
 
-					var map_header = cache[key] ? _.constant(0) : Number;
+					var map_header = promises[key] ? _.constant(0) : Number;
 
-					cache[key] = cache[key] || $.ajax({ url:      url(identity),
-					                                    data:     _.omit(identity, 'api', 'type', 'id'),
-					                                    dataType: 'json',
-					                                    jsonp:    false,
-					                                    headers:  { device_id: device_id, user: user_id } })
+					promises[key] = promises[key] || $.ajax({ url:      url(identity),
+					                                          data:     _.omit(identity, 'api', 'type', 'id'),
+					                                          dataType: 'json',
+					                                          jsonp:    false,
+					                                          headers:  { device_id: device_id, user: user_id } })
 						.done(function() {
 							setTimeout(function() {
-								delete cache[key];
+								delete promises[key];
 							}, api_config['route_cache_' + type] || api_config.route_cache_default || 5 * 60 * 1000);
 						})
 						.fail(function() {
-							delete cache[key];
+							delete promises[key];
 						});
 
-					cache[key]
+					promises[key]
 						.done(function(data, textStatus, jqXHR) {
 							callback(null, data, _.chain(jqXHR.getAllResponseHeaders().trim().split('\n'))
 							                      .invoke('split', /:\s*/, 2)
