@@ -11,7 +11,7 @@ function initialize_caller(api_config, api) {
 	var caller = {};
 
 	function setup_server_caller() {
-		_.each(['content', 'discussion', 'account', 'account_content'], function(type) {
+		_.extend(caller, _.mapObject({ content: null, discussion: null, account: null, account_content: null }, function(a, type) {
 			var url;
 			switch (type) {
 				case 'content':
@@ -37,7 +37,7 @@ function initialize_caller(api_config, api) {
 
 			var promises = {};
 
-			caller[type] = function(identity, callback) {
+			return function(identity, callback) {
 				(function(callback) {
 					if (!api_config.can_auth) {
 						return callback();
@@ -85,7 +85,7 @@ function initialize_caller(api_config, api) {
 						});
 				});
 			};
-		});
+		}));
 	}
 
 	if (api_config.caller) {
@@ -110,6 +110,42 @@ function initialize_caller(api_config, api) {
 			}
 			var client = api_config.caller(_.extend({ device: device_id, user: user_id }, api_config));
 			_.extend(caller, _.pick(client, 'content', 'discussion', 'account', 'account_content'));
+			_.extend(caller.model, _.mapObject(caller.model, function(func, name) {
+				var promises = {};
+
+				return function(args, args_not_cached, usage, callback) {
+					var key = JSON.stringify(args);
+
+					promises[key] = promises[key] || new Promise(function(resolve, reject) {
+						func(args, args_not_cached, usage, function(err, result) {
+							if (!err) {
+								resolve(result);
+							} else {
+								reject(err);
+							}
+						});
+					})
+						.then(function(result) {
+							setTimeout(function() {
+								delete promises[key];
+							}, api_config['cache_' + name] || api_config.cache_default || 5 * 60 * 1000);
+							return result;
+						})
+						.catch(function(err) {
+							delete promises[key];
+							return err;
+						});
+
+					promises[key]
+						.then(function(result) {
+							callback(null, result);
+						})
+						.catch(function(err) {
+							callback(err);
+						});
+
+				};
+			}));
 		});
 	} else {
 		setup_server_caller();
