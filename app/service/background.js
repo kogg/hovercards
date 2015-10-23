@@ -1,6 +1,7 @@
 var $         = require('jquery');
 var _         = require('underscore');
 var analytics = require('../analytics/background');
+var async     = require('async');
 var config    = require('../config');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -43,28 +44,22 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 			var promises = {};
 
 			return function(identity, callback) {
-				Promise.all([
-					new Promise(function(resolve) {
+				async.parallel({
+					device_id: function(callback) {
 						chrome.storage.local.get('device_id', function(obj) {
-							resolve((obj || {}).device_id);
+							callback(null, (obj || {}).device_id);
 						});
-					}),
-					new Promise(function(resolve) {
+					},
+					user_id: function(callback) {
 						if (!api_config.can_auth) {
-							return resolve();
+							return callback();
 						}
 						chrome.storage.sync.get(api + '_user', function(obj) {
-							resolve((obj || {})[api + '_user']);
+							callback(null, (obj || {})[api + '_user']);
 						});
-					})
-				]).then(function(values) {
-					var device_id = values[0];
-					var user_id   = values[1];
-
-					var key = JSON.stringify(_.chain(identity)
-					                          .omit('api', 'type')
-					                          .extend({ device_id: device_id, user: user_id })
-					                          .value());
+					}
+				}, function(err, results) {
+					var key = JSON.stringify(_.chain(identity).omit('api', 'type').extend(results).value());
 
 					var map_header = promises[key] ? _.constant(0) : Number;
 
@@ -72,7 +67,7 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 					                                          data:     _.omit(identity, 'api', 'type', 'id'),
 					                                          dataType: 'json',
 					                                          jsonp:    false,
-					                                          headers:  { device_id: device_id, user: user_id } })
+					                                          headers:  results })
 						.done(function() {
 							setTimeout(function() {
 								delete promises[key];
@@ -107,29 +102,26 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 	}
 
 	if (api_config.caller) {
-		Promise.all([
-			new Promise(function(resolve) {
+		async.parallel({
+			device_id: function(callback) {
 				chrome.storage.local.get('device_id', function(obj) {
-					resolve((obj || {}).device_id);
+					callback(null, (obj || {}).device_id);
 				});
-			}),
-			new Promise(function(resolve) {
+			},
+			user_id: function(callback) {
 				if (!api_config.can_auth) {
-					return resolve();
+					return callback();
 				}
 				chrome.storage.sync.get(api + '_user', function(obj) {
-					resolve((obj || {})[api + '_user']);
+					callback(null, (obj || {})[api + '_user']);
 				});
-			})
-		]).then(function(values) {
-			var device_id = values[0];
-			var user_id   = values[1];
-
-			if (api_config.client_on_auth && _.isEmpty(user_id)) {
+			}
+		}, function(err, results) {
+			if (api_config.client_on_auth && _.isEmpty(results.user_id)) {
 				setup_server_caller();
 				return;
 			}
-			var client = api_config.caller(_.extend({ device: device_id, user: user_id }, api_config));
+			var client = api_config.caller(_.extend(results, api_config));
 			_.extend(caller, _.pick(client, 'content', 'discussion', 'account', 'account_content'));
 			_.extend(caller.model, _.mapObject(caller.model, function(func, name) {
 				var promises = {};

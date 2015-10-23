@@ -41,6 +41,7 @@
     ]
   },
   "dependencies": {
+    "async": "^1.4.2",
     "hovercardsshared": "cameronrohani/hovercardsshared#v1.1.0",
     "jquery": "^2.1.4",
     "ractive": "^0.7.3",
