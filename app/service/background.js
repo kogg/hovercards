@@ -12,7 +12,7 @@ chrome.storage.local.get('device_id', function(obj) {
 	chrome.storage.local.set({ device_id: _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('') });
 });
 
-var api_callers = _.mapObject(config.apis, function initialize_caller(api_config, api) {
+var api_callers = _.mapObject(config.apis, function(api_config, api) {
 	var caller = {};
 
 	function setup_server_caller() {
