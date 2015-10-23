@@ -34,6 +34,9 @@ function initialize_caller(api_config, api) {
 					};
 					break;
 			}
+
+			var cache = {};
+
 			caller[type] = function(identity, callback) {
 				(function(callback) {
 					if (!api_config.can_auth) {
@@ -43,17 +46,31 @@ function initialize_caller(api_config, api) {
 						callback((obj || {})[api + '_user']);
 					});
 				})(function(user_id) {
-					$.ajax({ url:      url(identity),
-					         data:     _.omit(identity, 'api', 'type', 'id'),
-					         dataType: 'json',
-					         jsonp:    false,
-					         headers:  { device_id: device_id, user: user_id } })
+					var key = JSON.stringify(_.omit(identity, 'api', 'type'));
+
+					var map_header = cache[key] ? _.constant(0) : Number;
+
+					cache[key] = cache[key] || $.ajax({ url:      url(identity),
+					                                    data:     _.omit(identity, 'api', 'type', 'id'),
+					                                    dataType: 'json',
+					                                    jsonp:    false,
+					                                    headers:  { device_id: device_id, user: user_id } })
+						.done(function() {
+							setTimeout(function() {
+								delete cache[key];
+							}, api_config['route_cache_' + type] || api_config.route_cache_default || 5 * 60 * 1000);
+						})
+						.fail(function() {
+							delete cache[key];
+						});
+
+					cache[key]
 						.done(function(data, textStatus, jqXHR) {
 							callback(null, data, _.chain(jqXHR.getAllResponseHeaders().trim().split('\n'))
 							                      .invoke('split', /:\s*/, 2)
 							                      .filter(function(pair) { return pair[0] !== (pair[0] = pair[0].replace(/^usage-/, '')); })
 							                      .object()
-							                      .mapObject(Number)
+							                      .mapObject(map_header)
 							                      .value());
 						})
 						.fail(function(jqXHR) {
@@ -63,7 +80,7 @@ function initialize_caller(api_config, api) {
 							          .invoke('split', /:\s*/, 2)
 							          .filter(function(pair) { return pair[0] !== (pair[0] = pair[0].replace(/^usage-/, '')); })
 							          .object()
-							          .mapObject(Number)
+							          .mapObject(map_header)
 							          .value());
 						});
 				});
