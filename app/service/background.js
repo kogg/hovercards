@@ -123,7 +123,7 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 			}
 			var client = api_config.caller(_.extend(results, api_config));
 			_.extend(caller, _.pick(client, 'content', 'discussion', 'account', 'account_content'));
-			_.extend(caller.model, _.mapObject(caller.model, function(func, name) {
+			_.extend(client.model, _.mapObject(client.model, function(func, name) {
 				var promises = {};
 
 				return function(args, args_not_cached, usage, callback) {
