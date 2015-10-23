@@ -11,7 +11,7 @@ function initialize_caller(api_config, api) {
 	var caller = {};
 
 	function setup_server_caller() {
-		_.each(['content', 'discussion', 'account', 'account_content'], function(type) {
+		_.extend(caller, _.mapObject({ content: null, discussion: null, account: null, account_content: null }, function(a, type) {
 			var url;
 			switch (type) {
 				case 'content':
@@ -34,7 +34,10 @@ function initialize_caller(api_config, api) {
 					};
 					break;
 			}
-			caller[type] = function(identity, callback) {
+
+			var promises = {};
+
+			return function(identity, callback) {
 				(function(callback) {
 					if (!api_config.can_auth) {
 						return callback();
@@ -43,32 +46,46 @@ function initialize_caller(api_config, api) {
 						callback((obj || {})[api + '_user']);
 					});
 				})(function(user_id) {
-					$.ajax({ url:      url(identity),
-					         data:     _.omit(identity, 'api', 'type', 'id'),
-					         dataType: 'json',
-					         jsonp:    false,
-					         headers:  { device_id: device_id, user: user_id } })
+					var key = JSON.stringify(_.omit(identity, 'api', 'type'));
+
+					var map_header = promises[key] ? _.constant(0) : Number;
+
+					promises[key] = promises[key] || $.ajax({ url:      url(identity),
+					                                          data:     _.omit(identity, 'api', 'type', 'id'),
+					                                          dataType: 'json',
+					                                          jsonp:    false,
+					                                          headers:  { device_id: device_id, user: user_id } })
+						.done(function() {
+							setTimeout(function() {
+								delete promises[key];
+							}, api_config['route_cache_' + type] || api_config.route_cache_default || 5 * 60 * 1000);
+						})
+						.fail(function() {
+							delete promises[key];
+						});
+
+					promises[key]
 						.done(function(data, textStatus, jqXHR) {
 							callback(null, data, _.chain(jqXHR.getAllResponseHeaders().trim().split('\n'))
 							                      .invoke('split', /:\s*/, 2)
 							                      .filter(function(pair) { return pair[0] !== (pair[0] = pair[0].replace(/^usage-/, '')); })
 							                      .object()
-							                      .mapObject(Number)
+							                      .mapObject(map_header)
 							                      .value());
 						})
 						.fail(function(jqXHR) {
-							callback(_.defaults(jqXHR.responseJSON, { message: jqXHR.statusText, status: jqXHR.status || 500 }),
+							callback(_.extend({ message: jqXHR.statusText, status: jqXHR.status || 500 }, jqXHR.responseJSON),
 							         null,
 							         _.chain(jqXHR.getAllResponseHeaders().trim().split('\n'))
 							          .invoke('split', /:\s*/, 2)
 							          .filter(function(pair) { return pair[0] !== (pair[0] = pair[0].replace(/^usage-/, '')); })
 							          .object()
-							          .mapObject(Number)
+							          .mapObject(map_header)
 							          .value());
 						});
 				});
 			};
-		});
+		}));
 	}
 
 	if (api_config.caller) {
@@ -93,6 +110,42 @@ function initialize_caller(api_config, api) {
 			}
 			var client = api_config.caller(_.extend({ device: device_id, user: user_id }, api_config));
 			_.extend(caller, _.pick(client, 'content', 'discussion', 'account', 'account_content'));
+			_.extend(caller.model, _.mapObject(caller.model, function(func, name) {
+				var promises = {};
+
+				return function(args, args_not_cached, usage, callback) {
+					var key = JSON.stringify(args);
+
+					promises[key] = promises[key] || new Promise(function(resolve, reject) {
+						func(args, args_not_cached, usage, function(err, result) {
+							if (!err) {
+								resolve(result);
+							} else {
+								reject(err);
+							}
+						});
+					})
+						.then(function(result) {
+							setTimeout(function() {
+								delete promises[key];
+							}, api_config['cache_' + name] || api_config.cache_default || 5 * 60 * 1000);
+							return result;
+						})
+						.catch(function(err) {
+							delete promises[key];
+							return err;
+						});
+
+					promises[key]
+						.then(function(result) {
+							callback(null, result);
+						})
+						.catch(function(err) {
+							callback(err);
+						});
+
+				};
+			}));
 		});
 	} else {
 		setup_server_caller();
@@ -110,10 +163,7 @@ chrome.storage.local.get('device_id', function(obj) {
 		device_id = obj.device_id;
 	}
 
-	var api_callers = _.chain(config.apis)
-	                   .mapObject(_.clone)
-	                   .mapObject(initialize_caller)
-	                   .value();
+	var api_callers = _.mapObject(config.apis, initialize_caller);
 
 	chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 		if (_.result(message, 'type') !== 'service') {
