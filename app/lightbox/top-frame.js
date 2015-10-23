@@ -57,6 +57,7 @@ $.lightbox = function(identity, hovercard) {
 			.append(lightbox)
 			.appendTo('html');
 	}
+	$('body,html').addClass(_.prefix('prevent-scroll'));
 
 	template_loading(lightbox, identity, true);
 
@@ -101,16 +102,15 @@ $.lightbox = function(identity, hovercard) {
 		lightbox_backdrop.toggleAnimationClass('lightbox-backdrop--leave', function() {
 			lightbox_backdrop.remove();
 		});
+		$('body,html').removeClass(_.prefix('prevent-scroll'));
 
 		lightbox.off('click', stop_propagation);
 		$(document).off('keydown', keydown);
-		$(window).off('scroll', lightbox_leave);
 		lightbox_container.off('click', lightbox_leave);
 		lightbox_backdrop.off('click', lightbox_leave);
 	}
 	lightbox.on('click', stop_propagation);
 	$(document).on('keydown', keydown);
-	$(window).one('scroll', lightbox_leave);
 	lightbox_container.one('click', lightbox_leave);
 	lightbox_backdrop.one('click', lightbox_leave);
 };

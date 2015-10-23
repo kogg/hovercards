@@ -24,6 +24,9 @@
 .lightbox-backdrop--leave {
 	animation: lightbox-backdrop--leave-animation .1s ease-in-out 1 !important;
 }
+.prevent-scroll {
+	overflow: hidden !important;
+}
 
 @keyframes lightbox--leave-animation {
 	from { opacity: 1; }
