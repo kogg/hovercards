@@ -74,7 +74,7 @@ function initialize_caller(api_config, api) {
 							                      .value());
 						})
 						.fail(function(jqXHR) {
-							callback(_.defaults(jqXHR.responseJSON, { message: jqXHR.statusText, status: jqXHR.status || 500 }),
+							callback(_.extend({ message: jqXHR.statusText, status: jqXHR.status || 500 }, jqXHR.responseJSON),
 							         null,
 							         _.chain(jqXHR.getAllResponseHeaders().trim().split('\n'))
 							          .invoke('split', /:\s*/, 2)
@@ -127,10 +127,7 @@ chrome.storage.local.get('device_id', function(obj) {
 		device_id = obj.device_id;
 	}
 
-	var api_callers = _.chain(config.apis)
-	                   .mapObject(_.clone)
-	                   .mapObject(initialize_caller)
-	                   .value();
+	var api_callers = _.mapObject(config.apis, initialize_caller);
 
 	chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 		if (_.result(message, 'type') !== 'service') {
