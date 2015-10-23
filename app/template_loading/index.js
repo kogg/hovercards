@@ -1,5 +1,6 @@
 var _       = require('underscore');
 var Ractive = require('ractive');
+var config  = require('../config');
 var service = require('../service');
 require('../common/mixins');
 
@@ -43,11 +44,7 @@ module.exports = function(obj, identity, expanded) {
 			var identity = _.pick(ractive.get(), 'api', 'type', 'id', 'as');
 			switch (identity.type) {
 				case 'content':
-					var discussion_apis = _.chain(require('hovercardsshared/config').apis[identity.api])
-					                       .result('discussion_apis', [])
-					                       .unshift(identity.api)
-					                       .uniq()
-					                       .value();
+					var discussion_apis = _.result(config.apis[identity.api], 'discussion_apis', []);
 					ractive.set('discussions', _.map(discussion_apis, function(api) {
 						return { api: api };
 					}));
