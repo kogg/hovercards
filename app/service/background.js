@@ -13,6 +13,20 @@ chrome.storage.local.get('device_id', function(obj) {
 	chrome.storage.local.set({ device_id: _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('') });
 });
 
+_.each({
+	// TODO Do this without moving it into config.js
+	/*
+	instagram:  require('hovercardsshared/instagram'),
+	reddit:     require('hovercardsshared/reddit'),
+	soundcloud: require('hovercardsshared/soundcloud')
+	*/
+}, function(caller, api) {
+	if (!config.apis[api]) {
+		return;
+	}
+	config.apis[api].caller = caller;
+});
+
 var api_callers = _.mapObject(config.apis, function(api_config, api) {
 	var caller = {};
 
