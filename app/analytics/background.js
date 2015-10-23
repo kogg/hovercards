@@ -37,9 +37,9 @@ switch (process.env.NODE_ENV) {
 	case 'production':
 		(function(callback) {
 			chrome.storage.sync.get('user_id', function(obj) {
-				if (chrome.runtime.lastError || !obj || !obj.user_id) {
+				if (chrome.runtime.lastError || _.isEmpty(obj.user_id)) {
 					return chrome.storage.local.get('user_id', function(obj) {
-						var user_id = (!chrome.runtime.lastError && obj && obj.user_id) || _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('');
+						var user_id = (!chrome.runtime.lastError && !_.isEmpty(obj.user_id)) || _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('');
 						chrome.storage.sync.set({ user_id: user_id });
 						callback(user_id);
 					});
