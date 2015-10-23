@@ -16,7 +16,7 @@
     "watchify": "mkdir -p dist && watchify $npm_package_config_browserify_input -t [ envify --NODE_ENV development ] $npm_package_config_browserify_output --full-paths -v -d",
     "discify": "browserify $npm_package_config_browserify_input --full-paths | uglifyjs -c drop_console,warnings=false | discify -O",
     "test": "npm run csslint && npm run jshint",
-    "csslint": "csslint --format=compact --quiet --exclude-list=app/old app/**/*.css",
+    "csslint": "csslint --format=compact --quiet --exclude-list=app/old app/*.css app/**/styles.css",
     "jshint": "jshint --reporter=node_modules/jshint-stylish app/*.js app/**/*.js",
     "clean": "rm -rf dist/* *.pem *.nex",
     "postinstall": "if [ -d .git ]; then rm -rf .git/hooks && ln -s ../hooks .git/hooks; fi",
