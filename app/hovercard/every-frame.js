@@ -1,9 +1,8 @@
 var $                = require('jquery');
 var _                = require('underscore');
 var analytics        = require('../analytics');
-var network_urls     = require('hovercardsshared/network-urls');
 var template_loading = require('../template_loading');
-
+var urls             = require('hovercardsshared/urls');
 require('../common/mixins');
 
 var HOVERABLE_THINGS = [
@@ -83,11 +82,8 @@ function massage_url(url) {
 }
 
 function make_hovercard(obj, identity, e) {
-	if (typeof identity === 'string') {
-		identity = network_urls.identify(identity);
-	}
-	if (!identity) {
-		return $();
+	if (!_.isObject(identity)) {
+		return;
 	}
 	var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
 	analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
@@ -157,7 +153,7 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 		var identity;
 		if (obj.is(current_obj) || obj.has(current_obj).length ||
 		    !(url = massage_url(hoverable.get_url(obj))) ||
-		    !(identity = network_urls.identify(url)) ||
+		    !(identity = urls.parse(url)) ||
 		    !accept_identity(identity, obj)) {
 			return;
 		}

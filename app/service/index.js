@@ -1,11 +1,7 @@
-var _            = require('underscore');
-var network_urls = require('hovercardsshared/network-urls');
+var _ = require('underscore');
 
 module.exports = function(identity, callback) {
-	if (typeof identity === 'string') {
-		identity = network_urls.identify(identity);
-	}
-	if (!identity) {
+	if (!_.isObject(identity)) {
 		return callback({ message: 'Missing \'identity\'', status: 400 });
 	}
 	chrome.runtime.sendMessage({ type: 'service', identity: identity }, function(combined_response) {

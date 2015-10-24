@@ -1,7 +1,6 @@
 var $                = require('jquery');
 var _                = require('underscore');
 var analytics        = require('../analytics');
-var network_urls     = require('hovercardsshared/network-urls');
 var template_loading = require('../template_loading');
 require('../common/mixins');
 require('./both');
@@ -23,10 +22,7 @@ $.fn.extend({
 });
 
 $.lightbox = function(identity, hovercard) {
-	if (typeof identity === 'string') {
-		identity = network_urls.identify(identity);
-	}
-	if (!identity) {
+	if (!_.isObject(identity)) {
 		return;
 	}
 	var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
