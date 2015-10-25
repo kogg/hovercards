@@ -6,8 +6,11 @@ require('../common/mixins');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 
-_.extend(Ractive.partials, require('../../node_modules/hovercardsshared/!(common)/@(content|discussion|account|account_content).html', { mode: 'hash' }),
-                           require('../../node_modules/hovercardsshared/common/*.html', { mode: 'hash' }));
+var HoverCardRactive = Ractive.extend({
+	data:     { _: _ },
+	partials: _.extend({}, require('../../node_modules/hovercardsshared/!(common)/@(content|discussion|account|account_content).html', { mode: 'hash' }),
+	                       require('../../node_modules/hovercardsshared/common/*.html', { mode: 'hash' }))
+});
 
 var layouts = {
 	content: require('hovercardsshared/content/layout.html'),
@@ -17,9 +20,9 @@ var layouts = {
 module.exports = function(obj, identity, expanded) {
 	var ractive = obj.data('ractive');
 	if (!ractive) {
-		ractive = new Ractive({ template: layouts[_.result(identity, 'type')],
-		                        data:     _.defaults({ _: _ }, identity),
-		                        el:       obj });
+		ractive = new HoverCardRactive({ template: layouts[_.result(identity, 'type')],
+		                                 data:     identity,
+		                                 el:       obj });
 		obj.data('ractive', ractive);
 	}
 
@@ -28,9 +31,9 @@ module.exports = function(obj, identity, expanded) {
 			obj.data('start_template_loading', _.noop);
 			service(identity, function(err, data) {
 				if (err) {
-					return ractive.reset({ loaded: true, _: _, err: err });
+					return ractive.reset({ loaded: true });
 				}
-				ractive.reset(_.defaults({ loaded: true, _: _ }, data));
+				ractive.reset(_.defaults({ loaded: true }, data));
 				obj.data('start_template_loading', function() {
 					(obj.data('finish_template_loading') || _.noop)();
 				});
