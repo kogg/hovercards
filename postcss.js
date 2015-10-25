@@ -1,3 +1,5 @@
+var source_index = {};
+
 module.exports = {
 	use: [
 		'postcss-import',
@@ -12,8 +14,12 @@ module.exports = {
 	'postcss-import': {
 		glob: true,
 		onImport: function(sources) {
-			console.log('postcss', sources);
-			global.watchCSS(sources);
+			source_index[this.from || sources[0]] = sources;
+			var files = Object.keys(source_index).reduce(function(memo, from) {
+				return memo.concat(source_index[from]);
+			}, []);
+			console.log('postcss', files);
+			global.watchCSS(files);
 		}
 	},
 	'postcss-map-url': function(path) {
