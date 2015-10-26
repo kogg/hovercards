@@ -74,6 +74,11 @@ module.exports = function(obj, identity, expanded) {
 				break;
 			case 'account':
 				obj.data('template-promise').then(function(data) {
+					if (ractive.get('content.loaded')) {
+						// Instagram is special in that the account will have the content
+						// loaded with it, since we're showing them in the hovercards
+						return;
+					}
 					ractive.set('content', { loaded: false });
 					var identity = _.pick(data, 'api', 'type', 'id', 'as');
 					return new Promise(function(resolve, reject) {
