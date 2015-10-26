@@ -7,17 +7,22 @@ require('../common/mixins');
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 
 var HoverCardRactive = Ractive.extend({
-	data:       { _: _ },
-	partials:   require('../../node_modules/hovercardsshared/*/@(content|discussion|account|account_content|layout).html', { mode: 'hash' }),
-	components: _.mapObject(require('../../node_modules/hovercardsshared/*/*.ract', { mode: 'hash' }), function(obj) {
+	data: { _: _ },
+	partials: _.reduce(require('../../node_modules/hovercardsshared/*/@(content|discussion|account|account_content|layout).html', { mode: 'hash' }),
+		function(memo, template, key) {
+			memo[key.replace(/^common\//, '').replace('/', '-')] = template;
+			return memo;
+		}, {}),
+	components: _.reduce(require('../../node_modules/hovercardsshared/*/*.ract', { mode: 'hash' }), function(memo, obj, key) {
 		obj.data = _.extend(obj.data || {}, { _: _ });
-		return Ractive.extend(obj);
-	})
+		memo[key.replace(/^common\//, '').replace('/', '-')] = Ractive.extend(obj);
+		return memo;
+	}, {})
 });
 
 module.exports = function(obj, identity, expanded) {
 	obj.data('ractive', obj.data('ractive') || new HoverCardRactive({
-		template: '{{>type+"/layout"}}',
+		template: '{{>type+"-layout"}}',
 		data:     identity,
 		el:       obj
 	}));
@@ -35,12 +40,12 @@ module.exports = function(obj, identity, expanded) {
 	}));
 
 	if (expanded) {
+		if (ractive.get('expanded')) {
+			return;
+		}
+		ractive.set('expanded', true);
 		switch (ractive.get('type')) {
 			case 'content':
-				if (ractive.get('discussions')) {
-					return;
-				}
-				ractive.set('discussions', []);
 				obj.data('template-promise').then(function(data) {
 					var identity = _.pick(data, 'api', 'type', 'id', 'as');
 					var discussion_apis = _.result(config.apis[identity.api], 'discussion_apis', []);
@@ -62,11 +67,8 @@ module.exports = function(obj, identity, expanded) {
 				});
 				break;
 			case 'account':
-				if (ractive.get('content')) {
-					return;
-				}
-				ractive.set('content', { loaded: false });
 				obj.data('template-promise').then(function(data) {
+					ractive.set('content', { loaded: false });
 					var identity = _.pick(data, 'api', 'type', 'id', 'as');
 					return new Promise(function(resolve, reject) {
 						service(_.defaults({ type: 'account_content' }, identity), function(err, data) {
