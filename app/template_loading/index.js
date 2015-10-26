@@ -26,57 +26,65 @@ module.exports = function(obj, identity, expanded) {
 		obj.data('ractive', ractive);
 	}
 
-	if (!obj.data('start_template_loading')) {
-		obj.data('start_template_loading', function() {
-			obj.data('start_template_loading', _.noop);
-			service(identity, function(err, data) {
-				if (err) {
-					return ractive.reset({ loaded: true });
-				}
-				ractive.reset(_.defaults({ loaded: true }, data));
-				obj.data('start_template_loading', function() {
-					(obj.data('finish_template_loading') || _.noop)();
-				});
-				obj.data('start_template_loading')();
-			});
-		});
-	}
-
-	if (expanded && !obj.data('finish_template_loading')) {
-		obj.data('finish_template_loading', function() {
-			obj.data('finish_template_loading', _.noop);
-			var identity = _.pick(ractive.get(), 'api', 'type', 'id', 'as');
-			switch (identity.type) {
-				case 'content':
-					var discussion_apis = _.result(config.apis[identity.api], 'discussion_apis', []);
-					ractive.set('discussions', _.map(discussion_apis, function(api) {
-						return { api: api };
-					}));
-					_.each(discussion_apis, function(api, i) {
-						service((api === identity.api) ? _.defaults({ type: 'discussion' }, identity) :
-						                                 { api: api, type: 'discussion', for: identity },
-							function(err, data) {
-								if (err) {
-									return ractive.set('discussions.' + i, { loaded: true, err: err });
-								}
-								ractive.set('discussions.' + i, _.defaults({ loaded: true }, data));
-							});
-					});
-					break;
-				case 'account':
-					ractive.set('content', { loaded: false });
-					service(_.defaults({ type: 'account_content' }, identity), function(err, data) {
-						if (err) {
-							return ractive.set('content', { loaded: true, err: err });
-						}
-						ractive.set('content', _.defaults({ loaded: true }, data));
-					});
-					break;
+	obj.data('template-promise', obj.data('template-promise') || new Promise(function(resolve, reject) {
+		service(identity, function(err, data) {
+			if (err) {
+				ractive.reset({ loaded: true, err: err });
+				return reject(err);
 			}
+			ractive.reset(_.defaults({ loaded: true }, data));
+			resolve(data);
 		});
-	}
+	}));
 
-	obj.data('start_template_loading')();
+	if (expanded) {
+		switch (ractive.get('type')) {
+			case 'content':
+				if (ractive.get('discussions')) {
+					return;
+				}
+				ractive.set('discussions', []);
+				obj.data('template-promise').then(function(data) {
+					var identity = _.pick(data, 'api', 'type', 'id', 'as');
+					var discussion_apis = _.result(config.apis[identity.api], 'discussion_apis', []);
+					ractive.set('discussions', _.map(discussion_apis, function(api) { return { api: api }; }));
+					return Promise.all(_.map(discussion_apis, function(api, i) {
+						return new Promise(function(resolve, reject) {
+							service((api === identity.api) ? _.defaults({ type: 'discussion' }, identity) :
+							                                 { api: api, type: 'discussion', for: identity },
+								function(err, data) {
+									if (err) {
+										ractive.set('discussions.' + i, { loaded: true, err: err });
+										return reject(err);
+									}
+									ractive.set('discussions.' + i, _.defaults({ loaded: true }, data));
+									resolve(data);
+								});
+						});
+					}));
+				});
+				break;
+			case 'account':
+				if (ractive.get('content')) {
+					return;
+				}
+				ractive.set('content', { loaded: false });
+				obj.data('template-promise').then(function(data) {
+					var identity = _.pick(data, 'api', 'type', 'id', 'as');
+					return new Promise(function(resolve, reject) {
+						service(_.defaults({ type: 'account_content' }, identity), function(err, data) {
+							if (err) {
+								ractive.set('content', { loaded: true, err: err });
+								return reject(err);
+							}
+							ractive.set('content', _.defaults({ loaded: true }, data));
+							resolve(data);
+						});
+					});
+				});
+				break;
+		}
+	}
 
 	return ractive;
 };
