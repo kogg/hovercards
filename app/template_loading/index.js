@@ -7,17 +7,22 @@ require('../common/mixins');
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 
 var HoverCardRactive = Ractive.extend({
-	data: { _: _ },
-	partials: _.reduce(require('../../node_modules/hovercardsshared/*/@(content|discussion|account|account_content|layout).html', { mode: 'hash' }),
-		function(memo, template, key) {
-			memo[key.replace(/^common\//, '').replace('/', '-')] = template;
-			return memo;
-		}, {}),
-	components: _.reduce(require('../../node_modules/hovercardsshared/*/*.ract', { mode: 'hash' }), function(memo, obj, key) {
-		obj.data = _.extend(obj.data || {}, { _: _ });
-		memo[key.replace(/^common\//, '').replace('/', '-')] = Ractive.extend(obj);
-		return memo;
-	}, {})
+	data:       { _: _ },
+	partials:   _.chain(require('../../node_modules/hovercardsshared/*/@(content|discussion|account|account_content).html', { mode: 'hash' }))
+	             .extend(require('../../node_modules/hovercardsshared/@(content|discussion|account|account_content)/layout.html', { mode: 'hash' }))
+	             .reduce(function(memo, template, key) {
+	                 memo[key.replace(/^common\//, '').replace('/', '-')] = template;
+	                 return memo;
+	             }, {})
+	             .value(),
+	components: _.chain(require('../../node_modules/hovercardsshared/!(common)/*.ract', { mode: 'hash' }))
+	             .reduce(function(memo, obj, key) {
+	                 obj.data = _.extend(obj.data || {}, { _: _ });
+	                 memo[key.replace('/', '-')] = Ractive.extend(obj);
+	                 return memo;
+	             }, {})
+	             .extend(require('../../node_modules/hovercardsshared/common/*.ract', { mode: 'hash' }))
+	             .value()
 });
 
 module.exports = function(obj, identity, expanded) {
