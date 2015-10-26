@@ -10,18 +10,19 @@ var HoverCardRactive = Ractive.extend({
 	data:       { _: _ },
 	partials:   _.chain(require('../../node_modules/hovercardsshared/*/@(content|discussion|account|account_content).html', { mode: 'hash' }))
 	             .extend(require('../../node_modules/hovercardsshared/@(content|discussion|account|account_content)/layout.html', { mode: 'hash' }))
+	             .extend(require('../../node_modules/hovercardsshared/common/*.html', { mode: 'hash' }))
 	             .reduce(function(memo, template, key) {
 	                 memo[key.replace(/^common\//, '').replace('/', '-')] = template;
 	                 return memo;
 	             }, {})
 	             .value(),
 	components: _.chain(require('../../node_modules/hovercardsshared/!(common)/*.ract', { mode: 'hash' }))
+	             .extend(require('../../node_modules/hovercardsshared/common/*.ract', { mode: 'hash' }))
 	             .reduce(function(memo, obj, key) {
 	                 obj.data = _.extend(obj.data || {}, { _: _ });
 	                 memo[key.replace('/', '-')] = Ractive.extend(obj);
 	                 return memo;
 	             }, {})
-	             .extend(require('../../node_modules/hovercardsshared/common/*.ract', { mode: 'hash' }))
 	             .value()
 });
 
