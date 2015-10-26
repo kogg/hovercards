@@ -7,24 +7,21 @@ require('../common/mixins');
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 
 var HoverCardRactive = Ractive.extend({
-	data:     { _: _ },
-	partials: _.extend({}, require('../../node_modules/hovercardsshared/!(common)/@(content|discussion|account|account_content).html', { mode: 'hash' }),
-	                       require('../../node_modules/hovercardsshared/common/*.html', { mode: 'hash' }))
+	data:       { _: _ },
+	partials:   require('../../node_modules/hovercardsshared/*/@(content|discussion|account|account_content|layout).html', { mode: 'hash' }),
+	components: _.mapObject(require('../../node_modules/hovercardsshared/*/*.ract', { mode: 'hash' }), function(obj) {
+		obj.data = _.extend(obj.data || {}, { _: _ });
+		return Ractive.extend(obj);
+	})
 });
 
-var layouts = {
-	content: require('hovercardsshared/content/layout.html'),
-	account: require('hovercardsshared/account/layout.html')
-};
-
 module.exports = function(obj, identity, expanded) {
+	obj.data('ractive', obj.data('ractive') || new HoverCardRactive({
+		template: '{{>type+"/layout"}}',
+		data:     identity,
+		el:       obj
+	}));
 	var ractive = obj.data('ractive');
-	if (!ractive) {
-		ractive = new HoverCardRactive({ template: layouts[_.result(identity, 'type')],
-		                                 data:     identity,
-		                                 el:       obj });
-		obj.data('ractive', ractive);
-	}
 
 	obj.data('template-promise', obj.data('template-promise') || new Promise(function(resolve, reject) {
 		service(identity, function(err, data) {
