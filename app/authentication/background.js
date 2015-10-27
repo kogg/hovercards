@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 		callback({ message: 'Missing \'api\'', status: 400 });
 		return true;
 	}
-	var api_config = _.chain(config).result('apis').result(message.api).result('can_auth').value();
+	var api_config = _.chain(config).result('apis').result(message.api).value();
 	if (!_.result(api_config, 'can_auth')) {
 		callback({ message: message.api + ' cannot be authenticated', status: 404 });
 		return true;

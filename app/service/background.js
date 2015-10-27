@@ -64,7 +64,7 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 							callback(null, (obj || {}).device_id);
 						});
 					},
-					user_id: function(callback) {
+					user: function(callback) {
 						if (!api_config.can_auth) {
 							return callback();
 						}
@@ -122,7 +122,7 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 					callback(null, (obj || {}).device_id);
 				});
 			},
-			user_id: function(callback) {
+			user: function(callback) {
 				if (!api_config.can_auth) {
 					return callback();
 				}
@@ -131,47 +131,56 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 				});
 			}
 		}, function(err, results) {
-			if (api_config.client_on_auth && _.isEmpty(results.user_id)) {
-				setup_server_caller();
-				return;
-			}
-			var client = api_config.caller(_.extend(results, api_config));
-			_.extend(caller, _.pick(client, 'content', 'discussion', 'account', 'account_content'));
-			_.extend(client.model, _.mapObject(client.model, function(func, name) {
-				var promises = {};
+			function setup_caller(results) {
+				if (api_config.client_on_auth && _.isEmpty(results.user)) {
+					setup_server_caller();
+					return;
+				}
+				var client = api_config.caller(_.extend(results, api_config));
+				_.extend(caller, _.pick(client, 'content', 'discussion', 'account', 'account_content'));
+				_.extend(client.model, _.mapObject(client.model, function(func, name) {
+					var promises = {};
 
-				return function(args, args_not_cached, usage, callback) {
-					var key = JSON.stringify(args);
+					return function(args, args_not_cached, usage, callback) {
+						var key = JSON.stringify(args);
 
-					promises[key] = promises[key] || new Promise(function(resolve, reject) {
-						func(args, args_not_cached, usage, function(err, result) {
-							if (!err) {
-								resolve(result);
-							} else {
-								reject(err);
-							}
-						});
-					})
-						.then(function(result) {
-							setTimeout(function() {
+						promises[key] = promises[key] || new Promise(function(resolve, reject) {
+							func(args, args_not_cached, usage, function(err, result) {
+								if (!err) {
+									resolve(result);
+								} else {
+									reject(err);
+								}
+							});
+						})
+							.then(function(result) {
+								setTimeout(function() {
+									delete promises[key];
+								}, api_config['cache_' + name] || api_config.cache_default || 5 * 60 * 1000);
+								return Promise.resolve(result);
+							})
+							.catch(function(err) {
 								delete promises[key];
-							}, api_config['cache_' + name] || api_config.cache_default || 5 * 60 * 1000);
-							return Promise.resolve(result);
-						})
-						.catch(function(err) {
-							delete promises[key];
-							return Promise.reject(err);
-						});
+								return Promise.reject(err);
+							});
 
-					promises[key]
-						.then(function(result) {
-							callback(null, result);
-						})
-						.catch(function(err) {
-							callback(err);
-						});
-				};
-			}));
+						promises[key]
+							.then(function(result) {
+								callback(null, result);
+							})
+							.catch(function(err) {
+								callback(err);
+							});
+					};
+				}));
+			}
+			setup_caller(results);
+			chrome.storage.onChanged.addListener(function(changes, namespace) {
+				if (namespace !== 'sync' || !((api + '_user') in changes)) {
+					return;
+				}
+				setup_caller(_.extend(results, { user: changes[api + '_user'].newValue }));
+			});
 		});
 	} else {
 		setup_server_caller();

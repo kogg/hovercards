@@ -69,7 +69,11 @@ switch (process.env.NODE_ENV) {
 		break;
 	default:
 		responder = function(args, callback) {
-			console.debug('google analytics', args);
+			if (args[0] === 'send' && args[1] === 'exception') {
+				console.error('google analytics', args);
+			} else {
+				console.debug('google analytics', args);
+			}
 			if (_.chain(args).last().result('hitCallback').isFunction().value()) {
 				return _.last(args).hitCallback();
 			}
