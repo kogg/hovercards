@@ -1,6 +1,7 @@
 var $                = require('jquery');
 var _                = require('underscore');
 var analytics        = require('../analytics');
+var config           = require('../config');
 var template_loading = require('../template_loading');
 var urls             = require('hovercardsshared/urls');
 require('../common/mixins');
@@ -47,7 +48,7 @@ chrome.storage.sync.get('disabled', function(obj) {
 	});
 });
 function accept_identity(identity, obj) {
-	if (!disabled || (disabled[identity.api] && disabled[identity.api][identity.type])) {
+	if (!disabled || (disabled[identity.api] && disabled[identity.api][identity.type]) || !config.apis[identity.api]) {
 		return false;
 	}
 	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
