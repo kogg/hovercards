@@ -51,6 +51,7 @@ module.exports = function(obj, identity, expanded) {
 			resolve(data);
 		});
 	}));
+	obj.data('template-promise').then(null, _.noop);
 
 	if (expanded) {
 		if (ractive.get('expanded')) {
@@ -83,7 +84,7 @@ module.exports = function(obj, identity, expanded) {
 									resolve(data);
 								});
 						});
-					}));
+					})).then(null, _.noop);
 				});
 				break;
 			case 'account':
@@ -103,7 +104,7 @@ module.exports = function(obj, identity, expanded) {
 							ractive.set('content', _.defaults({ loaded: true }, data));
 							resolve(data);
 						});
-					});
+					}).then(null, _.noop);
 				});
 				break;
 		}
