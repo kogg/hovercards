@@ -40,6 +40,13 @@ module.exports = function(obj, identity, expanded) {
 				ractive.reset({ loaded: true, err: err });
 				return reject(err);
 			}
+			if (data.content) {
+				data.content.loaded = true;
+			} else if (data.discussions) {
+				data.discussions = _.map(data.discussions, function(discussion) {
+					return _.extend(discussion, { loaded: true });
+				});
+			}
 			ractive.reset(_.defaults({ loaded: true }, data));
 			resolve(data);
 		});
@@ -55,8 +62,15 @@ module.exports = function(obj, identity, expanded) {
 				obj.data('template-promise').then(function(data) {
 					var identity = _.pick(data, 'api', 'type', 'id', 'as');
 					var discussion_apis = _.result(config.apis[identity.api], 'discussion_apis', []);
-					ractive.set('discussions', _.map(discussion_apis, function(api) { return { api: api }; }));
+					var discussions = ractive.get('discussions');
+					ractive.set('discussions', _.map(discussion_apis, function(api) {
+						return _.findWhere(discussions, { api: api }) || { api: api };
+					}));
+
 					return Promise.all(_.map(discussion_apis, function(api, i) {
+						if (ractive.get('discussions.' + i + '.loaded')) {
+							return;
+						}
 						return new Promise(function(resolve, reject) {
 							service((api === identity.api) ? _.defaults({ type: 'discussion' }, identity) :
 							                                 { api: api, type: 'discussion', for: identity },
@@ -75,12 +89,11 @@ module.exports = function(obj, identity, expanded) {
 			case 'account':
 				obj.data('template-promise').then(function(data) {
 					if (ractive.get('content.loaded')) {
-						// Instagram is special in that the account will have the content
-						// loaded with it, since we're showing them in the hovercards
 						return;
 					}
 					ractive.set('content', { loaded: false });
 					var identity = _.pick(data, 'api', 'type', 'id', 'as');
+
 					return new Promise(function(resolve, reject) {
 						service(_.defaults({ type: 'account_content' }, identity), function(err, data) {
 							if (err) {
