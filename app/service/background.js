@@ -198,7 +198,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 	var api      = _.result(identity, 'api');
 	var type     = _.result(identity, 'type');
 	callback = _.wrap(callback, function(callback, err, response, usage) {
-		var label = _.compact([api, type]).join(' ');
+		var label = api + ' ' + type;
 		_.each(usage, function(val, key) {
 			console.log(key, val);
 		});
