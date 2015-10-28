@@ -54,17 +54,3 @@
 		transform:translate3d(0,0,0);
 	}
 }
-.test {
-	width: 9999px;
-	max-width: 340px !important;
-	padding: 16px 12px !important;
-	display: block !important;
-	transition:all .5s ease-in-out !important;
-}
-.lightbox .test {
-	max-width: inherit !important;
-	max-width: 650px !important;
-}
-.growpls {
-	width: 100% !important;
-}

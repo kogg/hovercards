@@ -34,9 +34,9 @@
 }
 @keyframes lightbox-backdrop-animation {
 	from { background: rgba(0,0,0,0.1); }
-	to { background: rgba(0,0,0,0.9); }
+	to { background: rgba(0,0,0,0.75); }
 }
 @keyframes lightbox-backdrop--leave-animation {
-	from { background: rgba(0,0,0,0.9); }
+	from { background: rgba(0,0,0,0.75); }
 	to { background: rgba(0,0,0,0.1); }
 }
