@@ -55,7 +55,7 @@
     "jshint": "^2.8.0",
     "jshint-stylish": "^2.0.1",
     "postcss-class-prefix": "^0.3.0",
-    "postcss-cli": "^2.1.0",
+    "postcss-cli": "^2.3.2",
     "postcss-color-rgba-fallback": "^2.0.0",
     "postcss-import": "^7.0.0",
     "postcss-map-url": "^1.0.2",
