@@ -7,7 +7,7 @@ require('../common/mixins');
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 
 var HoverCardRactive = Ractive.extend({
-	data:       { _: _ },
+	data:       { _: _, prefix: _.prefix },
 	partials:   _.chain(require('../../node_modules/hovercardsshared/*/@(content|discussion|account|account_content).html', { mode: 'hash' }))
 	             .extend(require('../../node_modules/hovercardsshared/@(content|discussion|account|account_content)/layout.html', { mode: 'hash' }))
 	             .extend(require('../../node_modules/hovercardsshared/common/*.html', { mode: 'hash' }))
@@ -19,7 +19,7 @@ var HoverCardRactive = Ractive.extend({
 	components: _.chain(require('../../node_modules/hovercardsshared/!(common)/*.ract', { mode: 'hash' }))
 	             .extend(require('../../node_modules/hovercardsshared/common/*.ract', { mode: 'hash' }))
 	             .reduce(function(memo, obj, key) {
-	                 obj.data = _.extend(obj.data || {}, { _: _ });
+	                 obj.data = _.extend(obj.data || {}, { _: _, prefix: _.prefix });
 	                 memo[key.replace('/', '-')] = Ractive.extend(obj);
 	                 return memo;
 	             }, {})
