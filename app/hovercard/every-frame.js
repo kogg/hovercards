@@ -86,7 +86,7 @@ function make_hovercard(obj, identity, e) {
 	if (!_.isObject(identity)) {
 		return;
 	}
-	var analytics_label = (identity.type === 'url') ? 'url' : identity.api + ' ' + identity.type;
+	var analytics_label = identity.api + ' ' + identity.type;
 	analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
 	var hovercard_start = Date.now();
 	var hovercard = $('<div></div>')
