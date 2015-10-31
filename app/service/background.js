@@ -145,18 +145,14 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 						var key = JSON.stringify(args);
 
 						promises[key] = promises[key] || new Promise(function(resolve, reject) {
-							func(args, args_not_cached, usage, function(err, result, meta) {
+							func(args, args_not_cached, usage, function(err, result) {
 								if (err) {
 									delete promises[key];
 									return reject(err);
 								}
-								if (!_.result(meta, 'dont_cache')) {
-									setTimeout(function() {
-										delete promises[key];
-									}, api_config['cache_' + name] || api_config.cache_default || 5 * 60 * 1000);
-								} else {
+								setTimeout(function() {
 									delete promises[key];
-								}
+								}, api_config['cache_' + name] || api_config.cache_default || 5 * 60 * 1000);
 								resolve(result);
 							});
 						});
