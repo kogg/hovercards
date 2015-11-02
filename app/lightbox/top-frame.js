@@ -26,7 +26,7 @@ $.lightbox = function(identity, hovercard) {
 		return;
 	}
 	var analytics_label = _.analytics_label(identity);
-	analytics('send', 'event', 'lightbox displayed', 'hovercard clicked', analytics_label, { nonInteraction: true });
+	analytics('send', 'event', 'lightbox displayed', 'hovercard clicked', analytics_label);
 	var lightbox_start = Date.now();
 
 	var lightbox_backdrop = $('<div></div>')
