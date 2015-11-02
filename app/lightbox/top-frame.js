@@ -25,7 +25,7 @@ $.lightbox = function(identity, hovercard) {
 	if (!_.isObject(identity)) {
 		return;
 	}
-	var analytics_label = identity.api + ' ' + identity.type;
+	var analytics_label = _.analytics_label(identity);
 	analytics('send', 'event', 'lightbox displayed', 'hovercard clicked', analytics_label, { nonInteraction: true });
 	var lightbox_start = Date.now();
 

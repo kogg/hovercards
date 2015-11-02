@@ -3,6 +3,7 @@ var _         = require('underscore');
 var analytics = require('../analytics/background');
 var async     = require('async');
 var config    = require('../config');
+require('../common/mixins');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -191,7 +192,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 	var api      = _.result(identity, 'api');
 	var type     = _.result(identity, 'type');
 	callback = _.wrap(callback, function(callback, err, response, usage) {
-		var label = api + ' ' + type;
+		var label = _.analytics_label(identity);
 		_.each(usage, function(val, key) {
 			console.log(key, val);
 		});
