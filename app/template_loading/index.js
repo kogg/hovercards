@@ -70,6 +70,10 @@ module.exports = function(obj, identity, expanded) {
 			case 'content':
 				obj.data('template-promise').then(function(data) {
 					var identity = _.pick(data, 'api', 'type', 'id', 'as');
+					if (identity.api === 'twitter') {
+						// TODO This can't be here
+						identity.account = _.pick(data.account, 'api', 'type', 'id', 'as');
+					}
 					var discussion_apis = _.result(config.apis[identity.api], 'discussion_apis', []);
 					var discussions = ractive.get('discussions');
 					ractive.set('discussions', _.map(discussion_apis, function(api) {
