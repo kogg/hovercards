@@ -78,7 +78,7 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 					var map_header = promises[key] ? _.constant(0) : Number;
 
 					promises[key] = promises[key] || $.ajax({ url:      url(identity),
-					                                          data:     _.omit(identity, 'api', 'type', 'id'),
+					                                          data:     _.omit(identity, 'api', 'type', 'id', 'for'),
 					                                          dataType: 'json',
 					                                          jsonp:    false,
 					                                          headers:  results })

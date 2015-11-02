@@ -16,6 +16,7 @@ var config = {
 			client_on_auth: true,
 			client_auth_url: 'https://instagram.com/oauth/authorize/?client_id=41e56061c1e34fbbb16ab1d095dad78b&redirect_uri=https://EXTENSION_ID.chromiumapp.org/callback&response_type=token'
 		},
+		twitter: {},
 		youtube: {}
 	}
 };
