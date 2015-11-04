@@ -70,7 +70,7 @@ module.exports = function(obj, identity, expanded) {
 			case 'content':
 				obj.data('template-promise').then(function(data) {
 					var identity = _.pick(data, 'api', 'type', 'id', 'as');
-					if (identity.api === 'twitter') {
+					if (_.contains(['soundcloud', 'twitter'], identity.api)) {
 						// TODO This can't be here
 						identity.account = _.pick(data.account, 'api', 'type', 'id', 'as');
 					}
