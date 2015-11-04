@@ -2,6 +2,7 @@ var _       = require('underscore');
 var Ractive = require('ractive');
 var config  = require('../config');
 var service = require('../service');
+var urls    = require('hovercardsshared/urls');
 require('../common/mixins');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
@@ -11,7 +12,8 @@ var global_data = {
 	prefix: _.prefix,
 	copy: function() {
 		return chrome.i18n.getMessage((_.first(arguments) || '').replace(/\-/g, '_'), _.rest(arguments));
-	}
+	},
+	url: urls.print
 };
 
 var HoverCardRactive = Ractive.extend({
