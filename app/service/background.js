@@ -33,28 +33,26 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 
 	function setup_server_caller() {
 		_.extend(caller, _.mapObject({ content: null, discussion: null, account: null, account_content: null }, function(a, type) {
-			var url;
-			switch (type) {
-				case 'content':
-				case 'account':
-					url = function(identity) {
-						return [config.endpoint, api, type, identity.id].join('/');
-					};
-					break;
-				case 'discussion':
-					url = function(identity) {
-						if (identity['for']) {
-							return [config.endpoint, identity['for'].api, 'content', identity['for'].id, 'discussion', api].join('/');
-						}
-						return [config.endpoint, api, 'content', identity.id, 'discussion'].join('/');
-					};
-					break;
-				case 'account_content':
-					url = function(identity) {
-						return [config.endpoint, api, 'account', identity.id, 'content'].join('/');
-					};
-					break;
-			}
+			var url_func = (function() {
+				switch (type) {
+					case 'content':
+					case 'account':
+						return function(identity) {
+							return [config.endpoint, api, type, identity.id].join('/');
+						};
+					case 'discussion':
+						return function(identity) {
+							if (identity['for']) {
+								return [config.endpoint, identity['for'].api, 'content', identity['for'].id, 'discussion', api].join('/');
+							}
+							return [config.endpoint, api, 'content', identity.id, 'discussion'].join('/');
+						};
+					case 'account_content':
+						return function(identity) {
+							return [config.endpoint, api, 'account', identity.id, 'content'].join('/');
+						};
+				}
+			}());
 
 			var promises = {};
 
@@ -74,12 +72,36 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 						});
 					}
 				}, function(err, results) {
-					var key = JSON.stringify(_.chain(identity).omit('api', 'type').extend(results).value());
+					var url = url_func(identity);
+					if (_.isObject(identity['for'])) {
+						var for_api = identity['for'].api;
+						identity['for']         = _.pick(identity['for'], 'id', 'as', 'account');
+						identity['for'].account = _.pick(identity['for'].account, 'id', 'as');
+						if (!_.contains(['soundcloud', 'twitter'], for_api) || _.isEmpty(identity['for'].account)) {
+							delete identity['for'].account;
+						}
+						if (_.isEmpty(identity['for'])) {
+							delete identity['for'];
+						}
+					}
+					identity         = _.pick(identity, 'id', 'as', 'account', 'for');
+					identity.account = _.pick(identity.account, 'id', 'as', 'account');
+					if (!_.contains(['soundcloud', 'twitter'], api) || _.isEmpty(identity.account)) {
+						delete identity.account;
+					}
+					var key = JSON.stringify(_.extend({}, identity, results));
+					if (_.isObject(identity['for'])) {
+						identity['for'] = _.omit(identity['for'], 'id');
+						if (_.isEmpty(identity['for'])) {
+							delete identity['for'];
+						}
+					}
+					identity = _.omit(identity, 'id');
 
 					var map_header = promises[key] ? _.constant(0) : Number;
 
-					promises[key] = promises[key] || $.ajax({ url:      url(identity),
-					                                          data:     _.omit(identity, 'api', 'type', 'id', 'for'),
+					promises[key] = promises[key] || $.ajax({ url:      url,
+					                                          data:     identity,
 					                                          dataType: 'json',
 					                                          jsonp:    false,
 					                                          headers:  results })
@@ -191,8 +213,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 	var identity = message.identity;
 	var api      = _.result(identity, 'api');
 	var type     = _.result(identity, 'type');
+	var label = _.analytics_label(identity);
 	callback = _.wrap(callback, function(callback, err, response, usage) {
-		var label = _.analytics_label(identity);
 		_.each(usage, function(val, key) {
 			console.log(key, val);
 		});
