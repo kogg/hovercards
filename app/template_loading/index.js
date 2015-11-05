@@ -13,7 +13,7 @@ var global_data = {
 	copy: function(name, api) {
 		var rest = _.rest(arguments, 2);
 		name = name.replace(/\-/g, '_');
-		return (!_.isEmpty(api) && chrome.i18n.getMessage(api + '_' + name, rest)) || chrome.i18n.getMessage(name, rest) || name;
+		return (!_.isEmpty(api) && chrome.i18n.getMessage(api + '_' + name, rest)) || chrome.i18n.getMessage(name, rest);
 	},
 	url: urls.print
 };
