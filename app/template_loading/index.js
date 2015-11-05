@@ -2,6 +2,7 @@ var _       = require('underscore');
 var Ractive = require('ractive');
 var config  = require('../config');
 var service = require('../service');
+var urls    = require('hovercardsshared/urls');
 require('../common/mixins');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
@@ -11,7 +12,8 @@ var global_data = {
 	prefix: _.prefix,
 	copy: function() {
 		return chrome.i18n.getMessage((_.first(arguments) || '').replace(/\-/g, '_'), _.rest(arguments));
-	}
+	},
+	url: urls.print
 };
 
 var HoverCardRactive = Ractive.extend({
@@ -69,8 +71,7 @@ module.exports = function(obj, identity, expanded) {
 		switch (ractive.get('type')) {
 			case 'content':
 				obj.data('template-promise').then(function(data) {
-					var identity = _.pick(data, 'api', 'type', 'id', 'as');
-					var discussion_apis = _.result(config.apis[identity.api], 'discussion_apis', []);
+					var discussion_apis = _.result(config.apis[data.api], 'discussion_apis', []);
 					var discussions = ractive.get('discussions');
 					ractive.set('discussions', _.map(discussion_apis, function(api) {
 						return _.findWhere(discussions, { api: api }) || { api: api };
@@ -81,8 +82,8 @@ module.exports = function(obj, identity, expanded) {
 							return;
 						}
 						return new Promise(function(resolve, reject) {
-							service((api === identity.api) ? _.defaults({ type: 'discussion' }, identity) :
-							                                 { api: api, type: 'discussion', for: identity },
+							service((api === data.api) ? _.defaults({ type: 'discussion' }, data) :
+							                             { api: api, type: 'discussion', for: data },
 								function(err, data) {
 									if (err) {
 										ractive.set('discussions.' + i, { loaded: true, err: err });
@@ -101,10 +102,9 @@ module.exports = function(obj, identity, expanded) {
 						return;
 					}
 					ractive.set('content', { loaded: false });
-					var identity = _.pick(data, 'api', 'type', 'id', 'as');
 
 					return new Promise(function(resolve, reject) {
-						service(_.defaults({ type: 'account_content' }, identity), function(err, data) {
+						service(_.defaults({ type: 'account_content' }, data), function(err, data) {
 							if (err) {
 								ractive.set('content', { loaded: true, err: err });
 								return reject(err);

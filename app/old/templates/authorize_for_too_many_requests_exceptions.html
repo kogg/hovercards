@@ -1,9 +1,0 @@
-<span ng-message="too-many-requests" stored="user" name="{{ err.api }}_user">
-	<span class="hovercards-message-content">
-		<b>{{ (user ? 'authorize_for_too_many_requests_err_authorized_name' : 'authorize_for_too_many_requests_err_unauthorized_name') | copy:(err.api | copy):((err.api + '_account') | copy) }}</b>
-		{{ (user ? 'authorize_for_too_many_requests_err_authorized_text' : 'authorize_for_too_many_requests_err_unauthorized_text') | copy:(err.api | copy):((err.api + '_account') | copy) }}
-	</span>
-	<div class="hovercards-message-option" ng-if="!user">
-		<a authorize="err.api" on-authorized="err.reload()">Sign in with {{ err.api | copy }}</a>
-	</div>
-</span>
