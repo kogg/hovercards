@@ -10,8 +10,10 @@ Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 var global_data = {
 	_: _,
 	prefix: _.prefix,
-	copy: function() {
-		return chrome.i18n.getMessage((_.first(arguments) || '').replace(/\-/g, '_'), _.rest(arguments));
+	copy: function(name, api) {
+		var rest = _.rest(arguments, 2);
+		name = name.replace(/\-/g, '_');
+		return (!_.isEmpty(api) && chrome.i18n.getMessage(api + '_' + name, rest)) || chrome.i18n.getMessage(name, rest);
 	},
 	url: urls.print
 };
