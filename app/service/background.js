@@ -65,7 +65,7 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 					},
 					user: function(callback) {
 						if (!api_config.can_auth) {
-							return callback();
+							return async.setImmediate(callback);
 						}
 						chrome.storage.sync.get(api + '_user', function(obj) {
 							callback(null, (obj || {})[api + '_user']);
@@ -147,7 +147,7 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 			},
 			user: function(callback) {
 				if (!api_config.can_auth) {
-					return callback();
+					return async.setImmediate(callback);
 				}
 				chrome.storage.sync.get(api + '_user', function(obj) {
 					callback(null, (obj || {})[api + '_user']);
