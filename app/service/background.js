@@ -34,27 +34,6 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 
 	function setup_server_caller() {
 		_.extend(caller, _.mapObject({ content: null, discussion: null, account: null, account_content: null }, function(a, type) {
-			var url_func = (function() {
-				switch (type) {
-					case 'content':
-					case 'account':
-						return function(identity) {
-							return [config.endpoint, api, type, identity.id].join('/');
-						};
-					case 'discussion':
-						return function(identity) {
-							if (identity['for']) {
-								return [config.endpoint, identity['for'].api, 'content', identity['for'].id, 'discussion', api].join('/');
-							}
-							return [config.endpoint, api, 'content', identity.id, 'discussion'].join('/');
-						};
-					case 'account_content':
-						return function(identity) {
-							return [config.endpoint, api, 'account', identity.id, 'content'].join('/');
-						};
-				}
-			}());
-
 			var ajax_call = memoize(function(identity_as_string, url, callback) {
 				var identity = JSON.parse(identity_as_string);
 				async.parallel({
@@ -102,7 +81,23 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 			     async:     true });
 
 			return function(identity, callback) {
-				var url = url_func(identity);
+				var url;
+				switch (_.result(identity, 'type')) {
+					case 'content':
+					case 'account':
+						url = [config.endpoint, api, identity.type, identity.id].join('/');
+						break;
+					case 'discussion':
+						if (identity['for']) {
+							url = [config.endpoint, identity['for'].api, 'content', identity['for'].id, 'discussion', api].join('/');
+						} else {
+							url = [config.endpoint, api, 'content', identity.id, 'discussion'].join('/');
+						}
+						break;
+					case 'account_content':
+						url = [config.endpoint, api, 'account', identity.id, 'content'].join('/');
+						break;
+				}
 				if (_.isObject(identity['for'])) {
 					var for_api = identity['for'].api;
 					identity['for']         = _.pick(identity['for'], 'as', 'account');
