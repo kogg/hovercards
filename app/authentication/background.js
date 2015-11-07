@@ -1,5 +1,6 @@
 var _         = require('underscore');
 var analytics = require('../analytics/background');
+var async     = require('async');
 var config    = require('../config');
 
 var EXTENSION_ID = chrome.i18n.getMessage('@@extension_id');
@@ -16,12 +17,16 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 		(callback || _.noop)([err, response]);
 	});
 	if (!message.api) {
-		callback({ message: 'Missing \'api\'', status: 400 });
+		async.setImmediate(function() {
+			callback({ message: 'Missing \'api\'', status: 400 });
+		});
 		return true;
 	}
 	var api_config = _.chain(config).result('apis').result(message.api).value();
 	if (!_.result(api_config, 'can_auth')) {
-		callback({ message: message.api + ' cannot be authenticated', status: 404 });
+		async.setImmediate(function() {
+			callback({ message: message.api + ' cannot be authenticated', status: 404 });
+		});
 		return true;
 	}
 	chrome.identity.launchWebAuthFlow({ url:         _.result(api_config, 'client_auth_url', config.endpoint + '/' + message.api + '/authenticate?chromium_id=EXTENSION_ID')
@@ -29,11 +34,15 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 	                                    interactive: true },
 		function(redirect_url) {
 			if (chrome.runtime.lastError) {
-				return callback({ message: chrome.runtime.lastError.message, status: 401 });
+				return async.setImmediate(function() {
+					callback({ message: chrome.runtime.lastError.message, status: 401 });
+				});
 			}
 			var user = redirect_url && (redirect_url.split('#', 2)[1] || '').split('=', 2)[1];
 			if (_.isEmpty(user)) {
-				return callback({ message: 'No user token returned for ' + message.api + ': ' + redirect_url, status:  500 });
+				return async.setImmediate(function() {
+					callback({ message: 'No user token returned for ' + message.api + ': ' + redirect_url, status:  500 });
+				});
 			}
 			var obj = {};
 			obj[message.api + '_user'] = user;

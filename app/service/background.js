@@ -3,6 +3,7 @@ var _         = require('underscore');
 var analytics = require('../analytics/background');
 var async     = require('async');
 var config    = require('../config');
+var memoize   = require('memoizee');
 require('../common/mixins');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -33,30 +34,8 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 
 	function setup_server_caller() {
 		_.extend(caller, _.mapObject({ content: null, discussion: null, account: null, account_content: null }, function(a, type) {
-			var url_func = (function() {
-				switch (type) {
-					case 'content':
-					case 'account':
-						return function(identity) {
-							return [config.endpoint, api, type, identity.id].join('/');
-						};
-					case 'discussion':
-						return function(identity) {
-							if (identity['for']) {
-								return [config.endpoint, identity['for'].api, 'content', identity['for'].id, 'discussion', api].join('/');
-							}
-							return [config.endpoint, api, 'content', identity.id, 'discussion'].join('/');
-						};
-					case 'account_content':
-						return function(identity) {
-							return [config.endpoint, api, 'account', identity.id, 'content'].join('/');
-						};
-				}
-			}());
-
-			var promises = {};
-
-			return function(identity, callback) {
+			var ajax_call = memoize(function(identity_as_string, url, callback) {
+				var identity = JSON.parse(identity_as_string);
 				async.parallel({
 					device_id: function(callback) {
 						chrome.storage.local.get('device_id', function(obj) {
@@ -65,75 +44,78 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 					},
 					user: function(callback) {
 						if (!api_config.can_auth) {
-							return callback();
+							return async.setImmediate(callback);
 						}
 						chrome.storage.sync.get(api + '_user', function(obj) {
 							callback(null, (obj || {})[api + '_user']);
 						});
 					}
 				}, function(err, results) {
-					var url = url_func(identity);
-					if (_.isObject(identity['for'])) {
-						var for_api = identity['for'].api;
-						identity['for']         = _.pick(identity['for'], 'id', 'as', 'account');
-						identity['for'].account = _.pick(identity['for'].account, 'id', 'as');
-						if (!_.contains(['soundcloud', 'twitter'], for_api) || _.isEmpty(identity['for'].account)) {
-							delete identity['for'].account;
-						}
-						if (_.isEmpty(identity['for'])) {
-							delete identity['for'];
-						}
-					}
-					identity         = _.pick(identity, 'id', 'as', 'account', 'for');
-					identity.account = _.pick(identity.account, 'id', 'as', 'account');
-					if (!_.contains(['soundcloud', 'twitter'], api) || _.isEmpty(identity.account)) {
-						delete identity.account;
-					}
-					var key = JSON.stringify(_.extend({}, identity, results));
-					if (_.isObject(identity['for'])) {
-						identity['for'] = _.omit(identity['for'], 'id');
-						if (_.isEmpty(identity['for'])) {
-							delete identity['for'];
-						}
-					}
-					identity = _.omit(identity, 'id');
-
-					var map_header = promises[key] ? _.constant(0) : Number;
-
-					promises[key] = promises[key] || $.ajax({ url:      url,
-					                                          data:     identity,
-					                                          dataType: 'json',
-					                                          jsonp:    false,
-					                                          headers:  results })
-						.done(function() {
-							setTimeout(function() {
-								delete promises[key];
-							}, api_config['route_cache_' + type] || api_config.route_cache_default || 5 * 60 * 1000);
-						})
-						.fail(function() {
-							delete promises[key];
-						});
-
-					promises[key]
+					$.ajax({ url:      url,
+					         data:     identity,
+					         dataType: 'json',
+					         jsonp:    false,
+					         headers:  results })
 						.done(function(data, textStatus, jqXHR) {
 							callback(null, data, _.chain(jqXHR.getAllResponseHeaders().trim().split('\n'))
 							                      .invoke('split', /:\s*/, 2)
 							                      .filter(function(pair) { return pair[0] !== (pair[0] = pair[0].replace(/^usage-/, '')); })
 							                      .object()
-							                      .mapObject(map_header)
+							                      .mapObject(Number)
 							                      .value());
 						})
 						.fail(function(jqXHR) {
-							callback(_.extend({ message: jqXHR.statusText, status: jqXHR.status || 500 }, jqXHR.responseJSON),
+							callback(_.defaults(jqXHR.responseJSON, { message: jqXHR.statusText, status: jqXHR.status || 500 }),
 							         null,
 							         _.chain(jqXHR.getAllResponseHeaders().trim().split('\n'))
 							          .invoke('split', /:\s*/, 2)
 							          .filter(function(pair) { return pair[0] !== (pair[0] = pair[0].replace(/^usage-/, '')); })
 							          .object()
-							          .mapObject(map_header)
+							          .mapObject(Number)
 							          .value());
 						});
 				});
+			}, { maxAge:    api_config['route_cache_' + type] || api_config.route_cache_default || 5 * 60 * 1000,
+			     resolvers: [JSON.stringify],
+			     length:    2,
+			     async:     true });
+
+			return function(identity, callback) {
+				var url;
+				switch (_.result(identity, 'type')) {
+					case 'content':
+					case 'account':
+						url = [config.endpoint, api, identity.type, identity.id].join('/');
+						break;
+					case 'discussion':
+						if (identity['for']) {
+							url = [config.endpoint, identity['for'].api, 'content', identity['for'].id, 'discussion', api].join('/');
+						} else {
+							url = [config.endpoint, api, 'content', identity.id, 'discussion'].join('/');
+						}
+						break;
+					case 'account_content':
+						url = [config.endpoint, api, 'account', identity.id, 'content'].join('/');
+						break;
+				}
+				if (_.isObject(identity['for'])) {
+					var for_api = identity['for'].api;
+					identity['for']         = _.pick(identity['for'], 'as', 'account');
+					identity['for'].account = _.pick(identity['for'].account, 'id', 'as');
+					if (!_.contains(['soundcloud', 'twitter'], for_api) || _.isEmpty(identity['for'].account)) {
+						delete identity['for'].account;
+					}
+					if (_.isEmpty(identity['for'])) {
+						delete identity['for'];
+					}
+				}
+				identity         = _.pick(identity, 'as', 'account', 'for');
+				identity.account = _.pick(identity.account, 'id', 'as', 'account');
+				if (!_.contains(['soundcloud', 'twitter'], api) || _.isEmpty(identity.account)) {
+					delete identity.account;
+				}
+
+				ajax_call(identity, url, callback);
 			};
 		}));
 	}
@@ -147,7 +129,7 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 			},
 			user: function(callback) {
 				if (!api_config.can_auth) {
-					return callback();
+					return async.setImmediate(callback);
 				}
 				chrome.storage.sync.get(api + '_user', function(obj) {
 					callback(null, (obj || {})[api + '_user']);
@@ -162,32 +144,12 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 				var client = api_config.caller(_.extend(results, api_config));
 				_.extend(caller, _.pick(client, 'content', 'discussion', 'account', 'account_content'));
 				_.extend(client.model, _.mapObject(client.model, function(func, name) {
-					var promises = {};
-
-					return function(args, args_not_cached, usage, callback) {
-						var key = JSON.stringify(args);
-
-						promises[key] = promises[key] || new Promise(function(resolve, reject) {
-							func(args, args_not_cached, usage, function(err, result) {
-								if (err) {
-									delete promises[key];
-									return reject(err);
-								}
-								setTimeout(function() {
-									delete promises[key];
-								}, api_config['cache_' + name] || api_config.cache_default || 5 * 60 * 1000);
-								resolve(result);
-							});
-						});
-
-						promises[key]
-							.then(function(result) {
-								callback(null, result);
-							})
-							.catch(function(err) {
-								callback(err);
-							});
-					};
+					return memoize(function(args_as_string, args_not_cached, usage, callback) {
+						func(JSON.parse(args_as_string), args_not_cached, usage, callback);
+					}, { maxAge:    api_config['cache_' + name] || api_config.cache_default || 5 * 60 * 1000,
+					     resolvers: [JSON.stringify],
+					     length:    1,
+					     async:     true });
 				}));
 			}
 			setup_caller(results);

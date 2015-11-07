@@ -1,9 +1,10 @@
 var _      = require('underscore');
+var async  = require('async');
 var config = require('../config');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-var responder = function(args, callback) { (callback || _.noop)(); }; // This name is stupid
+var responder = function(args, callback) { async.setImmediate(callback || _.noop); }; // This name is stupid
 
 module.exports = function() {
 	responder(_.toArray(arguments));
@@ -35,18 +36,36 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 
 switch (process.env.NODE_ENV) {
 	case 'production':
-		(function(callback) {
-			chrome.storage.sync.get('user_id', function(obj) {
-				if (chrome.runtime.lastError || _.isEmpty(obj.user_id)) {
-					return chrome.storage.local.get('user_id', function(obj) {
-						var user_id = (!chrome.runtime.lastError && !_.isEmpty(obj.user_id)) || _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('');
-						chrome.storage.sync.set({ user_id: user_id });
-						callback(user_id);
-					});
-				}
-				callback(obj.user_id);
-			});
-		})(function(user_id) {
+		// I want some kind of async.**** that is similar to async.retry, but
+		// doesn't keep retrying the same method, but tries them in a row.
+		// Essentially, an async.waterfall that quits not when it gets an err,
+		// but when it gets a success. async.some is close, but I want it in
+		// series and to callback the result, not a truth value
+		//
+		// I'm going to accomplish this using async.series and just use the
+		// err to callback my result immediately. I know, disgusting.
+		async.waterfall([
+			function(callback) {
+				// This is where we want it to be
+				chrome.storage.sync.get('user_id', function(obj) {
+					callback(_.result(obj, 'user_id'));
+				});
+			},
+			function(callback) {
+				// This is where it used to be
+				chrome.storage.local.get('user_id', function(obj) {
+					if (!_.isEmpty(obj)) {
+						chrome.storage.sync.set(_.pick(obj, 'user_id'));
+					}
+					callback(_.result(obj, 'user_id'));
+				});
+			},
+			function(callback) {
+				var user_id = _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('');
+				chrome.storage.sync.set({ user_id: user_id });
+				callback(user_id);
+			}
+		], function(user_id) {
 			/* jshint ignore:start */
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -63,7 +82,7 @@ switch (process.env.NODE_ENV) {
 				if (_.chain(args).last().result('hitCallback').isFunction().value()) {
 					return;
 				}
-				(callback || _.noop)();
+				async.setImmediate(callback || _.noop);
 			};
 		});
 		break;
@@ -75,9 +94,9 @@ switch (process.env.NODE_ENV) {
 				console.debug('google analytics', args);
 			}
 			if (_.chain(args).last().result('hitCallback').isFunction().value()) {
-				return _.last(args).hitCallback();
+				return async.setImmediate(_.last(args).hitCallback);
 			}
-			(callback || _.noop)();
+			async.setImmediate(callback || _.noop);
 		};
 		break;
 }

@@ -39,86 +39,72 @@ var HoverCardRactive = Ractive.extend({
 });
 
 module.exports = function(obj, identity, expanded) {
-	obj.data('ractive', obj.data('ractive') || new HoverCardRactive({
-		template: '{{>type+"-layout"}}',
-		data:     identity,
-		el:       obj
-	}));
 	var ractive = obj.data('ractive');
 
-	obj.data('template-promise', obj.data('template-promise') || new Promise(function(resolve, reject) {
+	if (!ractive) {
+		ractive = new HoverCardRactive({
+			template: '{{>type+"-layout"}}',
+			data:     identity,
+			el:       obj
+		});
+		obj.data('ractive', ractive);
+
 		service(identity, function(err, data) {
 			if (err) {
-				ractive.reset({ loaded: true, err: err });
-				return reject(err);
+				return ractive.reset({ expanded: ractive.get('expanded'), loaded: true, err: err });
 			}
-			if (data.content) {
-				data.content.loaded = true;
-			} else if (data.discussions) {
-				data.discussions = _.map(data.discussions, function(discussion) {
-					return _.extend(discussion, { loaded: true });
-				});
+			switch (data.type) {
+				case 'content':
+					var given_discussions   = _.each(data.discussions || [], function(discussion) { _.extend(discussion, { loaded: true }); });
+					var default_discussions = _.chain(config.apis[data.api])
+					                           .result('discussion_apis', [])
+					                           .map(function(api) {
+					                               return (api === data.api) ? _.defaults({ type: 'discussion' }, data) :
+					                                                           { api: api, type: 'discussion', for: _.clone(data) };
+					                           })
+					                           .value();
+					data.discussions = _.chain(given_discussions)
+					                    .union(default_discussions)
+					                    .uniq(_.property('api'))
+					                    .value();
+					break;
+				case 'account':
+					data.content = data.content ? _.extend(data.content, { loaded: true }) :
+					                              _.defaults({ type: 'account_content', loaded: false }, data);
+					break;
 			}
-			ractive.reset(_.defaults({ loaded: true }, data));
-			resolve(data);
-		});
-	}));
-	obj.data('template-promise').then(null, _.noop);
+			_.extend(data, { loaded: true, expanded: ractive.get('expanded') });
+			ractive.reset(data);
 
-	if (expanded) {
-		if (ractive.get('expanded')) {
-			return;
-		}
-		ractive.set('expanded', true);
-		switch (ractive.get('type')) {
-			case 'content':
-				obj.data('template-promise').then(function(data) {
-					var discussion_apis = _.result(config.apis[data.api], 'discussion_apis', []);
-					var discussions = ractive.get('discussions');
-					ractive.set('discussions', _.map(discussion_apis, function(api) {
-						return _.findWhere(discussions, { api: api }) || { api: api };
-					}));
-
-					return Promise.all(_.map(discussion_apis, function(api, i) {
-						if (ractive.get('discussions.' + i + '.loaded')) {
-							return;
-						}
-						return new Promise(function(resolve, reject) {
-							service((api === data.api) ? _.defaults({ type: 'discussion' }, data) :
-							                             { api: api, type: 'discussion', for: data },
-								function(err, data) {
-									if (err) {
-										ractive.set('discussions.' + i, { loaded: true, err: err });
-										return reject(err);
-									}
-									ractive.set('discussions.' + i, _.defaults({ loaded: true }, data));
-									resolve(data);
-								});
+			ractive.observe('expanded', function(expanded, old_expanded) {
+				if (!expanded || expanded === old_expanded) {
+					return;
+				}
+				switch (ractive.get('type')) {
+					case 'content':
+						_.each(ractive.get('discussions'), function(discussion, i) {
+							service(discussion, function(err, data) {
+								if (err) {
+									return ractive.set('discussions.' + i, { loaded: true, err: err });
+								}
+								ractive.set('discussions.' + i, _.extend(data, { loaded: true }));
+							});
 						});
-					})).then(null, _.noop);
-				});
-				break;
-			case 'account':
-				obj.data('template-promise').then(function(data) {
-					if (ractive.get('content.loaded')) {
-						return;
-					}
-					ractive.set('content', { loaded: false });
-
-					return new Promise(function(resolve, reject) {
-						service(_.defaults({ type: 'account_content' }, data), function(err, data) {
+						break;
+					case 'account':
+						service(ractive.get('content'), function(err, data) {
 							if (err) {
-								ractive.set('content', { loaded: true, err: err });
-								return reject(err);
+								return ractive.set('content', { loaded: true, err: err });
 							}
-							ractive.set('content', _.defaults({ loaded: true }, data));
-							resolve(data);
+							ractive.set('content', _.extend(data, { loaded: true }));
 						});
-					}).then(null, _.noop);
-				});
-				break;
-		}
+						break;
+				}
+			});
+		});
 	}
+
+	ractive.set('expanded', expanded);
 
 	return ractive;
 };

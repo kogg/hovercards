@@ -2,7 +2,9 @@ var _ = require('underscore');
 
 module.exports = function(api, callback) {
 	if (_.isEmpty(api)) {
-		return callback({ message: 'Missing \'api\'', status: 400 });
+		return setImmediate(function() {
+			callback({ message: 'Missing \'api\'', status: 400 });
+		});
 	}
 	chrome.runtime.sendMessage({ type: 'auth', api: api }, function(combined_response) {
 		if (chrome.runtime.lastError || _.isEmpty(combined_response)) {
