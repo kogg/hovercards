@@ -8,7 +8,7 @@
 	position: absolute !important;
 	z-index: 2147483647 !important;
 }
-@define-placeholder box-thing {
+@define-placeholder box-thing * {
 	all:unset;
 	box-sizing: border-box;
 	font-family: sans-serif;
