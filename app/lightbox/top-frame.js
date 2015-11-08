@@ -42,7 +42,9 @@ $.lightbox = function(identity, hovercard) {
 			.css('height', lightbox.height() + 1)
 			.css('width', lightbox.width() + 1);
 	} else {
-		lightbox__box = $('<div></div>').addClass(_.prefix('boxthing__box'));
+		lightbox__box = $('<div></div>')
+			.addClass(_.prefix('box'))
+			.addClass(_.prefix('boxthing__box'));
 
 		lightbox = $('<div></div>')
 			.addClass(_.prefix('boxthing'))

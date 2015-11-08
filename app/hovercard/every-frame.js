@@ -90,6 +90,7 @@ function make_hovercard(obj, identity, e) {
 	analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
 	var hovercard_start = Date.now();
 	var hovercard__box = $('<div></div>')
+		.addClass(_.prefix('box'))
 		.addClass(_.prefix('hovercard__box'))
 		.one(Click, function() {
 			obj.trigger(Cleanup, [true]);
