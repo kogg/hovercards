@@ -89,30 +89,28 @@ function make_hovercard(obj, identity, e) {
 	var analytics_label = _.analytics_label(identity);
 	analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
 	var hovercard_start = Date.now();
-	var hovercard = $('<div></div>')
-		.addClass(_.prefix('box'))
-		.addClass(_.prefix('hovercard'))
-		.data(_.prefix('identity'), identity)
+	var hovercard__box = $('<div></div>')
+		.addClass(_.prefix('hovercard__box'))
 		.one(Click, function() {
 			obj.trigger(Cleanup, [true]);
 		});
 
-	template_loading(hovercard, identity);
+	template_loading(hovercard__box, identity);
 
-	var hovercard_container = $('<div></div>')
-		.addClass(_.prefix('container'))
-		.addClass(_.prefix('container--hovercard'))
-		.append(hovercard)
+	var hovercard = $('<div></div>')
+		.addClass(_.prefix('hovercard'))
+		.data(_.prefix('identity'), identity)
+		.append(hovercard__box)
 		.appendTo('html');
 
 	var obj_offset = obj.offset();
-	var is_top = obj_offset.top - hovercard.height() - PADDING_FROM_EDGES > $(window).scrollTop();
-	hovercard_container
-		.toggleClass(_.prefix('container--hovercard--top'), is_top)
-		.toggleClass(_.prefix('container--hovercard--bottom'), !is_top)
+	var is_top = obj_offset.top - hovercard__box.height() - PADDING_FROM_EDGES > $(window).scrollTop();
+	hovercard
+		.toggleClass(_.prefix('hovercard_from_top'), is_top)
+		.toggleClass(_.prefix('hovercard_from_bottom'), !is_top)
 		.offset({ top:  obj_offset.top + (!is_top && obj.height()),
 		          left: Math.max(PADDING_FROM_EDGES,
-		                         Math.min($(window).scrollLeft() + $(window).width() - hovercard.width() - PADDING_FROM_EDGES,
+		                         Math.min($(window).scrollLeft() + $(window).width() - hovercard__box.width() - PADDING_FROM_EDGES,
 		                                  (e ? e.pageX : obj_offset.left) + 1)) });
 
 	function kill_it() {
@@ -124,17 +122,17 @@ function make_hovercard(obj, identity, e) {
 		.one(Cleanup, function(e, keep_hovercard) {
 			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
 			if (keep_hovercard) {
-				hovercard
-					.removeClass(_.prefix('container--hovercard--top'))
-					.removeClass(_.prefix('container--hovercard--bottom'));
+				hovercard__box
+					.removeClass(_.prefix('hovercard_from_top'))
+					.removeClass(_.prefix('hovercard_from_bottom'));
 			} else {
-				hovercard_container.remove();
+				hovercard.remove();
 			}
 			$(window).off(Blur, kill_it);
 			obj.off(NameSpace);
 			current_obj = !current_obj.is(obj) && current_obj;
 		});
-	var both = obj.add(hovercard);
+	var both = obj.add(hovercard__box);
 	both.on(MouseLeave, function(e) {
 		var to = $(e.toElement);
 		if (both.is(to) || both.has(to).length) {

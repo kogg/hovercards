@@ -32,37 +32,38 @@ $.lightbox = function(identity, hovercard) {
 	var lightbox_backdrop = $('<div></div>')
 		.addClass(_.prefix('lightbox-backdrop'))
 		.appendTo('html');
-	var lightbox_container;
 	var lightbox;
+	var lightbox__box;
 	var window_scroll = { top: $(window).scrollTop(), left: $(window).scrollLeft() };
 	if (hovercard) {
 		lightbox = hovercard;
-		lightbox_container = lightbox.parent();
-		lightbox_container
-			.css('height', lightbox_container.height() + 1)
-			.css('width', lightbox_container.width() + 1);
+		lightbox__box = hovercard.find('.' + _.prefix('hovercard__box'));
+		lightbox
+			.css('height', lightbox.height() + 1)
+			.css('width', lightbox.width() + 1);
 	} else {
-		lightbox = $('<div></div>').addClass(_.prefix('box'));
+		lightbox__box = $('<div></div>').addClass(_.prefix('boxthing__box'));
 
-		lightbox_container = $('<div></div>')
-			.addClass(_.prefix('container'))
+		lightbox = $('<div></div>')
+			.addClass(_.prefix('boxthing'))
 			.css('height', '0')
 			.css('width', '0')
 			.css('top', window_scroll.top + $(window).height() / 2)
 			.css('left', window_scroll.left + $(window).width() / 2)
-			.append(lightbox)
+			.append(lightbox__box)
 			.appendTo('html');
 	}
 	$('body,html').addClass(_.prefix('prevent-scroll'));
 
-	template_loading(lightbox, identity, true);
+	template_loading(lightbox__box, identity, true);
 
 	setTimeout(function() {
-		lightbox_container
-			.addClass(_.prefix('container--lightbox'))
-			.removeClass(_.prefix('container--hovercard'))
-			.removeClass(_.prefix('container--hovercard--top'))
-			.removeClass(_.prefix('container--hovercard--bottom'))
+		lightbox
+			.addClass(_.prefix('lightbox'))
+			.removeClass(_.prefix('boxthing'))
+			.removeClass(_.prefix('hovercard'))
+			.removeClass(_.prefix('hovercard_from_top'))
+			.removeClass(_.prefix('hovercard_from_bottom'))
 			.css('height', '100%')
 			.css('width', '100%')
 			.css('top', window_scroll.top)
@@ -71,13 +72,14 @@ $.lightbox = function(identity, hovercard) {
 				if (e.originalEvent.propertyName !== 'height') {
 					return;
 				}
-				lightbox_container
+				lightbox
 					.off('transitionend', set_overflow)
 					.css('overflow', 'auto');
 			});
-		lightbox
-			.addClass(_.prefix('lightbox'))
-			.removeClass(_.prefix('hovercard'));
+		lightbox__box
+			.addClass(_.prefix('lightbox__box'))
+			.removeClass(_.prefix('boxthing__box'))
+			.removeClass(_.prefix('hovercard__box'));
 	});
 
 	function stop_propagation(e) {
@@ -92,22 +94,32 @@ $.lightbox = function(identity, hovercard) {
 	function lightbox_leave() {
 		analytics('send', 'timing', 'lightbox', 'showing', Date.now() - lightbox_start, analytics_label);
 
-		lightbox.toggleAnimationClass('lightbox--leave', function() {
-			lightbox_container.remove();
-		});
-		lightbox_backdrop.toggleAnimationClass('lightbox-backdrop--leave', function() {
-			lightbox_backdrop.remove();
-		});
+		lightbox
+			.addClass(_.prefix('lightbox_leaving'))
+			.on('animationend', function fade_out_animation_finish(e) {
+				if (e.originalEvent.animationName !== 'fade-out-animation') {
+					return;
+				}
+				lightbox.remove();
+			});
+		lightbox_backdrop
+			.addClass(_.prefix('lightbox-backdrop_leaving'))
+			.on('animationend', function fade_out_animation_finish(e) {
+				if (e.originalEvent.animationName !== 'background-fade-out-animation') {
+					return;
+				}
+				lightbox_backdrop.remove();
+			});
 		$('body,html').removeClass(_.prefix('prevent-scroll'));
 
-		lightbox.off('click', stop_propagation);
+		lightbox__box.off('click', stop_propagation);
 		$(document).off('keydown', keydown);
-		lightbox_container.off('click', lightbox_leave);
+		lightbox.off('click', lightbox_leave);
 		lightbox_backdrop.off('click', lightbox_leave);
 	}
-	lightbox.on('click', stop_propagation);
+	lightbox__box.on('click', stop_propagation);
 	$(document).on('keydown', keydown);
-	lightbox_container.one('click', lightbox_leave);
+	lightbox.one('click', lightbox_leave);
 	lightbox_backdrop.one('click', lightbox_leave);
 };
 

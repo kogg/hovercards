@@ -3,6 +3,7 @@ module.exports = {
 		'postcss-import',
 		'autoprefixer',
 		'postcss-color-rgba-fallback',
+		'postcss-extend',
 		'postcss-class-prefix',
 		'postcss-url',
 		'postcss-map-url',

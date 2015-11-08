@@ -1,70 +1,51 @@
-.container--hovercard {
+.hovercard {
+	@extend box-thing;
 	pointer-events: none !important;
 }
-.hovercard {
+
+.hovercard_from_top {
+	animation: drop-down-animation .4s 1 forwards, fade-in-animation .4s 1 forwards !important;
+	transform: translate3d(0,0,0);
+}
+.hovercard_from_top .hovercard__box {
+	transform: translate3d(0,-100%,0);
+}
+
+.hovercard_from_bottom {
+	animation: drop-up-animation .4s 1 forwards, fade-in-animation .4s 1 forwards !important;
+	transform: translate3d(0,0,0);
+}
+
+
+.hovercard__box {
+	@extend box-thing__box;
 	cursor: pointer !important;
 	margin: 0 !important;
 	pointer-events: auto !important;
 }
 
-/*HoverCard Animations*/
-.container--hovercard--top, .container--hovercard--bottom {
-	animation-duration: .4s;
-	transform: translate3d(0,0,0);
-	animation-fill-mode: forwards;
-}
-.container--hovercard--top {
-	animation-name: hovercard-fade-down;
-}
 
-.container--hovercard--top .hovercard {
-	transform: translate3d(0,-100%,0);
-}
 
-@keyframes hovercard-fade-down {
+@keyframes drop-down-animation {
 	0% {
-		opacity: 0;
 		transform:translate3d(0,0,0);
 	}
 	1% {
-		opacity: 0;
 		transform:translate3d(0,-50px,0);
 	}
 	100% {
-		opacity: 1;
 		transform:translate3d(0,0,0);
 	}
 }
 
-.container--hovercard--bottom {
-	animation-name: hovercard-fade-up;
-}
-
-@keyframes hovercard-fade-up {
+@keyframes drop-up-animation {
 	0% {
-		opacity: 0;
 		transform:translate3d(0,0,0);
 	}
 	1% {
-		opacity: 0;
 		transform:translate3d(0,50px,0);
 	}
 	100% {
-		opacity: 1;
 		transform:translate3d(0,0,0);
 	}
-}
-.test {
-	width: 9999px;
-	max-width: 340px !important;
-	padding: 16px 12px !important;
-	display: block !important;
-	transition:all .5s ease-in-out !important;
-}
-.lightbox .test {
-	max-width: inherit !important;
-	max-width: 650px !important;
-}
-.growpls {
-	width: 100% !important;
 }

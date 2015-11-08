@@ -14,7 +14,7 @@ if (window !== window.top) {
 		window.top.postMessage({ msg: _.prefix('lightbox'), identity: identity }, '*');
 	};
 
-	$('html').on(Click, '.' + _.prefix('hovercard') + ':not(.' + _.prefix('lightbox') + ')', function() {
-		$(this).remove();
+	$('html').on(Click, '.' + _.prefix('hovercard__box'), function() {
+		$(this).parents('.' + _.prefix('hovercard')).remove();
 	});
 }
