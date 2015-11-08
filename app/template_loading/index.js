@@ -83,6 +83,9 @@ module.exports = function(obj, identity, expanded) {
 				switch (ractive.get('type')) {
 					case 'content':
 						_.each(ractive.get('discussions'), function(discussion, i) {
+							if (discussion.loaded) {
+								return;
+							}
 							service(discussion, function(err, data) {
 								if (err) {
 									return ractive.set('discussions.' + i, { loaded: true, err: err });
@@ -92,7 +95,11 @@ module.exports = function(obj, identity, expanded) {
 						});
 						break;
 					case 'account':
-						service(ractive.get('content'), function(err, data) {
+						var account_content = ractive.get('content');
+						if (account_content.loaded) {
+							break;
+						}
+						service(account_content, function(err, data) {
 							if (err) {
 								return ractive.set('content', { loaded: true, err: err });
 							}
