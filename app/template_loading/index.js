@@ -60,7 +60,7 @@ module.exports = function(obj, identity, expanded) {
 					var default_discussions = _.chain(config.apis[data.api])
 					                           .result('discussion_apis', [])
 					                           .map(function(api) {
-					                               return (api === data.api) ? _.defaults({ type: 'discussion' }, data) :
+					                               return (api === data.api) ? _.defaults({ type: 'discussion', loaded: false }, data) :
 					                                                           { api: api, type: 'discussion', for: _.clone(data) };
 					                           })
 					                           .value();
