@@ -5,6 +5,7 @@
 
 	"followers": { "message": "Followers" },
 	"following": { "message": "Following" },
+	"likes":     { "message": "Likes" },
 	"views":     { "message": "Views" },
 
 	"instagram_content": { "message": "Photos" },
