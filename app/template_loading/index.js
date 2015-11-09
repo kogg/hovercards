@@ -51,8 +51,9 @@ module.exports = function(obj, identity, expanded) {
 
 		service(identity, function(err, data) {
 			if (err) {
-				return ractive.reset({ expanded: ractive.get('expanded'), loaded: true, err: err });
+				return ractive.set(identity.type, { loaded: true, err: err });
 			}
+			ractive.set(data.type, _.extend(data, { loaded: true }));
 			switch (data.type) {
 				case 'content':
 					var given_discussions   = _.each(data.discussions || [], function(discussion) { _.extend(discussion, { loaded: true }); });
@@ -63,18 +64,16 @@ module.exports = function(obj, identity, expanded) {
 					                                                           { api: api, type: 'discussion', for: _.clone(data) };
 					                           })
 					                           .value();
-					data.discussions = _.chain(given_discussions)
-					                    .union(default_discussions)
-					                    .uniq(_.property('api'))
-					                    .value();
+					ractive.set('discussions', _.chain(given_discussions)
+					                            .union(default_discussions)
+					                            .uniq(_.property('api'))
+					                            .value());
 					break;
 				case 'account':
-					data.content = data.content ? _.extend(data.content, { loaded: true }) :
-					                              _.defaults({ type: 'account_content', loaded: false }, data);
+					ractive.set('account_content', data.content ? _.extend(data.content, { loaded: true }) :
+					                                              _.defaults({ type: 'account_content', loaded: false }, data));
 					break;
 			}
-			_.extend(data, { loaded: true, expanded: ractive.get('expanded') });
-			ractive.reset(data);
 
 			ractive.observe('expanded', function(expanded, old_expanded) {
 				if (!expanded || expanded === old_expanded) {
@@ -95,7 +94,7 @@ module.exports = function(obj, identity, expanded) {
 						});
 						break;
 					case 'account':
-						var account_content = ractive.get('content');
+						var account_content = ractive.get('account_content');
 						if (account_content.loaded) {
 							break;
 						}
