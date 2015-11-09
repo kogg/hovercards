@@ -49,6 +49,7 @@ module.exports = function(obj, identity, expanded) {
 		});
 		obj.data('ractive', ractive);
 
+		ractive.set(identity.type, { loaded: false });
 		service(identity, function(err, data) {
 			if (err) {
 				return ractive.set(identity.type, { loaded: true, err: err });
