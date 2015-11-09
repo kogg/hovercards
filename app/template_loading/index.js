@@ -100,9 +100,9 @@ module.exports = function(obj, identity, expanded) {
 						}
 						service(account_content, function(err, data) {
 							if (err) {
-								return ractive.set('content', { loaded: true, err: err });
+								return ractive.set('account_content', { loaded: true, err: err });
 							}
-							ractive.set('content', _.extend(data, { loaded: true }));
+							ractive.set('account_content', _.extend(data, { loaded: true }));
 						});
 						break;
 				}
