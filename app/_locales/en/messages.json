@@ -12,6 +12,7 @@
 	"soundcloud_content": { "message": "Tracks" },
 
 	"twitter_content": { "message": "Tweets" },
+	"twitter_reposts": { "message": "Retweets" },
 
 	"youtube_content":   { "message": "Videos" },
 	"youtube_followers": { "message": "Subscribers" },
