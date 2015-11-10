@@ -92,7 +92,8 @@ function make_hovercard(obj, identity, e) {
 	var hovercard__box = $('<div></div>')
 		.addClass(_.prefix('box'))
 		.addClass(_.prefix('hovercard__box'))
-		.one(Click, function() {
+		.one(Click, function(e) {
+			e.preventDefault();
 			obj.trigger(Cleanup, [true]);
 		});
 
@@ -152,6 +153,7 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 		var url;
 		var identity;
 		if (obj.is(current_obj) || obj.has(current_obj).length ||
+		    obj.parents('.' + _.prefix('hovercard')).length ||
 		    !(url = massage_url(hoverable.get_url(obj))) ||
 		    !(identity = urls.parse(url)) ||
 		    !accept_identity(identity, obj)) {
