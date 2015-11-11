@@ -1,3 +1,4 @@
+var $       = require('jquery');
 var _       = require('underscore');
 var Ractive = require('ractive');
 var config  = require('../config');
@@ -35,7 +36,18 @@ var HoverCardRactive = Ractive.extend({
 	                 memo[key.replace('/', '-')] = Ractive.extend(obj);
 	                 return memo;
 	             }, {})
-	             .value()
+	             .value(),
+	// FIXME Move this to hovercardsshared
+	decorators: {
+		date: function(node, date) {
+			var moment = require('moment-twitter');
+			$(node).html(moment(date).twitterShort());
+			// TODO Make this update to the next unit when we get there
+			return {
+				teardown: _.noop
+			};
+		}
+	}
 });
 
 module.exports = function(obj, identity, expanded) {
