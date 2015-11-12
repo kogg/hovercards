@@ -74,6 +74,7 @@ module.exports = function(obj, identity, expanded) {
 					ractive.set('discussions', _.chain(given_discussions)
 					                            .union(default_discussions)
 					                            .uniq(_.property('api'))
+					                            .reject(_.property('hide'))
 					                            .value());
 					break;
 				case 'account':
