@@ -26,13 +26,21 @@
 	"x_minutes":            { "message": "$1m" },
 	"x_seconds":            { "message": "$1s" },
 
+	"imgur": { "message": "Imgur" },
+
+	"instagram":         { "message": "Instagram" },
 	"instagram_content": { "message": "Photos" },
 
+	"reddit": { "message": "Reddit" },
+
+	"soundcloud":         { "message": "SoundCloud" },
 	"soundcloud_content": { "message": "Tracks" },
 
+	"twitter":         { "message": "Twitter" },
 	"twitter_content": { "message": "Tweets" },
 	"twitter_reposts": { "message": "Retweets" },
 
+	"youtube":           { "message": "YouTube" },
 	"youtube_content":   { "message": "Videos" },
 	"youtube_followers": { "message": "Subscribers" },
 
@@ -46,17 +54,14 @@
 
 	"facebook_post": { "message": "Share $1 on Facebook" },
 
-	"imgur":                       { "message": "Imgur" },
 	"imgur_account":               { "message": "Imgur User" },
 	"imgur_discussion":            { "message": "Imgur Comments" },
 	"imgur_discussion_short":      { "message": "Comments" },
 
-	"instagram":                  { "message": "Instagram" },
 	"instagram_account":          { "message": "Instagram User" },
 	"instagram_discussion":       { "message": "Instagram Comments" },
 	"instagram_discussion_short": { "message": "Comments" },
 
-	"reddit":                     { "message": "Reddit" },
 	"reddit_account":             { "message": "Reddit User" },
 	"reddit_discussion":          { "message": "Reddit Comments" },
 	"reddit_discussion_short":    { "message": "Comments" },
@@ -64,12 +69,10 @@
 	"reddit_err_no_content_name": { "message": "No Posts Found" },
 	"reddit_err_no_content_text": { "message": "Quick! Be the first to post this to Reddit!" },
 
-	"soundcloud":                  { "message": "Soundcloud" },
 	"soundcloud_account":          { "message": "Soundcloud User" },
 	"soundcloud_discussion":       { "message": "Soundcloud Comments" },
 	"soundcloud_discussion_short": { "message": "Comments" },
 
-	"twitter":                                 { "message": "Twitter" },
 	"twitter_account":                         { "message": "Twitter User" },
 	"twitter_account_reason_author_with_name": { "message": "Tweeted by $1" },
 	"twitter_discussion":                      { "message": "Twitter Tweets" },
@@ -80,7 +83,6 @@
 	"twitter_err_not_implemented_name":        { "message": "Can't Do it" },
 	"twitter_err_not_implemented_text":        { "message": "Sorry, HoverCards couldn't find anything here!" },
 
-	"youtube":                       { "message": "Youtube" },
 	"youtube_account":               { "message": "Youtube Channel" },
 	"youtube_account_reason_author": { "message": "Uploaded by" },
 	"youtube_discussion":            { "message": "Youtube Comments" },
