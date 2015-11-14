@@ -22,17 +22,20 @@ var HoverCardRactive = Ractive.extend({
 	data:       global_data,
 	partials:   _.chain(require('../../node_modules/hovercardsshared/*/@(content|discussion|account|account_content).html', { mode: 'hash' }))
 	             .extend(require('../../node_modules/hovercardsshared/@(content|discussion|account|account_content)/layout.html', { mode: 'hash' }))
-	             .extend(require('../../node_modules/hovercardsshared/common/*.html', { mode: 'hash' }))
 	             .reduce(function(memo, template, key) {
-	                 memo[key.replace(/^common\//, '').replace('/', '-')] = template;
+	                 memo[key.replace('/', '-')] = template;
 	                 return memo;
 	             }, {})
 	             .value(),
-	components: _.chain(require('../../node_modules/hovercardsshared/!(common)/*.ract', { mode: 'hash' }))
+	components: _.chain(require('../../node_modules/hovercardsshared/*/*.ract', { mode: 'hash' }))
 	             .extend(require('../../node_modules/hovercardsshared/common/*.ract', { mode: 'hash' }))
 	             .reduce(function(memo, obj, key) {
 	                 obj.data = _.extend(obj.data || {}, global_data);
-	                 memo[key.replace('/', '-')] = Ractive.extend(obj);
+	                 var key_parts = key.split('/');
+	                 while (key_parts[0] && _.isEqual(key_parts[0], key_parts[1])) {
+	                     key_parts.shift();
+	                 }
+	                 memo[key_parts.join('-')] = Ractive.extend(obj);
 	                 return memo;
 	             }, {})
 	             .value(),
