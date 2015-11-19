@@ -3,6 +3,7 @@
 	"app_short_name":  { "message": "hovercards" },
 	"app_description": { "message": "Get more content. Open fewer tabs." },
 
+	"account_id_as_name":   { "message": "$1" },
 	"followers":            { "message": "Followers" },
 	"following":            { "message": "Following" },
 	"likes":                { "message": "Likes" },
@@ -28,17 +29,20 @@
 
 	"imgur": { "message": "Imgur" },
 
-	"instagram":         { "message": "Instagram" },
-	"instagram_content": { "message": "Photos" },
+	"instagram":                    { "message": "Instagram" },
+	"instagram_account_id_as_name": { "message": "@$1" },
+	"instagram_content":            { "message": "Photos" },
 
 	"reddit": { "message": "reddit" },
 
-	"soundcloud":         { "message": "SoundCloud" },
-	"soundcloud_content": { "message": "Tracks" },
+	"soundcloud":                    { "message": "SoundCloud" },
+	"soundcloud_account_id_as_name": { "message": "@$1" },
+	"soundcloud_content":            { "message": "Tracks" },
 
-	"twitter":         { "message": "Twitter" },
-	"twitter_content": { "message": "Tweets" },
-	"twitter_reposts": { "message": "Retweets" },
+	"twitter":                    { "message": "Twitter" },
+	"twitter_account_id_as_name": { "message": "@$1" },
+	"twitter_content":            { "message": "Tweets" },
+	"twitter_reposts":            { "message": "Retweets" },
 
 	"youtube":           { "message": "YouTube" },
 	"youtube_content":   { "message": "Videos" },
