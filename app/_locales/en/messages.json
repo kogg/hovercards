@@ -8,12 +8,18 @@
 	"following":          { "message": "Following" },
 	"likes":              { "message": "Likes" },
 	"views":              { "message": "Views" },
-	"x_days":             { "message": "$1d" },
-	"x_hours":            { "message": "$1h" },
-	"x_minutes":          { "message": "$1m" },
-	"x_months":           { "message": "$1M" },
-	"x_seconds":          { "message": "$1s" },
-	"x_years":            { "message": "$1y" },
+
+	"x_seconds": { "message": "$1s" },
+	"x_minutes": { "message": "$1m" },
+	"x_hours":   { "message": "$1h" },
+	"x_days":    { "message": "$1d" },
+	"x_months":  { "message": "$1M" },
+	"x_years":   { "message": "$1y" },
+
+	"x_thousand": { "message": "$1k" },
+	"x_million":  { "message": "$1m" },
+	"x_billion":  { "message": "$1b" },
+	"x_trillion": { "message": "$1t" },
 
 	"imgur": { "message": "Imgur" },
 
