@@ -86,13 +86,23 @@ module.exports = function(obj, identity, expanded) {
 					break;
 			}
 
-			ractive.observe('expanded', function(expanded, old_expanded) {
+			var observe_expanded = ractive.observe('expanded', function(expanded, old_expanded) {
 				if (!expanded || expanded === old_expanded) {
 					return;
 				}
 				switch (ractive.get('type')) {
 					case 'content':
-						_.each(ractive.get('discussions'), function(discussion, i) {
+						var started = {};
+						ractive.set('discussion_i', 0);
+						var observe_discussion_i = ractive.observe('discussion_i', function(i, old_i) {
+							if (_.isUndefined(i)  || i === old_i || started[i]) {
+								return;
+							}
+							started[i] = true;
+							if (_.size(started) === _.size(ractive.get('discussions'))) {
+								observe_discussion_i.cancel();
+							}
+							var discussion = ractive.get('discussions.' + i);
 							if (discussion.loaded) {
 								return;
 							}
@@ -116,7 +126,10 @@ module.exports = function(obj, identity, expanded) {
 							ractive.set('account_content', _.extend(data, { loaded: true }));
 						});
 						break;
+					default:
+						return;
 				}
+				observe_expanded.cancel();
 			});
 		});
 	}
