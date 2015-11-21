@@ -61,80 +61,60 @@ module.exports = function(obj, identity, expanded) {
 		ractive.set(identity.type, { loaded: false });
 		service(identity, function(err, data) {
 			if (err) {
-				return ractive.set(identity.type, { loaded: true, err: err });
+				return ractive.set(identity.type, _.extend(ractive.get(identity.type), { loaded: true, err: err }));
 			}
 			ractive.set(data.type, _.extend(data, { loaded: true }));
 			switch (data.type) {
 				case 'content':
-					var given_discussions   = _.each(data.discussions || [], function(discussion) { _.extend(discussion, { loaded: true }); });
+					var given_discussions = _.each(data.discussions || [], _.partial(_.extend, _, { loaded: true }));
+					delete data.discussions;
 					var default_discussions = _.chain(config.apis[data.api])
 					                           .result('discussion_apis', [])
 					                           .map(function(api) {
 					                               return (api === data.api) ? _.defaults({ type: 'discussion', loaded: false }, data) :
-					                                                           { api: api, type: 'discussion', for: _.clone(data) };
+					                                                           { api: api, type: 'discussion', for: _.clone(data), loaded: false };
 					                           })
 					                           .value();
-					ractive.set('discussions', _.chain(given_discussions)
-					                            .union(default_discussions)
-					                            .uniq(_.property('api'))
-					                            .reject(_.property('hide'))
-					                            .value());
-					break;
-				case 'account':
-					ractive.set('account_content', data.content ? _.extend(data.content, { loaded: true }) :
-					                                              _.defaults({ type: 'account_content', loaded: false }, data));
-					break;
-			}
-
-			var observe_expanded = ractive.observe('expanded', function(expanded, old_expanded) {
-				if (!expanded || expanded === old_expanded) {
-					return;
-				}
-				switch (ractive.get('type')) {
-					case 'content':
-						var started = {};
-						ractive.set('discussion_i', 0);
-						var observe_discussion_i = ractive.observe('discussion_i', function(i, old_i) {
-							if (_.isUndefined(i)  || i === old_i || started[i]) {
-								return;
-							}
-							started[i] = true;
-							if (_.size(started) === _.size(ractive.get('discussions'))) {
-								setTimeout(function() {
-									observe_discussion_i.cancel(); // FIXME https://github.com/ractivejs/ractive/issues/2285
-								});
-							}
+					var discussions = _.chain(given_discussions)
+					                   .union(default_discussions)
+					                   .uniq(_.property('api'))
+					                   .reject(_.property('hide'))
+					                   .value();
+					ractive.set('discussions', discussions);
+					_.each(discussions, function(discussion, i) {
+						ractive.observeOnce('expanded && discussion_i === ' + i, function() {
 							var discussion = ractive.get('discussions.' + i);
 							if (discussion.loaded) {
 								return;
 							}
-							service(discussion, function(err, data) {
+							service(discussion, function(err, discussion) {
 								if (err) {
-									return ractive.set('discussions.' + i, { loaded: true, err: err });
+									return ractive.set('discussions.' + i, _.extend(ractive.get('discussions.' + i),
+									                                                { loaded: true, err: err }));
 								}
-								ractive.set('discussions.' + i, _.extend(data, { loaded: true }));
+								ractive.set('discussions.' + i, _.extend(discussion, { loaded: true }));
 							});
 						});
-						break;
-					case 'account':
-						var account_content = ractive.get('account_content');
+					});
+					ractive.set('discussion_i', 0);
+					break;
+				case 'account':
+					ractive.observeOnce('expanded && account_content', function(account_content) {
 						if (account_content.loaded) {
-							break;
+							return;
 						}
-						service(account_content, function(err, data) {
+						service(account_content, function(err, account_content) {
 							if (err) {
-								return ractive.set('account_content', { loaded: true, err: err });
+								return ractive.set('account_content', _.extend(ractive.get('account_content'),
+								                                               { loaded: true, err: err }));
 							}
-							ractive.set('account_content', _.extend(data, { loaded: true }));
+							ractive.set('account_content', _.extend(account_content, { loaded: true }));
 						});
-						break;
-					default:
-						return;
-				}
-				setTimeout(function() {
-					observe_expanded.cancel(); // FIXME https://github.com/ractivejs/ractive/issues/2285
-				});
-			});
+					});
+					ractive.set('account_content', data.content ? _.extend(data.content, { loaded: true }) :
+					                                              _.defaults({ type: 'account_content', loaded: false }, data));
+					break;
+			}
 		});
 	}
 
