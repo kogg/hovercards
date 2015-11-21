@@ -100,7 +100,9 @@ module.exports = function(obj, identity, expanded) {
 							}
 							started[i] = true;
 							if (_.size(started) === _.size(ractive.get('discussions'))) {
-								observe_discussion_i.cancel();
+								setTimeout(function() {
+									observe_discussion_i.cancel(); // FIXME https://github.com/ractivejs/ractive/issues/2285
+								});
 							}
 							var discussion = ractive.get('discussions.' + i);
 							if (discussion.loaded) {
@@ -129,7 +131,9 @@ module.exports = function(obj, identity, expanded) {
 					default:
 						return;
 				}
-				observe_expanded.cancel();
+				setTimeout(function() {
+					observe_expanded.cancel(); // FIXME https://github.com/ractivejs/ractive/issues/2285
+				});
 			});
 		});
 	}
