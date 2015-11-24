@@ -5,11 +5,9 @@ var config = {
 	endpoint: process.env.NODE_ENV === 'production' ? 'http://hover.cards/v2' : 'http://localhost:5000/v2',
 	analytics_id: 'UA-64246820-3',
 	apis: {
-		/*
 		reddit: {
 			key: '0jXqEudQPqSL6w'
 		},
-		*/
 		instagram: {
 			client_on_auth: true,
 			client_auth_url: 'https://instagram.com/oauth/authorize/?client_id=41e56061c1e34fbbb16ab1d095dad78b&redirect_uri=https://EXTENSION_ID.chromiumapp.org/callback&response_type=token'
