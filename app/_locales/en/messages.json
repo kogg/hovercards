@@ -4,6 +4,7 @@
 	"app_description": { "message": "Get more content. Open fewer tabs." },
 
 	"account_id_as_name": { "message": "$1" },
+	"account_age":        { "message": "Account Age" },
 	"followers":          { "message": "Followers" },
 	"following":          { "message": "Following" },
 	"likes":              { "message": "Likes" },
@@ -27,7 +28,9 @@
 	"instagram_account_id_as_name": { "message": "@$1" },
 	"instagram_content":            { "message": "Photos" },
 
-	"reddit": { "message": "reddit" },
+	"reddit":               { "message": "reddit" },
+	"reddit_comment_karma": { "message": "Comment Karma" },
+	"reddit_link_karma":    { "message": "Link Karma" },
 
 	"soundcloud":                    { "message": "SoundCloud" },
 	"soundcloud_account_id_as_name": { "message": "@$1" },
