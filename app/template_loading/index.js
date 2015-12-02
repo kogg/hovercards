@@ -7,6 +7,14 @@ require('../common/mixins');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 
+Ractive.prototype.observeUntil = function(keypath, handler) {
+	if (this.get(keypath)) {
+		handler(this.get(keypath));
+	} else {
+		this.observeOnce(keypath, handler);
+	}
+};
+
 var global_data = {
 	_: _,
 	copy: function(name, api) {
@@ -61,12 +69,14 @@ module.exports = function(obj, identity, expanded) {
 		ractive.set(identity.type, { loaded: false });
 		service(identity, function(err, data) {
 			if (err) {
-				return ractive.set(identity.type, _.extend(ractive.get(identity.type), { loaded: true, err: err }));
+				ractive.set(identity.type + '.err',    err);
+				ractive.set(identity.type + '.loaded', true);
+				return;
 			}
 			ractive.set(data.type, _.extend(data, { loaded: true }));
 			switch (data.type) {
 				case 'content':
-					var given_discussions = _.each(data.discussions || [], _.partial(_.extend, _, { loaded: true }));
+					var given_discussions = _.each(data.discussions, _.partial(_.extend, _, { loaded: true })) || [];
 					delete data.discussions;
 					var default_discussions = _.chain(config.apis[data.api])
 					                           .result('discussion_apis', [])
@@ -75,44 +85,48 @@ module.exports = function(obj, identity, expanded) {
 					                                                           { api: api, type: 'discussion', for: _.clone(data), loaded: false };
 					                           })
 					                           .value();
-					var discussions = _.chain(given_discussions)
-					                   .union(default_discussions)
-					                   .uniq(_.property('api'))
-					                   .reject(_.property('hide'))
-					                   .value();
-					ractive.set('discussions', discussions);
-					_.each(discussions, function(discussion, i) {
-						ractive.observeOnce('expanded && discussion_i === ' + i, function() {
+					ractive.set('discussions', _.chain(given_discussions)
+					                            .union(default_discussions)
+					                            .uniq(_.property('api'))
+					                            .reject(_.property('hide'))
+					                            .value());
+					ractive.set('discussion_i', 0);
+					ractive.observeUntil('expanded', function() {
+						ractive.observe('discussion_i', function(i) {
 							var discussion = ractive.get('discussions.' + i);
-							if (discussion.loaded) {
+							if (discussion.started || discussion.loaded) {
 								return;
 							}
+							ractive.get('discussions.' + i + '.started', true);
 							service(discussion, function(err, discussion) {
 								if (err) {
-									return ractive.set('discussions.' + i, _.extend(ractive.get('discussions.' + i),
-									                                                { loaded: true, err: err }));
+									ractive.set('discussions.' + i + '.err',    err);
+									ractive.set('discussions.' + i + '.loaded', true);
+									return;
 								}
 								ractive.set('discussions.' + i, _.extend(discussion, { loaded: true }));
 							});
 						});
 					});
-					ractive.set('discussion_i', 0);
 					break;
 				case 'account':
-					ractive.observeOnce('expanded && account_content', function(account_content) {
-						if (account_content.loaded) {
-							return;
-						}
-						service(account_content, function(err, account_content) {
-							if (err) {
-								return ractive.set('account_content', _.extend(ractive.get('account_content'),
-								                                               { loaded: true, err: err }));
-							}
-							ractive.set('account_content', _.extend(account_content, { loaded: true }));
-						});
-					});
 					ractive.set('account_content', data.content ? _.extend(data.content, { loaded: true }) :
 					                                              _.defaults({ type: 'account_content', loaded: false }, data));
+					ractive.observeUntil('expanded', function() {
+						ractive.observeUntil('account_content', function(account_content) {
+							if (account_content.loaded) {
+								return;
+							}
+							service(account_content, function(err, account_content) {
+								if (err) {
+									ractive.set('account_content.err',    err);
+									ractive.set('account_content.loaded', true);
+									return;
+								}
+								ractive.set('account_content', _.extend(account_content, { loaded: true }));
+							});
+						});
+					});
 					break;
 			}
 		});
