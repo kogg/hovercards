@@ -20,8 +20,8 @@ var global_data = {
 
 var HoverCardRactive = Ractive.extend({
 	data:       global_data,
-	partials:   _.chain(require('../../node_modules/hovercardsshared/*/@(content|discussion|account|account_content).html', { mode: 'hash' }))
-	             .extend(require('../../node_modules/hovercardsshared/@(content|discussion|account|account_content)/layout.html', { mode: 'hash' }))
+	partials:   _.chain(require('../../node_modules/hovercardsshared/*/@(content|discussion|discussion-header|account|account-content).html', { mode: 'hash' }))
+	             .extend(require('../../node_modules/hovercardsshared/@(content|discussion|discussion-header|account|account-content)/layout.html', { mode: 'hash' }))
 	             .reduce(function(memo, template, key) {
 	                 memo[key.replace('/', '-')] = template;
 	                 return memo;
@@ -31,7 +31,7 @@ var HoverCardRactive = Ractive.extend({
 	             .extend(require('../../node_modules/hovercardsshared/common/*.ract', { mode: 'hash' }))
 	             .reduce(function(memo, obj, key) {
 	                 obj.data = _.extend(obj.data || {}, global_data);
-	                 var key_parts = key.split('/');
+	                 var key_parts = key.split(/[/-]/g);
 	                 while (key_parts[0] && _.isEqual(key_parts[0], key_parts[1])) {
 	                     key_parts.shift();
 	                 }
