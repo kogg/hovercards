@@ -8,9 +8,16 @@
 	position: absolute !important;
 	z-index: 2147483647 !important;
 }
-@define-placeholder box-thing * {
-	all:unset;
-	box-sizing: border-box;
+@define-placeholder box-thing,
+@define-placeholder box-thing *,
+@define-placeholder box-thing *:before,
+@define-placeholder box-thing *:after {
+	all: initial;
+	box-sizing: border-box !important;
+}
+@define-placeholder box-thing *:before,
+@define-placeholder box-thing *:after {
+	display: none !important
 }
 @define-placeholder box-thing div {
 	display: block;
