@@ -15,6 +15,25 @@ Ractive.prototype.observeUntil = function(keypath, handler) {
 	}
 };
 
+Ractive.prototype.service = function(keypath, identity, handler) {
+	var ractive = this;
+	var val     = ractive.get(keypath);
+	if (val && (val.loading || val.loaded)) {
+		return;
+	}
+	ractive.set(keypath + '.loading', true);
+	ractive.set(keypath + '.loaded',  false);
+	service(identity || val, function(err, data) {
+		if (err) {
+			ractive.set(keypath + '.err',    err);
+			ractive.set(keypath + '.loaded', true);
+			return (handler || _.noop)(ractive.get(keypath + '.err'));
+		}
+		ractive.set(keypath, _.extend(data, { loaded: true }));
+		(handler || _.noop)(null, ractive.get(keypath));
+	});
+};
+
 var global_data = {
 	_: _,
 	copy: function(name, api) {
@@ -66,14 +85,10 @@ module.exports = function(obj, identity, expanded) {
 		});
 		obj.data('ractive', ractive);
 
-		ractive.set(identity.type, { loaded: false });
-		service(identity, function(err, data) {
+		ractive.service(identity.type, identity, function(err, data) {
 			if (err) {
-				ractive.set(identity.type + '.err',    err);
-				ractive.set(identity.type + '.loaded', true);
 				return;
 			}
-			ractive.set(data.type, _.extend(data, { loaded: true }));
 			switch (data.type) {
 				case 'content':
 					var given_discussions = _.each(data.discussions, _.partial(_.extend, _, { loaded: true })) || [];
@@ -93,19 +108,7 @@ module.exports = function(obj, identity, expanded) {
 					ractive.set('discussion_i', 0);
 					ractive.observeUntil('expanded', function() {
 						ractive.observe('discussion_i', function(i) {
-							var discussion = ractive.get('discussions.' + i);
-							if (discussion.started || discussion.loaded) {
-								return;
-							}
-							ractive.get('discussions.' + i + '.started', true);
-							service(discussion, function(err, discussion) {
-								if (err) {
-									ractive.set('discussions.' + i + '.err',    err);
-									ractive.set('discussions.' + i + '.loaded', true);
-									return;
-								}
-								ractive.set('discussions.' + i, _.extend(discussion, { loaded: true }));
-							});
+							ractive.service('discussions.' + i);
 						});
 					});
 					break;
@@ -114,17 +117,7 @@ module.exports = function(obj, identity, expanded) {
 					                                              _.defaults({ type: 'account_content', loaded: false }, data));
 					ractive.observeUntil('expanded', function() {
 						ractive.observeUntil('account_content', function(account_content) {
-							if (account_content.loaded) {
-								return;
-							}
-							service(account_content, function(err, account_content) {
-								if (err) {
-									ractive.set('account_content.err',    err);
-									ractive.set('account_content.loaded', true);
-									return;
-								}
-								ractive.set('account_content', _.extend(account_content, { loaded: true }));
-							});
+							ractive.service('account_content', account_content);
 						});
 					});
 					break;
