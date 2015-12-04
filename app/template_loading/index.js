@@ -80,17 +80,17 @@ module.exports = function(obj, identity, expanded) {
 	if (!ractive) {
 		ractive = new HoverCardRactive({
 			template: '{{>type+"-layout"}}',
-			data:     identity,
+			data:     _.clone(identity),
 			el:       obj
 		});
 		obj.data('ractive', ractive);
 
-		ractive.service(identity.type, identity, function(err, data) {
-			if (err) {
-				return;
-			}
-			switch (data.type) {
-				case 'content':
+		switch (identity.type) {
+			case 'content':
+				ractive.service('content', identity, function(err, data) {
+					if (err) {
+						return;
+					}
 					var given_discussions = _.each(data.discussions, _.partial(_.extend, _, { loaded: true })) || [];
 					delete data.discussions;
 					var default_discussions = _.chain(config.apis[data.api])
@@ -111,18 +111,32 @@ module.exports = function(obj, identity, expanded) {
 							ractive.service('discussions.' + i);
 						});
 					});
-					break;
-				case 'account':
-					ractive.set('account_content', data.content ? _.extend(data.content, { loaded: true }) :
-					                                              _.defaults({ type: 'account_content', loaded: false }, data));
-					ractive.observeUntil('expanded', function() {
-						ractive.observeUntil('account_content', function(account_content) {
-							ractive.service('account_content', account_content);
+				});
+				break;
+			case 'account':
+				ractive.set('accounts', [identity]);
+				ractive.set('account_i', 0);
+				ractive.observe('account_i', function(i) {
+					ractive.service('accounts.' + i, null, function(err, data) {
+						if (err) {
+							return;
+						}
+						if (data.content) {
+							ractive.set('accounts.' + i + '.content.loaded', true);
+						} else {
+							ractive.set('accounts.' + i + '.content', _.defaults({ type: 'account_content', loaded: false }, data));
+						}
+						ractive.observeUntil('expanded', function() {
+							ractive.service('accounts.' + i + '.content');
 						});
+						ractive.set('accounts', _.chain(ractive.get('accounts'))
+						                         .union(data.accounts)
+						                         .uniq(_.property('api'))
+						                         .value());
 					});
-					break;
-			}
-		});
+				});
+				break;
+		}
 	}
 
 	ractive.set('expanded', expanded);
