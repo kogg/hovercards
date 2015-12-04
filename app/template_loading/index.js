@@ -25,11 +25,12 @@ Ractive.prototype.service = function(keypath, identity, handler) {
 	ractive.set(keypath + '.loaded',  false);
 	service(identity || val, function(err, data) {
 		if (err) {
-			ractive.set(keypath + '.err',    err);
-			ractive.set(keypath + '.loaded', true);
+			ractive.set(keypath + '.err',     err);
+			ractive.set(keypath + '.loaded',  true);
+			ractive.set(keypath + '.loading', false);
 			return (handler || _.noop)(ractive.get(keypath + '.err'));
 		}
-		ractive.set(keypath, _.extend(data, { loaded: true }));
+		ractive.set(keypath, _.extend(data, { loaded: true, loading: false }));
 		(handler || _.noop)(null, ractive.get(keypath));
 	});
 };
