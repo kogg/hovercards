@@ -35,6 +35,7 @@ Ractive.prototype.service = function(keypath, identity, handler) {
 	});
 };
 
+// TODO Put this in shared pkg
 var global_data = {
 	_: _,
 	copy: function(name, api) {
@@ -43,6 +44,14 @@ var global_data = {
 		return (!_.isEmpty(api) && chrome.i18n.getMessage(api + '_' + name, rest)) || chrome.i18n.getMessage(name, rest);
 	},
 	prefix: _.prefix,
+	timestamp: function(time_in_milli) {
+		var time_in_sec = Math.floor(time_in_milli / 1000) % 60 + '';
+		var time_in_min = Math.floor(time_in_milli / (60 * 1000)) % 60 + '';
+		while (time_in_sec.length < 2) {
+			time_in_sec = '0' + time_in_sec;
+		}
+		return time_in_min + ':' + time_in_sec;
+	},
 	url: urls.print
 };
 
