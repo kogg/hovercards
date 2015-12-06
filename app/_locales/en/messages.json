@@ -32,7 +32,7 @@
 	"instagram_account_id_as_name": { "message": "@$1" },
 	"instagram_content":            { "message": "Photos" },
 
-	"reddit":               { "message": "reddit" },
+	"reddit":               { "message": "Reddit" },
 	"reddit_comment_karma": { "message": "Comment Karma" },
 	"reddit_link_karma":    { "message": "Link Karma" },
 
