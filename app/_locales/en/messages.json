@@ -10,6 +10,7 @@
 	"followers":          { "message": "Followers" },
 	"following":          { "message": "Following" },
 	"likes":              { "message": "Likes" },
+	"replies":            { "message": "Replies" },
 	"score":              { "message": "Score" },
 	"score_ratio":        { "message": "Score Ratio" },
 	"views":              { "message": "Views" },
