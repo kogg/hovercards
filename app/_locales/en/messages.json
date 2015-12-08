@@ -4,6 +4,7 @@
 	"app_description": { "message": "Get more content. Open fewer tabs." },
 
 	"account_age":        { "message": "Account Age" },
+	"account_empty":      { "message": "" },
 	"account_id_as_name": { "message": "$1" },
 	"comments":           { "message": "Comments" },
 	"dislikes":           { "message": "Dislikes" },
@@ -61,6 +62,7 @@
 	"facebook_post": { "message": "Share $1 on Facebook" },
 
 	"imgur_account":               { "message": "Imgur User" },
+	"imgur_account_empty":         { "message": "anon" },
 	"imgur_discussion":            { "message": "Imgur Comments" },
 	"imgur_discussion_short":      { "message": "Comments" },
 
@@ -69,6 +71,7 @@
 	"instagram_discussion_short": { "message": "Comments" },
 
 	"reddit_account":             { "message": "Reddit User" },
+	"reddit_account_empty":       { "message": "[deleted]" },
 	"reddit_discussion":          { "message": "Reddit Comments" },
 	"reddit_discussion_short":    { "message": "Comments" },
 	"reddit_post":                { "message": "Post $1 to Reddit" },
