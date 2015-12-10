@@ -1,6 +1,5 @@
 .lightbox {
 	@extend box-thing;
-	transform: translate3d(0,0,0) !important;
 	transition: all .5s ease-in-out !important;
 }
 
@@ -11,7 +10,6 @@
 .lightbox__box {
 	@extend box-thing__box;
 	margin: 20px auto !important;
-	transform: translate3d(0,0,0) !important;
 	transition: all .5s ease-in-out !important;
 	box-shadow: none !important;
 	border-radius: 8px !important
