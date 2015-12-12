@@ -1,6 +1,6 @@
 .lightbox {
 	@extend box-thing;
-	transition: all .5s ease-in-out !important;
+	overflow: scroll !important
 }
 
 .lightbox_leaving {
@@ -10,7 +10,6 @@
 .lightbox__box {
 	@extend box-thing__box;
 	margin: 20px auto !important;
-	transition: all .5s ease-in-out !important;
 	box-shadow: none !important;
 	border-radius: 8px !important
 }
