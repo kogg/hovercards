@@ -7,11 +7,12 @@ var urls             = require('hovercardsshared/urls');
 require('../common/mixins');
 
 var HOVERABLE_THINGS = [
-	{ selector: 'a[href]:not(.no-hovercard,.hoverZoomLink,[data-href],[data-expanded-url])', get_url: function(link) { return link.attr('href'); } },
-	{ selector: 'a[data-href]:not(.no-hovercard,.hoverZoomLink,[data-expanded-url])',        get_url: function(link) { return link.data('href'); } },
-	{ selector: 'a[data-expanded-url]:not(.no-hovercard,.hoverZoomLink,[data-href])',        get_url: function(link) { return link.data('expanded-url'); } },
+	{ selector: 'a[href]:not(.no-hovercard,.hoverZoomLink,[data-href],[data-expanded-url])',          get_url: function(link) { return link.attr('href'); } },
+	{ selector: 'a[data-href]:not(.no-hovercard,.hoverZoomLink,[data-expanded-url])',                 get_url: function(link) { return link.data('href'); } },
+	{ selector: 'a[data-expanded-url]:not(.no-hovercard,.hoverZoomLink,[data-href])',                 get_url: function(link) { return link.data('expanded-url'); } },
+	{ selector: 'a[data-full-url]:not(.no-hovercard,.hoverZoomLink,[data-href],[data-expanded-url])', get_url: function(link) { return link.data('full-url'); } },
 	// FIXME Twitter follow button hack
-	{ selector: 'iframe.twitter-follow-button:not(.no-hovercard)',                           get_url: function(iframe) {
+	{ selector: 'iframe.twitter-follow-button:not(.no-hovercard)',                                    get_url: function(iframe) {
 		var match = iframe.attr('src').match(/[?&]screen_name=([a-zA-Z0-9_]+)(?:&|$)/);
 		if (!match || !match[1]) {
 			return;
