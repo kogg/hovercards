@@ -63,7 +63,11 @@
 	"permissions": [
 		"activeTab",
 		"identity",
-		"storage"
+		"storage",
+		"webRequest",
+		"webRequestBlocking",
+		"http://*/*",
+		"https://*/*"
 	],
 	"content_security_policy": "script-src 'self'; object-src 'self' https://www.youtube.com",
 	"default_locale": "en",
