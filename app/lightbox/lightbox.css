@@ -1,6 +1,7 @@
 .lightbox {
 	@extend box-thing;
-	overflow: scroll !important;
+	overflow: auto !important;
+	overflow-x: hidden !important;
   display: flex !important;
   padding: 20px !important
 }
