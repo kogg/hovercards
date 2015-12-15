@@ -21,9 +21,16 @@ $.fn.extend({
 	}
 });
 
+var last_lightbox;
+
 $.lightbox = function(identity, hovercard) {
 	if (!_.isObject(identity)) {
 		return;
+	}
+	if (last_lightbox) {
+		return last_lightbox.trigger('remove_lightbox', [function() {
+			$.lightbox(identity, hovercard);
+		}]);
 	}
 	var analytics_label = _.analytics_label(identity);
 	analytics('send', 'event', 'lightbox displayed', 'hovercard clicked', analytics_label);
@@ -56,6 +63,7 @@ $.lightbox = function(identity, hovercard) {
 			.appendTo('html');
 	}
 	$('body,html').addClass(_.prefix('prevent-scroll'));
+	last_lightbox = lightbox;
 
 	template_loading(lightbox__box, identity, true);
 
@@ -93,9 +101,12 @@ $.lightbox = function(identity, hovercard) {
 		}
 		lightbox_leave();
 	}
-	function lightbox_leave() {
+	function lightbox_leave(e, callback) {
 		analytics('send', 'timing', 'lightbox', 'showing', Date.now() - lightbox_start, analytics_label);
 
+		if (last_lightbox === lightbox) {
+			last_lightbox = null;
+		}
 		lightbox
 			.addClass(_.prefix('lightbox_leaving'))
 			.on('animationend', function fade_out_animation_finish(e) {
@@ -103,6 +114,7 @@ $.lightbox = function(identity, hovercard) {
 					return;
 				}
 				lightbox.remove();
+				(callback || _.noop)();
 			});
 		lightbox_backdrop
 			.addClass(_.prefix('lightbox-backdrop_leaving'))
@@ -114,11 +126,13 @@ $.lightbox = function(identity, hovercard) {
 			});
 		$('body,html').removeClass(_.prefix('prevent-scroll'));
 
+		lightbox.off('remove_lightbox', lightbox_leave);
 		lightbox__box.off('click', stop_propagation);
 		$(document).off('keydown', keydown);
 		lightbox.off('click', lightbox_leave);
 		lightbox_backdrop.off('click', lightbox_leave);
 	}
+	lightbox.one('remove_lightbox', lightbox_leave);
 	lightbox__box.on('click', stop_propagation);
 	$(document).on('keydown', keydown);
 	lightbox.one('click', lightbox_leave);
