@@ -182,7 +182,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 			console.log(key, val);
 		});
 		if (err) {
-			err.message = _.compact(['Service', !_.isEmpty(label) && label, err.status, err.message]).join(' - ');
+			err.message = _.compact(['Service', !_.isEmpty(label) && label, err.status + (err.original_status ? ' (' + err.original_status + ')' : ''), err.message]).join(' - ');
 			analytics('send', 'exception', { exDescription: err.message, exFatal: false });
 		}
 		analytics('send', 'timing', 'service', 'loading', Date.now() - service_start, label);
