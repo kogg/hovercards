@@ -121,7 +121,6 @@ module.exports = function(obj, identity, expanded) {
 					ractive.set('discussions', _.chain(given_discussions)
 					                            .union(default_discussions)
 					                            .uniq(_.property('api'))
-					                            .reject(_.property('hide'))
 					                            .value());
 					ractive.set('discussion_i', 0);
 					ractive.observeUntil('expanded', function() {
