@@ -1,4 +1,3 @@
-var $       = require('jquery');
 var _       = require('underscore');
 var Ractive = require('ractive');
 var config  = require('../config');
@@ -95,16 +94,11 @@ module.exports = function(obj, identity, expanded) {
 			el:       obj
 		});
 		obj.data('ractive', ractive);
+		ractive.set('scrollpos', 0);
+		ractive.set('scrollposbottom', 21);
 
 		switch (identity.type) {
 			case 'content':
-				ractive.set('scrollpos', 0);
-				ractive.set('scrollposbottom', 21);
-				obj.parent().on('scroll resize', function() {
-					ractive.set('scrollpos', obj.parent().scrollTop());
-					ractive.set('scrollposbottom', obj.height() - obj.parent().height() - ractive.get('scrollpos'));
-					ractive.set('boxmargin', ($(window).width() - obj.width() + _.scrollbar_width()) / 2);
-				});
 				ractive.service('content', identity, function(err, data) {
 					if (err) {
 						return;

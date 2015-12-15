@@ -66,7 +66,12 @@ $.lightbox = function(identity, hovercard) {
 	$('body').addClass(_.prefix('overflow-hidden'));
 	last_lightbox = lightbox;
 
-	template_loading(lightbox__box, identity, true);
+	var ractive = template_loading(lightbox__box, identity, true);
+	lightbox.on('scroll resize', function() {
+		ractive.set('scrollpos', lightbox.scrollTop());
+		ractive.set('scrollposbottom', lightbox__box.height() - lightbox.height() - ractive.get('scrollpos'));
+		ractive.set('boxmargin', ($(window).width() - lightbox__box.width() + _.scrollbar_width()) / 2);
+	});
 
 	setTimeout(function() {
 		lightbox
