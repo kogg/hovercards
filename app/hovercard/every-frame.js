@@ -104,17 +104,28 @@ function make_hovercard(obj, identity, e) {
 		.append(hovercard__box)
 		.appendTo('html');
 
-	template_loading(hovercard__box, identity);
+	var ractive = template_loading(hovercard__box, identity);
+	var is_top;
+	function position_hovercard() {
+		console.log('position hovercard');
+		var obj_offset = obj.offset();
+		is_top = obj_offset.top - hovercard__box.height() - PADDING_FROM_EDGES > $(window).scrollTop();
+		hovercard
+			.toggleClass(_.prefix('hovercard_from_top'), is_top)
+			.toggleClass(_.prefix('hovercard_from_bottom'), !is_top)
+			.offset({ top:  obj_offset.top + (!is_top && obj.height()),
+			          left: Math.max(PADDING_FROM_EDGES,
+			                         Math.min($(window).scrollLeft() + $(window).width() - hovercard__box.width() - PADDING_FROM_EDGES,
+			                                  (e ? e.pageX : obj_offset.left) + 1)) });
+	}
+	position_hovercard();
+	var observe_loading = ractive.observeUntil((identity.type === 'content' ? 'content' : 'accounts.0') + '.loaded', function() {
+		if (!is_top) {
+			return;
+		}
+		position_hovercard();
+	}, { defer: true });
 
-	var obj_offset = obj.offset();
-	var is_top = obj_offset.top - hovercard__box.height() - PADDING_FROM_EDGES > $(window).scrollTop();
-	hovercard
-		.toggleClass(_.prefix('hovercard_from_top'), is_top)
-		.toggleClass(_.prefix('hovercard_from_bottom'), !is_top)
-		.offset({ top:  obj_offset.top + (!is_top && obj.height()),
-		          left: Math.max(PADDING_FROM_EDGES,
-		                         Math.min($(window).scrollLeft() + $(window).width() - hovercard__box.width() - PADDING_FROM_EDGES,
-		                                  (e ? e.pageX : obj_offset.left) + 1)) });
 
 	function kill_it() {
 		obj.trigger(Cleanup);
@@ -124,6 +135,7 @@ function make_hovercard(obj, identity, e) {
 		.one(Click, kill_it)
 		.one(Cleanup, function(e, keep_hovercard) {
 			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
+			observe_loading.cancel();
 			if (keep_hovercard) {
 				hovercard__box
 					.removeClass(_.prefix('hovercard_from_top'))

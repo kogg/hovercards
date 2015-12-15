@@ -7,11 +7,12 @@ require('../common/mixins');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
 
-Ractive.prototype.observeUntil = function(keypath, handler) {
+Ractive.prototype.observeUntil = function(keypath, handler, options) {
 	if (this.get(keypath)) {
 		handler(this.get(keypath));
+		return { cancel: _.noop };
 	} else {
-		this.observeOnce(keypath, handler);
+		return this.observeOnce(keypath, handler, options);
 	}
 };
 
