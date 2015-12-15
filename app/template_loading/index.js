@@ -100,7 +100,7 @@ module.exports = function(obj, identity, expanded) {
 			case 'content':
 				obj.parent().on('scroll resize', function() {
 					ractive.set('scrollpos', obj.parent().scrollTop());
-					ractive.set('boxmargin', ($(window).width() - obj.width()) / 2);
+					ractive.set('boxmargin', ($(window).width() - obj.width() + _.scrollbar_width()) / 2);
 				});
 				ractive.service('content', identity, function(err, data) {
 					if (err) {

@@ -13,5 +13,18 @@ _.mixin({
 	},
 	prefix: function(className) {
 		return EXTENSION_ID + '-' + className;
+	},
+	scrollbar_width: function() {
+		var width;
+		var scrollDiv = document.createElement('div');
+		scrollDiv.style.width = '100px';
+		scrollDiv.style.height = '100px';
+		scrollDiv.style.overflow = 'scroll';
+		scrollDiv.style.position = 'absolute';
+		scrollDiv.style.top = '-9999px';
+		document.body.appendChild(scrollDiv);
+		width = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+		document.body.removeChild(scrollDiv);
+		return width;
 	}
 });
