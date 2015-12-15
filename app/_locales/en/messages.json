@@ -41,6 +41,7 @@
 	"soundcloud":                    { "message": "SoundCloud" },
 	"soundcloud_account_id_as_name": { "message": "@$1" },
 	"soundcloud_content":            { "message": "Tracks" },
+	"soundcloud_views":              { "message": "Plays" },
 
 	"twitter":                    { "message": "Twitter" },
 	"twitter_account_id_as_name": { "message": "@$1" },
