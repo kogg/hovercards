@@ -1,3 +1,4 @@
+var $       = require('jquery');
 var _       = require('underscore');
 var Ractive = require('ractive');
 var config  = require('../config');
@@ -97,6 +98,10 @@ module.exports = function(obj, identity, expanded) {
 
 		switch (identity.type) {
 			case 'content':
+				obj.parent().on('scroll resize', function() {
+					ractive.set('scrollpos', obj.parent().scrollTop());
+					ractive.set('boxmargin', ($(window).width() - obj.width()) / 2);
+				});
 				ractive.service('content', identity, function(err, data) {
 					if (err) {
 						return;

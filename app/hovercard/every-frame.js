@@ -98,13 +98,13 @@ function make_hovercard(obj, identity, e) {
 			obj.trigger(Cleanup, [true]);
 		});
 
-	template_loading(hovercard__box, identity);
-
 	var hovercard = $('<div></div>')
 		.addClass(_.prefix('hovercard'))
 		.data(_.prefix('identity'), identity)
 		.append(hovercard__box)
 		.appendTo('html');
+
+	template_loading(hovercard__box, identity);
 
 	var obj_offset = obj.offset();
 	var is_top = obj_offset.top - hovercard__box.height() - PADDING_FROM_EDGES > $(window).scrollTop();
