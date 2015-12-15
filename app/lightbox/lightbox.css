@@ -2,8 +2,10 @@
 	@extend box-thing;
 	overflow: auto !important;
 	overflow-x: hidden !important;
-  display: flex !important;
-  padding: 20px !important
+	display: flex !important;
+	padding: 20px !important;
+	position: fixed !important;
+	top: 0 !important;
 }
 
 .lightbox_leaving {
@@ -33,7 +35,10 @@
 }
 
 /* https://trello.com/c/WCXvTm4h/235-scroll-to-close */
-.prevent-scroll {
+.hide-scrollbar::-webkit-scrollbar {
+	display: none !important;
+}
+.overflow-hidden {
 	overflow: hidden !important;
 }
 

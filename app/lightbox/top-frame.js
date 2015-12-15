@@ -62,7 +62,8 @@ $.lightbox = function(identity, hovercard) {
 			.append(lightbox__box)
 			.appendTo('html');
 	}
-	$('body,html').addClass(_.prefix('prevent-scroll'));
+	$('body,html').addClass(_.prefix('hide-scrollbar'));
+	$('body').addClass(_.prefix('overflow-hidden'));
 	last_lightbox = lightbox;
 
 	template_loading(lightbox__box, identity, true);
@@ -76,8 +77,8 @@ $.lightbox = function(identity, hovercard) {
 			.removeClass(_.prefix('hovercard_from_bottom'))
 			.css('height', '100%')
 			.css('width', '100%')
-			.css('top', window_scroll.top)
-			.css('left', window_scroll.left)
+			.css('top', '')
+			.css('left', '')
 			.on('transitionend', function set_overflow(e) {
 				if (e.originalEvent.propertyName !== 'height') {
 					return;
@@ -114,6 +115,8 @@ $.lightbox = function(identity, hovercard) {
 					return;
 				}
 				lightbox.remove();
+				$('body,html').removeClass(_.prefix('hide-scrollbar'));
+				$('body').removeClass(_.prefix('overflow-hidden'));
 				(callback || _.noop)();
 			});
 		lightbox_backdrop
@@ -124,18 +127,15 @@ $.lightbox = function(identity, hovercard) {
 				}
 				lightbox_backdrop.remove();
 			});
-		$('body,html').removeClass(_.prefix('prevent-scroll'));
 
-		lightbox.off('remove_lightbox', lightbox_leave);
+		lightbox.off('remove_lightbox click', lightbox_leave);
 		lightbox__box.off('click', stop_propagation);
 		$(document).off('keydown', keydown);
-		lightbox.off('click', lightbox_leave);
 		lightbox_backdrop.off('click', lightbox_leave);
 	}
-	lightbox.one('remove_lightbox', lightbox_leave);
+	lightbox.one('remove_lightbox click', lightbox_leave);
 	lightbox__box.on('click', stop_propagation);
 	$(document).on('keydown', keydown);
-	lightbox.one('click', lightbox_leave);
 	lightbox_backdrop.one('click', lightbox_leave);
 };
 
