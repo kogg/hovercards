@@ -107,7 +107,6 @@ function make_hovercard(obj, identity, e) {
 	var ractive = template_loading(hovercard__box, identity);
 	var is_top;
 	function position_hovercard() {
-		console.log('position hovercard');
 		var obj_offset = obj.offset();
 		is_top = obj_offset.top - hovercard__box.height() - PADDING_FROM_EDGES > $(window).scrollTop();
 		hovercard
