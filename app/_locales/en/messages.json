@@ -28,13 +28,15 @@
 	"x_billion":  { "message": "$1b" },
 	"x_trillion": { "message": "$1t" },
 
-	"imgur": { "message": "Imgur" },
+	"imgur":               { "message": "Imgur" },
+	"imgur_account_empty": { "message": "anon" },
 
 	"instagram":                    { "message": "Instagram" },
 	"instagram_account_id_as_name": { "message": "@$1" },
 	"instagram_content":            { "message": "Photos" },
 
 	"reddit":               { "message": "Reddit" },
+	"reddit_account_empty": { "message": "[deleted]" },
 	"reddit_comment_karma": { "message": "Comment Karma" },
 	"reddit_link_karma":    { "message": "Link Karma" },
 
@@ -63,7 +65,6 @@
 	"facebook_post": { "message": "Share $1 on Facebook" },
 
 	"imgur_account":               { "message": "Imgur User" },
-	"imgur_account_empty":         { "message": "anon" },
 	"imgur_discussion":            { "message": "Imgur Comments" },
 	"imgur_discussion_short":      { "message": "Comments" },
 
@@ -72,7 +73,6 @@
 	"instagram_discussion_short": { "message": "Comments" },
 
 	"reddit_account":             { "message": "Reddit User" },
-	"reddit_account_empty":       { "message": "[deleted]" },
 	"reddit_discussion":          { "message": "Reddit Comments" },
 	"reddit_discussion_short":    { "message": "Comments" },
 	"reddit_post":                { "message": "Post $1 to Reddit" },
