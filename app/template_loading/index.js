@@ -1,8 +1,9 @@
-var _       = require('underscore');
-var Ractive = require('ractive');
-var config  = require('../config');
-var service = require('../service');
-var urls    = require('hovercardsshared/urls');
+var _              = require('underscore');
+var Ractive        = require('ractive');
+var authentication = require('../authentication');
+var config         = require('../config');
+var service        = require('../service');
+var urls           = require('hovercardsshared/urls');
 require('../common/mixins');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
@@ -24,11 +25,26 @@ Ractive.prototype.service = function(keypath, identity, handler) {
 	}
 	ractive.set(keypath + '.loading', true);
 	ractive.set(keypath + '.loaded',  false);
-	service(identity || val, function(err, data) {
+	service(identity || val, function try_service(err, data) {
 		if (err) {
 			ractive.set(keypath + '.err',     err);
 			ractive.set(keypath + '.loaded',  true);
 			ractive.set(keypath + '.loading', false);
+			if (err.status === 401) {
+				ractive.set(keypath + '.err.authenticate', function authenticate() {
+					ractive.set(keypath + '.err.authenticate', _.noop);
+					authentication((identity || val).api, function(err) {
+						if (err) {
+							ractive.set(keypath + '.err', err);
+							return ractive.set(keypath + '.err.authenticate', authenticate);
+						}
+						ractive.set(keypath + '.loading', true);
+						ractive.set(keypath + '.loaded',  false);
+						ractive.set(keypath + '.err',     null);
+						service(identity || val, try_service);
+					});
+				});
+			}
 			return (handler || _.noop)(ractive.get(keypath + '.err'));
 		}
 		ractive.set(keypath, _.extend(data, { loaded: true, loading: false }));
@@ -41,7 +57,7 @@ var global_data = {
 	_: _,
 	copy: function(name, api) {
 		var rest = _.rest(arguments, 2);
-		name = name.replace(/\-/g, '_');
+		name = (name || '').replace(/\-/g, '_');
 		return (!_.isEmpty(api) && chrome.i18n.getMessage(api + '_' + name, rest)) || chrome.i18n.getMessage(name, rest);
 	},
 	has_media: function(content) {

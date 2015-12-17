@@ -34,8 +34,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 	                                    interactive: true },
 		function(redirect_url) {
 			if (chrome.runtime.lastError) {
+				var err_message = chrome.runtime.lastError.message;
 				return async.setImmediate(function() {
-					callback({ message: chrome.runtime.lastError.message, status: 401 });
+					callback({ message: err_message, status: 401 });
 				});
 			}
 			var user = redirect_url && (redirect_url.split('#', 2)[1] || '').split('=', 2)[1];
