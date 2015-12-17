@@ -14,6 +14,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 			err.message = 'Authentication - ' + (_.isEmpty(message.api) ? '' : message.api + ' - ') + (err.message || 'No Explanation');
 			analytics('send', 'exception', { exDescription: err.message, exFatal: false });
 		}
+		analytics('send', 'event', 'service', 'authenticated', message.api);
 		(callback || _.noop)([err, response]);
 	});
 	if (!message.api) {
