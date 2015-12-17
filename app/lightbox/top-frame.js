@@ -67,11 +67,19 @@ $.lightbox = function(identity, hovercard) {
 	last_lightbox = lightbox;
 
 	var ractive = template_loading(lightbox__box, identity, true);
-	lightbox.on('scroll resize', function() {
-		ractive.set('scrollpos', lightbox.scrollTop());
-		ractive.set('scrollposbottom', lightbox__box.height() - lightbox.height() - ractive.get('scrollpos'));
-		ractive.set('boxmargin', ($(window).width() - lightbox__box.width() + _.scrollbar_width()) / 2);
-	});
+	var boxmargin_resize = _.noop;
+	if (identity.type === 'content') {
+		boxmargin_resize = function() {
+			ractive.set('boxmargin', ($(window).width() - lightbox__box.width() + _.scrollbar_width()) / 2);
+		};
+		lightbox.on('scroll resize', function() {
+			ractive.set('scrollpos', lightbox.scrollTop());
+			ractive.set('scrollposbottom', lightbox__box.height() - lightbox.height() - ractive.get('scrollpos'));
+			if (_.isUndefined(ractive.get('boxmargin'))) {
+				$(window).trigger('resize');
+			}
+		});
+	}
 
 	setTimeout(function() {
 		lightbox
@@ -137,11 +145,13 @@ $.lightbox = function(identity, hovercard) {
 		lightbox__box.off('click', stop_propagation);
 		$(document).off('keydown', keydown);
 		lightbox_backdrop.off('click', lightbox_leave);
+		$(window).off('resize', boxmargin_resize);
 	}
 	lightbox.one('remove_lightbox click', lightbox_leave);
 	lightbox__box.on('click', stop_propagation);
 	$(document).on('keydown', keydown);
 	lightbox_backdrop.one('click', lightbox_leave);
+	$(window).on('resize', boxmargin_resize);
 };
 
 window.addEventListener('message', function(event) {
