@@ -44,6 +44,9 @@ var global_data = {
 		name = name.replace(/\-/g, '_');
 		return (!_.isEmpty(api) && chrome.i18n.getMessage(api + '_' + name, rest)) || chrome.i18n.getMessage(name, rest);
 	},
+	has_media: function(content) {
+		return content && (content.video || content.gif || content.images || content.image);
+	},
 	prefix: _.prefix,
 	timestamp: function(time_in_milli) {
 		var time_in_sec = Math.floor(time_in_milli / 1000) % 60 + '';
