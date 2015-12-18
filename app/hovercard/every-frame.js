@@ -103,27 +103,46 @@ function make_hovercard(obj, identity, e) {
 		.append(hovercard__box)
 		.appendTo('html');
 
-	var ractive = template_loading(hovercard__box, identity);
-	var is_top;
-	function position_hovercard() {
-		var obj_offset = obj.offset();
-		is_top = obj_offset.top - hovercard__box.height() - PADDING_FROM_EDGES > $(window).scrollTop();
-		hovercard
-			.toggleClass(_.prefix('hovercard_from_top'), is_top)
-			.toggleClass(_.prefix('hovercard_from_bottom'), !is_top)
-			.offset({ top:  obj_offset.top + (!is_top && obj.height()),
-			          left: Math.max(PADDING_FROM_EDGES,
-			                         Math.min($(window).scrollLeft() + $(window).width() - hovercard__box.width() - PADDING_FROM_EDGES,
-			                                  (e ? e.pageX : obj_offset.left) + 1)) });
-	}
-	position_hovercard();
-	var observe_loading = ractive.observeUntil((identity.type === 'content' ? 'content' : 'accounts.0') + '.loaded', function() {
-		if (!is_top) {
+	template_loading(hovercard__box, identity);
+
+	var obj_offset  = obj.offset();
+	var obj_height  = obj.height();
+	var window_scrollTop = $(window).scrollTop();
+	var space_above = obj_offset.top - window_scrollTop;
+	var space_below = window.innerHeight - space_above - obj_height;
+	var is_top      = (space_above > space_below);
+	var left        = Math.max(PADDING_FROM_EDGES,
+	                           Math.min($(window).scrollLeft() + window.innerWidth - hovercard__box.width() - PADDING_FROM_EDGES,
+	                                    (e ? e.pageX : obj_offset.left) + 1));
+	hovercard
+		.toggleClass(_.prefix('hovercard_from_top'), is_top)
+		.toggleClass(_.prefix('hovercard_from_bottom'), !is_top);
+
+	var top;
+	var times = 0;
+	var position_interval = setInterval(function() {
+		var new_top;
+		if (is_top) {
+			new_top = Math.max(window_scrollTop + PADDING_FROM_EDGES + hovercard__box.height(), obj_offset.top);
+		} else {
+			new_top = Math.max(window_scrollTop + PADDING_FROM_EDGES,
+			                   Math.min(window_scrollTop + window.innerHeight - hovercard__box.height() - PADDING_FROM_EDGES,
+			                            obj_offset.top + obj_height));
+		}
+		if (top === new_top) {
 			return;
 		}
-		position_hovercard();
-	}, { defer: true });
-
+		top = new_top;
+		hovercard.offset({ left: left, top: top });
+		times++;
+		if (times === 3) {
+			clearInterval(position_interval);
+			return;
+		}
+	}, 100);
+	setTimeout(function() {
+		clearInterval(position_interval);
+	}, 2500);
 
 	function kill_it() {
 		obj.trigger(Cleanup);
@@ -133,7 +152,7 @@ function make_hovercard(obj, identity, e) {
 		.one(Click, kill_it)
 		.one(Cleanup, function(e, keep_hovercard) {
 			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
-			observe_loading.cancel();
+			clearInterval(position_interval);
 			if (keep_hovercard) {
 				hovercard__box
 					.removeClass(_.prefix('hovercard_from_top'))
