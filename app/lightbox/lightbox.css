@@ -20,6 +20,7 @@
 	background-size: 60% !important;
 	background-repeat: no-repeat !important;
 	background-position: bottom left !important;
+	cursor: pointer !important
 }
 .x-button:hover {
 	opacity: 1 !important;
