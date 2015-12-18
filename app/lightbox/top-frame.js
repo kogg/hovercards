@@ -66,15 +66,18 @@ $.lightbox = function(identity, hovercard) {
 	$('body').addClass(_.prefix('overflow-hidden'));
 	last_lightbox = lightbox;
 
-	var boxmargin_resize = _.noop;
+	var ractive;
+	function boxmargin_resize() {
+		if (!ractive) {
+			return;
+		}
+		ractive.set('boxmargin', ($(window).width() - lightbox__box.width() + _.scrollbar_width()) / 2);
+	}
 
 	setTimeout(function() {
-		var ractive = template_loading(lightbox__box, identity);
+		ractive = template_loading(lightbox__box, identity);
 		ractive.set('expanded', true);
 		if (identity.type === 'content') {
-			boxmargin_resize = function() {
-				ractive.set('boxmargin', ($(window).width() - lightbox__box.width() + _.scrollbar_width()) / 2);
-			};
 			lightbox.on('scroll resize', function() {
 				ractive.set('scrollpos', lightbox.scrollTop());
 				ractive.set('scrollposbottom', lightbox__box.height() - lightbox.height() - ractive.get('scrollpos'));
