@@ -120,7 +120,7 @@ function make_hovercard(obj, identity, e) {
 
 	var top;
 	var times = 0;
-	var position_interval = setInterval(function() {
+	function position_hovercard() {
 		var new_top;
 		if (is_top) {
 			new_top = Math.max(window_scrollTop + PADDING_FROM_EDGES + hovercard__box.height(), obj_offset.top);
@@ -139,7 +139,9 @@ function make_hovercard(obj, identity, e) {
 			clearInterval(position_interval);
 			return;
 		}
-	}, 100);
+	}
+	position_hovercard();
+	var position_interval = setInterval(position_hovercard, 100);
 	setTimeout(function() {
 		clearInterval(position_interval);
 	}, 2500);
