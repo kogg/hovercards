@@ -66,22 +66,23 @@ $.lightbox = function(identity, hovercard) {
 	$('body').addClass(_.prefix('overflow-hidden'));
 	last_lightbox = lightbox;
 
-	var ractive = template_loading(lightbox__box, identity, true);
 	var boxmargin_resize = _.noop;
-	if (identity.type === 'content') {
-		boxmargin_resize = function() {
-			ractive.set('boxmargin', ($(window).width() - lightbox__box.width() + _.scrollbar_width()) / 2);
-		};
-		lightbox.on('scroll resize', function() {
-			ractive.set('scrollpos', lightbox.scrollTop());
-			ractive.set('scrollposbottom', lightbox__box.height() - lightbox.height() - ractive.get('scrollpos'));
-			if (_.isUndefined(ractive.get('boxmargin'))) {
-				$(window).trigger('resize');
-			}
-		});
-	}
 
 	setTimeout(function() {
+		var ractive = template_loading(lightbox__box, identity, true);
+		if (identity.type === 'content') {
+			boxmargin_resize = function() {
+				ractive.set('boxmargin', ($(window).width() - lightbox__box.width() + _.scrollbar_width()) / 2);
+			};
+			lightbox.on('scroll resize', function() {
+				ractive.set('scrollpos', lightbox.scrollTop());
+				ractive.set('scrollposbottom', lightbox__box.height() - lightbox.height() - ractive.get('scrollpos'));
+				if (_.isUndefined(ractive.get('boxmargin'))) {
+					$(window).trigger('resize');
+				}
+			});
+		}
+
 		lightbox
 			.addClass(_.prefix('lightbox'))
 			.removeClass(_.prefix('boxthing'))
