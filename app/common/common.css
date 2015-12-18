@@ -19,7 +19,14 @@
 @define-placeholder box-thing *:after {
 	display: none !important
 }
-@define-placeholder box-thing div {
+@define-placeholder box-thing div,
+@define-placeholder box-thing p,
+@define-placeholder box-thing h1,
+@define-placeholder box-thing h2,
+@define-placeholder box-thing h3,
+@define-placeholder box-thing ul,
+@define-placeholder box-thing li,
+@define-placeholder box-thing blockquote {
 	display: block;
 }
 
