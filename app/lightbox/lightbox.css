@@ -8,16 +8,18 @@
 	top: 0 !important;
 }
 .x-button {
-	position: absolute !important;
+	position: fixed !important;
 	top: 0 !important;
 	right: 0 !important;
 	opacity: .6 !important;
 	color: white !important;
-	width: 20px !important;
-	height: 20px !important;
-	background: pink !important;
-	padding:10px !important;
+	width: 36px !important;
+	height: 36px !important;
 	z-index: 9999 !important;
+	background-image: url('../images/close-button.svg');
+	background-size: 60% !important;
+	background-repeat: no-repeat !important;
+	background-position: bottom left !important;
 }
 .x-button:hover {
 	opacity: 1 !important;

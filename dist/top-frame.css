@@ -1,0 +1,139 @@
+/*
+ * eg. hovercards, lightboxes, these: https://trello.com/c/WCXvTm4h/235-scroll-to-close
+ */
+.__MSG_@@extension_id__-lightbox {
+	-webkit-box-align: start !important;
+	-webkit-align-items: flex-start !important;
+	    -ms-flex-align: start !important;
+	        align-items: flex-start !important;
+	display: -webkit-box !important;
+	display: -webkit-flex !important;
+	display: -ms-flexbox !important;
+	display: flex !important;
+	-webkit-box-pack: center !important;
+	-webkit-justify-content: center !important;
+	    -ms-flex-pack: center !important;
+	        justify-content: center !important;
+	position: absolute !important;
+	z-index: 2147483647 !important;
+}
+.__MSG_@@extension_id__-lightbox, .__MSG_@@extension_id__-lightbox *, .__MSG_@@extension_id__-lightbox *:before, .__MSG_@@extension_id__-lightbox *:after {
+	all: initial;
+	box-sizing: border-box !important;
+}
+.__MSG_@@extension_id__-lightbox *:before, .__MSG_@@extension_id__-lightbox *:after {
+	display: none !important
+}
+.__MSG_@@extension_id__-lightbox div {
+	display: block;
+}
+
+
+.__MSG_@@extension_id__-lightbox__box {
+	background: white !important;
+	border-radius: 3px !important;
+	overflow: hidden;
+	min-width: 300px !important;
+	box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0 !important;
+}
+
+
+
+/*
+ * Common Animations
+ */
+@-webkit-keyframes fade-in-animation {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+@keyframes fade-in-animation {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+@-webkit-keyframes fade-out-animation {
+	from { opacity: 1; }
+	to   { opacity: 0; }
+}
+@keyframes fade-out-animation {
+	from { opacity: 1; }
+	to   { opacity: 0; }
+}
+.__MSG_@@extension_id__-lightbox {
+	overflow: auto !important;
+	overflow-x: hidden !important;
+	display: -webkit-box !important;
+	display: -webkit-flex !important;
+	display: -ms-flexbox !important;
+	display: flex !important;
+	padding: 20px !important;
+	position: fixed !important;
+	top: 0 !important;
+}
+.__MSG_@@extension_id__-x-button {
+	position: fixed !important;
+	top: 0 !important;
+	right: 0 !important;
+	opacity: .6 !important;
+	color: white !important;
+	width: 36px !important;
+	height: 36px !important;
+	z-index: 9999 !important;
+	background-image: url("chrome-extension://__MSG_@@extension_id__/assets/images/close-button.svg");
+	background-size: 60% !important;
+	background-repeat: no-repeat !important;
+	background-position: bottom left !important;
+}
+.__MSG_@@extension_id__-x-button:hover {
+	opacity: 1 !important;
+}
+.__MSG_@@extension_id__-lightbox_leaving {
+	-webkit-animation: fade-out-animation .1s ease-in-out 1 !important;
+	        animation: fade-out-animation .1s ease-in-out 1 !important;
+}
+
+.__MSG_@@extension_id__-lightbox__box {
+	margin: auto !important;
+	border-radius: 8px !important
+}
+
+.__MSG_@@extension_id__-lightbox-backdrop {
+	-webkit-animation: background-fade-in-animation .1s ease-in-out 1 !important;
+	        animation: background-fade-in-animation .1s ease-in-out 1 !important;
+	background: #000000 !important;
+	background: rgba(0,0,0,0.83) !important;
+	bottom: 0 !important;
+	left: 0 !important;
+	position: fixed !important;
+	right: 0 !important;
+	top: 0 !important;
+	z-index: 2147483646 !important;
+}
+.__MSG_@@extension_id__-lightbox-backdrop_leaving {
+	-webkit-animation: background-fade-out-animation .1s ease-in-out 1 !important;
+	        animation: background-fade-out-animation .1s ease-in-out 1 !important;
+}
+/* https://trello.com/c/WCXvTm4h/235-scroll-to-close */
+.__MSG_@@extension_id__-hide-scrollbar::-webkit-scrollbar {
+	display: none !important;
+}
+.__MSG_@@extension_id__-overflow-hidden {
+	overflow: hidden !important;
+}
+
+@-webkit-keyframes background-fade-in-animation {
+	from { background: rgba(0,0,0,0); }
+	to { background: #000000; background: rgba(0,0,0,0.83); }
+}
+
+@keyframes background-fade-in-animation {
+	from { background: rgba(0,0,0,0); }
+	to { background: #000000; background: rgba(0,0,0,0.83); }
+}
+@-webkit-keyframes background-fade-out-animation {
+	from { background: #000000; background: rgba(0,0,0,0.83); }
+	to { background: rgba(0,0,0,0); }
+}
+@keyframes background-fade-out-animation {
+	from { background: #000000; background: rgba(0,0,0,0.83); }
+	to { background: rgba(0,0,0,0); }
+}

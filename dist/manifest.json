@@ -1,0 +1,75 @@
+{
+	"name": "__MSG_app_name__",
+	"short_name": "__MSG_app_short_name__",
+	"description": "__MSG_app_description__",
+	"version": "1.2.3",
+	"content_scripts": [
+		{
+			"matches": [
+				"http://*/*",
+				"https://*/*"
+			],
+			"css": [
+				"every-frame.css"
+			],
+			"js": [
+				"common.js",
+				"every-frame.js"
+			],
+			"all_frames": true
+		},
+		{
+			"matches": [
+				"http://*/*",
+				"https://*/*"
+			],
+			"css": [
+				"top-frame.css"
+			],
+			"js": [
+				"top-frame.js"
+			],
+			"all_frames": false
+		}
+	],
+	"background": {
+		"scripts": [
+			"common.js",
+			"background.js"
+		]
+	},
+	"options_page": "options.html",
+	"options_ui": {
+		"page": "options.html",
+		"chrome_style": true
+	},
+	"page_action": {
+		"default_icon": {
+			"16": "assets/images/logo-16.png",
+			"19": "assets/images/logo-19.png",
+			"38": "assets/images/logo-38.png",
+			"128": "assets/images/logo-128.png"
+		}
+	},
+	"icons": {
+		"16": "assets/images/logo-16.png",
+		"19": "assets/images/logo-19.png",
+		"38": "assets/images/logo-38.png",
+		"128": "assets/images/logo-128.png"
+	},
+	"web_accessible_resources": [
+		"assets/*"
+	],
+	"permissions": [
+		"activeTab",
+		"identity",
+		"storage",
+		"webRequest",
+		"webRequestBlocking",
+		"http://*/*",
+		"https://*/*"
+	],
+	"content_security_policy": "script-src 'self'; object-src 'self' https://www.youtube.com",
+	"default_locale": "en",
+	"manifest_version": 2
+}
