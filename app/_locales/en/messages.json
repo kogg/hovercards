@@ -3,7 +3,7 @@
 	"app_short_name":  { "message": "hovercards" },
 	"app_description": { "message": "Get more content. Open fewer tabs." },
 
-	"account_age":        { "message": "Account Age" },
+	"account_age":        { "message": "Age" },
 	"account_empty":      { "message": "" },
 	"account_id_as_name": { "message": "$1" },
 	"comments":           { "message": "Comments" },
@@ -12,8 +12,8 @@
 	"following":          { "message": "Following" },
 	"likes":              { "message": "Likes" },
 	"replies":            { "message": "Replies" },
-	"score":              { "message": "Score" },
-	"score_ratio":        { "message": "Score Ratio" },
+	"score":              { "message": "Points" },
+	"score_ratio":        { "message": "Upvoted" },
 	"views":              { "message": "Views" },
 
 	"x_seconds": { "message": "$1s" },
@@ -51,7 +51,7 @@
 
 	"reddit":               { "message": "Reddit" },
 	"reddit_account_empty": { "message": "[deleted]" },
-	"reddit_comment_karma": { "message": "Comment Karma" },
+	"reddit_comment_karma": { "message": "Cmnt Karma" },
 	"reddit_link_karma":    { "message": "Link Karma" },
 
 	"soundcloud":                    { "message": "SoundCloud" },

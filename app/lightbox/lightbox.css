@@ -15,7 +15,6 @@
 .lightbox__box {
 	@extend box-thing__box;
 	margin: auto !important;
-	box-shadow: none !important;
 	border-radius: 8px !important
 }
 
