@@ -92,6 +92,7 @@ $.lightbox = function(identity, hovercard) {
 			.css('width', '100%')
 			.css('top', '')
 			.css('left', '')
+			.append('<div class="' + _.prefix('x-button') + '"></div>')
 			.on('transitionend', function set_overflow(e) {
 				if (e.originalEvent.propertyName !== 'height') {
 					return;
