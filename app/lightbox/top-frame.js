@@ -69,7 +69,8 @@ $.lightbox = function(identity, hovercard) {
 	var boxmargin_resize = _.noop;
 
 	setTimeout(function() {
-		var ractive = template_loading(lightbox__box, identity, true);
+		var ractive = template_loading(lightbox__box, identity);
+		ractive.set('expanded', true);
 		if (identity.type === 'content') {
 			boxmargin_resize = function() {
 				ractive.set('boxmargin', ($(window).width() - lightbox__box.width() + _.scrollbar_width()) / 2);

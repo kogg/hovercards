@@ -104,7 +104,7 @@ var HoverCardRactive = Ractive.extend({
 	              .value()
 });
 
-module.exports = function(obj, identity, expanded) {
+module.exports = function(obj, identity) {
 	var ractive = obj.data('ractive');
 
 	if (!ractive) {
@@ -169,8 +169,6 @@ module.exports = function(obj, identity, expanded) {
 				break;
 		}
 	}
-
-	ractive.set('expanded', expanded);
 
 	return ractive;
 };
