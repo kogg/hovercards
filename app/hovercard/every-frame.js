@@ -53,6 +53,7 @@ function accept_identity(identity, obj) {
 		return false;
 	}
 	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
+	       obj.parents('.' + _.prefix('lightbox__box')).length ||
 	       (identity.api === 'imgur'     && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) ||
 	       (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) ||
 	       (identity.api === 'reddit'    && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length :
