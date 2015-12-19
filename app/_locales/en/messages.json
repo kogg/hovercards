@@ -31,7 +31,7 @@
 	"err_401_name": { "message": "Sign in Required" },
 	"err_401_text": { "message": "Sorry, but you must sign into HoverCards with your $1 account to see this!" },
 	"err_401_cta":  { "message": "Sign In to Continue" },
-	"err_403_name": { "message": "Forbidden" },
+	"err_403_name": { "message": "Private" },
 	"err_403_text": { "message": "Sorry, it seems like you're not allowed to look at this." },
 	"err_404_name": { "message": "Not Found" },
 	"err_404_text": { "message": "HoverCards couldn't find anything here!" },
