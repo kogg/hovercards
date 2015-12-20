@@ -14,6 +14,11 @@ var csp_append = _.chain(config)
                   .value();
 
 chrome.webRequest.onHeadersReceived.addListener(function(details) {
+	if (details.url.indexOf('https://twitter.com/download') !== -1 ||
+	    details.url.indexOf('https://twitter.com/logout') !== -1 ||
+	    details.url.indexOf('https://twitter.com/sessions') !== -1) {
+		return _.pick(details, 'responseHeaders');
+	}
 	var csp = _.chain(details)
 	           .result('responseHeaders')
 	           .findWhere({ name: 'content-security-policy' })
