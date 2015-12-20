@@ -1,0 +1,54 @@
+/*
+ * eg. hovercards, lightboxes, these: https://trello.com/c/WCXvTm4h/235-scroll-to-close
+ */
+@define-placeholder box-thing {
+	align-items: flex-start !important;
+	display: flex !important;
+	justify-content: center !important;
+	position: absolute !important;
+	z-index: 2147483647 !important;
+}
+@define-placeholder box-thing,
+@define-placeholder box-thing *,
+@define-placeholder box-thing *:before,
+@define-placeholder box-thing *:after {
+	all: initial;
+	box-sizing: border-box !important;
+}
+@define-placeholder box-thing *:before,
+@define-placeholder box-thing *:after {
+	display: none !important
+}
+@define-placeholder box-thing div,
+@define-placeholder box-thing p,
+@define-placeholder box-thing h1,
+@define-placeholder box-thing h2,
+@define-placeholder box-thing h3,
+@define-placeholder box-thing ul,
+@define-placeholder box-thing li,
+@define-placeholder box-thing blockquote {
+	display: block;
+}
+
+
+@define-placeholder box-thing__box {
+	background: white !important;
+	border-radius: 3px !important;
+	overflow: hidden;
+	min-width: 300px !important;
+	box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0 !important;
+}
+
+
+
+/*
+ * Common Animations
+ */
+@keyframes fade-in-animation {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+@keyframes fade-out-animation {
+	from { opacity: 1; }
+	to   { opacity: 0; }
+}

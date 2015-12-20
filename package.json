@@ -1,78 +1,71 @@
 {
-  "name": "YoCardsExt",
+  "name": "hovercardsextension",
   "description": "",
-  "version": "1.2.3",
-  "repository": "cameronrohani/YoCardsExt",
+  "version": "2.0.0",
+  "repository": "cameronrohani/hovercardsextension",
   "scripts": {
-    "start": "npm run watch:non_js & npm run watchify:background & npm run watchify:everywhere & npm run watchify:iframes & npm run watchify:options & npm run watchify:soundcloud-player & npm run watchify:top-frame && wait",
-    "pkg": "npm run clean && npm run copy:non_js && npm run browserify && npm run uglify && npm run compress",
-    "test": "jshint --reporter=node_modules/jshint-stylish/index.js app/**/*.js",
-    "browserify": "npm run browserify:background && npm run browserify:everywhere && npm run browserify:iframes && npm run browserify:options && npm run browserify:soundcloud-player && npm run browserify:top-frame",
-    "browserify:background": "browserify app/scripts/background-main.js -o dist/scripts/background-main.js -r ./app/scripts/production-env.js:env -v",
-    "browserify:everywhere": "browserify app/scripts/everywhere-main.js -o dist/scripts/everywhere-main.js -r ./app/scripts/production-env.js:env -v",
-    "browserify:iframes": "browserify app/scripts/hovercard-main.js app/scripts/sidebar-main.js -p [ factor-bundle -o dist/scripts/hovercard-main.js -o dist/scripts/sidebar-main.js ] -o dist/scripts/common-main.js -r ./app/scripts/production-env.js:env -v",
-    "browserify:options": "browserify app/scripts/options-main.js -o dist/scripts/options-main.js -r ./app/scripts/production-env.js:env -v",
-    "browserify:soundcloud-player": "browserify app/scripts/soundcloud-player-main.js -o dist/scripts/soundcloud-player-main.js -r ./app/scripts/production-env.js:env -v",
-    "browserify:top-frame": "browserify app/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -r ./app/scripts/production-env.js:env -v",
+    "start": "watch 'npm run copy:other' app & npm run postcss -- -w & npm run watchify && wait",
+    "pkg": "npm run clean && npm run copy:other && npm run postcss && npm run browserify && npm run uglifyjs && zip -q -r build/pkg-$npm_package_version.zip dist",
+    "copy:other": "rsync -rm --include='*/' --include='*.json' --include='options.html' --exclude='*' app/* dist && mkdir -p dist/assets/images && cp app/images/logo-* dist/assets/images",
+    "postcss": "postcss app/*.css -d dist/ -c postcss.js",
+    "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input $npm_package_config_browserify_output",
+    "uglifyjs": "mkdir -p dist && find dist -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
+    "watchify": "mkdir -p dist && watchify $npm_package_config_browserify_input -t [ envify --NODE_ENV development ] $npm_package_config_browserify_output --full-paths -v -d",
+    "discify": "browserify $npm_package_config_browserify_input --full-paths | uglifyjs -c drop_console,warnings=false | discify -O",
+    "test": "npm run jshint",
+    "jshint": "jshint --reporter=node_modules/jshint-stylish app/*.js app/**/*.js",
     "clean": "rm -rf dist/* *.pem *.nex",
-    "compress": "zip -q -r build/pkg-$npm_package_version.zip dist",
-    "copy:non_js": "rsync -r --exclude=scripts/* app/* dist && cp node_modules/angular/angular-csp.css dist/styles/ && cp node_modules/slick-carousel/slick/slick.css dist/styles/ && cp node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css dist/styles/",
-    "uglify": "npm run uglify:background && npm run uglify:common && npm run uglify:everywhere && npm run uglify:hovercard && npm run uglify:sidebar && npm run uglify:options && npm run uglify:soundcloud-player && npm run uglify:top-frame",
-    "uglify:background": "uglifyjs dist/scripts/background-main.js -o dist/scripts/background-main.js -c drop_console=true,warnings=false",
-    "uglify:common": "uglifyjs dist/scripts/common-main.js -o dist/scripts/common-main.js -c drop_console=true,warnings=false",
-    "uglify:everywhere": "uglifyjs dist/scripts/everywhere-main.js -o dist/scripts/everywhere-main.js -c drop_console=true,warnings=false",
-    "uglify:hovercard": "uglifyjs dist/scripts/hovercard-main.js -o dist/scripts/hovercard-main.js -c drop_console=true,warnings=false",
-    "uglify:options": "uglifyjs dist/scripts/options-main.js -o dist/scripts/options-main.js -c drop_console=true,warnings=false",
-    "uglify:sidebar": "uglifyjs dist/scripts/sidebar-main.js -o dist/scripts/sidebar-main.js -c drop_console=true,warnings=false",
-    "uglify:soundcloud-player": "uglifyjs dist/scripts/soundcloud-player-main.js -o dist/scripts/soundcloud-player-main.js -c drop_console=true,warnings=false",
-    "uglify:top-frame": "uglifyjs dist/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -c drop_console=true,warnings=false",
-    "watch:non_js": "watch 'npm run copy:non_js' app",
-    "watchify:background": "watchify app/scripts/background-main.js -o dist/scripts/background-main.js -r ./app/scripts/development-env.js:env -v -d",
-    "watchify:everywhere": "watchify app/scripts/everywhere-main.js -o dist/scripts/everywhere-main.js -r ./app/scripts/development-env.js:env -v -d",
-    "watchify:iframes": "watchify app/scripts/hovercard-main.js app/scripts/sidebar-main.js -p [ factor-bundle -o dist/scripts/hovercard-main.js -o dist/scripts/sidebar-main.js ] -o dist/scripts/common-main.js -r ./app/scripts/development-env.js:env -v",
-    "watchify:options": "watchify app/scripts/options-main.js -o dist/scripts/options-main.js -r ./app/scripts/development-env.js:env -v -d",
-    "watchify:soundcloud-player": "watchify app/scripts/soundcloud-player-main.js -o dist/scripts/soundcloud-player-main.js -r ./app/scripts/development-env.js:env -v -d",
-    "watchify:top-frame": "watchify app/scripts/top-frame-main.js -o dist/scripts/top-frame-main.js -r ./app/scripts/development-env.js:env -v -d"
+    "postinstall": "if [ -d .git ]; then rm -rf .git/hooks && ln -s ../hooks .git/hooks; fi",
+    "postuninstall": "if [ -d .git ]; then rm -rf .git/hooks; fi"
   },
-  "dependencies": {
-    "URIjs": "^1.16.0",
-    "YoCardsAPICalls": "cameronrohani/YoCardsAPICalls#v1.0.2",
-    "angular": "^1.4.3",
-    "angular-animate": "^1.4.3",
-    "angular-inview": "^1.5.0",
-    "angular-messages": "^1.4.3",
-    "angular-sanitize": "^1.4.3",
-    "async": "^1.4.0",
-    "jquery": "^2.1.4",
-    "jquery-ui": "^1.10.5",
-    "memoizee": "^0.3.9",
-    "moment": "^2.10.5",
-    "perfect-scrollbar": "^0.6.4",
-    "slick-carousel": "^1.5.8",
-    "underscore": "^1.8.3"
-  },
-  "devDependencies": {
-    "browserify": "^11.0.0",
-    "browserify-shim": "^3.8.10",
-    "factor-bundle": "^2.5.0",
-    "jshint": "^2.8.0",
-    "jshint-stylish": "^2.0.1",
-    "uglify-js": "^2.4.24",
-    "watch": "^0.16.0",
-    "watchify": "^3.3.1"
-  },
-  "engines": {
-    "node": ">=0.8.0"
+  "config": {
+    "browserify": {
+      "input": "app/background.js app/every-frame.js app/top-frame.js app/options.js",
+      "output": "-o dist/common.js -p [ factor-bundle -o dist/background.js -o dist/every-frame.js -o dist/top-frame.js -o dist/options.js ]"
+    }
   },
   "browserify": {
     "transform": [
-      "browserify-shim"
+      [
+        "envify",
+        {
+          "NODE_ENV": "production"
+        }
+      ],
+      "require-globify",
+      "ractivate",
+      "ractiveify"
     ]
   },
-  "browser": {
-    "jquery": "./node_modules/jquery/dist/jquery.js"
+  "dependencies": {
+    "async": "^1.4.2",
+    "hovercardsshared": "cameronrohani/hovercardsshared#v2.0.0",
+    "jquery": "^2.1.4",
+    "memoizee": "^0.3.9",
+    "ractive": "^0.7.3",
+    "underscore": "^1.8.3"
   },
-  "browserify-shim": {
-    "jquery": "$"
+  "devDependencies": {
+    "autoprefixer": "^6.0.3",
+    "browserify": "^11.2.0",
+    "disc": "^1.3.2",
+    "envify": "^3.4.0",
+    "factor-bundle": "^2.5.0",
+    "jshint": "^2.8.0",
+    "jshint-stylish": "^2.0.1",
+    "postcss-class-prefix": "^0.3.0",
+    "postcss-cli": "^2.3.2",
+    "postcss-color-rgba-fallback": "^2.0.0",
+    "postcss-extend": "^1.0.1",
+    "postcss-import": "^7.0.0",
+    "postcss-map-url": "^1.0.2",
+    "postcss-reporter": "^1.2.1",
+    "postcss-url": "^5.0.2",
+    "ractivate": "^0.2.0",
+    "ractiveify": "^1.5.6",
+    "require-globify": "^1.3.0",
+    "uglify-js": "^2.4.24",
+    "watch": "^0.16.0",
+    "watchify": "^3.4.0"
   }
 }

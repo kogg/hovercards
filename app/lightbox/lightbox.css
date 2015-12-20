@@ -1,0 +1,66 @@
+.lightbox {
+	@extend box-thing;
+	overflow: auto !important;
+	overflow-x: hidden !important;
+	display: flex !important;
+	padding: 20px !important;
+	position: fixed !important;
+	top: 0 !important;
+}
+.x-button {
+	position: fixed !important;
+	top: 0 !important;
+	right: 0 !important;
+	opacity: .6 !important;
+	color: white !important;
+	width: 36px !important;
+	height: 36px !important;
+	z-index: 9999 !important;
+	background-image: url('../images/close-button.svg');
+	background-size: 60% !important;
+	background-repeat: no-repeat !important;
+	background-position: bottom left !important;
+	cursor: pointer !important
+}
+.x-button:hover {
+	opacity: 1 !important;
+}
+.lightbox_leaving {
+	animation: fade-out-animation .1s ease-in-out 1 !important;
+}
+
+.lightbox__box {
+	@extend box-thing__box;
+	margin: auto !important;
+	border-radius: 8px !important
+}
+
+.lightbox-backdrop {
+	animation: background-fade-in-animation .1s ease-in-out 1 !important;
+	background: rgba(0,0,0,0.83) !important;
+	bottom: 0 !important;
+	left: 0 !important;
+	position: fixed !important;
+	right: 0 !important;
+	top: 0 !important;
+	z-index: 2147483646 !important;
+}
+.lightbox-backdrop_leaving {
+	animation: background-fade-out-animation .1s ease-in-out 1 !important;
+}
+/* https://trello.com/c/WCXvTm4h/235-scroll-to-close */
+.hide-scrollbar::-webkit-scrollbar {
+	display: none !important;
+}
+.overflow-hidden {
+	overflow: hidden !important;
+}
+
+@keyframes background-fade-in-animation {
+	from { background: rgba(0,0,0,0); }
+	to { background: rgba(0,0,0,0.83); }
+}
+@keyframes background-fade-out-animation {
+	from { background: rgba(0,0,0,0.83); }
+	to { background: rgba(0,0,0,0); }
+}
