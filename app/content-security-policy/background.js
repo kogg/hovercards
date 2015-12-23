@@ -10,39 +10,25 @@ var csp_append = _.chain(config)
                           memo[key] = _.union(memo[key], urls);
                       });
                       return memo;
-                  })
+                  }, {})
+                  .mapObject(function(urls) { return urls.join(' '); })
                   .value();
 
 chrome.webRequest.onHeadersReceived.addListener(function(details) {
-	if (details.url.indexOf('https://twitter.com/download') !== -1 ||
-	    details.url.indexOf('https://twitter.com/logout') !== -1 ||
-	    details.url.indexOf('https://twitter.com/sessions') !== -1) {
-		return _.pick(details, 'responseHeaders');
-	}
-	var csp = _.chain(details)
-	           .result('responseHeaders')
-	           .findWhere({ name: 'content-security-policy' })
-	           .result('value')
-	           .value();
-	if (!csp) {
-		return _.pick(details, 'responseHeaders');
-	}
-	var csp_object = _.chain(csp.trim().replace(/;$/, '').split(/\s*;\s*/))
-	                  .invoke('split', /\s+/)
-	                  .indexBy(_.first)
-	                  .value();
+	var responseHeaders = _.result(details, 'responseHeaders');
+	var csp = _.findWhere(responseHeaders, { name: 'content-security-policy' });
+	if (csp) {
+		var csp_object = _.indexBy(csp.value.trim().replace(/;$/, '').split(/\s*;\s*/), function(string) { return string.substring(0, string.indexOf(' ')); });
 
-	_.each(csp_append, function(urls, key) {
-		if (csp_object[key]) {
-			csp_object[key] = _.union(_.first(csp_object[key], 1), urls, _.rest(csp_object[key]));
-		}
-	});
+		_.each(csp_append, function(urls, key) {
+			if (csp_object[key]) {
+				csp_object[key] += ' ' + urls;
+			}
+		});
 
-	return { responseHeaders: _.chain(details)
-	                           .result('responseHeaders')
-	                           .unshift({ name: 'content-security-policy', value: _.invoke(csp_object, 'join', ' ').join('; ') + ';' })
-	                           .uniq(false, 'name')
-	                           .value() };
+		csp.value = _.values(csp_object).join('; ') + ';';
+	}
+	return { responseHeaders: responseHeaders };
 }, {
 	urls:  ['*://*/*'],
 	types: ['main_frame', 'sub_frame']
