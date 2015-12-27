@@ -1,6 +1,3 @@
-/*
- * eg. hovercards, lightboxes, these: https://trello.com/c/WCXvTm4h/235-scroll-to-close
- */
 @define-placeholder box-thing {
 	align-items: flex-start;
 	display: flex;
@@ -12,7 +9,7 @@
 @define-placeholder box-thing *,
 @define-placeholder box-thing *:before,
 @define-placeholder box-thing *:after {
-	all: initial;
+	all: initial; /* no important */
 	box-sizing: border-box;
 }
 @define-placeholder box-thing *:before,
@@ -27,7 +24,7 @@
 @define-placeholder box-thing ul,
 @define-placeholder box-thing li,
 @define-placeholder box-thing blockquote {
-	display: block;
+	display: block; /* no important */
 }
 
 
