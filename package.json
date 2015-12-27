@@ -60,6 +60,7 @@
     "postcss-import": "^7.0.0",
     "postcss-map-url": "^1.0.2",
     "postcss-reporter": "^1.2.1",
+    "postcss-safe-important": "^1.0.4",
     "postcss-url": "^5.0.2",
     "ractivate": "^0.2.0",
     "ractiveify": "^1.5.6",

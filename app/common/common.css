@@ -2,22 +2,22 @@
  * eg. hovercards, lightboxes, these: https://trello.com/c/WCXvTm4h/235-scroll-to-close
  */
 @define-placeholder box-thing {
-	align-items: flex-start !important;
-	display: flex !important;
-	justify-content: center !important;
-	position: absolute !important;
-	z-index: 2147483647 !important;
+	align-items: flex-start;
+	display: flex;
+	justify-content: center;
+	position: absolute;
+	z-index: 2147483647;
 }
 @define-placeholder box-thing,
 @define-placeholder box-thing *,
 @define-placeholder box-thing *:before,
 @define-placeholder box-thing *:after {
 	all: initial;
-	box-sizing: border-box !important;
+	box-sizing: border-box;
 }
 @define-placeholder box-thing *:before,
 @define-placeholder box-thing *:after {
-	display: none !important
+	display: none
 }
 @define-placeholder box-thing div,
 @define-placeholder box-thing p,
@@ -32,11 +32,11 @@
 
 
 @define-placeholder box-thing__box {
-	background: white !important;
-	border-radius: 3px !important;
+	background: white;
+	border-radius: 3px;
 	overflow: hidden;
-	min-width: 300px !important;
-	box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0 !important;
+	min-width: 300px;
+	box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0;
 }
 
 
