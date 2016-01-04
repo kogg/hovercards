@@ -6,7 +6,7 @@
   "scripts": {
     "start": "watch 'npm run copy:other' app & npm run postcss -- -w & npm run watchify && wait",
     "pkg": "npm run clean && npm run copy:other && npm run postcss && npm run browserify && npm run uglifyjs && zip -q -r build/pkg-$npm_package_version.zip dist",
-    "copy:other": "rsync -rm --include='*/' --include='*.json' --include='options.html' --exclude='*' app/* dist && mkdir -p dist/assets/images && cp app/images/logo-* dist/assets/images",
+    "copy:other": "rsync -rm --include='*/' --include='*.json' --include='options.html' --exclude='*' app/* dist && mkdir -p dist/assets/images && cp app/images/logo-* dist/assets/images && cp app/images/*-icon-full_color.png dist/assets/images",
     "postcss": "postcss app/*.css -d dist/ -c postcss.js",
     "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input $npm_package_config_browserify_output",
     "uglifyjs": "mkdir -p dist && find dist -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
