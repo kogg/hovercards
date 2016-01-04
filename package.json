@@ -1,12 +1,12 @@
 {
   "name": "hovercardsextension",
   "description": "",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "repository": "cameronrohani/hovercardsextension",
   "scripts": {
     "start": "watch 'npm run copy:other' app & npm run postcss -- -w & npm run watchify && wait",
     "pkg": "npm run clean && npm run copy:other && npm run postcss && npm run browserify && npm run uglifyjs && zip -q -r build/pkg-$npm_package_version.zip dist",
-    "copy:other": "rsync -rm --include='*/' --include='*.json' --include='options.html' --exclude='*' app/* dist && mkdir -p dist/assets/images && cp app/images/logo-* dist/assets/images",
+    "copy:other": "rsync -rm --include='*/' --include='*.json' --include='options.html' --exclude='*' app/* dist && mkdir -p dist/assets/images && cp app/images/logo-* dist/assets/images && cp app/images/*-icon-full_color.png dist/assets/images",
     "postcss": "postcss app/*.css -d dist/ -c postcss.js",
     "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input $npm_package_config_browserify_output",
     "uglifyjs": "mkdir -p dist && find dist -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "async": "^1.4.2",
-    "hovercardsshared": "cameronrohani/hovercardsshared#v2.0.1",
+    "hovercardsshared": "cameronrohani/hovercardsshared#v2.0.2",
     "jquery": "^2.1.4",
     "memoizee": "^0.3.9",
     "ractive": "^0.7.3",
@@ -60,6 +60,7 @@
     "postcss-import": "^7.0.0",
     "postcss-map-url": "^1.0.2",
     "postcss-reporter": "^1.2.1",
+    "postcss-safe-important": "^1.0.4",
     "postcss-url": "^5.0.2",
     "ractivate": "^0.2.0",
     "ractiveify": "^1.5.6",

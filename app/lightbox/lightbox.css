@@ -1,59 +1,59 @@
 .lightbox {
 	@extend box-thing;
-	overflow: auto !important;
-	overflow-x: hidden !important;
-	display: flex !important;
-	padding: 20px !important;
-	position: fixed !important;
-	top: 0 !important;
+	overflow: auto;
+	overflow-x: hidden;
+	display: flex;
+	padding: 20px;
+	position: fixed;
+	top: 0;
 }
 .x-button {
-	position: fixed !important;
-	top: 0 !important;
-	right: 0 !important;
-	opacity: .6 !important;
-	color: white !important;
-	width: 36px !important;
-	height: 36px !important;
-	z-index: 9999 !important;
+	position: fixed;
+	top: 0;
+	right: 0;
+	opacity: .6;
+	color: white;
+	width: 36px;
+	height: 36px;
+	z-index: 9999;
 	background-image: url('../images/close-button.svg');
-	background-size: 60% !important;
-	background-repeat: no-repeat !important;
-	background-position: bottom left !important;
-	cursor: pointer !important
+	background-size: 60%;
+	background-repeat: no-repeat;
+	background-position: bottom left;
+	cursor: pointer
 }
 .x-button:hover {
-	opacity: 1 !important;
+	opacity: 1;
 }
 .lightbox_leaving {
-	animation: fade-out-animation .1s ease-in-out 1 !important;
+	animation: fade-out-animation .1s ease-in-out 1;
 }
 
 .lightbox__box {
 	@extend box-thing__box;
-	margin: auto !important;
-	border-radius: 8px !important
+	margin: auto;
+	border-radius: 8px
 }
 
 .lightbox-backdrop {
-	animation: background-fade-in-animation .1s ease-in-out 1 !important;
-	background: rgba(0,0,0,0.83) !important;
-	bottom: 0 !important;
-	left: 0 !important;
-	position: fixed !important;
-	right: 0 !important;
-	top: 0 !important;
-	z-index: 2147483646 !important;
+	animation: background-fade-in-animation .1s ease-in-out 1;
+	background: rgba(0,0,0,0.83);
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 2147483646;
 }
 .lightbox-backdrop_leaving {
-	animation: background-fade-out-animation .1s ease-in-out 1 !important;
+	animation: background-fade-out-animation .1s ease-in-out 1;
 }
 /* https://trello.com/c/WCXvTm4h/235-scroll-to-close */
 .hide-scrollbar::-webkit-scrollbar {
-	display: none !important;
+	display: none;
 }
 .overflow-hidden {
-	overflow: hidden !important;
+	overflow: hidden;
 }
 
 @keyframes background-fade-in-animation {

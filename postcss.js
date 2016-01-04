@@ -7,6 +7,7 @@ module.exports = {
 		'postcss-class-prefix',
 		'postcss-url',
 		'postcss-map-url',
+		'postcss-safe-important',
 		'postcss-reporter'
 	],
 	'postcss-class-prefix': '__MSG_@@extension_id__-',

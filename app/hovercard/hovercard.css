@@ -1,10 +1,10 @@
 .hovercard {
 	@extend box-thing;
-	pointer-events: none !important;
+	pointer-events: none;
 }
 
 .hovercard_from_top {
-	animation: drop-down-animation .4s 1 forwards, fade-in-animation .4s 1 forwards !important;
+	animation: drop-down-animation .4s 1 forwards, fade-in-animation .4s 1 forwards;
 	transform: translate3d(0,0,0);
 }
 .hovercard_from_top .hovercard__box {
@@ -12,16 +12,16 @@
 }
 
 .hovercard_from_bottom {
-	animation: drop-up-animation .4s 1 forwards, fade-in-animation .4s 1 forwards !important;
+	animation: drop-up-animation .4s 1 forwards, fade-in-animation .4s 1 forwards;
 	transform: translate3d(0,0,0);
 }
 
 
 .hovercard__box {
 	@extend box-thing__box;
-	cursor: pointer !important;
-	margin: 0 !important;
-	pointer-events: auto !important;
+	cursor: pointer;
+	margin: 0;
+	pointer-events: auto;
 }
 
 
