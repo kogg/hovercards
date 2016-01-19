@@ -1,7 +1,7 @@
 {
   "name": "hovercardsextension",
   "description": "",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "repository": "cameronrohani/hovercardsextension",
   "scripts": {
     "start": "watch 'npm run copy:other' app & npm run postcss -- -w & npm run watchify && wait",
