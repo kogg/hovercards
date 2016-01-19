@@ -35,6 +35,7 @@
 	"err_403_text":                      { "message": "Sorry, it seems like you're not allowed to look at this." },
 	"err_404_name":                      { "message": "Not Found" },
 	"err_404_text":                      { "message": "HoverCards couldn't find anything here!" },
+	"err_429_cta":                       { "message": "Sign In for a higher limit" },
 	"err_429_name":                      { "message": "Too many requests" },
 	"err_429_text":                      { "message": "HoverCards has reached its maximum requests for $1! Try again later!" },
 	"err_500_name":                      { "message": "HoverCards Issue" },

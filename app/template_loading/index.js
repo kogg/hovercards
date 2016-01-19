@@ -30,20 +30,32 @@ Ractive.prototype.service = function(keypath, identity, handler) {
 			ractive.set(keypath + '.err',     err);
 			ractive.set(keypath + '.loaded',  true);
 			ractive.set(keypath + '.loading', false);
-			if (err.status === 401) {
-				ractive.set(keypath + '.err.authenticate', function authenticate() {
-					ractive.set(keypath + '.err.authenticate', _.noop);
-					authentication((identity || val).api, function(err) {
-						if (err) {
-							ractive.set(keypath + '.err', err);
-							return ractive.set(keypath + '.err.authenticate', authenticate);
-						}
-						ractive.set(keypath + '.loading', true);
-						ractive.set(keypath + '.loaded',  false);
-						ractive.set(keypath + '.err',     null);
-						service(identity || val, try_service);
+			if (_.contains([401, 429], err.status)) {
+				var do_it = function() {
+					ractive.set(keypath + '.err.authenticate', function authenticate() {
+						ractive.set(keypath + '.err.authenticate', _.noop);
+						authentication((identity || val).api, function(err) {
+							if (err) {
+								ractive.set(keypath + '.err', err);
+								return ractive.set(keypath + '.err.authenticate', authenticate);
+							}
+							ractive.set(keypath + '.loading', true);
+							ractive.set(keypath + '.loaded',  false);
+							ractive.set(keypath + '.err',     null);
+							service(identity || val, try_service);
+						});
 					});
-				});
+				};
+				if (err.status === 429) {
+					chrome.storage.sync.get((identity || val).api + '_user', function(obj) {
+						if (obj[(identity || val).api + '_user']) {
+							return;
+						}
+						do_it();
+					});
+				} else {
+					do_it();
+				}
 			}
 			return (handler || _.noop)(ractive.get(keypath + '.err'));
 		}
