@@ -1,9 +1,11 @@
-var _              = require('underscore');
-var Ractive        = require('ractive');
+var _       = require('underscore');
+var async   = require('async');
+var urls    = require('hovercardsshared/urls');
+var Ractive = require('ractive');
+
 var authentication = require('../authentication');
 var config         = require('../config');
 var service        = require('../service');
-var urls           = require('hovercardsshared/urls');
 require('../common/mixins');
 
 Ractive.DEBUG = process.env.NODE_ENV !== 'production';
@@ -144,15 +146,30 @@ module.exports = function(obj, identity) {
 					                                                           { api: api, type: 'discussion', for: _.clone(data), loaded: false };
 					                           })
 					                           .value();
-					ractive.set('discussions', _.chain(given_discussions)
-					                            .union(default_discussions)
-					                            .uniq(_.property('api'))
-					                            .value());
+					var discussions = _.chain(given_discussions)
+					                   .union(default_discussions)
+					                   .uniq(_.property('api'))
+					                   .value();
+					ractive.set('discussions', discussions);
 					ractive.set('discussion_i', 0);
 					ractive.observeUntil('expanded', function() {
 						ractive.observe('discussion_i', function(i) {
 							ractive.service('discussions.' + i);
 						});
+						async.detectSeries(
+							discussions,
+							function(discussion, callback) {
+								ractive.service('discussions.' + _.indexOf(discussions, discussion), null, function(err, full_discussion) {
+									return callback(!err && !_.result(full_discussion, 'uncommentable') && !_.chain(full_discussion).result('comments').isEmpty().value());
+								});
+							},
+							function(discussion) {
+								if (!discussion) {
+									return;
+								}
+								ractive.set('discussion_i', _.indexOf(discussions, discussion));
+							}
+						);
 					});
 				});
 				break;
