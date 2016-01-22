@@ -1,5 +1,5 @@
 module.exports = {
-	use: [
+	'use': [
 		'postcss-import',
 		'autoprefixer',
 		'postcss-color-rgba-fallback',
@@ -11,14 +11,14 @@ module.exports = {
 		'postcss-reporter'
 	],
 	'postcss-class-prefix': '__MSG_@@extension_id__-',
-	'postcss-import': {
+	'postcss-import':       {
 		glob: true
 	},
 	'postcss-map-url': function(path) {
 		return (path.indexOf('data:') === 0 || path.indexOf('http') === 0) ? path : 'chrome-extension://__MSG_@@extension_id__/' + path;
 	},
 	'postcss-url': {
-		url: 'copy',
+		url:        'copy',
 		assetsPath: 'assets'
 	}
 };

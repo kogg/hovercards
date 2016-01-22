@@ -25,7 +25,7 @@ var last_lightbox;
 
 $.lightbox = function(identity, hovercard) {
 	if (!_.isObject(identity)) {
-		return;
+		return null;
 	}
 	if (last_lightbox) {
 		return last_lightbox.trigger('remove_lightbox', [function() {
