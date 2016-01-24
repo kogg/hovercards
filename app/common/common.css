@@ -1,21 +1,24 @@
 @define-placeholder box-thing {
-	align-items: flex-start;
-	display: flex;
-	justify-content: center;
-	position: absolute;
-	z-index: 2147483647;
+    align-items: flex-start;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    z-index: 2147483647;
 }
+
 @define-placeholder box-thing,
 @define-placeholder box-thing *,
 @define-placeholder box-thing *:before,
 @define-placeholder box-thing *:after {
-	all: initial; /* no important */
-	box-sizing: border-box;
+    all: initial; /* no important */
+    box-sizing: border-box;
 }
+
 @define-placeholder box-thing *:before,
 @define-placeholder box-thing *:after {
-	display: none
+    display: none;
 }
+
 @define-placeholder box-thing div,
 @define-placeholder box-thing p,
 @define-placeholder box-thing h1,
@@ -24,28 +27,36 @@
 @define-placeholder box-thing ul,
 @define-placeholder box-thing li,
 @define-placeholder box-thing blockquote {
-	display: block; /* no important */
+    display: block; /* no important */
 }
-
 
 @define-placeholder box-thing__box {
-	background: white;
-	border-radius: 3px;
-	overflow: hidden;
-	min-width: 300px;
-	box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0;
+    background: white;
+    border-radius: 3px;
+    overflow: hidden;
+    min-width: 300px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0;
 }
-
-
 
 /*
  * Common Animations
  */
 @keyframes fade-in-animation {
-	from { opacity: 0; }
-	to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
+
 @keyframes fade-out-animation {
-	from { opacity: 1; }
-	to   { opacity: 0; }
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
 }

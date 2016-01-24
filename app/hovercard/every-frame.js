@@ -7,18 +7,41 @@ var urls             = require('hovercardsshared/urls');
 require('../common/mixins');
 
 var HOVERABLE_THINGS = [
-	{ selector: 'a[href]:not(.no-hovercard,.hoverZoomLink,[data-href],[data-expanded-url])',          get_url: function(link) { return link.attr('href'); } },
-	{ selector: 'a[data-href]:not(.no-hovercard,.hoverZoomLink,[data-expanded-url])',                 get_url: function(link) { return link.data('href'); } },
-	{ selector: 'a[data-expanded-url]:not(.no-hovercard,.hoverZoomLink,[data-href])',                 get_url: function(link) { return link.data('expanded-url'); } },
-	{ selector: 'a[data-full-url]:not(.no-hovercard,.hoverZoomLink,[data-href],[data-expanded-url])', get_url: function(link) { return link.data('full-url'); } },
-	// FIXME Twitter follow button hack
-	{ selector: 'iframe.twitter-follow-button:not(.no-hovercard)',                                    get_url: function(iframe) {
-		var match = iframe.attr('src').match(/[?&]screen_name=([a-zA-Z0-9_]+)(?:&|$)/);
-		if (!match || !match[1]) {
-			return;
+	{
+		selector: 'a[href]:not(.no-hovercard,.hoverZoomLink,[data-href],[data-expanded-url])',
+		get_url:  function(link) {
+			return link.attr('href');
 		}
-		return 'https://twitter.com/' + match[1];
-	} },
+	},
+	{
+		selector: 'a[data-href]:not(.no-hovercard,.hoverZoomLink,[data-expanded-url])',
+		get_url:  function(link) {
+			return link.data('href');
+		}
+	},
+	{
+		selector: 'a[data-expanded-url]:not(.no-hovercard,.hoverZoomLink,[data-href])',
+		get_url:  function(link) {
+			return link.data('expanded-url');
+		}
+	},
+	{
+		selector: 'a[data-full-url]:not(.no-hovercard,.hoverZoomLink,[data-href],[data-expanded-url])',
+		get_url:  function(link) {
+			return link.data('full-url');
+		}
+	},
+	// FIXME Twitter follow button hack
+	{
+		selector: 'iframe.twitter-follow-button:not(.no-hovercard)',
+		get_url:  function(iframe) {
+			var match = iframe.attr('src').match(/[?&]screen_name=([a-zA-Z0-9_]+)(?:&|$)/);
+			if (!match || !match[1]) {
+				return null;
+			}
+			return 'https://twitter.com/' + match[1];
+		}
+	}
 ];
 
 var EXTENSION_ID           = chrome.i18n.getMessage('@@extension_id');
@@ -52,13 +75,7 @@ function accept_identity(identity, obj) {
 	if (!disabled || (disabled[identity.api] && disabled[identity.api][identity.type]) || !config.apis[identity.api]) {
 		return false;
 	}
-	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
-	       obj.parents('.' + _.prefix('lightbox__box')).length ||
-	       (identity.api === 'imgur'     && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) ||
-	       (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) ||
-	       (identity.api === 'reddit'    && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length :
-	                                                                       obj.parents('.usertext-body,.search-result-body').length)) ||
-	       (identity.api === 'twitter'   && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com');
+	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') || obj.parents('.' + _.prefix('lightbox__box')).length || (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) || (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) || (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length : obj.parents('.usertext-body,.search-result-body').length)) || (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com');
 }
 function massage_url(url) {
 	if (!url) {
@@ -112,23 +129,20 @@ function make_hovercard(obj, identity, e) {
 	var space_above = obj_offset.top - window_scrollTop;
 	var space_below = window.innerHeight - space_above - obj_height;
 	var is_top      = (space_above > space_below);
-	var left        = Math.max(PADDING_FROM_EDGES,
-	                           Math.min($(window).scrollLeft() + window.innerWidth - hovercard__box.width() - PADDING_FROM_EDGES,
-	                                    (e ? e.pageX : obj_offset.left) + 1));
+	var left        = Math.max(PADDING_FROM_EDGES, Math.min($(window).scrollLeft() + window.innerWidth - hovercard__box.width() - PADDING_FROM_EDGES, (e ? e.pageX : obj_offset.left) + 1));
 	hovercard
 		.toggleClass(_.prefix('hovercard_from_top'), is_top)
 		.toggleClass(_.prefix('hovercard_from_bottom'), !is_top);
 
 	var top;
 	var times = 0;
+	var position_interval;
 	function position_hovercard() {
 		var new_top;
 		if (is_top) {
 			new_top = Math.max(window_scrollTop + PADDING_FROM_EDGES + hovercard__box.height(), obj_offset.top);
 		} else {
-			new_top = Math.max(window_scrollTop + PADDING_FROM_EDGES,
-			                   Math.min(window_scrollTop + window.innerHeight - hovercard__box.height() - PADDING_FROM_EDGES,
-			                            obj_offset.top + obj_height));
+			new_top = Math.max(window_scrollTop + PADDING_FROM_EDGES, Math.min(window_scrollTop + window.innerHeight - hovercard__box.height() - PADDING_FROM_EDGES, obj_offset.top + obj_height));
 		}
 		if (top === new_top) {
 			return;
@@ -142,7 +156,7 @@ function make_hovercard(obj, identity, e) {
 		}
 	}
 	position_hovercard();
-	var position_interval = setInterval(position_hovercard, 100);
+	position_interval = setInterval(position_hovercard, 100);
 	setTimeout(function() {
 		clearInterval(position_interval);
 	}, 2500);
@@ -185,11 +199,7 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 		var obj = $(this);
 		var url;
 		var identity;
-		if (obj.is(current_obj) || obj.has(current_obj).length ||
-		    obj.parents('.' + _.prefix('hovercard')).length ||
-		    !(url = massage_url(hoverable.get_url(obj))) ||
-		    !(identity = urls.parse(url)) ||
-		    !accept_identity(identity, obj)) {
+		if (obj.is(current_obj) || obj.has(current_obj).length || obj.parents('.' + _.prefix('hovercard')).length || !(url = massage_url(hoverable.get_url(obj))) || !(identity = urls.parse(url)) || !accept_identity(identity, obj)) {
 			return;
 		}
 		if (current_obj) {

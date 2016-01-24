@@ -4,7 +4,9 @@ var config = require('../config');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-var responder = function(args, callback) { async.setImmediate(callback || _.noop); }; // This name is stupid
+var responder = function(args, callback) {
+	async.setImmediate(callback || _.noop);
+}; // This name is stupid
 
 module.exports = function() {
 	responder(_.toArray(arguments));
@@ -12,7 +14,7 @@ module.exports = function() {
 
 chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 	if (_.result(message, 'type') !== 'analytics') {
-		return;
+		return null;
 	}
 	var type = _.first(message.request);
 	if (type === 'send') {
@@ -66,15 +68,15 @@ switch (process.env.NODE_ENV) {
 				callback(user_id);
 			}
 		], function(user_id) {
-			/* jshint ignore:start */
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-			/* jshint ignore:end */
+			/* eslint-disable */
+			(function(i, s, o, g, r, a, m) {i['GoogleAnalyticsObject'] = r;i[r] = i[r] || function() {
+				(i[r].q = i[r].q || []).push(arguments);}, i[r].l = 1 * new Date();a = s.createElement(o),
+			m = s.getElementsByTagName(o)[0];a.async = 1;a.src = g;m.parentNode.insertBefore(a, m);
+			})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+			/* eslint-enable */
 
-			window.ga('create', config.analytics_id, { 'userId': user_id });
-			window.ga('set', 'checkProtocolTask', function(){});
+			window.ga('create', config.analytics_id, { userId: user_id });
+			window.ga('set', 'checkProtocolTask', _.noop);
 			window.ga('set', { appName: chrome.i18n.getMessage('app_name'), appVersion: chrome.runtime.getManifest().version });
 
 			responder = function(args, callback) {

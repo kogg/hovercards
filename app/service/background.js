@@ -49,37 +49,45 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 						});
 					}
 				}, function(err, results) {
-					$.ajax({ url:      url,
-					         data:     identity,
-					         dataType: 'json',
-					         jsonp:    false,
-					         headers:  results })
+					$.ajax({
+						url:      url,
+						data:     identity,
+						dataType: 'json',
+						jsonp:    false,
+						headers:  results
+					})
 						.done(function(data, textStatus, jqXHR) {
 							callback(null, data, _.chain(jqXHR.getAllResponseHeaders().trim().split('\n'))
-							                      .invoke('split', /:\s*/, 2)
-							                      .filter(function(pair) { return pair[0] !== (pair[0] = pair[0].replace(/^usage-/, '')); })
-							                      .object()
-							                      .mapObject(Number)
-							                      .value());
+								.invoke('split', /:\s*/, 2)
+								.filter(function(pair) {
+									return pair[0] !== (pair[0] = pair[0].replace(/^usage-/, ''));
+								})
+								.object()
+								.mapObject(Number)
+								.value());
 						})
 						.fail(function(jqXHR) {
-							callback(_.chain(jqXHR)
-							          .result('responseJSON', {})
-							          .defaults({ message: jqXHR.statusText, status: jqXHR.status || 500 })
-							          .value(),
-							         null,
-							         _.chain(jqXHR.getAllResponseHeaders().trim().split('\n'))
-							          .invoke('split', /:\s*/, 2)
-							          .filter(function(pair) { return pair[0] !== (pair[0] = pair[0].replace(/^usage-/, '')); })
-							          .object()
-							          .mapObject(Number)
-							          .value());
+							callback(
+								_.chain(jqXHR) .result('responseJSON', {})
+									.defaults({ message: jqXHR.statusText, status: jqXHR.status || 500 })
+									.value(),
+								null,
+								_.chain(jqXHR.getAllResponseHeaders().trim().split('\n'))
+									.invoke('split', /:\s*/, 2)
+									.filter(function(pair) {
+										return pair[0] !== (pair[0] = pair[0].replace(/^usage-/, ''));
+									})
+									.object()
+									.mapObject(Number)
+									.value());
 						});
 				});
-			}, { maxAge:    api_config['route_cache_' + type] || api_config.route_cache_default || 5 * 60 * 1000,
-			     resolvers: [JSON.stringify],
-			     length:    2,
-			     async:     true });
+			}, {
+				maxAge:    api_config['route_cache_' + type] || api_config.route_cache_default || 5 * 60 * 1000,
+				resolvers: [JSON.stringify],
+				length:    2,
+				async:     true
+			});
 
 			return function(identity, callback) {
 				var url;
@@ -89,8 +97,8 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 						url = [config.endpoint, api, identity.type, identity.id].join('/');
 						break;
 					case 'discussion':
-						if (identity['for']) {
-							url = [config.endpoint, identity['for'].api, 'content', identity['for'].id, 'discussion', api].join('/');
+						if (identity.for) {
+							url = [config.endpoint, identity.for.api, 'content', identity.for.id, 'discussion', api].join('/');
 						} else {
 							url = [config.endpoint, api, 'content', identity.id, 'discussion'].join('/');
 						}
@@ -98,19 +106,21 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 					case 'account_content':
 						url = [config.endpoint, api, 'account', identity.id, 'content'].join('/');
 						break;
+					default:
+						break;
 				}
-				if (_.isObject(identity['for'])) {
-					var for_api = identity['for'].api;
-					identity['for']         = _.pick(identity['for'], 'as', 'account');
-					identity['for'].account = _.pick(identity['for'].account, 'id', 'as');
-					if (!_.contains(['soundcloud', 'twitter'], for_api) || _.isEmpty(identity['for'].account)) {
-						delete identity['for'].account;
+				if (_.isObject(identity.for)) {
+					var for_api = identity.for.api;
+					identity.for = _.pick(identity.for, 'as', 'account');
+					identity.for.account = _.pick(identity.for.account, 'id', 'as');
+					if (!_.contains(['soundcloud', 'twitter'], for_api) || _.isEmpty(identity.for.account)) {
+						delete identity.for.account;
 					}
-					if (_.isEmpty(identity['for'])) {
-						delete identity['for'];
+					if (_.isEmpty(identity.for)) {
+						delete identity.for;
 					}
 				}
-				identity         = _.pick(identity, 'as', 'account', 'for');
+				identity = _.pick(identity, 'as', 'account', 'for');
 				identity.account = _.pick(identity.account, 'id', 'as', 'account');
 				if (!_.contains(['soundcloud', 'twitter'], api) || _.isEmpty(identity.account)) {
 					delete identity.account;
@@ -147,10 +157,12 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 				_.extend(client.model, _.mapObject(client.model, function(func, name) {
 					return memoize(function(args_as_string, args_not_cached, usage, callback) {
 						func(JSON.parse(args_as_string), args_not_cached, usage, callback);
-					}, { maxAge:    api_config['cache_' + name] || api_config.cache_default || 5 * 60 * 1000,
-					     resolvers: [JSON.stringify],
-					     length:    1,
-					     async:     true });
+					}, {
+						maxAge:    api_config['cache_' + name] || api_config.cache_default || 5 * 60 * 1000,
+						resolvers: [JSON.stringify],
+						length:    1,
+						async:     true
+					});
 				}));
 			}
 			setup_caller(results);
@@ -170,7 +182,7 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 
 chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 	if (_.result(message, 'type') !== 'service') {
-		return;
+		return false;
 	}
 	var service_start = Date.now();
 	var identity = message.identity;
