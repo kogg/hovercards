@@ -136,17 +136,19 @@ module.exports = function(obj, identity) {
 					if (err) {
 						return;
 					}
-					var given_discussions = _.each(data.discussions, _.partial(_.extend, _, { loaded: true })) || [];
-					delete data.discussions;
-					var default_discussions = _.chain(config.apis[data.api])
-						.result('discussion_apis', [])
-						.map(function(api) {
+					var discussion_apis = _.result(config.apis[data.api], 'discussion_apis', []);
+					var discussions = _.chain(data.discussions)
+						.each(_.partial(_.extend, _, { loaded: true }))
+						.union(_.map(discussion_apis, function(api) {
 							return (api === data.api) ?
-								_.defaults({ type: 'discussion', loaded: false }, data) :
-								{ api: api, type: 'discussion', for: _.clone(data), loaded: false };
+								_.defaults({ type: 'discussion', loaded: false }, _.omit(data, 'discussions')) :
+								{ api: api, type: 'discussion', for: _.omit(data, 'discussions'), loaded: false };
+						}))
+						.uniq(_.property('api'))
+						.sortBy(function(discussion) {
+							return _.indexOf(discussion_apis, discussion.api);
 						})
 						.value();
-					var discussions = _.chain(given_discussions) .union(default_discussions) .uniq(_.property('api')) .value();
 					ractive.set('discussions', discussions);
 					ractive.set('discussion_i', 0);
 					ractive.observeUntil('expanded', function() {
