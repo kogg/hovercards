@@ -1,7 +1,7 @@
 {
 	"app_name":        { "message": "HoverCards" },
 	"app_short_name":  { "message": "hovercards" },
-	"app_description": { "message": "Get more content. Open fewer tabs." },
+	"app_description": { "message": "See what's behind social links with HoverCards." },
 
 	"account_age":        { "message": "Age" },
 	"account_empty":      { "message": "" },
