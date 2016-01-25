@@ -2,7 +2,7 @@ var _ = require('underscore');
 
 module.exports = function(identity, callback) {
 	if (!_.isObject(identity)) {
-		return setImmediate(function() {
+		return setTimeout(function() {
 			callback({ message: 'Missing \'identity\'', status: 400 });
 		});
 	}

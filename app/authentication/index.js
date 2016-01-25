@@ -2,7 +2,7 @@ var _ = require('underscore');
 
 module.exports = function(api, callback) {
 	if (_.isEmpty(api)) {
-		return setImmediate(function() {
+		return setTimeout(function() {
 			callback({ message: 'Missing \'api\'', status: 400 });
 		});
 	}

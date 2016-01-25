@@ -22,7 +22,7 @@ Ractive.prototype.service = function(keypath, identity, handler) {
 	var ractive = this;
 	var val     = ractive.get(keypath);
 	if (val && (val.loading || val.loaded)) {
-		return;
+		return (handler || _.noop)(null, val);
 	}
 	ractive.set(keypath + '.loading', true);
 	ractive.set(keypath + '.loaded', false);
@@ -159,14 +159,18 @@ module.exports = function(obj, identity) {
 							discussions,
 							function(discussion, callback) {
 								ractive.service('discussions.' + _.indexOf(discussions, discussion), null, function(err, full_discussion) {
-									return callback(!err && !_.result(full_discussion, 'uncommentable') && !_.chain(full_discussion).result('comments').isEmpty().value());
+									setTimeout(function() {
+										return callback(!err && !_.result(full_discussion, 'uncommentable') && !_.chain(full_discussion).result('comments').isEmpty().value());
+									});
 								});
 							},
 							function(discussion) {
 								if (!discussion) {
 									return;
 								}
-								ractive.set('discussion_i', _.indexOf(discussions, discussion));
+								ractive.set('discussion_i', _.findIndex(discussions, function(a_discussion) {
+									return discussion.api === a_discussion.api;
+								}));
 							}
 						);
 					});
