@@ -21,7 +21,7 @@ Ractive.prototype.observeUntil = function(keypath, handler, options) {
 Ractive.prototype.service = function(keypath, identity, handler) {
 	var ractive = this;
 	var val     = ractive.get(keypath);
-	if (val && (val.loading || val.loaded)) {
+	if (val && val.loaded) {
 		return (handler || _.noop)(null, val);
 	}
 	ractive.set(keypath + '.loading', true);
