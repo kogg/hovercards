@@ -168,18 +168,18 @@ function make_hovercard(obj, identity, e) {
 	obj
 		.one(Click, kill_it)
 		.one(Cleanup, function(e, keep_hovercard) {
-			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
-			clearInterval(position_interval);
-			if (keep_hovercard) {
-				hovercard__box
-					.removeClass(_.prefix('hovercard_from_top'))
-					.removeClass(_.prefix('hovercard_from_bottom'));
-			} else {
-				hovercard.remove();
-			}
-			$(window).off(Blur, kill_it);
-			obj.off(NameSpace);
-			current_obj = !current_obj.is(obj) && current_obj;
+			// analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
+			// clearInterval(position_interval);
+			// if (keep_hovercard) {
+			// 	hovercard__box
+			// 		.removeClass(_.prefix('hovercard_from_top'))
+			// 		.removeClass(_.prefix('hovercard_from_bottom'));
+			// } else {
+			// 	hovercard.remove();
+			// }
+			// $(window).off(Blur, kill_it);
+			// obj.off(NameSpace);
+			// current_obj = !current_obj.is(obj) && current_obj;
 		});
 	var both = obj.add(hovercard__box);
 	both.on(MouseLeave, function(e) {

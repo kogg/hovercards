@@ -31,16 +31,17 @@
 @define-placeholder box-thing p {
     display: inline;
 }
+@define-placeholder box-thing p a {
+    margin: 0 3px;
+}
 @define-placeholder box-thing br {
     display: none;
 }
 @define-placeholder box-thing__box {
     background: white;
-    border-radius: 3px;
     overflow: hidden;
     max-width: 500px;
     width: 100%;
-    padding: 12px;
     box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0;
 }
 
