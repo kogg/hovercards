@@ -151,29 +151,27 @@ module.exports = function(obj, identity) {
 						.value();
 					ractive.set('discussions', discussions);
 					ractive.set('discussion_i', 0);
-					ractive.observeUntil('expanded', function() {
-						ractive.observe('discussion_i', function(i) {
-							ractive.service('discussions.' + i);
-						});
-						async.detectSeries(
-							discussions,
-							function(discussion, callback) {
-								ractive.service('discussions.' + _.indexOf(discussions, discussion), null, function(err, full_discussion) {
-									setTimeout(function() {
-										return callback(!err && !_.result(full_discussion, 'uncommentable') && !_.chain(full_discussion).result('comments').isEmpty().value());
-									});
-								});
-							},
-							function(discussion) {
-								if (!discussion) {
-									return;
-								}
-								ractive.set('discussion_i', _.findIndex(discussions, function(a_discussion) {
-									return discussion.api === a_discussion.api;
-								}));
-							}
-						);
+					ractive.observe('discussion_i', function(i) {
+						ractive.service('discussions.' + i);
 					});
+					async.detectSeries(
+						discussions,
+						function(discussion, callback) {
+							ractive.service('discussions.' + _.indexOf(discussions, discussion), null, function(err, full_discussion) {
+								setTimeout(function() {
+									return callback(!err && !_.result(full_discussion, 'uncommentable') && !_.chain(full_discussion).result('comments').isEmpty().value());
+								});
+							});
+						},
+						function(discussion) {
+							if (!discussion) {
+								return;
+							}
+							ractive.set('discussion_i', _.findIndex(discussions, function(a_discussion) {
+								return discussion.api === a_discussion.api;
+							}));
+						}
+					);
 				});
 				break;
 			case 'account':
