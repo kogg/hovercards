@@ -1,24 +1,24 @@
 {
   "name": "hovercardsextension",
-  "description": "",
   "version": "2.0.8",
+  "description": "",
   "repository": "cameronrohani/hovercardsextension",
   "scripts": {
-    "start": "foreman start",
-    "pkg": "npm run clean && npm run copy:other && npm run postcss && npm run browserify && npm run uglifyjs && zip -q -r build/pkg-$npm_package_version.zip dist",
+    "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input $npm_package_config_browserify_output",
+    "clean": "rm -rf dist/* *.pem *.nex",
     "copy:other": "rsync -rm --include='*/' --include='*.json' --include='options.html' --exclude='*' app/* dist && mkdir -p dist/assets/images && cp app/images/logo-* dist/assets/images && cp app/images/*-icon-full_color.png dist/assets/images",
     "postcss": "postcss app/*.css -d dist/ -c postcss.js",
-    "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input $npm_package_config_browserify_output",
-    "uglifyjs": "mkdir -p dist && find dist -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
-    "watchify": "mkdir -p dist && watchify $npm_package_config_browserify_input -t [ envify --NODE_ENV development ] $npm_package_config_browserify_output --full-paths -v -d",
-    "discify": "browserify $npm_package_config_browserify_input --full-paths | uglifyjs -c drop_console,warnings=false | discify -O",
-    "fix": "npm run cssfmt && npm run eslint-fix",
-    "eslint-fix": "( git diff --staged --name-only | grep \".jsx\\?$\" | xargs eslint --fix ) && ( git diff --staged --name-only | grep \".jsx\\?$\" | xargs git add )",
     "cssfmt": "( git diff --staged --name-only | grep \".s\\?css$\" | xargs -I '{}' -n 1 cssfmt {} ) && ( git diff --staged --name-only | grep \".s\\?css$\" | xargs git add )",
-    "test": "eslint . --ignore-path .gitignore",
-    "clean": "rm -rf dist/* *.pem *.nex",
+    "discify": "browserify $npm_package_config_browserify_input --full-paths | uglifyjs -c drop_console,warnings=false | discify -O",
+    "eslint-fix": "( git diff --staged --name-only | grep \".jsx\\?$\" | xargs eslint --fix ) && ( git diff --staged --name-only | grep \".jsx\\?$\" | xargs git add )",
+    "fix": "npm run cssfmt && npm run eslint-fix",
     "postinstall": "if [ -d .git ]; then rm -rf .git/hooks && ln -s ../hooks .git/hooks; fi",
-    "postuninstall": "if [ -d .git ]; then rm -rf .git/hooks; fi"
+    "pkg": "npm run clean && npm run copy:other && npm run postcss && npm run browserify && npm run uglifyjs && zip -q -r build/pkg-$npm_package_version.zip dist",
+    "start": "foreman start",
+    "test": "eslint . --ignore-path .gitignore",
+    "uglifyjs": "mkdir -p dist && find dist -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
+    "postuninstall": "if [ -d .git ]; then rm -rf .git/hooks; fi",
+    "watchify": "mkdir -p dist && watchify $npm_package_config_browserify_input -t [ envify --NODE_ENV development ] $npm_package_config_browserify_output --full-paths -v -d"
   },
   "config": {
     "browserify": {
@@ -39,10 +39,6 @@
       "ractiveify"
     ]
   },
-  "pre-commit": [
-    "fix",
-    "test"
-  ],
   "dependencies": {
     "async": "^1.4.2",
     "hovercardsshared": "cameronrohani/hovercardsshared#v2.1.2",
@@ -76,5 +72,9 @@
     "uglify-js": "^2.4.24",
     "watch": "^0.16.0",
     "watchify": "^3.4.0"
-  }
+  },
+  "pre-commit": [
+    "fix",
+    "test"
+  ]
 }
