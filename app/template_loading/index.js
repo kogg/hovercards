@@ -129,6 +129,7 @@ module.exports = function(obj, identity) {
 		obj.data('ractive', ractive);
 		ractive.set('scrollpos', 0);
 		ractive.set('scrollposbottom', 21);
+		ractive.set('hovered', false);
 
 		switch (identity.type) {
 			case 'content':

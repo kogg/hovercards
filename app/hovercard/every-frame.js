@@ -54,8 +54,9 @@ var NameSpace = '.' + EXTENSION_ID;
 var Blur       = 'blur' + NameSpace;
 var Cleanup    = 'cleanup' + NameSpace;
 var Click      = 'click' + NameSpace;
+var MouseEnter = 'mouseenter' + NameSpace;
 var MouseLeave = 'mouseleave' + NameSpace;
-var MouseMove  = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
+var MouseMove  = 'mousemove' + NameSpace + ' ' + MouseEnter;
 
 var current_obj;
 
@@ -117,7 +118,14 @@ function make_hovercard(obj, identity, e) {
 		.append(hovercard__box)
 		.appendTo('html');
 
-	template_loading(hovercard__box, identity);
+	var ractive = template_loading(hovercard__box, identity);
+	hovercard__box
+		.on(MouseEnter, function() {
+			ractive.set('hovered', true);
+		})
+		.on(MouseLeave, function() {
+			ractive.set('hovered', false);
+		});
 
 	var obj_offset  = obj.offset();
 	var obj_height  = obj.height();
