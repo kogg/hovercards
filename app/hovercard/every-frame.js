@@ -109,11 +109,7 @@ function make_hovercard(obj, identity, e) {
 	var hovercard_start = Date.now();
 	var hovercard__box = $('<div></div>')
 		.addClass(_.prefix('box'))
-		.addClass(_.prefix('hovercard__box'))
-		.one(Click, function(e) {
-			e.preventDefault();
-			obj.trigger(Cleanup, [true]);
-		});
+		.addClass(_.prefix('hovercard__box'));
 
 	var hovercard = $('<div></div>')
 		.addClass(_.prefix('hovercard'))
@@ -168,18 +164,21 @@ function make_hovercard(obj, identity, e) {
 	obj
 		.one(Click, kill_it)
 		.one(Cleanup, function(e, keep_hovercard) {
-			// analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
-			// clearInterval(position_interval);
-			// if (keep_hovercard) {
-			// 	hovercard__box
-			// 		.removeClass(_.prefix('hovercard_from_top'))
-			// 		.removeClass(_.prefix('hovercard_from_bottom'));
-			// } else {
-			// 	hovercard.remove();
-			// }
-			// $(window).off(Blur, kill_it);
-			// obj.off(NameSpace);
-			// current_obj = !current_obj.is(obj) && current_obj;
+			if (process.env.NODE_ENV !== 'production' && process.env.STICKYCARDS) {
+				return;
+			}
+			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
+			clearInterval(position_interval);
+			if (keep_hovercard) {
+				hovercard__box
+					.removeClass(_.prefix('hovercard_from_top'))
+					.removeClass(_.prefix('hovercard_from_bottom'));
+			} else {
+				hovercard.remove();
+			}
+			$(window).off(Blur, kill_it);
+			obj.off(NameSpace);
+			current_obj = !current_obj.is(obj) && current_obj;
 		});
 	var both = obj.add(hovercard__box);
 	both.on(MouseLeave, function(e) {
@@ -218,7 +217,7 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 		}
 		$(window).on(Blur, kill_it);
 		current_obj = obj
-			.one(Click + ' ' + MouseLeave, kill_it)
+			.one(MouseLeave, kill_it)
 			.one(Cleanup, function() {
 				$(window).off(Blur, kill_it);
 				obj.off(NameSpace);
