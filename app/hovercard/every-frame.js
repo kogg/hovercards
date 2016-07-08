@@ -134,8 +134,6 @@ function make_hovercard(obj, identity, e) {
 	var obj_height        = obj.height();
 	var window_scrollLeft = $(window).scrollLeft();
 	var window_scrollTop  = $(window).scrollTop();
-	var space_above       = obj_offset.top - window_scrollTop;
-	var space_below       = window.innerHeight - space_above - obj_height;
 	var left              = (e ? e.pageX : obj_offset.left) + 1;
 
 	left = Math.max(window_scrollLeft + PADDING_FROM_EDGES, (e ? e.pageX : obj_offset.left) + ((left > window_scrollLeft + window.innerWidth - hovercard__box.width() - PADDING_FROM_EDGES) ? - hovercard__box.width() - 1 : 1));
