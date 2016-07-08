@@ -130,27 +130,21 @@ function make_hovercard(obj, identity, e) {
 			$('body').removeClass(_.prefix('overflow-hidden'));
 		});
 
-	var obj_offset  = obj.offset();
-	var obj_height  = obj.height();
-	var window_scrollTop = $(window).scrollTop();
-	var space_above = obj_offset.top - window_scrollTop;
-	var space_below = window.innerHeight - space_above - obj_height;
-	var is_top      = (space_above > space_below);
-	var left        = Math.max(PADDING_FROM_EDGES, Math.min($(window).scrollLeft() + window.innerWidth - hovercard__box.width() - PADDING_FROM_EDGES, (e ? e.pageX : obj_offset.left) + 1));
-	hovercard
-		.toggleClass(_.prefix('hovercard_from_top'), is_top)
-		.toggleClass(_.prefix('hovercard_from_bottom'), !is_top);
+	var obj_offset        = obj.offset();
+	var obj_height        = obj.height();
+	var window_scrollLeft = $(window).scrollLeft();
+	var window_scrollTop  = $(window).scrollTop();
+	var space_above       = obj_offset.top - window_scrollTop;
+	var space_below       = window.innerHeight - space_above - obj_height;
+	var left              = (e ? e.pageX : obj_offset.left) + 1;
+
+	left = Math.max(window_scrollLeft + PADDING_FROM_EDGES, (e ? e.pageX : obj_offset.left) + ((left > window_scrollLeft + window.innerWidth - hovercard__box.width() - PADDING_FROM_EDGES) ? - hovercard__box.width() - 1 : 1));
 
 	var top;
 	var times = 0;
 	var position_interval;
 	function position_hovercard() {
-		var new_top;
-		if (is_top) {
-			new_top = Math.max(window_scrollTop + PADDING_FROM_EDGES + hovercard__box.height(), obj_offset.top);
-		} else {
-			new_top = Math.max(window_scrollTop + PADDING_FROM_EDGES, Math.min(window_scrollTop + window.innerHeight - hovercard__box.height() - PADDING_FROM_EDGES, obj_offset.top + obj_height));
-		}
+		var new_top = Math.max(window_scrollTop + PADDING_FROM_EDGES, Math.min(window_scrollTop + window.innerHeight - hovercard__box.height() - PADDING_FROM_EDGES, obj_offset.top + obj_height - hovercard__box.height() / 2));
 		if (top === new_top) {
 			return;
 		}
@@ -180,11 +174,7 @@ function make_hovercard(obj, identity, e) {
 			}
 			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
 			clearInterval(position_interval);
-			if (keep_hovercard) {
-				hovercard__box
-					.removeClass(_.prefix('hovercard_from_top'))
-					.removeClass(_.prefix('hovercard_from_bottom'));
-			} else {
+			if (!keep_hovercard) {
 				hovercard.remove();
 			}
 			$('body,html').removeClass(_.prefix('hide-scrollbar'));
