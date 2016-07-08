@@ -54,9 +54,8 @@ var NameSpace = '.' + EXTENSION_ID;
 var Blur       = 'blur' + NameSpace;
 var Cleanup    = 'cleanup' + NameSpace;
 var Click      = 'click' + NameSpace;
-var MouseEnter = 'mouseenter' + NameSpace;
 var MouseLeave = 'mouseleave' + NameSpace;
-var MouseMove  = 'mousemove' + NameSpace + ' ' + MouseEnter;
+var MouseMove  = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
 
 var current_obj;
 
@@ -120,11 +119,15 @@ function make_hovercard(obj, identity, e) {
 
 	var ractive = template_loading(hovercard__box, identity);
 	hovercard__box
-		.on(MouseEnter, function() {
+		.on(MouseMove, function() {
 			ractive.set('hovered', true);
+			$('body,html').addClass(_.prefix('hide-scrollbar'));
+			$('body').addClass(_.prefix('overflow-hidden'));
 		})
 		.on(MouseLeave, function() {
 			ractive.set('hovered', false);
+			$('body,html').removeClass(_.prefix('hide-scrollbar'));
+			$('body').removeClass(_.prefix('overflow-hidden'));
 		});
 
 	var obj_offset  = obj.offset();
@@ -184,6 +187,8 @@ function make_hovercard(obj, identity, e) {
 			} else {
 				hovercard.remove();
 			}
+			$('body,html').removeClass(_.prefix('hide-scrollbar'));
+			$('body').removeClass(_.prefix('overflow-hidden'));
 			$(window).off(Blur, kill_it);
 			obj.off(NameSpace);
 			current_obj = !current_obj.is(obj) && current_obj;
@@ -231,6 +236,8 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 				obj.off(NameSpace);
 				clearTimeout(timeout);
 				timeout = null;
+				$('body,html').removeClass(_.prefix('hide-scrollbar'));
+				$('body').removeClass(_.prefix('overflow-hidden'));
 			})
 			.on(MouseMove, function(e) {
 				last_e = e;

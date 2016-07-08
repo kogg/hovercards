@@ -24,6 +24,14 @@
     pointer-events: auto;
 }
 
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
 @keyframes drop-down-animation {
     0% {
         transform: translate3d(0, 0, 0);
