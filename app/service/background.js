@@ -68,7 +68,8 @@ var api_callers = _.mapObject(config.apis, function(api_config, api) {
 						})
 						.fail(function(jqXHR) {
 							callback(
-								_.chain(jqXHR) .result('responseJSON', {})
+								_.chain(jqXHR)
+									.result('responseJSON', {})
 									.defaults({ message: jqXHR.statusText, status: jqXHR.status || 500 })
 									.value(),
 								null,
