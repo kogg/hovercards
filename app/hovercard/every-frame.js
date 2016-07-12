@@ -130,15 +130,20 @@ function make_hovercard(obj, identity, e) {
 			$('body').removeClass(_.prefix('overflow-hidden'));
 		});
 
-	var obj_offset        = obj.offset();
-	var obj_height        = obj.height();
-	var window_scrollLeft = $(window).scrollLeft();
-	var window_scrollTop  = $(window).scrollTop();
+	var left_pos           = e ? e.pageX : obj_offset.left;
+	var obj_height         = obj.height();
+	var obj_offset         = obj.offset();
+	var window_innerHeight = window.innerHeight;
+	var window_innerWidth  = window.innerWidth;
+	var window_scrollLeft  = $(window).scrollLeft();
+	var window_scrollTop   = $(window).scrollTop();
 
 	var left, top;
 	function position_hovercard() {
-		var new_left = Math.max(window_scrollLeft + PADDING_FROM_EDGES, (e ? e.pageX : obj_offset.left) + (((e ? e.pageX : obj_offset.left) + 1 > window_scrollLeft + window.innerWidth - hovercard__box.width() - PADDING_FROM_EDGES) ? - hovercard__box.width() - 1 : 1));
-		var new_top  = Math.max(window_scrollTop + PADDING_FROM_EDGES, Math.min(window_scrollTop + window.innerHeight - hovercard__box.height() - PADDING_FROM_EDGES, obj_offset.top + obj_height - hovercard__box.height() / 2));
+		var hovercard__box_height = hovercard__box.height();
+		var hovercard__box_width  = hovercard__box.width();
+		var new_left              = Math.max(window_scrollLeft + PADDING_FROM_EDGES, left_pos + ((left_pos + 1 > window_scrollLeft + window_innerWidth - hovercard__box_width - PADDING_FROM_EDGES) ? - hovercard__box_width - 1 : 1));
+		var new_top               = Math.max(window_scrollTop + PADDING_FROM_EDGES, Math.min(window_scrollTop + window_innerHeight - hovercard__box_height - PADDING_FROM_EDGES, obj_offset.top + obj_height - hovercard__box_height / 2));
 		if (left === new_left && top === new_top) {
 			return;
 		}
