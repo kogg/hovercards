@@ -134,31 +134,20 @@ function make_hovercard(obj, identity, e) {
 	var obj_height        = obj.height();
 	var window_scrollLeft = $(window).scrollLeft();
 	var window_scrollTop  = $(window).scrollTop();
-	var left              = (e ? e.pageX : obj_offset.left) + 1;
 
-	left = Math.max(window_scrollLeft + PADDING_FROM_EDGES, (e ? e.pageX : obj_offset.left) + ((left > window_scrollLeft + window.innerWidth - hovercard__box.width() - PADDING_FROM_EDGES) ? - hovercard__box.width() - 1 : 1));
-
-	var top;
-	var times = 0;
-	var position_interval;
+	var left, top;
 	function position_hovercard() {
-		var new_top = Math.max(window_scrollTop + PADDING_FROM_EDGES, Math.min(window_scrollTop + window.innerHeight - hovercard__box.height() - PADDING_FROM_EDGES, obj_offset.top + obj_height - hovercard__box.height() / 2));
-		if (top === new_top) {
+		var new_left = Math.max(window_scrollLeft + PADDING_FROM_EDGES, (e ? e.pageX : obj_offset.left) + (((e ? e.pageX : obj_offset.left) + 1 > window_scrollLeft + window.innerWidth - hovercard__box.width() - PADDING_FROM_EDGES) ? - hovercard__box.width() - 1 : 1));
+		var new_top  = Math.max(window_scrollTop + PADDING_FROM_EDGES, Math.min(window_scrollTop + window.innerHeight - hovercard__box.height() - PADDING_FROM_EDGES, obj_offset.top + obj_height - hovercard__box.height() / 2));
+		if (left === new_left && top === new_top) {
 			return;
 		}
-		top = new_top;
+		left = new_left;
+		top  = new_top;
 		hovercard.offset({ left: left, top: top });
-		times++;
-		if (times === 3) {
-			clearInterval(position_interval);
-			return;
-		}
 	}
 	position_hovercard();
-	position_interval = setInterval(position_hovercard, 100);
-	setTimeout(function() {
-		clearInterval(position_interval);
-	}, 2500);
+	var position_interval = setInterval(position_hovercard, 250);
 
 	function kill_it() {
 		obj.trigger(Cleanup);
