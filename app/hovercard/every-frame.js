@@ -158,7 +158,7 @@ function make_hovercard(obj, identity, e) {
 		obj.trigger(Cleanup);
 	}
 	function window_blur() {
-		if ($(document.activeElement).parents().is(hovercard__box)) {
+		if (document.activeElement.tagName.toLowerCase() === 'iframe' && $(document.activeElement).parents().is(hovercard__box)) {
 			return;
 		}
 		kill_it();
