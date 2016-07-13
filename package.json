@@ -2,7 +2,20 @@
   "name": "hovercardsextension",
   "version": "2.0.8",
   "description": "",
-  "repository": "cameronrohani/hovercardsextension",
+  "homepage": "http://hovercards.com",
+  "bugs": {
+    "url": "https://github.com/cameronrohani/hovercardsextension/issues"
+  },
+  "license": "ISC",
+  "author": {
+    "name": "kogg",
+    "email": "team@hovercards.com",
+    "url": "http://ko.gg"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cameronrohani/hovercardsextension.git"
+  },
   "scripts": {
     "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input $npm_package_config_browserify_output",
     "clean": "rm -rf dist/* *.pem *.nex",
