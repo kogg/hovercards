@@ -157,7 +157,13 @@ function make_hovercard(obj, identity, e) {
 	function kill_it() {
 		obj.trigger(Cleanup);
 	}
-	$(window).on(Blur, kill_it);
+	function window_blur() {
+		if ($(document.activeElement).parents().is(hovercard__box)) {
+			return;
+		}
+		kill_it();
+	}
+	$(window).on(Blur, window_blur);
 	obj
 		.one(Click, kill_it)
 		.one(Cleanup, function(e, keep_hovercard) {
@@ -171,7 +177,7 @@ function make_hovercard(obj, identity, e) {
 			}
 			$('body,html').removeClass(_.prefix('hide-scrollbar'));
 			$('body').removeClass(_.prefix('overflow-hidden'));
-			$(window).off(Blur, kill_it);
+			$(window).off(Blur, window_blur);
 			obj.off(NameSpace);
 			current_obj = !current_obj.is(obj) && current_obj;
 		});
