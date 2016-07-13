@@ -1,3 +1,4 @@
+var $       = require('jquery');
 var _       = require('underscore');
 var async   = require('async');
 var urls    = require('hovercardsshared/urls');
@@ -67,6 +68,7 @@ Ractive.prototype.service = function(keypath, identity, handler) {
 
 // TODO Put this in shared pkg
 var global_data = {
+	$:    $,
 	_:    _,
 	copy: function(name, api) {
 		var rest = _.rest(arguments, 2);
