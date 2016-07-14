@@ -142,8 +142,23 @@ function make_hovercard(obj, identity, e) {
 	function position_hovercard() {
 		var hovercard__box_height = hovercard__box.height();
 		var hovercard__box_width  = hovercard__box.width();
-		var new_left              = Math.max(window_scrollLeft + PADDING_FROM_EDGES, left_pos + ((left_pos + 1 > window_scrollLeft + window_innerWidth - hovercard__box_width - PADDING_FROM_EDGES) ? - hovercard__box_width - 1 : 1));
-		var new_top               = Math.max(window_scrollTop + PADDING_FROM_EDGES, Math.min(window_scrollTop + window_innerHeight - hovercard__box_height - PADDING_FROM_EDGES, obj_offset.top + obj_height - hovercard__box_height / 2));
+
+		var new_left = Math.max(
+			window_scrollLeft + PADDING_FROM_EDGES, // Keep the hovercard from going off the left of the page
+			left_pos + (
+				(left_pos + 1 > window_scrollLeft + window_innerWidth - hovercard__box_width - PADDING_FROM_EDGES)
+					? - hovercard__box_width - 1 // Keep the hovercard from going off the right of the page by putting it on the left
+					: 1 // Put the hovercard on the right
+			)
+		);
+		var new_top  = Math.max(
+			window_scrollTop + PADDING_FROM_EDGES, // Keep the hovercard from going off the top of the page
+			Math.min(
+				window_scrollTop + window_innerHeight - hovercard__box_height - PADDING_FROM_EDGES, // Keep the hovercard from going off the bottom of the page
+				obj_offset.top + obj_height - hovercard__box_height / 2 // Center the hovercard around the cursor
+			)
+		);
+
 		if (left === new_left && top === new_top) {
 			return;
 		}
