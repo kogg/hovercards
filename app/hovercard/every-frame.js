@@ -130,9 +130,9 @@ function make_hovercard(obj, identity, e) {
 			$('body').removeClass(_.prefix('overflow-hidden'));
 		});
 
-	var left_pos           = e ? e.pageX : obj_offset.left;
-	var obj_height         = obj.height();
 	var obj_offset         = obj.offset();
+	var pos_left           = e ? e.pageX : obj_offset.left;
+	var pos_top            = e ? e.pageY : (obj_offset.top + obj.height() / 2);
 	var window_innerHeight = window.innerHeight;
 	var window_innerWidth  = window.innerWidth;
 	var window_scrollLeft  = $(window).scrollLeft();
@@ -145,17 +145,20 @@ function make_hovercard(obj, identity, e) {
 
 		var new_left = Math.max(
 			window_scrollLeft + PADDING_FROM_EDGES, // Keep the hovercard from going off the left of the page
-			left_pos + (
-				(left_pos + 1 > window_scrollLeft + window_innerWidth - hovercard__box_width - PADDING_FROM_EDGES)
+			pos_left + (
+				(pos_left + 1 > window_scrollLeft + window_innerWidth - hovercard__box_width - PADDING_FROM_EDGES)
 					? - hovercard__box_width - 1 // Keep the hovercard from going off the right of the page by putting it on the left
 					: 1 // Put the hovercard on the right
 			)
 		);
-		var new_top  = Math.max(
+		var new_top = Math.max(
 			window_scrollTop + PADDING_FROM_EDGES, // Keep the hovercard from going off the top of the page
 			Math.min(
 				window_scrollTop + window_innerHeight - hovercard__box_height - PADDING_FROM_EDGES, // Keep the hovercard from going off the bottom of the page
-				obj_offset.top + obj_height - hovercard__box_height / 2 // Center the hovercard around the cursor
+				pos_top - Math.min(
+					hovercard__box_height / 2, // Keep the hovercard from being above the cursor
+					70 // Start the hovercard offset above the cursor
+				)
 			)
 		);
 
