@@ -130,9 +130,9 @@ function make_hovercard(obj, identity, e) {
 			$('body').removeClass(_.prefix('overflow-hidden'));
 		});
 
-	var left_pos           = e ? e.pageX : obj_offset.left;
-	var obj_height         = obj.height();
 	var obj_offset         = obj.offset();
+	var pos_left           = e ? e.pageX : obj_offset.left;
+	var pos_top            = e ? e.pageY : (obj_offset.top + obj.height() / 2);
 	var window_innerHeight = window.innerHeight;
 	var window_innerWidth  = window.innerWidth;
 	var window_scrollLeft  = $(window).scrollLeft();
@@ -142,8 +142,26 @@ function make_hovercard(obj, identity, e) {
 	function position_hovercard() {
 		var hovercard__box_height = hovercard__box.height();
 		var hovercard__box_width  = hovercard__box.width();
-		var new_left              = Math.max(window_scrollLeft + PADDING_FROM_EDGES, left_pos + ((left_pos + 1 > window_scrollLeft + window_innerWidth - hovercard__box_width - PADDING_FROM_EDGES) ? - hovercard__box_width - 1 : 1));
-		var new_top               = Math.max(window_scrollTop + PADDING_FROM_EDGES, Math.min(window_scrollTop + window_innerHeight - hovercard__box_height - PADDING_FROM_EDGES, obj_offset.top + obj_height - hovercard__box_height / 2));
+
+		var new_left = Math.max(
+			window_scrollLeft + PADDING_FROM_EDGES, // Keep the hovercard from going off the left of the page
+			pos_left + (
+				(pos_left + 1 > window_scrollLeft + window_innerWidth - hovercard__box_width - PADDING_FROM_EDGES)
+					? - hovercard__box_width - 1 // Keep the hovercard from going off the right of the page by putting it on the left
+					: 1 // Put the hovercard on the right
+			)
+		);
+		var new_top = Math.max(
+			window_scrollTop + PADDING_FROM_EDGES, // Keep the hovercard from going off the top of the page
+			Math.min(
+				window_scrollTop + window_innerHeight - hovercard__box_height - PADDING_FROM_EDGES, // Keep the hovercard from going off the bottom of the page
+				pos_top - Math.min(
+					hovercard__box_height / 2, // Keep the hovercard from being above the cursor
+					70 // Start the hovercard offset above the cursor
+				)
+			)
+		);
+
 		if (left === new_left && top === new_top) {
 			return;
 		}
