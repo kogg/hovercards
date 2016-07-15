@@ -1,0 +1,264 @@
+.EXTENSION_ID-container * {
+	margin:0 !important;
+	box-sizing:border-box !important;
+}
+.EXTENSION_ID-container {
+	z-index: 2147483647 !important;
+	position: relative !important;
+}
+.EXTENSION_ID-sidebar {
+	position: fixed !important;
+	height: 100% !important;
+	top:0 !important;
+	z-index: 0 !important;
+	background:#ECEEF1 !important;
+	box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1) !important;
+	right: 0;
+	transform: translate3d(325px,0,0);
+}
+
+.EXTENSION_ID-sidebar-enter {
+	animation-duration: .65s !important;
+	animation-fill-mode: both !important;
+	animation-name: slide-in-EXTENSION_ID !important;
+}
+@keyframes slide-in-EXTENSION_ID {
+	0% {
+	}
+	100% {
+		transform: translate3d(0,0,0);
+	}
+}
+.EXTENSION_ID-sidebar-enter-cancel-animation {
+	transition-property: none !important;
+	transform: none !important;
+	animation: none !important;
+}
+.EXTENSION_ID-sidebar iframe {
+	position: absolute !important;
+	height: 100% !important;
+	width:100% !important;
+	opacity: 1 !important;
+	z-index: 1 !important;
+	transition: all 0.6s ease !important;
+	left: 0 !important
+}
+.EXTENSION_ID-sidebar-close-button, .EXTENSION_ID-sidebar-back-button {
+	font-family: arial !important;
+	line-height: 44px !important;
+	font-size: 19px !important;
+	text-align: center !important;
+	width: 32px !important;
+	height: 44px !important;
+	border-radius: 3px 0 0 3px !important;
+	background:#ECEEF1 !important;
+	top: 20px !important;
+	right: 340px !important;
+	position: absolute !important;
+	font-weight: 500 !important;
+	color: rgba(255,255,255,.9) !important;
+	box-shadow: rgba(0, 0, 0, 0.14902) -4px 1px 13px -3px;
+	display: block;
+	transform: translate3d(0,0,0) !important;
+	z-index: 3 !important;
+	transition: all 0.5s ease .45s !important;
+}
+.EXTENSION_ID-sidebar-back-button {
+	top: 72px !important;
+}
+.EXTENSION_ID-sidebar-close-button:before {
+	content:"" !important;
+	position: absolute !important;
+	background: url('chrome-extension://EXTENSION_ID/images/closesidebar.png') !important;
+	width: 0 !important;
+	height: 0 !important;
+	background-repeat: no-repeat !important;
+	background-position: center !important;
+	background-size: 100% !important;
+	left: -145px !important;
+	top:-3px !important;
+	z-index: 213213132 !important;
+	transform: translate3d(-10px,0,0) !important;
+	opacity: 0 !important;
+	transition: opacity 0.3s ease-in-out .6s, transform 0.3s ease-in-out .6s !important;
+}
+.EXTENSION_ID-sidebar-close-button:hover:before {
+	width: 140px !important;
+	height: 50px !important;
+	transform: translate3d(0,0,0) !important;
+	opacity: 1 !important
+}
+.EXTENSION_ID-sidebar-close-button:after {
+	content: "" !important;
+	background-image: url('chrome-extension://EXTENSION_ID/images/closebutton.png') !important;
+	background-position: center !important;
+	background-size: 29% !important;
+	background-repeat: no-repeat !important;
+	display: block !important;
+	width: 100% !important;
+	height: 100% !important;
+	position: absolute !important;
+	opacity: .4 !important;
+}
+.EXTENSION_ID-sidebar-close-button:hover:after {
+	opacity: 1 !important;
+}
+
+.EXTENSION_ID-sidebar-close-button:hover, .EXTENSION_ID-sidebar-back-button:hover {
+	cursor: pointer !important;
+}
+.EXTENSION_ID-sidebar-back-button:after {
+	content: "" !important;
+	background-image: url('chrome-extension://EXTENSION_ID/images/backbutton.png') !important;
+	background-position: center !important;
+	background-size: 29% !important;
+	background-repeat: no-repeat !important;
+	display: block !important;
+	width: 100% !important;
+	height: 100% !important;
+	position: absolute !important;
+	opacity: .4 !important;
+}
+.EXTENSION_ID-sidebar-back-button:hover:after {
+	opacity: 1 !important;
+}
+.EXTENSION_ID-fullscreen-sidebar {
+	width: 100% !important;
+}
+.EXTENSION_ID-remove-margin {
+	margin: 0 !important;
+	border: 0 !important;
+	padding: 0 !important
+}
+.EXTENSION_ID-fullscreen {
+	width: 100% !important;
+	background: transparent !important;
+}
+.EXTENSION_ID-sidebar-minimizer {
+	position: absolute !important;
+	height: 100% !important;
+	width: 20px !important;
+	left: -15px !important;
+	z-index: 2;
+	cursor: e-resize !important;
+}
+.EXTENSION_ID-sidebar-minimized .EXTENSION_ID-sidebar-minimizer:after {
+	content: "" !important;
+	background-color: #ECEEF1 !important;
+	pointer-events:none !important;
+	z-index: 0 !important;
+	background: url('chrome-extension://EXTENSION_ID/images/bringback.png') !important;
+	background-position: 1px center !important;
+	background-repeat: no-repeat !important;
+	background-size: 12px !important;
+	position: absolute !important;
+	height: 100% !important;
+	left: 15px !important;
+	width: 20px;
+}
+.EXTENSION_ID-sidebar-minimized .EXTENSION_ID-sidebar-minimizer {
+	cursor: w-resize !important;
+	z-index: 100 !important;
+	width: 35px !important;
+	left: -15px !important;
+}
+.EXTENSION_ID-sidebar-minimized .EXTENSION_ID-sidebar-close-button, .EXTENSION_ID-sidebar-minimized .EXTENSION_ID-sidebar-back-button {
+	transform: translate3d(0,-140px,0) !important;
+}
+.EXTENSION_ID-fullscreen .EXTENSION_ID-sidebar-back-button, .EXTENSION_ID-fullscreen .EXTENSION_ID-sidebar-close-button {
+	display: none !important;
+}
+.EXTENSION_ID-sidebar-minimized {
+	animation-duration: .65s !important;
+	animation-fill-mode: both !important;
+	animation-name: minimize-EXTENSION_ID !important;
+}
+.EXTENSION_ID-sidebar-minimized iframe {
+	transition: all 0.6s ease !important;
+	opacity: 0 !important;
+}
+@keyframes minimize-EXTENSION_ID {
+	0% {
+		transform: translate3d(0,0,0);
+	}
+	100% {
+		transform: translate3d(325px,0,0);
+	}
+}
+.EXTENSION_ID-sidebar-leave {
+	transform: translateX(0px) translateZ(0);
+	animation-duration: .65s !important;
+	animation-fill-mode: both !important;
+	animation-name: slide-out-EXTENSION_ID !important;
+}
+.EXTENSION_ID-sidebar-leave.EXTENSION_ID-sidebar-minimized {
+	transform: translateX(325px) translateZ(0);
+	animation-duration: .65s !important;
+	animation-fill-mode: both !important;
+	animation-name: slide-out-EXTENSION_ID !important;
+}
+@keyframes slide-out-EXTENSION_ID {
+	0% {
+	}
+	100% {
+		transform: translate3d(375px,0,0);
+	}
+}
+
+
+
+
+
+
+
+
+
+/* lightbox */
+.EXTENSION_ID-lightbox-backdrop {
+	animation: EXTENSION_ID-lightbox-backdrop-animation .1s ease-in-out 1 !important;
+	background: rgba(0,0,0,0.75) !important;
+	bottom: 0 !important;
+	left: 0 !important;
+	position: fixed !important;
+	right: 0 !important;
+	top: 0 !important;
+	z-index: 2147483646 !important;
+}
+@keyframes EXTENSION_ID-lightbox-backdrop-animation {
+	from { background: rgba(0,0,0,0.1); }
+	to { background: rgba(0,0,0,0.75); }
+}
+.EXTENSION_ID-lightbox-backdrop-leave {
+	animation: EXTENSION_ID-lightbox-backdrop-leave-animation .1s ease-in-out 1 !important;
+}
+@keyframes EXTENSION_ID-lightbox-backdrop-leave-animation {
+	from { background: rgba(0,0,0,0.75); }
+	to { background: rgba(0,0,0,0.1); }
+}
+.EXTENSION_ID-lightbox-container {
+	align-items: flex-start !important;
+	display: flex !important;
+	justify-content: center !important;
+	pointer-events: auto !important;
+	position: absolute !important;
+	transform: translate3d(0,0,0) !important;
+	transition: left .5s, top .5s, transform .5s, height .5s, width .5s, margin .5s !important;
+	z-index: 2147483647 !important;
+}
+.EXTENSION_ID-lightbox {
+	background: green !important;
+	border-radius: 3px !important;
+	box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
+	cursor: auto !important;
+	margin: 20px 0 !important;
+	pointer-events: auto !important;
+	transform: translate3d(0,0,0) !important;
+	transition: left .5s, top .5s, transform .5s, height .5s, width .5s, margin .5s !important;
+}
+.EXTENSION_ID-lightbox-leave {
+	animation: EXTENSION_ID-lightbox-leave-animation .1s ease-in-out 1 !important;
+}
+@keyframes EXTENSION_ID-lightbox-leave-animation {
+	from { opacity: 1; }
+	to { opacity: 0; }
+}
