@@ -76,7 +76,15 @@ function accept_identity(identity, obj) {
 	if (!disabled || (disabled[identity.api] && disabled[identity.api][identity.type]) || !config.apis[identity.api]) {
 		return false;
 	}
-	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') || (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) || (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) || (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length : obj.parents('.usertext-body,.search-result-body').length)) || (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com');
+	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '')
+		|| (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length)
+		|| (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length)
+		|| (identity.api === 'reddit' && (
+			identity.type === 'account'
+				? !$('body.res').length && !obj.parents('.tabmenu,.user').length
+				: !obj.hasClass('search-comments') && !obj.hasClass('comments')
+		))
+		|| (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com');
 }
 function massage_url(url) {
 	if (!url) {
@@ -238,8 +246,17 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 		var obj = $(this);
 		var url;
 		var identity;
-		if (obj.is(current_obj) || obj.has(current_obj).length || obj.parents('.' + _.prefix('hovercard')).length || !(url = massage_url(hoverable.get_url(obj))) || !(identity = urls.parse(url)) || !accept_identity(identity, obj)) {
+		if (obj.is(current_obj) || obj.has(current_obj).length || obj.parents('.' + _.prefix('hovercard')).length) {
 			return;
+		}
+		if (!(url = massage_url(hoverable.get_url(obj))) || !(identity = urls.parse(url)) || !accept_identity(identity, obj)) {
+			if (!document.location.hostname.endsWith('reddit.com') || !obj.hasClass('title')) {
+				return;
+			}
+			var commentsObj = obj.parent().siblings('.flat-list.buttons').find('.comments');
+			if (!(url = massage_url(hoverable.get_url(commentsObj))) || !(identity = urls.parse(url))) {
+				return;
+			}
 		}
 		if (current_obj) {
 			current_obj.trigger(Cleanup);
