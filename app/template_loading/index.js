@@ -4,6 +4,7 @@ var async   = require('async');
 var urls    = require('hovercardsshared/urls');
 var Ractive = require('ractive');
 
+var analytics      = require('../analytics');
 var authentication = require('../authentication');
 var config         = require('../config');
 var service        = require('../service');
@@ -124,9 +125,10 @@ module.exports = function(obj, identity) {
 
 	if (!ractive) {
 		ractive = new HoverCardRactive({
-			template: '{{>type+"-layout"}}',
-			data:     _.clone(identity),
-			el:       obj
+			template:  '{{>type+"-layout"}}',
+			data:      _.clone(identity),
+			el:        obj,
+			analytics: analytics
 		});
 		obj.data('ractive', ractive);
 		ractive.set('scrollpos', 0);

@@ -56,6 +56,7 @@ var Cleanup    = 'cleanup' + NameSpace;
 var Click      = 'click' + NameSpace;
 var MouseLeave = 'mouseleave' + NameSpace;
 var MouseMove  = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
+var Scroll     = 'scroll' + NameSpace;
 
 var current_obj;
 
@@ -75,7 +76,15 @@ function accept_identity(identity, obj) {
 	if (!disabled || (disabled[identity.api] && disabled[identity.api][identity.type]) || !config.apis[identity.api]) {
 		return false;
 	}
-	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') || (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) || (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) || (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length : obj.parents('.usertext-body,.search-result-body').length)) || (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com');
+	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '')
+		|| (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length)
+		|| (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length)
+		|| (identity.api === 'reddit' && (
+			identity.type === 'account'
+				? !$('body.res').length && !obj.parents('.tabmenu,.user').length
+				: !obj.hasClass('search-comments') && !obj.hasClass('comments')
+		))
+		|| (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com');
 }
 function massage_url(url) {
 	if (!url) {
@@ -117,8 +126,26 @@ function make_hovercard(obj, identity, e) {
 		.append(hovercard__box)
 		.appendTo('html');
 
+	var left, top, commentPixels;
+
+	function setCommentPixels() {
+		var discussion_top = _.result(hovercard__box.find('.' + _.prefix('discussion__body')).offset(), 'top');
+
+		if (!discussion_top) {
+			return;
+		}
+
+		var newCommentPixels = top - discussion_top + hovercard__box.height();
+
+		if (!Math.max(0, newCommentPixels || 0)) {
+			return;
+		}
+		commentPixels = Math.max(newCommentPixels, commentPixels || 0);
+	}
+
 	var ractive = template_loading(hovercard__box, identity);
 	hovercard__box
+		.on(Scroll, setCommentPixels)
 		.on(MouseMove, function() {
 			ractive.set('hovered', true);
 			$('body,html').addClass(_.prefix('hide-scrollbar'));
@@ -137,8 +164,6 @@ function make_hovercard(obj, identity, e) {
 	var window_innerWidth  = window.innerWidth;
 	var window_scrollLeft  = $(window).scrollLeft();
 	var window_scrollTop   = $(window).scrollTop();
-
-	var left, top;
 	function position_hovercard() {
 		var hovercard__box_height = hovercard__box.height();
 		var hovercard__box_width  = hovercard__box.width();
@@ -168,6 +193,7 @@ function make_hovercard(obj, identity, e) {
 		left = new_left;
 		top  = new_top;
 		hovercard.offset({ left: left, top: top });
+		setCommentPixels();
 	}
 	position_hovercard();
 	var position_interval = setInterval(position_hovercard, 250);
@@ -189,6 +215,9 @@ function make_hovercard(obj, identity, e) {
 				return;
 			}
 			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
+			if (commentPixels && commentPixels > 0) {
+				analytics('send', 'event', 'discussion scrolled', 'scrolled', analytics_label, commentPixels);
+			}
 			clearInterval(position_interval);
 			if (!keep_hovercard) {
 				hovercard.remove();
@@ -217,8 +246,17 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 		var obj = $(this);
 		var url;
 		var identity;
-		if (obj.is(current_obj) || obj.has(current_obj).length || obj.parents('.' + _.prefix('hovercard')).length || !(url = massage_url(hoverable.get_url(obj))) || !(identity = urls.parse(url)) || !accept_identity(identity, obj)) {
+		if (obj.is(current_obj) || obj.has(current_obj).length || obj.parents('.' + _.prefix('hovercard')).length) {
 			return;
+		}
+		if (!(url = massage_url(hoverable.get_url(obj))) || !(identity = urls.parse(url)) || !accept_identity(identity, obj)) {
+			if (!document.location.hostname.endsWith('reddit.com') || !obj.hasClass('title')) {
+				return;
+			}
+			var commentsObj = obj.parent().siblings('.flat-list.buttons').find('.comments');
+			if (!(url = massage_url(hoverable.get_url(commentsObj))) || !(identity = urls.parse(url))) {
+				return;
+			}
 		}
 		if (current_obj) {
 			current_obj.trigger(Cleanup);
