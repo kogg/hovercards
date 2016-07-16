@@ -3,20 +3,6 @@
     pointer-events: none;
 }
 
-.hovercard_from_top {
-    animation: drop-down-animation .4s 1 forwards, fade-in-animation .4s 1 forwards;
-    transform: translate3d(0, 0, 0);
-}
-
-.hovercard_from_top .hovercard__box {
-    transform: translate3d(0, -100%, 0);
-}
-
-.hovercard_from_bottom {
-    animation: drop-up-animation .4s 1 forwards, fade-in-animation .4s 1 forwards;
-    transform: translate3d(0, 0, 0);
-}
-
 .hovercard__box {
     @extend box-thing__box;
     cursor: pointer;
@@ -24,30 +10,10 @@
     pointer-events: auto;
 }
 
-@keyframes drop-down-animation {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-
-    1% {
-        transform: translate3d(0, -50px, 0);
-    }
-
-    100% {
-        transform: translate3d(0, 0, 0);
-    }
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
 }
 
-@keyframes drop-up-animation {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-
-    1% {
-        transform: translate3d(0, 50px, 0);
-    }
-
-    100% {
-        transform: translate3d(0, 0, 0);
-    }
+.overflow-hidden {
+    overflow: hidden;
 }

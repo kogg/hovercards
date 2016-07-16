@@ -1,8 +1,10 @@
+var $       = require('jquery');
 var _       = require('underscore');
 var async   = require('async');
 var urls    = require('hovercardsshared/urls');
 var Ractive = require('ractive');
 
+var analytics      = require('../analytics');
 var authentication = require('../authentication');
 var config         = require('../config');
 var service        = require('../service');
@@ -67,6 +69,7 @@ Ractive.prototype.service = function(keypath, identity, handler) {
 
 // TODO Put this in shared pkg
 var global_data = {
+	$:    $,
 	_:    _,
 	copy: function(name, api) {
 		var rest = _.rest(arguments, 2);
@@ -122,13 +125,15 @@ module.exports = function(obj, identity) {
 
 	if (!ractive) {
 		ractive = new HoverCardRactive({
-			template: '{{>type+"-layout"}}',
-			data:     _.clone(identity),
-			el:       obj
+			template:  '{{>type+"-layout"}}',
+			data:      _.clone(identity),
+			el:        obj,
+			analytics: analytics
 		});
 		obj.data('ractive', ractive);
 		ractive.set('scrollpos', 0);
 		ractive.set('scrollposbottom', 21);
+		ractive.set('hovered', false);
 
 		switch (identity.type) {
 			case 'content':
@@ -151,29 +156,27 @@ module.exports = function(obj, identity) {
 						.value();
 					ractive.set('discussions', discussions);
 					ractive.set('discussion_i', 0);
-					ractive.observeUntil('expanded', function() {
-						ractive.observe('discussion_i', function(i) {
-							ractive.service('discussions.' + i);
-						});
-						async.detectSeries(
-							discussions,
-							function(discussion, callback) {
-								ractive.service('discussions.' + _.indexOf(discussions, discussion), null, function(err, full_discussion) {
-									setTimeout(function() {
-										return callback(!err && !_.result(full_discussion, 'uncommentable') && !_.chain(full_discussion).result('comments').isEmpty().value());
-									});
-								});
-							},
-							function(discussion) {
-								if (!discussion) {
-									return;
-								}
-								ractive.set('discussion_i', _.findIndex(discussions, function(a_discussion) {
-									return discussion.api === a_discussion.api;
-								}));
-							}
-						);
+					ractive.observe('discussion_i', function(i) {
+						ractive.service('discussions.' + i);
 					});
+					async.detectSeries(
+						discussions,
+						function(discussion, callback) {
+							ractive.service('discussions.' + _.indexOf(discussions, discussion), null, function(err, full_discussion) {
+								setTimeout(function() {
+									return callback(!err && !_.result(full_discussion, 'uncommentable') && !_.chain(full_discussion).result('comments').isEmpty().value());
+								});
+							});
+						},
+						function(discussion) {
+							if (!discussion) {
+								return;
+							}
+							ractive.set('discussion_i', _.findIndex(discussions, function(a_discussion) {
+								return discussion.api === a_discussion.api;
+							}));
+						}
+					);
 				});
 				break;
 			case 'account':

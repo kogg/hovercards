@@ -1,8 +1,5 @@
-*.nex
-*.pem
-*.sass-cache
-*.tmp
-.tmp
+.env
+dist-landing/*
+dist/*
 node_modules/
 npm-debug.log*
-dist/*

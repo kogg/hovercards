@@ -56,6 +56,7 @@ var Cleanup    = 'cleanup' + NameSpace;
 var Click      = 'click' + NameSpace;
 var MouseLeave = 'mouseleave' + NameSpace;
 var MouseMove  = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
+var Scroll     = 'scroll' + NameSpace;
 
 var current_obj;
 
@@ -75,7 +76,15 @@ function accept_identity(identity, obj) {
 	if (!disabled || (disabled[identity.api] && disabled[identity.api][identity.type]) || !config.apis[identity.api]) {
 		return false;
 	}
-	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') || obj.parents('.' + _.prefix('lightbox__box')).length || (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) || (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) || (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length : obj.parents('.usertext-body,.search-result-body').length)) || (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com');
+	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '')
+		|| (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length)
+		|| (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length)
+		|| (identity.api === 'reddit' && (
+			identity.type === 'account'
+				? !$('body.res').length && !obj.parents('.tabmenu,.user').length
+				: !obj.hasClass('search-comments') && !obj.hasClass('comments')
+		))
+		|| (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com');
 }
 function massage_url(url) {
 	if (!url) {
@@ -109,11 +118,7 @@ function make_hovercard(obj, identity, e) {
 	var hovercard_start = Date.now();
 	var hovercard__box = $('<div></div>')
 		.addClass(_.prefix('box'))
-		.addClass(_.prefix('hovercard__box'))
-		.one(Click, function(e) {
-			e.preventDefault();
-			obj.trigger(Cleanup, [true]);
-		});
+		.addClass(_.prefix('hovercard__box'));
 
 	var hovercard = $('<div></div>')
 		.addClass(_.prefix('hovercard'))
@@ -121,63 +126,105 @@ function make_hovercard(obj, identity, e) {
 		.append(hovercard__box)
 		.appendTo('html');
 
-	template_loading(hovercard__box, identity);
+	var left, top, commentPixels;
 
-	var obj_offset  = obj.offset();
-	var obj_height  = obj.height();
-	var window_scrollTop = $(window).scrollTop();
-	var space_above = obj_offset.top - window_scrollTop;
-	var space_below = window.innerHeight - space_above - obj_height;
-	var is_top      = (space_above > space_below);
-	var left        = Math.max(PADDING_FROM_EDGES, Math.min($(window).scrollLeft() + window.innerWidth - hovercard__box.width() - PADDING_FROM_EDGES, (e ? e.pageX : obj_offset.left) + 1));
-	hovercard
-		.toggleClass(_.prefix('hovercard_from_top'), is_top)
-		.toggleClass(_.prefix('hovercard_from_bottom'), !is_top);
+	function setCommentPixels() {
+		var discussion_top = _.result(hovercard__box.find('.' + _.prefix('discussion__body')).offset(), 'top');
 
-	var top;
-	var times = 0;
-	var position_interval;
+		if (!discussion_top) {
+			return;
+		}
+
+		var newCommentPixels = top - discussion_top + hovercard__box.height();
+
+		if (!Math.max(0, newCommentPixels || 0)) {
+			return;
+		}
+		commentPixels = Math.max(newCommentPixels, commentPixels || 0);
+	}
+
+	var ractive = template_loading(hovercard__box, identity);
+	hovercard__box
+		.on(Scroll, setCommentPixels)
+		.on(MouseMove, function() {
+			ractive.set('hovered', true);
+			$('body,html').addClass(_.prefix('hide-scrollbar'));
+			$('body').addClass(_.prefix('overflow-hidden'));
+		})
+		.on(MouseLeave, function() {
+			ractive.set('hovered', false);
+			$('body,html').removeClass(_.prefix('hide-scrollbar'));
+			$('body').removeClass(_.prefix('overflow-hidden'));
+		});
+
+	var obj_offset         = obj.offset();
+	var pos_left           = e ? e.pageX : obj_offset.left;
+	var pos_top            = e ? e.pageY : (obj_offset.top + obj.height() / 2);
+	var window_innerHeight = window.innerHeight;
+	var window_innerWidth  = window.innerWidth;
+	var window_scrollLeft  = $(window).scrollLeft();
+	var window_scrollTop   = $(window).scrollTop();
 	function position_hovercard() {
-		var new_top;
-		if (is_top) {
-			new_top = Math.max(window_scrollTop + PADDING_FROM_EDGES + hovercard__box.height(), obj_offset.top);
-		} else {
-			new_top = Math.max(window_scrollTop + PADDING_FROM_EDGES, Math.min(window_scrollTop + window.innerHeight - hovercard__box.height() - PADDING_FROM_EDGES, obj_offset.top + obj_height));
-		}
-		if (top === new_top) {
+		var hovercard__box_height = hovercard__box.height();
+		var hovercard__box_width  = hovercard__box.width();
+
+		var new_left = Math.max(
+			window_scrollLeft + PADDING_FROM_EDGES, // Keep the hovercard from going off the left of the page
+			pos_left + (
+				(pos_left + 1 > window_scrollLeft + window_innerWidth - hovercard__box_width - PADDING_FROM_EDGES)
+					? - hovercard__box_width - 1 // Keep the hovercard from going off the right of the page by putting it on the left
+					: 1 // Put the hovercard on the right
+			)
+		);
+		var new_top = Math.max(
+			window_scrollTop + PADDING_FROM_EDGES, // Keep the hovercard from going off the top of the page
+			Math.min(
+				window_scrollTop + window_innerHeight - hovercard__box_height - PADDING_FROM_EDGES, // Keep the hovercard from going off the bottom of the page
+				pos_top - Math.min(
+					hovercard__box_height / 2, // Keep the hovercard from being above the cursor
+					70 // Start the hovercard offset above the cursor
+				)
+			)
+		);
+
+		if (left === new_left && top === new_top) {
 			return;
 		}
-		top = new_top;
+		left = new_left;
+		top  = new_top;
 		hovercard.offset({ left: left, top: top });
-		times++;
-		if (times === 3) {
-			clearInterval(position_interval);
-			return;
-		}
+		setCommentPixels();
 	}
 	position_hovercard();
-	position_interval = setInterval(position_hovercard, 100);
-	setTimeout(function() {
-		clearInterval(position_interval);
-	}, 2500);
+	var position_interval = setInterval(position_hovercard, 250);
 
 	function kill_it() {
 		obj.trigger(Cleanup);
 	}
-	$(window).on(Blur, kill_it);
+	function window_blur() {
+		if (document.activeElement.tagName.toLowerCase() === 'iframe' && $(document.activeElement).parents().is(hovercard__box)) {
+			return;
+		}
+		kill_it();
+	}
+	$(window).on(Blur, window_blur);
 	obj
 		.one(Click, kill_it)
 		.one(Cleanup, function(e, keep_hovercard) {
+			if (process.env.NODE_ENV !== 'production' && process.env.STICKYCARDS) {
+				return;
+			}
 			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
+			if (commentPixels && commentPixels > 0) {
+				analytics('send', 'event', 'discussion scrolled', 'scrolled', analytics_label, commentPixels);
+			}
 			clearInterval(position_interval);
-			if (keep_hovercard) {
-				hovercard__box
-					.removeClass(_.prefix('hovercard_from_top'))
-					.removeClass(_.prefix('hovercard_from_bottom'));
-			} else {
+			if (!keep_hovercard) {
 				hovercard.remove();
 			}
-			$(window).off(Blur, kill_it);
+			$('body,html').removeClass(_.prefix('hide-scrollbar'));
+			$('body').removeClass(_.prefix('overflow-hidden'));
+			$(window).off(Blur, window_blur);
 			obj.off(NameSpace);
 			current_obj = !current_obj.is(obj) && current_obj;
 		});
@@ -199,8 +246,17 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 		var obj = $(this);
 		var url;
 		var identity;
-		if (obj.is(current_obj) || obj.has(current_obj).length || obj.parents('.' + _.prefix('hovercard')).length || !(url = massage_url(hoverable.get_url(obj))) || !(identity = urls.parse(url)) || !accept_identity(identity, obj)) {
+		if (obj.is(current_obj) || obj.has(current_obj).length || obj.parents('.' + _.prefix('hovercard')).length) {
 			return;
+		}
+		if (!(url = massage_url(hoverable.get_url(obj))) || !(identity = urls.parse(url)) || !accept_identity(identity, obj)) {
+			if (!document.location.hostname.endsWith('reddit.com') || !obj.hasClass('title')) {
+				return;
+			}
+			var commentsObj = obj.parent().siblings('.flat-list.buttons').find('.comments');
+			if (!(url = massage_url(hoverable.get_url(commentsObj))) || !(identity = urls.parse(url))) {
+				return;
+			}
 		}
 		if (current_obj) {
 			current_obj.trigger(Cleanup);
@@ -218,12 +274,14 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 		}
 		$(window).on(Blur, kill_it);
 		current_obj = obj
-			.one(Click + ' ' + MouseLeave, kill_it)
+			.one(MouseLeave, kill_it)
 			.one(Cleanup, function() {
 				$(window).off(Blur, kill_it);
 				obj.off(NameSpace);
 				clearTimeout(timeout);
 				timeout = null;
+				$('body,html').removeClass(_.prefix('hide-scrollbar'));
+				$('body').removeClass(_.prefix('overflow-hidden'));
 			})
 			.on(MouseMove, function(e) {
 				last_e = e;
