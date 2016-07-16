@@ -76,7 +76,15 @@ function accept_identity(identity, obj) {
 	if (!disabled || (disabled[identity.api] && disabled[identity.api][identity.type]) || !config.apis[identity.api]) {
 		return false;
 	}
-	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') || (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) || (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) || (identity.api === 'reddit' && (identity.type === 'account' ? !$('body.res').length && !obj.parents('.tabmenu,.user').length : obj.parents('.usertext-body,.search-result-body').length)) || (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com');
+	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '')
+		|| (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length)
+		|| (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length)
+		|| (identity.api === 'reddit' && (
+			identity.type === 'account'
+				? !$('body.res').length && !obj.parents('.tabmenu,.user').length
+				: !obj.hasClass('search-comments') && !obj.hasClass('comments')
+		))
+		|| (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com');
 }
 function massage_url(url) {
 	if (!url) {
