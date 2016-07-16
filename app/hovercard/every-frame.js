@@ -56,6 +56,7 @@ var Cleanup    = 'cleanup' + NameSpace;
 var Click      = 'click' + NameSpace;
 var MouseLeave = 'mouseleave' + NameSpace;
 var MouseMove  = 'mousemove' + NameSpace + ' mouseenter' + NameSpace;
+var Scroll     = 'scroll' + NameSpace;
 
 var current_obj;
 
@@ -117,8 +118,26 @@ function make_hovercard(obj, identity, e) {
 		.append(hovercard__box)
 		.appendTo('html');
 
+	var left, top, commentPixels;
+
+	function setCommentPixels() {
+		var discussion_top = _.result(hovercard__box.find('.' + _.prefix('discussion__body')).offset(), 'top');
+
+		if (!discussion_top) {
+			return;
+		}
+
+		var newCommentPixels = top - discussion_top + hovercard__box.height();
+
+		if (!Math.max(0, newCommentPixels || 0)) {
+			return;
+		}
+		commentPixels = Math.max(newCommentPixels, commentPixels || 0);
+	}
+
 	var ractive = template_loading(hovercard__box, identity);
 	hovercard__box
+		.on(Scroll, setCommentPixels)
 		.on(MouseMove, function() {
 			ractive.set('hovered', true);
 			$('body,html').addClass(_.prefix('hide-scrollbar'));
@@ -137,8 +156,6 @@ function make_hovercard(obj, identity, e) {
 	var window_innerWidth  = window.innerWidth;
 	var window_scrollLeft  = $(window).scrollLeft();
 	var window_scrollTop   = $(window).scrollTop();
-
-	var left, top;
 	function position_hovercard() {
 		var hovercard__box_height = hovercard__box.height();
 		var hovercard__box_width  = hovercard__box.width();
@@ -168,6 +185,7 @@ function make_hovercard(obj, identity, e) {
 		left = new_left;
 		top  = new_top;
 		hovercard.offset({ left: left, top: top });
+		setCommentPixels();
 	}
 	position_hovercard();
 	var position_interval = setInterval(position_hovercard, 250);
@@ -189,6 +207,9 @@ function make_hovercard(obj, identity, e) {
 				return;
 			}
 			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
+			if (commentPixels && commentPixels > 0) {
+				analytics('send', 'event', 'discussion scrolled', 'scrolled', analytics_label, commentPixels);
+			}
 			clearInterval(position_interval);
 			if (!keep_hovercard) {
 				hovercard.remove();
