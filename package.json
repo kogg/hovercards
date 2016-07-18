@@ -1,6 +1,6 @@
 {
   "name": "hovercardsextension",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "",
   "homepage": "http://hovercards.com",
   "bugs": {
@@ -19,7 +19,7 @@
   "scripts": {
     "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input $npm_package_config_browserify_output",
     "build:landing": "rm -rf dist && webpack -p",
-    "clean": "rm -rf dist/* *.pem *.nex",
+    "clean": "rm -rf dist/* dist-landing/* *.pem *.nex dump.rdb",
     "copy:other": "rsync -rm --include='*/' --include='*.json' --include='options.html' --exclude='*' app/* dist && mkdir -p dist/assets/images && cp app/images/logo-* dist/assets/images && cp app/images/*-icon-full_color.png dist/assets/images",
     "postcss": "postcss app/*.css -d dist/ -c postcss.js",
     "cssfmt": "( git diff --staged --name-only | grep \".s\\?css$\" | xargs -I '{}' -n 1 cssfmt {} ) && ( git diff --staged --name-only | grep \".s\\?css$\" | xargs git add )",
@@ -27,7 +27,7 @@
     "eslint-fix": "( git diff --staged --name-only | grep \".jsx\\?$\" | xargs eslint --fix ) && ( git diff --staged --name-only | grep \".jsx\\?$\" | xargs git add )",
     "fix": "npm run cssfmt && npm run eslint-fix",
     "pkg": "npm run clean && npm run copy:other && npm run postcss && npm run browserify && npm run uglifyjs && zip -q -r build/pkg-$npm_package_version.zip dist",
-    "start": "foreman start",
+    "start": "if [ \"$NODE_ENV\" = 'production' ]; then foreman start; else foreman start -f Procfile.dev; fi",
     "test": "eslint . --ignore-path .gitignore",
     "uglifyjs": "mkdir -p dist && find dist -name \\*.js | xargs -I FILENAME uglifyjs FILENAME -o FILENAME -c drop_console,warnings=false --stats",
     "watchify": "mkdir -p dist && watchify $npm_package_config_browserify_input -t [ envify --NODE_ENV development ] $npm_package_config_browserify_output --full-paths -v -d"
@@ -52,12 +52,25 @@
     ]
   },
   "dependencies": {
-    "async": "^1.4.2",
-    "hovercardsshared": "cameronrohani/hovercardsshared#v3.0.0",
+    "async": "^1.5.0",
+    "cheerio": "^0.19.0",
+    "connect-redis": "^3.0.2",
+    "express": "^4.13.3",
+    "express-session": "^1.11.3",
+    "googleapis": "^2.1.6",
+    "hovercardsshared": "git+https://111525bdeb58592d961e98cc19b2422ed45cbfed:x-oauth-basic@github.com/teamkogg/hovercardsshared.git#v3.0.1",
+    "instagram-node": "^0.5.8",
     "jquery": "^2.1.4",
     "memoizee": "^0.3.9",
+    "passport": "^0.2.2",
+    "passport-twitter": "^1.0.3",
     "ractive": "^0.7.3",
-    "underscore": "^1.8.3"
+    "redis": "^2.4.2",
+    "request": "^2.65.0",
+    "snoocore": "^3.2.0",
+    "twit": "^2.1.1",
+    "underscore": "^1.8.3",
+    "urijs": "^1.17.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",
@@ -68,6 +81,7 @@
     "envify": "^3.4.0",
     "eslint": "^1.10.3",
     "eslint-config-xo": "^0.9.1",
+    "eslint-plugin-react": "^3.15.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "factor-bundle": "^2.5.0",
     "file-loader": "^0.9.0",
@@ -76,6 +90,7 @@
     "html-webpack-plugin": "^2.22.0",
     "image-webpack-loader": "^2.0.0",
     "jquery": "^2.2.2",
+    "nodemon": "^1.8.1",
     "postcss-class-prefix": "^0.3.0",
     "postcss-cli": "^2.3.2",
     "postcss-color-rgba-fallback": "^2.0.0",
@@ -96,6 +111,10 @@
     "watchify": "^3.4.0",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
+  },
+  "engines": {
+    "node": ">= 4.1.0",
+    "npm": ">= 3.9.0"
   },
   "pre-commit": [
     "fix",
