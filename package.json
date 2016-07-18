@@ -58,7 +58,7 @@
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "googleapis": "^2.1.6",
-    "hovercardsshared": "git+https://111525bdeb58592d961e98cc19b2422ed45cbfed:x-oauth-basic@github.com:teamkogg/hovercardsshared.git#v3.0.0",
+    "hovercardsshared": "git+https://111525bdeb58592d961e98cc19b2422ed45cbfed:x-oauth-basic@github.com/teamkogg/hovercardsshared.git#v3.0.0",
     "instagram-node": "^0.5.8",
     "jquery": "^2.1.4",
     "memoizee": "^0.3.9",
