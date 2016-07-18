@@ -126,9 +126,9 @@ function make_hovercard(obj, identity, e) {
 		.append(hovercard__box)
 		.appendTo('html');
 
-	var left, top, commentPixels;
+	var left, top, commentPixels, beenScrolled;
 
-	function setCommentPixels() {
+	function setCommentPixels(e) {
 		var discussion_top = _.result(hovercard__box.find('.' + _.prefix('discussion__body')).offset(), 'top');
 
 		if (!discussion_top) {
@@ -140,6 +140,7 @@ function make_hovercard(obj, identity, e) {
 		if (!Math.max(0, newCommentPixels || 0)) {
 			return;
 		}
+		beenScrolled = beenScrolled || Boolean(e);
 		commentPixels = Math.max(newCommentPixels, commentPixels || 0);
 	}
 
@@ -215,7 +216,7 @@ function make_hovercard(obj, identity, e) {
 				return;
 			}
 			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
-			if (commentPixels && commentPixels > 0) {
+			if (beenScrolled && commentPixels && commentPixels > 0) {
 				analytics('send', 'event', 'discussion scrolled', 'scrolled', analytics_label, commentPixels);
 			}
 			clearInterval(position_interval);
