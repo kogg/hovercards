@@ -250,6 +250,9 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 			return;
 		}
 		if (!(url = massage_url(hoverable.get_url(obj))) || !(identity = urls.parse(url)) || !accept_identity(identity, obj)) {
+			if (!disabled || !disabled.reddit || disabled.reddit.content) {
+				return;
+			}
 			if (!document.location.hostname.endsWith('reddit.com') || !obj.hasClass('title')) {
 				return;
 			}
