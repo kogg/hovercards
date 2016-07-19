@@ -128,6 +128,38 @@ _.each(config.apis, function(api_config, api) {
 	}
 });
 
+routes.get('/in-app-messaging', function(req, res, callback) {
+	async.waterfall([
+		function(callback) {
+			redis_client.get('active-message', function(err, activeMessage) {
+				if (err) {
+					return callback(err);
+				}
+				if (!activeMessage) {
+					return callback({ message: 'No active message', status: 404 });
+				}
+				callback(null, activeMessage);
+			});
+		},
+		function(activeMessage, callback) {
+			redis_client.hgetall(activeMessage, function(err, message) {
+				if (err) {
+					return callback(err);
+				}
+				if (!message) {
+					return callback({ message: 'No active message', status: 404 });
+				}
+				callback(null, [_.defaults(message, { id: activeMessage })]);
+			});
+		}
+	], function(err, messaging) {
+		if (err) {
+			return callback(err);
+		}
+		res.json(messaging);
+	});
+});
+
 /* eslint-disable no-unused-vars */
 routes.use(function(err, req, res, callback) {
 	/* eslint-enable no-unused-vars */

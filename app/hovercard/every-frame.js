@@ -114,8 +114,6 @@ function make_hovercard(obj, identity, e) {
 		return;
 	}
 	var analytics_label = _.analytics_label(identity);
-	analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
-	var hovercard_start = Date.now();
 	var hovercard__box = $('<div></div>')
 		.addClass(_.prefix('box'))
 		.addClass(_.prefix('hovercard__box'));
@@ -157,6 +155,12 @@ function make_hovercard(obj, identity, e) {
 			$('body,html').removeClass(_.prefix('hide-scrollbar'));
 			$('body').removeClass(_.prefix('overflow-hidden'));
 		});
+
+	var hovercard_start;
+	var loadedEvent = ractive.observeOnce('content || accounts[0]', function(thing) {
+		hovercard_start = Date.now();
+		analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label);
+	});
 
 	var obj_offset         = obj.offset();
 	var pos_left           = e ? e.pageX : obj_offset.left;
@@ -215,7 +219,10 @@ function make_hovercard(obj, identity, e) {
 			if (process.env.NODE_ENV !== 'production' && process.env.STICKYCARDS) {
 				return;
 			}
-			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
+			loadedEvent.cancel();
+			if (hovercard_start) {
+				analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
+			}
 			if (beenScrolled && commentPixels && commentPixels > 0) {
 				analytics('send', 'event', 'discussion scrolled', 'scrolled', analytics_label, commentPixels);
 			}
@@ -251,7 +258,7 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 			return;
 		}
 		if (!(url = massage_url(hoverable.get_url(obj))) || !(identity = urls.parse(url)) || !accept_identity(identity, obj)) {
-			if (!disabled || !disabled.reddit || disabled.reddit.content) {
+			if (disabled && disabled.reddit && disabled.reddit.content) {
 				return;
 			}
 			if (!document.location.hostname.endsWith('reddit.com') || !obj.hasClass('title')) {

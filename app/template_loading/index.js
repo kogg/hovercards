@@ -141,6 +141,9 @@ module.exports = function(obj, identity) {
 					if (err) {
 						return;
 					}
+					chrome.runtime.sendMessage({ type: 'messaging', action: 'get' }, function(message) {
+						ractive.set('message', message);
+					});
 					var discussion_apis = _.result(config.apis[data.api], 'discussion_apis', []);
 					var discussions = _.chain(data.discussions)
 						.each(_.partial(_.extend, _, { loaded: true }))
