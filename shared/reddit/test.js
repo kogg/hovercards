@@ -37,19 +37,7 @@ describe('reddit', function() {
 				.matchHeader('authorization', 'bearer ACCESS_TOKEN')
 				.query({ limit: config.counts.listed, api_type: 'json' });
 
-			default_article_comments = [{ kind: 'Listing',
-			                              data: { children: [{ kind: 't3',
-			                                                   data: { subreddit:     'SUBREDDIT',
-			                                                           selftext_html: '<div class="md"><p>TEXT</p>\n</div>',
-			                                                           id:            'CONTENT_ID',
-			                                                           author:        'ACCOUNT_ID',
-			                                                           score:         1000,
-			                                                           is_self:       true,
-			                                                           title:         'TITLE',
-			                                                           created_utc:   1440189331,
-			                                                           upvote_ratio:  0.1,
-			                                                           num_comments: 2000 } }] } },
-			                            { kind: 'Listing', data: { children: [] } }];
+			default_article_comments = [{ kind: 'Listing', data: { children: [{ kind: 't3', data: { subreddit:     'SUBREDDIT', selftext_html: '<div class="md"><p>TEXT</p>\n</div>', id:            'CONTENT_ID', author:        'ACCOUNT_ID', score:         1000, is_self:       true, title:         'TITLE', created_utc:   1440189331, upvote_ratio:  0.1, num_comments: 2000 } }] } }, { kind: 'Listing', data: { children: [] } }];
 		});
 
 		it('should callback reddit post', function(done) {
@@ -57,19 +45,7 @@ describe('reddit', function() {
 
 			reddit.content({ id: 'CONTENT_ID' }, function(err, content) {
 				expect(err).not.to.exist;
-				expect(content).to.eql({ api:       'reddit',
-				                         type:      'content',
-				                         id:        'CONTENT_ID',
-				                         name:      'TITLE',
-				                         text:      '<p>TEXT</p>',
-				                         date:      1440189331000,
-				                         subreddit: 'SUBREDDIT',
-				                         stats:     { score:       1000,
-				                                      score_ratio: 0.1,
-				                                      comments:    2000 },
-				                         account:   { api:  'reddit',
-				                                      type: 'account',
-				                                      id:   'ACCOUNT_ID' } });
+				expect(content).to.eql({ api:       'reddit', type:      'content', id:        'CONTENT_ID', name:      'TITLE', text:      '<p>TEXT</p>', date:      1440189331000, subreddit: 'SUBREDDIT', stats:     { score:       1000, score_ratio: 0.1, comments:    2000 }, account:   { api:  'reddit', type: 'account', id:   'ACCOUNT_ID' } });
 				done();
 			});
 		});
@@ -77,7 +53,7 @@ describe('reddit', function() {
 		it('should include urls for link posts', function(done) {
 			delete default_article_comments[0].data.children[0].data.selftext_html;
 			default_article_comments[0].data.children[0].data.is_self = false;
-			default_article_comments[0].data.children[0].data.url     = 'https://www.hovercards.com';
+			default_article_comments[0].data.children[0].data.url = 'https://www.hovercards.com';
 			article_comments_endpoint.reply(200, default_article_comments);
 
 			reddit.content({ id: 'CONTENT_ID' }, function(err, content) {
@@ -179,36 +155,7 @@ describe('reddit', function() {
 				.matchHeader('authorization', 'bearer ACCESS_TOKEN')
 				.query({ limit: config.counts.listed, api_type: 'json' });
 
-			default_article_comments = [{ kind: 'Listing',
-			                              data: { children: [{ kind: 't3',
-			                                                   data: { subreddit:    'SUBREDDIT',
-			                                                           id:           'CONTENT_ID',
-			                                                           author:       'ACCOUNT_ID',
-			                                                           score:        1000,
-			                                                           is_self:      true,
-			                                                           title:        'TITLE',
-			                                                           created_utc:  1440189331,
-			                                                           upvote_ratio: 0.1,
-			                                                           num_comments: 2000 } }] } },
-			                            { kind: 'Listing',
-			                              data: { children: [{ kind: 't1',
-			                                                   data: { replies:     '',
-			                                                           id:          'COMMENT_ID_1',
-			                                                           author:      'ACCOUNT_ID_1',
-			                                                           score:       1000,
-			                                                           body_html:   '<div class="md"><p>TEXT 1</p>\n</div>',
-			                                                           created_utc: 1440189331 } },
-			                                                 { kind: 't1',
-			                                                   data: { replies:     '',
-			                                                           id:          'COMMENT_ID_2',
-			                                                           author:      'ACCOUNT_ID_2',
-			                                                           score:       2000,
-			                                                           body_html:   '<div class="md"><p>TEXT 2</p>\n</div>',
-			                                                           created_utc: 1440189331 } },
-			                                                 { kind: 'more',
-			                                                   data: { count:    2,
-			                                                           children: ['COMMENT_ID_3', 'COMMENT_ID_4'],
-			                                                           id:       'COMMENT_ID_3' } }] } }];
+			default_article_comments = [{ kind: 'Listing', data: { children: [{ kind: 't3', data: { subreddit:    'SUBREDDIT', id:           'CONTENT_ID', author:       'ACCOUNT_ID', score:        1000, is_self:      true, title:        'TITLE', created_utc:  1440189331, upvote_ratio: 0.1, num_comments: 2000 } }] } }, { kind: 'Listing', data: { children: [{ kind: 't1', data: { replies:     '', id:          'COMMENT_ID_1', author:      'ACCOUNT_ID_1', score:       1000, body_html:   '<div class="md"><p>TEXT 1</p>\n</div>', created_utc: 1440189331 } }, { kind: 't1', data: { replies:     '', id:          'COMMENT_ID_2', author:      'ACCOUNT_ID_2', score:       2000, body_html:   '<div class="md"><p>TEXT 2</p>\n</div>', created_utc: 1440189331 } }, { kind: 'more', data: { count:    2, children: ['COMMENT_ID_3', 'COMMENT_ID_4'], id:       'COMMENT_ID_3' } }] } }];
 		});
 
 		it('should callback reddit comments', function(done) {
@@ -216,39 +163,7 @@ describe('reddit', function() {
 
 			reddit.discussion({ id: 'CONTENT_ID' }, function(err, discussion) {
 				expect(err).not.to.exist;
-				expect(discussion).to.eql({ api:       'reddit',
-				                            type:      'discussion',
-				                            id:        'CONTENT_ID',
-				                            content:   { api:       'reddit',
-				                                         type:      'content',
-				                                         id:        'CONTENT_ID',
-				                                         name:      'TITLE',
-				                                         date:      1440189331000,
-				                                         subreddit: 'SUBREDDIT',
-				                                         stats:     { score:       1000,
-				                                                      score_ratio: 0.1,
-				                                                      comments:    2000 },
-				                                         account:   { api:  'reddit',
-				                                                      type: 'account',
-				                                                      id:   'ACCOUNT_ID' } },
-				                            comments:  [{ api:     'reddit',
-				                                          type:    'comment',
-				                                          id:      'COMMENT_ID_1',
-				                                          text:    '<p>TEXT 1</p>',
-				                                          date:    1440189331000,
-				                                          stats:   { score: 1000 },
-				                                          account: { api:  'reddit',
-				                                                     type: 'account',
-				                                                     id:   'ACCOUNT_ID_1' } },
-				                                        { api:     'reddit',
-				                                          type:    'comment',
-				                                          id:      'COMMENT_ID_2',
-				                                          text:    '<p>TEXT 2</p>',
-				                                          date:    1440189331000,
-				                                          stats:   { score: 2000 },
-				                                          account: { api:  'reddit',
-				                                                     type: 'account',
-				                                                     id:   'ACCOUNT_ID_2' } }] });
+				expect(discussion).to.eql({ api:       'reddit', type:      'discussion', id:        'CONTENT_ID', content:   { api:       'reddit', type:      'content', id:        'CONTENT_ID', name:      'TITLE', date:      1440189331000, subreddit: 'SUBREDDIT', stats:     { score:       1000, score_ratio: 0.1, comments:    2000 }, account:   { api:  'reddit', type: 'account', id:   'ACCOUNT_ID' } }, comments:  [{ api:     'reddit', type:    'comment', id:      'COMMENT_ID_1', text:    '<p>TEXT 1</p>', date:    1440189331000, stats:   { score: 1000 }, account: { api:  'reddit', type: 'account', id:   'ACCOUNT_ID_1' } }, { api:     'reddit', type:    'comment', id:      'COMMENT_ID_2', text:    '<p>TEXT 2</p>', date:    1440189331000, stats:   { score: 2000 }, account: { api:  'reddit', type: 'account', id:   'ACCOUNT_ID_2' } }] });
 				done();
 			});
 		});
@@ -270,18 +185,7 @@ describe('reddit', function() {
 				sandbox.stub(urls, 'represent');
 				urls.represent.withArgs({ api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' }).returns(['https://www.wenoknow.com', 'https://www.hovercards.com']);
 
-				default_search = { kind: 'Listing',
-				                   data: { children: [{ kind: 't3',
-				                                        data: { subreddit:    'SUBREDDIT',
-				                                                id:           'CONTENT_ID',
-				                                                author:       'ACCOUNT_ID',
-				                                                score:        1000,
-				                                                is_self:      true,
-				                                                title:        'TITLE',
-				                                                created_utc:  1440189331,
-				                                                upvote_ratio: 0.1,
-				                                                num_comments: 2000,
-				                                                url:          'https://www.wenoknow.com' } }] } };
+				default_search = { kind: 'Listing', data: { children: [{ kind: 't3', data: { subreddit:    'SUBREDDIT', id:           'CONTENT_ID', author:       'ACCOUNT_ID', score:        1000, is_self:      true, title:        'TITLE', created_utc:  1440189331, upvote_ratio: 0.1, num_comments: 2000, url:          'https://www.wenoknow.com' } }] } };
 			});
 
 			afterEach(function() {
@@ -294,56 +198,14 @@ describe('reddit', function() {
 
 				reddit.discussion({ for: { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' } }, function(err, discussion) {
 					expect(err).not.to.exist;
-					expect(discussion).to.eql({ api:       'reddit',
-					                            type:      'discussion',
-					                            id:        'CONTENT_ID',
-					                            content:   { api:       'reddit',
-					                                         type:      'content',
-					                                         id:        'CONTENT_ID',
-					                                         name:      'TITLE',
-					                                         date:      1440189331000,
-					                                         subreddit: 'SUBREDDIT',
-					                                         stats:     { score:       1000,
-					                                                      score_ratio: 0.1,
-					                                                      comments:    2000 },
-					                                         account:   { api:  'reddit',
-					                                                      type: 'account',
-					                                                      id:   'ACCOUNT_ID' } },
-					                            comments:  [{ api:     'reddit',
-					                                          type:    'comment',
-					                                          id:      'COMMENT_ID_1',
-					                                          text:    '<p>TEXT 1</p>',
-					                                          date:    1440189331000,
-					                                          stats:   { score: 1000 },
-					                                          account: { api:  'reddit',
-					                                                     type: 'account',
-					                                                     id:   'ACCOUNT_ID_1' } },
-					                                        { api:     'reddit',
-					                                          type:    'comment',
-					                                          id:      'COMMENT_ID_2',
-					                                          text:    '<p>TEXT 2</p>',
-					                                          date:    1440189331000,
-					                                          stats:   { score: 2000 },
-					                                          account: { api:  'reddit',
-					                                                     type: 'account',
-					                                                     id:   'ACCOUNT_ID_2' } }] });
+					expect(discussion).to.eql({ api:       'reddit', type:      'discussion', id:        'CONTENT_ID', content:   { api:       'reddit', type:      'content', id:        'CONTENT_ID', name:      'TITLE', date:      1440189331000, subreddit: 'SUBREDDIT', stats:     { score:       1000, score_ratio: 0.1, comments:    2000 }, account:   { api:  'reddit', type: 'account', id:   'ACCOUNT_ID' } }, comments:  [{ api:     'reddit', type:    'comment', id:      'COMMENT_ID_1', text:    '<p>TEXT 1</p>', date:    1440189331000, stats:   { score: 1000 }, account: { api:  'reddit', type: 'account', id:   'ACCOUNT_ID_1' } }, { api:     'reddit', type:    'comment', id:      'COMMENT_ID_2', text:    '<p>TEXT 2</p>', date:    1440189331000, stats:   { score: 2000 }, account: { api:  'reddit', type: 'account', id:   'ACCOUNT_ID_2' } }] });
 					done();
 				});
 			});
 
 			it('should callback for post with most comments', function(done) {
 				default_search.data.children[1] = default_search.data.children[0];
-				default_search.data.children[0] = { kind: 't3',
-				                                    data: { subreddit:    'SUBREDDIT',
-				                                            id:           'CONTENT_ID_2',
-				                                            author:       'ACCOUNT_ID',
-				                                            score:        1000,
-				                                            is_self:      true,
-				                                            title:        'TITLE',
-				                                            created_utc:  1440189331,
-				                                            upvote_ratio: 0.1,
-				                                            num_comments: 1999,
-				                                            url:          'https://www.hovercards.com' } };
+				default_search.data.children[0] = { kind: 't3', data: { subreddit:    'SUBREDDIT', id:           'CONTENT_ID_2', author:       'ACCOUNT_ID', score:        1000, is_self:      true, title:        'TITLE', created_utc:  1440189331, upvote_ratio: 0.1, num_comments: 1999, url:          'https://www.hovercards.com' } };
 				article_comments_endpoint.reply(200, default_article_comments);
 				search_endpoint.reply(200, default_search);
 
@@ -435,47 +297,12 @@ describe('reddit', function() {
 		});
 
 		it('should callback with comment replies', function(done) {
-			default_article_comments[1].data.children[0].data.replies = { kind: 'Listing',
-			                                                              data: { children: [{ kind: 't1',
-			                                                                                   data: { replies:     '',
-			                                                                                           id:          'COMMENT_ID_1_1',
-			                                                                                           author:      'ACCOUNT_ID_1_1',
-			                                                                                           score:       1100,
-			                                                                                           body_html:   '<div class="md"><p>TEXT 1 1</p>\n</div>',
-			                                                                                           created_utc: 1440189331 } },
-			                                                                                 { kind: 't1',
-			                                                                                   data: { replies:     '',
-			                                                                                           id:          'COMMENT_ID_1_2',
-			                                                                                           author:      'ACCOUNT_ID_1_2',
-			                                                                                           score:       1200,
-			                                                                                           body_html:   '<div class="md"><p>TEXT 1 2</p>\n</div>',
-			                                                                                           created_utc: 1440189331 } },
-			                                                                                 { kind: 'more',
-			                                                                                   data: { count:    2,
-			                                                                                           children: ['COMMENT_ID_1_3', 'COMMENT_ID_1_4'],
-			                                                                                           id:       'COMMENT_ID_1_3' } }] } };
+			default_article_comments[1].data.children[0].data.replies = { kind: 'Listing', data: { children: [{ kind: 't1', data: { replies:     '', id:          'COMMENT_ID_1_1', author:      'ACCOUNT_ID_1_1', score:       1100, body_html:   '<div class="md"><p>TEXT 1 1</p>\n</div>', created_utc: 1440189331 } }, { kind: 't1', data: { replies:     '', id:          'COMMENT_ID_1_2', author:      'ACCOUNT_ID_1_2', score:       1200, body_html:   '<div class="md"><p>TEXT 1 2</p>\n</div>', created_utc: 1440189331 } }, { kind: 'more', data: { count:    2, children: ['COMMENT_ID_1_3', 'COMMENT_ID_1_4'], id:       'COMMENT_ID_1_3' } }] } };
 			article_comments_endpoint.reply(200, default_article_comments);
 
 			reddit.discussion({ id: 'CONTENT_ID' }, function(err, discussion) {
 				expect(err).not.to.exist;
-				expect(discussion).to.have.deep.property('comments[0].replies').that.eql([{ api:     'reddit',
-				                                                                            type:    'comment',
-				                                                                            id:      'COMMENT_ID_1_1',
-				                                                                            text:    '<p>TEXT 1 1</p>',
-				                                                                            date:    1440189331000,
-				                                                                            stats:   { score: 1100 },
-				                                                                            account: { api:  'reddit',
-				                                                                                       type: 'account',
-				                                                                                       id:   'ACCOUNT_ID_1_1' } },
-				                                                                          { api:     'reddit',
-				                                                                            type:    'comment',
-				                                                                            id:      'COMMENT_ID_1_2',
-				                                                                            text:    '<p>TEXT 1 2</p>',
-				                                                                            date:    1440189331000,
-				                                                                            stats:   { score: 1200 },
-				                                                                            account: { api:  'reddit',
-				                                                                                       type: 'account',
-				                                                                                       id:   'ACCOUNT_ID_1_2' } }]);
+				expect(discussion).to.have.deep.property('comments[0].replies').that.eql([{ api:     'reddit', type:    'comment', id:      'COMMENT_ID_1_1', text:    '<p>TEXT 1 1</p>', date:    1440189331000, stats:   { score: 1100 }, account: { api:  'reddit', type: 'account', id:   'ACCOUNT_ID_1_1' } }, { api:     'reddit', type:    'comment', id:      'COMMENT_ID_1_2', text:    '<p>TEXT 1 2</p>', date:    1440189331000, stats:   { score: 1200 }, account: { api:  'reddit', type: 'account', id:   'ACCOUNT_ID_1_2' } }]);
 				done();
 			});
 		});
@@ -483,7 +310,7 @@ describe('reddit', function() {
 		it('should include urls for link posts', function(done) {
 			delete default_article_comments[0].data.children[0].data.selftext_html;
 			default_article_comments[0].data.children[0].data.is_self = false;
-			default_article_comments[0].data.children[0].data.url     = 'https://www.hovercards.com';
+			default_article_comments[0].data.children[0].data.url = 'https://www.hovercards.com';
 			article_comments_endpoint.reply(200, default_article_comments);
 
 			reddit.discussion({ id: 'CONTENT_ID' }, function(err, discussion) {
@@ -589,11 +416,7 @@ describe('reddit', function() {
 				.matchHeader('authorization', 'bearer ACCESS_TOKEN')
 				.query({ api_type: 'json' });
 
-			default_user_about = { kind: 't2',
-			                       data: { name:          'ACCOUNT_ID',
-			                               created_utc:   1364602081,
-			                               link_karma:    1000,
-			                               comment_karma: 2000 } };
+			default_user_about = { kind: 't2', data: { name:          'ACCOUNT_ID', created_utc:   1364602081, link_karma:    1000, comment_karma: 2000 } };
 		});
 
 		it('should callback reddit user', function(done) {
@@ -601,12 +424,7 @@ describe('reddit', function() {
 
 			reddit.account({ id: 'ACCOUNT_ID' }, function(err, account) {
 				expect(err).not.to.exist;
-				expect(account).to.eql({ api:   'reddit',
-				                         type:  'account',
-				                         id:    'ACCOUNT_ID',
-				                         date:  1364602081000,
-				                         stats: { link_karma:    1000,
-				                                  comment_karma: 2000 } });
+				expect(account).to.eql({ api:   'reddit', type:  'account', id:    'ACCOUNT_ID', date:  1364602081000, stats: { link_karma:    1000, comment_karma: 2000 } });
 				done();
 			});
 		});
@@ -691,25 +509,7 @@ describe('reddit', function() {
 				.matchHeader('authorization', 'bearer ACCESS_TOKEN')
 				.query({ limit: config.counts.listed, api_type: 'json' });
 
-			default_user_overview = { kind: 'Listing',
-			                          data: { children: [{ kind: 't3',
-			                                               data: { subreddit:     'SUBREDDIT_1',
-			                                                       selftext_html: '<div class="md"><p>TEXT 1</p>\n</div>',
-			                                                       id:            'CONTENT_ID_1',
-			                                                       score:         1000,
-			                                                       is_self:       true,
-			                                                       title:         'TITLE 1',
-			                                                       created_utc:   1440189331 } },
-			                                             { kind: 't1',
-			                                               data: { link_title:  'TITLE 2',
-			                                                       link_id:     't3_CONTENT_ID_2',
-			                                                       link_author: 'ACCOUNT_ID_2',
-			                                                       score:       2000,
-			                                                       id:          'COMMENT_ID_2',
-			                                                       body_html:   '<div class="md"><p>TEXT 2</p>\n</div>',
-			                                                       subreddit:   'SUBREDDIT_2',
-			                                                       link_url:    'https://www.reddit.com/r/SUBREDDIT_2/comments/CONTENT_ID_2/TITLE_2/',
-			                                                       created_utc: 1440189331 } }] } };
+			default_user_overview = { kind: 'Listing', data: { children: [{ kind: 't3', data: { subreddit:     'SUBREDDIT_1', selftext_html: '<div class="md"><p>TEXT 1</p>\n</div>', id:            'CONTENT_ID_1', score:         1000, is_self:       true, title:         'TITLE 1', created_utc:   1440189331 } }, { kind: 't1', data: { link_title:  'TITLE 2', link_id:     't3_CONTENT_ID_2', link_author: 'ACCOUNT_ID_2', score:       2000, id:          'COMMENT_ID_2', body_html:   '<div class="md"><p>TEXT 2</p>\n</div>', subreddit:   'SUBREDDIT_2', link_url:    'https://www.reddit.com/r/SUBREDDIT_2/comments/CONTENT_ID_2/TITLE_2/', created_utc: 1440189331 } }] } };
 		});
 
 		it('should callback posts and comments', function(done) {
@@ -717,30 +517,7 @@ describe('reddit', function() {
 
 			reddit.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 				expect(err).not.to.exist;
-				expect(account_content).to.eql({ api:     'reddit',
-				                                 type:    'account_content',
-				                                 id:      'ACCOUNT_ID',
-				                                 content: [{ api:       'reddit',
-				                                             type:      'content',
-				                                             id:        'CONTENT_ID_1',
-				                                             name:      'TITLE 1',
-				                                             date:      1440189331000,
-				                                             subreddit: 'SUBREDDIT_1',
-				                                             stats:     { score: 1000 } },
-				                                           { api:     'reddit',
-				                                             type:    'comment',
-				                                             id:      'COMMENT_ID_2',
-				                                             text:    '<p>TEXT 2</p>',
-				                                             date:    1440189331000,
-				                                             stats:   { score: 2000 },
-				                                             content: { api:       'reddit',
-				                                                        type:      'content',
-				                                                        id:        'CONTENT_ID_2',
-				                                                        name:      'TITLE 2',
-				                                                        subreddit: 'SUBREDDIT_2',
-				                                                        account:   { api:  'reddit',
-				                                                                     type: 'account',
-				                                                                     id:   'ACCOUNT_ID_2' } } }] });
+				expect(account_content).to.eql({ api:     'reddit', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:       'reddit', type:      'content', id:        'CONTENT_ID_1', name:      'TITLE 1', date:      1440189331000, subreddit: 'SUBREDDIT_1', stats:     { score: 1000 } }, { api:     'reddit', type:    'comment', id:      'COMMENT_ID_2', text:    '<p>TEXT 2</p>', date:    1440189331000, stats:   { score: 2000 }, content: { api:       'reddit', type:      'content', id:        'CONTENT_ID_2', name:      'TITLE 2', subreddit: 'SUBREDDIT_2', account:   { api:  'reddit', type: 'account', id:   'ACCOUNT_ID_2' } } }] });
 				done();
 			});
 		});
@@ -748,7 +525,7 @@ describe('reddit', function() {
 		it('should include urls for link posts', function(done) {
 			delete default_user_overview.data.children[0].data.selftext_html;
 			default_user_overview.data.children[0].data.is_self = false;
-			default_user_overview.data.children[0].data.url     = 'https://www.hovercards.com';
+			default_user_overview.data.children[0].data.url = 'https://www.hovercards.com';
 			default_user_overview.data.children[1].data.link_url = 'https://www.wenoknow.com';
 			user_overview_endpoint.reply(200, default_user_overview);
 

@@ -4,7 +4,7 @@ var urls = {};
 
 urls.hostnames_parsed = ['soundcloud.com', 'www.soundcloud.com', 'm.soundcloud.com'];
 
-urls.non_username_regex  = /^(?:explore|groups|jobs|messages|mobile|notifications|pages|people|pro|settings|stream|tags|terms-of-use|upload(?:-classic)?|you)$/;
+urls.non_username_regex = /^(?:explore|groups|jobs|messages|mobile|notifications|pages|people|pro|settings|stream|tags|terms-of-use|upload(?:-classic)?|you)$/;
 urls.non_trackname_regex = /^(?:comments|groups|follow(?:ers|ing)|likes|tracks)$/;
 
 urls.parse = function(url_obj) {

@@ -32,29 +32,7 @@ describe('instagram', function() {
 				.get('/v1/media/shortcode/CONTENT_ID')
 				.query({ client_id: 'INSTAGRAM_CLIENT_ID', client_secret: 'INSTAGRAM_CLIENT_SECRET' });
 
-			default_media_shortcode = { meta: { code: 200 },
-			                            data: { type:         'image',
-			                                    comments:     { data:  [{ created_time : '1279341004',
-			                                                              text:          'TEXT 1',
-			                                                              from:          { username:        'ACCOUNT_ID_1',
-			                                                                               full_name:       'NAME 1',
-			                                                                               profile_picture: 'image_1_150_150.jpg' } },
-			                                                            { created_time : '1279332030',
-			                                                              text:          'TEXT 2',
-			                                                              from:          { username:        'ACCOUNT_ID_2',
-			                                                                               full_name:       'NAME 2',
-			                                                                               profile_picture: 'image_2_150_150.jpg' } }],
-			                                                    count: 2000 },
-			                                    caption:      { text: 'TEXT' },
-			                                    likes:        { count: 1000 },
-			                                    link:         'http://instagr.am/p/CONTENT_ID/',
-			                                    user:         { username:        'ACCOUNT_ID',
-			                                                    full_name:       'ACCOUNT NAME',
-			                                                    profile_picture: 'account_image_150_150.jpg' },
-			                                    created_time: '1279340983',
-			                                    images:       { low_resolution:      { url: 'image_306_306.jpg' },
-			                                                    thumbnail:           { url: 'image_150_150.jpg' },
-			                                                    standard_resolution: { url: 'image_612_612.jpg' } } } };
+			default_media_shortcode = { meta: { code: 200 }, data: { type:         'image', comments:     { data:  [{ created_time : '1279341004', text:          'TEXT 1', from:          { username:        'ACCOUNT_ID_1', full_name:       'NAME 1', profile_picture: 'image_1_150_150.jpg' } }, { created_time : '1279332030', text:          'TEXT 2', from:          { username:        'ACCOUNT_ID_2', full_name:       'NAME 2', profile_picture: 'image_2_150_150.jpg' } }], count: 2000 }, caption:      { text: 'TEXT' }, likes:        { count: 1000 }, link:         'http://instagr.am/p/CONTENT_ID/', user:         { username:        'ACCOUNT_ID', full_name:       'ACCOUNT NAME', profile_picture: 'account_image_150_150.jpg' }, created_time: '1279340983', images:       { low_resolution:      { url: 'image_306_306.jpg' }, thumbnail:           { url: 'image_150_150.jpg' }, standard_resolution: { url: 'image_612_612.jpg' } } } };
 		});
 
 		it('should callback instagram media', function(done) {
@@ -62,48 +40,13 @@ describe('instagram', function() {
 
 			instagram.content({ id: 'CONTENT_ID' }, function(err, content) {
 				expect(err).not.to.exist;
-				expect(content).to.eql({ api:         'instagram',
-				                         type:        'content',
-				                         id:          'CONTENT_ID',
-				                         text:        'TEXT',
-				                         date:        1279340983000,
-				                         image:       { small:  'image_150_150.jpg',
-				                                        medium: 'image_306_306.jpg',
-				                                        large:  'image_612_612.jpg' },
-				                         stats:       { likes:    1000,
-				                                        comments: 2000 },
-				                         account:     { api:   'instagram',
-				                                        type:  'account',
-				                                        id:    'ACCOUNT_ID',
-				                                        name:  'ACCOUNT NAME',
-				                                        image: { medium: 'account_image_150_150.jpg' } },
-				                         discussions: [{ api:      'instagram',
-				                                         type:     'discussion',
-				                                         id:       'CONTENT_ID',
-				                                         comments: [{ api:     'instagram',
-				                                                      type:    'comment',
-				                                                      text:    'TEXT 1',
-				                                                      date:    1279341004000,
-				                                                      account: { api:   'instagram',
-				                                                                 type:  'account',
-				                                                                 id:    'ACCOUNT_ID_1',
-				                                                                 name:  'NAME 1',
-				                                                                 image: { medium: 'image_1_150_150.jpg' } } },
-				                                                    { api:     'instagram',
-				                                                      type:    'comment',
-				                                                      text:    'TEXT 2',
-				                                                      date:    1279332030000,
-				                                                      account: { api:   'instagram',
-				                                                                 type:  'account',
-				                                                                 id:    'ACCOUNT_ID_2',
-				                                                                 name:  'NAME 2',
-				                                                                 image: { medium: 'image_2_150_150.jpg' } } }] }] });
+				expect(content).to.eql({ api:         'instagram', type:        'content', id:          'CONTENT_ID', text:        'TEXT', date:        1279340983000, image:       { small:  'image_150_150.jpg', medium: 'image_306_306.jpg', large:  'image_612_612.jpg' }, stats:       { likes:    1000, comments: 2000 }, account:     { api:   'instagram', type:  'account', id:    'ACCOUNT_ID', name:  'ACCOUNT NAME', image: { medium: 'account_image_150_150.jpg' } }, discussions: [{ api:      'instagram', type:     'discussion', id:       'CONTENT_ID', comments: [{ api:     'instagram', type:    'comment', text:    'TEXT 1', date:    1279341004000, account: { api:   'instagram', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { medium: 'image_1_150_150.jpg' } } }, { api:     'instagram', type:    'comment', text:    'TEXT 2', date:    1279332030000, account: { api:   'instagram', type:  'account', id:    'ACCOUNT_ID_2', name:  'NAME 2', image: { medium: 'image_2_150_150.jpg' } } }] }] });
 				done();
 			});
 		});
 
 		it('should callback instagram video media', function(done) {
-			default_media_shortcode.data.type   = 'video',
+			default_media_shortcode.data.type = 'video',
 			default_media_shortcode.data.videos = { standard_resolution: { url: 'video_640_640.mp4' } },
 			media_shortcode_endpoint.reply(200, default_media_shortcode);
 
@@ -122,7 +65,7 @@ describe('instagram', function() {
 
 			instagram.content({ id: 'CONTENT_ID' }, function(err, content) {
 				expect(err).not.to.be.ok;
-				expect(content).to.have.property('text',                                 '<a href="https://instagram.com/explore/tags/thing" target="_blank">#thing</a> <a href="https://instagram.com/explore/tags/thing2" target="_blank">#thing2</a>');
+				expect(content).to.have.property('text', '<a href="https://instagram.com/explore/tags/thing" target="_blank">#thing</a> <a href="https://instagram.com/explore/tags/thing2" target="_blank">#thing2</a>');
 				expect(content).to.have.deep.property('discussions[0].comments[0].text', '<a href="https://instagram.com/explore/tags/thi" target="_blank">#thi</a>');
 				expect(content).to.have.deep.property('discussions[0].comments[1].text', '<a href="https://instagram.com/explore/tags/thin" target="_blank">#thin</a>');
 				done();
@@ -137,7 +80,7 @@ describe('instagram', function() {
 
 			instagram.content({ id: 'CONTENT_ID' }, function(err, content) {
 				expect(err).not.to.be.ok;
-				expect(content).to.have.property('text',                                 '<a href="https://instagram.com/ACCOUNT_ID_1/" target="_blank">@ACCOUNT_ID_1</a> <a href="https://instagram.com/ACCOUNT_ID_2/" target="_blank">@ACCOUNT_ID_2</a>');
+				expect(content).to.have.property('text', '<a href="https://instagram.com/ACCOUNT_ID_1/" target="_blank">@ACCOUNT_ID_1</a> <a href="https://instagram.com/ACCOUNT_ID_2/" target="_blank">@ACCOUNT_ID_2</a>');
 				expect(content).to.have.deep.property('discussions[0].comments[0].text', '<a href="https://instagram.com/ACCOUNT_ID_3/" target="_blank">@ACCOUNT_ID_3</a>');
 				expect(content).to.have.deep.property('discussions[0].comments[1].text', '<a href="https://instagram.com/ACCOUNT_ID_4/" target="_blank">@ACCOUNT_ID_4</a>');
 				done();
@@ -145,7 +88,7 @@ describe('instagram', function() {
 		});
 
 		it('should remove the default image for account', function(done) {
-			default_media_shortcode.data.user.profile_picture                  = 'https://instagramimages-a.akamaihd.net/profiles/anonymousUser.jpg';
+			default_media_shortcode.data.user.profile_picture = 'https://instagramimages-a.akamaihd.net/profiles/anonymousUser.jpg';
 			default_media_shortcode.data.comments.data[0].from.profile_picture = 'https://instagramimages-a.akamaihd.net/profiles/anonymousUser.jpg';
 			default_media_shortcode.data.comments.data[1].from.profile_picture = 'https://instagramimages-a.akamaihd.net/profiles/anonymousUser.jpg';
 			media_shortcode_endpoint.reply(200, default_media_shortcode);
@@ -172,7 +115,7 @@ describe('instagram', function() {
 
 		describe('media shortcode endpoint', function() {
 			it('should 401 on OAuthAccessTokenException', function(done) {
-				media_shortcode_endpoint.reply(400, { meta: { code: 400, error_type: 'OAuthAccessTokenException', error_message: 'The access_token provided is invalid.' }});
+				media_shortcode_endpoint.reply(400, { meta: { code: 400, error_type: 'OAuthAccessTokenException', error_message: 'The access_token provided is invalid.' } });
 
 				instagram.content({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - OAuthAccessTokenException: The access_token provided is invalid.', status: 401 });
@@ -181,7 +124,7 @@ describe('instagram', function() {
 			});
 
 			it('should 401 on APINotAllowedError', function(done) {
-				media_shortcode_endpoint.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' }});
+				media_shortcode_endpoint.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 
 				instagram.content({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - APINotAllowedError: you cannot view this resource', status: 401 });
@@ -193,7 +136,7 @@ describe('instagram', function() {
 				nock('https://api.instagram.com')
 					.get('/v1/media/shortcode/CONTENT_ID')
 					.query({ access_token: 'INSTAGRAM_USER' })
-					.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' }});
+					.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 
 				require('.')({ user: 'INSTAGRAM_USER' }).content({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - APINotAllowedError: you cannot view this resource', status: 403 });
@@ -202,7 +145,7 @@ describe('instagram', function() {
 			});
 
 			it('should 404 on 404', function(done) {
-				media_shortcode_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' }});
+				media_shortcode_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.content({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - idk: I said IDK', status: 404 });
@@ -211,7 +154,7 @@ describe('instagram', function() {
 			});
 
 			it('should 429 on OAuthRateLimitException', function(done) {
-				media_shortcode_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' }});
+				media_shortcode_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' } });
 
 				instagram.content({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - OAuthRateLimitException: The maximum number of requests per hour has been exceeded.', status: 429 });
@@ -220,7 +163,7 @@ describe('instagram', function() {
 			});
 
 			it('should 500 on 4xx', function(done) {
-				media_shortcode_endpoint.reply(478, { meta: { code: 478, error_type: 'idk', error_message: 'I said IDK' }});
+				media_shortcode_endpoint.reply(478, { meta: { code: 478, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.content({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - idk: I said IDK', status: 500, original_status: 478 });
@@ -229,7 +172,7 @@ describe('instagram', function() {
 			});
 
 			it('should 502 on 5xx', function(done) {
-				media_shortcode_endpoint.reply(578, { meta: { code: 578, error_type: 'idk', error_message: 'I said IDK' }});
+				media_shortcode_endpoint.reply(578, { meta: { code: 578, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.content({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - idk: I said IDK', status: 502, original_status: 578 });
@@ -248,19 +191,7 @@ describe('instagram', function() {
 				.get('/v1/media/shortcode/CONTENT_ID')
 				.query({ client_id: 'INSTAGRAM_CLIENT_ID', client_secret: 'INSTAGRAM_CLIENT_SECRET' });
 
-			default_media_shortcode = { meta: { code: 200 },
-			                            data: { comments: { data:  [{ created_time : '1279341004',
-			                                                          text:          'TEXT 1',
-			                                                          from:          { username:        'ACCOUNT_ID_1',
-			                                                                           full_name:       'NAME 1',
-			                                                                           profile_picture: 'image_1_150_150.jpg' } },
-			                                                        { created_time : '1279332030',
-			                                                          text:          'TEXT 2',
-			                                                          from:          { username:        'ACCOUNT_ID_2',
-			                                                                           full_name:       'NAME 2',
-			                                                                           profile_picture: 'image_2_150_150.jpg' } }],
-			                                                count: 1000 },
-			                                    link:     'http://instagr.am/p/CONTENT_ID/' } };
+			default_media_shortcode = { meta: { code: 200 }, data: { comments: { data:  [{ created_time : '1279341004', text:          'TEXT 1', from:          { username:        'ACCOUNT_ID_1', full_name:       'NAME 1', profile_picture: 'image_1_150_150.jpg' } }, { created_time : '1279332030', text:          'TEXT 2', from:          { username:        'ACCOUNT_ID_2', full_name:       'NAME 2', profile_picture: 'image_2_150_150.jpg' } }], count: 1000 }, link:     'http://instagr.am/p/CONTENT_ID/' } };
 		});
 
 		it('should callback instagram comments', function(done) {
@@ -268,27 +199,7 @@ describe('instagram', function() {
 
 			instagram.discussion({ id: 'CONTENT_ID' }, function(err, discussion) {
 				expect(err).not.to.exist;
-				expect(discussion).to.eql({ api:      'instagram',
-				                            type:     'discussion',
-				                            id:       'CONTENT_ID',
-				                            comments: [{ api:     'instagram',
-				                                         type:    'comment',
-				                                         text:    'TEXT 1',
-				                                         date:    1279341004000,
-				                                         account: { api:   'instagram',
-				                                                    type:  'account',
-				                                                    id:    'ACCOUNT_ID_1',
-				                                                    name:  'NAME 1',
-				                                                    image: { medium: 'image_1_150_150.jpg' } } },
-				                                       { api:     'instagram',
-				                                         type:    'comment',
-				                                         text:    'TEXT 2',
-				                                         date:    1279332030000,
-				                                         account: { api:   'instagram',
-				                                                    type:  'account',
-				                                                    id:    'ACCOUNT_ID_2',
-				                                                    name:  'NAME 2',
-				                                                    image: { medium: 'image_2_150_150.jpg' } } }] });
+				expect(discussion).to.eql({ api:      'instagram', type:     'discussion', id:       'CONTENT_ID', comments: [{ api:     'instagram', type:    'comment', text:    'TEXT 1', date:    1279341004000, account: { api:   'instagram', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { medium: 'image_1_150_150.jpg' } } }, { api:     'instagram', type:    'comment', text:    'TEXT 2', date:    1279332030000, account: { api:   'instagram', type:  'account', id:    'ACCOUNT_ID_2', name:  'NAME 2', image: { medium: 'image_2_150_150.jpg' } } }] });
 				done();
 			});
 		});
@@ -346,7 +257,7 @@ describe('instagram', function() {
 
 		describe('media shortcode endpoint', function() {
 			it('should 401 on OAuthAccessTokenException', function(done) {
-				media_shortcode_endpoint.reply(400, { meta: { code: 400, error_type: 'OAuthAccessTokenException', error_message: 'The access_token provided is invalid.' }});
+				media_shortcode_endpoint.reply(400, { meta: { code: 400, error_type: 'OAuthAccessTokenException', error_message: 'The access_token provided is invalid.' } });
 
 				instagram.discussion({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - OAuthAccessTokenException: The access_token provided is invalid.', status: 401 });
@@ -355,7 +266,7 @@ describe('instagram', function() {
 			});
 
 			it('should 401 on APINotAllowedError', function(done) {
-				media_shortcode_endpoint.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' }});
+				media_shortcode_endpoint.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 
 				instagram.discussion({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - APINotAllowedError: you cannot view this resource', status: 401 });
@@ -367,7 +278,7 @@ describe('instagram', function() {
 				nock('https://api.instagram.com')
 					.get('/v1/media/shortcode/CONTENT_ID')
 					.query({ access_token: 'INSTAGRAM_USER' })
-					.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' }});
+					.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 
 				require('.')({ user: 'INSTAGRAM_USER' }).discussion({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - APINotAllowedError: you cannot view this resource', status: 403 });
@@ -376,7 +287,7 @@ describe('instagram', function() {
 			});
 
 			it('should 404 on 404', function(done) {
-				media_shortcode_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' }});
+				media_shortcode_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.discussion({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - idk: I said IDK', status: 404 });
@@ -385,7 +296,7 @@ describe('instagram', function() {
 			});
 
 			it('should 429 on OAuthRateLimitException', function(done) {
-				media_shortcode_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' }});
+				media_shortcode_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' } });
 
 				instagram.discussion({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - OAuthRateLimitException: The maximum number of requests per hour has been exceeded.', status: 429 });
@@ -394,7 +305,7 @@ describe('instagram', function() {
 			});
 
 			it('should 500 on 4xx', function(done) {
-				media_shortcode_endpoint.reply(478, { meta: { code: 478, error_type: 'idk', error_message: 'I said IDK' }});
+				media_shortcode_endpoint.reply(478, { meta: { code: 478, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.discussion({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - idk: I said IDK', status: 500, original_status: 478 });
@@ -403,7 +314,7 @@ describe('instagram', function() {
 			});
 
 			it('should 502 on 5xx', function(done) {
-				media_shortcode_endpoint.reply(578, { meta: { code: 578, error_type: 'idk', error_message: 'I said IDK' }});
+				media_shortcode_endpoint.reply(578, { meta: { code: 578, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.discussion({ id: 'CONTENT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram Media Shortcode - idk: I said IDK', status: 502, original_status: 578 });
@@ -443,47 +354,9 @@ describe('instagram', function() {
 			urls.print.withArgs({ api: 'instagram', type: 'account', id: 'ACCOUNT_ID_1' }).returns('https://instagram.com/ACCOUNT_ID_1/');
 			urls.print.withArgs({ api: 'instagram', type: 'account', id: 'ACCOUNT_ID_2' }).returns('https://instagram.com/ACCOUNT_ID_2/');
 
-			default_user = { meta: { code: 200 },
-			                 data: { id:              'INSTAGRAM_ACCOUNT_ID',
-			                         username:        'ACCOUNT_ID',
-			                         full_name:       'NAME',
-			                         profile_picture: 'image_150_150.jpg',
-			                         bio:             'TEXT',
-			                         website:         'https://www.google.com/',
-			                         counts:          { media:       1000,
-			                                            follows:     3000,
-			                                            followed_by: 2000 } } };
-			default_user_media_recent = { meta: { code: 200 },
-			                              data: [{ comments:     { count: 1002 },
-			                                       likes:        { count: 1001 },
-			                                       link:         'http://instagr.am/p/CONTENT_1/',
-			                                       created_time: '1296710327',
-			                                       images:       { low_resolution:      { url: 'image_1_306_306.jpg' },
-			                                                       thumbnail:           { url: 'image_1_150_150.jpg' },
-			                                                       standard_resolution: { url: 'image_1_612_612.jpg' } },
-			                                       type:         'image' },
-			                                     { videos:       { standard_resolution: { url: 'video_640_640.mp4' } },
-			                                       comments:     { count: 2002 },
-			                                       likes:        { count: 2001 },
-			                                       link:         'http://instagr.am/p/CONTENT_2/',
-			                                       created_time: '1296710327',
-			                                       images:       { low_resolution:      { url: 'image_2_306_306.jpg' },
-			                                                       thumbnail:           { url: 'image_2_150_150.jpg' },
-			                                                       standard_resolution: { url: 'image_2_612_612.jpg' } },
-			                                       type:         'video' }] };
-			default_user_search = { meta: { code: 200 },
-			                        data: [{ username:        'ACCOUNT_ID',
-			                                 full_name:       'NAME',
-			                                 profile_picture: 'image_150_150.jpg',
-			                                 id:              'INSTAGRAM_ACCOUNT_ID' },
-			                               { username:        'ACCOUNT_ID_2',
-			                                 full_name:       'NAME_2',
-			                                 profile_picture: 'image_2_150_150.jpg',
-			                                 id:              'INSTAGRAM_ACCOUNT_ID_2' },
-			                               { username:        'ACCOUNT_ID_3',
-			                                 full_name:       'NAME_3',
-			                                 profile_picture: 'image_3_150_150.jpg',
-			                                 id:              'INSTAGRAM_ACCOUNT_ID_3' }] };
+			default_user = { meta: { code: 200 }, data: { id:              'INSTAGRAM_ACCOUNT_ID', username:        'ACCOUNT_ID', full_name:       'NAME', profile_picture: 'image_150_150.jpg', bio:             'TEXT', website:         'https://www.google.com/', counts:          { media:       1000, follows:     3000, followed_by: 2000 } } };
+			default_user_media_recent = { meta: { code: 200 }, data: [{ comments:     { count: 1002 }, likes:        { count: 1001 }, link:         'http://instagr.am/p/CONTENT_1/', created_time: '1296710327', images:       { low_resolution:      { url: 'image_1_306_306.jpg' }, thumbnail:           { url: 'image_1_150_150.jpg' }, standard_resolution: { url: 'image_1_612_612.jpg' } }, type:         'image' }, { videos:       { standard_resolution: { url: 'video_640_640.mp4' } }, comments:     { count: 2002 }, likes:        { count: 2001 }, link:         'http://instagr.am/p/CONTENT_2/', created_time: '1296710327', images:       { low_resolution:      { url: 'image_2_306_306.jpg' }, thumbnail:           { url: 'image_2_150_150.jpg' }, standard_resolution: { url: 'image_2_612_612.jpg' } }, type:         'video' }] };
+			default_user_search = { meta: { code: 200 }, data: [{ username:        'ACCOUNT_ID', full_name:       'NAME', profile_picture: 'image_150_150.jpg', id:              'INSTAGRAM_ACCOUNT_ID' }, { username:        'ACCOUNT_ID_2', full_name:       'NAME_2', profile_picture: 'image_2_150_150.jpg', id:              'INSTAGRAM_ACCOUNT_ID_2' }, { username:        'ACCOUNT_ID_3', full_name:       'NAME_3', profile_picture: 'image_3_150_150.jpg', id:              'INSTAGRAM_ACCOUNT_ID_3' }] };
 		});
 
 		afterEach(function() {
@@ -498,37 +371,7 @@ describe('instagram', function() {
 
 			instagram.account({ id: 'ACCOUNT_ID' }, function(err, account) {
 				expect(err).not.to.be.ok;
-				expect(account).to.eql({ api:     'instagram',
-				                         type:    'account',
-				                         id:      'ACCOUNT_ID',
-				                         name:    'NAME',
-				                         text:    'TEXT',
-				                         image:   { medium: 'image_150_150.jpg' },
-				                         stats:   { content:    1000,
-				                                    followers:  2000,
-				                                    following:  3000 },
-				                         content: { api:     'instagram',
-				                                    type:    'account_content',
-				                                    id:      'ACCOUNT_ID',
-				                                    content: [{ api:   'instagram',
-				                                                type:  'content',
-				                                                id:    'CONTENT_1',
-				                                                date:  1296710327000,
-				                                                image: { small:  'image_1_150_150.jpg',
-				                                                         medium: 'image_1_306_306.jpg',
-				                                                         large:  'image_1_612_612.jpg' },
-				                                                stats: { likes:    1001,
-				                                                         comments: 1002 } },
-				                                              { api:   'instagram',
-				                                                type:  'content',
-				                                                id:    'CONTENT_2',
-				                                                date:  1296710327000,
-				                                                image: { small:  'image_2_150_150.jpg',
-				                                                         medium: 'image_2_306_306.jpg',
-				                                                         large:  'image_2_612_612.jpg' },
-				                                                video: 'video_640_640.mp4',
-				                                                stats: { likes:    2001,
-				                                                         comments: 2002 } }] } });
+				expect(account).to.eql({ api:     'instagram', type:    'account', id:      'ACCOUNT_ID', name:    'NAME', text:    'TEXT', image:   { medium: 'image_150_150.jpg' }, stats:   { content:    1000, followers:  2000, following:  3000 }, content: { api:     'instagram', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:   'instagram', type:  'content', id:    'CONTENT_1', date:  1296710327000, image: { small:  'image_1_150_150.jpg', medium: 'image_1_306_306.jpg', large:  'image_1_612_612.jpg' }, stats: { likes:    1001, comments: 1002 } }, { api:   'instagram', type:  'content', id:    'CONTENT_2', date:  1296710327000, image: { small:  'image_2_150_150.jpg', medium: 'image_2_306_306.jpg', large:  'image_2_612_612.jpg' }, video: 'video_640_640.mp4', stats: { likes:    2001, comments: 2002 } }] } });
 				done();
 			});
 		});
@@ -619,7 +462,7 @@ describe('instagram', function() {
 			it('should not report instagram-calls on search failure', function(done) {
 				user_endpoint.reply(200, default_user);
 				user_media_recent_endpoint.reply(200, default_user_media_recent);
-				user_search_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' }});
+				user_search_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account({ id: 'ACCOUNT_ID' }, function(err, account, usage) {
 					expect(usage).to.have.property('instagram-calls', 1);
@@ -635,7 +478,7 @@ describe('instagram', function() {
 			});
 
 			it('should 401 on OAuthAccessTokenException', function(done) {
-				user_endpoint.reply(400, { meta: { code: 400, error_type: 'OAuthAccessTokenException', error_message: 'The access_token provided is invalid.' }});
+				user_endpoint.reply(400, { meta: { code: 400, error_type: 'OAuthAccessTokenException', error_message: 'The access_token provided is invalid.' } });
 
 				instagram.account({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User - OAuthAccessTokenException: The access_token provided is invalid.', status: 401 });
@@ -644,7 +487,7 @@ describe('instagram', function() {
 			});
 
 			it('should 401 on APINotAllowedError', function(done) {
-				user_endpoint.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' }});
+				user_endpoint.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 
 				instagram.account({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User - APINotAllowedError: you cannot view this resource', status: 401 });
@@ -656,7 +499,7 @@ describe('instagram', function() {
 				nock('https://api.instagram.com')
 					.get('/v1/users/INSTAGRAM_ACCOUNT_ID')
 					.query({ access_token: 'INSTAGRAM_USER' })
-					.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' }});
+					.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 				nock('https://api.instagram.com')
 					.get('/v1/users/search')
 					.query({ access_token: 'INSTAGRAM_USER', q: 'ACCOUNT_ID' })
@@ -669,7 +512,7 @@ describe('instagram', function() {
 			});
 
 			it('should 404 on 404', function(done) {
-				user_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' }});
+				user_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User - idk: I said IDK', status: 404 });
@@ -678,7 +521,7 @@ describe('instagram', function() {
 			});
 
 			it('should 429 on OAuthRateLimitException', function(done) {
-				user_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' }});
+				user_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' } });
 
 				instagram.account({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User - OAuthRateLimitException: The maximum number of requests per hour has been exceeded.', status: 429 });
@@ -687,7 +530,7 @@ describe('instagram', function() {
 			});
 
 			it('should 500 on 4xx', function(done) {
-				user_endpoint.reply(478, { meta: { code: 478, error_type: 'idk', error_message: 'I said IDK' }});
+				user_endpoint.reply(478, { meta: { code: 478, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User - idk: I said IDK', status: 500, original_status: 478 });
@@ -696,7 +539,7 @@ describe('instagram', function() {
 			});
 
 			it('should 502 on 5xx', function(done) {
-				user_endpoint.reply(578, { meta: { code: 578, error_type: 'idk', error_message: 'I said IDK' }});
+				user_endpoint.reply(578, { meta: { code: 578, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User - idk: I said IDK', status: 502, original_status: 578 });
@@ -712,7 +555,7 @@ describe('instagram', function() {
 			});
 
 			it('should not have content on err', function(done) {
-				user_media_recent_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' }});
+				user_media_recent_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account({ id: 'ACCOUNT_ID' }, function(err, account) {
 					expect(err).not.to.be.ok;
@@ -749,7 +592,7 @@ describe('instagram', function() {
 			});
 
 			it('should 404 on 404', function(done) {
-				user_search_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' }});
+				user_search_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Search - idk: I said IDK', status: 404 });
@@ -758,7 +601,7 @@ describe('instagram', function() {
 			});
 
 			it('should 429 on OAuthRateLimitException', function(done) {
-				user_search_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' }});
+				user_search_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' } });
 
 				instagram.account({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Search - OAuthRateLimitException: The maximum number of requests per hour has been exceeded.', status: 429 });
@@ -767,7 +610,7 @@ describe('instagram', function() {
 			});
 
 			it('should 500 on 4xx', function(done) {
-				user_search_endpoint.reply(478, { meta: { code: 478, error_type: 'idk', error_message: 'I said IDK' }});
+				user_search_endpoint.reply(478, { meta: { code: 478, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Search - idk: I said IDK', status: 500, original_status: 478 });
@@ -776,7 +619,7 @@ describe('instagram', function() {
 			});
 
 			it('should 502 on 5xx', function(done) {
-				user_search_endpoint.reply(578, { meta: { code: 578, error_type: 'idk', error_message: 'I said IDK' }});
+				user_search_endpoint.reply(578, { meta: { code: 578, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Search - idk: I said IDK', status: 502, original_status: 578 });
@@ -800,37 +643,8 @@ describe('instagram', function() {
 				.get('/v1/users/search')
 				.query({ client_id: 'INSTAGRAM_CLIENT_ID', client_secret: 'INSTAGRAM_CLIENT_SECRET', q: 'ACCOUNT_ID' });
 
-			default_user_media_recent = { meta: { code: 200 },
-			                              data: [{ comments:     { count: 1002 },
-			                                       likes:        { count: 1001 },
-			                                       link:         'http://instagr.am/p/CONTENT_1/',
-			                                       created_time: '1296710327',
-			                                       images:       { low_resolution:      { url: 'image_1_306_306.jpg' },
-			                                                       thumbnail:           { url: 'image_1_150_150.jpg' },
-			                                                       standard_resolution: { url: 'image_1_612_612.jpg' } },
-			                                       type:         'image' },
-			                                     { videos:       { standard_resolution: { url: 'video_640_640.mp4' } },
-			                                       comments:     { count: 2002 },
-			                                       likes:        { count: 2001 },
-			                                       link:         'http://instagr.am/p/CONTENT_2/',
-			                                       created_time: '1296710327',
-			                                       images:       { low_resolution:      { url: 'image_2_306_306.jpg' },
-			                                                       thumbnail:           { url: 'image_2_150_150.jpg' },
-			                                                       standard_resolution: { url: 'image_2_612_612.jpg' } },
-			                                       type:         'video' }] };
-			default_user_search = { meta: { code: 200 },
-			                        data: [{ username:        'ACCOUNT_ID',
-			                                 full_name:       'NAME',
-			                                 profile_picture: 'image_150_150.jpg',
-			                                 id:              'INSTAGRAM_ACCOUNT_ID' },
-			                               { username:        'ACCOUNT_ID_2',
-			                                 full_name:       'NAME_2',
-			                                 profile_picture: 'image_2_150_150.jpg',
-			                                 id:              'INSTAGRAM_ACCOUNT_ID_2' },
-			                               { username:        'ACCOUNT_ID_3',
-			                                 full_name:       'NAME_3',
-			                                 profile_picture: 'image_3_150_150.jpg',
-			                                 id:              'INSTAGRAM_ACCOUNT_ID_3' }] };
+			default_user_media_recent = { meta: { code: 200 }, data: [{ comments:     { count: 1002 }, likes:        { count: 1001 }, link:         'http://instagr.am/p/CONTENT_1/', created_time: '1296710327', images:       { low_resolution:      { url: 'image_1_306_306.jpg' }, thumbnail:           { url: 'image_1_150_150.jpg' }, standard_resolution: { url: 'image_1_612_612.jpg' } }, type:         'image' }, { videos:       { standard_resolution: { url: 'video_640_640.mp4' } }, comments:     { count: 2002 }, likes:        { count: 2001 }, link:         'http://instagr.am/p/CONTENT_2/', created_time: '1296710327', images:       { low_resolution:      { url: 'image_2_306_306.jpg' }, thumbnail:           { url: 'image_2_150_150.jpg' }, standard_resolution: { url: 'image_2_612_612.jpg' } }, type:         'video' }] };
+			default_user_search = { meta: { code: 200 }, data: [{ username:        'ACCOUNT_ID', full_name:       'NAME', profile_picture: 'image_150_150.jpg', id:              'INSTAGRAM_ACCOUNT_ID' }, { username:        'ACCOUNT_ID_2', full_name:       'NAME_2', profile_picture: 'image_2_150_150.jpg', id:              'INSTAGRAM_ACCOUNT_ID_2' }, { username:        'ACCOUNT_ID_3', full_name:       'NAME_3', profile_picture: 'image_3_150_150.jpg', id:              'INSTAGRAM_ACCOUNT_ID_3' }] };
 		});
 
 		it('should callback instagram media', function(done) {
@@ -839,28 +653,7 @@ describe('instagram', function() {
 
 			instagram.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 				expect(err).not.to.be.ok;
-				expect(account_content).to.eql({ api:     'instagram',
-				                                 type:    'account_content',
-				                                 id:      'ACCOUNT_ID',
-				                                 content: [{ api:   'instagram',
-				                                             type:  'content',
-				                                             id:    'CONTENT_1',
-				                                             date:  1296710327000,
-				                                             image: { small:  'image_1_150_150.jpg',
-				                                                      medium: 'image_1_306_306.jpg',
-				                                                      large:  'image_1_612_612.jpg' },
-				                                             stats: { likes:    1001,
-				                                                      comments: 1002 } },
-				                                           { api:   'instagram',
-				                                             type:  'content',
-				                                             id:    'CONTENT_2',
-				                                             date:  1296710327000,
-				                                             image: { small:  'image_2_150_150.jpg',
-				                                                      medium: 'image_2_306_306.jpg',
-				                                                      large:  'image_2_612_612.jpg' },
-				                                             video: 'video_640_640.mp4',
-				                                             stats: { likes:    2001,
-				                                                      comments: 2002 } }] });
+				expect(account_content).to.eql({ api:     'instagram', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:   'instagram', type:  'content', id:    'CONTENT_1', date:  1296710327000, image: { small:  'image_1_150_150.jpg', medium: 'image_1_306_306.jpg', large:  'image_1_612_612.jpg' }, stats: { likes:    1001, comments: 1002 } }, { api:   'instagram', type:  'content', id:    'CONTENT_2', date:  1296710327000, image: { small:  'image_2_150_150.jpg', medium: 'image_2_306_306.jpg', large:  'image_2_612_612.jpg' }, video: 'video_640_640.mp4', stats: { likes:    2001, comments: 2002 } }] });
 				done();
 			});
 		});
@@ -883,7 +676,7 @@ describe('instagram', function() {
 			});
 
 			it('should 401 on OAuthAccessTokenException', function(done) {
-				user_media_recent_endpoint.reply(400, { meta: { code: 400, error_type: 'OAuthAccessTokenException', error_message: 'The access_token provided is invalid.' }});
+				user_media_recent_endpoint.reply(400, { meta: { code: 400, error_type: 'OAuthAccessTokenException', error_message: 'The access_token provided is invalid.' } });
 
 				instagram.account_content({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Media Recent - OAuthAccessTokenException: The access_token provided is invalid.', status: 401 });
@@ -892,7 +685,7 @@ describe('instagram', function() {
 			});
 
 			it('should 401 on APINotAllowedError', function(done) {
-				user_media_recent_endpoint.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' }});
+				user_media_recent_endpoint.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 
 				instagram.account_content({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Media Recent - APINotAllowedError: you cannot view this resource', status: 401 });
@@ -904,7 +697,7 @@ describe('instagram', function() {
 				nock('https://api.instagram.com')
 					.get('/v1/users/INSTAGRAM_ACCOUNT_ID/media/recent')
 					.query({ access_token: 'INSTAGRAM_USER', count: config.counts.grid })
-					.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' }});
+					.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 				nock('https://api.instagram.com')
 					.get('/v1/users/search')
 					.query({ access_token: 'INSTAGRAM_USER', q: 'ACCOUNT_ID' })
@@ -917,7 +710,7 @@ describe('instagram', function() {
 			});
 
 			it('should 404 on 404', function(done) {
-				user_media_recent_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' }});
+				user_media_recent_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account_content({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Media Recent - idk: I said IDK', status: 404 });
@@ -926,7 +719,7 @@ describe('instagram', function() {
 			});
 
 			it('should 429 on OAuthRateLimitException', function(done) {
-				user_media_recent_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' }});
+				user_media_recent_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' } });
 
 				instagram.account_content({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Media Recent - OAuthRateLimitException: The maximum number of requests per hour has been exceeded.', status: 429 });
@@ -935,7 +728,7 @@ describe('instagram', function() {
 			});
 
 			it('should 500 on 4xx', function(done) {
-				user_media_recent_endpoint.reply(478, { meta: { code: 478, error_type: 'idk', error_message: 'I said IDK' }});
+				user_media_recent_endpoint.reply(478, { meta: { code: 478, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account_content({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Media Recent - idk: I said IDK', status: 500, original_status: 478 });
@@ -944,7 +737,7 @@ describe('instagram', function() {
 			});
 
 			it('should 502 on 5xx', function(done) {
-				user_media_recent_endpoint.reply(578, { meta: { code: 578, error_type: 'idk', error_message: 'I said IDK' }});
+				user_media_recent_endpoint.reply(578, { meta: { code: 578, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account_content({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Media Recent - idk: I said IDK', status: 502, original_status: 578 });
@@ -978,7 +771,7 @@ describe('instagram', function() {
 			});
 
 			it('should 404 on 404', function(done) {
-				user_search_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' }});
+				user_search_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account_content({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Search - idk: I said IDK', status: 404 });
@@ -987,7 +780,7 @@ describe('instagram', function() {
 			});
 
 			it('should 429 on OAuthRateLimitException', function(done) {
-				user_search_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' }});
+				user_search_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' } });
 
 				instagram.account_content({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Search - OAuthRateLimitException: The maximum number of requests per hour has been exceeded.', status: 429 });
@@ -996,7 +789,7 @@ describe('instagram', function() {
 			});
 
 			it('should 500 on 4xx', function(done) {
-				user_search_endpoint.reply(478, { meta: { code: 478, error_type: 'idk', error_message: 'I said IDK' }});
+				user_search_endpoint.reply(478, { meta: { code: 478, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account_content({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Search - idk: I said IDK', status: 500, original_status: 478 });
@@ -1005,7 +798,7 @@ describe('instagram', function() {
 			});
 
 			it('should 502 on 5xx', function(done) {
-				user_search_endpoint.reply(578, { meta: { code: 578, error_type: 'idk', error_message: 'I said IDK' }});
+				user_search_endpoint.reply(578, { meta: { code: 578, error_type: 'idk', error_message: 'I said IDK' } });
 
 				instagram.account_content({ id: 'ACCOUNT_ID' }, function(err) {
 					expect(err).to.eql({ message: 'Instagram User Search - idk: I said IDK', status: 502, original_status: 578 });

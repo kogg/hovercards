@@ -33,43 +33,9 @@ describe('imgur', function() {
 				.matchHeader('authorization', 'Client-ID CLIENT_ID')
 				.matchHeader('x-mashape-key', 'MASHAPE_CLIENT_ID');
 
-			default_image = { success: true,
-			                  status:  200,
-			                  data:    { id:          'CONTENT_ID',
-			                             title:       'NAME',
-			                             description: 'TEXT',
-			                             datetime:    1432695552,
-			                             type:        'image/jpeg',
-			                             views:       1000,
-			                             account_url: 'ACCOUNT_ID',
-			                             score:       2000,
-			                             is_album:    false } };
+			default_image = { success: true, status:  200, data:    { id:          'CONTENT_ID', title:       'NAME', description: 'TEXT', datetime:    1432695552, type:        'image/jpeg', views:       1000, account_url: 'ACCOUNT_ID', score:       2000, is_album:    false } };
 
-			default_album = { success: true,
-			                  status:  200,
-			                  data:    { id:          'CONTENT_ID',
-			                             title:       'NAME',
-			                             description: 'TEXT',
-			                             datetime:    1432695552,
-			                             cover:       'CONTENT_ID_1',
-			                             views:       1000,
-			                             account_url: 'ACCOUNT_ID',
-			                             score:       2000,
-			                             is_album:    true,
-			                             images:      [{ id:          'CONTENT_ID_1',
-			                                             title:       'NAME 1',
-			                                             description: 'TEXT 1',
-			                                             datetime:    1432695552,
-			                                             type:        'image/jpeg',
-			                                             views:       1001 },
-			                                           { id:          'CONTENT_ID_2',
-			                                             title:       'NAME 2',
-			                                             description: 'TEXT 2',
-			                                             datetime:    1432695552,
-			                                             type:        'image/gif',
-			                                             animated:    true,
-			                                             views:       1002,
-			                                             mp4:         'gif_2.mp4' }] } };
+			default_album = { success: true, status:  200, data:    { id:          'CONTENT_ID', title:       'NAME', description: 'TEXT', datetime:    1432695552, cover:       'CONTENT_ID_1', views:       1000, account_url: 'ACCOUNT_ID', score:       2000, is_album:    true, images:      [{ id:          'CONTENT_ID_1', title:       'NAME 1', description: 'TEXT 1', datetime:    1432695552, type:        'image/jpeg', views:       1001 }, { id:          'CONTENT_ID_2', title:       'NAME 2', description: 'TEXT 2', datetime:    1432695552, type:        'image/gif', animated:    true, views:       1002, mp4:         'gif_2.mp4' }] } };
 		});
 
 		describe('as gallery', function() {
@@ -78,21 +44,7 @@ describe('imgur', function() {
 
 				imgur.content({ id: 'CONTENT_ID', as: 'gallery' }, function(err, content) {
 					expect(err).not.to.exist;
-					expect(content).to.eql({ api:     'imgur',
-					                         type:    'content',
-					                         id:      'CONTENT_ID',
-					                         as:      'image',
-					                         name:    'NAME',
-					                         text:    'TEXT',
-					                         date:    1432695552000,
-					                         image:   { small:  'http://i.imgur.com/CONTENT_IDs.jpg',
-					                                    medium: 'http://i.imgur.com/CONTENT_IDm.jpg',
-					                                    large:  'http://i.imgur.com/CONTENT_IDl.jpg' },
-					                         stats:   { views: 1000,
-					                                    score: 2000 },
-					                         account: { api:  'imgur',
-					                                    type: 'account',
-					                                    id:   'ACCOUNT_ID' } });
+					expect(content).to.eql({ api:     'imgur', type:    'content', id:      'CONTENT_ID', as:      'image', name:    'NAME', text:    'TEXT', date:    1432695552000, image:   { small:  'http://i.imgur.com/CONTENT_IDs.jpg', medium: 'http://i.imgur.com/CONTENT_IDm.jpg', large:  'http://i.imgur.com/CONTENT_IDl.jpg' }, stats:   { views: 1000, score: 2000 }, account: { api:  'imgur', type: 'account', id:   'ACCOUNT_ID' } });
 					done();
 				});
 			});
@@ -102,44 +54,7 @@ describe('imgur', function() {
 
 				imgur.content({ id: 'CONTENT_ID', as: 'gallery' }, function(err, content) {
 					expect(err).not.to.exist;
-					expect(content).to.eql({ api:     'imgur',
-					                         type:    'content',
-					                         id:      'CONTENT_ID',
-					                         as:      'album',
-					                         name:    'NAME',
-					                         text:    'TEXT',
-					                         date:    1432695552000,
-					                         image:   { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg',
-					                                    medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg',
-					                                    large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' },
-					                         stats:   { views: 1000,
-					                                    score: 2000 },
-					                         account: { api:  'imgur',
-					                                    type: 'account',
-					                                    id:   'ACCOUNT_ID' },
-					                         content: [{ api:   'imgur',
-					                                     type:  'content',
-					                                     id:    'CONTENT_ID_1',
-					                                     as:    'image',
-					                                     name:  'NAME 1',
-					                                     text:  'TEXT 1',
-					                                     date:  1432695552000,
-					                                     image: { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg',
-					                                              medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg',
-					                                              large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' },
-					                                     stats: { views: 1001 } },
-					                                   { api:   'imgur',
-					                                     type:  'content',
-					                                     id:    'CONTENT_ID_2',
-					                                     as:    'image',
-					                                     name:  'NAME 2',
-					                                     text:  'TEXT 2',
-					                                     date:  1432695552000,
-					                                     image: { small:  'http://i.imgur.com/CONTENT_ID_2s.jpg',
-					                                              medium: 'http://i.imgur.com/CONTENT_ID_2m.jpg',
-					                                              large:  'http://i.imgur.com/CONTENT_ID_2l.jpg' },
-					                                     gif:   'gif_2.mp4',
-					                                     stats: { views: 1002 } }] });
+					expect(content).to.eql({ api:     'imgur', type:    'content', id:      'CONTENT_ID', as:      'album', name:    'NAME', text:    'TEXT', date:    1432695552000, image:   { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg', medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg', large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' }, stats:   { views: 1000, score: 2000 }, account: { api:  'imgur', type: 'account', id:   'ACCOUNT_ID' }, content: [{ api:   'imgur', type:  'content', id:    'CONTENT_ID_1', as:    'image', name:  'NAME 1', text:  'TEXT 1', date:  1432695552000, image: { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg', medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg', large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' }, stats: { views: 1001 } }, { api:   'imgur', type:  'content', id:    'CONTENT_ID_2', as:    'image', name:  'NAME 2', text:  'TEXT 2', date:  1432695552000, image: { small:  'http://i.imgur.com/CONTENT_ID_2s.jpg', medium: 'http://i.imgur.com/CONTENT_ID_2m.jpg', large:  'http://i.imgur.com/CONTENT_ID_2l.jpg' }, gif:   'gif_2.mp4', stats: { views: 1002 } }] });
 					done();
 				});
 			});
@@ -160,21 +75,7 @@ describe('imgur', function() {
 
 				imgur.content({ id: 'CONTENT_ID', as: 'image' }, function(err, content) {
 					expect(err).not.to.exist;
-					expect(content).to.eql({ api:     'imgur',
-					                         type:    'content',
-					                         id:      'CONTENT_ID',
-					                         as:      'image',
-					                         name:    'NAME',
-					                         text:    'TEXT',
-					                         date:    1432695552000,
-					                         image:   { small:  'http://i.imgur.com/CONTENT_IDs.jpg',
-					                                    medium: 'http://i.imgur.com/CONTENT_IDm.jpg',
-					                                    large:  'http://i.imgur.com/CONTENT_IDl.jpg' },
-					                         stats:   { views: 1000,
-					                                    score: 2000 },
-					                         account: { api:  'imgur',
-					                                    type: 'account',
-					                                    id:   'ACCOUNT_ID' } });
+					expect(content).to.eql({ api:     'imgur', type:    'content', id:      'CONTENT_ID', as:      'image', name:    'NAME', text:    'TEXT', date:    1432695552000, image:   { small:  'http://i.imgur.com/CONTENT_IDs.jpg', medium: 'http://i.imgur.com/CONTENT_IDm.jpg', large:  'http://i.imgur.com/CONTENT_IDl.jpg' }, stats:   { views: 1000, score: 2000 }, account: { api:  'imgur', type: 'account', id:   'ACCOUNT_ID' } });
 					done();
 				});
 			});
@@ -188,29 +89,15 @@ describe('imgur', function() {
 
 				imgur.content({ id: 'CONTENT_ID', as: 'image' }, function(err, content) {
 					expect(err).not.to.exist;
-					expect(content).to.eql({ api:         'imgur',
-					                         type:        'content',
-					                         id:          'CONTENT_ID',
-					                         as:          'image',
-					                         name:        'NAME',
-					                         text:        'TEXT',
-					                         date:        1432695552000,
-					                         image:       { small:  'http://i.imgur.com/CONTENT_IDs.jpg',
-					                                        medium: 'http://i.imgur.com/CONTENT_IDm.jpg',
-					                                        large:  'http://i.imgur.com/CONTENT_IDl.jpg' },
-					                         stats:       { views: 1000 },
-					                         discussions: [{ api:           'imgur',
-					                                         type:          'discussion',
-					                                         id:            'CONTENT_ID',
-					                                         uncommentable: true }] });
+					expect(content).to.eql({ api:         'imgur', type:        'content', id:          'CONTENT_ID', as:          'image', name:        'NAME', text:        'TEXT', date:        1432695552000, image:       { small:  'http://i.imgur.com/CONTENT_IDs.jpg', medium: 'http://i.imgur.com/CONTENT_IDm.jpg', large:  'http://i.imgur.com/CONTENT_IDl.jpg' }, stats:       { views: 1000 }, discussions: [{ api:           'imgur', type:          'discussion', id:            'CONTENT_ID', uncommentable: true }] });
 					done();
 				});
 			});
 
 			it('should callback with gif', function(done) {
-				default_image.data.type     = 'image/gif';
+				default_image.data.type = 'image/gif';
 				default_image.data.animated = true;
-				default_image.data.mp4      = 'gif.mp4';
+				default_image.data.mp4 = 'gif.mp4';
 				gallery_endpoint.reply(404, { success: false, status: 404 });
 				image_endpoint.reply(200, default_image);
 
@@ -236,21 +123,7 @@ describe('imgur', function() {
 
 				imgur.content({ id: 'CONTENT_IDh', as: 'image' }, function(err, content) {
 					expect(err).not.to.exist;
-					expect(content).to.eql({ api:     'imgur',
-					                         type:    'content',
-					                         id:      'CONTENT_ID',
-					                         as:      'image',
-					                         name:    'NAME',
-					                         text:    'TEXT',
-					                         date:    1432695552000,
-					                         image:   { small:  'http://i.imgur.com/CONTENT_IDs.jpg',
-					                                    medium: 'http://i.imgur.com/CONTENT_IDm.jpg',
-					                                    large:  'http://i.imgur.com/CONTENT_IDl.jpg' },
-					                         stats:   { views: 1000,
-					                                    score: 2000 },
-					                         account: { api:  'imgur',
-					                                    type: 'account',
-					                                    id:   'ACCOUNT_ID' } });
+					expect(content).to.eql({ api:     'imgur', type:    'content', id:      'CONTENT_ID', as:      'image', name:    'NAME', text:    'TEXT', date:    1432695552000, image:   { small:  'http://i.imgur.com/CONTENT_IDs.jpg', medium: 'http://i.imgur.com/CONTENT_IDm.jpg', large:  'http://i.imgur.com/CONTENT_IDl.jpg' }, stats:   { views: 1000, score: 2000 }, account: { api:  'imgur', type: 'account', id:   'ACCOUNT_ID' } });
 					done();
 				});
 			});
@@ -274,21 +147,7 @@ describe('imgur', function() {
 
 				imgur.content({ id: 'CONTENT_IDh', as: 'image' }, function(err, content) {
 					expect(err).not.to.exist;
-					expect(content).to.eql({ api:         'imgur',
-					                         type:        'content',
-					                         id:          'CONTENT_ID',
-					                         as:          'image',
-					                         name:        'NAME',
-					                         text:        'TEXT',
-					                         date:        1432695552000,
-					                         image:       { small:  'http://i.imgur.com/CONTENT_IDs.jpg',
-					                                        medium: 'http://i.imgur.com/CONTENT_IDm.jpg',
-					                                        large:  'http://i.imgur.com/CONTENT_IDl.jpg' },
-					                         stats:       { views: 1000 },
-					                         discussions: [{ api:           'imgur',
-					                                         type:          'discussion',
-					                                         id:            'CONTENT_ID',
-					                                         uncommentable: true }] });
+					expect(content).to.eql({ api:         'imgur', type:        'content', id:          'CONTENT_ID', as:          'image', name:        'NAME', text:        'TEXT', date:        1432695552000, image:       { small:  'http://i.imgur.com/CONTENT_IDs.jpg', medium: 'http://i.imgur.com/CONTENT_IDm.jpg', large:  'http://i.imgur.com/CONTENT_IDl.jpg' }, stats:       { views: 1000 }, discussions: [{ api:           'imgur', type:          'discussion', id:            'CONTENT_ID', uncommentable: true }] });
 					done();
 				});
 			});
@@ -361,44 +220,7 @@ describe('imgur', function() {
 
 				imgur.content({ id: 'CONTENT_ID', as: 'album' }, function(err, content) {
 					expect(err).not.to.exist;
-					expect(content).to.eql({ api:     'imgur',
-					                         type:    'content',
-					                         id:      'CONTENT_ID',
-					                         as:      'album',
-					                         name:    'NAME',
-					                         text:    'TEXT',
-					                         date:    1432695552000,
-					                         image:   { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg',
-					                                    medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg',
-					                                    large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' },
-					                         stats:   { views: 1000,
-					                                    score: 2000 },
-					                         account: { api:  'imgur',
-					                                    type: 'account',
-					                                    id:   'ACCOUNT_ID' },
-					                         content: [{ api:   'imgur',
-					                                     type:  'content',
-					                                     id:    'CONTENT_ID_1',
-					                                     as:    'image',
-					                                     name:  'NAME 1',
-					                                     text:  'TEXT 1',
-					                                     date:  1432695552000,
-					                                     image: { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg',
-					                                              medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg',
-					                                              large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' },
-					                                     stats: { views: 1001 } },
-					                                   { api:   'imgur',
-					                                     type:  'content',
-					                                     id:    'CONTENT_ID_2',
-					                                     as:    'image',
-					                                     name:  'NAME 2',
-					                                     text:  'TEXT 2',
-					                                     date:  1432695552000,
-					                                     image: { small:  'http://i.imgur.com/CONTENT_ID_2s.jpg',
-					                                              medium: 'http://i.imgur.com/CONTENT_ID_2m.jpg',
-					                                              large:  'http://i.imgur.com/CONTENT_ID_2l.jpg' },
-					                                     gif:   'gif_2.mp4',
-					                                     stats: { views: 1002 } }] });
+					expect(content).to.eql({ api:     'imgur', type:    'content', id:      'CONTENT_ID', as:      'album', name:    'NAME', text:    'TEXT', date:    1432695552000, image:   { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg', medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg', large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' }, stats:   { views: 1000, score: 2000 }, account: { api:  'imgur', type: 'account', id:   'ACCOUNT_ID' }, content: [{ api:   'imgur', type:  'content', id:    'CONTENT_ID_1', as:    'image', name:  'NAME 1', text:  'TEXT 1', date:  1432695552000, image: { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg', medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg', large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' }, stats: { views: 1001 } }, { api:   'imgur', type:  'content', id:    'CONTENT_ID_2', as:    'image', name:  'NAME 2', text:  'TEXT 2', date:  1432695552000, image: { small:  'http://i.imgur.com/CONTENT_ID_2s.jpg', medium: 'http://i.imgur.com/CONTENT_ID_2m.jpg', large:  'http://i.imgur.com/CONTENT_ID_2l.jpg' }, gif:   'gif_2.mp4', stats: { views: 1002 } }] });
 					done();
 				});
 			});
@@ -411,47 +233,7 @@ describe('imgur', function() {
 
 				imgur.content({ id: 'CONTENT_ID', as: 'album' }, function(err, content) {
 					expect(err).not.to.exist;
-					expect(content).to.eql({ api:        'imgur',
-					                         type:       'content',
-					                         id:         'CONTENT_ID',
-					                         as:         'album',
-					                         name:       'NAME',
-					                         text:       'TEXT',
-					                         date:       1432695552000,
-					                         image:      { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg',
-					                                       medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg',
-					                                       large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' },
-					                         stats:      { views: 1000 },
-					                         account:    { api:  'imgur',
-					                                       type: 'account',
-					                                       id:   'ACCOUNT_ID' },
-					                         content:    [{ api:   'imgur',
-					                                        type:  'content',
-					                                        id:    'CONTENT_ID_1',
-					                                        as:    'image',
-					                                        name:  'NAME 1',
-					                                        text:  'TEXT 1',
-					                                        date:  1432695552000,
-					                                        image: { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg',
-					                                                 medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg',
-					                                                 large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' },
-					                                        stats: { views: 1001 } },
-					                                      { api:   'imgur',
-					                                        type:  'content',
-					                                        id:    'CONTENT_ID_2',
-					                                        as:    'image',
-					                                        name:  'NAME 2',
-					                                        text:  'TEXT 2',
-					                                        date:  1432695552000,
-					                                        image: { small:  'http://i.imgur.com/CONTENT_ID_2s.jpg',
-					                                                 medium: 'http://i.imgur.com/CONTENT_ID_2m.jpg',
-					                                                 large:  'http://i.imgur.com/CONTENT_ID_2l.jpg' },
-					                                        gif:   'gif_2.mp4',
-					                                        stats: { views: 1002 } }],
-					                         discussions: [{ api:           'imgur',
-					                                         type:          'discussion',
-					                                         id:            'CONTENT_ID',
-					                                         uncommentable: true }] });
+					expect(content).to.eql({ api:        'imgur', type:       'content', id:         'CONTENT_ID', as:         'album', name:       'NAME', text:       'TEXT', date:       1432695552000, image:      { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg', medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg', large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' }, stats:      { views: 1000 }, account:    { api:  'imgur', type: 'account', id:   'ACCOUNT_ID' }, content:    [{ api:   'imgur', type:  'content', id:    'CONTENT_ID_1', as:    'image', name:  'NAME 1', text:  'TEXT 1', date:  1432695552000, image: { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg', medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg', large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' }, stats: { views: 1001 } }, { api:   'imgur', type:  'content', id:    'CONTENT_ID_2', as:    'image', name:  'NAME 2', text:  'TEXT 2', date:  1432695552000, image: { small:  'http://i.imgur.com/CONTENT_ID_2s.jpg', medium: 'http://i.imgur.com/CONTENT_ID_2m.jpg', large:  'http://i.imgur.com/CONTENT_ID_2l.jpg' }, gif:   'gif_2.mp4', stats: { views: 1002 } }], discussions: [{ api:           'imgur', type:          'discussion', id:            'CONTENT_ID', uncommentable: true }] });
 					done();
 				});
 			});
@@ -587,23 +369,7 @@ describe('imgur', function() {
 				.matchHeader('authorization', 'Client-ID CLIENT_ID')
 				.matchHeader('x-mashape-key', 'MASHAPE_CLIENT_ID');
 
-			default_comments = { success: true,
-			                     status:  200,
-			                     data:    [{ id:       'COMMENT_ID_1',
-			                                 comment:  'TEXT 1',
-			                                 author:   'ACCOUNT_ID_1',
-			                                 points:   1001,
-			                                 datetime: 1435165745 },
-			                               { id:       'COMMENT_ID_2',
-			                                 comment:  'TEXT 2',
-			                                 author:   'ACCOUNT_ID_2',
-			                                 points:   1002,
-			                                 datetime: 1435165745 },
-			                               { id:       'COMMENT_ID_3',
-			                                 comment:  'TEXT 3',
-			                                 author:   'ACCOUNT_ID_3',
-			                                 points:   1003,
-			                                 datetime: 1435165745 }] };
+			default_comments = { success: true, status:  200, data:    [{ id:       'COMMENT_ID_1', comment:  'TEXT 1', author:   'ACCOUNT_ID_1', points:   1001, datetime: 1435165745 }, { id:       'COMMENT_ID_2', comment:  'TEXT 2', author:   'ACCOUNT_ID_2', points:   1002, datetime: 1435165745 }, { id:       'COMMENT_ID_3', comment:  'TEXT 3', author:   'ACCOUNT_ID_3', points:   1003, datetime: 1435165745 }] };
 		});
 
 		it('should callback imgur comments', function(done) {
@@ -611,64 +377,19 @@ describe('imgur', function() {
 
 			imgur.discussion({ id: 'CONTENT_ID' }, function(err, discussion) {
 				expect(err).not.to.exist;
-				expect(discussion).to.eql({ api:      'imgur',
-				                            type:     'discussion',
-				                            id:       'CONTENT_ID',
-				                            comments: [{ api:     'imgur',
-				                                         type:    'comment',
-				                                         id:      'COMMENT_ID_1',
-				                                         text:    'TEXT 1',
-				                                         date:    1435165745000,
-				                                         stats:   { score: 1001 },
-				                                         account: { api:  'imgur',
-				                                                    type: 'account',
-				                                                    id:   'ACCOUNT_ID_1' } },
-				                                       { api:     'imgur',
-				                                         type:    'comment',
-				                                         id:      'COMMENT_ID_2',
-				                                         text:    'TEXT 2',
-				                                         date:    1435165745000,
-				                                         stats:   { score: 1002 },
-				                                         account: { api:  'imgur',
-				                                                    type: 'account',
-				                                                    id:   'ACCOUNT_ID_2' } },
-				                                       { api:     'imgur',
-				                                         type:    'comment',
-				                                         id:      'COMMENT_ID_3',
-				                                         text:    'TEXT 3',
-				                                         date:    1435165745000,
-				                                         stats:   { score: 1003 },
-				                                         account: { api:  'imgur',
-				                                                    type: 'account',
-				                                                    id:   'ACCOUNT_ID_3' } }] });
+				expect(discussion).to.eql({ api:      'imgur', type:     'discussion', id:       'CONTENT_ID', comments: [{ api:     'imgur', type:    'comment', id:      'COMMENT_ID_1', text:    'TEXT 1', date:    1435165745000, stats:   { score: 1001 }, account: { api:  'imgur', type: 'account', id:   'ACCOUNT_ID_1' } }, { api:     'imgur', type:    'comment', id:      'COMMENT_ID_2', text:    'TEXT 2', date:    1435165745000, stats:   { score: 1002 }, account: { api:  'imgur', type: 'account', id:   'ACCOUNT_ID_2' } }, { api:     'imgur', type:    'comment', id:      'COMMENT_ID_3', text:    'TEXT 3', date:    1435165745000, stats:   { score: 1003 }, account: { api:  'imgur', type: 'account', id:   'ACCOUNT_ID_3' } }] });
 				done();
 			});
 		});
 
 		it('should callback with comment replies with at least half the score of next comment', function(done) {
-			default_comments.data[0].children = [{ id:       'COMMENT_ID_1_1',
-			                                       comment:  'TEXT 1_1',
-			                                       author:   'ACCOUNT_ID_1_1',
-			                                       points:   501,
-			                                       datetime: 1435165745 }];
-			default_comments.data[1].children = [{ id:       'COMMENT_ID_2_1',
-			                                       comment:  'TEXT 2_1',
-			                                       author:   'ACCOUNT_ID_2_1',
-			                                       points:   2,
-			                                       datetime: 1435165745 }];
+			default_comments.data[0].children = [{ id:       'COMMENT_ID_1_1', comment:  'TEXT 1_1', author:   'ACCOUNT_ID_1_1', points:   501, datetime: 1435165745 }];
+			default_comments.data[1].children = [{ id:       'COMMENT_ID_2_1', comment:  'TEXT 2_1', author:   'ACCOUNT_ID_2_1', points:   2, datetime: 1435165745 }];
 			comments_endpoint.reply(200, default_comments);
 
 			imgur.discussion({ id: 'CONTENT_ID' }, function(err, discussion) {
 				expect(err).not.to.be.ok;
-				expect(discussion).to.have.deep.property('comments[0].replies').that.eql([{ api:     'imgur',
-				                                                                            type:    'comment',
-				                                                                            id:      'COMMENT_ID_1_1',
-				                                                                            text:    'TEXT 1_1',
-				                                                                            date:    1435165745000,
-				                                                                            stats:   { score: 501 },
-				                                                                            account: { api:  'imgur',
-				                                                                                       type: 'account',
-				                                                                                       id:   'ACCOUNT_ID_1_1' } }]);
+				expect(discussion).to.have.deep.property('comments[0].replies').that.eql([{ api:     'imgur', type:    'comment', id:      'COMMENT_ID_1_1', text:    'TEXT 1_1', date:    1435165745000, stats:   { score: 501 }, account: { api:  'imgur', type: 'account', id:   'ACCOUNT_ID_1_1' } }]);
 				expect(discussion).not.to.have.deep.property('comments[1].replies');
 				expect(discussion).not.to.have.deep.property('comments[2].replies');
 				done();
@@ -772,12 +493,7 @@ describe('imgur', function() {
 			sandbox = sinon.sandbox.create();
 			urls = require('../urls');
 
-			default_account = { success: true,
-			                    status:  200,
-			                    data:    { url:        'ACCOUNT_ID',
-			                               bio:        'TEXT',
-			                               reputation: 1000,
-			                               created:    1347228597 } };
+			default_account = { success: true, status:  200, data:    { url:        'ACCOUNT_ID', bio:        'TEXT', reputation: 1000, created:    1347228597 } };
 		});
 
 		afterEach(function() {
@@ -789,12 +505,7 @@ describe('imgur', function() {
 
 			imgur.account({ id: 'ACCOUNT_ID' }, function(err, account) {
 				expect(err).not.to.exist;
-				expect(account).to.eql({ api:   'imgur',
-				                         type:  'account',
-				                         id:    'ACCOUNT_ID',
-				                         text:  'TEXT',
-				                         date:  1347228597000,
-				                         stats: { score: 1000 } });
+				expect(account).to.eql({ api:   'imgur', type:  'account', id:    'ACCOUNT_ID', text:  'TEXT', date:  1347228597000, stats: { score: 1000 } });
 				done();
 			});
 		});
@@ -901,11 +612,7 @@ describe('imgur', function() {
 				.matchHeader('authorization', 'Client-ID CLIENT_ID')
 				.matchHeader('x-mashape-key', 'MASHAPE_CLIENT_ID');
 
-			default_account_submissions = { success: true,
-			                                status:  200,
-			                                data:    [{ id: 'CONTENT_ID_1', title: 'NAME 1', is_album: false },
-			                                          { id: 'CONTENT_ID_2', title: 'NAME 2', is_album: false, type: 'image/gif', animated: true, mp4: 'gif.mp4' },
-			                                          { id: 'CONTENT_ID_3', title: 'NAME 3', is_album: true, cover: 'CONTENT_ID_4' }] };
+			default_account_submissions = { success: true, status:  200, data:    [{ id: 'CONTENT_ID_1', title: 'NAME 1', is_album: false }, { id: 'CONTENT_ID_2', title: 'NAME 2', is_album: false, type: 'image/gif', animated: true, mp4: 'gif.mp4' }, { id: 'CONTENT_ID_3', title: 'NAME 3', is_album: true, cover: 'CONTENT_ID_4' }] };
 		});
 
 		it('should callback imgur images and albums', function(done) {
@@ -913,34 +620,7 @@ describe('imgur', function() {
 
 			imgur.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 				expect(err).not.to.exist;
-				expect(account_content).to.eql({ api:     'imgur',
-				                                 type:    'account_content',
-				                                 id:      'ACCOUNT_ID',
-				                                 content: [{ api:   'imgur',
-				                                             type:  'content',
-				                                             id:    'CONTENT_ID_1',
-				                                             as:    'image',
-				                                             name:  'NAME 1',
-				                                             image: { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg',
-				                                                      medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg',
-				                                                      large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' } },
-				                                           { api:   'imgur',
-				                                             type:  'content',
-				                                             id:    'CONTENT_ID_2',
-				                                             as:    'image',
-				                                             name:  'NAME 2',
-				                                             image: { small:  'http://i.imgur.com/CONTENT_ID_2s.jpg',
-				                                                      medium: 'http://i.imgur.com/CONTENT_ID_2m.jpg',
-				                                                      large:  'http://i.imgur.com/CONTENT_ID_2l.jpg' },
-				                                             gif:   'gif.mp4' },
-				                                           { api:   'imgur',
-				                                             type:  'content',
-				                                             id:    'CONTENT_ID_3',
-				                                             as:    'album',
-				                                             name:  'NAME 3',
-				                                             image: { small:  'http://i.imgur.com/CONTENT_ID_4s.jpg',
-				                                                      medium: 'http://i.imgur.com/CONTENT_ID_4m.jpg',
-				                                                      large:  'http://i.imgur.com/CONTENT_ID_4l.jpg' } }] });
+				expect(account_content).to.eql({ api:     'imgur', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:   'imgur', type:  'content', id:    'CONTENT_ID_1', as:    'image', name:  'NAME 1', image: { small:  'http://i.imgur.com/CONTENT_ID_1s.jpg', medium: 'http://i.imgur.com/CONTENT_ID_1m.jpg', large:  'http://i.imgur.com/CONTENT_ID_1l.jpg' } }, { api:   'imgur', type:  'content', id:    'CONTENT_ID_2', as:    'image', name:  'NAME 2', image: { small:  'http://i.imgur.com/CONTENT_ID_2s.jpg', medium: 'http://i.imgur.com/CONTENT_ID_2m.jpg', large:  'http://i.imgur.com/CONTENT_ID_2l.jpg' }, gif:   'gif.mp4' }, { api:   'imgur', type:  'content', id:    'CONTENT_ID_3', as:    'album', name:  'NAME 3', image: { small:  'http://i.imgur.com/CONTENT_ID_4s.jpg', medium: 'http://i.imgur.com/CONTENT_ID_4m.jpg', large:  'http://i.imgur.com/CONTENT_ID_4l.jpg' } }] });
 				done();
 			});
 		});
@@ -1030,50 +710,32 @@ describe('imgur urls', function() {
 		describe('into content', function() {
 			it('from i.imgur.com/CONTENT_ID.jpg', function() {
 				expect(urls.parse(url.parse('https://i.imgur.com/CONTENT_ID.jpg', true, true)))
-					.to.eql({ api:  'imgur',
-					          type: 'content',
-					          id:   'CONTENT_ID',
-					          as:   'image' });
+					.to.eql({ api:  'imgur', type: 'content', id:   'CONTENT_ID', as:   'image' });
 			});
 
 			it('from imgur.com/CONTENT_ID', function() {
 				expect(urls.parse(url.parse('https://imgur.com/CONTENT_ID', true, true)))
-					.to.eql({ api:  'imgur',
-					          type: 'content',
-					          id:   'CONTENT_ID',
-					          as:   'image' });
+					.to.eql({ api:  'imgur', type: 'content', id:   'CONTENT_ID', as:   'image' });
 			});
 
 			it('from imgur.com/a/CONTENT_ID', function() {
 				expect(urls.parse(url.parse('https://imgur.com/a/CONTENT_ID', true, true)))
-					.to.eql({ api:  'imgur',
-					          type: 'content',
-					          id:   'CONTENT_ID',
-					          as:   'album' });
+					.to.eql({ api:  'imgur', type: 'content', id:   'CONTENT_ID', as:   'album' });
 			});
 
 			it('from imgur.com/a/CONTENT_ID/*', function() {
 				expect(urls.parse(url.parse('https://imgur.com/a/CONTENT_ID/jibberish', true, true)))
-					.to.eql({ api:  'imgur',
-					          type: 'content',
-					          id:   'CONTENT_ID',
-					          as:   'album' });
+					.to.eql({ api:  'imgur', type: 'content', id:   'CONTENT_ID', as:   'album' });
 			});
 
 			it('from imgur.com/gallery/CONTENT_ID', function() {
 				expect(urls.parse(url.parse('https://imgur.com/gallery/CONTENT_ID', true, true)))
-					.to.eql({ api:  'imgur',
-					          type: 'content',
-					          id:   'CONTENT_ID',
-					          as:   'gallery' });
+					.to.eql({ api:  'imgur', type: 'content', id:   'CONTENT_ID', as:   'gallery' });
 			});
 
 			it('from imgur.com/gallery/CONTENT_ID/new', function() {
 				expect(urls.parse(url.parse('https://imgur.com/gallery/CONTENT_ID/new', true, true)))
-					.to.eql({ api:  'imgur',
-					          type: 'content',
-					          id:   'CONTENT_ID',
-					          as:   'gallery' });
+					.to.eql({ api:  'imgur', type: 'content', id:   'CONTENT_ID', as:   'gallery' });
 			});
 		});
 

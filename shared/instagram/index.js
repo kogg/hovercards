@@ -31,45 +31,17 @@ module.exports = function(params) {
 
 	function media_to_content(media) {
 		var media_images = _.result(media, 'images');
-		return !_.isEmpty(media) && _.chain(urls.parse(_.result(media, 'link')))
-		                             .extend({ date:  _.result(media, 'created_time') * 1000,
-		                                       image: { small:  _.chain(media_images).result('thumbnail').result('url').value(),
-		                                                medium: _.chain(media_images).result('low_resolution').result('url').value(),
-		                                                large:  _.chain(media_images).result('standard_resolution').result('url').value() },
-		                                       video: (_.result(media, 'type') === 'video') &&
-		                                              _.chain(media).result('videos').result('standard_resolution').result('url').value(),
-		                                       stats: { likes:    Number(_.chain(media).result('likes').result('count').value()),
-		                                                comments: Number(_.chain(media).result('comments').result('count').value()) }})
-		                             .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
-		                             .value();
+		return !_.isEmpty(media) && _.chain(urls.parse(_.result(media, 'link'))) .extend({ date:  _.result(media, 'created_time') * 1000, image: { small:  _.chain(media_images).result('thumbnail').result('url').value(), medium: _.chain(media_images).result('low_resolution').result('url').value(), large:  _.chain(media_images).result('standard_resolution').result('url').value() }, video: (_.result(media, 'type') === 'video') && _.chain(media).result('videos').result('standard_resolution').result('url').value(), stats: { likes:    Number(_.chain(media).result('likes').result('count').value()), comments: Number(_.chain(media).result('comments').result('count').value()) } }) .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))) .value();
 	}
 
 	function user_to_account(user) {
-		return !_.isEmpty(user) && _.pick({ api:   'instagram',
-		                                    type:  'account',
-		                                    id:    _.result(user, 'username'),
-		                                    name:  _.result(user, 'full_name'),
-		                                    image: _.result(user, 'profile_picture') !== DEFAULT_PROFILE_IMAGE &&
-		                                           { medium: _.result(user, 'profile_picture') } }, _.negate(_.isEmpty));
+		return !_.isEmpty(user) && _.pick({ api:   'instagram', type:  'account', id:    _.result(user, 'username'), name:  _.result(user, 'full_name'), image: _.result(user, 'profile_picture') !== DEFAULT_PROFILE_IMAGE && { medium: _.result(user, 'profile_picture') } }, _.negate(_.isEmpty));
 	}
 
 	function media_to_discussion(media) {
 		var media_comments = _.result(media, 'comments');
-		return !_.isEmpty(media) && _.chain(urls.parse(_.result(media, 'link')))
-		                             .extend({ type:     'discussion',
-		                                       comments: _.chain(media_comments)
-		                                                  .result('data')
-		                                                  .reject(_.isEmpty)
-		                                                  .map(function(comment) {
-		                                                      return _.pick({ api:     'instagram',
-		                                                                      type:    'comment',
-		                                                                      text:    autolinker.link(_.result(comment, 'text')),
-		                                                                      date:    _.result(comment, 'created_time') * 1000,
-		                                                                      account: user_to_account(_.result(comment, 'from')) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
-		                                                  })
-		                                                  .value() })
-		                             .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
-		                             .value();
+		return !_.isEmpty(media) && _.chain(urls.parse(_.result(media, 'link'))) .extend({ type:     'discussion', comments: _.chain(media_comments) .result('data') .reject(_.isEmpty) .map(function(comment) {
+		                                                      	return _.pick({ api:     'instagram', type:    'comment', text:    autolinker.link(_.result(comment, 'text')), date:    _.result(comment, 'created_time') * 1000, account: user_to_account(_.result(comment, 'from')) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))); }) .value() }) .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))) .value();
 	}
 
 	api.content = function(args, callback) {
@@ -79,15 +51,7 @@ module.exports = function(params) {
 				return callback(err, null, usage);
 			}
 
-			callback(null, _.chain(media_to_content(media, 'link'))
-			                .extend({ text:        autolinker.link(_.chain(media)
-			                                                        .result('caption')
-			                                                        .result('text', '')
-			                                                        .value()),
-			                          account:     user_to_account(_.result(media, 'user')),
-			                          discussions: [media_to_discussion(media)] })
-			                .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
-			                .value(), usage);
+			callback(null, _.chain(media_to_content(media, 'link')) .extend({ text:        autolinker.link(_.chain(media) .result('caption') .result('text', '') .value()), account:     user_to_account(_.result(media, 'user')), discussions: [media_to_discussion(media)] }) .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))) .value(), usage);
 		});
 	};
 
@@ -135,23 +99,7 @@ module.exports = function(params) {
 
 			var text = autolinker.link(_.result(user, 'bio', ''));
 
-			callback(null, _.chain(user_to_account(user))
-			                .extend({ text:     text,
-			                          stats:    { content:   Number(_.result(user_counts, 'media')),
-			                                      followers: Number(_.result(user_counts, 'followed_by')),
-			                                      following: Number(_.result(user_counts, 'follows')) },
-			                          accounts: _.chain(text.match(/href="[^"]+"/g))
-			                                     .invoke('slice', 6, -1)
-			                                     .map(urls.parse)
-			                                     .unshift(urls.parse(_.result(user, 'website')))
-			                                     .where({ type: 'account' })
-			                                     .value(),
-			                          content:  results.user_media_recent && { api:     'instagram',
-			                                                                   type:    'account_content',
-			                                                                   id:      _.result(user, 'username'),
-			                                                                   content: _.map(results.user_media_recent, media_to_content) } })
-			                .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
-			                .value(), usage);
+			callback(null, _.chain(user_to_account(user)) .extend({ text:     text, stats:    { content:   Number(_.result(user_counts, 'media')), followers: Number(_.result(user_counts, 'followed_by')), following: Number(_.result(user_counts, 'follows')) }, accounts: _.chain(text.match(/href="[^"]+"/g)) .invoke('slice', 6, -1) .map(urls.parse) .unshift(urls.parse(_.result(user, 'website'))) .where({ type: 'account' }) .value(), content:  results.user_media_recent && { api:     'instagram', type:    'account_content', id:      _.result(user, 'username'), content: _.map(results.user_media_recent, media_to_content) } }) .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))) .value(), usage);
 		});
 	};
 
@@ -178,13 +126,7 @@ module.exports = function(params) {
 				return callback(err, null, usage);
 			}
 
-			callback(null, _.pick({ api:     'instagram',
-			                        type:    'account_content',
-			                        id:      _.result(results.user_incomplete, 'username') || args.id,
-			                        content: _.chain(results.user_media_recent)
-			                                  .map(media_to_content)
-			                                  .reject(_.isEmpty)
-			                                  .value() }, _.negate(_.isEmpty)), usage);
+			callback(null, _.pick({ api:     'instagram', type:    'account_content', id:      _.result(results.user_incomplete, 'username') || args.id, content: _.chain(results.user_media_recent) .map(media_to_content) .reject(_.isEmpty) .value() }, _.negate(_.isEmpty)), usage);
 		});
 	};
 

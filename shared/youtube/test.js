@@ -30,24 +30,9 @@ describe('youtube', function() {
 		beforeEach(function() {
 			video_endpoint = nock('https://www.googleapis.com')
 				.get('/youtube/v3/videos')
-				.query({ key:       'GOOGLE_SERVER_KEY',
-				         part:      'snippet,statistics',
-				         id:        'CONTENT_ID',
-				         quotaUser: 'DEVICE_ID' });
+				.query({ key:       'GOOGLE_SERVER_KEY', part:      'snippet,statistics', id:        'CONTENT_ID', quotaUser: 'DEVICE_ID' });
 
-			default_video = { items: [{ id:         'CONTENT_ID',
-			                            snippet:    { publishedAt:  '2015-04-07T20:11:17.000Z',
-			                                          channelId:    'ACCOUNT_ID',
-			                                          title:        'NAME',
-			                                          description:  'TEXT',
-			                                          thumbnails:   { default: { url: 'image_120_90.jpg' },
-			                                                          medium:  { url: 'image_320_180.jpg' },
-			                                                          high:    { url: 'image_480_360.jpg' } },
-			                                          channelTitle: 'ACCOUNT NAME' },
-			                            statistics: { viewCount:    3000,
-			                                          likeCount:    1000,
-			                                          dislikeCount: 2000,
-			                                          commentCount: 4000 } }] };
+			default_video = { items: [{ id:         'CONTENT_ID', snippet:    { publishedAt:  '2015-04-07T20:11:17.000Z', channelId:    'ACCOUNT_ID', title:        'NAME', description:  'TEXT', thumbnails:   { default: { url: 'image_120_90.jpg' }, medium:  { url: 'image_320_180.jpg' }, high:    { url: 'image_480_360.jpg' } }, channelTitle: 'ACCOUNT NAME' }, statistics: { viewCount:    3000, likeCount:    1000, dislikeCount: 2000, commentCount: 4000 } }] };
 		});
 
 		it('should callback youtube video', function(done) {
@@ -55,22 +40,7 @@ describe('youtube', function() {
 
 			youtube.content({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' }, function(err, content) {
 				expect(err).not.to.be.ok;
-				expect(content).to.eql({ api:     'youtube',
-				                         type:    'content',
-				                         id:      'CONTENT_ID',
-				                         name:    'NAME',
-				                         text:    'TEXT',
-				                         date:    1428437477000,
-				                         image:   { small:  'image_120_90.jpg',
-				                                    medium: 'image_320_180.jpg',
-				                                    large:  'image_480_360.jpg' },
-				                         stats:   { likes:    1000,
-				                                    dislikes: 2000,
-				                                    views:    3000 },
-				                         account: { api:     'youtube',
-				                                    type:    'account',
-				                                    id:      'ACCOUNT_ID',
-				                                    name:    'ACCOUNT NAME' } });
+				expect(content).to.eql({ api:     'youtube', type:    'content', id:      'CONTENT_ID', name:    'NAME', text:    'TEXT', date:    1428437477000, image:   { small:  'image_120_90.jpg', medium: 'image_320_180.jpg', large:  'image_480_360.jpg' }, stats:   { likes:    1000, dislikes: 2000, views:    3000 }, account: { api:     'youtube', type:    'account', id:      'ACCOUNT_ID', name:    'ACCOUNT NAME' } });
 				done();
 			});
 		});
@@ -152,59 +122,9 @@ describe('youtube', function() {
 		beforeEach(function() {
 			comment_threads_endpoint = nock('https://www.googleapis.com')
 				.get('/youtube/v3/commentThreads')
-				.query({ key:        'GOOGLE_SERVER_KEY',
-				         part:       'snippet,replies',
-				         videoId:    'CONTENT_ID',
-				         quotaUser:  'DEVICE_ID',
-				         order:      'relevance',
-				         maxResults: config.counts.listed });
+				.query({ key:        'GOOGLE_SERVER_KEY', part:       'snippet,replies', videoId:    'CONTENT_ID', quotaUser:  'DEVICE_ID', order:      'relevance', maxResults: config.counts.listed });
 
-			default_comment_threads = { items: [{ id:      'COMMENT_ID_1',
-			                                      snippet: { totalReplyCount: 100,
-			                                                 topLevelComment: { id:      'COMMENT_ID_1',
-			                                                                    snippet: { textDisplay:           'TEXT 1',
-			                                                                               authorDisplayName:     'NAME 1',
-			                                                                               authorProfileImageUrl: 'image1.jpg',
-			                                                                               authorChannelId:       { value: 'ACCOUNT_ID_1' },
-			                                                                               likeCount:             1000,
-			                                                                               publishedAt:           '2015-04-07T20:23:35.000Z' } } },
-			                                      replies: { comments: [{ id:      'COMMENT_ID_1_1',
-			                                                              snippet: { textDisplay:           'TEXT 1_1',
-			                                                                         authorDisplayName:     'NAME 1_1',
-			                                                                         authorProfileImageUrl: 'image1_1.jpg',
-			                                                                         authorChannelId:       { value: 'ACCOUNT_ID_1_1' },
-			                                                                         likeCount:             1001,
-			                                                                         publishedAt:           '2015-04-07T20:23:35.000Z' } },
-			                                                            { id:      'COMMENT_ID_1_2',
-			                                                              snippet: { textDisplay:           'TEXT 1_2',
-			                                                                         authorDisplayName:     'NAME 1_2',
-			                                                                         authorProfileImageUrl: 'image1_2.jpg',
-			                                                                         authorChannelId:       { value: 'ACCOUNT_ID_1_2' },
-			                                                                         likeCount:             1002,
-			                                                                         publishedAt:           '2015-04-07T20:23:35.000Z' } }] } },
-			                                    { id:      'COMMENT_ID_2',
-			                                      snippet: { totalReplyCount: 200,
-			                                                 topLevelComment: { id:      'COMMENT_ID_2',
-			                                                                    snippet: { textDisplay:           'TEXT 2',
-			                                                                               authorDisplayName:     'NAME 2',
-			                                                                               authorProfileImageUrl: 'image2.jpg',
-			                                                                               authorChannelId:       { value: 'ACCOUNT_ID_2' },
-			                                                                               likeCount:             2000,
-			                                                                               publishedAt:           '2015-04-07T20:23:35.000Z' } } },
-			                                      replies: { comments: [{ id:      'COMMENT_ID_2_1',
-			                                                              snippet: { textDisplay:           'TEXT 2_1',
-			                                                                         authorDisplayName:     'NAME 2_1',
-			                                                                         authorProfileImageUrl: 'image2_1.jpg',
-			                                                                         authorChannelId:       { value: 'ACCOUNT_ID_2_1' },
-			                                                                         likeCount:             2001,
-			                                                                         publishedAt:           '2015-04-07T20:23:35.000Z' } },
-			                                                            { id:      'COMMENT_ID_2_2',
-			                                                              snippet: { textDisplay:           'TEXT 2_2',
-			                                                                         authorDisplayName:     'NAME 2_2',
-			                                                                         authorProfileImageUrl: 'image2_2.jpg',
-			                                                                         authorChannelId:       { value: 'ACCOUNT_ID_2_2' },
-			                                                                         likeCount:             2002,
-			                                                                         publishedAt:           '2015-04-07T20:23:35.000Z' } }] } }] };
+			default_comment_threads = { items: [{ id:      'COMMENT_ID_1', snippet: { totalReplyCount: 100, topLevelComment: { id:      'COMMENT_ID_1', snippet: { textDisplay:           'TEXT 1', authorDisplayName:     'NAME 1', authorProfileImageUrl: 'image1.jpg', authorChannelId:       { value: 'ACCOUNT_ID_1' }, likeCount:             1000, publishedAt:           '2015-04-07T20:23:35.000Z' } } }, replies: { comments: [{ id:      'COMMENT_ID_1_1', snippet: { textDisplay:           'TEXT 1_1', authorDisplayName:     'NAME 1_1', authorProfileImageUrl: 'image1_1.jpg', authorChannelId:       { value: 'ACCOUNT_ID_1_1' }, likeCount:             1001, publishedAt:           '2015-04-07T20:23:35.000Z' } }, { id:      'COMMENT_ID_1_2', snippet: { textDisplay:           'TEXT 1_2', authorDisplayName:     'NAME 1_2', authorProfileImageUrl: 'image1_2.jpg', authorChannelId:       { value: 'ACCOUNT_ID_1_2' }, likeCount:             1002, publishedAt:           '2015-04-07T20:23:35.000Z' } }] } }, { id:      'COMMENT_ID_2', snippet: { totalReplyCount: 200, topLevelComment: { id:      'COMMENT_ID_2', snippet: { textDisplay:           'TEXT 2', authorDisplayName:     'NAME 2', authorProfileImageUrl: 'image2.jpg', authorChannelId:       { value: 'ACCOUNT_ID_2' }, likeCount:             2000, publishedAt:           '2015-04-07T20:23:35.000Z' } } }, replies: { comments: [{ id:      'COMMENT_ID_2_1', snippet: { textDisplay:           'TEXT 2_1', authorDisplayName:     'NAME 2_1', authorProfileImageUrl: 'image2_1.jpg', authorChannelId:       { value: 'ACCOUNT_ID_2_1' }, likeCount:             2001, publishedAt:           '2015-04-07T20:23:35.000Z' } }, { id:      'COMMENT_ID_2_2', snippet: { textDisplay:           'TEXT 2_2', authorDisplayName:     'NAME 2_2', authorProfileImageUrl: 'image2_2.jpg', authorChannelId:       { value: 'ACCOUNT_ID_2_2' }, likeCount:             2002, publishedAt:           '2015-04-07T20:23:35.000Z' } }] } }] };
 		});
 
 		it('should callback youtube comments', function(done) {
@@ -212,77 +132,7 @@ describe('youtube', function() {
 
 			youtube.discussion({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' }, function(err, discussion) {
 				expect(err).not.to.be.ok;
-				expect(discussion).to.eql({ api:      'youtube',
-				                            type:     'discussion',
-				                            id:       'CONTENT_ID',
-				                            comments: [{ api:     'youtube',
-				                                         type:    'comment',
-				                                         id:      'COMMENT_ID_1',
-				                                         text:    'TEXT 1',
-				                                         date:    1428438215000,
-				                                         stats:   { likes:   1000,
-				                                                    replies: 100 },
-				                                         account: { api:   'youtube',
-				                                                    type:  'account',
-				                                                    id:    'ACCOUNT_ID_1',
-				                                                    name:  'NAME 1',
-				                                                    image: { small: 'image1.jpg' } },
-				                                         replies: [{ api:     'youtube',
-				                                                     type:    'comment',
-				                                                     id:      'COMMENT_ID_1_2',
-				                                                     text:    'TEXT 1_2',
-				                                                     date:    1428438215000,
-				                                                     stats:   { likes: 1002 },
-				                                                     account: { api:   'youtube',
-				                                                                type:  'account',
-				                                                                id:    'ACCOUNT_ID_1_2',
-				                                                                name:  'NAME 1_2',
-				                                                                image: { small: 'image1_2.jpg' } } },
-				                                                   { api:     'youtube',
-				                                                     type:    'comment',
-				                                                     id:      'COMMENT_ID_1_1',
-				                                                     text:    'TEXT 1_1',
-				                                                     date:    1428438215000,
-				                                                     stats:   { likes: 1001 },
-				                                                     account: { api:   'youtube',
-				                                                                type:  'account',
-				                                                                id:    'ACCOUNT_ID_1_1',
-				                                                                name:  'NAME 1_1',
-				                                                                image: { small: 'image1_1.jpg' } } }] },
-				                                       { api:     'youtube',
-				                                         type:    'comment',
-				                                         id:      'COMMENT_ID_2',
-				                                         text:    'TEXT 2',
-				                                         date:    1428438215000,
-				                                         stats:   { likes:   2000,
-				                                                    replies: 200 },
-				                                         account: { api:   'youtube',
-				                                                    type:  'account',
-				                                                    id:    'ACCOUNT_ID_2',
-				                                                    name:  'NAME 2',
-				                                                    image: { small: 'image2.jpg' } },
-				                                         replies: [{ api:     'youtube',
-				                                                     type:    'comment',
-				                                                     id:      'COMMENT_ID_2_2',
-				                                                     text:    'TEXT 2_2',
-				                                                     date:    1428438215000,
-				                                                     stats:   { likes: 2002 },
-				                                                     account: { api:   'youtube',
-				                                                                type:  'account',
-				                                                                id:    'ACCOUNT_ID_2_2',
-				                                                                name:  'NAME 2_2',
-				                                                                image: { small: 'image2_2.jpg' } } },
-				                                                   { api:     'youtube',
-				                                                     type:    'comment',
-				                                                     id:      'COMMENT_ID_2_1',
-				                                                     text:    'TEXT 2_1',
-				                                                     date:    1428438215000,
-				                                                     stats:   { likes: 2001 },
-				                                                     account: { api:   'youtube',
-				                                                                type:  'account',
-				                                                                id:    'ACCOUNT_ID_2_1',
-				                                                                name:  'NAME 2_1',
-				                                                                image: { small: 'image2_1.jpg' } } }] }] });
+				expect(discussion).to.eql({ api:      'youtube', type:     'discussion', id:       'CONTENT_ID', comments: [{ api:     'youtube', type:    'comment', id:      'COMMENT_ID_1', text:    'TEXT 1', date:    1428438215000, stats:   { likes:   1000, replies: 100 }, account: { api:   'youtube', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { small: 'image1.jpg' } }, replies: [{ api:     'youtube', type:    'comment', id:      'COMMENT_ID_1_2', text:    'TEXT 1_2', date:    1428438215000, stats:   { likes: 1002 }, account: { api:   'youtube', type:  'account', id:    'ACCOUNT_ID_1_2', name:  'NAME 1_2', image: { small: 'image1_2.jpg' } } }, { api:     'youtube', type:    'comment', id:      'COMMENT_ID_1_1', text:    'TEXT 1_1', date:    1428438215000, stats:   { likes: 1001 }, account: { api:   'youtube', type:  'account', id:    'ACCOUNT_ID_1_1', name:  'NAME 1_1', image: { small: 'image1_1.jpg' } } }] }, { api:     'youtube', type:    'comment', id:      'COMMENT_ID_2', text:    'TEXT 2', date:    1428438215000, stats:   { likes:   2000, replies: 200 }, account: { api:   'youtube', type:  'account', id:    'ACCOUNT_ID_2', name:  'NAME 2', image: { small: 'image2.jpg' } }, replies: [{ api:     'youtube', type:    'comment', id:      'COMMENT_ID_2_2', text:    'TEXT 2_2', date:    1428438215000, stats:   { likes: 2002 }, account: { api:   'youtube', type:  'account', id:    'ACCOUNT_ID_2_2', name:  'NAME 2_2', image: { small: 'image2_2.jpg' } } }, { api:     'youtube', type:    'comment', id:      'COMMENT_ID_2_1', text:    'TEXT 2_1', date:    1428438215000, stats:   { likes: 2001 }, account: { api:   'youtube', type:  'account', id:    'ACCOUNT_ID_2_1', name:  'NAME 2_1', image: { small: 'image2_1.jpg' } } }] }] });
 				done();
 			});
 		});
@@ -362,11 +212,7 @@ describe('youtube', function() {
 				.get('/CUSTOM_NAME/about');
 			channel_endpoint = nock('https://www.googleapis.com')
 				.get('/youtube/v3/channels')
-				.query({ key:        'GOOGLE_SERVER_KEY',
-				         part:       'snippet,statistics,brandingSettings,contentDetails',
-				         id:         'ACCOUNT_ID',
-				         quotaUser:  'DEVICE_ID',
-				         maxResults: 1 });
+				.query({ key:        'GOOGLE_SERVER_KEY', part:       'snippet,statistics,brandingSettings,contentDetails', id:         'ACCOUNT_ID', quotaUser:  'DEVICE_ID', maxResults: 1 });
 
 			urls = require('../urls');
 			sandbox = sinon.sandbox.create();
@@ -385,31 +231,7 @@ describe('youtube', function() {
 			                          </body>\
 			                      </html>';
 			// jshint multistr:false
-			default_channel = { items: [{ id:               'ACCOUNT_ID',
-			                              snippet:          { title:       'NAME',
-			                                                  description: 'TEXT',
-			                                                  thumbnails:  { default: { url: 'image_80_80.jpg' },
-			                                                                 medium:  { url: 'image_240_240.jpg' },
-			                                                                 high:    { url: 'image_800_800.jpg' } } },
-			                              statistics:       { viewCount:             6000,
-			                                                  subscriberCount:       5000,
-			                                                  hiddenSubscriberCount: false,
-			                                                  videoCount:            4000 },
-			                              brandingSettings: { image: { bannerImageUrl:               'banner_1060_175.jpg',
-			                                                           bannerMobileImageUrl:         'banner_640_175.jpg',
-			                                                           bannerTabletLowImageUrl:      'banner_1138_188.jpg',
-			                                                           bannerTabletImageUrl:         'banner_1707_283.jpg',
-			                                                           bannerTabletHdImageUrl:       'banner_2276_377.jpg',
-			                                                           bannerTabletExtraHdImageUrl:  'banner_2560_424.jpg',
-			                                                           bannerMobileLowImageUrl:      'banner_320_88.jpg',
-			                                                           bannerMobileMediumHdImageUrl: 'banner_960_263.jpg',
-			                                                           bannerMobileHdImageUrl:       'banner_1280_360.jpg',
-			                                                           bannerMobileExtraHdImageUrl:  'banner_1440_395.jpg',
-			                                                           bannerTvImageUrl:             'banner_2120_1192.jpg',
-			                                                           bannerTvLowImageUrl:          'banner_854_480.jpg',
-			                                                           bannerTvMediumImageUrl:       'banner_1280_720.jpg',
-			                                                           bannerTvHighImageUrl:         'banner_1920_1080.jpg' } },
-			                              contentDetails:   {} }] };
+			default_channel = { items: [{ id:               'ACCOUNT_ID', snippet:          { title:       'NAME', description: 'TEXT', thumbnails:  { default: { url: 'image_80_80.jpg' }, medium:  { url: 'image_240_240.jpg' }, high:    { url: 'image_800_800.jpg' } } }, statistics:       { viewCount:             6000, subscriberCount:       5000, hiddenSubscriberCount: false, videoCount:            4000 }, brandingSettings: { image: { bannerImageUrl:               'banner_1060_175.jpg', bannerMobileImageUrl:         'banner_640_175.jpg', bannerTabletLowImageUrl:      'banner_1138_188.jpg', bannerTabletImageUrl:         'banner_1707_283.jpg', bannerTabletHdImageUrl:       'banner_2276_377.jpg', bannerTabletExtraHdImageUrl:  'banner_2560_424.jpg', bannerMobileLowImageUrl:      'banner_320_88.jpg', bannerMobileMediumHdImageUrl: 'banner_960_263.jpg', bannerMobileHdImageUrl:       'banner_1280_360.jpg', bannerMobileExtraHdImageUrl:  'banner_1440_395.jpg', bannerTvImageUrl:             'banner_2120_1192.jpg', bannerTvLowImageUrl:          'banner_854_480.jpg', bannerTvMediumImageUrl:       'banner_1280_720.jpg', bannerTvHighImageUrl:         'banner_1920_1080.jpg' } }, contentDetails:   {} }] };
 		});
 
 		afterEach(function() {
@@ -422,18 +244,7 @@ describe('youtube', function() {
 
 			youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' }, function(err, account) {
 				expect(err).not.to.be.ok;
-				expect(account).to.eql({ api:    'youtube',
-				                         type:   'account',
-				                         id:     'ACCOUNT_ID',
-				                         name:   'NAME',
-				                         text:   'TEXT',
-				                         image:  { small:  'image_80_80.jpg',
-				                                   medium: 'image_240_240.jpg',
-				                                   large:  'image_800_800.jpg' },
-				                         banner: 'banner_960_263.jpg',
-				                         stats:  { content:    4000,
-				                                   followers:  5000,
-				                                   views:      6000 } });
+				expect(account).to.eql({ api:    'youtube', type:   'account', id:     'ACCOUNT_ID', name:   'NAME', text:   'TEXT', image:  { small:  'image_80_80.jpg', medium: 'image_240_240.jpg', large:  'image_800_800.jpg' }, banner: 'banner_960_263.jpg', stats:  { content:    4000, followers:  5000, views:      6000 } });
 				done();
 			});
 		});
@@ -445,29 +256,14 @@ describe('youtube', function() {
 			channel_endpoint.reply(200, default_channel);
 			nock('https://www.googleapis.com')
 				.get('/youtube/v3/channels')
-				.query({ key:         'GOOGLE_SERVER_KEY',
-				         part:        'id',
-				         forUsername: 'ACCOUNT_USERNAME',
-				         quotaUser:   'DEVICE_ID',
-				         maxResults:  1 })
+				.query({ key:         'GOOGLE_SERVER_KEY', part:        'id', forUsername: 'ACCOUNT_USERNAME', quotaUser:   'DEVICE_ID', maxResults:  1 })
 				.reply(200, { items: [{ id: 'ACCOUNT_ID' }] });
 
 			urls.print.withArgs({ api: 'youtube', type: 'account', id: 'ACCOUNT_USERNAME', as: 'legacy_username' }).returns('https://www.youtube.com/user/ACCOUNT_USERNAME');
 
 			youtube.account({ id: 'ACCOUNT_USERNAME', device_id: 'DEVICE_ID', as: 'legacy_username' }, function(err, account) {
 				expect(err).not.to.be.ok;
-				expect(account).to.eql({ api:    'youtube',
-				                         type:   'account',
-				                         id:     'ACCOUNT_ID',
-				                         name:   'NAME',
-				                         text:   'TEXT',
-				                         image:  { small:  'image_80_80.jpg',
-				                                   medium: 'image_240_240.jpg',
-				                                   large:  'image_800_800.jpg' },
-				                         banner: 'banner_960_263.jpg',
-				                         stats:  { content:    4000,
-				                                   followers:  5000,
-				                                   views:      6000 } });
+				expect(account).to.eql({ api:    'youtube', type:   'account', id:     'ACCOUNT_ID', name:   'NAME', text:   'TEXT', image:  { small:  'image_80_80.jpg', medium: 'image_240_240.jpg', large:  'image_800_800.jpg' }, banner: 'banner_960_263.jpg', stats:  { content:    4000, followers:  5000, views:      6000 } });
 				done();
 			});
 		});
@@ -480,18 +276,7 @@ describe('youtube', function() {
 
 			youtube.account({ id: 'CUSTOM_NAME', device_id: 'DEVICE_ID', as: 'custom_url' }, function(err, account) {
 				expect(err).not.to.be.ok;
-				expect(account).to.eql({ api:    'youtube',
-				                         type:   'account',
-				                         id:     'ACCOUNT_ID',
-				                         name:   'NAME',
-				                         text:   'TEXT',
-				                         image:  { small:  'image_80_80.jpg',
-				                                   medium: 'image_240_240.jpg',
-				                                   large:  'image_800_800.jpg' },
-				                         banner: 'banner_960_263.jpg',
-				                         stats:  { content:    4000,
-				                                   followers:  5000,
-				                                   views:      6000 } });
+				expect(account).to.eql({ api:    'youtube', type:   'account', id:     'ACCOUNT_ID', name:   'NAME', text:   'TEXT', image:  { small:  'image_80_80.jpg', medium: 'image_240_240.jpg', large:  'image_800_800.jpg' }, banner: 'banner_960_263.jpg', stats:  { content:    4000, followers:  5000, views:      6000 } });
 				done();
 			});
 		});
@@ -560,7 +345,7 @@ describe('youtube', function() {
 				channel_endpoint.reply(200, default_channel);
 
 				youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' }, function(err, account, usage) {
-					expect(usage).to.have.property('scanning',      1);
+					expect(usage).to.have.property('scanning', 1);
 					expect(usage).to.have.property('youtube-quota', 9);
 					done();
 				});
@@ -573,7 +358,7 @@ describe('youtube', function() {
 				urls.print.withArgs({ api: 'youtube', type: 'account', id: 'CUSTOM_NAME' }).returns('https://www.youtube.com/channel/CUSTOM_NAME');
 
 				youtube.account({ id: 'CUSTOM_NAME', device_id: 'DEVICE_ID', as: 'custom_url' }, function(err, account, usage) {
-					expect(usage).to.have.property('scanning',      1);
+					expect(usage).to.have.property('scanning', 1);
 					expect(usage).to.have.property('youtube-quota', 0);
 					done();
 				});
@@ -586,17 +371,13 @@ describe('youtube', function() {
 				channel_endpoint.reply(200, default_channel);
 				nock('https://www.googleapis.com')
 					.get('/youtube/v3/channels')
-					.query({ key:         'GOOGLE_SERVER_KEY',
-					         part:        'id',
-					         forUsername: 'ACCOUNT_USERNAME',
-					         quotaUser:   'DEVICE_ID',
-					         maxResults:  1 })
+					.query({ key:         'GOOGLE_SERVER_KEY', part:        'id', forUsername: 'ACCOUNT_USERNAME', quotaUser:   'DEVICE_ID', maxResults:  1 })
 					.reply(200, { items: [{ id: 'ACCOUNT_ID' }] });
 
 				urls.print.withArgs({ api: 'youtube', type: 'account', id: 'ACCOUNT_USERNAME', as: 'legacy_username' }).returns('https://www.youtube.com/user/ACCOUNT_USERNAME');
 
 				youtube.account({ id: 'ACCOUNT_USERNAME', device_id: 'DEVICE_ID', as: 'legacy_username' }, function(err, account, usage) {
-					expect(usage).to.have.property('scanning',      1);
+					expect(usage).to.have.property('scanning', 1);
 					expect(usage).to.have.property('youtube-quota', 10);
 					done();
 				});
@@ -715,34 +496,13 @@ describe('youtube', function() {
 		beforeEach(function() {
 			channel_endpoint = nock('https://www.googleapis.com')
 				.get('/youtube/v3/channels')
-				.query({ key:        'GOOGLE_SERVER_KEY',
-				         part:       'snippet,statistics,brandingSettings,contentDetails',
-				         id:         'ACCOUNT_ID',
-				         quotaUser:  'DEVICE_ID',
-				         maxResults: 1 });
+				.query({ key:        'GOOGLE_SERVER_KEY', part:       'snippet,statistics,brandingSettings,contentDetails', id:         'ACCOUNT_ID', quotaUser:  'DEVICE_ID', maxResults: 1 });
 			playlist_items_endpoint = nock('https://www.googleapis.com')
 				.get('/youtube/v3/playlistItems')
-				.query({ key:        'GOOGLE_SERVER_KEY',
-				         part:       'snippet',
-				         playlistId: 'PLAYLIST_ID',
-				         quotaUser:  'DEVICE_ID',
-				         maxResults: config.counts.grid });
+				.query({ key:        'GOOGLE_SERVER_KEY', part:       'snippet', playlistId: 'PLAYLIST_ID', quotaUser:  'DEVICE_ID', maxResults: config.counts.grid });
 
 			default_channel = { items: [{ contentDetails: { relatedPlaylists: { uploads: 'PLAYLIST_ID' } }, snippet: {}, statistics: {}, brandingSettings: {} }] };
-			default_playlist_items = { items: [{ id:      'PLAYLIST_CONTENT_ID_1',
-			                                     snippet: { publishedAt: '2015-04-07T20:11:17.000Z',
-			                                                title:       'TITLE 1',
-			                                                thumbnails:  { default: { url: 'image_1_120_90.jpg' },
-			                                                               medium:  { url: 'image_1_320_180.jpg' },
-			                                                               high:    { url: 'image_1_480_360.jpg' } },
-			                                                resourceId:  { videoId: 'CONTENT_ID_1' } } },
-			                                   { id:      'PLAYLIST_CONTENT_ID_2',
-			                                     snippet: { publishedAt: '2015-04-07T20:11:17.000Z',
-			                                                title:       'TITLE 2',
-			                                                thumbnails:  { default: { url: 'image_2_120_90.jpg' },
-			                                                               medium:  { url: 'image_2_320_180.jpg' },
-			                                                               high:    { url: 'image_2_480_360.jpg' } },
-			                                                resourceId:  { videoId: 'CONTENT_ID_2' } } }] };
+			default_playlist_items = { items: [{ id:      'PLAYLIST_CONTENT_ID_1', snippet: { publishedAt: '2015-04-07T20:11:17.000Z', title:       'TITLE 1', thumbnails:  { default: { url: 'image_1_120_90.jpg' }, medium:  { url: 'image_1_320_180.jpg' }, high:    { url: 'image_1_480_360.jpg' } }, resourceId:  { videoId: 'CONTENT_ID_1' } } }, { id:      'PLAYLIST_CONTENT_ID_2', snippet: { publishedAt: '2015-04-07T20:11:17.000Z', title:       'TITLE 2', thumbnails:  { default: { url: 'image_2_120_90.jpg' }, medium:  { url: 'image_2_320_180.jpg' }, high:    { url: 'image_2_480_360.jpg' } }, resourceId:  { videoId: 'CONTENT_ID_2' } } }] };
 		});
 
 		it('should callback youtube videos', function(done) {
@@ -751,25 +511,7 @@ describe('youtube', function() {
 
 			youtube.account_content({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' }, function(err, account_content) {
 				expect(err).not.to.be.ok;
-				expect(account_content).to.eql({ api:     'youtube',
-				                                 type:    'account_content',
-				                                 id:      'ACCOUNT_ID',
-				                                 content: [{ api:   'youtube',
-				                                             type:  'content',
-				                                             id:    'CONTENT_ID_1',
-				                                             name:  'TITLE 1',
-				                                             date:  1428437477000,
-				                                             image: { small:  'image_1_120_90.jpg',
-				                                                      medium: 'image_1_320_180.jpg',
-				                                                      large:  'image_1_480_360.jpg' } },
-				                                           { api:   'youtube',
-				                                             type:  'content',
-				                                             id:    'CONTENT_ID_2',
-				                                             name:  'TITLE 2',
-				                                             date:  1428437477000,
-				                                             image: { small:  'image_2_120_90.jpg',
-				                                                      medium: 'image_2_320_180.jpg',
-				                                                      large:  'image_2_480_360.jpg' } }] });
+				expect(account_content).to.eql({ api:     'youtube', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:   'youtube', type:  'content', id:    'CONTENT_ID_1', name:  'TITLE 1', date:  1428437477000, image: { small:  'image_1_120_90.jpg', medium: 'image_1_320_180.jpg', large:  'image_1_480_360.jpg' } }, { api:   'youtube', type:  'content', id:    'CONTENT_ID_2', name:  'TITLE 2', date:  1428437477000, image: { small:  'image_2_120_90.jpg', medium: 'image_2_320_180.jpg', large:  'image_2_480_360.jpg' } }] });
 				done();
 			});
 		});

@@ -9,37 +9,11 @@ module.exports = function(params) {
 	var model = {};
 	var api   = { model: model };
 
-	var reddit = new Snoocore({ userAgent:          'node:HoverCards:v2 (by /u/HoverCards)',
-	                            decodeHtmlEntities: true,
-	                            throttle:           0,
-	                            retryDelay:         params.test ? 0 : 5000,
-	                            retryAttempts:      2,
-	                            oauth:              { type:        'implicit',
-	                                                  key:         params.key,
-	                                                  redirectUri: 'http://localhost:8000',
-	                                                  scope:       ['read', 'history'],
-	                                                  deviceId:    params.device_id || 'DO_NOT_TRACK_THIS_DEVICE' } });
+	var reddit = new Snoocore({ userAgent:          'node:HoverCards:v2 (by /u/HoverCards)', decodeHtmlEntities: true, throttle:           0, retryDelay:         params.test ? 0 : 5000, retryAttempts:      2, oauth:              { type:        'implicit', key:         params.key, redirectUri: 'http://localhost:8000', scope:       ['read', 'history'], deviceId:    params.device_id || 'DO_NOT_TRACK_THIS_DEVICE' } });
 
 	function post_to_content(post) {
 		var author = _.result(post, 'author');
-		return !_.isEmpty(post) && _.pick({ api:       'reddit',
-		                                    type:      'content',
-		                                    id:        _.result(post, 'id'),
-		                                    name:      _.result(post, 'title'),
-		                                    text:      _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '')
-		                                                                             .replace(/\n/gi, '')
-		                                                                             .replace(/<!-- .*? -->/gi, '')
-		                                                                             .replace(/^\s*<div class="md">(.*?)<\/div>\s*$/, '$1')
-		                                                                             .replace(/<a href="\/([^"]*?)">(.*?)<\/a>/gi, '<a href="https://www.reddit.com/$1">$2</a>'),
-		                                    date:      Number(_.result(post, 'created_utc')) * 1000,
-		                                    subreddit: _.result(post, 'subreddit'),
-		                                    url:       !_.result(post, 'is_self') && _.result(post, 'url'),
-		                                    stats:     { score:       Number(_.result(post, 'score')),
-		                                                 score_ratio: Number(_.result(post, 'upvote_ratio')),
-		                                                 comments:    Number(_.result(post, 'num_comments')) },
-		                                    account:   (author !== '[deleted]') && { api:  'reddit',
-		                                                                             type: 'account',
-		                                                                             id:   author } }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
+		return !_.isEmpty(post) && _.pick({ api:       'reddit', type:      'content', id:        _.result(post, 'id'), name:      _.result(post, 'title'), text:      _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '') .replace(/\n/gi, '') .replace(/<!-- .*? -->/gi, '') .replace(/^\s*<div class="md">(.*?)<\/div>\s*$/, '$1') .replace(/<a href="\/([^"]*?)">(.*?)<\/a>/gi, '<a href="https://www.reddit.com/$1">$2</a>'), date:      Number(_.result(post, 'created_utc')) * 1000, subreddit: _.result(post, 'subreddit'), url:       !_.result(post, 'is_self') && _.result(post, 'url'), stats:     { score:       Number(_.result(post, 'score')), score_ratio: Number(_.result(post, 'upvote_ratio')), comments:    Number(_.result(post, 'num_comments')) }, account:   (author !== '[deleted]') && { api:  'reddit', type: 'account', id:   author } }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
 	}
 
 	function comment_to_comment(comment) {
@@ -47,28 +21,7 @@ module.exports = function(params) {
 			return;
 		}
 		var author = _.result(comment, 'author');
-		return _.pick({ api:     'reddit',
-		                type:    'comment',
-		                id:      _.result(comment, 'id'),
-		                text:    (_.result(comment, 'body_html') || '')
-		                          .replace(/\n/gi, '')
-		                          .replace(/<!-- .*? -->/gi, '')
-		                          .replace(/^\s*<div class="md">(.*?)<\/div>\s*$/, '$1')
-		                          .replace(/<a href="\/([^"]*?)">(.*?)<\/a>/gi, '<a href="https://www.reddit.com/$1">$2</a>'),
-		                date:    Number(_.result(comment, 'created_utc')) * 1000,
-		                stats:   { score: Number(_.result(comment, 'score')) },
-		                account: (author !== '[deleted]') && { api:  'reddit',
-		                                                       type: 'account',
-		                                                       id:   author },
-		                replies: _.chain(comment)
-		                          .result('replies')
-		                          .result('data')
-		                          .result('children')
-		                          .where({ kind: 't1' })
-		                          .pluck('data')
-		                          .map(comment_to_comment)
-		                          .reject(_.isEmpty)
-		                          .value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
+		return _.pick({ api:     'reddit', type:    'comment', id:      _.result(comment, 'id'), text:    (_.result(comment, 'body_html') || '') .replace(/\n/gi, '') .replace(/<!-- .*? -->/gi, '') .replace(/^\s*<div class="md">(.*?)<\/div>\s*$/, '$1') .replace(/<a href="\/([^"]*?)">(.*?)<\/a>/gi, '<a href="https://www.reddit.com/$1">$2</a>'), date:    Number(_.result(comment, 'created_utc')) * 1000, stats:   { score: Number(_.result(comment, 'score')) }, account: (author !== '[deleted]') && { api:  'reddit', type: 'account', id:   author }, replies: _.chain(comment) .result('replies') .result('data') .result('children') .where({ kind: 't1' }) .pluck('data') .map(comment_to_comment) .reject(_.isEmpty) .value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
 	}
 
 	api.content = function(args, callback) {
@@ -77,13 +30,7 @@ module.exports = function(params) {
 			if (err) {
 				return callback(err, null, usage);
 			}
-			callback(null, post_to_content(_.chain(comment_tree)
-			                                .first()
-			                                .result('data')
-			                                .result('children')
-			                                .first()
-			                                .result('data')
-			                                .value()), usage);
+			callback(null, post_to_content(_.chain(comment_tree) .first() .result('data') .result('children') .first() .result('data') .value()), usage);
 		});
 	};
 
@@ -127,33 +74,13 @@ module.exports = function(params) {
 			}
 		], function(err, comment_tree) {
 			if (err === 'none') {
-				return callback(null, { api:      'reddit',
-				                        type:     'discussion',
-				                        comments: [] }, usage);
+				return callback(null, { api:      'reddit', type:     'discussion', comments: [] }, usage);
 			}
 			if (err) {
 				return callback(err, null, usage);
 			}
-			var post = _.chain(comment_tree)
-			            .first()
-			            .result('data')
-			            .result('children')
-			            .first()
-			            .result('data')
-			            .value();
-			callback(null, _.pick({ api:      'reddit',
-			                        type:     'discussion',
-			                        id:       _.result(post, 'id'),
-			                        content:  post_to_content(post),
-			                        comments: _.chain(comment_tree)
-			                                   .last()
-			                                   .result('data')
-			                                   .result('children')
-			                                   .where({ kind: 't1' })
-			                                   .pluck('data')
-			                                   .map(comment_to_comment)
-			                                   .reject(_.isEmpty)
-			                                   .value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))), usage);
+			var post = _.chain(comment_tree) .first() .result('data') .result('children') .first() .result('data') .value();
+			callback(null, _.pick({ api:      'reddit', type:     'discussion', id:       _.result(post, 'id'), content:  post_to_content(post), comments: _.chain(comment_tree) .last() .result('data') .result('children') .where({ kind: 't1' }) .pluck('data') .map(comment_to_comment) .reject(_.isEmpty) .value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))), usage);
 		});
 	};
 
@@ -163,11 +90,7 @@ module.exports = function(params) {
 			if (err) {
 				return callback(err, null, usage);
 			}
-			callback(null, _.pick({ api:   'reddit',
-			                        type:  'account',
-			                        id:    _.result(user, 'name'),
-			                        date:  Number(_.result(user, 'created_utc')) * 1000,
-			                        stats: _.pick(user, 'link_karma', 'comment_karma') }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))), usage);
+			callback(null, _.pick({ api:   'reddit', type:  'account', id:    _.result(user, 'name'), date:  Number(_.result(user, 'created_utc')) * 1000, stats: _.pick(user, 'link_karma', 'comment_karma') }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))), usage);
 		});
 	};
 
@@ -177,41 +100,20 @@ module.exports = function(params) {
 			if (err) {
 				return callback(err, null, usage);
 			}
-			callback(null, _.pick({ api:     'reddit',
-			                        type:    'account_content',
-			                        id:      args.id,
-			                        content: _.chain(things)
-			                                  .map(function(thing) {
-			                                     switch (_.result(thing, 'kind')) {
-			                                         case 't1':
-			                                             var comment          = _.result(thing, 'data');
-			                                             var content_id       = _.rest((_.result(comment, 'link_id') || '').split('_')).join('_');
-			                                             var url              = _.result(comment, 'link_url');
-			                                             var link_as_identity = url && urls.parse(url);
-			                                             if (_.isMatch(link_as_identity, { api: 'reddit', type: 'content', id: content_id })) {
-			                                                 url = null;
-			                                             }
-			                                             return _.chain(comment_to_comment(comment))
-			                                                     .omit('account')
-			                                                     .extend({ content: _.pick({ api:       'reddit',
-			                                                                                 type:      'content',
-			                                                                                 id:        content_id,
-			                                                                                 name:      _.result(comment, 'link_title'),
-			                                                                                 subreddit: _.result(comment, 'subreddit'),
-			                                                                                 url:       url,
-			                                                                                 account:   (_.result(comment, 'link_author') !== '[deleted]') &&
-			                                                                                            { api:  'reddit',
-			                                                                                              type: 'account',
-			                                                                                              id:   _.result(comment, 'link_author') } }, _.negate(_.isEmpty)) })
-			                                                     .value();
-			                                         case 't3':
-			                                             var content = _.omit(post_to_content(thing.data), 'account', 'text');
-			                                             content.stats = _.pick(content.stats, 'score');
-			                                             return content;
-			                                     }
-			                                 })
-			                                 .reject(_.isEmpty)
-			                                 .value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))), usage);
+			callback(null, _.pick({ api:     'reddit', type:    'account_content', id:      args.id, content: _.chain(things) .map(function(thing) {
+			                                     	switch (_.result(thing, 'kind')) {
+			                                         	case 't1':
+			                                             		var comment          = _.result(thing, 'data');
+			                                             		var content_id       = _.rest((_.result(comment, 'link_id') || '').split('_')).join('_');
+			                                             		var url              = _.result(comment, 'link_url');
+			                                             		var link_as_identity = url && urls.parse(url);
+			                                             		if (_.isMatch(link_as_identity, { api: 'reddit', type: 'content', id: content_id })) {
+			                                                 	url = null; }
+			                                             		return _.chain(comment_to_comment(comment)) .omit('account') .extend({ content: _.pick({ api:       'reddit', type:      'content', id:        content_id, name:      _.result(comment, 'link_title'), subreddit: _.result(comment, 'subreddit'), url:       url, account:   (_.result(comment, 'link_author') !== '[deleted]') && { api:  'reddit', type: 'account', id:   _.result(comment, 'link_author') } }, _.negate(_.isEmpty)) }) .value();
+			                                         	case 't3':
+			                                             		var content = _.omit(post_to_content(thing.data), 'account', 'text');
+			                                             		content.stats = _.pick(content.stats, 'score');
+			                                             		return content; } }) .reject(_.isEmpty) .value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))), usage);
 		});
 	};
 
@@ -241,10 +143,7 @@ module.exports = function(params) {
 		usage['reddit-requests']++;
 		reddit('/search').get({ q: _.result(args, 'q'), limit: 25 }).then(function(search_results) {
 			async.setImmediate(function() {
-				callback(null, _.chain(search_results)
-				                .result('data')
-				                .result('children')
-				                .value());
+				callback(null, _.chain(search_results) .result('data') .result('children') .value());
 			});
 		}, function(err) {
 			async.setImmediate(function() {

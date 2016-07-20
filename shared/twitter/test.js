@@ -28,9 +28,9 @@ describe('twitter', function() {
 			app_user:        'APP_TOKEN',
 			app_user_secret: 'APP_TOKEN_SECRET',
 			secret_storage:  {
-				get: function(key, callback)        { callback(null, secrets[key]); },
+				get: function(key, callback) { callback(null, secrets[key]); },
 				set: function(key, value, callback) { secrets[key] = value; callback(null, 'OK'); },
-				del: function()                     { _.chain(arguments).initial().each(function(key) { delete secrets[key]; }); _.last(arguments)(null, arguments.length - 1); }
+				del: function() { _.chain(arguments).initial().each(function(key) { delete secrets[key]; }); _.last(arguments)(null, arguments.length - 1); }
 			}
 		});
 		urls = require('../urls');
@@ -49,14 +49,7 @@ describe('twitter', function() {
 			statuses_show_endpoint = nock('https://api.twitter.com', { reqheaders: { Authorization: /^OAuth.*oauth_consumer_key="TWITTER_CONSUMER_KEY".*oauth_token="APP_TOKEN".*$/ } })
 				.get('/1.1/statuses/show/CONTENT_ID.json');
 
-			default_statuses_show = { created_at:     'Wed Jun 05 20:07:10 +0000 2012',
-			                          id_str:         'CONTENT_ID',
-			                          text:           'TEXT',
-			                          retweet_count:  1002,
-			                          favorite_count: 1001,
-			                          user:           { screen_name:             'ACCOUNT_ID',
-			                                            profile_image_url_https: 'image_normal.png',
-			                                            name:                    'NAME' } };
+			default_statuses_show = { created_at:     'Wed Jun 05 20:07:10 +0000 2012', id_str:         'CONTENT_ID', text:           'TEXT', retweet_count:  1002, favorite_count: 1001, user:           { screen_name:             'ACCOUNT_ID', profile_image_url_https: 'image_normal.png', name:                    'NAME' } };
 		});
 
 		it('should callback a twitter tweet', function(done) {
@@ -64,19 +57,7 @@ describe('twitter', function() {
 
 			twitter.content({ id: 'CONTENT_ID' }, function(err, content) {
 				expect(err).not.to.be.ok;
-				expect(content).to.eql({ api:     'twitter',
-				                         type:    'content',
-				                         id:      'CONTENT_ID',
-				                         text:    'TEXT',
-				                         date:    1338926830000,
-				                         stats:   { likes:   1001,
-				                                    reposts: 1002 },
-				                         account: { api:   'twitter',
-				                                    type:  'account',
-				                                    id:    'ACCOUNT_ID',
-				                                    name:  'NAME',
-				                                    image: { small: 'image_bigger.png',
-				                                             large: 'image.png' } } });
+				expect(content).to.eql({ api:     'twitter', type:    'content', id:      'CONTENT_ID', text:    'TEXT', date:    1338926830000, stats:   { likes:   1001, reposts: 1002 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID', name:  'NAME', image: { small: 'image_bigger.png', large: 'image.png' } } });
 				done();
 			});
 		});
@@ -115,9 +96,8 @@ describe('twitter', function() {
 		});
 
 		it('should replace urls with links in the text from entity', function(done) {
-			default_statuses_show.text     = 'https://t.co/MjJ8xAnT https://t.co/TnAx8JjM';
-			default_statuses_show.entities = { urls: [{ expanded_url: 'https://www.hovercards.com', display_url: 'hovercards.com', url: 'https://t.co/MjJ8xAnT' },
-			                                          { expanded_url: 'https://www.wenoknow.com',   display_url: 'wenoknow.com',   url: 'https://t.co/TnAx8JjM' }] };
+			default_statuses_show.text = 'https://t.co/MjJ8xAnT https://t.co/TnAx8JjM';
+			default_statuses_show.entities = { urls: [{ expanded_url: 'https://www.hovercards.com', display_url: 'hovercards.com', url: 'https://t.co/MjJ8xAnT' }, { expanded_url: 'https://www.wenoknow.com', display_url: 'wenoknow.com', url: 'https://t.co/TnAx8JjM' }] };
 			statuses_show_endpoint.reply(200, default_statuses_show);
 
 			twitter.content({ id: 'CONTENT_ID' }, function(err, content) {
@@ -129,69 +109,43 @@ describe('twitter', function() {
 
 		it('should reference image', function(done) {
 			default_statuses_show.text = 'TEXT https://t.co/MjJ8xAnT';
-			default_statuses_show.entities = { media: [{ media_url_https: 'image.jpg',
-			                                             url:             'https://t.co/MjJ8xAnT',
-			                                             type:            'photo' }] };
-			default_statuses_show.extended_entities = { media: [{ media_url_https: 'image.jpg',
-			                                                      url:             'https://t.co/MjJ8xAnT',
-			                                                      type:            'photo' }] };
+			default_statuses_show.entities = { media: [{ media_url_https: 'image.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_statuses_show.extended_entities = { media: [{ media_url_https: 'image.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
 			statuses_show_endpoint.reply(200, default_statuses_show);
 
 			twitter.content({ id: 'CONTENT_ID' }, function(err, content) {
 				expect(err).not.to.be.ok;
 				expect(content).to.have.property('text', 'TEXT ');
-				expect(content).to.have.property('image').that.eql({ small:  'image.jpg:small',
-				                                                     medium: 'image.jpg:medium',
-				                                                     large:  'image.jpg:large' });
+				expect(content).to.have.property('image').that.eql({ small:  'image.jpg:small', medium: 'image.jpg:medium', large:  'image.jpg:large' });
 				done();
 			});
 		});
 
 		it('should reference images', function(done) {
 			default_statuses_show.text = 'TEXT https://t.co/MjJ8xAnT';
-			default_statuses_show.entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                             url:             'https://t.co/MjJ8xAnT',
-			                                             type:            'photo' }] };
-			default_statuses_show.extended_entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                                      url:             'https://t.co/MjJ8xAnT',
-			                                                      type:            'photo' },
-			                                                    { media_url_https: 'image_2.jpg',
-			                                                      url:             'https://t.co/MjJ8xAnT',
-			                                                      type:            'photo' }] };
+			default_statuses_show.entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_statuses_show.extended_entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }, { media_url_https: 'image_2.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
 			statuses_show_endpoint.reply(200, default_statuses_show);
 
 			twitter.content({ id: 'CONTENT_ID' }, function(err, content) {
 				expect(err).not.to.be.ok;
 				expect(content).to.have.property('text', 'TEXT ');
 				expect(content).not.to.have.property('image');
-				expect(content).to.have.property('images').that.eql([{ small:  'image_1.jpg:small',
-				                                                       medium: 'image_1.jpg:medium',
-				                                                       large:  'image_1.jpg:large' },
-				                                                     { small:  'image_2.jpg:small',
-				                                                       medium: 'image_2.jpg:medium',
-				                                                       large:  'image_2.jpg:large' }]);
+				expect(content).to.have.property('images').that.eql([{ small:  'image_1.jpg:small', medium: 'image_1.jpg:medium', large:  'image_1.jpg:large' }, { small:  'image_2.jpg:small', medium: 'image_2.jpg:medium', large:  'image_2.jpg:large' }]);
 				done();
 			});
 		});
 
 		it('should reference gif', function(done) {
 			default_statuses_show.text = 'TEXT https://t.co/MjJ8xAnT';
-			default_statuses_show.entities = { media: [{ media_url_https: 'image.jpg',
-			                                             url:             'https://t.co/MjJ8xAnT',
-			                                             type:            'photo' }] };
-			default_statuses_show.extended_entities = { media: [{ media_url_https: 'image.jpg',
-			                                                      url:             'https://t.co/MjJ8xAnT',
-			                                                      type:            'animated_gif',
-			                                                      video_info:      { variants: [{ content_type: 'video/mp4',
-			                                                                                      url:          'gif.mp4', }] } }] };
+			default_statuses_show.entities = { media: [{ media_url_https: 'image.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_statuses_show.extended_entities = { media: [{ media_url_https: 'image.jpg', url:             'https://t.co/MjJ8xAnT', type:            'animated_gif', video_info:      { variants: [{ content_type: 'video/mp4', url:          'gif.mp4', }] } }] };
 			statuses_show_endpoint.reply(200, default_statuses_show);
 
 			twitter.content({ id: 'CONTENT_ID' }, function(err, content) {
 				expect(err).not.to.be.ok;
 				expect(content).to.have.property('text', 'TEXT ');
-				expect(content).to.have.property('image').that.eql({ small:  'image.jpg:small',
-				                                                     medium: 'image.jpg:medium',
-				                                                     large:  'image.jpg:large' });
+				expect(content).to.have.property('image').that.eql({ small:  'image.jpg:small', medium: 'image.jpg:medium', large:  'image.jpg:large' });
 				expect(content).to.have.property('gif').that.eql('gif.mp4');
 				done();
 			});
@@ -199,22 +153,14 @@ describe('twitter', function() {
 
 		it('should reference video', function(done) {
 			default_statuses_show.text = 'TEXT https://t.co/MjJ8xAnT';
-			default_statuses_show.entities = { media: [{ media_url_https: 'image.jpg',
-			                                             url:             'https://t.co/MjJ8xAnT',
-			                                             type:            'photo' }] };
-			default_statuses_show.extended_entities = { media: [{ media_url_https: 'image.jpg',
-			                                                      url:             'https://t.co/MjJ8xAnT',
-			                                                      type:            'video',
-			                                                      video_info:      { variants: [{ content_type: 'video/mp4',
-			                                                                                      url:          'video.mp4', }] } }] };
+			default_statuses_show.entities = { media: [{ media_url_https: 'image.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_statuses_show.extended_entities = { media: [{ media_url_https: 'image.jpg', url:             'https://t.co/MjJ8xAnT', type:            'video', video_info:      { variants: [{ content_type: 'video/mp4', url:          'video.mp4', }] } }] };
 			statuses_show_endpoint.reply(200, default_statuses_show);
 
 			twitter.content({ id: 'CONTENT_ID' }, function(err, content) {
 				expect(err).not.to.be.ok;
 				expect(content).to.have.property('text', 'TEXT ');
-				expect(content).to.have.property('image').that.eql({ small:  'image.jpg:small',
-				                                                     medium: 'image.jpg:medium',
-				                                                     large:  'image.jpg:large' });
+				expect(content).to.have.property('image').that.eql({ small:  'image.jpg:small', medium: 'image.jpg:medium', large:  'image.jpg:large' });
 				expect(content).to.have.property('video').that.eql('video.mp4');
 				done();
 			});
@@ -223,22 +169,7 @@ describe('twitter', function() {
 		// https://dev.twitter.com/overview/api/entities-in-twitter-objects#retweets
 		describe('on retweets', function() {
 			beforeEach(function() {
-				default_statuses_show = { created_at:       'Wed Jun 05 20:07:10 +0000 2012',
-				                          id_str:           'CONTENT_ID',
-				                          text:             'RT TEXT',
-				                          retweet_count:    1002,
-				                          favorite_count:   1001,
-				                          user:             { screen_name:             'ACCOUNT_ID',
-				                                              profile_image_url_https: 'image_normal.png',
-				                                              name:                    'NAME' },
-				                          retweeted_status: { created_at:     'Wed Jun 05 20:07:10 +0000 2012',
-				                                              id_str:         'CONTENT_ID_1',
-				                                              text:           'TEXT',
-				                                              retweet_count:  1002,
-				                                              favorite_count: 1001,
-				                                              user:           { screen_name:             'ACCOUNT_ID_1',
-				                                                                profile_image_url_https: 'image_1_normal.png',
-				                                                                name:                    'NAME 1' } } };
+				default_statuses_show = { created_at:       'Wed Jun 05 20:07:10 +0000 2012', id_str:           'CONTENT_ID', text:             'RT TEXT', retweet_count:    1002, favorite_count:   1001, user:             { screen_name:             'ACCOUNT_ID', profile_image_url_https: 'image_normal.png', name:                    'NAME' }, retweeted_status: { created_at:     'Wed Jun 05 20:07:10 +0000 2012', id_str:         'CONTENT_ID_1', text:           'TEXT', retweet_count:  1002, favorite_count: 1001, user:           { screen_name:             'ACCOUNT_ID_1', profile_image_url_https: 'image_1_normal.png', name:                    'NAME 1' } } };
 			});
 
 			it('should callback with retweeted tweet', function(done) {
@@ -246,29 +177,7 @@ describe('twitter', function() {
 
 				twitter.content({ id: 'CONTENT_ID' }, function(err, content) {
 					expect(err).not.to.be.ok;
-					expect(content).to.eql({ api:              'twitter',
-					                         type:             'content',
-					                         id:               'CONTENT_ID',
-					                         date:             1338926830000,
-					                         account:          { api:   'twitter',
-					                                             type:  'account',
-					                                             id:    'ACCOUNT_ID',
-					                                             name:  'NAME',
-					                                             image: { small: 'image_bigger.png',
-					                                                      large: 'image.png' } },
-					                         reposted_content: { api:     'twitter',
-					                                             type:    'content',
-					                                             id:      'CONTENT_ID_1',
-					                                             text:    'TEXT',
-					                                             date:    1338926830000,
-					                                             stats:   { likes:   1001,
-					                                                        reposts: 1002 },
-					                                             account: { api:   'twitter',
-					                                                        type:  'account',
-					                                                        id:    'ACCOUNT_ID_1',
-					                                                        name:  'NAME 1',
-					                                                        image: { small: 'image_1_bigger.png',
-					                                                                 large: 'image_1.png' } } } });
+					expect(content).to.eql({ api:              'twitter', type:             'content', id:               'CONTENT_ID', date:             1338926830000, account:          { api:   'twitter', type:  'account', id:    'ACCOUNT_ID', name:  'NAME', image: { small: 'image_bigger.png', large: 'image.png' } }, reposted_content: { api:     'twitter', type:    'content', id:      'CONTENT_ID_1', text:    'TEXT', date:    1338926830000, stats:   { likes:   1001, reposts: 1002 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { small: 'image_1_bigger.png', large: 'image_1.png' } } } });
 					done();
 				});
 			});
@@ -276,25 +185,7 @@ describe('twitter', function() {
 
 		describe('on quotes', function() {
 			beforeEach(function() {
-				default_statuses_show = { created_at:     'Wed Jun 05 20:07:10 +0000 2012',
-				                          id_str:         'CONTENT_ID',
-				                          text:           'TEXT https://t.co/4VL91iY8Dn',
-				                          retweet_count:  1002,
-				                          favorite_count: 1001,
-				                          user:           { screen_name:             'ACCOUNT_ID',
-				                                            profile_image_url_https: 'image_normal.png',
-				                                            name:                    'NAME' },
-				                          quoted_status:  { created_at:     'Wed Jun 05 20:07:10 +0000 2012',
-				                                            id_str:         'CONTENT_ID_1',
-				                                            text:           'TEXT 1',
-				                                            retweet_count:  1012,
-				                                            favorite_count: 1011,
-				                                            user:           { screen_name:             'ACCOUNT_ID_1',
-				                                                              profile_image_url_https: 'image_1_normal.png',
-				                                                              name:                    'NAME 1' } },
-				                          entities:       { urls: [{ expanded_url: 'https://twitter.com/ACCOUNT_ID_1/status/CONTENT_ID_1',
-				                                                     display_url:  'twitter.com/ACCOUNT_ID_1/status/CONTENT_ID_1',
-				                                                     url:          'https://t.co/4VL91iY8Dn' }] } };
+				default_statuses_show = { created_at:     'Wed Jun 05 20:07:10 +0000 2012', id_str:         'CONTENT_ID', text:           'TEXT https://t.co/4VL91iY8Dn', retweet_count:  1002, favorite_count: 1001, user:           { screen_name:             'ACCOUNT_ID', profile_image_url_https: 'image_normal.png', name:                    'NAME' }, quoted_status:  { created_at:     'Wed Jun 05 20:07:10 +0000 2012', id_str:         'CONTENT_ID_1', text:           'TEXT 1', retweet_count:  1012, favorite_count: 1011, user:           { screen_name:             'ACCOUNT_ID_1', profile_image_url_https: 'image_1_normal.png', name:                    'NAME 1' } }, entities:       { urls: [{ expanded_url: 'https://twitter.com/ACCOUNT_ID_1/status/CONTENT_ID_1', display_url:  'twitter.com/ACCOUNT_ID_1/status/CONTENT_ID_1', url:          'https://t.co/4VL91iY8Dn' }] } };
 			});
 
 			it('should callback with quoted tweet', function(done) {
@@ -302,32 +193,7 @@ describe('twitter', function() {
 
 				twitter.content({ id: 'CONTENT_ID' }, function(err, content) {
 					expect(err).not.to.be.ok;
-					expect(content).to.eql({ api:            'twitter',
-					                         type:           'content',
-					                         id:             'CONTENT_ID',
-					                         text:           'TEXT ',
-					                         date:           1338926830000,
-					                         stats:          { likes:   1001,
-					                                           reposts: 1002 },
-					                         account:        { api:   'twitter',
-					                                           type:  'account',
-					                                           id:    'ACCOUNT_ID',
-					                                           name:  'NAME',
-					                                           image: { small: 'image_bigger.png',
-					                                                    large: 'image.png' } },
-					                         quoted_content: { api:     'twitter',
-					                                           type:    'content',
-					                                           id:      'CONTENT_ID_1',
-					                                           text:    'TEXT 1',
-					                                           date:    1338926830000,
-					                                           stats:   { likes:   1011,
-					                                                      reposts: 1012 },
-					                                           account: { api:   'twitter',
-					                                                      type:  'account',
-					                                                      id:    'ACCOUNT_ID_1',
-					                                                      name:  'NAME 1',
-					                                                      image: { small: 'image_1_bigger.png',
-					                                                               large: 'image_1.png' } } } });
+					expect(content).to.eql({ api:            'twitter', type:           'content', id:             'CONTENT_ID', text:           'TEXT ', date:           1338926830000, stats:          { likes:   1001, reposts: 1002 }, account:        { api:   'twitter', type:  'account', id:    'ACCOUNT_ID', name:  'NAME', image: { small: 'image_bigger.png', large: 'image.png' } }, quoted_content: { api:     'twitter', type:    'content', id:      'CONTENT_ID_1', text:    'TEXT 1', date:    1338926830000, stats:   { likes:   1011, reposts: 1012 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { small: 'image_1_bigger.png', large: 'image_1.png' } } } });
 					done();
 				});
 			});
@@ -341,24 +207,8 @@ describe('twitter', function() {
 				statuses_show_reply_endpoint = nock('https://api.twitter.com', { reqheaders: { Authorization: /^OAuth.*oauth_consumer_key="TWITTER_CONSUMER_KEY".*oauth_token="APP_TOKEN".*$/ } })
 					.get('/1.1/statuses/show/CONTENT_ID_1.json');
 
-				default_statuses_show = { created_at:                 'Wed Jun 05 20:07:10 +0000 2012',
-				                          id_str:                     'CONTENT_ID',
-				                          text:                       'TEXT',
-				                          retweet_count:              1002,
-				                          favorite_count:             1001,
-				                          user:                       { screen_name:             'ACCOUNT_ID',
-				                                                        profile_image_url_https: 'image_normal.png',
-				                                                        name:                    'NAME' },
-				                          in_reply_to_status_id_str: 'CONTENT_ID_1',
-				                          in_reply_to_screen_name:   'ACCOUNT_ID_1' };
-				default_statuses_show_reply = { created_at:     'Wed Jun 05 20:07:10 +0000 2012',
-				                                id_str:         'CONTENT_ID_1',
-				                                text:           'TEXT 1',
-				                                retweet_count:  1012,
-				                                favorite_count: 1011,
-				                                user:           { screen_name:             'ACCOUNT_ID_1',
-				                                                  profile_image_url_https: 'image_1_normal.png',
-				                                                  name:                    'NAME 1' } };
+				default_statuses_show = { created_at:                 'Wed Jun 05 20:07:10 +0000 2012', id_str:                     'CONTENT_ID', text:                       'TEXT', retweet_count:              1002, favorite_count:             1001, user:                       { screen_name:             'ACCOUNT_ID', profile_image_url_https: 'image_normal.png', name:                    'NAME' }, in_reply_to_status_id_str: 'CONTENT_ID_1', in_reply_to_screen_name:   'ACCOUNT_ID_1' };
+				default_statuses_show_reply = { created_at:     'Wed Jun 05 20:07:10 +0000 2012', id_str:         'CONTENT_ID_1', text:           'TEXT 1', retweet_count:  1012, favorite_count: 1011, user:           { screen_name:             'ACCOUNT_ID_1', profile_image_url_https: 'image_1_normal.png', name:                    'NAME 1' } };
 			});
 
 			it('should callback with replied to tweets', function(done) {
@@ -367,32 +217,7 @@ describe('twitter', function() {
 
 				twitter.content({ id: 'CONTENT_ID' }, function(err, content) {
 					expect(err).not.to.be.ok;
-					expect(content).to.eql({ api:                'twitter',
-					                         type:               'content',
-					                         id:                 'CONTENT_ID',
-					                         text:               'TEXT',
-					                         date:               1338926830000,
-					                         stats:              { likes:   1001,
-					                                               reposts: 1002 },
-					                         account:            { api:   'twitter',
-					                                               type:  'account',
-					                                               id:    'ACCOUNT_ID',
-					                                               name:  'NAME',
-					                                               image: { small: 'image_bigger.png',
-					                                                        large: 'image.png' } },
-					                         replied_to_content: { api:     'twitter',
-					                                               type:    'content',
-					                                               id:      'CONTENT_ID_1',
-					                                               text:    'TEXT 1',
-					                                               date:    1338926830000,
-					                                               stats:   { likes:   1011,
-					                                                          reposts: 1012 },
-					                                               account: { api:   'twitter',
-					                                                          type:  'account',
-					                                                          id:    'ACCOUNT_ID_1',
-					                                                          name:  'NAME 1',
-					                                                          image: { small: 'image_1_bigger.png',
-					                                                                   large: 'image_1.png' } } } });
+					expect(content).to.eql({ api:                'twitter', type:               'content', id:                 'CONTENT_ID', text:               'TEXT', date:               1338926830000, stats:              { likes:   1001, reposts: 1002 }, account:            { api:   'twitter', type:  'account', id:    'ACCOUNT_ID', name:  'NAME', image: { small: 'image_bigger.png', large: 'image.png' } }, replied_to_content: { api:     'twitter', type:    'content', id:      'CONTENT_ID_1', text:    'TEXT 1', date:    1338926830000, stats:   { likes:   1011, reposts: 1012 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { small: 'image_1_bigger.png', large: 'image_1.png' } } } });
 					done();
 				});
 			});
@@ -536,33 +361,12 @@ describe('twitter', function() {
 
 		// Probably shouldn't do this
 		function test_tweet(num, in_reply_to_num) {
-			return { created_at:                'Wed Jun 05 20:07:10 +0000 2012',
-			         id_str:                    'CONTENT_ID_' + num,
-			         text:                      'TEXT ' + num,
-			         retweet_count:             num * 1000 + 2,
-			         favorite_count:            num * 1000 + 1,
-			         user:                      { screen_name:             'ACCOUNT_ID_' + num,
-			                                      profile_image_url_https: 'image_' + num + '_normal.png',
-			                                      name:                    'NAME ' + num },
-			         in_reply_to_status_id_str: !_.isUndefined(in_reply_to_num) && ('CONTENT_ID_' + in_reply_to_num),
-			         in_reply_to_screen_name:   !_.isUndefined(in_reply_to_num) && ('ACCOUNT_ID_' + in_reply_to_num) };
+			return { created_at:                'Wed Jun 05 20:07:10 +0000 2012', id_str:                    'CONTENT_ID_' + num, text:                      'TEXT ' + num, retweet_count:             num * 1000 + 2, favorite_count:            num * 1000 + 1, user:                      { screen_name:             'ACCOUNT_ID_' + num, profile_image_url_https: 'image_' + num + '_normal.png', name:                    'NAME ' + num }, in_reply_to_status_id_str: !_.isUndefined(in_reply_to_num) && ('CONTENT_ID_' + in_reply_to_num), in_reply_to_screen_name:   !_.isUndefined(in_reply_to_num) && ('ACCOUNT_ID_' + in_reply_to_num) };
 		}
 
 		// Probably shouldn't do this
 		function test_content(num) {
-			return { api:     'twitter',
-			         type:    'content',
-			         id:      'CONTENT_ID_' + num,
-			         text:    'TEXT ' + num,
-			         date:    1338926830000,
-			         stats:   { likes:   num * 1000 + 1,
-			                    reposts: num * 1000 + 2 },
-			         account: { api:   'twitter',
-			                    type:  'account',
-			                    id:    'ACCOUNT_ID_' + num,
-			                    name:  'NAME ' + num,
-			                    image: { small: 'image_' + num +  '_bigger.png',
-			                             large: 'image_' + num +  '.png' } } };
+			return { api:     'twitter', type:    'content', id:      'CONTENT_ID_' + num, text:    'TEXT ' + num, date:    1338926830000, stats:   { likes:   num * 1000 + 1, reposts: num * 1000 + 2 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_' + num, name:  'NAME ' + num, image: { small: 'image_' + num + '_bigger.png', large: 'image_' + num + '.png' } } };
 		}
 
 		beforeEach(function() {
@@ -570,16 +374,7 @@ describe('twitter', function() {
 				.get('/1.1/search/tweets.json')
 				.query({ q: 'to:ACCOUNT_ID_0', since_id: 'CONTENT_ID_0', count: 50 });
 
-			default_search_tweets = { statuses: [test_tweet(10, 0),
-			                                     test_tweet(9,  0),
-			                                     test_tweet(8,  0),
-			                                     test_tweet(7,  0),
-			                                     test_tweet(6,  0),
-			                                     test_tweet(5,  0),
-			                                     test_tweet(4,  0),
-			                                     test_tweet(3,  0),
-			                                     test_tweet(2,  0),
-			                                     test_tweet(1,  0)] };
+			default_search_tweets = { statuses: [test_tweet(10, 0), test_tweet(9, 0), test_tweet(8, 0), test_tweet(7, 0), test_tweet(6, 0), test_tweet(5, 0), test_tweet(4, 0), test_tweet(3, 0), test_tweet(2, 0), test_tweet(1, 0)] };
 		});
 
 		it('should callback twitter tweets', function(done) {
@@ -587,43 +382,19 @@ describe('twitter', function() {
 
 			twitter.discussion({ id: 'CONTENT_ID_0', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }, function(err, discussion) {
 				expect(err).not.to.be.ok;
-				expect(discussion).to.eql({ api:      'twitter',
-				                            type:     'discussion',
-				                            id:       'CONTENT_ID_0',
-				                            comments: [test_content(10),
-				                                       test_content(9),
-				                                       test_content(8),
-				                                       test_content(7),
-				                                       test_content(6),
-				                                       test_content(5),
-				                                       test_content(4),
-				                                       test_content(3),
-				                                       test_content(2),
-				                                       test_content(1)] });
+				expect(discussion).to.eql({ api:      'twitter', type:     'discussion', id:       'CONTENT_ID_0', comments: [test_content(10), test_content(9), test_content(8), test_content(7), test_content(6), test_content(5), test_content(4), test_content(3), test_content(2), test_content(1)] });
 				done();
 			});
 		});
 
 		it('should ignore tweets that are not replies', function(done) {
 			default_search_tweets.statuses.unshift(test_tweet(11, 0));
-			default_search_tweets.statuses[5] = test_tweet(6,  12);
+			default_search_tweets.statuses[5] = test_tweet(6, 12);
 			search_tweets_endpoint.reply(200, default_search_tweets);
 
 			twitter.discussion({ id: 'CONTENT_ID_0', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }, function(err, discussion) {
 				expect(err).not.to.be.ok;
-				expect(discussion).to.eql({ api:      'twitter',
-				                            type:     'discussion',
-				                            id:       'CONTENT_ID_0',
-				                            comments: [test_content(11),
-				                                       test_content(10),
-				                                       test_content(9),
-				                                       test_content(8),
-				                                       test_content(7),
-				                                       test_content(5),
-				                                       test_content(4),
-				                                       test_content(3),
-				                                       test_content(2),
-				                                       test_content(1)] });
+				expect(discussion).to.eql({ api:      'twitter', type:     'discussion', id:       'CONTENT_ID_0', comments: [test_content(11), test_content(10), test_content(9), test_content(8), test_content(7), test_content(5), test_content(4), test_content(3), test_content(2), test_content(1)] });
 				done();
 			});
 		});
@@ -640,16 +411,7 @@ describe('twitter', function() {
 				sandbox.stub(urls, 'represent');
 				urls.represent.withArgs({ api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' }).returns(['https://www.wenoknow.com', 'https://www.hovercards.com']);
 
-				default_search_tweets_for_content = { statuses: [test_tweet(10),
-				                                                 test_tweet(9),
-				                                                 test_tweet(8),
-				                                                 test_tweet(7),
-				                                                 test_tweet(6),
-				                                                 test_tweet(5),
-				                                                 test_tweet(4),
-				                                                 test_tweet(3),
-				                                                 test_tweet(2),
-				                                                 test_tweet(1)] };
+				default_search_tweets_for_content = { statuses: [test_tweet(10), test_tweet(9), test_tweet(8), test_tweet(7), test_tweet(6), test_tweet(5), test_tweet(4), test_tweet(3), test_tweet(2), test_tweet(1)] };
 			});
 
 			it('should callback twitter tweets', function(done) {
@@ -657,70 +419,35 @@ describe('twitter', function() {
 
 				twitter.discussion({ for: { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' } }, function(err, discussion) {
 					expect(err).not.to.be.ok;
-					expect(discussion).to.eql({ api:      'twitter',
-					                            type:     'discussion',
-					                            for:      { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' },
-					                            comments: [test_content(10),
-					                                       test_content(9),
-					                                       test_content(8),
-					                                       test_content(7),
-					                                       test_content(6),
-					                                       test_content(5),
-					                                       test_content(4),
-					                                       test_content(3),
-					                                       test_content(2),
-					                                       test_content(1)] });
+					expect(discussion).to.eql({ api:      'twitter', type:     'discussion', for:      { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' }, comments: [test_content(10), test_content(9), test_content(8), test_content(7), test_content(6), test_content(5), test_content(4), test_content(3), test_content(2), test_content(1)] });
 					done();
 				});
 			});
 
 			it('should callback the original tweet of retweets', function(done) {
 				default_search_tweets_for_content.statuses[9].retweeted_status = test_tweet(11);
-				default_search_tweets_for_content.statuses[9].text             = 'RT ' + default_search_tweets_for_content.statuses[9].retweeted_status.text;
-				default_search_tweets_for_content.statuses[9].retweet_count    = default_search_tweets_for_content.statuses[9].retweeted_status.retweet_count;
-				default_search_tweets_for_content.statuses[9].favorite_count   = default_search_tweets_for_content.statuses[9].retweeted_status.favorite_count;
+				default_search_tweets_for_content.statuses[9].text = 'RT ' + default_search_tweets_for_content.statuses[9].retweeted_status.text;
+				default_search_tweets_for_content.statuses[9].retweet_count = default_search_tweets_for_content.statuses[9].retweeted_status.retweet_count;
+				default_search_tweets_for_content.statuses[9].favorite_count = default_search_tweets_for_content.statuses[9].retweeted_status.favorite_count;
 				search_tweets_for_content_endpoint.reply(200, default_search_tweets_for_content);
 
 				twitter.discussion({ for: { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' } }, function(err, discussion) {
 					expect(err).not.to.be.ok;
-					expect(discussion).to.eql({ api:      'twitter',
-					                            type:     'discussion',
-					                            for:      { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' },
-					                            comments: [test_content(10),
-					                                       test_content(9),
-					                                       test_content(8),
-					                                       test_content(7),
-					                                       test_content(6),
-					                                       test_content(5),
-					                                       test_content(4),
-					                                       test_content(3),
-					                                       test_content(2),
-					                                       test_content(11)] });
+					expect(discussion).to.eql({ api:      'twitter', type:     'discussion', for:      { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' }, comments: [test_content(10), test_content(9), test_content(8), test_content(7), test_content(6), test_content(5), test_content(4), test_content(3), test_content(2), test_content(11)] });
 					done();
 				});
 			});
 
 			it('should ignore retweets of included tweets', function(done) {
 				default_search_tweets_for_content.statuses[9].retweeted_status = test_tweet(10);
-				default_search_tweets_for_content.statuses[9].text             = 'RT ' + default_search_tweets_for_content.statuses[9].retweeted_status.text;
-				default_search_tweets_for_content.statuses[9].retweet_count    = default_search_tweets_for_content.statuses[9].retweeted_status.retweet_count;
-				default_search_tweets_for_content.statuses[9].favorite_count   = default_search_tweets_for_content.statuses[9].retweeted_status.favorite_count;
+				default_search_tweets_for_content.statuses[9].text = 'RT ' + default_search_tweets_for_content.statuses[9].retweeted_status.text;
+				default_search_tweets_for_content.statuses[9].retweet_count = default_search_tweets_for_content.statuses[9].retweeted_status.retweet_count;
+				default_search_tweets_for_content.statuses[9].favorite_count = default_search_tweets_for_content.statuses[9].retweeted_status.favorite_count;
 				search_tweets_for_content_endpoint.reply(200, default_search_tweets_for_content);
 
 				twitter.discussion({ for: { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' } }, function(err, discussion) {
 					expect(err).not.to.be.ok;
-					expect(discussion).to.eql({ api:      'twitter',
-					                            type:     'discussion',
-					                            for:      { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' },
-					                            comments: [test_content(10),
-					                                       test_content(9),
-					                                       test_content(8),
-					                                       test_content(7),
-					                                       test_content(6),
-					                                       test_content(5),
-					                                       test_content(4),
-					                                       test_content(3),
-					                                       test_content(2)] });
+					expect(discussion).to.eql({ api:      'twitter', type:     'discussion', for:      { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' }, comments: [test_content(10), test_content(9), test_content(8), test_content(7), test_content(6), test_content(5), test_content(4), test_content(3), test_content(2)] });
 					done();
 				});
 			});
@@ -814,16 +541,16 @@ describe('twitter', function() {
 		});
 
 		it('should replace urls with links in the text from entity', function(done) {
-			default_search_tweets.statuses[0].text     = 'https://t.co/MjJ8xAn0';
-			default_search_tweets.statuses[1].text     = 'https://t.co/MjJ8xAn1';
-			default_search_tweets.statuses[2].text     = 'https://t.co/MjJ8xAn2';
-			default_search_tweets.statuses[3].text     = 'https://t.co/MjJ8xAn3';
-			default_search_tweets.statuses[4].text     = 'https://t.co/MjJ8xAn4';
-			default_search_tweets.statuses[5].text     = 'https://t.co/MjJ8xAn5';
-			default_search_tweets.statuses[6].text     = 'https://t.co/MjJ8xAn6';
-			default_search_tweets.statuses[7].text     = 'https://t.co/MjJ8xAn7';
-			default_search_tweets.statuses[8].text     = 'https://t.co/MjJ8xAn8';
-			default_search_tweets.statuses[9].text     = 'https://t.co/MjJ8xAn9';
+			default_search_tweets.statuses[0].text = 'https://t.co/MjJ8xAn0';
+			default_search_tweets.statuses[1].text = 'https://t.co/MjJ8xAn1';
+			default_search_tweets.statuses[2].text = 'https://t.co/MjJ8xAn2';
+			default_search_tweets.statuses[3].text = 'https://t.co/MjJ8xAn3';
+			default_search_tweets.statuses[4].text = 'https://t.co/MjJ8xAn4';
+			default_search_tweets.statuses[5].text = 'https://t.co/MjJ8xAn5';
+			default_search_tweets.statuses[6].text = 'https://t.co/MjJ8xAn6';
+			default_search_tweets.statuses[7].text = 'https://t.co/MjJ8xAn7';
+			default_search_tweets.statuses[8].text = 'https://t.co/MjJ8xAn8';
+			default_search_tweets.statuses[9].text = 'https://t.co/MjJ8xAn9';
 			default_search_tweets.statuses[0].entities = { urls: [{ expanded_url: 'https://www.hovercards_0.com', display_url: 'hovercards_0.com', url: 'https://t.co/MjJ8xAn0' }] };
 			default_search_tweets.statuses[1].entities = { urls: [{ expanded_url: 'https://www.hovercards_1.com', display_url: 'hovercards_1.com', url: 'https://t.co/MjJ8xAn1' }] };
 			default_search_tweets.statuses[2].entities = { urls: [{ expanded_url: 'https://www.hovercards_2.com', display_url: 'hovercards_2.com', url: 'https://t.co/MjJ8xAn2' }] };
@@ -855,30 +582,18 @@ describe('twitter', function() {
 		it('should reference image', function(done) {
 			default_search_tweets.statuses[0].text = 'TEXT 1 https://t.co/MjJ8xAnT';
 			default_search_tweets.statuses[1].text = 'TEXT 2 https://t.co/TnAx8JjM';
-			default_search_tweets.statuses[0].entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                                         url:             'https://t.co/MjJ8xAnT',
-			                                                         type:            'photo' }] };
-			default_search_tweets.statuses[1].entities = { media: [{ media_url_https: 'image_2.jpg',
-			                                                         url:             'https://t.co/TnAx8JjM',
-			                                                         type:            'photo' }] };
-			default_search_tweets.statuses[0].extended_entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                                                  url:             'https://t.co/MjJ8xAnT',
-			                                                                  type:            'photo' }] };
-			default_search_tweets.statuses[1].extended_entities = { media: [{ media_url_https: 'image_2.jpg',
-			                                                                  url:             'https://t.co/TnAx8JjM',
-			                                                                  type:            'photo' }] };
+			default_search_tweets.statuses[0].entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_search_tweets.statuses[1].entities = { media: [{ media_url_https: 'image_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }] };
+			default_search_tweets.statuses[0].extended_entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_search_tweets.statuses[1].extended_entities = { media: [{ media_url_https: 'image_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }] };
 			search_tweets_endpoint.reply(200, default_search_tweets);
 
 			twitter.discussion({ id: 'CONTENT_ID_0', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }, function(err, discussion) {
 				expect(err).not.to.be.ok;
 				expect(discussion).to.have.deep.property('comments[0].text', 'TEXT 1 ');
-				expect(discussion).to.have.deep.property('comments[0].image').that.eql({ small:  'image_1.jpg:small',
-				                                                                         medium: 'image_1.jpg:medium',
-				                                                                         large:  'image_1.jpg:large' });
+				expect(discussion).to.have.deep.property('comments[0].image').that.eql({ small:  'image_1.jpg:small', medium: 'image_1.jpg:medium', large:  'image_1.jpg:large' });
 				expect(discussion).to.have.deep.property('comments[1].text', 'TEXT 2 ');
-				expect(discussion).to.have.deep.property('comments[1].image').that.eql({ small:  'image_2.jpg:small',
-				                                                                         medium: 'image_2.jpg:medium',
-				                                                                         large:  'image_2.jpg:large' });
+				expect(discussion).to.have.deep.property('comments[1].image').that.eql({ small:  'image_2.jpg:small', medium: 'image_2.jpg:medium', large:  'image_2.jpg:large' });
 				done();
 			});
 		});
@@ -886,44 +601,20 @@ describe('twitter', function() {
 		it('should reference images', function(done) {
 			default_search_tweets.statuses[0].text = 'TEXT 1 https://t.co/MjJ8xAnT';
 			default_search_tweets.statuses[1].text = 'TEXT 2 https://t.co/TnAx8JjM';
-			default_search_tweets.statuses[0].entities = { media: [{ media_url_https: 'image_1_1.jpg',
-			                                                         url:             'https://t.co/MjJ8xAnT',
-			                                                         type:            'photo' }] };
-			default_search_tweets.statuses[1].entities = { media: [{ media_url_https: 'image_2_1.jpg',
-			                                                         url:             'https://t.co/TnAx8JjM',
-			                                                         type:            'photo' }] };
-			default_search_tweets.statuses[0].extended_entities = { media: [{ media_url_https: 'image_1_1.jpg',
-			                                                                  url:             'https://t.co/MjJ8xAnT',
-			                                                                  type:            'photo' },
-			                                                                { media_url_https: 'image_1_2.jpg',
-			                                                                  url:             'https://t.co/MjJ8xAnT',
-			                                                                  type:            'photo' }] };
-			default_search_tweets.statuses[1].extended_entities = { media: [{ media_url_https: 'image_2_1.jpg',
-			                                                                  url:             'https://t.co/TnAx8JjM',
-			                                                                  type:            'photo' },
-			                                                                { media_url_https: 'image_2_2.jpg',
-			                                                                  url:             'https://t.co/TnAx8JjM',
-			                                                                  type:            'photo' }] };
+			default_search_tweets.statuses[0].entities = { media: [{ media_url_https: 'image_1_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_search_tweets.statuses[1].entities = { media: [{ media_url_https: 'image_2_1.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }] };
+			default_search_tweets.statuses[0].extended_entities = { media: [{ media_url_https: 'image_1_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }, { media_url_https: 'image_1_2.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_search_tweets.statuses[1].extended_entities = { media: [{ media_url_https: 'image_2_1.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }, { media_url_https: 'image_2_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }] };
 			search_tweets_endpoint.reply(200, default_search_tweets);
 
 			twitter.discussion({ id: 'CONTENT_ID_0', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }, function(err, discussion) {
 				expect(err).not.to.be.ok;
 				expect(discussion).to.have.deep.property('comments[0].text', 'TEXT 1 ');
 				expect(discussion).not.to.have.deep.property('comments[0].image'),
-				expect(discussion).to.have.deep.property('comments[0].images').that.eql([{ small:  'image_1_1.jpg:small',
-				                                                                           medium: 'image_1_1.jpg:medium',
-				                                                                           large:  'image_1_1.jpg:large' },
-				                                                                         { small:  'image_1_2.jpg:small',
-				                                                                           medium: 'image_1_2.jpg:medium',
-				                                                                           large:  'image_1_2.jpg:large' }]);
+				expect(discussion).to.have.deep.property('comments[0].images').that.eql([{ small:  'image_1_1.jpg:small', medium: 'image_1_1.jpg:medium', large:  'image_1_1.jpg:large' }, { small:  'image_1_2.jpg:small', medium: 'image_1_2.jpg:medium', large:  'image_1_2.jpg:large' }]);
 				expect(discussion).to.have.deep.property('comments[1].text', 'TEXT 2 ');
 				expect(discussion).not.to.have.deep.property('comments[1].image'),
-				expect(discussion).to.have.deep.property('comments[1].images').that.eql([{ small:  'image_2_1.jpg:small',
-				                                                                           medium: 'image_2_1.jpg:medium',
-				                                                                           large:  'image_2_1.jpg:large' },
-				                                                                         { small:  'image_2_2.jpg:small',
-				                                                                           medium: 'image_2_2.jpg:medium',
-				                                                                           large:  'image_2_2.jpg:large' }]);
+				expect(discussion).to.have.deep.property('comments[1].images').that.eql([{ small:  'image_2_1.jpg:small', medium: 'image_2_1.jpg:medium', large:  'image_2_1.jpg:large' }, { small:  'image_2_2.jpg:small', medium: 'image_2_2.jpg:medium', large:  'image_2_2.jpg:large' }]);
 				done();
 			});
 		});
@@ -931,35 +622,19 @@ describe('twitter', function() {
 		it('should reference gif', function(done) {
 			default_search_tweets.statuses[0].text = 'TEXT 1 https://t.co/MjJ8xAnT';
 			default_search_tweets.statuses[1].text = 'TEXT 2 https://t.co/TnAx8JjM';
-			default_search_tweets.statuses[0].entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                                         url:             'https://t.co/MjJ8xAnT',
-			                                                         type:            'photo' }] };
-			default_search_tweets.statuses[1].entities = { media: [{ media_url_https: 'image_2.jpg',
-			                                                         url:             'https://t.co/TnAx8JjM',
-			                                                         type:            'photo' }] };
-			default_search_tweets.statuses[0].extended_entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                                                  url:             'https://t.co/MjJ8xAnT',
-			                                                                  type:            'animated_gif',
-			                                                                  video_info:      { variants: [{ content_type: 'video/mp4',
-			                                                                                                  url:          'gif_1.mp4', }] } }] };
-			default_search_tweets.statuses[1].extended_entities = { media: [{ media_url_https: 'image_2.jpg',
-			                                                                  url:             'https://t.co/TnAx8JjM',
-			                                                                  type:            'animated_gif',
-			                                                                  video_info:      { variants: [{ content_type: 'video/mp4',
-			                                                                                                  url:          'gif_2.mp4', }] } }] };
+			default_search_tweets.statuses[0].entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_search_tweets.statuses[1].entities = { media: [{ media_url_https: 'image_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }] };
+			default_search_tweets.statuses[0].extended_entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'animated_gif', video_info:      { variants: [{ content_type: 'video/mp4', url:          'gif_1.mp4', }] } }] };
+			default_search_tweets.statuses[1].extended_entities = { media: [{ media_url_https: 'image_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'animated_gif', video_info:      { variants: [{ content_type: 'video/mp4', url:          'gif_2.mp4', }] } }] };
 			search_tweets_endpoint.reply(200, default_search_tweets);
 
 			twitter.discussion({ id: 'CONTENT_ID_0', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }, function(err, discussion) {
 				expect(err).not.to.be.ok;
 				expect(discussion).to.have.deep.property('comments[0].text', 'TEXT 1 ');
-				expect(discussion).to.have.deep.property('comments[0].image').that.eql({ small:  'image_1.jpg:small',
-				                                                                         medium: 'image_1.jpg:medium',
-				                                                                         large:  'image_1.jpg:large' });
+				expect(discussion).to.have.deep.property('comments[0].image').that.eql({ small:  'image_1.jpg:small', medium: 'image_1.jpg:medium', large:  'image_1.jpg:large' });
 				expect(discussion).to.have.deep.property('comments[0].gif').that.eql('gif_1.mp4');
 				expect(discussion).to.have.deep.property('comments[1].text', 'TEXT 2 ');
-				expect(discussion).to.have.deep.property('comments[1].image').that.eql({ small:  'image_2.jpg:small',
-				                                                                         medium: 'image_2.jpg:medium',
-				                                                                         large:  'image_2.jpg:large' });
+				expect(discussion).to.have.deep.property('comments[1].image').that.eql({ small:  'image_2.jpg:small', medium: 'image_2.jpg:medium', large:  'image_2.jpg:large' });
 				expect(discussion).to.have.deep.property('comments[1].gif').that.eql('gif_2.mp4');
 				done();
 			});
@@ -968,35 +643,19 @@ describe('twitter', function() {
 		it('should reference video', function(done) {
 			default_search_tweets.statuses[0].text = 'TEXT 1 https://t.co/MjJ8xAnT';
 			default_search_tweets.statuses[1].text = 'TEXT 2 https://t.co/TnAx8JjM';
-			default_search_tweets.statuses[0].entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                                         url:             'https://t.co/MjJ8xAnT',
-			                                                         type:            'photo' }] };
-			default_search_tweets.statuses[1].entities = { media: [{ media_url_https: 'image_2.jpg',
-			                                                         url:             'https://t.co/TnAx8JjM',
-			                                                         type:            'photo' }] };
-			default_search_tweets.statuses[0].extended_entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                                                  url:             'https://t.co/MjJ8xAnT',
-			                                                                  type:            'video',
-			                                                                  video_info:      { variants: [{ content_type: 'video/mp4',
-			                                                                                                  url:          'video_1.mp4', }] } }] };
-			default_search_tweets.statuses[1].extended_entities = { media: [{ media_url_https: 'image_2.jpg',
-			                                                                  url:             'https://t.co/TnAx8JjM',
-			                                                                  type:            'video',
-			                                                                  video_info:      { variants: [{ content_type: 'video/mp4',
-			                                                                                                  url:          'video_2.mp4', }] } }] };
+			default_search_tweets.statuses[0].entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_search_tweets.statuses[1].entities = { media: [{ media_url_https: 'image_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }] };
+			default_search_tweets.statuses[0].extended_entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'video', video_info:      { variants: [{ content_type: 'video/mp4', url:          'video_1.mp4', }] } }] };
+			default_search_tweets.statuses[1].extended_entities = { media: [{ media_url_https: 'image_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'video', video_info:      { variants: [{ content_type: 'video/mp4', url:          'video_2.mp4', }] } }] };
 			search_tweets_endpoint.reply(200, default_search_tweets);
 
 			twitter.discussion({ id: 'CONTENT_ID_0', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }, function(err, discussion) {
 				expect(err).not.to.be.ok;
 				expect(discussion).to.have.deep.property('comments[0].text', 'TEXT 1 ');
-				expect(discussion).to.have.deep.property('comments[0].image').that.eql({ small:  'image_1.jpg:small',
-				                                                                         medium: 'image_1.jpg:medium',
-				                                                                         large:  'image_1.jpg:large' });
+				expect(discussion).to.have.deep.property('comments[0].image').that.eql({ small:  'image_1.jpg:small', medium: 'image_1.jpg:medium', large:  'image_1.jpg:large' });
 				expect(discussion).to.have.deep.property('comments[0].video').that.eql('video_1.mp4');
 				expect(discussion).to.have.deep.property('comments[1].text', 'TEXT 2 ');
-				expect(discussion).to.have.deep.property('comments[1].image').that.eql({ small:  'image_2.jpg:small',
-				                                                                         medium: 'image_2.jpg:medium',
-				                                                                         large:  'image_2.jpg:large' });
+				expect(discussion).to.have.deep.property('comments[1].image').that.eql({ small:  'image_2.jpg:small', medium: 'image_2.jpg:medium', large:  'image_2.jpg:large' });
 				expect(discussion).to.have.deep.property('comments[1].video').that.eql('video_2.mp4');
 				done();
 			});
@@ -1131,14 +790,7 @@ describe('twitter', function() {
 
 			sandbox.stub(urls, 'parse');
 
-			default_user_show = { screen_name:             'ACCOUNT_ID',
-			                      profile_image_url_https: 'image_normal.png',
-			                      profile_banner_url:      'banner',
-			                      name:                    'NAME',
-			                      description:             'TEXT',
-			                      statuses_count:          1000,
-			                      friends_count:           3000,
-			                      followers_count:         2000 };
+			default_user_show = { screen_name:             'ACCOUNT_ID', profile_image_url_https: 'image_normal.png', profile_banner_url:      'banner', name:                    'NAME', description:             'TEXT', statuses_count:          1000, friends_count:           3000, followers_count:         2000 };
 		});
 
 		it('should callback twitter user', function(done) {
@@ -1146,17 +798,7 @@ describe('twitter', function() {
 
 			twitter.account({ id: 'ACCOUNT_ID' }, function(err, account) {
 				expect(err).not.to.be.ok;
-				expect(account).to.eql({ api:    'twitter',
-				                         type:   'account',
-				                         id:     'ACCOUNT_ID',
-				                         name:   'NAME',
-				                         text:   'TEXT',
-				                         image:  { small: 'image_bigger.png',
-				                                   large: 'image.png' },
-				                         banner: 'banner/1500x500',
-				                         stats:  { content:   1000,
-				                                   followers: 2000,
-				                                   following: 3000 } });
+				expect(account).to.eql({ api:    'twitter', type:   'account', id:     'ACCOUNT_ID', name:   'NAME', text:   'TEXT', image:  { small: 'image_bigger.png', large: 'image.png' }, banner: 'banner/1500x500', stats:  { content:   1000, followers: 2000, following: 3000 } });
 				done();
 			});
 		});
@@ -1174,8 +816,7 @@ describe('twitter', function() {
 
 		it('should reference accounts in text', function(done) {
 			default_user_show.description = 'https://t.co/MjJ8xAnT @ACCOUNT_ID_2';
-			default_user_show.entities    = { description: { urls: [{ expanded_url: 'https://www.hovercards.com',
-			                                                          url:          'https://t.co/MjJ8xAnT' }] } };
+			default_user_show.entities = { description: { urls: [{ expanded_url: 'https://www.hovercards.com', url:          'https://t.co/MjJ8xAnT' }] } };
 			user_show_endpoint.reply(200, default_user_show);
 
 			urls.parse.withArgs('https://www.hovercards.com').returns({ api: 'some_api', type: 'account', id: 'ACCOUNT_ID_1' });
@@ -1184,15 +825,14 @@ describe('twitter', function() {
 			twitter.account({ id: 'ACCOUNT_ID' }, function(err, account) {
 				expect(err).not.to.be.ok;
 				expect(account.accounts).to.contain({ api: 'some_api', type: 'account', id: 'ACCOUNT_ID_1' });
-				expect(account.accounts).to.contain({ api: 'twitter',  type: 'account', id: 'ACCOUNT_ID_2' });
+				expect(account.accounts).to.contain({ api: 'twitter', type: 'account', id: 'ACCOUNT_ID_2' });
 				done();
 			});
 		});
 
 		it('should reference account in website', function(done) {
-			default_user_show.url      = 'https://t.co/78pYTvWfJd';
-			default_user_show.entities = { url: { urls: [{ expanded_url: 'https://www.hovercards.com',
-			                                               url:          'https://t.co/78pYTvWfJd' }] } };
+			default_user_show.url = 'https://t.co/78pYTvWfJd';
+			default_user_show.entities = { url: { urls: [{ expanded_url: 'https://www.hovercards.com', url:          'https://t.co/78pYTvWfJd' }] } };
 			user_show_endpoint.reply(200, default_user_show);
 
 			urls.parse.withArgs('https://www.hovercards.com').returns({ api: 'some_api', type: 'account', id: 'ACCOUNT_ID_1' });
@@ -1227,7 +867,7 @@ describe('twitter', function() {
 		});
 
 		it('should remove the default image', function(done) {
-			default_user_show.default_profile_image   = true;
+			default_user_show.default_profile_image = true;
 			default_user_show.profile_image_url_https = 'https://abs.twimg.com/sticky/default_profile_images/default_profile_0.png';
 			user_show_endpoint.reply(200, default_user_show);
 
@@ -1239,12 +879,7 @@ describe('twitter', function() {
 
 		it('should replace urls with links in the text from entity', function(done) {
 			default_user_show.description = 'https://t.co/MjJ8xAnT https://t.co/TnAx8JjM';
-			default_user_show.entities    = { description: { urls: [{ expanded_url: 'https://www.hovercards.com',
-			                                                          display_url:  'hovercards.com',
-			                                                          url:          'https://t.co/MjJ8xAnT' },
-			                                                        { expanded_url: 'https://www.wenoknow.com',
-			                                                          display_url:  'wenoknow.com',
-			                                                          url:          'https://t.co/TnAx8JjM' }] } };
+			default_user_show.entities = { description: { urls: [{ expanded_url: 'https://www.hovercards.com', display_url:  'hovercards.com', url:          'https://t.co/MjJ8xAnT' }, { expanded_url: 'https://www.wenoknow.com', display_url:  'wenoknow.com', url:          'https://t.co/TnAx8JjM' }] } };
 			user_show_endpoint.reply(200, default_user_show);
 
 			twitter.account({ id: 'ACCOUNT_ID' }, function(err, account) {
@@ -1373,16 +1008,7 @@ describe('twitter', function() {
 				.get('/1.1/statuses/user_timeline.json')
 				.query({ screen_name: 'ACCOUNT_ID', count: config.counts.listed });
 
-			default_statuses_user_timeline = [{ created_at:     'Wed Jun 06 20:07:10 +0000 2012',
-			                                    id_str:         'CONTENT_ID_1',
-			                                    text:           'TEXT 1',
-			                                    retweet_count:  1002,
-			                                    favorite_count: 1001 },
-			                                  { created_at:     'Wed Jun 06 20:07:10 +0000 2012',
-			                                    id_str:         'CONTENT_ID_2',
-			                                    text:           'TEXT 2',
-			                                    retweet_count:  2002,
-			                                    favorite_count: 2001 }];
+			default_statuses_user_timeline = [{ created_at:     'Wed Jun 06 20:07:10 +0000 2012', id_str:         'CONTENT_ID_1', text:           'TEXT 1', retweet_count:  1002, favorite_count: 1001 }, { created_at:     'Wed Jun 06 20:07:10 +0000 2012', id_str:         'CONTENT_ID_2', text:           'TEXT 2', retweet_count:  2002, favorite_count: 2001 }];
 		});
 
 		it('should callback twitter tweets', function(done) {
@@ -1390,23 +1016,7 @@ describe('twitter', function() {
 
 			twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 				expect(err).not.to.be.ok;
-				expect(account_content).to.eql({ api:     'twitter',
-				                                 type:    'account_content',
-				                                 id:      'ACCOUNT_ID',
-				                                 content: [{ api:   'twitter',
-				                                             type:  'content',
-				                                             id:    'CONTENT_ID_1',
-				                                             text:  'TEXT 1',
-				                                             date:  1339013230000,
-				                                             stats: { likes:   1001,
-				                                                      reposts: 1002 } },
-				                                           { api:   'twitter',
-				                                             type:  'content',
-				                                             id:    'CONTENT_ID_2',
-				                                             text:  'TEXT 2',
-				                                             date:  1339013230000,
-				                                             stats: { likes:   2001,
-				                                                      reposts: 2002 } }] });
+				expect(account_content).to.eql({ api:     'twitter', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:   'twitter', type:  'content', id:    'CONTENT_ID_1', text:  'TEXT 1', date:  1339013230000, stats: { likes:   1001, reposts: 1002 } }, { api:   'twitter', type:  'content', id:    'CONTENT_ID_2', text:  'TEXT 2', date:  1339013230000, stats: { likes:   2001, reposts: 2002 } }] });
 				done();
 			});
 		});
@@ -1451,10 +1061,10 @@ describe('twitter', function() {
 		});
 
 		it('should replace urls with links in the text from entity', function(done) {
-			default_statuses_user_timeline[0].text     = 'https://t.co/MjJ8xAnT';
-			default_statuses_user_timeline[1].text     = 'https://t.co/TnAx8JjM';
+			default_statuses_user_timeline[0].text = 'https://t.co/MjJ8xAnT';
+			default_statuses_user_timeline[1].text = 'https://t.co/TnAx8JjM';
 			default_statuses_user_timeline[0].entities = { urls: [{ expanded_url: 'https://www.hovercards.com', display_url: 'hovercards.com', url: 'https://t.co/MjJ8xAnT' }] };
-			default_statuses_user_timeline[1].entities = { urls: [{ expanded_url: 'https://www.wenoknow.com',   display_url: 'wenoknow.com',   url: 'https://t.co/TnAx8JjM' }] };
+			default_statuses_user_timeline[1].entities = { urls: [{ expanded_url: 'https://www.wenoknow.com', display_url: 'wenoknow.com', url: 'https://t.co/TnAx8JjM' }] };
 			statuses_user_timeline_endpoint.reply(200, default_statuses_user_timeline);
 
 			twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
@@ -1468,30 +1078,18 @@ describe('twitter', function() {
 		it('should reference image', function(done) {
 			default_statuses_user_timeline[0].text = 'TEXT 1 https://t.co/MjJ8xAnT';
 			default_statuses_user_timeline[1].text = 'TEXT 2 https://t.co/TnAx8JjM';
-			default_statuses_user_timeline[0].entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                                         url:             'https://t.co/MjJ8xAnT',
-			                                                         type:            'photo' }] };
-			default_statuses_user_timeline[1].entities = { media: [{ media_url_https: 'image_2.jpg',
-			                                                         url:             'https://t.co/TnAx8JjM',
-			                                                         type:            'photo' }] };
-			default_statuses_user_timeline[0].extended_entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                                                  url:             'https://t.co/MjJ8xAnT',
-			                                                                  type:            'photo' }] };
-			default_statuses_user_timeline[1].extended_entities = { media: [{ media_url_https: 'image_2.jpg',
-			                                                                  url:             'https://t.co/TnAx8JjM',
-			                                                                  type:            'photo' }] };
+			default_statuses_user_timeline[0].entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_statuses_user_timeline[1].entities = { media: [{ media_url_https: 'image_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }] };
+			default_statuses_user_timeline[0].extended_entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_statuses_user_timeline[1].extended_entities = { media: [{ media_url_https: 'image_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }] };
 			statuses_user_timeline_endpoint.reply(200, default_statuses_user_timeline);
 
 			twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 				expect(err).not.to.be.ok;
 				expect(account_content).to.have.deep.property('content[0].text', 'TEXT 1 ');
-				expect(account_content).to.have.deep.property('content[0].image').that.eql({ small:  'image_1.jpg:small',
-				                                                                             medium: 'image_1.jpg:medium',
-				                                                                             large:  'image_1.jpg:large' });
+				expect(account_content).to.have.deep.property('content[0].image').that.eql({ small:  'image_1.jpg:small', medium: 'image_1.jpg:medium', large:  'image_1.jpg:large' });
 				expect(account_content).to.have.deep.property('content[1].text', 'TEXT 2 ');
-				expect(account_content).to.have.deep.property('content[1].image').that.eql({ small:  'image_2.jpg:small',
-				                                                                             medium: 'image_2.jpg:medium',
-				                                                                             large:  'image_2.jpg:large' });
+				expect(account_content).to.have.deep.property('content[1].image').that.eql({ small:  'image_2.jpg:small', medium: 'image_2.jpg:medium', large:  'image_2.jpg:large' });
 				done();
 			});
 		});
@@ -1499,44 +1097,20 @@ describe('twitter', function() {
 		it('should reference images', function(done) {
 			default_statuses_user_timeline[0].text = 'TEXT 1 https://t.co/MjJ8xAnT';
 			default_statuses_user_timeline[1].text = 'TEXT 2 https://t.co/TnAx8JjM';
-			default_statuses_user_timeline[0].entities = { media: [{ media_url_https: 'image_1_1.jpg',
-			                                                         url:             'https://t.co/MjJ8xAnT',
-			                                                         type:            'photo' }] };
-			default_statuses_user_timeline[1].entities = { media: [{ media_url_https: 'image_2_1.jpg',
-			                                                         url:             'https://t.co/TnAx8JjM',
-			                                                         type:            'photo' }] };
-			default_statuses_user_timeline[0].extended_entities = { media: [{ media_url_https: 'image_1_1.jpg',
-			                                                                  url:             'https://t.co/MjJ8xAnT',
-			                                                                  type:            'photo' },
-			                                                                { media_url_https: 'image_1_2.jpg',
-			                                                                  url:             'https://t.co/MjJ8xAnT',
-			                                                                  type:            'photo' }] };
-			default_statuses_user_timeline[1].extended_entities = { media: [{ media_url_https: 'image_2_1.jpg',
-			                                                                  url:             'https://t.co/TnAx8JjM',
-			                                                                  type:            'photo' },
-			                                                                { media_url_https: 'image_2_2.jpg',
-			                                                                  url:             'https://t.co/TnAx8JjM',
-			                                                                  type:            'photo' }] };
+			default_statuses_user_timeline[0].entities = { media: [{ media_url_https: 'image_1_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_statuses_user_timeline[1].entities = { media: [{ media_url_https: 'image_2_1.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }] };
+			default_statuses_user_timeline[0].extended_entities = { media: [{ media_url_https: 'image_1_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }, { media_url_https: 'image_1_2.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_statuses_user_timeline[1].extended_entities = { media: [{ media_url_https: 'image_2_1.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }, { media_url_https: 'image_2_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }] };
 			statuses_user_timeline_endpoint.reply(200, default_statuses_user_timeline);
 
 			twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 				expect(err).not.to.be.ok;
 				expect(account_content).to.have.deep.property('content[0].text', 'TEXT 1 ');
 				expect(account_content).not.to.have.deep.property('content[0].image'),
-				expect(account_content).to.have.deep.property('content[0].images').that.eql([{ small:  'image_1_1.jpg:small',
-				                                                                               medium: 'image_1_1.jpg:medium',
-				                                                                               large:  'image_1_1.jpg:large' },
-				                                                                             { small:  'image_1_2.jpg:small',
-				                                                                               medium: 'image_1_2.jpg:medium',
-				                                                                               large:  'image_1_2.jpg:large' }]);
+				expect(account_content).to.have.deep.property('content[0].images').that.eql([{ small:  'image_1_1.jpg:small', medium: 'image_1_1.jpg:medium', large:  'image_1_1.jpg:large' }, { small:  'image_1_2.jpg:small', medium: 'image_1_2.jpg:medium', large:  'image_1_2.jpg:large' }]);
 				expect(account_content).to.have.deep.property('content[1].text', 'TEXT 2 ');
 				expect(account_content).not.to.have.deep.property('content[1].image'),
-				expect(account_content).to.have.deep.property('content[1].images').that.eql([{ small:  'image_2_1.jpg:small',
-				                                                                               medium: 'image_2_1.jpg:medium',
-				                                                                               large:  'image_2_1.jpg:large' },
-				                                                                             { small:  'image_2_2.jpg:small',
-				                                                                               medium: 'image_2_2.jpg:medium',
-				                                                                               large:  'image_2_2.jpg:large' }]);
+				expect(account_content).to.have.deep.property('content[1].images').that.eql([{ small:  'image_2_1.jpg:small', medium: 'image_2_1.jpg:medium', large:  'image_2_1.jpg:large' }, { small:  'image_2_2.jpg:small', medium: 'image_2_2.jpg:medium', large:  'image_2_2.jpg:large' }]);
 				done();
 			});
 		});
@@ -1544,35 +1118,19 @@ describe('twitter', function() {
 		it('should reference gif', function(done) {
 			default_statuses_user_timeline[0].text = 'TEXT 1 https://t.co/MjJ8xAnT';
 			default_statuses_user_timeline[1].text = 'TEXT 2 https://t.co/TnAx8JjM';
-			default_statuses_user_timeline[0].entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                                         url:             'https://t.co/MjJ8xAnT',
-			                                                         type:            'photo' }] };
-			default_statuses_user_timeline[1].entities = { media: [{ media_url_https: 'image_2.jpg',
-			                                                         url:             'https://t.co/TnAx8JjM',
-			                                                         type:            'photo' }] };
-			default_statuses_user_timeline[0].extended_entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                                                  url:             'https://t.co/MjJ8xAnT',
-			                                                                  type:            'animated_gif',
-			                                                                  video_info:      { variants: [{ content_type: 'video/mp4',
-			                                                                                                  url:          'gif_1.mp4', }] } }] };
-			default_statuses_user_timeline[1].extended_entities = { media: [{ media_url_https: 'image_2.jpg',
-			                                                                  url:             'https://t.co/TnAx8JjM',
-			                                                                  type:            'animated_gif',
-			                                                                  video_info:      { variants: [{ content_type: 'video/mp4',
-			                                                                                                  url:          'gif_2.mp4', }] } }] };
+			default_statuses_user_timeline[0].entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'photo' }] };
+			default_statuses_user_timeline[1].entities = { media: [{ media_url_https: 'image_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'photo' }] };
+			default_statuses_user_timeline[0].extended_entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'animated_gif', video_info:      { variants: [{ content_type: 'video/mp4', url:          'gif_1.mp4', }] } }] };
+			default_statuses_user_timeline[1].extended_entities = { media: [{ media_url_https: 'image_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'animated_gif', video_info:      { variants: [{ content_type: 'video/mp4', url:          'gif_2.mp4', }] } }] };
 			statuses_user_timeline_endpoint.reply(200, default_statuses_user_timeline);
 
 			twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 				expect(err).not.to.be.ok;
 				expect(account_content).to.have.deep.property('content[0].text', 'TEXT 1 ');
-				expect(account_content).to.have.deep.property('content[0].image').that.eql({ small:  'image_1.jpg:small',
-				                                                                             medium: 'image_1.jpg:medium',
-				                                                                             large:  'image_1.jpg:large' });
+				expect(account_content).to.have.deep.property('content[0].image').that.eql({ small:  'image_1.jpg:small', medium: 'image_1.jpg:medium', large:  'image_1.jpg:large' });
 				expect(account_content).to.have.deep.property('content[0].gif').that.eql('gif_1.mp4');
 				expect(account_content).to.have.deep.property('content[1].text', 'TEXT 2 ');
-				expect(account_content).to.have.deep.property('content[1].image').that.eql({ small:  'image_2.jpg:small',
-				                                                                             medium: 'image_2.jpg:medium',
-				                                                                             large:  'image_2.jpg:large' });
+				expect(account_content).to.have.deep.property('content[1].image').that.eql({ small:  'image_2.jpg:small', medium: 'image_2.jpg:medium', large:  'image_2.jpg:large' });
 				expect(account_content).to.have.deep.property('content[1].gif').that.eql('gif_2.mp4');
 				done();
 			});
@@ -1580,30 +1138,18 @@ describe('twitter', function() {
 
 		it('should reference video', function(done) {
 			default_statuses_user_timeline[0].text = 'TEXT 1 https://t.co/MjJ8xAnT';
-			default_statuses_user_timeline[0].extended_entities = { media: [{ media_url_https: 'image_1.jpg',
-			                                                                  url:             'https://t.co/MjJ8xAnT',
-			                                                                  type:            'video',
-			                                                                  video_info:      { variants: [{ content_type: 'video/mp4',
-			                                                                                                  url:          'video_1.mp4', }] } }] };
+			default_statuses_user_timeline[0].extended_entities = { media: [{ media_url_https: 'image_1.jpg', url:             'https://t.co/MjJ8xAnT', type:            'video', video_info:      { variants: [{ content_type: 'video/mp4', url:          'video_1.mp4', }] } }] };
 			default_statuses_user_timeline[1].text = 'TEXT 2 https://t.co/TnAx8JjM';
-			default_statuses_user_timeline[1].extended_entities = { media: [{ media_url_https: 'image_2.jpg',
-			                                                                  url:             'https://t.co/TnAx8JjM',
-			                                                                  type:            'video',
-			                                                                  video_info:      { variants: [{ content_type: 'video/mp4',
-			                                                                                                  url:          'video_2.mp4', }] } }] };
+			default_statuses_user_timeline[1].extended_entities = { media: [{ media_url_https: 'image_2.jpg', url:             'https://t.co/TnAx8JjM', type:            'video', video_info:      { variants: [{ content_type: 'video/mp4', url:          'video_2.mp4', }] } }] };
 			statuses_user_timeline_endpoint.reply(200, default_statuses_user_timeline);
 
 			twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 				expect(err).not.to.be.ok;
 				expect(account_content).to.have.deep.property('content[0].text', 'TEXT 1 ');
-				expect(account_content).to.have.deep.property('content[0].image').that.eql({ small:  'image_1.jpg:small',
-				                                                                             medium: 'image_1.jpg:medium',
-				                                                                             large:  'image_1.jpg:large' });
+				expect(account_content).to.have.deep.property('content[0].image').that.eql({ small:  'image_1.jpg:small', medium: 'image_1.jpg:medium', large:  'image_1.jpg:large' });
 				expect(account_content).to.have.deep.property('content[0].video').that.eql('video_1.mp4');
 				expect(account_content).to.have.deep.property('content[1].text', 'TEXT 2 ');
-				expect(account_content).to.have.deep.property('content[1].image').that.eql({ small:  'image_2.jpg:small',
-				                                                                             medium: 'image_2.jpg:medium',
-				                                                                             large:  'image_2.jpg:large' });
+				expect(account_content).to.have.deep.property('content[1].image').that.eql({ small:  'image_2.jpg:small', medium: 'image_2.jpg:medium', large:  'image_2.jpg:large' });
 				expect(account_content).to.have.deep.property('content[1].video').that.eql('video_2.mp4');
 				done();
 			});
@@ -1611,32 +1157,7 @@ describe('twitter', function() {
 
 		describe('on retweets', function() {
 			beforeEach(function() {
-				default_statuses_user_timeline = [{ created_at:       'Wed Jun 06 20:07:10 +0000 2012',
-				                                    id_str:           'CONTENT_ID_1',
-				                                    text:             'RT TEXT 1',
-				                                    retweet_count:    1002,
-				                                    favorite_count:   1001,
-				                                    retweeted_status: { created_at:     'Wed Jun 05 20:07:10 +0000 2012',
-				                                                        id_str:         'CONTENT_ID_1_1',
-				                                                        text:           'TEXT 1',
-				                                                        retweet_count:  1002,
-				                                                        favorite_count: 1001,
-				                                                        user:           { screen_name:             'ACCOUNT_ID_1',
-				                                                                          profile_image_url_https: 'image_1_normal.png',
-				                                                                          name:                    'NAME 1' } } },
-				                                  { created_at:       'Wed Jun 06 20:07:10 +0000 2012',
-				                                    id_str:           'CONTENT_ID_2',
-				                                    text:             'RT TEXT 2',
-				                                    retweet_count:    2002,
-				                                    favorite_count:   2001,
-				                                    retweeted_status: { created_at:     'Wed Jun 05 20:07:10 +0000 2012',
-				                                                        id_str:         'CONTENT_ID_2_1',
-				                                                        text:           'TEXT 2',
-				                                                        retweet_count:  2002,
-				                                                        favorite_count: 2001,
-				                                                        user:           { screen_name:             'ACCOUNT_ID_2',
-				                                                                          profile_image_url_https: 'image_2_normal.png',
-				                                                                          name:                    'NAME 2' } } }];
+				default_statuses_user_timeline = [{ created_at:       'Wed Jun 06 20:07:10 +0000 2012', id_str:           'CONTENT_ID_1', text:             'RT TEXT 1', retweet_count:    1002, favorite_count:   1001, retweeted_status: { created_at:     'Wed Jun 05 20:07:10 +0000 2012', id_str:         'CONTENT_ID_1_1', text:           'TEXT 1', retweet_count:  1002, favorite_count: 1001, user:           { screen_name:             'ACCOUNT_ID_1', profile_image_url_https: 'image_1_normal.png', name:                    'NAME 1' } } }, { created_at:       'Wed Jun 06 20:07:10 +0000 2012', id_str:           'CONTENT_ID_2', text:             'RT TEXT 2', retweet_count:    2002, favorite_count:   2001, retweeted_status: { created_at:     'Wed Jun 05 20:07:10 +0000 2012', id_str:         'CONTENT_ID_2_1', text:           'TEXT 2', retweet_count:  2002, favorite_count: 2001, user:           { screen_name:             'ACCOUNT_ID_2', profile_image_url_https: 'image_2_normal.png', name:                    'NAME 2' } } }];
 			});
 
 			it('should callback with retweeted tweets', function(done) {
@@ -1644,43 +1165,7 @@ describe('twitter', function() {
 
 				twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 					expect(err).not.to.be.ok;
-					expect(account_content).to.eql({ api:     'twitter',
-					                                 type:    'account_content',
-					                                 id:      'ACCOUNT_ID',
-					                                 content: [{ api:              'twitter',
-					                                             type:             'content',
-					                                             id:               'CONTENT_ID_1',
-					                                             date:             1339013230000,
-					                                             reposted_content: { api:     'twitter',
-					                                                                 type:    'content',
-					                                                                 id:      'CONTENT_ID_1_1',
-					                                                                 text:    'TEXT 1',
-					                                                                 date:    1338926830000,
-					                                                                 stats:   { likes:   1001,
-					                                                                            reposts: 1002 },
-					                                                                 account: { api:   'twitter',
-					                                                                            type:  'account',
-					                                                                            id:    'ACCOUNT_ID_1',
-					                                                                            name:  'NAME 1',
-					                                                                            image: { small: 'image_1_bigger.png',
-					                                                                                     large: 'image_1.png' } } } },
-					                                           { api:              'twitter',
-					                                             type:             'content',
-					                                             id:               'CONTENT_ID_2',
-					                                             date:             1339013230000,
-					                                             reposted_content: { api:     'twitter',
-					                                                                 type:    'content',
-					                                                                 id:      'CONTENT_ID_2_1',
-					                                                                 text:    'TEXT 2',
-					                                                                 date:    1338926830000,
-					                                                                 stats:   { likes:   2001,
-					                                                                            reposts: 2002 },
-					                                                                 account: { api:   'twitter',
-					                                                                            type:  'account',
-					                                                                            id:    'ACCOUNT_ID_2',
-					                                                                            name:  'NAME 2',
-					                                                                            image: { small: 'image_2_bigger.png',
-					                                                                                     large: 'image_2.png' } } } }] });
+					expect(account_content).to.eql({ api:     'twitter', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:              'twitter', type:             'content', id:               'CONTENT_ID_1', date:             1339013230000, reposted_content: { api:     'twitter', type:    'content', id:      'CONTENT_ID_1_1', text:    'TEXT 1', date:    1338926830000, stats:   { likes:   1001, reposts: 1002 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { small: 'image_1_bigger.png', large: 'image_1.png' } } } }, { api:              'twitter', type:             'content', id:               'CONTENT_ID_2', date:             1339013230000, reposted_content: { api:     'twitter', type:    'content', id:      'CONTENT_ID_2_1', text:    'TEXT 2', date:    1338926830000, stats:   { likes:   2001, reposts: 2002 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_2', name:  'NAME 2', image: { small: 'image_2_bigger.png', large: 'image_2.png' } } } }] });
 					done();
 				});
 			});
@@ -1688,38 +1173,7 @@ describe('twitter', function() {
 
 		describe('on quotes', function() {
 			beforeEach(function() {
-				default_statuses_user_timeline = [{ created_at:     'Wed Jun 06 20:07:10 +0000 2012',
-				                                    id_str:         'CONTENT_ID_1',
-				                                    text:           'TEXT 1 https://t.co/4VL91iY8Dn',
-				                                    retweet_count:  1020,
-				                                    favorite_count: 1010,
-				                                    quoted_status:  { created_at:     'Wed Jun 05 20:07:10 +0000 2012',
-				                                                      id_str:         'CONTENT_ID_1_1',
-				                                                      text:           'TEXT 1_1',
-				                                                      retweet_count:  1021,
-				                                                      favorite_count: 1011,
-				                                                      user:           { screen_name:             'ACCOUNT_ID_1',
-				                                                                        profile_image_url_https: 'image_1_normal.png',
-				                                                                        name:                    'NAME 1' } },
-				                                    entities:       { urls: [{ expanded_url: 'https://twitter.com/ACCOUNT_ID_1/status/CONTENT_ID_1_1',
-				                                                               display_url:  'twitter.com/ACCOUNT_ID_1/status/CONTENT_ID_1_1',
-				                                                               url:          'https://t.co/4VL91iY8Dn' }] } },
-				                                  { created_at:     'Wed Jun 06 20:07:10 +0000 2012',
-				                                    id_str:         'CONTENT_ID_2',
-				                                    text:           'TEXT 2 https://t.co/L91iY8DnV4',
-				                                    retweet_count:  2020,
-				                                    favorite_count: 2010,
-				                                    quoted_status:  { created_at:     'Wed Jun 05 20:07:10 +0000 2012',
-				                                                      id_str:         'CONTENT_ID_2_1',
-				                                                      text:           'TEXT 2_1',
-				                                                      retweet_count:  2021,
-				                                                      favorite_count: 2011,
-				                                                      user:           { screen_name:             'ACCOUNT_ID_2',
-				                                                                        profile_image_url_https: 'image_2_normal.png',
-				                                                                        name:                    'NAME 2' } },
-				                                    entities:       { urls: [{ expanded_url: 'https://twitter.com/ACCOUNT_ID_2/status/CONTENT_ID_2_1',
-				                                                               display_url:  'twitter.com/ACCOUNT_ID_2/status/CONTENT_ID_2_1',
-				                                                               url:          'https://t.co/L91iY8DnV4' }] } }];
+				default_statuses_user_timeline = [{ created_at:     'Wed Jun 06 20:07:10 +0000 2012', id_str:         'CONTENT_ID_1', text:           'TEXT 1 https://t.co/4VL91iY8Dn', retweet_count:  1020, favorite_count: 1010, quoted_status:  { created_at:     'Wed Jun 05 20:07:10 +0000 2012', id_str:         'CONTENT_ID_1_1', text:           'TEXT 1_1', retweet_count:  1021, favorite_count: 1011, user:           { screen_name:             'ACCOUNT_ID_1', profile_image_url_https: 'image_1_normal.png', name:                    'NAME 1' } }, entities:       { urls: [{ expanded_url: 'https://twitter.com/ACCOUNT_ID_1/status/CONTENT_ID_1_1', display_url:  'twitter.com/ACCOUNT_ID_1/status/CONTENT_ID_1_1', url:          'https://t.co/4VL91iY8Dn' }] } }, { created_at:     'Wed Jun 06 20:07:10 +0000 2012', id_str:         'CONTENT_ID_2', text:           'TEXT 2 https://t.co/L91iY8DnV4', retweet_count:  2020, favorite_count: 2010, quoted_status:  { created_at:     'Wed Jun 05 20:07:10 +0000 2012', id_str:         'CONTENT_ID_2_1', text:           'TEXT 2_1', retweet_count:  2021, favorite_count: 2011, user:           { screen_name:             'ACCOUNT_ID_2', profile_image_url_https: 'image_2_normal.png', name:                    'NAME 2' } }, entities:       { urls: [{ expanded_url: 'https://twitter.com/ACCOUNT_ID_2/status/CONTENT_ID_2_1', display_url:  'twitter.com/ACCOUNT_ID_2/status/CONTENT_ID_2_1', url:          'https://t.co/L91iY8DnV4' }] } }];
 			});
 
 			it('should callback with quoted tweets', function(done) {
@@ -1727,49 +1181,7 @@ describe('twitter', function() {
 
 				twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 					expect(err).not.to.be.ok;
-					expect(account_content).to.eql({ api:     'twitter',
-					                                 type:    'account_content',
-					                                 id:      'ACCOUNT_ID',
-					                                 content: [{ api:            'twitter',
-					                                             type:           'content',
-					                                             id:             'CONTENT_ID_1',
-					                                             text:           'TEXT 1 ',
-					                                             date:           1339013230000,
-					                                             stats:          { likes:   1010,
-					                                                               reposts: 1020 },
-					                                             quoted_content: { api:     'twitter',
-					                                                               type:    'content',
-					                                                               id:      'CONTENT_ID_1_1',
-					                                                               text:    'TEXT 1_1',
-					                                                               date:    1338926830000,
-					                                                               stats:   { likes:   1011,
-					                                                                          reposts: 1021 },
-					                                                               account: { api:   'twitter',
-					                                                                          type:  'account',
-					                                                                          id:    'ACCOUNT_ID_1',
-					                                                                          name:  'NAME 1',
-					                                                                          image: { small: 'image_1_bigger.png',
-					                                                                                   large: 'image_1.png' } } } },
-					                                           { api:            'twitter',
-					                                             type:           'content',
-					                                             id:             'CONTENT_ID_2',
-					                                             text:           'TEXT 2 ',
-					                                             date:           1339013230000,
-					                                             stats:          { likes:   2010,
-					                                                               reposts: 2020 },
-					                                             quoted_content: { api:     'twitter',
-					                                                               type:    'content',
-					                                                               id:      'CONTENT_ID_2_1',
-					                                                               text:    'TEXT 2_1',
-					                                                               date:    1338926830000,
-					                                                               stats:   { likes:   2011,
-					                                                                          reposts: 2021 },
-					                                                               account: { api:   'twitter',
-					                                                                          type:  'account',
-					                                                                          id:    'ACCOUNT_ID_2',
-					                                                                          name:  'NAME 2',
-					                                                                          image: { small: 'image_2_bigger.png',
-					                                                                                   large: 'image_2.png' } } } }] });
+					expect(account_content).to.eql({ api:     'twitter', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:            'twitter', type:           'content', id:             'CONTENT_ID_1', text:           'TEXT 1 ', date:           1339013230000, stats:          { likes:   1010, reposts: 1020 }, quoted_content: { api:     'twitter', type:    'content', id:      'CONTENT_ID_1_1', text:    'TEXT 1_1', date:    1338926830000, stats:   { likes:   1011, reposts: 1021 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { small: 'image_1_bigger.png', large: 'image_1.png' } } } }, { api:            'twitter', type:           'content', id:             'CONTENT_ID_2', text:           'TEXT 2 ', date:           1339013230000, stats:          { likes:   2010, reposts: 2020 }, quoted_content: { api:     'twitter', type:    'content', id:      'CONTENT_ID_2_1', text:    'TEXT 2_1', date:    1338926830000, stats:   { likes:   2011, reposts: 2021 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_2', name:  'NAME 2', image: { small: 'image_2_bigger.png', large: 'image_2.png' } } } }] });
 					done();
 				});
 			});
@@ -1787,36 +1199,9 @@ describe('twitter', function() {
 				statuses_show_content_2_1_endpoint = nock('https://api.twitter.com', { reqheaders: { Authorization: /^OAuth.*oauth_consumer_key="TWITTER_CONSUMER_KEY".*oauth_token="APP_TOKEN".*$/ } })
 					.get('/1.1/statuses/show/CONTENT_ID_2_1.json');
 
-				default_statuses_user_timeline = [{ created_at:                'Wed Jun 06 20:07:10 +0000 2012',
-				                                    id_str:                    'CONTENT_ID_1',
-				                                    text:                      'TEXT 1',
-				                                    retweet_count:             1020,
-				                                    favorite_count:            1010,
-				                                    in_reply_to_status_id_str: 'CONTENT_ID_1_1',
-				                                    in_reply_to_screen_name:   'ACCOUNT_ID_1' },
-				                                  { created_at:                'Wed Jun 06 20:07:10 +0000 2012',
-				                                    id_str:                    'CONTENT_ID_2',
-				                                    text:                      'TEXT 2',
-				                                    retweet_count:             2020,
-				                                    favorite_count:            2010,
-				                                    in_reply_to_status_id_str: 'CONTENT_ID_2_1',
-				                                    in_reply_to_screen_name:   'ACCOUNT_ID_2' }];
-				default_statuses_show_content_1_1 = { created_at:     'Wed Jun 05 20:07:10 +0000 2012',
-				                                      id_str:         'CONTENT_ID_1_1',
-				                                      text:           'TEXT 1_1',
-				                                      retweet_count:  1021,
-				                                      favorite_count: 1011,
-				                                      user:           { screen_name:             'ACCOUNT_ID_1',
-				                                                        profile_image_url_https: 'image_1_normal.png',
-				                                                        name:                    'NAME 1' } };
-				default_statuses_show_content_2_1 = { created_at:     'Wed Jun 05 20:07:10 +0000 2012',
-				                                      id_str:         'CONTENT_ID_2_1',
-				                                      text:           'TEXT 2_1',
-				                                      retweet_count:  2021,
-				                                      favorite_count: 2011,
-				                                      user:           { screen_name:             'ACCOUNT_ID_2',
-				                                                        profile_image_url_https: 'image_2_normal.png',
-				                                                        name:                    'NAME 2' } };
+				default_statuses_user_timeline = [{ created_at:                'Wed Jun 06 20:07:10 +0000 2012', id_str:                    'CONTENT_ID_1', text:                      'TEXT 1', retweet_count:             1020, favorite_count:            1010, in_reply_to_status_id_str: 'CONTENT_ID_1_1', in_reply_to_screen_name:   'ACCOUNT_ID_1' }, { created_at:                'Wed Jun 06 20:07:10 +0000 2012', id_str:                    'CONTENT_ID_2', text:                      'TEXT 2', retweet_count:             2020, favorite_count:            2010, in_reply_to_status_id_str: 'CONTENT_ID_2_1', in_reply_to_screen_name:   'ACCOUNT_ID_2' }];
+				default_statuses_show_content_1_1 = { created_at:     'Wed Jun 05 20:07:10 +0000 2012', id_str:         'CONTENT_ID_1_1', text:           'TEXT 1_1', retweet_count:  1021, favorite_count: 1011, user:           { screen_name:             'ACCOUNT_ID_1', profile_image_url_https: 'image_1_normal.png', name:                    'NAME 1' } };
+				default_statuses_show_content_2_1 = { created_at:     'Wed Jun 05 20:07:10 +0000 2012', id_str:         'CONTENT_ID_2_1', text:           'TEXT 2_1', retweet_count:  2021, favorite_count: 2011, user:           { screen_name:             'ACCOUNT_ID_2', profile_image_url_https: 'image_2_normal.png', name:                    'NAME 2' } };
 			});
 
 			it('should callback with replied to tweets', function(done) {
@@ -1826,161 +1211,35 @@ describe('twitter', function() {
 
 				twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 					expect(err).not.to.be.ok;
-					expect(account_content).to.eql({ api:     'twitter',
-					                                 type:    'account_content',
-					                                 id:      'ACCOUNT_ID',
-					                                 content: [{ api:                'twitter',
-					                                             type:               'content',
-					                                             id:                 'CONTENT_ID_1',
-					                                             text:               'TEXT 1',
-					                                             date:               1339013230000,
-					                                             stats:              { likes:   1010,
-					                                                                   reposts: 1020 },
-					                                             replied_to_content: { api:     'twitter',
-					                                                                   type:    'content',
-					                                                                   id:      'CONTENT_ID_1_1',
-					                                                                   text:    'TEXT 1_1',
-					                                                                   date:    1338926830000,
-					                                                                   stats:   { likes:   1011,
-					                                                                              reposts: 1021 },
-					                                                                   account: { api:   'twitter',
-					                                                                              type:  'account',
-					                                                                              id:    'ACCOUNT_ID_1',
-					                                                                              name:  'NAME 1',
-					                                                                              image: { small: 'image_1_bigger.png',
-					                                                                                       large: 'image_1.png' } } } },
-					                                           { api:                'twitter',
-					                                             type:               'content',
-					                                             id:                 'CONTENT_ID_2',
-					                                             text:               'TEXT 2',
-					                                             date:               1339013230000,
-					                                             stats:              { likes:   2010,
-					                                                                   reposts: 2020 },
-					                                             replied_to_content: { api:     'twitter',
-					                                                                   type:    'content',
-					                                                                   id:      'CONTENT_ID_2_1',
-					                                                                   text:    'TEXT 2_1',
-					                                                                   date:    1338926830000,
-					                                                                   stats:   { likes:   2011,
-					                                                                              reposts: 2021 },
-					                                                                   account: { api:   'twitter',
-					                                                                              type:  'account',
-					                                                                              id:    'ACCOUNT_ID_2',
-					                                                                              name:  'NAME 2',
-					                                                                              image: { small: 'image_2_bigger.png',
-					                                                                                       large: 'image_2.png' } } } }] });
+					expect(account_content).to.eql({ api:     'twitter', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:                'twitter', type:               'content', id:                 'CONTENT_ID_1', text:               'TEXT 1', date:               1339013230000, stats:              { likes:   1010, reposts: 1020 }, replied_to_content: { api:     'twitter', type:    'content', id:      'CONTENT_ID_1_1', text:    'TEXT 1_1', date:    1338926830000, stats:   { likes:   1011, reposts: 1021 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { small: 'image_1_bigger.png', large: 'image_1.png' } } } }, { api:                'twitter', type:               'content', id:                 'CONTENT_ID_2', text:               'TEXT 2', date:               1339013230000, stats:              { likes:   2010, reposts: 2020 }, replied_to_content: { api:     'twitter', type:    'content', id:      'CONTENT_ID_2_1', text:    'TEXT 2_1', date:    1338926830000, stats:   { likes:   2011, reposts: 2021 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_2', name:  'NAME 2', image: { small: 'image_2_bigger.png', large: 'image_2.png' } } } }] });
 					done();
 				});
 			});
 
 			it('should callback with tweets in a conversation', function(done) {
 				default_statuses_show_content_2_1.in_reply_to_status_id_str = 'CONTENT_ID_1';
-				default_statuses_show_content_2_1.in_reply_to_screen_name   = 'ACCOUNT_ID';
+				default_statuses_show_content_2_1.in_reply_to_screen_name = 'ACCOUNT_ID';
 				statuses_user_timeline_endpoint.reply(200, default_statuses_user_timeline);
 				statuses_show_content_1_1_endpoint.reply(200, default_statuses_show_content_1_1);
 				statuses_show_content_2_1_endpoint.reply(200, default_statuses_show_content_2_1);
 
 				twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 					expect(err).not.to.be.ok;
-					expect(account_content).to.eql({ api:     'twitter',
-					                                 type:    'account_content',
-					                                 id:      'ACCOUNT_ID',
-					                                 content: [{ api:                'twitter',
-					                                             type:               'content',
-					                                             id:                 'CONTENT_ID_2',
-					                                             text:               'TEXT 2',
-					                                             date:               1339013230000,
-					                                             stats:              { likes:   2010,
-					                                                                   reposts: 2020 },
-					                                             replied_to_content: { api:                'twitter',
-					                                                                   type:               'content',
-					                                                                   id:                 'CONTENT_ID_2_1',
-					                                                                   text:               'TEXT 2_1',
-					                                                                   date:               1338926830000,
-					                                                                   stats:              { likes:   2011,
-					                                                                                         reposts: 2021 },
-					                                                                   account:            { api:   'twitter',
-					                                                                                         type:  'account',
-					                                                                                         id:    'ACCOUNT_ID_2',
-					                                                                                         name:  'NAME 2',
-					                                                                                         image: { small: 'image_2_bigger.png',
-					                                                                                                  large: 'image_2.png' } },
-					                                                                   replied_to_content: { api:                'twitter',
-					                                                                                         type:               'content',
-					                                                                                         id:                 'CONTENT_ID_1',
-					                                                                                         text:               'TEXT 1',
-					                                                                                         date:               1339013230000,
-					                                                                                         stats:              { likes:   1010,
-					                                                                                                               reposts: 1020 },
-					                                                                                         replied_to_content: { api:     'twitter',
-					                                                                                                               type:    'content',
-					                                                                                                               id:      'CONTENT_ID_1_1',
-					                                                                                                               text:    'TEXT 1_1',
-					                                                                                                               date:    1338926830000,
-					                                                                                                               stats:   { likes:   1011,
-					                                                                                                                          reposts: 1021 },
-					                                                                                                               account: { api:   'twitter',
-					                                                                                                                          type:  'account',
-					                                                                                                                          id:    'ACCOUNT_ID_1',
-					                                                                                                                          name:  'NAME 1',
-					                                                                                                                          image: { small: 'image_1_bigger.png',
-					                                                                                                                                   large: 'image_1.png' } } } } } }] });
+					expect(account_content).to.eql({ api:     'twitter', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:                'twitter', type:               'content', id:                 'CONTENT_ID_2', text:               'TEXT 2', date:               1339013230000, stats:              { likes:   2010, reposts: 2020 }, replied_to_content: { api:                'twitter', type:               'content', id:                 'CONTENT_ID_2_1', text:               'TEXT 2_1', date:               1338926830000, stats:              { likes:   2011, reposts: 2021 }, account:            { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_2', name:  'NAME 2', image: { small: 'image_2_bigger.png', large: 'image_2.png' } }, replied_to_content: { api:                'twitter', type:               'content', id:                 'CONTENT_ID_1', text:               'TEXT 1', date:               1339013230000, stats:              { likes:   1010, reposts: 1020 }, replied_to_content: { api:     'twitter', type:    'content', id:      'CONTENT_ID_1_1', text:    'TEXT 1_1', date:    1338926830000, stats:   { likes:   1011, reposts: 1021 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { small: 'image_1_bigger.png', large: 'image_1.png' } } } } } }] });
 					done();
 				});
 			});
 
 			it('should callback with the same tweet multiple times when replied to multiple times', function(done) {
 				default_statuses_user_timeline[1].in_reply_to_status_id_str = 'CONTENT_ID_1_1';
-				default_statuses_user_timeline[1].in_reply_to_screen_name   = 'ACCOUNT_ID_1';
+				default_statuses_user_timeline[1].in_reply_to_screen_name = 'ACCOUNT_ID_1';
 				statuses_user_timeline_endpoint.reply(200, default_statuses_user_timeline);
 				statuses_show_content_1_1_endpoint.reply(200, default_statuses_show_content_1_1);
 				statuses_show_content_2_1_endpoint.reply(200, default_statuses_show_content_2_1);
 
 				twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 					expect(err).not.to.be.ok;
-					expect(account_content).to.eql({ api:     'twitter',
-					                                 type:    'account_content',
-					                                 id:      'ACCOUNT_ID',
-					                                 content: [{ api:                'twitter',
-					                                             type:               'content',
-					                                             id:                 'CONTENT_ID_1',
-					                                             text:               'TEXT 1',
-					                                             date:               1339013230000,
-					                                             stats:              { likes:   1010,
-					                                                                   reposts: 1020 },
-					                                             replied_to_content: { api:     'twitter',
-					                                                                   type:    'content',
-					                                                                   id:      'CONTENT_ID_1_1',
-					                                                                   text:    'TEXT 1_1',
-					                                                                   date:    1338926830000,
-					                                                                   stats:   { likes:   1011,
-					                                                                              reposts: 1021 },
-					                                                                   account: { api:   'twitter',
-					                                                                              type:  'account',
-					                                                                              id:    'ACCOUNT_ID_1',
-					                                                                              name:  'NAME 1',
-					                                                                              image: { small: 'image_1_bigger.png',
-					                                                                                       large: 'image_1.png' } } } },
-					                                           { api:                'twitter',
-					                                             type:               'content',
-					                                             id:                 'CONTENT_ID_2',
-					                                             text:               'TEXT 2',
-					                                             date:               1339013230000,
-					                                             stats:              { likes:   2010,
-					                                                                   reposts: 2020 },
-					                                             replied_to_content: { api:     'twitter',
-					                                                                   type:    'content',
-					                                                                   id:      'CONTENT_ID_1_1',
-					                                                                   text:    'TEXT 1_1',
-					                                                                   date:    1338926830000,
-					                                                                   stats:   { likes:   1011,
-					                                                                              reposts: 1021 },
-					                                                                   account: { api:   'twitter',
-					                                                                              type:  'account',
-					                                                                              id:    'ACCOUNT_ID_1',
-					                                                                              name:  'NAME 1',
-					                                                                              image: { small: 'image_1_bigger.png',
-					                                                                                       large: 'image_1.png' } } } }] });
+					expect(account_content).to.eql({ api:     'twitter', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:                'twitter', type:               'content', id:                 'CONTENT_ID_1', text:               'TEXT 1', date:               1339013230000, stats:              { likes:   1010, reposts: 1020 }, replied_to_content: { api:     'twitter', type:    'content', id:      'CONTENT_ID_1_1', text:    'TEXT 1_1', date:    1338926830000, stats:   { likes:   1011, reposts: 1021 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { small: 'image_1_bigger.png', large: 'image_1.png' } } } }, { api:                'twitter', type:               'content', id:                 'CONTENT_ID_2', text:               'TEXT 2', date:               1339013230000, stats:              { likes:   2010, reposts: 2020 }, replied_to_content: { api:     'twitter', type:    'content', id:      'CONTENT_ID_1_1', text:    'TEXT 1_1', date:    1338926830000, stats:   { likes:   1011, reposts: 1021 }, account: { api:   'twitter', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { small: 'image_1_bigger.png', large: 'image_1.png' } } } }] });
 					done();
 				});
 			});
@@ -1992,7 +1251,7 @@ describe('twitter', function() {
 					statuses_show_content_2_1_endpoint.reply(200, default_statuses_show_content_2_1);
 
 					twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content, usage) {
-						expect(usage).to.have.property('twitter-statuses-show-calls',          2);
+						expect(usage).to.have.property('twitter-statuses-show-calls', 2);
 						expect(usage).to.have.property('twitter-statuses-user-timeline-calls', 1);
 						done();
 					});
@@ -2019,7 +1278,7 @@ describe('twitter', function() {
 				statuses_user_timeline_endpoint.reply(200, default_statuses_user_timeline);
 
 				twitter.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content, usage) {
-					expect(usage).to.have.property('twitter-statuses-show-calls',          0);
+					expect(usage).to.have.property('twitter-statuses-show-calls', 0);
 					expect(usage).to.have.property('twitter-statuses-user-timeline-calls', 1);
 					done();
 				});
@@ -2037,7 +1296,7 @@ describe('twitter', function() {
 
 				twitter.account_content({ id: 'ACCOUNT_ID', user: 'TWITTER_USER' }, function(err, account_content, usage) {
 					expect(err).to.eql({ message: 'Twitter Statuses User Timeline', status: 401 });
-					expect(usage).to.have.property('twitter-statuses-show-calls',          0);
+					expect(usage).to.have.property('twitter-statuses-show-calls', 0);
 					expect(usage).to.have.property('twitter-statuses-user-timeline-calls', 0);
 					done();
 				});
@@ -2144,42 +1403,22 @@ describe('twitter urls', function() {
 		describe('into content', function() {
 			it('from twitter.com/ACCOUNT_ID/status/CONTENT_ID', function() {
 				expect(urls.parse(url.parse('https://www.twitter.com/ACCOUNT_ID/status/CONTENT_ID', true, true)))
-					.to.eql({ api:     'twitter',
-					          type:    'content',
-					          id:      'CONTENT_ID',
-					          account: { api:  'twitter',
-					                     type: 'account',
-					                     id:   'ACCOUNT_ID' } });
+					.to.eql({ api:     'twitter', type:    'content', id:      'CONTENT_ID', account: { api:  'twitter', type: 'account', id:   'ACCOUNT_ID' } });
 			});
 
 			it('from twitter.com/ACCOUNT_ID/statuses/CONTENT_ID', function() {
 				expect(urls.parse(url.parse('https://www.twitter.com/ACCOUNT_ID/statuses/CONTENT_ID', true, true)))
-					.to.eql({ api:     'twitter',
-					          type:    'content',
-					          id:      'CONTENT_ID',
-					          account: { api:  'twitter',
-					                     type: 'account',
-					                     id:   'ACCOUNT_ID' } });
+					.to.eql({ api:     'twitter', type:    'content', id:      'CONTENT_ID', account: { api:  'twitter', type: 'account', id:   'ACCOUNT_ID' } });
 			});
 
 			it('from twitter.com/#!/ACCOUNT_ID/status/CONTENT_ID', function() {
 				expect(urls.parse(url.parse('https://www.twitter.com/#!/ACCOUNT_ID/status/CONTENT_ID', true, true)))
-					.to.eql({ api:     'twitter',
-					          type:    'content',
-					          id:      'CONTENT_ID',
-					          account: { api:  'twitter',
-					                     type: 'account',
-					                     id:   'ACCOUNT_ID' } });
+					.to.eql({ api:     'twitter', type:    'content', id:      'CONTENT_ID', account: { api:  'twitter', type: 'account', id:   'ACCOUNT_ID' } });
 			});
 
 			it('from twitter.com/#!/ACCOUNT_ID/statuses/CONTENT_ID', function() {
 				expect(urls.parse(url.parse('https://www.twitter.com/#!/ACCOUNT_ID/statuses/CONTENT_ID', true, true)))
-					.to.eql({ api:     'twitter',
-					          type:    'content',
-					          id:      'CONTENT_ID',
-					          account: { api:  'twitter',
-					                     type: 'account',
-					                     id:   'ACCOUNT_ID' } });
+					.to.eql({ api:     'twitter', type:    'content', id:      'CONTENT_ID', account: { api:  'twitter', type: 'account', id:   'ACCOUNT_ID' } });
 			});
 
 			it('from twitter.com/intent/tweet?in_reply_to=CONTENT_ID', function() {

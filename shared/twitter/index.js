@@ -32,14 +32,7 @@ module.exports = function(params) {
 
 	function user_to_account(user) {
 		var user_profile_image_url_https = _.result(user, 'profile_image_url_https');
-		return !_.isEmpty(user) && _.pick({ api:   'twitter',
-		                                    type:  'account',
-		                                    id:    _.result(user, 'screen_name'),
-		                                    name:  _.result(user, 'name'),
-		                                    image: !_.result(user, 'default_profile_image') &&
-		                                           !_.isEmpty(user_profile_image_url_https) &&
-		                                           { small: user_profile_image_url_https.replace('_normal', '_bigger'),
-		                                             large: user_profile_image_url_https.replace('_normal', '') } }, _.negate(_.isEmpty));
+		return !_.isEmpty(user) && _.pick({ api:   'twitter', type:  'account', id:    _.result(user, 'screen_name'), name:  _.result(user, 'name'), image: !_.result(user, 'default_profile_image') && !_.isEmpty(user_profile_image_url_https) && { small: user_profile_image_url_https.replace('_normal', '_bigger'), large: user_profile_image_url_https.replace('_normal', '') } }, _.negate(_.isEmpty));
 	}
 
 	function tweet_to_content(tweet) {
@@ -54,13 +47,7 @@ module.exports = function(params) {
 
 			var first_entity           = _.first(extended_entities);
 			var first_entity_media_url = _.result(first_entity, 'media_url_https');
-			var first_entity_video_url = _.chain(first_entity)
-			                              .result('video_info')
-			                              .result('variants')
-			                              .where({ content_type: 'video/mp4' })
-			                              .min(function(variant) { return Math.abs((variant.bitrate || 0) - 832000); })
-			                              .result('url')
-			                              .value();
+			var first_entity_video_url = _.chain(first_entity) .result('video_info') .result('variants') .where({ content_type: 'video/mp4' }) .min(function(variant) { return Math.abs((variant.bitrate || 0) - 832000); }) .result('url') .value();
 
 			var photo_entities = _.where(extended_entities, { type: 'photo' });
 
@@ -72,41 +59,15 @@ module.exports = function(params) {
 
 				var quoted_url     = (urls.print(quoted_content) || '').toLowerCase();
 				var entity_to_move = _.find(entities_to_keep, function(entity) { return (entity.expanded_url || '').toLowerCase() === quoted_url; });
-				entities_to_keep   = _.without(entities_to_keep, entity_to_move);
+				entities_to_keep = _.without(entities_to_keep, entity_to_move);
 				entities_to_remove = _.union(entities_to_remove, [entity_to_move]);
 			}
 
-			extend_with = { text:           autolinker_with_entities((_.result(tweet, 'text') || '')
-			                                                           .replace(/\n+$/, '')
-			                                                           .replace(/\n/g, '<br>'), entities_to_keep, entities_to_remove),
-			                image:          !_.isEmpty(first_entity_media_url) &&
-			                                (photo_entities.length < 2) &&
-			                                { small:  first_entity_media_url + ':small',
-			                                  medium: first_entity_media_url + ':medium',
-			                                  large:  first_entity_media_url + ':large' },
-			                images:         (photo_entities.length >= 2) && _.chain(photo_entities)
-			                                                                 .pluck('media_url_https')
-			                                                                 .map(function(media_url_https) {
-			                                                                     return { small:  media_url_https + ':small',
-			                                                                              medium: media_url_https + ':medium',
-			                                                                              large:  media_url_https + ':large' };
-			                                                                 })
-			                                                                 .value(),
-			                gif:            (_.result(first_entity, 'type') === 'animated_gif') && first_entity_video_url,
-			                video:          (_.result(first_entity, 'type') === 'video') && first_entity_video_url,
-			                stats:          { likes:   Number(_.result(tweet, 'favorite_count')),
-			                                  reposts: Number(_.result(tweet, 'retweet_count')) },
-			                quoted_content: quoted_content };
+			extend_with = { text:           autolinker_with_entities((_.result(tweet, 'text') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>'), entities_to_keep, entities_to_remove), image:          !_.isEmpty(first_entity_media_url) && (photo_entities.length < 2) && { small:  first_entity_media_url + ':small', medium: first_entity_media_url + ':medium', large:  first_entity_media_url + ':large' }, images:         (photo_entities.length >= 2) && _.chain(photo_entities) .pluck('media_url_https') .map(function(media_url_https) {
+			                                                                     	return { small:  media_url_https + ':small', medium: media_url_https + ':medium', large:  media_url_https + ':large' }; }) .value(), gif:            (_.result(first_entity, 'type') === 'animated_gif') && first_entity_video_url, video:          (_.result(first_entity, 'type') === 'video') && first_entity_video_url, stats:          { likes:   Number(_.result(tweet, 'favorite_count')), reposts: Number(_.result(tweet, 'retweet_count')) }, quoted_content: quoted_content };
 		}
 
-		return _.chain({ api:     'twitter',
-		                 type:    'content',
-		                 id:      _.result(tweet, 'id_str'),
-		                 date:    Date.parse(_.result(tweet, 'created_at')),
-		                 account: user_to_account(_.result(tweet, 'user')) })
-		        .extend(extend_with)
-		        .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
-		        .value();
+		return _.chain({ api:     'twitter', type:    'content', id:      _.result(tweet, 'id_str'), date:    Date.parse(_.result(tweet, 'created_at')), account: user_to_account(_.result(tweet, 'user')) }) .extend(extend_with) .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))) .value();
 	}
 
 	api.content = function(args, callback) {
@@ -128,8 +89,7 @@ module.exports = function(params) {
 				return callback(err, null, usage);
 			}
 
-			callback(null, _.extend(tweet_to_content(results.tweet),
-			                        results.replied_to_tweet && { replied_to_content: tweet_to_content(results.replied_to_tweet) }), usage);
+			callback(null, _.extend(tweet_to_content(results.tweet), results.replied_to_tweet && { replied_to_content: tweet_to_content(results.replied_to_tweet) }), usage);
 		});
 	};
 
@@ -139,26 +99,13 @@ module.exports = function(params) {
 		if (!_.chain(args).result('for').isEmpty().value()) {
 			_.extend(query, { q: _.map(urls.represent(args.for), function(url) { return (url || '').replace(/^https?:\/\//, ''); }).join(' OR ') });
 		} else {
-			_.extend(query, { q:        'to:' + _.chain(args).result('account').result('id').value(),
-			                  since_id: _.result(args, 'id') });
+			_.extend(query, { q:        'to:' + _.chain(args).result('account').result('id').value(), since_id: _.result(args, 'id') });
 		}
 		model.search_tweets(query, _.pick(args, 'user'), usage, function(err, tweets) {
 			if (err) {
 				return callback(err, null, usage);
 			}
-			callback(null, _.chain(args)
-			                .pick('id', 'for')
-			                .extend({ api:      'twitter',
-			                          type:     'discussion',
-			                          comments: _.chain(tweets)
-			                                     .map(function(tweet) { return _.result(tweet, 'retweeted_status', tweet); })
-			                                     .where(query.since_id ? { in_reply_to_status_id_str: query.since_id } : {})
-			                                     .uniq(false, _.property('id_str'))
-			                                     .first(config.counts.listed)
-			                                     .map(tweet_to_content)
-			                                     .value() })
-			                .pick(_.negate(_.isEmpty))
-			                .value(), usage);
+			callback(null, _.chain(args) .pick('id', 'for') .extend({ api:      'twitter', type:     'discussion', comments: _.chain(tweets) .map(function(tweet) { return _.result(tweet, 'retweeted_status', tweet); }) .where(query.since_id ? { in_reply_to_status_id_str: query.since_id } : {}) .uniq(false, _.property('id_str')) .first(config.counts.listed) .map(tweet_to_content) .value() }) .pick(_.negate(_.isEmpty)) .value(), usage);
 		});
 	};
 
@@ -175,30 +122,12 @@ module.exports = function(params) {
 
 			var text = autolinker_with_entities(_.result(user, 'description', ''), user_description_urls_entities);
 
-			callback(null, _.chain(user_to_account(user))
-			                .extend({ text:     text,
-			                          verified: _.result(user, 'verified'),
-			                          banner:   !_.isEmpty(user_profile_banner_url) && (user_profile_banner_url.replace(/\/$/, '') + '/1500x500'),
-			                          stats:    { content:    Number(_.result(user, 'statuses_count')),
-			                                      followers:  Number(_.result(user, 'followers_count')),
-			                                      following:  Number(_.result(user, 'friends_count')) },
-			                          accounts: _.chain(user_entities)
-			                                     .result('url')
-			                                     .result('urls')
-			                                     .pluck('expanded_url')
-			                                     .union(_.invoke(text.match(/href="[^"]+"/g), 'slice', 6, -1))
-			                                     .uniq()
-			                                     .map(urls.parse)
-			                                     .where({ type: 'account' })
-			                                     .value() })
-			                .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty), function(value) { return value === true; /* This exists for verified */ }))
-			                .value(), usage);
+			callback(null, _.chain(user_to_account(user)) .extend({ text:     text, verified: _.result(user, 'verified'), banner:   !_.isEmpty(user_profile_banner_url) && (user_profile_banner_url.replace(/\/$/, '') + '/1500x500'), stats:    { content:    Number(_.result(user, 'statuses_count')), followers:  Number(_.result(user, 'followers_count')), following:  Number(_.result(user, 'friends_count')) }, accounts: _.chain(user_entities) .result('url') .result('urls') .pluck('expanded_url') .union(_.invoke(text.match(/href="[^"]+"/g), 'slice', 6, -1)) .uniq() .map(urls.parse) .where({ type: 'account' }) .value() }) .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty), function(value) { return value === true; /* This exists for verified */ })) .value(), usage);
 		});
 	};
 
 	api.account_content = function(args, callback) {
-		var usage = { 'twitter-statuses-show-calls':          0,
-		              'twitter-statuses-user-timeline-calls': 0 };
+		var usage = { 'twitter-statuses-show-calls':          0, 'twitter-statuses-user-timeline-calls': 0 };
 		async.auto({
 			tweets: function(callback) {
 				model.statuses_user_timeline(_.pick(args, 'id'), _.pick(args, 'user'), usage, callback);
@@ -217,15 +146,9 @@ module.exports = function(params) {
 				return callback(err, null, usage);
 			}
 
-			var tweets = _.chain(results.tweets)
-			              .union(results.replied_to_tweets)
-			              .compact()
-			              .value();
+			var tweets = _.chain(results.tweets) .union(results.replied_to_tweets) .compact() .value();
 
-			var tweet_id_to_replied_to_id = _.chain(tweets)
-			                                 .indexBy('id_str')
-			                                 .mapObject(_.property('in_reply_to_status_id_str'))
-			                                 .value();
+			var tweet_id_to_replied_to_id = _.chain(tweets) .indexBy('id_str') .mapObject(_.property('in_reply_to_status_id_str')) .value();
 
 			var content       = _.map(tweets, tweet_to_content);
 			var content_by_id = _.indexBy(content, 'id');
@@ -243,13 +166,7 @@ module.exports = function(params) {
 				tweet_as_content.replied_to_content = replied_to_tweet_as_content;
 			});
 
-			callback(null, _.pick({ api:     'twitter',
-			                        type:    'account_content',
-			                        id:      _.result(args, 'id'),
-			                        content: _.chain(content)
-			                                  .map(_.partial(_.omit, _, 'account'))
-			                                  .reject(_.isEmpty)
-			                                  .value() }, _.negate(_.isEmpty)), usage);
+			callback(null, _.pick({ api:     'twitter', type:    'account_content', id:      _.result(args, 'id'), content: _.chain(content) .map(_.partial(_.omit, _, 'account')) .reject(_.isEmpty) .value() }, _.negate(_.isEmpty)), usage);
 		});
 	};
 
@@ -292,7 +209,7 @@ module.exports = function(params) {
 								err.status = status;
 								break;
 							default:
-								err.status          = (status >= 500) ? 502 : 500;
+								err.status = (status >= 500) ? 502 : 500;
 								err.original_status = status;
 								break;
 						}
@@ -329,7 +246,7 @@ module.exports = function(params) {
 								err.status = status;
 								break;
 							default:
-								err.status          = (status >= 500) ? 502 : 500;
+								err.status = (status >= 500) ? 502 : 500;
 								err.original_status = status;
 								break;
 						}
@@ -366,7 +283,7 @@ module.exports = function(params) {
 								err.status = status;
 								break;
 							default:
-								err.status          = (status >= 500) ? 502 : 500;
+								err.status = (status >= 500) ? 502 : 500;
 								err.original_status = status;
 								break;
 						}
@@ -403,7 +320,7 @@ module.exports = function(params) {
 								err.status = status;
 								break;
 							default:
-								err.status          = (status >= 500) ? 502 : 500;
+								err.status = (status >= 500) ? 502 : 500;
 								err.original_status = status;
 								break;
 						}

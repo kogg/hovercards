@@ -9,9 +9,7 @@ urls.parse = function(url_obj) {
 	if (path_parts[0] === 'p') {
 		return !_.isEmpty(path_parts[1]) && { api: 'instagram', type: 'content', id: path_parts[1].replace(/[?&].*/, '') };
 	}
-	return !_.isEmpty(path_parts[0]) &&
-	       !path_parts[0].match(/^(?:about|developer|explore|legal|press)$/) &&
-	       { api: 'instagram', type: 'account', id: path_parts[0].replace(/[?&].*/, '') };
+	return !_.isEmpty(path_parts[0]) && !path_parts[0].match(/^(?:about|developer|explore|legal|press)$/) && { api: 'instagram', type: 'account', id: path_parts[0].replace(/[?&].*/, '') };
 };
 
 urls.represent = function(identity) {

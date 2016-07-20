@@ -46,20 +46,7 @@ describe('soundcloud', function() {
 				.get('/tracks/SOUNDCLOUD_TRACK_ID')
 				.query({ client_id: 'SOUNDCLOUD_CLIENT_ID' });
 
-			default_track = { id:                'SOUNDCLOUD_TRACK_ID',
-			                  kind:              'track',
-			                  created_at:        '2015/06/29 15:48:11 +0000',
-			                  commentable:       true,
-			                  permalink:         'CONTENT_ID',
-			                  description:       'TEXT',
-			                  title:             'NAME',
-			                  artwork_url:       'image-large.jpg',
-			                  user:              { permalink:  'ACCOUNT_ID',
-			                                       username:   'ACCOUNT NAME',
-			                                       avatar_url: 'account-image-large.jpg' },
-			                  playback_count:    1002,
-			                  favoritings_count: 1001,
-			                  comment_count:     1003 };
+			default_track = { id:                'SOUNDCLOUD_TRACK_ID', kind:              'track', created_at:        '2015/06/29 15:48:11 +0000', commentable:       true, permalink:         'CONTENT_ID', description:       'TEXT', title:             'NAME', artwork_url:       'image-large.jpg', user:              { permalink:  'ACCOUNT_ID', username:   'ACCOUNT NAME', avatar_url: 'account-image-large.jpg' }, playback_count:    1002, favoritings_count: 1001, comment_count:     1003 };
 		});
 
 		describe('for a track', function() {
@@ -74,25 +61,7 @@ describe('soundcloud', function() {
 
 				soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }, function(err, content) {
 					expect(err).not.to.be.ok;
-					expect(content).to.eql({ api:     'soundcloud',
-					                         type:    'content',
-					                         id:      'CONTENT_ID',
-					                         name:    'NAME',
-					                         text:    'TEXT',
-					                         date:    1435592891000,
-					                         image:   { small:  'image-large.jpg',
-					                                    medium: 'image-t300x300.jpg',
-					                                    large:  'image-t500x500.jpg' },
-					                         stats:   { likes:    1001,
-					                                    views:    1002,
-					                                    comments: 1003 },
-					                         account: { api:   'soundcloud',
-					                                    type:  'account',
-					                                    id:    'ACCOUNT_ID',
-					                                    name:  'ACCOUNT NAME',
-					                                    image: { small:  'account-image-large.jpg',
-					                                             medium: 'account-image-t300x300.jpg',
-					                                             large:  'account-image-t500x500.jpg' } } });
+					expect(content).to.eql({ api:     'soundcloud', type:    'content', id:      'CONTENT_ID', name:    'NAME', text:    'TEXT', date:    1435592891000, image:   { small:  'image-large.jpg', medium: 'image-t300x300.jpg', large:  'image-t500x500.jpg' }, stats:   { likes:    1001, views:    1002, comments: 1003 }, account: { api:   'soundcloud', type:  'account', id:    'ACCOUNT_ID', name:  'ACCOUNT NAME', image: { small:  'account-image-large.jpg', medium: 'account-image-t300x300.jpg', large:  'account-image-t500x500.jpg' } } });
 					done();
 				});
 			});
@@ -221,16 +190,7 @@ describe('soundcloud', function() {
 					.get('/playlists/SOUNDCLOUD_PLAYLIST_ID')
 					.query({ client_id: 'SOUNDCLOUD_CLIENT_ID' });
 
-				default_playlist = { kind:        'playlist',
-				                     created_at:  '2015/06/29 15:48:11 +0000',
-				                     permalink:   'CONTENT_ID',
-				                     description: 'TEXT',
-				                     title:       'NAME',
-				                     track_count: 1001,
-				                     artwork_url: 'image-large.jpg',
-				                     user:        { permalink:  'ACCOUNT_ID',
-				                                    username:   'ACCOUNT NAME',
-				                                    avatar_url: 'account-image-large.jpg' } };
+				default_playlist = { kind:        'playlist', created_at:  '2015/06/29 15:48:11 +0000', permalink:   'CONTENT_ID', description: 'TEXT', title:       'NAME', track_count: 1001, artwork_url: 'image-large.jpg', user:        { permalink:  'ACCOUNT_ID', username:   'ACCOUNT NAME', avatar_url: 'account-image-large.jpg' } };
 			});
 
 			it('should callback a soundcloud playlist', function(done) {
@@ -238,28 +198,7 @@ describe('soundcloud', function() {
 
 				soundcloud.content({ id: 'CONTENT_ID', as: 'playlist', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }, function(err, content) {
 					expect(err).not.to.be.ok;
-					expect(content).to.eql({ api:         'soundcloud',
-					                         type:        'content',
-					                         id:          'CONTENT_ID',
-					                         as:          'playlist',
-					                         name:        'NAME',
-					                         text:        'TEXT',
-					                         date:        1435592891000,
-					                         image:       { small:  'image-large.jpg',
-					                                        medium: 'image-t300x300.jpg',
-					                                        large:  'image-t500x500.jpg' },
-					                         stats:       { content: 1001 },
-					                         account:     { api:   'soundcloud',
-					                                        type:  'account',
-					                                        id:    'ACCOUNT_ID',
-					                                        name:  'ACCOUNT NAME',
-					                                        image: { small:  'account-image-large.jpg',
-					                                                 medium: 'account-image-t300x300.jpg',
-					                                                 large:  'account-image-t500x500.jpg' } },
-					                         discussions: [{ api:           'soundcloud',
-					                                         type:          'discussion',
-					                                         id:            'CONTENT_ID',
-					                                         uncommentable: true }] });
+					expect(content).to.eql({ api:         'soundcloud', type:        'content', id:          'CONTENT_ID', as:          'playlist', name:        'NAME', text:        'TEXT', date:        1435592891000, image:       { small:  'image-large.jpg', medium: 'image-t300x300.jpg', large:  'image-t500x500.jpg' }, stats:       { content: 1001 }, account:     { api:   'soundcloud', type:  'account', id:    'ACCOUNT_ID', name:  'ACCOUNT NAME', image: { small:  'account-image-large.jpg', medium: 'account-image-t300x300.jpg', large:  'account-image-t500x500.jpg' } }, discussions: [{ api:           'soundcloud', type:          'discussion', id:            'CONTENT_ID', uncommentable: true }] });
 					done();
 				});
 			});
@@ -456,34 +395,8 @@ describe('soundcloud', function() {
 				.get('/tracks/SOUNDCLOUD_TRACK_ID/comments')
 				.query({ client_id: 'SOUNDCLOUD_CLIENT_ID' });
 
-			default_track = { id:                'SOUNDCLOUD_TRACK_ID',
-			                  kind:              'track',
-			                  created_at:        '2015/06/29 15:48:11 +0000',
-			                  commentable:       true,
-			                  permalink:         'CONTENT_ID',
-			                  description:       'TEXT',
-			                  title:             'NAME',
-			                  artwork_url:       'image-large.jpg',
-			                  user:              { permalink:  'ACCOUNT_ID',
-			                                       username:   'ACCOUNT NAME',
-			                                       avatar_url: 'account-image-large.jpg' },
-			                  playback_count:    1002,
-			                  favoritings_count: 1001,
-			                  comment_count:     1003 };
-			default_tracks_comments = [{ id:         'SOUNDCLOUD_COMMENT_ID_1',
-			                             created_at: '2015/04/28 03:37:27 +0000',
-			                             timestamp:  1000,
-			                             body:       'TEXT 1',
-			                             user:       { permalink:  'ACCOUNT_ID_1',
-			                                           username:   'NAME 1',
-			                                           avatar_url: 'image-1-large.jpg' } },
-			                           { id:         'SOUNDCLOUD_COMMENT_ID_2',
-			                             created_at: '2015/04/27 03:37:27 +0000',
-			                             timestamp:  2000,
-			                             body:       'TEXT 2',
-			                             user:       { permalink:  'ACCOUNT_ID_2',
-			                                           username:   'NAME 2',
-			                                           avatar_url: 'image-2-large.jpg' } }];
+			default_track = { id:                'SOUNDCLOUD_TRACK_ID', kind:              'track', created_at:        '2015/06/29 15:48:11 +0000', commentable:       true, permalink:         'CONTENT_ID', description:       'TEXT', title:             'NAME', artwork_url:       'image-large.jpg', user:              { permalink:  'ACCOUNT_ID', username:   'ACCOUNT NAME', avatar_url: 'account-image-large.jpg' }, playback_count:    1002, favoritings_count: 1001, comment_count:     1003 };
+			default_tracks_comments = [{ id:         'SOUNDCLOUD_COMMENT_ID_1', created_at: '2015/04/28 03:37:27 +0000', timestamp:  1000, body:       'TEXT 1', user:       { permalink:  'ACCOUNT_ID_1', username:   'NAME 1', avatar_url: 'image-1-large.jpg' } }, { id:         'SOUNDCLOUD_COMMENT_ID_2', created_at: '2015/04/27 03:37:27 +0000', timestamp:  2000, body:       'TEXT 2', user:       { permalink:  'ACCOUNT_ID_2', username:   'NAME 2', avatar_url: 'image-2-large.jpg' } }];
 		});
 
 		it('should callback soundcloud comments', function(done) {
@@ -493,35 +406,7 @@ describe('soundcloud', function() {
 
 			soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }, function(err, discussion) {
 				expect(err).not.to.be.ok;
-				expect(discussion).to.eql({ api:      'soundcloud',
-				                            type:     'discussion',
-				                            id:       'CONTENT_ID',
-				                            comments: [{ api:         'soundcloud',
-				                                         type:        'comment',
-				                                         id:          'SOUNDCLOUD_COMMENT_ID_1',
-				                                         text:        'TEXT 1',
-				                                         date:        1430192247000,
-				                                         time_offset: 1000,
-				                                         account:     { api:   'soundcloud',
-				                                                        type:  'account',
-				                                                        id:    'ACCOUNT_ID_1',
-				                                                        name:  'NAME 1',
-				                                                        image: { small:  'image-1-large.jpg',
-				                                                                 medium: 'image-1-t300x300.jpg',
-				                                                                 large:  'image-1-t500x500.jpg' } } },
-				                                       { api:         'soundcloud',
-				                                         type:        'comment',
-				                                         id:          'SOUNDCLOUD_COMMENT_ID_2',
-				                                         text:        'TEXT 2',
-				                                         date:        1430105847000,
-				                                         time_offset: 2000,
-				                                         account:     { api:   'soundcloud',
-				                                                        type:  'account',
-				                                                        id:    'ACCOUNT_ID_2',
-				                                                        name:  'NAME 2',
-				                                                        image: { small:  'image-2-large.jpg',
-				                                                                 medium: 'image-2-t300x300.jpg',
-				                                                                 large:  'image-2-t500x500.jpg' } } }] });
+				expect(discussion).to.eql({ api:      'soundcloud', type:     'discussion', id:       'CONTENT_ID', comments: [{ api:         'soundcloud', type:        'comment', id:          'SOUNDCLOUD_COMMENT_ID_1', text:        'TEXT 1', date:        1430192247000, time_offset: 1000, account:     { api:   'soundcloud', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { small:  'image-1-large.jpg', medium: 'image-1-t300x300.jpg', large:  'image-1-t500x500.jpg' } } }, { api:         'soundcloud', type:        'comment', id:          'SOUNDCLOUD_COMMENT_ID_2', text:        'TEXT 2', date:        1430105847000, time_offset: 2000, account:     { api:   'soundcloud', type:  'account', id:    'ACCOUNT_ID_2', name:  'NAME 2', image: { small:  'image-2-large.jpg', medium: 'image-2-t300x300.jpg', large:  'image-2-t500x500.jpg' } } }] });
 				done();
 			});
 		});
@@ -739,14 +624,7 @@ describe('soundcloud', function() {
 
 			sandbox.stub(urls, 'parse');
 
-			default_user = { id:               'SOUNDCLOUD_USER_ID',
-			                 permalink:        'ACCOUNT_ID',
-			                 username:         'NAME',
-			                 avatar_url:       'image-large.jpg',
-			                 description:      'TEXT',
-			                 track_count:      1000,
-			                 followers_count:  2000,
-			                 followings_count: 3000 };
+			default_user = { id:               'SOUNDCLOUD_USER_ID', permalink:        'ACCOUNT_ID', username:         'NAME', avatar_url:       'image-large.jpg', description:      'TEXT', track_count:      1000, followers_count:  2000, followings_count: 3000 };
 			default_web_profiles = [];
 		});
 
@@ -757,17 +635,7 @@ describe('soundcloud', function() {
 
 			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
 				expect(err).not.to.be.ok;
-				expect(account).to.eql({ api:   'soundcloud',
-				                         type:  'account',
-				                         id:    'ACCOUNT_ID',
-				                         name:  'NAME',
-				                         text:  'TEXT',
-				                         image: { small:  'image-large.jpg',
-				                                  medium: 'image-t300x300.jpg',
-				                                  large:  'image-t500x500.jpg' },
-				                         stats: { content:   1000,
-				                                  followers: 2000,
-				                                  following: 3000 } });
+				expect(account).to.eql({ api:   'soundcloud', type:  'account', id:    'ACCOUNT_ID', name:  'NAME', text:  'TEXT', image: { small:  'image-large.jpg', medium: 'image-t300x300.jpg', large:  'image-t500x500.jpg' }, stats: { content:   1000, followers: 2000, following: 3000 } });
 				done();
 			});
 		});
@@ -783,7 +651,7 @@ describe('soundcloud', function() {
 
 			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
 				expect(err).not.to.be.ok;
-				expect(account.accounts).to.contain({ api: 'someapi',    type: 'account', id: 'ACCOUNT_ID_1' });
+				expect(account.accounts).to.contain({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_1' });
 				expect(account.accounts).to.contain({ api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID_2' });
 				done();
 			});
@@ -816,8 +684,8 @@ describe('soundcloud', function() {
 
 			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
 				expect(err).not.to.be.ok;
-				expect(account.accounts).to.contain({ api: 'someapi',   type: 'account', id: 'ACCOUNT_ID_1' });
-				expect(account.accounts).to.contain({ api: 'someapi',   type: 'account', id: 'ACCOUNT_ID_2' });
+				expect(account.accounts).to.contain({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_1' });
+				expect(account.accounts).to.contain({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_2' });
 				done();
 			});
 		});
@@ -1036,45 +904,9 @@ describe('soundcloud', function() {
 
 			sandbox.stub(urls, 'parse');
 
-			default_user = { id:               'SOUNDCLOUD_USER_ID',
-			                 permalink:        'ACCOUNT_ID',
-			                 username:         'NAME',
-			                 avatar_url:       'image-large.jpg',
-			                 description:      'TEXT',
-			                 track_count:      1000,
-			                 playlist_count:   2000,
-			                 followers_count:  3000,
-			                 followings_count: 4000 };
-			default_users_playlists = [{ kind:        'playlist',
-			                             created_at:  '2015/05/22 01:53:47 +0000',
-			                             title:       'NAME PLAYLIST 1',
-			                             permalink:   'CONTENT_ID_PLAYLIST_1',
-			                             track_count: 1101,
-			                             artwork_url: 'image-playlist-1-large.jpg',
-			                             user:        { permalink: 'ACCOUNT_ID_PLAYLIST_1' } },
-			                           { kind:        'playlist',
-			                             created_at:  '2015/05/20 01:53:47 +0000',
-			                             title:       'NAME PLAYLIST 2',
-			                             permalink:   'CONTENT_ID_PLAYLIST_2',
-			                             track_count: 2101,
-			                             artwork_url: 'image-playlist-2-large.jpg',
-			                             user:        { permalink: 'ACCOUNT_ID_PLAYLIST_2' } }];
-			default_users_tracks = [{ created_at:        '2015/05/21 01:53:47 +0000',
-			                          permalink:         'CONTENT_ID_TRACK_1',
-			                          title:             'NAME TRACK 1',
-			                          artwork_url:       'image-track-1-large.jpg',
-			                          user:              { permalink: 'ACCOUNT_ID_TRACK_1' },
-			                          playback_count:    1202,
-			                          favoritings_count: 1201,
-			                          comment_count:     1203 },
-			                        { created_at:        '2015/05/19 01:53:47 +0000',
-			                          permalink:         'CONTENT_ID_TRACK_2',
-			                          title:             'NAME TRACK 2',
-			                          artwork_url:       'image-track-2-large.jpg',
-			                          user:              { permalink: 'ACCOUNT_ID_TRACK_2' },
-			                          playback_count:    2202,
-			                          favoritings_count: 2201,
-			                          comment_count:     2203 }];
+			default_user = { id:               'SOUNDCLOUD_USER_ID', permalink:        'ACCOUNT_ID', username:         'NAME', avatar_url:       'image-large.jpg', description:      'TEXT', track_count:      1000, playlist_count:   2000, followers_count:  3000, followings_count: 4000 };
+			default_users_playlists = [{ kind:        'playlist', created_at:  '2015/05/22 01:53:47 +0000', title:       'NAME PLAYLIST 1', permalink:   'CONTENT_ID_PLAYLIST_1', track_count: 1101, artwork_url: 'image-playlist-1-large.jpg', user:        { permalink: 'ACCOUNT_ID_PLAYLIST_1' } }, { kind:        'playlist', created_at:  '2015/05/20 01:53:47 +0000', title:       'NAME PLAYLIST 2', permalink:   'CONTENT_ID_PLAYLIST_2', track_count: 2101, artwork_url: 'image-playlist-2-large.jpg', user:        { permalink: 'ACCOUNT_ID_PLAYLIST_2' } }];
+			default_users_tracks = [{ created_at:        '2015/05/21 01:53:47 +0000', permalink:         'CONTENT_ID_TRACK_1', title:             'NAME TRACK 1', artwork_url:       'image-track-1-large.jpg', user:              { permalink: 'ACCOUNT_ID_TRACK_1' }, playback_count:    1202, favoritings_count: 1201, comment_count:     1203 }, { created_at:        '2015/05/19 01:53:47 +0000', permalink:         'CONTENT_ID_TRACK_2', title:             'NAME TRACK 2', artwork_url:       'image-track-2-large.jpg', user:              { permalink: 'ACCOUNT_ID_TRACK_2' }, playback_count:    2202, favoritings_count: 2201, comment_count:     2203 }];
 		});
 
 		it('should callback soundcloud tracks and playlists', function(done) {
@@ -1085,63 +917,7 @@ describe('soundcloud', function() {
 
 			soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
 				expect(err).not.to.be.ok;
-				expect(account_content).to.eql({ api:     'soundcloud',
-				                                 type:    'account_content',
-				                                 id:      'ACCOUNT_ID',
-				                                 content: [{ api:     'soundcloud',
-				                                             type:    'content',
-				                                             id:      'CONTENT_ID_PLAYLIST_1',
-				                                             as:      'playlist',
-				                                             name:    'NAME PLAYLIST 1',
-				                                             date:    1432259627000,
-				                                             image:   { small:  'image-playlist-1-large.jpg',
-				                                                        medium: 'image-playlist-1-t300x300.jpg',
-				                                                        large:  'image-playlist-1-t500x500.jpg' },
-				                                             stats:   { content: 1101 },
-				                                             account: { api:  'soundcloud',
-				                                                        type: 'account',
-				                                                        id:   'ACCOUNT_ID_PLAYLIST_1' } },
-				                                           { api:     'soundcloud',
-				                                             type:    'content',
-				                                             id:      'CONTENT_ID_TRACK_1',
-				                                             name:    'NAME TRACK 1',
-				                                             date:    1432173227000,
-				                                             image:   { small:  'image-track-1-large.jpg',
-				                                                        medium: 'image-track-1-t300x300.jpg',
-				                                                        large:  'image-track-1-t500x500.jpg' },
-				                                             stats:   { likes:    1201,
-				                                                        views:    1202,
-				                                                        comments: 1203 },
-				                                             account: { api:  'soundcloud',
-				                                                        type: 'account',
-				                                                        id:   'ACCOUNT_ID_TRACK_1' } },
-				                                           { api:     'soundcloud',
-				                                             type:    'content',
-				                                             id:      'CONTENT_ID_PLAYLIST_2',
-				                                             as:      'playlist',
-				                                             name:    'NAME PLAYLIST 2',
-				                                             date:    1432086827000,
-				                                             image:   { small:  'image-playlist-2-large.jpg',
-				                                                        medium: 'image-playlist-2-t300x300.jpg',
-				                                                        large:  'image-playlist-2-t500x500.jpg' },
-				                                             stats:   { content: 2101 },
-				                                             account: { api:  'soundcloud',
-				                                                        type: 'account',
-				                                                        id:   'ACCOUNT_ID_PLAYLIST_2' } },
-				                                           { api:     'soundcloud',
-				                                             type:    'content',
-				                                             id:      'CONTENT_ID_TRACK_2',
-				                                             name:    'NAME TRACK 2',
-				                                             date:    1432000427000,
-				                                             image:   { small:  'image-track-2-large.jpg',
-				                                                        medium: 'image-track-2-t300x300.jpg',
-				                                                        large:  'image-track-2-t500x500.jpg' },
-				                                             stats:   { likes:    2201,
-				                                                        views:    2202,
-				                                                        comments: 2203 },
-				                                             account: { api:  'soundcloud',
-				                                                        type: 'account',
-				                                                        id:   'ACCOUNT_ID_TRACK_2' } }] });
+				expect(account_content).to.eql({ api:     'soundcloud', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:     'soundcloud', type:    'content', id:      'CONTENT_ID_PLAYLIST_1', as:      'playlist', name:    'NAME PLAYLIST 1', date:    1432259627000, image:   { small:  'image-playlist-1-large.jpg', medium: 'image-playlist-1-t300x300.jpg', large:  'image-playlist-1-t500x500.jpg' }, stats:   { content: 1101 }, account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID_PLAYLIST_1' } }, { api:     'soundcloud', type:    'content', id:      'CONTENT_ID_TRACK_1', name:    'NAME TRACK 1', date:    1432173227000, image:   { small:  'image-track-1-large.jpg', medium: 'image-track-1-t300x300.jpg', large:  'image-track-1-t500x500.jpg' }, stats:   { likes:    1201, views:    1202, comments: 1203 }, account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID_TRACK_1' } }, { api:     'soundcloud', type:    'content', id:      'CONTENT_ID_PLAYLIST_2', as:      'playlist', name:    'NAME PLAYLIST 2', date:    1432086827000, image:   { small:  'image-playlist-2-large.jpg', medium: 'image-playlist-2-t300x300.jpg', large:  'image-playlist-2-t500x500.jpg' }, stats:   { content: 2101 }, account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID_PLAYLIST_2' } }, { api:     'soundcloud', type:    'content', id:      'CONTENT_ID_TRACK_2', name:    'NAME TRACK 2', date:    1432000427000, image:   { small:  'image-track-2-large.jpg', medium: 'image-track-2-t300x300.jpg', large:  'image-track-2-t500x500.jpg' }, stats:   { likes:    2201, views:    2202, comments: 2203 }, account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID_TRACK_2' } }] });
 				done();
 			});
 		});
@@ -1365,44 +1141,22 @@ describe('soundcloud urls', function() {
 		describe('into content', function() {
 			it('from soundcloud.com/ACCOUNT_ID/CONTENT_ID', function() {
 				expect(urls.parse(url.parse('https://www.soundcloud.com/ACCOUNT_ID/CONTENT_ID', true, true)))
-					.to.eql({ api:     'soundcloud',
-					          type:    'content',
-					          id:      'CONTENT_ID',
-					          account: { api:  'soundcloud',
-					                     type: 'account',
-					                     id:   'ACCOUNT_ID' } });
+					.to.eql({ api:     'soundcloud', type:    'content', id:      'CONTENT_ID', account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID' } });
 			});
 
 			it('from soundcloud.com/ACCOUNT_ID/CONTENT_ID/*', function() {
 				expect(urls.parse(url.parse('https://www.soundcloud.com/ACCOUNT_ID/CONTENT_ID/likes', true, true)))
-					.to.eql({ api:     'soundcloud',
-					          type:    'content',
-					          id:      'CONTENT_ID',
-					          account: { api:  'soundcloud',
-					                     type: 'account',
-					                     id:   'ACCOUNT_ID' } });
+					.to.eql({ api:     'soundcloud', type:    'content', id:      'CONTENT_ID', account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID' } });
 			});
 
 			it('from soundcloud.com/ACCOUNT_ID/sets/CONTENT_ID', function() {
 				expect(urls.parse(url.parse('https://www.soundcloud.com/ACCOUNT_ID/sets/CONTENT_ID', true, true)))
-					.to.eql({ api:     'soundcloud',
-					          type:    'content',
-					          id:      'CONTENT_ID',
-					          as:      'playlist',
-					          account: { api:  'soundcloud',
-					                     type: 'account',
-					                     id:   'ACCOUNT_ID' } });
+					.to.eql({ api:     'soundcloud', type:    'content', id:      'CONTENT_ID', as:      'playlist', account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID' } });
 			});
 
 			it('from soundcloud.com/ACCOUNT_ID/sets/CONTENT_ID/*', function() {
 				expect(urls.parse(url.parse('https://www.soundcloud.com/ACCOUNT_ID/sets/CONTENT_ID/likes', true, true)))
-					.to.eql({ api:     'soundcloud',
-					          type:    'content',
-					          id:      'CONTENT_ID',
-					          as:      'playlist',
-					          account: { api:  'soundcloud',
-					                     type: 'account',
-					                     id:   'ACCOUNT_ID' } });
+					.to.eql({ api:     'soundcloud', type:    'content', id:      'CONTENT_ID', as:      'playlist', account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID' } });
 			});
 		});
 

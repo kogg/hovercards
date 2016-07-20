@@ -177,7 +177,7 @@ function make_hovercard(obj, identity, e) {
 			window_scrollLeft + PADDING_FROM_EDGES, // Keep the hovercard from going off the left of the page
 			pos_left + (
 				(pos_left + 1 > window_scrollLeft + window_innerWidth - hovercard__box_width - PADDING_FROM_EDGES)
-					? - hovercard__box_width - 1 // Keep the hovercard from going off the right of the page by putting it on the left
+					? -hovercard__box_width - 1 // Keep the hovercard from going off the right of the page by putting it on the left
 					: 1 // Put the hovercard on the right
 			)
 		);
@@ -196,7 +196,7 @@ function make_hovercard(obj, identity, e) {
 			return;
 		}
 		left = new_left;
-		top  = new_top;
+		top = new_top;
 		hovercard.offset({ left: left, top: top });
 		setCommentPixels();
 	}

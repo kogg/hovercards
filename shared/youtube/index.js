@@ -20,30 +20,12 @@ module.exports = function(params) {
 	function video_to_content(video) {
 		var video_snippet    = _.result(video, 'snippet');
 		var video_thumbnails = _.result(video_snippet, 'thumbnails');
-		return !_.isEmpty(video) && _.pick({ api:   'youtube',
-		                                     type:  'content',
-		                                     name:  _.result(video_snippet, 'title'),
-		                                     date:  Date.parse(_.result(video_snippet, 'publishedAt')),
-		                                     image: { small:  _.chain(video_thumbnails).result('default').result('url').value(),
-		                                              medium: _.chain(video_thumbnails).result('medium').result('url').value(),
-		                                              large:  _.chain(video_thumbnails).result('high').result('url').value() } }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
+		return !_.isEmpty(video) && _.pick({ api:   'youtube', type:  'content', name:  _.result(video_snippet, 'title'), date:  Date.parse(_.result(video_snippet, 'publishedAt')), image: { small:  _.chain(video_thumbnails).result('default').result('url').value(), medium: _.chain(video_thumbnails).result('medium').result('url').value(), large:  _.chain(video_thumbnails).result('high').result('url').value() } }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
 	}
 
 	function comment_to_comment(comment) {
 		var comment_snippet = _.result(comment, 'snippet');
-		return !_.isEmpty(comment) && _.pick({ api:     'youtube',
-		                                       type:    'comment',
-		                                       id:      _.result(comment, 'id'),
-		                                       text:    autolinker.link((_.result(comment_snippet, 'textDisplay') || '')
-		                                                                 .replace(/\n+$/, '')
-		                                                                 .replace(/\n/g, '<br>')),
-		                                       date:    Date.parse(_.result(comment_snippet, 'publishedAt')),
-		                                       stats:   { likes: Number(_.result(comment_snippet, 'likeCount')) },
-		                                       account: { api:   'youtube',
-		                                                  type:  'account',
-		                                                  id:    _.chain(comment_snippet).result('authorChannelId').result('value').value(),
-		                                                  name:  _.result(comment_snippet, 'authorDisplayName'),
-		                                                  image: { small: _.result(comment_snippet, 'authorProfileImageUrl') } } }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
+		return !_.isEmpty(comment) && _.pick({ api:     'youtube', type:    'comment', id:      _.result(comment, 'id'), text:    autolinker.link((_.result(comment_snippet, 'textDisplay') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>')), date:    Date.parse(_.result(comment_snippet, 'publishedAt')), stats:   { likes: Number(_.result(comment_snippet, 'likeCount')) }, account: { api:   'youtube', type:  'account', id:    _.chain(comment_snippet).result('authorChannelId').result('value').value(), name:  _.result(comment_snippet, 'authorDisplayName'), image: { small: _.result(comment_snippet, 'authorProfileImageUrl') } } }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
 	}
 
 	api.content = function(args, callback) {
@@ -55,20 +37,7 @@ module.exports = function(params) {
 
 			var video_snippet    = _.result(video, 'snippet');
 			var video_statistics = _.result(video, 'statistics');
-			callback(err, _.chain(video_to_content(video))
-			               .extend({ id:      _.result(video, 'id'),
-			                         text:    autolinker.link((_.result(video_snippet, 'description') || '')
-			                                                   .replace(/\n+$/, '')
-			                                                   .replace(/\n/g, '<br>')),
-			                         stats:   { likes:    Number(_.result(video_statistics, 'likeCount')),
-			                                    dislikes: Number(_.result(video_statistics, 'dislikeCount')),
-			                                    views:    Number(_.result(video_statistics, 'viewCount')) },
-			                         account: { api:  'youtube',
-			                                    type: 'account',
-			                                    id:   _.result(video_snippet, 'channelId'),
-			                                    name: _.result(video_snippet, 'channelTitle') } })
-			               .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
-			               .value(), usage);
+			callback(err, _.chain(video_to_content(video)) .extend({ id:      _.result(video, 'id'), text:    autolinker.link((_.result(video_snippet, 'description') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>')), stats:   { likes:    Number(_.result(video_statistics, 'likeCount')), dislikes: Number(_.result(video_statistics, 'dislikeCount')), views:    Number(_.result(video_statistics, 'viewCount')) }, account: { api:  'youtube', type: 'account', id:   _.result(video_snippet, 'channelId'), name: _.result(video_snippet, 'channelTitle') } }) .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))) .value(), usage);
 		});
 	};
 
@@ -90,27 +59,10 @@ module.exports = function(params) {
 				}
 				return true;
 			}
-			callback(null, _.pick({ api:      'youtube',
-			                        type:     'discussion',
-			                        id:       args.id,
-			                        comments: _.chain(comment_threads)
-			                                   .map(function(comment_thread) {
-			                                       var comment_thread_snippet         = _.result(comment_thread, 'snippet');
-			                                       var comment_thread_snippet_comment = _.result(comment_thread_snippet, 'topLevelComment');
-			                                       return _.extend(comment_to_comment(comment_thread_snippet_comment),
-			                                                       { stats:   { likes:   Number(_.chain(comment_thread_snippet_comment).result('snippet').result('likeCount').value()),
-			                                                                    replies: Number(_.result(comment_thread_snippet, 'totalReplyCount')) },
-			                                                         replies: _.chain(comment_thread)
-			                                                                   .result('replies')
-			                                                                   .result('comments')
-			                                                                   .map(comment_to_comment)
-			                                                                   .reject(_.isEmpty)
-			                                                                   .reverse()
-			                                                                   .value() });
-			                                   })
-			                                   .reject(_.isEmpty)
-			                                   .filter(limit_comments)
-			                                   .value() }, _.negate(_.isEmpty)), usage);
+			callback(null, _.pick({ api:      'youtube', type:     'discussion', id:       args.id, comments: _.chain(comment_threads) .map(function(comment_thread) {
+			                                       	var comment_thread_snippet         = _.result(comment_thread, 'snippet');
+			                                       	var comment_thread_snippet_comment = _.result(comment_thread_snippet, 'topLevelComment');
+			                                       	return _.extend(comment_to_comment(comment_thread_snippet_comment), { stats:   { likes:   Number(_.chain(comment_thread_snippet_comment).result('snippet').result('likeCount').value()), replies: Number(_.result(comment_thread_snippet, 'totalReplyCount')) }, replies: _.chain(comment_thread) .result('replies') .result('comments') .map(comment_to_comment) .reject(_.isEmpty) .reverse() .value() }); }) .reject(_.isEmpty) .filter(limit_comments) .value() }, _.negate(_.isEmpty)), usage);
 		});
 	};
 
@@ -148,31 +100,9 @@ module.exports = function(params) {
 			var channel_statistics = _.result(results.channel, 'statistics');
 			var channel_thumbnails = _.result(channel_snippet, 'thumbnails');
 
-			var text = autolinker.link((_.result(channel_snippet, 'description') || '')
-			                             .replace(/\n+$/, '')
-			                             .replace(/\n/g, '<br>'));
+			var text = autolinker.link((_.result(channel_snippet, 'description') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>'));
 
-			callback(null, _.pick({ api:      'youtube',
-			                        type:     'account',
-			                        id:       results.id,
-			                        name:     _.result(channel_snippet, 'title'),
-			                        text:     text,
-			                        image:    { small:  _.chain(channel_thumbnails).result('default').result('url').value(),
-			                                    medium: _.chain(channel_thumbnails).result('medium').result('url').value(),
-			                                    large:  _.chain(channel_thumbnails).result('high').result('url').value() },
-			                        banner:   _.chain(results.channel).result('brandingSettings').result('image').result('bannerMobileMediumHdImageUrl').value(),
-			                        stats:    _.mapObject({ content:   Number(_.result(channel_statistics, 'videoCount')),
-			                                                followers: Number(_.result(channel_statistics, 'subscriberCount')),
-			                                                views:     Number(_.result(channel_statistics, 'viewCount')) }),
-			                        accounts: _.chain(results.about_page)
-			                                   .result('accounts')
-			                                   .union(_.chain(text.match(/href="[^"]+"/g))
-			                                           .invoke('slice', 6, -1)
-			                                           .map(urls.parse)
-			                                           .where({ type: 'account' })
-			                                           .value())
-			                                   .uniq(false, function(account) { return account.api + '/' + account.id + '/' + account.as; })
-			                                   .value() }, _.negate(_.isEmpty)), usage);
+			callback(null, _.pick({ api:      'youtube', type:     'account', id:       results.id, name:     _.result(channel_snippet, 'title'), text:     text, image:    { small:  _.chain(channel_thumbnails).result('default').result('url').value(), medium: _.chain(channel_thumbnails).result('medium').result('url').value(), large:  _.chain(channel_thumbnails).result('high').result('url').value() }, banner:   _.chain(results.channel).result('brandingSettings').result('image').result('bannerMobileMediumHdImageUrl').value(), stats:    _.mapObject({ content:   Number(_.result(channel_statistics, 'videoCount')), followers: Number(_.result(channel_statistics, 'subscriberCount')), views:     Number(_.result(channel_statistics, 'viewCount')) }), accounts: _.chain(results.about_page) .result('accounts') .union(_.chain(text.match(/href="[^"]+"/g)) .invoke('slice', 6, -1) .map(urls.parse) .where({ type: 'account' }) .value()) .uniq(false, function(account) { return account.api + '/' + account.id + '/' + account.as; }) .value() }, _.negate(_.isEmpty)), usage);
 		});
 	};
 
@@ -183,30 +113,15 @@ module.exports = function(params) {
 				model.channel(_.pick(args, 'id'), _.pick(args, 'device_id'), usage, callback);
 			},
 			function(channel, callback) {
-				model.playlist_items({ id: _.chain(channel)
-				                            .result('contentDetails')
-				                            .result('relatedPlaylists')
-				                            .result('uploads')
-				                            .value() }, _.pick(args, 'device_id'), usage, callback);
+				model.playlist_items({ id: _.chain(channel) .result('contentDetails') .result('relatedPlaylists') .result('uploads') .value() }, _.pick(args, 'device_id'), usage, callback);
 			}
 		], function(err, playlist_items) {
 			if (err) {
 				return callback(err, null, usage);
 			}
 
-			callback(null, _.pick({ api:     'youtube',
-			                        type:    'account_content',
-			                        id:      _.result(args, 'id'),
-			                        content: _.chain(playlist_items)
-			                                  .map(function(video) {
-			                                      return _.extend(video_to_content(video), { id: _.chain(video)
-			                                                                                      .result('snippet')
-			                                                                                      .result('resourceId')
-			                                                                                      .result('videoId')
-			                                                                                      .value() });
-			                                  })
-			                                  .reject(_.isEmpty)
-			                                  .value() }, _.negate(_.isEmpty)), usage);
+			callback(null, _.pick({ api:     'youtube', type:    'account_content', id:      _.result(args, 'id'), content: _.chain(playlist_items) .map(function(video) {
+			                                      	return _.extend(video_to_content(video), { id: _.chain(video) .result('snippet') .result('resourceId') .result('videoId') .value() }); }) .reject(_.isEmpty) .value() }, _.negate(_.isEmpty)), usage);
 		});
 	};
 
@@ -223,7 +138,7 @@ module.exports = function(params) {
 						err.status = response.statusCode;
 						break;
 					default:
-						err.status          = (response.statusCode >= 500) ? 502 : 500;
+						err.status = (response.statusCode >= 500) ? 502 : 500;
 						err.original_status = response.statusCode;
 						break;
 				}
@@ -236,13 +151,7 @@ module.exports = function(params) {
 			if (!id) {
 				return callback({ status: 404 });
 			}
-			callback(null, _.pick({ id:       id,
-			                        accounts: _.chain($('.about-metadata .about-channel-link').get())
-			                                   .map($)
-			                                   .invoke('attr', 'href')
-			                                   .map(urls.parse)
-			                                   .where({ type: 'account' })
-			                                   .value() }, _.negate(_.isEmpty)));
+			callback(null, _.pick({ id:       id, accounts: _.chain($('.about-metadata .about-channel-link').get()) .map($) .invoke('attr', 'href') .map(urls.parse) .where({ type: 'account' }) .value() }, _.negate(_.isEmpty)));
 		});
 	};
 
@@ -266,7 +175,7 @@ module.exports = function(params) {
 							err.status = response.statusCode;
 							break;
 						default:
-							err.status          = (response.statusCode >= 500) ? 502 : 500;
+							err.status = (response.statusCode >= 500) ? 502 : 500;
 							err.original_status = response.statusCode;
 							break;
 					}
@@ -274,17 +183,11 @@ module.exports = function(params) {
 				if (err) {
 					return callback(err);
 				}
-				var channel = _.chain(body)
-				               .result('items')
-				               .first()
-				               .value();
+				var channel = _.chain(body) .result('items') .first() .value();
 				if (!_.isObject(channel)) {
 					return callback({ status: 404 });
 				}
-				callback(null, _.chain(channel)
-				                .pick('id', 'snippet', 'statistics', 'brandingSettings', 'contentDetails')
-				                .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
-				                .value());
+				callback(null, _.chain(channel) .pick('id', 'snippet', 'statistics', 'brandingSettings', 'contentDetails') .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))) .value());
 			}
 		);
 	};
@@ -309,7 +212,7 @@ module.exports = function(params) {
 							err.status = response.statusCode;
 							break;
 						default:
-							err.status          = (response.statusCode >= 500) ? 502 : 500;
+							err.status = (response.statusCode >= 500) ? 502 : 500;
 							err.original_status = response.statusCode;
 							break;
 					}
@@ -317,17 +220,11 @@ module.exports = function(params) {
 				if (err) {
 					return callback(err);
 				}
-				var channel = _.chain(body)
-				               .result('items')
-				               .first()
-				               .value();
+				var channel = _.chain(body) .result('items') .first() .value();
 				if (!_.isObject(channel)) {
 					return callback({ status: 404 });
 				}
-				callback(null, _.chain(channel)
-				                .pick('id')
-				                .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
-				                .value());
+				callback(null, _.chain(channel) .pick('id') .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))) .value());
 			}
 		);
 	};
@@ -354,7 +251,7 @@ module.exports = function(params) {
 							err.status = response.statusCode;
 							break;
 						default:
-							err.status          = (response.statusCode >= 500) ? 502 : 500;
+							err.status = (response.statusCode >= 500) ? 502 : 500;
 							err.original_status = response.statusCode;
 							break;
 					}
@@ -362,10 +259,7 @@ module.exports = function(params) {
 				if (err) {
 					return callback(err);
 				}
-				callback(null, _.chain(body)
-				                .result('items')
-				                .reject(_.isEmpty)
-				                .value());
+				callback(null, _.chain(body) .result('items') .reject(_.isEmpty) .value());
 			}
 		);
 	};
@@ -390,7 +284,7 @@ module.exports = function(params) {
 							err.status = response.statusCode;
 							break;
 						default:
-							err.status          = (response.statusCode >= 500) ? 502 : 500;
+							err.status = (response.statusCode >= 500) ? 502 : 500;
 							err.original_status = response.statusCode;
 							break;
 					}
@@ -398,10 +292,7 @@ module.exports = function(params) {
 				if (err) {
 					return callback(err);
 				}
-				callback(null, _.chain(body)
-				                .result('items')
-				                .reject(_.isEmpty)
-				                .value());
+				callback(null, _.chain(body) .result('items') .reject(_.isEmpty) .value());
 			}
 		);
 	};
@@ -425,7 +316,7 @@ module.exports = function(params) {
 							err.status = response.statusCode;
 							break;
 						default:
-							err.status          = (response.statusCode >= 500) ? 502 : 500;
+							err.status = (response.statusCode >= 500) ? 502 : 500;
 							err.original_status = response.statusCode;
 							break;
 					}
@@ -433,17 +324,11 @@ module.exports = function(params) {
 				if (err) {
 					return callback(err);
 				}
-				var video = _.chain(body)
-				             .result('items')
-				             .first()
-				             .value();
+				var video = _.chain(body) .result('items') .first() .value();
 				if (!_.isObject(video)) {
 					return callback({ status: 404 });
 				}
-				callback(null, _.chain(video)
-				                .pick('id', 'snippet', 'statistics')
-				                .pick(_.negate(_.isEmpty))
-				                .value());
+				callback(null, _.chain(video) .pick('id', 'snippet', 'statistics') .pick(_.negate(_.isEmpty)) .value());
 			}
 		);
 	};

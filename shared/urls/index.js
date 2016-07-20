@@ -29,11 +29,7 @@ urls.parse = function(url_string) {
 	if (url_object.hostname === 'l.facebook.com') {
 		return urls.parse(url_object.query.u);
 	}
-	return _.chain(hostnames_to_urls[url_object.hostname])
-	        .invoke('parse', url_object)
-	        .compact()
-	        .first()
-	        .value();
+	return _.chain(hostnames_to_urls[url_object.hostname]) .invoke('parse', url_object) .compact() .first() .value();
 };
 
 urls.represent = function(identity, comment) {

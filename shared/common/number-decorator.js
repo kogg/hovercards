@@ -14,11 +14,11 @@ module.exports = function(node, number) {
 		var log1000      = Math.floor(Math.log10(number) / 3);
 		var multiple1000 = number / Math.pow(1000, log1000);
 		var roundto      = Math.pow(10, 2 - Math.floor(Math.log10(multiple1000)));
-		multiple1000     = Math.round(multiple1000 * roundto) / roundto;
+		multiple1000 = Math.round(multiple1000 * roundto) / roundto;
 
 		if (log1000) {
 			node.textContent = copy(units[log1000], null, multiple1000.toLocaleString());
-			node.title       = number.toLocaleString();
+			node.title = number.toLocaleString();
 		} else {
 			// Shouldn't happen
 			node.textContent = multiple1000.toLocaleString();
