@@ -36,5 +36,7 @@ module.exports = function(node, date) {
 	}
 	display_date_and_set_timeout();
 
-	return { teardown: function() { clearTimeout(timeout); } };
+	return {
+		teardown: function() { clearTimeout(timeout); }
+	};
 };

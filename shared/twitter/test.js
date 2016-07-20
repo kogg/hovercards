@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+// TODO These mocha eslint-disables shouldn't be required
 var config    = require('../config');
 var _         = require('underscore');
 var chai      = require('chai');

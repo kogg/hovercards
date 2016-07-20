@@ -31,6 +31,8 @@ urls.parse = function(url_obj) {
 			break;
 		case 'youtu.be':
 			return !_.isEmpty(path_parts[0]) && _.extend({ api: 'youtube', type: 'content', id: path_parts[0].replace(/[?&].*/, '') }, url_obj.query.t && { time_offset: url_obj.query.t });
+		default:
+			return null;
 	}
 };
 
@@ -51,6 +53,9 @@ urls.represent = function(identity, comment) {
 				default:
 					return ['https://www.youtube.com/channel/' + identity.id];
 			}
+			return null;
+		default:
+			return null;
 	}
 };
 

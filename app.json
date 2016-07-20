@@ -1,22 +1,22 @@
 {
-	"name": "hovercards",
-	"env": {
-		"CHROMIUM_IDS":                    { "required": true },
-		"GOOGLE_SERVER_KEY":               { "required": true },
-		"IMGUR_CLIENT_ID":                 { "required": true },
-		"INSTAGRAM_CLIENT_ID":             { "required": true },
-		"INSTAGRAM_CLIENT_SECRET":         { "required": true },
-		"MASHAPE_KEY":                     { "required": false },
-		"REDDIT_CLIENT_ID":                { "required": true },
-		"SOUNDCLOUD_CLIENT_ID":            { "required": true },
-		"TWITTER_APP_ACCESS_TOKEN":        { "required": true },
-		"TWITTER_APP_ACCESS_TOKEN_SECRET": { "required": true },
-		"TWITTER_CONSUMER_KEY":            { "required": true },
-		"TWITTER_CONSUMER_SECRET":         { "required": true }
-	},
-	"addons": [
-		"papertrail",
-		"rediscloud",
-		"securekey"
-	]
+  "name": "hovercards",
+  "env": {
+    "CHROMIUM_IDS":                    { "required": true },
+    "GOOGLE_SERVER_KEY":               { "required": true },
+    "IMGUR_CLIENT_ID":                 { "required": true },
+    "INSTAGRAM_CLIENT_ID":             { "required": true },
+    "INSTAGRAM_CLIENT_SECRET":         { "required": true },
+    "MASHAPE_KEY":                     { "required": false },
+    "REDDIT_CLIENT_ID":                { "required": true },
+    "SOUNDCLOUD_CLIENT_ID":            { "required": true },
+    "TWITTER_APP_ACCESS_TOKEN":        { "required": true },
+    "TWITTER_APP_ACCESS_TOKEN_SECRET": { "required": true },
+    "TWITTER_CONSUMER_KEY":            { "required": true },
+    "TWITTER_CONSUMER_SECRET":         { "required": true }
+  },
+  "addons": [
+    "papertrail",
+    "rediscloud",
+    "securekey"
+  ]
 }

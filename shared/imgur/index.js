@@ -61,9 +61,9 @@ module.exports = function(params) {
 			}
 
 			callback(null, _.pick({ api:      'imgur', type:     'discussion', id:       args.id, comments: (function comments_to_comments(comments, next_points) {
-			                                      	return _.chain(comments) .reject(_.isEmpty) .first(config.counts.listed) .reject(function(comment) { return _.result(comment, 'points') < next_points / 2.0; }) .map(function(comment, i, comments) {
-			                                                  	var author = _.result(comment, 'author');
-			                                                  	return _.pick({ api:     'imgur', type:    'comment', id:      _.result(comment, 'id'), text:    autolinker.link((_.result(comment, 'comment') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>')), date:    _.result(comment, 'datetime') * 1000, stats:   { score: _.result(comment, 'points') }, account: !_.isEmpty(author) && { api: 'imgur', type: 'account', id: author }, replies: comments_to_comments(_.result(comment, 'children'), _.max([_.result(comments[i + 1], 'points'), next_points])) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))); }) .value(); }(comments, -Infinity)) }, _.negate(_.isEmpty)), usage);
+			                                      												return _.chain(comments) .reject(_.isEmpty) .first(config.counts.listed) .reject(function(comment) { return _.result(comment, 'points') < next_points / 2.0; }) .map(function(comment, i, comments) {
+			                                                  												var author = _.result(comment, 'author');
+			                                                  												return _.pick({ api:     'imgur', type:    'comment', id:      _.result(comment, 'id'), text:    autolinker.link((_.result(comment, 'comment') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>')), date:    _.result(comment, 'datetime') * 1000, stats:   { score: _.result(comment, 'points') }, account: !_.isEmpty(author) && { api: 'imgur', type: 'account', id: author }, replies: comments_to_comments(_.result(comment, 'children'), _.max([_.result(comments[i + 1], 'points'), next_points])) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))); }) .value(); }(comments, -Infinity)) }, _.negate(_.isEmpty)), usage);
 		});
 	};
 
@@ -87,7 +87,7 @@ module.exports = function(params) {
 			}
 
 			callback(null, _.pick({ api:     'imgur', type:    'account_content', id:      args.id, content: _.chain(submissions) .map(function(submission) {
-			                                      	return _.pick(image_or_album_to_content(submission), 'api', 'type', 'id', 'as', 'name', 'image', 'gif'); }) .reject(_.isEmpty) .first(config.counts.grid) .value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))), usage);
+			                                      												return _.pick(image_or_album_to_content(submission), 'api', 'type', 'id', 'as', 'name', 'image', 'gif'); }) .reject(_.isEmpty) .first(config.counts.grid) .value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))), usage);
 		});
 	};
 

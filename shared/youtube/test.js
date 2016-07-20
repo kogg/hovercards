@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+// TODO These mocha eslint-disables shouldn't be required
 var config    = require('../config');
 var chai      = require('chai');
 var nock      = require('nock');
@@ -30,9 +32,44 @@ describe('youtube', function() {
 		beforeEach(function() {
 			video_endpoint = nock('https://www.googleapis.com')
 				.get('/youtube/v3/videos')
-				.query({ key:       'GOOGLE_SERVER_KEY', part:      'snippet,statistics', id:        'CONTENT_ID', quotaUser: 'DEVICE_ID' });
+				.query({
+					key:       'GOOGLE_SERVER_KEY',
+					part:      'snippet,statistics',
+					id:        'CONTENT_ID',
+					quotaUser: 'DEVICE_ID'
+				});
 
-			default_video = { items: [{ id:         'CONTENT_ID', snippet:    { publishedAt:  '2015-04-07T20:11:17.000Z', channelId:    'ACCOUNT_ID', title:        'NAME', description:  'TEXT', thumbnails:   { default: { url: 'image_120_90.jpg' }, medium:  { url: 'image_320_180.jpg' }, high:    { url: 'image_480_360.jpg' } }, channelTitle: 'ACCOUNT NAME' }, statistics: { viewCount:    3000, likeCount:    1000, dislikeCount: 2000, commentCount: 4000 } }] };
+			default_video = {
+				items: [
+					{
+						id:      'CONTENT_ID',
+						snippet: {
+							publishedAt: '2015-04-07T20:11:17.000Z',
+							channelId:   'ACCOUNT_ID',
+							title:       'NAME',
+							description: 'TEXT',
+							thumbnails: {
+								default: {
+									url: 'image_120_90.jpg'
+								},
+								medium: {
+									url: 'image_320_180.jpg'
+								},
+								high: {
+									url: 'image_480_360.jpg'
+								}
+							},
+							channelTitle: 'ACCOUNT NAME'
+						},
+						statistics: {
+							viewCount:    3000,
+							likeCount:    1000,
+							dislikeCount: 2000,
+							commentCount: 4000
+						}
+					}
+				]
+			};
 		});
 
 		it('should callback youtube video', function(done) {

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+// TODO These mocha eslint-disables shouldn't be required
 var chai      = require('chai');
 var nock      = require('nock');
 var sinon     = require('sinon');

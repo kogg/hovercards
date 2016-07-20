@@ -101,19 +101,19 @@ module.exports = function(params) {
 				return callback(err, null, usage);
 			}
 			callback(null, _.pick({ api:     'reddit', type:    'account_content', id:      args.id, content: _.chain(things) .map(function(thing) {
-			                                     	switch (_.result(thing, 'kind')) {
-			                                         	case 't1':
-			                                             		var comment          = _.result(thing, 'data');
-			                                             		var content_id       = _.rest((_.result(comment, 'link_id') || '').split('_')).join('_');
-			                                             		var url              = _.result(comment, 'link_url');
-			                                             		var link_as_identity = url && urls.parse(url);
-			                                             		if (_.isMatch(link_as_identity, { api: 'reddit', type: 'content', id: content_id })) {
-			                                                 	url = null; }
-			                                             		return _.chain(comment_to_comment(comment)) .omit('account') .extend({ content: _.pick({ api:       'reddit', type:      'content', id:        content_id, name:      _.result(comment, 'link_title'), subreddit: _.result(comment, 'subreddit'), url:       url, account:   (_.result(comment, 'link_author') !== '[deleted]') && { api:  'reddit', type: 'account', id:   _.result(comment, 'link_author') } }, _.negate(_.isEmpty)) }) .value();
-			                                         	case 't3':
-			                                             		var content = _.omit(post_to_content(thing.data), 'account', 'text');
-			                                             		content.stats = _.pick(content.stats, 'score');
-			                                             		return content; } }) .reject(_.isEmpty) .value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))), usage);
+			                                     												switch (_.result(thing, 'kind')) {
+			                                         												case 't1':
+			                                             																								var comment          = _.result(thing, 'data');
+			                                             																								var content_id       = _.rest((_.result(comment, 'link_id') || '').split('_')).join('_');
+			                                             																								var url              = _.result(comment, 'link_url');
+			                                             																								var link_as_identity = url && urls.parse(url);
+			                                             																								if (_.isMatch(link_as_identity, { api: 'reddit', type: 'content', id: content_id })) {
+			                                                 												url = null; }
+			                                             																								return _.chain(comment_to_comment(comment)) .omit('account') .extend({ content: _.pick({ api:       'reddit', type:      'content', id:        content_id, name:      _.result(comment, 'link_title'), subreddit: _.result(comment, 'subreddit'), url:       url, account:   (_.result(comment, 'link_author') !== '[deleted]') && { api:  'reddit', type: 'account', id:   _.result(comment, 'link_author') } }, _.negate(_.isEmpty)) }) .value();
+			                                         												case 't3':
+			                                             																								var content = _.omit(post_to_content(thing.data), 'account', 'text');
+			                                             																								content.stats = _.pick(content.stats, 'score');
+			                                             																								return content; } }) .reject(_.isEmpty) .value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))), usage);
 		});
 	};
 
