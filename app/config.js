@@ -1,5 +1,5 @@
 var _             = require('underscore');
-var shared_config = require('hovercardsshared/config');
+var shared_config = require('../shared/config');
 
 var config = {
 	endpoint:     process.env.NODE_ENV === 'production' ? 'http://hover.cards/v2' : 'http://localhost:5000/v2',

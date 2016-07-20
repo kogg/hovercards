@@ -1,0 +1,12 @@
+<div class="{{ prefix('meta') }} {{ prefix('flex-row') }}">
+	<div class="{{ prefix('meta-main') }}">
+		<div class="{{ prefix('meta-main-stats') }}">
+			{{>content}}
+		</div>
+	</div>
+	{{#if !expanded}}
+		<div class="{{ prefix('meta-side') }}">
+			<a href="{{ url(content) }}" target="_blank" class="no-hovercard"><span decorator="date:{{ content.date }}"></span></a>
+		</div>
+	{{/if}}
+</div>

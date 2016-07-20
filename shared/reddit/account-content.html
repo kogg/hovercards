@@ -1,0 +1,16 @@
+{{#account.content.content}}
+	{{#if type === 'content'}}
+		<div class="{{ prefix('post-item') }}">
+			<span class="{{ prefix('post-item-reply-title') }}">Posted in <a href="https://www.reddit.com/r/{{ subreddit }}" target="_blank">/r/{{ subreddit }}</a> <a href="{{ url(.) }}" target="_blank"><span decorator="date:{{ date }}"></span></a></span>
+			<div class="{{ prefix('post-item-link') }}">
+				<a href="{{ .url || url(.) }}" target="_blank">{{ name }}</a>
+			</div>
+		</div>
+	{{elseif type === 'comment'}}
+		<div class="{{ prefix('post-item') }}">
+			<span class="{{ prefix('post-item-title') }}">In response to
+			<a href="{{ content.url || url(content) }}" target="_blank">{{ content.name }}</a> in <a href="https://www.reddit.com/r/{{ content.subreddit }}" target="_blank">/r/{{ content.subreddit }}</a> <a href="{{ url(content, .) }}" target="_blank"><span decorator="date:{{ date }}"></span></a></span>
+			<div class="{{ prefix('post-item-paragraph') }}">{{{ text }}}</div>
+		</div>
+	{{/if}}
+{{/#account.content.content}}

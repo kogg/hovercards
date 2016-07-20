@@ -3,7 +3,7 @@ var _                = require('underscore');
 var analytics        = require('../analytics');
 var config           = require('../config');
 var template_loading = require('../template_loading');
-var urls             = require('hovercardsshared/urls');
+var urls             = require('../../shared/urls');
 require('../common/mixins');
 
 var HOVERABLE_THINGS = [
