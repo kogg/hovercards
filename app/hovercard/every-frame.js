@@ -3,7 +3,7 @@ var _                = require('underscore');
 var analytics        = require('../analytics');
 var config           = require('../config');
 var template_loading = require('../template_loading');
-var urls             = require('hovercardsshared/urls');
+var urls             = require('../../shared/urls');
 require('../common/mixins');
 
 var HOVERABLE_THINGS = [
@@ -76,15 +76,15 @@ function accept_identity(identity, obj) {
 	if (!disabled || (disabled[identity.api] && disabled[identity.api][identity.type]) || !config.apis[identity.api]) {
 		return false;
 	}
-	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '')
-		|| (identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length)
-		|| (identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length)
-		|| (identity.api === 'reddit' && (
-			identity.type === 'account'
-				? !$('body.res').length && !obj.parents('.tabmenu,.user').length
-				: !obj.hasClass('search-comments') && !obj.hasClass('comments')
-		))
-		|| (identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com');
+	return identity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
+		(identity.api === 'imgur' && identity.type === 'account' && !obj.is('.account-user-name') && !obj.parents('.options,.user-dropdown').length) ||
+		(identity.api === 'instagram' && identity.type === 'account' && !obj.is('.-cx-PRIVATE-Navigation__menuLink') && !obj.parents('.dropdown').length) ||
+		(identity.api === 'reddit' && (
+			identity.type === 'account' ?
+				!$('body.res').length && !obj.parents('.tabmenu,.user').length :
+				!obj.hasClass('search-comments') && !obj.hasClass('comments')
+		)) ||
+		(identity.api === 'twitter' && identity.type === 'account' && document.domain === 'tweetdeck.twitter.com');
 }
 function massage_url(url) {
 	if (!url) {
@@ -114,8 +114,6 @@ function make_hovercard(obj, identity, e) {
 		return;
 	}
 	var analytics_label = _.analytics_label(identity);
-	analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label, { nonInteraction: true });
-	var hovercard_start = Date.now();
 	var hovercard__box = $('<div></div>')
 		.addClass(_.prefix('box'))
 		.addClass(_.prefix('hovercard__box'));
@@ -126,7 +124,10 @@ function make_hovercard(obj, identity, e) {
 		.append(hovercard__box)
 		.appendTo('html');
 
-	var left, top, commentPixels, beenScrolled;
+	var beenScrolled;
+	var commentPixels;
+	var left;
+	var top;
 
 	function setCommentPixels(e) {
 		var discussion_top = _.result(hovercard__box.find('.' + _.prefix('discussion__body')).offset(), 'top');
@@ -158,6 +159,12 @@ function make_hovercard(obj, identity, e) {
 			$('body').removeClass(_.prefix('overflow-hidden'));
 		});
 
+	var hovercard_start;
+	var loadedEvent = ractive.observeOnce('content || accounts[0]', function() {
+		hovercard_start = Date.now();
+		analytics('send', 'event', 'hovercard displayed', 'link hovered', analytics_label);
+	});
+
 	var obj_offset         = obj.offset();
 	var pos_left           = e ? e.pageX : obj_offset.left;
 	var pos_top            = e ? e.pageY : (obj_offset.top + obj.height() / 2);
@@ -172,9 +179,9 @@ function make_hovercard(obj, identity, e) {
 		var new_left = Math.max(
 			window_scrollLeft + PADDING_FROM_EDGES, // Keep the hovercard from going off the left of the page
 			pos_left + (
-				(pos_left + 1 > window_scrollLeft + window_innerWidth - hovercard__box_width - PADDING_FROM_EDGES)
-					? - hovercard__box_width - 1 // Keep the hovercard from going off the right of the page by putting it on the left
-					: 1 // Put the hovercard on the right
+				(pos_left + 1 > window_scrollLeft + window_innerWidth - hovercard__box_width - PADDING_FROM_EDGES) ?
+					-hovercard__box_width - 1 :// Keep the hovercard from going off the right of the page by putting it on the left
+					1 // Put the hovercard on the right
 			)
 		);
 		var new_top = Math.max(
@@ -192,7 +199,7 @@ function make_hovercard(obj, identity, e) {
 			return;
 		}
 		left = new_left;
-		top  = new_top;
+		top = new_top;
 		hovercard.offset({ left: left, top: top });
 		setCommentPixels();
 	}
@@ -215,7 +222,10 @@ function make_hovercard(obj, identity, e) {
 			if (process.env.NODE_ENV !== 'production' && process.env.STICKYCARDS) {
 				return;
 			}
-			analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
+			loadedEvent.cancel();
+			if (hovercard_start) {
+				analytics('send', 'timing', 'hovercard', 'showing', Date.now() - hovercard_start, analytics_label);
+			}
 			if (beenScrolled && commentPixels && commentPixels > 0) {
 				analytics('send', 'event', 'discussion scrolled', 'scrolled', analytics_label, commentPixels);
 			}
@@ -251,7 +261,7 @@ HOVERABLE_THINGS.forEach(function(hoverable) {
 			return;
 		}
 		if (!(url = massage_url(hoverable.get_url(obj))) || !(identity = urls.parse(url)) || !accept_identity(identity, obj)) {
-			if (!disabled || !disabled.reddit || disabled.reddit.content) {
+			if (disabled && disabled.reddit && disabled.reddit.content) {
 				return;
 			}
 			if (!document.location.hostname.endsWith('reddit.com') || !obj.hasClass('title')) {

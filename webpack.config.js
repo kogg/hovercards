@@ -1,4 +1,3 @@
-var path              = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -29,7 +28,9 @@ module.exports = {
 		new HtmlWebpackPlugin({ chunks: ['privacy'], template: 'www/privacy.html', filename: 'privacy.html' })
 	],
 	devServer: {
-		port: 8000
+		noInfo: true,
+		port:   8000,
+		quiet:  false
 	},
 	devtool: 'source-map'
 };

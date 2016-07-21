@@ -1,0 +1,16 @@
+<div class="{{ prefix('notification') }}">
+	<p class="{{ prefix('notification-message') }}">{{message.message}}</p>
+	<a href="{{message.url}}" class="{{ prefix('notification-link') }}" target="_blank" on-click="closeMessage('visited', message.id)">Sure</a>
+	<a class="{{ prefix('notification-cancel') }}" on-click="closeMessage('ignored', message.id)">No Thanks</a>
+</div>
+
+<script>
+	component.exports = {
+		oncomplete: function() {
+			this.closeMessage = function(action, id) {
+				chrome.runtime.sendMessage({ type: 'messaging', action: action, id: id }, function() {});
+				this.root.set('message', null);
+			}.bind(this);
+		}
+	};
+</script>

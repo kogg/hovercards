@@ -33,7 +33,7 @@ $(function() {
 		});
 	}
 	function resize() {
-		screenheight   = $(window).height();
+		screenheight = $(window).height();
 		moverpositions = screenmovers.map(function() {
 			return $(this).offset().top;
 		}).get();
@@ -58,29 +58,17 @@ $(function() {
 		});
 	}
 	$('a[href*="#"]:not([href="#"])').click(function() {
-	  if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-	    var target = $(this.hash);
-	    target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-	    if (target.length) {
-	      $('html, body').animate({
-	        scrollTop: target.offset().top
-	      }, 1000);
-	      return false;
-	    }
-	  }
+		if (location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') && location.hostname === this.hostname) {
+			var target = $(this.hash);
+			target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+			if (target.length) {
+				$('html, body').animate({
+					scrollTop: target.offset().top
+				}, 1000);
+				return false;
+			}
+		}
 	});
-	// function parallax(){
-	// 	var scrolled = $(window).scrollTop();
- //    $('.bg').css('top', -(scrolled) + 'px');
-	// }
-	// function parallax(){
-	// 	var scrolled = $(window).scrollTop();
-	// 	$('.parallax-effect').css({"transform": "translate3d(0px, " + (-(scrolled * .3)) + "px, 0px)"});
-	// }
-	// $(window).scroll(function(e){
-	//     parallax();
-	// });
-
 });
 
 /*eslint-disable */

@@ -1,0 +1,138 @@
+{{#content}}
+	{{#if .video}}
+		<video class="{{ class }}"
+		       src="{{ .video }}"
+		       poster="{{ .image.medium || .image.large || .image.small }}"
+		       controls=""
+		       loop="loop"
+		       id="{{ uniqueid }}"></video>
+	{{elseif .gif}}
+		<video class="{{ class }}"
+		       src="{{ .gif }}"
+		       poster="{{ .image.medium || .image.large || .image.small }}"
+		       muted="muted"
+		       loop="loop"
+		       id="{{ uniqueid }}"></video>
+	{{elseif .content}}
+		{{#if .content.length > 1 && .content[carouselnum]}}
+			<div class="{{ prefix('carousel-container') }}">
+				<div class="{{ prefix('arrows') }}">
+					{{#if carouselnum}}
+						<div class="{{ prefix('arrow-left') }}" on-click="subtract('carouselnum')"></div>
+					{{/if}}
+					{{#if carouselnum < .content.length - 1}}
+						<div class="{{ prefix('arrow-right') }}" on-click="add('carouselnum')"></div>
+					{{/if}}
+				</div>
+				{{#if .content[carouselnum].gif}}
+					<video class="{{ class }}"
+					       src="{{ .content[carouselnum].gif }}"
+					       poster="{{ .content[carouselnum].image.medium || .content[carouselnum].image.large || .content[carouselnum].image.small }}"
+					       muted="muted"
+					       loop="loop"
+					       autoplay="autoplay"
+					       id="{{ uniqueid }}"></video>
+				{{else}}
+					<img class="{{ class }}" src="{{ .content[carouselnum].image.large || .content[carouselnum].image.medium || .content[carouselnum].image.small }}">
+				{{/if}}
+			</div>
+			{{#if .content[carouselnum].name || .content[carouselnum].text}}
+				<div class="{{ prefix('content-container-text') }}">
+					<b>{{ .content[carouselnum].name }}</b>
+					<p>{{{ .content[carouselnum].text }}}</p>
+				</div>
+			{{/if}}
+		{{else}}
+			{{#.content[0]}}
+				{{#if .gif}}
+					<video class="{{ class }}"
+					       src="{{ .gif }}"
+					       poster="{{ .image.medium || .image.large || .image.small }}"
+					       muted="muted"
+					       loop="loop"
+					       autoplay="autoplay"
+					       id="{{ uniqueid }}"></video>
+				{{else}}
+					<img class="{{ class }}" src="{{ .image.large || .image.medium || .image.small }}">
+				{{/if}}
+				{{#if .name || .text}}
+					<div class="{{ prefix('content-container-text') }}">
+						<b>{{ .name }}</b>
+						<p>{{{ .text }}}</p>
+					</div>
+				{{/if}}
+			{{/.content[0]}}
+		{{/if}}
+	{{elseif .images}}
+		{{#if .images.length > 1}}
+			<div class="{{ prefix('arrows') }}">
+				{{#if carouselnum}}
+					<div class="{{ prefix('arrow-left') }}" on-click="subtract('carouselnum')"></div>
+				{{/if}}
+				{{#if carouselnum < .images.length - 1}}
+					<div class="{{ prefix('arrow-right') }}" on-click="add('carouselnum')"></div>
+				{{/if}}
+			</div>
+			{{#.images[carouselnum]}}
+				<img class="{{ class }}" src="{{ .large || .medium || .small }}">
+			{{/.images[carouselnum]}}
+		{{else}}
+			{{#.images[0]}}
+				<img class="{{ class }}" src="{{ .large || .medium || .small }}">
+			{{/.images[0]}}
+		{{/if}}
+	{{elseif .image}}
+		<img class="{{ class }}" src="{{ .image.large || .image.medium || .image.small }}">
+	{{/if}}
+{{/content}}
+
+<script>
+	component.exports = {
+		oncomplete: function() {
+			var $ = this.get('$');
+			var _ = this.get('_');
+
+			var id = _.uniqueId(_.prefix('video-'));
+			this.set('uniqueid', id);
+			var element = document.getElementById(id);
+
+			if (this.get('content.video') || this.get('content.gif')) {
+				if (!this.get('dontautoplay')) {
+					element.play();
+				}
+			}
+			if (this.get('content.video')) {
+				this.observe('hovered', function(hovered) {
+					element.volume = hovered ? 1 : 0;
+				});
+			}
+			if (this.get('content.images') || this.get('content.content')) {
+				this.set('carouselnum', 0);
+				var keypressed;
+				this.observe('carouselnum', function(carouselnum) {
+					this.root.analytics(
+						'send', 'event', 'carousel switched',
+						keypressed ? 'key pressed' : 'link clicked',
+						_.analytics_label(this.get('content')),
+						carouselnum
+					);
+					keypressed = false;
+				}.bind(this), { init: false });
+				$(window).on('keydown', function(e) {
+					switch (e.keyCode) {
+						case 37:
+						case 72:
+							keypressed = true;
+							this.set('carouselnum', Math.max(0, this.get('carouselnum') - 1));
+							break;
+						case 39:
+						case 76:
+							keypressed = true;
+							this.set('carouselnum', Math.min(this.get('content.content.length') - 1, this.get('carouselnum') + 1));
+							break;
+					}
+				}.bind(this));
+			}
+		}
+	};
+</script>

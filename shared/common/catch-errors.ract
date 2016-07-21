@@ -1,0 +1,28 @@
+{{#if object && object.err}}
+	{{#object}}
+		<div class="{{ _.prefix('error') }}">
+			<div class="{{ _.prefix('error-image') }}"></div>
+			<div class="{{ _.prefix('text-center') }}">
+				<b>{{ copy('err-' + .err.status + '-name', .api, copy(.api)) }}</b>
+				<p>{{ copy('err-' + .err.status + '-text', .api, copy(.api)) }}</p>
+				{{#if .err.authenticate }}
+					<a on-click="authenticate" class="{{ _.prefix(.api) }} {{ _.prefix('signin-cta') }}">
+						{{ copy('err-' + .err.status + '-cta', .api, copy(.api)) }}
+					</a>
+				{{/if}}
+			</div>
+		</div>
+	{{/object}}
+{{else}}
+	{{yield}}
+{{/if}}
+
+<script>
+	component.exports = {
+		oninit: function() {
+			this.on('authenticate', function() {
+				this.get('object.err.authenticate')();
+			});
+		}
+	};
+</script>
