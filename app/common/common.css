@@ -1,52 +1,52 @@
-@define-placeholder box-thing {
-    align-items: flex-start;
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    z-index: 2147483647;
+.hovercard {
+  align-items: flex-start;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  z-index: 2147483647;
 }
 
-@define-placeholder box-thing,
-@define-placeholder box-thing *,
-@define-placeholder box-thing *:before,
-@define-placeholder box-thing *:after {
-    all: initial; /* no important */
-    box-sizing: border-box;
+.hovercard,
+.hovercard *,
+.hovercard *:before,
+.hovercard *:after {
+  all: initial; /* no important */
+  box-sizing: border-box;
 }
 
-@define-placeholder box-thing *:before,
-@define-placeholder box-thing *:after {
-    display: none;
+.hovercard *:before,
+.hovercard *:after {
+  display: none;
 }
 
-@define-placeholder box-thing div,
-@define-placeholder box-thing h1,
-@define-placeholder box-thing h2,
-@define-placeholder box-thing h3,
-@define-placeholder box-thing ul,
-@define-placeholder box-thing li,
-@define-placeholder box-thing blockquote {
-    display: block; /* no important */
+.hovercard div,
+.hovercard h1,
+.hovercard h2,
+.hovercard h3,
+.hovercard ul,
+.hovercard li,
+.hovercard blockquote {
+  display: block; /* no important */
 }
 
-@define-placeholder box-thing p {
-    display: inline;
+.hovercard p {
+  display: inline;
 }
 
-@define-placeholder box-thing p a {
-    margin: 0 3px;
+.hovercard p a {
+  margin: 0 3px;
 }
 
-@define-placeholder box-thing br {
-    display: none;
+.hovercard br {
+  display: none;
 }
 
-@define-placeholder box-thing__box {
-    background: white;
-    overflow: hidden;
-    max-width: 500px;
-    width: 100%;
-    box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0;
+.hovercard__box {
+  background: white;
+  overflow: hidden;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0;
 }
 
 /*
@@ -73,12 +73,10 @@
 }
 
 .hovercard {
-  @extend box-thing;
   pointer-events: none;
 }
 
 .hovercard__box {
-  @extend box-thing__box;
   cursor: pointer;
   margin: 0;
   pointer-events: auto;
@@ -1221,6 +1219,7 @@
   display: static;
 }
 
+.account-switcher span,
 .tabs .tabs__tab {
   margin: 0 4px;
   display: inline-block;
@@ -1229,6 +1228,7 @@
   color: rgba(0, 0, 0, .5);
 }
 
+.account-switcher span:first-of-type,
 .tabs .tabs__tab:first-of-type {
   margin-left: 0;
 }
@@ -1244,7 +1244,6 @@
 }
 
 .account-switcher span {
-  @extend .tabs .tabs__tab;
   cursor: auto;
 }
 
