@@ -4,9 +4,13 @@ var analytics = require('../analytics/background');
 var async     = require('async');
 var config    = require('../config');
 var memoize   = require('memoizee');
+var Response  = require('http-browserify/lib/response');
 require('../common/mixins');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+// FIXME substack/http-browserify#10
+Response.prototype.setEncoding = _.noop;
 
 chrome.storage.local.get('device_id', function(obj) {
 	if (!_.isEmpty((obj || {}).device_id)) {
