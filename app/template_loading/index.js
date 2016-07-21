@@ -1,7 +1,7 @@
 var $       = require('jquery');
 var _       = require('underscore');
 var async   = require('async');
-var urls    = require('hovercardsshared/urls');
+var urls    = require('../../shared/urls');
 var Ractive = require('ractive');
 
 var analytics      = require('../analytics');
@@ -93,15 +93,15 @@ var global_data = {
 
 var HoverCardRactive = Ractive.extend({
 	data:     global_data,
-	partials: _.chain(require('../../node_modules/hovercardsshared/*/@(content|discussion|discussion-header|account|account-content).html', { mode: 'hash' }))
-		.extend(require('../../node_modules/hovercardsshared/@(content|discussion|discussion-header|account|account-content)/layout.html', { mode: 'hash' }))
+	partials: _.chain(require('../../shared/*/@(content|discussion|discussion-header|account|account-content).html', { mode: 'hash' }))
+		.extend(require('../../shared/@(content|discussion|discussion-header|account|account-content)/layout.html', { mode: 'hash' }))
 		.reduce(function(memo, template, key) {
 			memo[key.replace('/', '-')] = template;
 			return memo;
 		}, {})
 		.value(),
-	components: _.chain(require('../../node_modules/hovercardsshared/*/*.ract', { mode: 'hash' }))
-		.extend(require('../../node_modules/hovercardsshared/common/*.ract', { mode: 'hash' }))
+	components: _.chain(require('../../shared/*/*.ract', { mode: 'hash' }))
+		.extend(require('../../shared/common/*.ract', { mode: 'hash' }))
 		.reduce(function(memo, obj, key) {
 			obj.data = _.extend(obj.data || {}, global_data);
 			var key_parts = key.split(/[/-]/g);
@@ -112,7 +112,7 @@ var HoverCardRactive = Ractive.extend({
 			return memo;
 		}, {})
 		.value(),
-	decorators: _.chain(require('../../node_modules/hovercardsshared/common/*-decorator.js', { mode: 'hash' }))
+	decorators: _.chain(require('../../shared/common/*-decorator.js', { mode: 'hash' }))
 		.reduce(function(memo, template, key) {
 			memo[key.replace(/-decorator$/, '')] = template;
 			return memo;

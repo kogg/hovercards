@@ -1,0 +1,8 @@
+{
+	"discussion_apis": ["reddit", "youtube", "twitter"],
+	"cache_default": 360000,
+	"content-security-policy": {
+		"img-src": ["https://yt3.ggpht.com", "https://*.googleusercontent.com"],
+		"script-src": ["https://s.ytimg.com"]
+	}
+}

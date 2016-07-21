@@ -17,9 +17,9 @@ chrome.storage.local.get('device_id', function(obj) {
 
 _.each({
 	// TODO Do this without moving it into config.js
-	instagram:  require('hovercardsshared/instagram'),
-	reddit:     require('hovercardsshared/reddit'),
-	soundcloud: require('hovercardsshared/soundcloud')
+	instagram:  require('../../shared/instagram'),
+	reddit:     require('../../shared/reddit'),
+	soundcloud: require('../../shared/soundcloud')
 }, function(caller, api) {
 	if (!config.apis[api]) {
 		return;

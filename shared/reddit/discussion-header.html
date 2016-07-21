@@ -1,0 +1,5 @@
+<discussion-header content="{{ content }}">
+	<span><em decorator="number:{{ content.stats.score }}"></em>    {{ copy('score',       'reddit') }}</span>
+	<span><em>{{ parseInt(content.stats.score_ratio * 100) }}%</em> {{ copy('score_ratio', 'reddit') }}</span>
+	<span><em decorator="number:{{ content.stats.comments }}"></em> {{ copy('comments',    'reddit') }}</span>
+</discussion-header>

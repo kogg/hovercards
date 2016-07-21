@@ -1,0 +1,15 @@
+<catch-errors>
+	{{#if object && (object.uncommentable || _.isEmpty(object.comments))}}
+		{{#object}}
+			<div class="{{ _.prefix('error') }} {{ _.prefix('flex-center') }}">
+				<div class="{{ _.prefix('error-image') }}"></div>
+				<div>
+					<b>{{ copy(object.uncommentable ? 'err-uncommentable-discussion-name' : 'err-empty-discussion-name', .api, copy(.api)) }}</b>
+					<p>{{ copy(object.uncommentable ? 'err-uncommentable-discussion-text' : 'err-empty-discussion-text', .api, copy(.api)) }}</p>
+				</div>
+			</div>
+		{{/object}}
+	{{else}}
+		{{yield}}
+	{{/if}}
+</catch-errors>

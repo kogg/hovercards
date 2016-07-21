@@ -1,0 +1,10 @@
+<div class="{{ prefix('image-container') }}">
+	{{#account.content.content}}
+		<div class="{{ prefix('image-item') }}">
+			<a class="{{ prefix('image-item-square') }}" href="{{ url(.) }}" target="_blank">
+				<div style="background-image:url('{{ image.medium || image.large || image.small }}')"></div>
+				<span>{{ .name }}</span>
+			</a>
+		</div>
+	{{/account.content.content}}
+</div>

@@ -1,0 +1,15 @@
+<catch-errors>
+	{{#if object && _.isEmpty(object.content)}}
+		{{#object}}
+			<div class="{{ _.prefix('error') }}">
+				<div class="{{ _.prefix('error-image') }}"></div>
+				<div>
+					<b>{{ copy('err-empty-account-content-name', .api, copy(.api)) }}</b>
+					<p>{{ copy('err-empty-account-content-text', .api, copy(.api)) }}</p>
+				</div>
+			</div>
+		{{/object}}
+	{{else}}
+		{{yield}}
+	{{/if}}
+</catch-errors>

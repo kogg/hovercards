@@ -1,0 +1,8 @@
+{
+	"can_auth": true,
+	"discussion_apis": ["instagram", "reddit", "twitter"],
+	"content-security-policy": {
+		"img-src": ["https://scontent.cdninstagram.com"],
+		"media-src": ["https://scontent.cdninstagram.com"]
+	}
+}
