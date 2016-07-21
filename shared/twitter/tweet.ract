@@ -1,0 +1,25 @@
+{{#if tweet.reposted_content}}
+	<twitter-tweet tweet="{{ tweet.reposted_content }}" isretweet="true"></twitter-tweet>
+{{elseif tweet.replied_to_content && !inconversation}}
+	<div class="{{ prefix('tweet-conversation') }}">
+		<twitter-tweet inconversation="true"></twitter-tweet>
+	</div>
+{{else}}
+	{{#if tweet.replied_to_content}}
+		<twitter-tweet tweet="{{ tweet.replied_to_content }}"></twitter-tweet>
+	{{/if}}
+	<div class="{{ isretweet ? prefix('comment-item_retweet') : '' }}">
+		<discussion-comment comment="{{ _.defaults({ content: tweet }, tweet) }}">
+			{{#if has_media(tweet)}}
+				<div class="{{ prefix('comment-text-image') }}">
+					<content-media content="{{ tweet }}" collapsed="1" dontautoplay="{{ true }}"></content-media>
+				</div>
+			{{/if}}
+			{{#if tweet.quoted_content}}
+				<div class="{{ prefix('comment-text-quote') }}">
+					<twitter-tweet tweet="{{ tweet.quoted_content }}" noavatarimages="true"></twitter-tweet>
+				</div>
+			{{/if}}
+		</discussion-comment>
+	</div>
+{{/if}}

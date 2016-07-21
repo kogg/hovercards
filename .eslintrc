@@ -1,24 +1,26 @@
 {
-	"extends": "xo",
-	"plugins": ["react"],
-	"env": {
-		"browser": true
-	},
-	"globals": {
-		"chrome": true
-	},
-	"rules": {
-		"camelcase": 0,
-		"key-spacing": [2, {
-			"align": "value",
-			"beforeColon": false,
-			"afterColon": true
-		}],
-		"new-cap": 0,
-		"no-mixed-spaces-and-tabs": [2, "smart-tabs"],
-		"no-multi-spaces": [2, { "exceptions": { "VariableDeclarator": true } }],
-		"object-curly-spacing": [2, "always"],
-		"react/jsx-uses-react": 2,
-		"space-before-function-paren": [2, "never"]
-	}
+  "extends": "xo",
+  "plugins": ["react"],
+  "env": {
+    "browser": true,
+    "mocha": true,
+    "node": true
+  },
+  "globals": {
+    "chrome": true
+  },
+  "rules": {
+    "camelcase": 0,
+    "key-spacing": [2, {
+      "align": "value",
+      "beforeColon": false,
+      "afterColon": true
+    }],
+    "new-cap": 0,
+    "no-mixed-spaces-and-tabs": [2, "smart-tabs"],
+    "no-multi-spaces": [2, { "exceptions": { "VariableDeclarator": true } }],
+    "object-curly-spacing": [2, "always"],
+    "react/jsx-uses-react": 2,
+    "space-before-function-paren": [2, "never"]
+  }
 }

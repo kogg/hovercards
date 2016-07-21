@@ -47,7 +47,7 @@ $.ajax({
 						},
 						function(messages_counts, callback) {
 							messages_counts[inAppMessage.id] = (messages_counts[inAppMessage.id] || 0) + 1;
-							chrome.storage.sync.set({ messages_counts: messages_counts }, function(thing) {
+							chrome.storage.sync.set({ messages_counts: messages_counts }, function() {
 								callback(chrome.runtime.lastError, messages_counts[inAppMessage.id]);
 							});
 						}
@@ -82,7 +82,7 @@ $.ajax({
 							messages = _.reject(messages, function(message) {
 								return _.contains(results.messages_done, message.id);
 							});
-							chrome.storage.sync.set({ messages_done: results.messages_done }, function(thing) {
+							chrome.storage.sync.set({ messages_done: results.messages_done }, function() {
 								callback(chrome.runtime.lastError);
 							});
 						}
@@ -90,6 +90,8 @@ $.ajax({
 						callback(err);
 					});
 					return true;
+				default:
+					return false;
 			}
 			return false;
 		});

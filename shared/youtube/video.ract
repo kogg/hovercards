@@ -1,0 +1,52 @@
+{{#if uniqueid}}
+	<iframe class="{{ class }}"
+		src="https://www.youtube.com/embed/{{ id }}?enablejsapi=1&autoplay=1"
+		id="{{ uniqueid }}"></iframe>
+{{/if}}
+
+<script>
+	component.exports = {
+		oncomplete: function() {
+			var _  = this.get('_');
+			var id = _.uniqueId(_.prefix('youtube-video-'));
+			this.set('uniqueid', id);
+
+			document.getElementById(id).setAttribute('allowFullScreen', '');
+			if (!window.YT) {
+				window.YT = window.YT || { loading: 0, loaded: 0 };
+				window.YTConfig = window.YTConfig || { host: 'http://www.youtube.com' };
+				if (!window.YT.loading) {
+					window.YT.loading = 1;
+					var l = [];
+					window.YT.ready = function(f) {if (window.YT.loaded) {f();} else {l.push(f);}};
+					window.onYTReady = function() {window.YT.loaded = 1;for (var i = 0; i < l.length; i++) {try {l[i]();} catch (e) {}}};
+					window.YT.setConfig = function(c) {for (var k in c) {if (c.hasOwnProperty(k)) {window.YTConfig[k] = c[k];}}};
+					chrome.runtime.sendMessage({ type: 'load_script', url: 'https://s.ytimg.com/yts/jsbin/www-widgetapi-vfl9r3s0R/www-widgetapi.js' }, function(combined_result) {
+						var err = combined_result[0];
+						if (err) {
+							console.log(err);
+							return;
+						}
+						var data = combined_result[1];
+						eval(combined_result[1]);
+					});
+				}
+			}
+			window.YT.ready(function() {
+				var player = new window.YT.Player(id, {
+					events: {
+						onReady: function() {
+							this.observe('hovered', function(hovered) {
+								if (hovered) {
+									player.unMute();
+								} else {
+									player.mute();
+								}
+							});
+						}.bind(this)
+					}
+				});
+			}.bind(this));
+		}
+	};
+</script>

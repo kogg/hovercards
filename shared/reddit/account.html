@@ -1,0 +1,8 @@
+{{#if account.banner}}
+	<div class="{{ prefix('account-cover') }}" style="background-image:url('{{ account.banner }}')"></div>
+{{/if}}
+<account account="{{ account }}">
+	<span><em decorator="number:{{ account.stats.link_karma }}"></em>    {{ copy('link-karma',    'reddit') }}</span>
+	<span><em decorator="number:{{ account.stats.comment_karma }}"></em> {{ copy('comment-karma', 'reddit') }}</span>
+	<span><em decorator="date:{{ account.date }}"></em>                  {{ copy('account-age',   'reddit') }}</span>
+</account>

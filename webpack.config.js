@@ -1,4 +1,3 @@
-var path              = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -33,5 +32,5 @@ module.exports = {
 		port:   8000,
 		quiet:  false
 	},
-	devtool: 'source-map',
+	devtool: 'source-map'
 };
