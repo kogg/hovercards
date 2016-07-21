@@ -1,20 +1,15 @@
 {
-  "name": "hovercardsextension",
+  "name": "hovercards",
   "version": "3.0.1",
-  "description": "",
+  "description": "Get more content. Open fewer tabs.",
   "homepage": "http://hovercards.com",
   "bugs": {
-    "url": "https://github.com/cameronrohani/hovercardsextension/issues"
+    "url": "https://github.com/teamkogg/hovercards/issues"
   },
   "license": "ISC",
-  "author": {
-    "name": "kogg",
-    "email": "team@hovercards.com",
-    "url": "http://ko.gg"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cameronrohani/hovercardsextension.git"
+    "url": "git+https://github.com/teamkogg/hovercards.git"
   },
   "scripts": {
     "browserify": "mkdir -p dist && browserify $npm_package_config_browserify_input $npm_package_config_browserify_output",
