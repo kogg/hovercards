@@ -63,6 +63,8 @@
     "nock": "^2.13.0",
     "nodemon": "^1.8.1",
     "npm-run-all": "^2.3.0",
+    "postcss-loader": "^0.9.1",
+    "postcss-safe-important": "^1.0.4",
     "pre-commit": "^1.1.2",
     "ractive-component-loader": "^1.2.0",
     "ractive-loader": "^0.5.6",

@@ -1,3 +1,4 @@
+var safeImportant      = require('postcss-safe-important');
 var webpack            = require('webpack');
 var DotenvPlugin       = require('webpack-dotenv-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -21,12 +22,15 @@ module.exports = {
 			{ test: /\.html/, loaders: ['ractive'], exclude: 'node_modules' },
 			{ test: /\.ract/, loaders: ['ractive-component'], exclude: 'node_modules' },
 			{ test: /\.json/, loaders: ['json'], exclude: 'node_modules' },
-			{ test: /\.css$/, loader: ExtractTextPlugin.extract('css?sourceMap&modules&localIdentName=HOVERCARDS-[local]'), exclude: 'node_modules' },
+			{ test: /\.css$/, loader: ExtractTextPlugin.extract(['css?sourceMap&modules&localIdentName=HOVERCARDS-[local]&importLoaders=1', 'postcss']), exclude: 'node_modules' },
 			{ test: /.*\.(gif|png|jpe?g|svg)$/i, loaders: ['url?name=assets/images/[name].[ext]', 'image-webpack'], exclude: 'node_modules' },
 			{ test: /\.ttf$|\.eot$/, loaders: ['file?name=assets/fonts/[name].[ext]'], exclude: 'node_modules' },
 			{ test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loaders: ['url?name=assets/fonts/[name].[ext]'], exclude: 'node_modules' }
 		],
 		noParse: /node_modules\/json-schema\/lib\/validate\.js/
+	},
+	postcss: function() {
+		return [safeImportant];
 	},
 	node: {
 		console: true,
