@@ -6,10 +6,10 @@ var WriteFilePlugin    = require('write-file-webpack-plugin');
 
 module.exports = {
 	entry: {
-		'background':    ['./app/background.js'],
-		'every-frame':   ['./app/every-frame.js'],
-		'options-frame': ['./app/options.js'],
-		'top-frame':     ['./app/top-frame.js']
+		'background':  ['./app/background.js'],
+		'every-frame': ['./app/every-frame.js'],
+		'options':     ['./app/options.js'],
+		'top-frame':   ['./app/top-frame.js']
 	},
 	output: {
 		path:     'dist',
