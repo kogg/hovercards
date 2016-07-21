@@ -35,6 +35,11 @@ module.exports = {
 		tls:     'empty'
 	},
 	plugins: [
+		new webpack.EnvironmentPlugin([
+			'INSTAGRAM_CLIENT_ID',
+			'NODE_ENV',
+			'STICKYCARDS'
+		]),
 		new CopyWebpackPlugin([
 			{ from: 'app/_locales', to: '_locales' },
 			{ from: 'app/manifest.json' },
@@ -51,12 +56,7 @@ module.exports = {
 	devtool: 'source-map'
 };
 
-if (process.env.NODE_ENV) {
-	module.exports.plugins.push(new webpack.EnvironmentPlugin([
-		'INSTAGRAM_CLIENT_ID',
-		'NODE_ENV'
-	]));
-} else {
+if (!process.env.NODE_ENV) {
 	module.exports.plugins = module.exports.plugins.concat([
 		new CleanWebpackPlugin(['dist']),
 		new DotenvPlugin(),
