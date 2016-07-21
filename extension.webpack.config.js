@@ -1,4 +1,5 @@
 var CleanWebpackPlugin = require('clean-webpack-plugin');
+var CopyWebpackPlugin  = require('copy-webpack-plugin');
 var ExtractTextPlugin  = require('extract-text-webpack-plugin');
 var WriteFilePlugin    = require('write-file-webpack-plugin');
 
@@ -15,12 +16,15 @@ module.exports = {
 	},
 	module: {
 		loaders: [
+			{ test: /\.html/, loaders: ['ractive'], exclude: 'node_modules' },
+			{ test: /\.ract/, loaders: ['ractive-component'], exclude: 'node_modules' },
 			{ test: /\.json/, loaders: ['json'], exclude: 'node_modules' },
-			{ test: /.*\.(gif|png|jpe?g|svg)$/i, loaders: ['url?name=images/[name].[hash].[ext]&limit=10000', 'image-webpack'], exclude: 'node_modules' },
-			{ test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css'), exclude: 'node_modules' },
-			{ test: /\.ttf$|\.eot$/, loaders: ['file?name=fonts/[name].[hash].[ext]'], exclude: 'node_modules' },
-			{ test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loaders: ['url?name=fonts/[name].[hash].[ext]&limit=10000'], exclude: 'node_modules' }
-		]
+			{ test: /\.css$/, loader: ExtractTextPlugin.extract('css?sourceMap&modules&localIdentName=HOVERCARDS-'), exclude: 'node_modules' },
+			{ test: /.*\.(gif|png|jpe?g|svg)$/i, loaders: ['url?name=assets/images/[name].[ext]', 'image-webpack'], exclude: 'node_modules' },
+			{ test: /\.ttf$|\.eot$/, loaders: ['file?name=assets/fonts/[name].[ext]'], exclude: 'node_modules' },
+			{ test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loaders: ['url?name=assets/fonts/[name].[ext]'], exclude: 'node_modules' }
+		],
+		noParse: /node_modules\/json-schema\/lib\/validate\.js/
 	},
 	node: {
 		console: true,
@@ -30,11 +34,19 @@ module.exports = {
 	},
 	plugins: [
 		new CleanWebpackPlugin(['dist']),
+		new CopyWebpackPlugin([
+			{ from: 'app/_locales', to: '_locales' },
+			{ from: 'app/images/*-icon-full_color.png', to: 'assets/images', flatten: true },
+			{ from: 'app/images/logo-*', to: 'assets/images', flatten: true },
+			{ from: 'app/manifest.json' },
+			{ from: 'app/options.html' }
+		]),
 		new ExtractTextPlugin('[name].css'),
 		new WriteFilePlugin({ log: false })
 	],
 	devServer: {
-		port: 3030
+		outputPath: 'dist',
+		port:       3030
 	},
 	devtool: 'source-map'
 };

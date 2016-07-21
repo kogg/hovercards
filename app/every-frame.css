@@ -1,4 +1,2 @@
-@import "common/common.css";
-@import "hovercard/hovercard.css";
-@import "../shared/common/*.css";
-@import "../shared/*/*.css";
+@import "./hovercard/hovercard.css";
+@import "../shared/common/common.css";
