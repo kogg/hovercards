@@ -112,8 +112,8 @@
     "webpack-dev-server": "^1.14.1"
   },
   "engines": {
-    "node": ">= 4.1.0",
-    "npm": ">= 3.9.0"
+    "node": "^4.1.0",
+    "npm": "^3.9.0"
   },
   "pre-commit": [
     "fix",
