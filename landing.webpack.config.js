@@ -1,6 +1,7 @@
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
+var CopyWebpackPlugin  = require('copy-webpack-plugin');
+var ExtractTextPlugin  = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin  = require('html-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -22,6 +23,7 @@ module.exports = {
 		]
 	},
 	plugins: [
+		new CleanWebpackPlugin(['dist-landing']),
 		new CopyWebpackPlugin([{ from: 'www/CNAME' }]),
 		new ExtractTextPlugin('[name].[hash].css'),
 		new HtmlWebpackPlugin({ chunks: ['main'], template: 'www/index.html' }),

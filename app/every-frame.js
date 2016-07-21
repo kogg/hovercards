@@ -1,1 +1,2 @@
-require('./*/every-frame.js', { mode: 'expand' });
+var req = require.context('./', true, /every-frame\.js$/);
+req.keys().forEach(req);

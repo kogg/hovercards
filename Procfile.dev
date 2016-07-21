@@ -1,6 +1,7 @@
-web:      nodemon --ignore dist/ -e js,jsx server
-redis:    redis-server
-copy:     watch 'npm run copy:other' app
-postcss:  npm run postcss -- -w
-watchify: npm run watchify
-landing:  webpack-dev-server --inline --hot --config landing.webpack.config.js
+web:       nodemon --ignore dist/ -e js,jsx server
+# copy:     watch 'npm run copy:other' app
+# postcss:  npm run postcss -- -w
+# watchify: npm run watchify
+extension: webpack-dev-server --inline --hot --config extension.webpack.config.js
+landing:   webpack-dev-server --inline --hot --config landing.webpack.config.js
+redis:     redis-server
