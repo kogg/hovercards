@@ -19,7 +19,7 @@ module.exports = {
 			{ test: /\.html/, loaders: ['ractive'], exclude: 'node_modules' },
 			{ test: /\.ract/, loaders: ['ractive-component'], exclude: 'node_modules' },
 			{ test: /\.json/, loaders: ['json'], exclude: 'node_modules' },
-			{ test: /\.css$/, loader: ExtractTextPlugin.extract('css?sourceMap&modules&localIdentName=HOVERCARDS-'), exclude: 'node_modules' },
+			{ test: /\.css$/, loader: ExtractTextPlugin.extract('css?sourceMap&modules&localIdentName=HOVERCARDS-[local]'), exclude: 'node_modules' },
 			{ test: /.*\.(gif|png|jpe?g|svg)$/i, loaders: ['url?name=assets/images/[name].[ext]', 'image-webpack'], exclude: 'node_modules' },
 			{ test: /\.ttf$|\.eot$/, loaders: ['file?name=assets/fonts/[name].[ext]'], exclude: 'node_modules' },
 			{ test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loaders: ['url?name=assets/fonts/[name].[ext]'], exclude: 'node_modules' }
@@ -36,10 +36,10 @@ module.exports = {
 		new CleanWebpackPlugin(['dist']),
 		new CopyWebpackPlugin([
 			{ from: 'app/_locales', to: '_locales' },
-			{ from: 'app/images/*-icon-full_color.png', to: 'assets/images', flatten: true },
-			{ from: 'app/images/logo-*', to: 'assets/images', flatten: true },
 			{ from: 'app/manifest.json' },
-			{ from: 'app/options.html' }
+			{ from: 'app/options.html' },
+			{ from: 'assets/images/*-icon-full_color.png', to: 'assets/images', flatten: true },
+			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true }
 		]),
 		new ExtractTextPlugin('[name].css'),
 		new WriteFilePlugin({ log: false })
