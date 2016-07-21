@@ -91,33 +91,46 @@ var global_data = {
 	url: urls.print
 };
 
+var partialsRequire   = require.context('../../shared', true, /(content|discussion(-header)?|account(-content)?)(\/layout)?\.html$/);
+var componentsRequire = require.context('../../shared', true, /\.ract$/);
+var decoratorsRequire = require.context('../../shared/common', true, /-decorator\.js$/);
+
 var HoverCardRactive = Ractive.extend({
 	data:     global_data,
-	partials: _.chain(require('../../shared/*/@(content|discussion|discussion-header|account|account-content).html', { mode: 'hash' }))
-		.extend(require('../../shared/@(content|discussion|discussion-header|account|account-content)/layout.html', { mode: 'hash' }))
-		.reduce(function(memo, template, key) {
-			memo[key.replace('/', '-')] = template;
+	partials: _.reduce(
+		partialsRequire.keys(),
+		function(memo, key) {
+			var newKey = key.substring(2, key.length - 5).replace(/\//g, '-');
+			memo[newKey] = partialsRequire(key);
 			return memo;
-		}, {})
-		.value(),
-	components: _.chain(require('../../shared/*/*.ract', { mode: 'hash' }))
-		.extend(require('../../shared/common/*.ract', { mode: 'hash' }))
-		.reduce(function(memo, obj, key) {
-			obj.data = _.extend(obj.data || {}, global_data);
-			var key_parts = key.split(/[/-]/g);
-			while (key_parts[0] && _.isEqual(key_parts[0], key_parts[1])) {
-				key_parts.shift();
-			}
-			memo[key_parts.join('-')] = Ractive.extend(obj);
+		},
+		{}
+	),
+	components: _.reduce(
+		componentsRequire.keys(),
+		function(memo, key) {
+			var newKey = _.chain(key.substring(2, key.length - 5).split(/\//g))
+				.without('common')
+				.uniq()
+				.value()
+				.join('-');
+			var newVal = componentsRequire(key);
+			newVal.data = _.extend(newVal.data || {}, global_data);
+			newVal = Ractive.extend(newVal);
+			memo[newKey] = newVal;
 			return memo;
-		}, {})
-		.value(),
-	decorators: _.chain(require('../../shared/common/*-decorator.js', { mode: 'hash' }))
-		.reduce(function(memo, template, key) {
-			memo[key.replace(/-decorator$/, '')] = template;
+		},
+		{}
+	),
+	decorators: _.reduce(
+		decoratorsRequire.keys(),
+		function(memo, key) {
+			var newKey = key.substring(2, key.length - 13);
+			memo[newKey] = decoratorsRequire(key);
 			return memo;
-		}, {})
-		.value()
+		},
+		{}
+	)
 });
 
 module.exports = function(obj, identity) {
