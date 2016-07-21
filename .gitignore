@@ -1,6 +1,6 @@
 .env
 build/
-dist-landing/
+dist-*/
 dist/
 dump.rdb
 node_modules/
