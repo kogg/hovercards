@@ -31,16 +31,16 @@ body {
 /*.bluebg,
 .orangebg,
 .purplebg {
-  background-image: url('../images/shapes.jpg');
+  background-image: url('../../assets/images/shapes.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 .bluebg {
-  background-image: url('../images/shapes2.jpg');
+  background-image: url('../../assets/images/shapes2.jpg');
 }
 .orangebg {
-  background-image: url('../images/shapes3.jpg');
+  background-image: url('../../assets/images/shapes3.jpg');
 }*/
 .col-1,
 .col-2,
@@ -107,14 +107,14 @@ body {
 
 @font-face {
   font-family: 'avant-garde';
-  src: url('../fonts/avant-garde.eot'); /* IE9 Compat Modes */
-  src: url('../fonts/avant-garde.eot?#iefix') format('embedded-opentype'), url('../fonts/avant-garde.woff') format('woff'), url('../fonts/avant-garde.ttf') format('truetype');
+  src: url('../../assets/fonts/avant-garde.eot'); /* IE9 Compat Modes */
+  src: url('../../assets/fonts/avant-garde.eot?#iefix') format('embedded-opentype'), url('../../assets/fonts/avant-garde.woff') format('woff'), url('../../assets/fonts/avant-garde.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'hovercards-regular-font';
-  src: url('../fonts/NeuzeGroTReg.eot'); /* IE9 Compat Modes */
-  src: url('../fonts/NeuzeGroTReg.eot?#iefix') format('embedded-opentype'), url('../fonts/NeuzeGroTReg.woff') format('woff'), url('../fonts/NeuzeGroTReg.svg') format('svg');
+  src: url('../../assets/fonts/NeuzeGroTReg.eot'); /* IE9 Compat Modes */
+  src: url('../../assets/fonts/NeuzeGroTReg.eot?#iefix') format('embedded-opentype'), url('../../assets/fonts/NeuzeGroTReg.woff') format('woff'), url('../../assets/fonts/NeuzeGroTReg.svg') format('svg');
 }
 
 .row {
@@ -767,7 +767,7 @@ a {
   right: 0;
   top: 0;
   z-index: -1;
-  background: url('../images/circles.svg');
+  background: url('../../assets/images/circles.svg');
   background-size: 120%;
   background-position: -40px -280px;
   background-repeat: repeat-y;

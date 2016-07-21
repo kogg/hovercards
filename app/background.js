@@ -1,1 +1,2 @@
-require('./*/background.js', { mode: 'expand' });
+var req = require.context('./', true, /background\.js$/);
+req.keys().forEach(req);
