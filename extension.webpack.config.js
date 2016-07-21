@@ -45,11 +45,11 @@ module.exports = {
 			'STICKYCARDS'
 		]),
 		new CopyWebpackPlugin([
-			{ from: 'app/_locales', to: '_locales' },
 			{ from: 'app/manifest.json' },
 			{ from: 'app/options.html' },
 			{ from: 'assets/images/*-icon-full_color.png', to: 'assets/images', flatten: true },
-			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true }
+			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true },
+			{ from: 'copy.json', to: '_locales/en/messages.json' }
 		]),
 		new ExtractTextPlugin('[name].css')
 	],
