@@ -1,7 +1,7 @@
 <div class="{{ prefix('notification') }}">
 	<p class="{{ prefix('notification-message') }}">{{message.message}}</p>
 	<a href="{{message.url}}" class="{{ prefix('notification-link') }}" target="_blank" on-click="closeMessage('visited', message.id)">Sure</a>
-	<a class="{{ prefix('notification-cancel') }}" on-click="closeMessage('ignored', message.id)">no thanks</a>
+	<a class="{{ prefix('notification-cancel') }}" on-click="closeMessage('ignored', message.id)">No Thanks</a>
 </div>
 
 <script>
