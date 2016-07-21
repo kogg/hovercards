@@ -1,4 +1,5 @@
 var webpack            = require('webpack');
+var DotenvPlugin       = require('webpack-dotenv-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var CopyWebpackPlugin  = require('copy-webpack-plugin');
 var ExtractTextPlugin  = require('extract-text-webpack-plugin');
@@ -34,12 +35,6 @@ module.exports = {
 		tls:     'empty'
 	},
 	plugins: [
-		new webpack.EnvironmentPlugin([
-			'INSTAGRAM_CLIENT_ID',
-			'NODE_ENV',
-			'STICKYCARDS'
-		]),
-		new CleanWebpackPlugin(['dist']),
 		new CopyWebpackPlugin([
 			{ from: 'app/_locales', to: '_locales' },
 			{ from: 'app/manifest.json' },
@@ -47,8 +42,7 @@ module.exports = {
 			{ from: 'assets/images/*-icon-full_color.png', to: 'assets/images', flatten: true },
 			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true }
 		]),
-		new ExtractTextPlugin('[name].css'),
-		new WriteFilePlugin({ log: false })
+		new ExtractTextPlugin('[name].css')
 	],
 	devServer: {
 		outputPath: 'dist',
@@ -56,3 +50,16 @@ module.exports = {
 	},
 	devtool: 'source-map'
 };
+
+if (process.env.NODE_ENV) {
+	module.exports.plugins.push(new webpack.EnvironmentPlugin([
+		'INSTAGRAM_CLIENT_ID',
+		'NODE_ENV'
+	]));
+} else {
+	module.exports.plugins = module.exports.plugins.concat([
+		new CleanWebpackPlugin(['dist']),
+		new DotenvPlugin(),
+		new WriteFilePlugin({ log: false })
+	]);
+}
