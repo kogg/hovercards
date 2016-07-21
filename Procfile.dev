@@ -3,4 +3,4 @@ redis:    redis-server
 copy:     watch 'npm run copy:other' app
 postcss:  npm run postcss -- -w
 watchify: npm run watchify
-landing:  webpack-dev-server --inline --hot
+landing:  webpack-dev-server --inline --hot --config landing.webpack.config.js

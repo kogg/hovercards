@@ -28,9 +28,7 @@ module.exports = {
 		new HtmlWebpackPlugin({ chunks: ['privacy'], template: 'www/privacy.html', filename: 'privacy.html' })
 	],
 	devServer: {
-		noInfo: true,
-		port:   8000,
-		quiet:  false
+		port: 8000
 	},
 	devtool: 'source-map'
 };
