@@ -1,3 +1,4 @@
+var webpack            = require('webpack');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var CopyWebpackPlugin  = require('copy-webpack-plugin');
 var ExtractTextPlugin  = require('extract-text-webpack-plugin');
@@ -33,6 +34,11 @@ module.exports = {
 		tls:     'empty'
 	},
 	plugins: [
+		new webpack.EnvironmentPlugin([
+			'INSTAGRAM_CLIENT_ID',
+			'NODE_ENV',
+			'STICKYCARDS'
+		]),
 		new CleanWebpackPlugin(['dist']),
 		new CopyWebpackPlugin([
 			{ from: 'app/_locales', to: '_locales' },

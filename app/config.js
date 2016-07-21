@@ -8,7 +8,7 @@ var config = {
 		imgur:     {},
 		instagram: {
 			client_on_auth:  true,
-			client_auth_url: 'https://instagram.com/oauth/authorize/?scope=basic+public_content&client_id=41e56061c1e34fbbb16ab1d095dad78b&redirect_uri=https://EXTENSION_ID.chromiumapp.org/callback&response_type=token'
+			client_auth_url: 'https://instagram.com/oauth/authorize/?scope=basic+public_content&client_id=' + process.env.INSTAGRAM_CLIENT_ID + '&redirect_uri=https://EXTENSION_ID.chromiumapp.org/callback&response_type=token'
 		},
 		reddit: {
 			key: '0jXqEudQPqSL6w'
