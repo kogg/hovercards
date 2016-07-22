@@ -1,7 +1,7 @@
 var combineReducers = require('redux').combineReducers;
 
+var settingsReducers = require('./settings');
+
 module.exports = combineReducers({
-	dummy: function() {
-		return 'duh';
-	}
+	settings: settingsReducers
 });
