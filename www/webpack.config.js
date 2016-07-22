@@ -15,9 +15,10 @@ module.exports = {
 	},
 	module: {
 		loaders: [
-			{ test: /\.html/, loaders: ['html?attrs[]=img:src&attrs[]=link:href'], exclude: 'node_modules' },
-			{ test: /\.json/, loaders: ['file?name=[name].[hash].[ext]'], exclude: 'node_modules' },
+			{ test: /\.js$/, loaders: ['babel?cacheDirectory'], exclude: 'node_modules' },
 			{ test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css'), exclude: 'node_modules' },
+			{ test: /\.json/, loaders: ['file?name=[name].[hash].[ext]'], exclude: 'node_modules' },
+			{ test: /\.html/, loaders: ['html?attrs[]=img:src&attrs[]=link:href'], exclude: 'node_modules' },
 			{ test: /.*\.(gif|png|jpe?g|svg)$/i, loaders: ['url?name=images/[name].[hash].[ext]&limit=10000', 'image-webpack'], exclude: 'node_modules' },
 			{ test: /\.ttf$|\.eot$/, loaders: ['file?name=fonts/[name].[hash].[ext]'], exclude: 'node_modules' },
 			{ test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loaders: ['url?name=fonts/[name].[hash].[ext]&limit=10000'], exclude: 'node_modules' }
