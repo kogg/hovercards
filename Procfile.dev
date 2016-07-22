@@ -1,4 +1,4 @@
 web:       nodemon --ignore dist/ -e js,jsx server
-extension: webpack-dev-server --config app/webpack.config.js
+extension: webpack-dev-server --config extension/webpack.config.js
 www:       webpack-dev-server --inline --hot --config www/webpack.config.js
 redis:     redis-server

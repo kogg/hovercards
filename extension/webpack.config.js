@@ -8,10 +8,10 @@ var WriteFilePlugin    = require('write-file-webpack-plugin');
 
 module.exports = {
 	entry: {
-		'background':  ['./app/background.js'],
-		'every-frame': ['./app/every-frame.js'],
-		'options':     ['./app/options.js'],
-		'top-frame':   ['./app/top-frame.js']
+		'background':  ['./extension/background.js'],
+		'every-frame': ['./extension/every-frame.js'],
+		'options':     ['./extension/options.js'],
+		'top-frame':   ['./extension/top-frame.js']
 	},
 	output: {
 		path:     'dist',
@@ -46,11 +46,11 @@ module.exports = {
 			'STICKYCARDS'
 		]),
 		new CopyWebpackPlugin([
-			{ from: 'app/copy.json', to: '_locales/en/messages.json' },
-			{ from: 'app/manifest.json' },
-			{ from: 'app/options.html' },
 			{ from: 'assets/images/*-icon-full_color.png', to: 'assets/images', flatten: true },
-			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true }
+			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true },
+			{ from: 'extension/copy.json', to: '_locales/en/messages.json' },
+			{ from: 'extension/manifest.json' },
+			{ from: 'extension/options.html' }
 		]),
 		new ExtractTextPlugin('[name].css')
 	],

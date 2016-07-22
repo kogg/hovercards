@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "run-p build:*",
-    "build:extension": "NODE_ENV=production webpack -p --config app/webpack.config.js && mkdir -p build && zip -q -r build/pkg-$npm_package_version.zip dist",
+    "build:extension": "NODE_ENV=production webpack -p --config extension/webpack.config.js && mkdir -p build && zip -q -r build/pkg-$npm_package_version.zip dist",
     "build:www": "webpack -p --config www/webpack.config.js",
     "clean": "rm -rf dist dist-* build dump.rdb npm-debug.log*",
     "deploy:www": "gh-pages -d dist-www",
