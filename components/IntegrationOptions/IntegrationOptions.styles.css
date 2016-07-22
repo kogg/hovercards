@@ -1,0 +1,52 @@
+.row {
+  margin: auto !important;
+  max-width: 420px;
+  overflow: auto;
+  padding: 5px;
+}
+
+.col-6 {
+  float: left;
+  width: 50%;
+
+  &:first-of-type {
+    padding-right: 5px;
+  }
+
+  &:last-of-type {
+    padding-left: 5px;
+  }
+}
+
+.setting {
+  background: white;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, .15);
+  cursor: pointer;
+  display: block;
+  overflow: auto;
+  padding: 12px;
+  transition: all .1s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.integration-image {
+  float: left;
+  width: 28px;
+}
+
+.setting-title {
+  display: block;
+  font-weight: bold;
+  padding-bottom: 1px;
+  padding-left: 38px;
+}
+
+.input-container {
+  color: rgba(0, 0, 0, .4);
+  cursor: pointer;
+  padding-left: 38px;
+}

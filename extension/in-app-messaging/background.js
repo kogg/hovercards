@@ -1,3 +1,4 @@
+/* global chrome */
 var $     = require('jquery');
 var _     = require('underscore');
 var async = require('async');

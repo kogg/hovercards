@@ -1,3 +1,17 @@
+var Provider = require('react-redux').Provider;
+var React    = require('react');
+var ReactDOM = require('react-dom');
+
+var Options = require('../components/Options/Options');
+
+ReactDOM.render(
+	<Provider store={require('./createStore')()}>
+		<Options />
+	</Provider>,
+	global.document.getElementById('mount')
+);
+
+/*
 var $ = require('jquery');
 
 $(function() {
@@ -62,3 +76,4 @@ $(function() {
 		});
 	});
 });
+*/

@@ -73,5 +73,15 @@
 
   "youtube":           { "message": "YouTube" },
   "youtube_content":   { "message": "Videos" },
-  "youtube_followers": { "message": "Subscribers" }
+  "youtube_followers": { "message": "Subscribers" },
+
+  "hovercards_of_account":            { "message": "User hovercards" },
+  "hovercards_of_imgur_content":      { "message": "Photo hovercards" },
+  "hovercards_of_instagram_content":  { "message": "Photo hovercards" },
+  "hovercards_of_reddit_content":     { "message": "Post hovercards" },
+  "hovercards_of_soundcloud_content": { "message": "Track hovercards" },
+  "hovercards_of_twitter_content":    { "message": "Tweet hovercards" },
+  "hovercards_of_youtube_content":    { "message": "Video hovercards" },
+  "save_settings":                    { "message": "Save My Settings" },
+  "show_these":                       { "message": "Show these!" }
 }

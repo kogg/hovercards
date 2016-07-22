@@ -1,3 +1,4 @@
+/* global chrome */
 var _      = require('underscore');
 var async  = require('async');
 var config = require('../config');

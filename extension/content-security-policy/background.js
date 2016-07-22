@@ -1,3 +1,4 @@
+/* global chrome */
 var _      = require('underscore');
 var config = require('../config');
 

@@ -1,37 +1,55 @@
+var autoprefixer       = require('autoprefixer');
+var nested             = require('postcss-nested');
 var safeImportant      = require('postcss-safe-important');
 var webpack            = require('webpack');
-var DotenvPlugin       = require('webpack-dotenv-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var CopyWebpackPlugin  = require('copy-webpack-plugin');
+var DotenvPlugin       = require('webpack-dotenv-plugin');
 var ExtractTextPlugin  = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin  = require('html-webpack-plugin');
 var WriteFilePlugin    = require('write-file-webpack-plugin');
 
 module.exports = {
 	entry: {
-		'background':  ['./extension/background.js'],
-		'every-frame': ['./extension/every-frame.js'],
-		'options':     ['./extension/options.js'],
-		'top-frame':   ['./extension/top-frame.js']
+		options: './extension/options.js'
 	},
 	output: {
-		path:     'dist',
-		filename: '[name].js'
+		filename: '[name].js',
+		path:     'dist'
 	},
 	module: {
 		loaders: [
-			{ test: /\.js$/, loaders: ['babel?cacheDirectory'], exclude: 'node_modules' },
-			{ test: /\.css$/, loader: ExtractTextPlugin.extract(['css?sourceMap&modules&localIdentName=HOVERCARDS-[local]&importLoaders=1', 'postcss']), exclude: 'node_modules' },
-			{ test: /\.json/, loaders: ['json'], exclude: 'node_modules' },
-			{ test: /\.html/, loaders: ['ractive'], exclude: 'node_modules' },
-			{ test: /\.ract/, loaders: ['ractive-component'], exclude: 'node_modules' },
-			{ test: /.*\.(gif|png|jpe?g|svg)$/i, loaders: ['url?name=assets/images/[name].[ext]', 'image-webpack'], exclude: 'node_modules' },
-			{ test: /\.ttf$|\.eot$/, loaders: ['file?name=assets/fonts/[name].[ext]'], exclude: 'node_modules' },
-			{ test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loaders: ['url?name=assets/fonts/[name].[ext]'], exclude: 'node_modules' }
+			{ exclude: 'node_modules', test: /\.(gif|png|jpe?g|svg)$/i, loaders: ['file?name=assets/images/[name].[ext]', 'image-webpack'] },
+			{ exclude: 'node_modules', test: /\.html/, loader: 'ractive' },
+			{ exclude: 'node_modules', test: /\.js$/, loader: 'babel?cacheDirectory' },
+			{ exclude: 'node_modules', test: /\.json/, loader: 'json' },
+			{ exclude: 'node_modules', test: /\.ract/, loader: 'ractive-component' },
+			{ exclude: 'node_modules', test: /\.ttf$|\.eot$/, loader: 'file?name=assets/fonts/[name].[ext]' },
+			{ exclude: 'node_modules', test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file?name=assets/fonts/[name].[ext]' },
+			{
+				exclude: 'node_modules',
+				test:    /\.css$/,
+				loader:  ExtractTextPlugin.extract(
+					'style',
+					[
+						'css?-autoprefixer&camelCase&modules&sourceMap&importLoaders=1' + (process.env.NODE_ENV ? '' : '&localIdentName=[name]---[local]---[hash:base64:10]'),
+						'postcss'
+					]
+				)
+			}
 		],
-		noParse: /node_modules\/json-schema\/lib\/validate\.js/
+		noParse: /node_modules\/json-schema\/lib\/validate\.js/ },
+	resolve: {
+		extensions: [
+			'',
+			'.chrome.json', '.chrome.js', '.chrome.css',
+			'.webpack.js', '.web.js', '.json', '.js', '.css'
+		]
 	},
-	postcss: function() {
-		return [safeImportant];
+	devtool:   'source-map',
+	devServer: {
+		outputPath: 'dist',
+		port:       3030
 	},
 	node: {
 		console: true,
@@ -46,19 +64,24 @@ module.exports = {
 			'STICKYCARDS'
 		]),
 		new CopyWebpackPlugin([
-			{ from: 'assets/images/*-icon-full_color.png', to: 'assets/images', flatten: true },
+			// { from: 'assets/images/*-icon-full_color.png', to: 'assets/images', flatten: true },
 			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true },
 			{ from: 'extension/copy.json', to: '_locales/en/messages.json' },
-			{ from: 'extension/manifest.json' },
-			{ from: 'extension/options.html' }
+			{ from: 'extension/manifest.json' }
 		]),
-		new ExtractTextPlugin('[name].css')
+		new ExtractTextPlugin('[name].css'),
+		new HtmlWebpackPlugin({
+			title:      'My Test Extension Options',
+			filename:   'options.html',
+			template:   require('html-webpack-template'),
+			inject:     false,
+			chunks:     ['options'],
+			appMountId: 'mount'
+		})
 	],
-	devServer: {
-		outputPath: 'dist',
-		port:       3030
-	},
-	devtool: 'source-map'
+	postcss: function() {
+		return [nested, autoprefixer, safeImportant];
+	}
 };
 
 if (!process.env.NODE_ENV) {

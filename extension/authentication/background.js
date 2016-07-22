@@ -1,3 +1,4 @@
+/* global chrome */
 var _         = require('underscore');
 var analytics = require('../analytics/background');
 var async     = require('async');
