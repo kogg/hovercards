@@ -23,7 +23,7 @@ function optionReducerMap(key) {
 				return previousState;
 			}
 			browser.storage.sync.set({ ['options.' + key]: action.payload.value });
-			return action.payload.value;
+			return (action.payload.value === undefined) ? null : action.payload.value;
 		}
 		// FIXME #9
 	};

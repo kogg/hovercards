@@ -23,6 +23,20 @@ module.exports = function(initialState) {
 	}
 
 	browser.storage.sync.get(null).then(function(items) {
+		if (items.disabled) {
+			['imgur', 'instagram', 'reddit', 'soundcloud', 'twitter', 'youtube'].forEach(function(integration) {
+				if (!items.disabled[integration]) {
+					return;
+				}
+				['content', 'account'].forEach(function(type) {
+					if (!items.disabled[integration][type]) {
+						return;
+					}
+					store.dispatch(actions.setOption([integration, type, 'enabled'].join('.'), !items.disabled[integration][type]));
+				});
+			});
+			browser.storage.sync.remove('disabled');
+		}
 		_.pairs(items).forEach(function(entry) {
 			var key = entry[0].match(/^options\.(.+)/);
 			if (!key) {
