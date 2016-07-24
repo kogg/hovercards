@@ -11,7 +11,7 @@ var WriteFilePlugin    = require('write-file-webpack-plugin');
 
 module.exports = {
 	entry: {
-		options: './extension/entry.options.js'
+		options: './extension/index.options'
 	},
 	output: {
 		filename: '[name].js',

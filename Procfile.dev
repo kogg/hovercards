@@ -1,7 +1,5 @@
-# PORT 5000
 web:       nodemon --ignore dist/ -e js,jsx server
-# PORT 5100
 www:       webpack-dev-server --inline --hot --config webpack.config.www.js
-# PORT 5200
 extension: webpack-dev-server --inline --hot --config webpack.config.extension.js
+# DON'T REORDER the process above this line
 redis:     redis-server
