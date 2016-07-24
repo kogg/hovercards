@@ -10,30 +10,30 @@ module.exports = React.createClass({
 	displayName: 'IntegrationOptions',
 	propTypes:   {
 		integration: React.PropTypes.string.isRequired,
-		setSetting:  React.PropTypes.func.isRequired,
-		settings:    React.PropTypes.object.isRequired
+		setOption:   React.PropTypes.func.isRequired,
+		options:     React.PropTypes.object.isRequired
 	},
 	onChange: function(type) {
-		this.props.setSetting(this.props.integration + '.' + type + '.enabled', !this.props.settings[type].enabled);
+		this.props.setOption(this.props.integration + '.' + type + '.enabled', !this.props.options[type].enabled);
 	},
 	render: function() {
 		return (
 			<div className={styles.row}>
 				<div className={styles.col6}>
-					<label className={styles.setting}>
+					<label className={styles.option}>
 						<img className={styles.integrationImage} src={requireLogo('./' + this.props.integration + '-icon-full_color.png')} />
-						<span className={styles.settingTitle}>{browser.i18n.getMessage('hovercards_of_' + this.props.integration + '_content')}</span>
+						<span className={styles.optionTitle}>{browser.i18n.getMessage('hovercards_of_' + this.props.integration + '_content')}</span>
 						<div className={styles.inputContainer}>
-							<input type="checkbox" checked={this.props.settings.content.enabled} onChange={_.partial(this.onChange, 'content')} /> {browser.i18n.getMessage('show_these')}
+							<input type="checkbox" checked={this.props.options.content.enabled} onChange={_.partial(this.onChange, 'content')} /> {browser.i18n.getMessage('show_these')}
 						</div>
 					</label>
 				</div>
 				<div className={styles.col6}>
-					<label className={styles.setting}>
+					<label className={styles.option}>
 						<img className={styles.integrationImage} src={requireLogo('./' + this.props.integration + '-icon-full_color.png')} />
-						<span className={styles.settingTitle}>{browser.i18n.getMessage('hovercards_of_account')}</span>
+						<span className={styles.optionTitle}>{browser.i18n.getMessage('hovercards_of_account')}</span>
 						<div className={styles.inputContainer}>
-							<input type="checkbox" checked={this.props.settings.account.enabled} onChange={_.partial(this.onChange, 'account')} /> {browser.i18n.getMessage('show_these')}
+							<input type="checkbox" checked={this.props.options.account.enabled} onChange={_.partial(this.onChange, 'account')} /> {browser.i18n.getMessage('show_these')}
 						</div>
 					</label>
 				</div>

@@ -82,6 +82,6 @@
   "hovercards_of_soundcloud_content": { "message": "Track hovercards" },
   "hovercards_of_twitter_content":    { "message": "Tweet hovercards" },
   "hovercards_of_youtube_content":    { "message": "Video hovercards" },
-  "save_settings":                    { "message": "Save My Settings" },
+  "save_options":                     { "message": "Save My Options" },
   "show_these":                       { "message": "Show these!" }
 }

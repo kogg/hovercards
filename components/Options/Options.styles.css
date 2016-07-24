@@ -35,14 +35,14 @@ html {
     transform: scale(1.05);
   }
 
-  &.settings-saved {
+  &.options-saved {
     background: #4cbb91;
     box-shadow: 0 0px 0px rgba(0, 0, 0, 0), 0 0px 0px rgba(0, 0, 0, 0);
     cursor: default;
     transform: scale(1);
   }
 
-  &.settings-error {
+  &.options-error {
     background: #e94639;
     box-shadow: 0 0px 0px rgba(0, 0, 0, 0), 0 0px 0px rgba(0, 0, 0, 0);
     cursor: default;

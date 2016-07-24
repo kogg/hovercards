@@ -18,7 +18,7 @@
   }
 }
 
-.setting {
+.option {
   background: white;
   border-radius: 3px;
   border: 1px solid rgba(0, 0, 0, .15);
@@ -38,7 +38,7 @@
   width: 28px;
 }
 
-.setting-title {
+.option-title {
   display: block;
   font-weight: bold;
   padding-bottom: 1px;
