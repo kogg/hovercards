@@ -49,7 +49,8 @@ module.exports = {
 	devtool:   'source-map',
 	devServer: {
 		outputPath: 'dist',
-		port:       3030
+		port:       3030,
+		stats:      { colors: true }
 	},
 	node: {
 		console: true,
@@ -64,7 +65,6 @@ module.exports = {
 			'STICKYCARDS'
 		]),
 		new CopyWebpackPlugin([
-			// { from: 'assets/images/*-icon-full_color.png', to: 'assets/images', flatten: true },
 			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true },
 			{ from: 'extension/copy.json', to: '_locales/en/messages.json' },
 			{ from: 'extension/manifest.json' }
