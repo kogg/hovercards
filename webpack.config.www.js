@@ -28,7 +28,7 @@ module.exports = {
 	},
 	devtool:   'source-map',
 	devServer: {
-		port:  8000,
+		port:  process.env.PORT,
 		stats: { colors: true }
 	},
 	plugins: [

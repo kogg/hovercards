@@ -49,7 +49,7 @@ module.exports = {
 	devtool:   'source-map',
 	devServer: {
 		outputPath: 'dist',
-		port:       3030,
+		port:       process.env.PORT,
 		stats:      { colors: true }
 	},
 	node: {
