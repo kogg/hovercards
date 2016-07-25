@@ -1,19 +1,15 @@
 var _               = require('underscore');
 var applyMiddleware = require('redux').applyMiddleware;
-var combineReducers = require('redux').combineReducers;
 var createStore     = require('redux').createStore;
 var thunkMiddlware  = require('redux-thunk').default;
 
-var actions         = require('./actions');
-var browser         = require('../extension/browser');
-var optionsReducers = require('./options.reducer');
+var actions = require('./actions');
+var browser = require('../extension/browser');
 
 createStore = applyMiddleware(thunkMiddlware)(createStore);
 
-module.exports = function(initialState) {
-	var store = createStore(combineReducers({
-		options: optionsReducers()
-	}), initialState);
+module.exports = function(reducers, initialState) {
+	var store = createStore(reducers, initialState);
 
 	if (!process.env.NODE_ENV) {
 		console.log('store', store.getState());

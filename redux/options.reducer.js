@@ -5,16 +5,14 @@ var handleAction    = require('redux-actions').handleAction;
 var browser = require('../extension/browser');
 var options = require('../extension/options');
 
-module.exports = function() {
-	return (function optionsReducer(object, prefix) {
-		prefix = prefix || '';
-		return combineReducers(_.mapObject(object, function(value, key) {
-			return (_.isObject(value) && !_.isArray(value)) ?
-				optionsReducer(value, prefix + key + '.') :
-				handleAction('SET_OPTION', optionReducerMap(prefix + key), value);
-		}));
-	})(_.omit(options, 'keys'));
-};
+module.exports = (function optionsReducer(object, prefix) {
+	prefix = prefix || '';
+	return combineReducers(_.mapObject(object, function(value, key) {
+		return (_.isObject(value) && !_.isArray(value)) ?
+			optionsReducer(value, prefix + key + '.') :
+			handleAction('SET_OPTION', optionReducerMap(prefix + key), value);
+	}));
+})(_.omit(options, 'keys'));
 
 function optionReducerMap(key) {
 	return {

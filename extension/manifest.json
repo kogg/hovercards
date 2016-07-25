@@ -6,6 +6,9 @@
   "content_scripts": [
   ],
   "background": {
+    "scripts": [
+      "background.js"
+    ]
   },
   "options_page": "options.html",
   "options_ui": {
