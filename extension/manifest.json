@@ -30,6 +30,7 @@
     "128": "assets/images/logo-128.png"
   },
   "web_accessible_resources": [
+    "*.map",
     "assets/*"
   ],
   "permissions": [

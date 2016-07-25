@@ -18,12 +18,6 @@ module.exports = function(reducers, initialState) {
 		});
 	}
 
-	if (module.hot) {
-		module.hot.accept('./options.reducer', function() {
-			store.replaceReducer(require('./options.reducer'));
-		});
-	}
-
 	browser.storage.sync.get(null).then(function(items) {
 		if (items.disabled) {
 			['imgur', 'instagram', 'reddit', 'soundcloud', 'twitter', 'youtube'].forEach(function(integration) {
