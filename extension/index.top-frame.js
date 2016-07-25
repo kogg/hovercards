@@ -1,7 +1,7 @@
 var _           = require('underscore');
 var actions     = require('../redux/actions.top-frame');
 var browser     = require('./browser');
-var createStore = require('../redux/createStore.background'); // FIXME aksjdfhaslkjfhasldkjfhasdlfkjahsdflkjasdbf
+var createStore = require('../redux/createStore.top-frame');
 
 var store = createStore();
 
