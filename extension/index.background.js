@@ -1,4 +1,3 @@
-var createStore = require('../redux/createStore');
-var reducers    = require('../redux/reducers.background');
+var createStore = require('../redux/createStore.background');
 
-createStore(reducers);
+createStore();
