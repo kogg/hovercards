@@ -3,23 +3,36 @@ var promisify = require('es6-promisify');
 
 var chrome = global.chrome;
 
-['get', 'getBytesInUse'].forEach(function(method) {
-	chrome.storage.sync[method] = _.wrap(chrome.storage.sync[method], function(func, param) {
-	// Chrome callbacks doesn't put an error as the first values, it uses chrome.runtime.lastError
-	// So we're going to have to catch an "error", even though it isn't one.
+function handleRuntimeLastError(value) {
+	if (chrome.runtime.lastError) {
+		return Promise.reject(chrome.runtime.lastError);
+	}
+	if (_.isArray(value)) {
+		if (value[0]) {
+			return Promise.reject(value[0]);
+		}
+		return Promise.resolve(value[1]);
+	}
+	return Promise.resolve(value);
+}
 
-		return promisify(func)(param).catch(function(value) {
-			return chrome.runtime.lastError ? Promise.reject(chrome.runtime.lastError) : Promise.resolve(value);
-		});
-	});
-});
+function returnPromise(func) {
+	return promisify(func).apply(this, _.rest(arguments)).then(handleRuntimeLastError, handleRuntimeLastError);
+}
 
-['set', 'remove', 'clear'].forEach(function(method) {
-	chrome.storage.sync[method] = _.wrap(chrome.storage.sync[method], function(func, param) {
-		return promisify(func)(param).then(function() {
-			return chrome.runtime.lastError ? Promise.reject(chrome.runtime.lastError) : Promise.resolve();
-		});
-	});
+[
+	{ obj: chrome.runtime, method: 'sendMessage' },
+	{ obj: chrome.storage.sync, method: 'clear' },
+	{ obj: chrome.storage.sync, method: 'get' },
+	{ obj: chrome.storage.sync, method: 'getBytesInUse' },
+	{ obj: chrome.storage.sync, method: 'remove' },
+	{ obj: chrome.storage.sync, method: 'set' },
+	{ obj: chrome.tabs, method: 'sendMessage' }
+].forEach(function(wrapIt) {
+	if (!wrapIt.obj || !wrapIt.obj[wrapIt.method]) {
+		return;
+	}
+	wrapIt.obj[wrapIt.method] = _.wrap(wrapIt.obj[wrapIt.method], returnPromise);
 });
 
 module.exports = chrome;

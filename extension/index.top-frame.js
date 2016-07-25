@@ -1,7 +1,7 @@
 var _           = require('underscore');
-var actions     = require('../redux/actions.background');
+var actions     = require('../redux/actions.top-frame');
 var browser     = require('./browser');
-var createStore = require('../redux/createStore.background');
+var createStore = require('../redux/createStore.background'); // FIXME aksjdfhaslkjfhasldkjfhasdlfkjahsdflkjasdbf
 
 var store = createStore();
 
@@ -13,7 +13,6 @@ if (!process.env.NODE_ENV) {
 }
 
 browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-	// TODO Have browser mutate this callback for us
 	sendResponse = _.wrap(sendResponse, function(func) {
 		return func(_.rest(arguments));
 	});

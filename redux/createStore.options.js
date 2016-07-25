@@ -4,23 +4,15 @@ var combineReducers = require('redux').combineReducers;
 var createStore     = require('redux').createStore;
 var thunkMiddlware  = require('redux-thunk').default;
 
-var actions        = require('./actions');
-var browser        = require('../extension/browser');
-var optionsReducer = require('./options.reducer');
+var actions = require('./actions.options'); // FIXME Boo
+var browser = require('../extension/browser');
 
 createStore = applyMiddleware(thunkMiddlware)(createStore);
 
 module.exports = function(initialState) {
 	var store = createStore(combineReducers({
-		options: optionsReducer
+		options: require('./options.reducer')
 	}), initialState);
-
-	if (!process.env.NODE_ENV) {
-		console.log('store', store.getState());
-		store.subscribe(function() {
-			console.log('store', store.getState());
-		});
-	}
 
 	browser.storage.sync.get(null).then(function(items) {
 		if (items.disabled) {

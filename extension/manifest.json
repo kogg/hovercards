@@ -4,6 +4,16 @@
   "description": "__MSG_app_description__",
   "version": "3.1.0",
   "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "top-frame.js"
+      ],
+      "all_frames": false
+    }
   ],
   "background": {
     "scripts": [

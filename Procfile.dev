@@ -1,5 +1,5 @@
 web:       nodemon --ignore dist/ -e js,jsx server
 www:       webpack-dev-server --inline --hot --config webpack.config.www.js
-extension: webpack-dev-server --inline --hot --config webpack.config.extension.js
+extension: webpack-dev-server --config webpack.config.extension.js
 # DON'T REORDER the process above this line
 redis:     redis-server
