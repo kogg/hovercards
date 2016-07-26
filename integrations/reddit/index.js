@@ -28,9 +28,7 @@ module.exports = function(params) {
 	api.content = function(args) {
 		var usage = { 'reddit-requests': 0 };
 		return new Promise(function(resolve, reject) {
-			console.log('ok');
 			model.article_comments(_.pick(args, 'id'), null, usage, function(err, comment_tree) {
-				console.log('ok...', err, comment_tree);
 				if (err) {
 					return reject(err);
 				}
