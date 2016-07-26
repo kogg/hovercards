@@ -1,5 +1,6 @@
-var _        = require('underscore');
-var Response = require('http-browserify/lib/response');
+var _           = require('underscore');
+var querystring = require('querystring');
+var Response    = require('http-browserify/lib/response');
 
 var browser            = require('../extension/browser');
 var integrationsConfig = require('../integrations/config');
@@ -13,7 +14,8 @@ var clientIntegrations = {
 	soundcloud: require('./soundcloud')
 };
 
-var integrations = {};
+var integrations   = {};
+var serverEndpoint = 'http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5000') + '/v2/';
 
 // Migrate auth to new auth
 var newAuthKeys = { instagram_user: 'authentication.instagram', twitter_user: 'authentication.twitter' };
@@ -56,11 +58,63 @@ module.exports = function(request) {
 					return integrations[request.api][request.type](request);
 				case 'server':
 				default:
-					console.log('what');
-					return Promise.reject();
+					var url = serverEndpoint;
+					switch (request.type) {
+						case 'content':
+						case 'account':
+							url += [request.api, request.type, request.id].join('/');
+							break;
+						case 'discussion':
+							if (request.for) {
+								url += [request.for.api, 'content', request.for.id, 'discussion', request.api].join('/');
+								var for_api = request.for.api;
+								request = _.clone(request);
+								request.for = _.pick(request.for, 'as', 'account');
+								request.for.account = _.pick(request.for.account, 'id', 'as');
+								if (!_.contains(['soundcloud', 'twitter'], for_api) || _.isEmpty(request.for.account)) {
+									// TODO Why?
+									delete request.for.account;
+								}
+								if (_.isEmpty(request.for)) {
+									delete request.for;
+								}
+							} else {
+								url += [request.api, 'content', request.id, 'discussion'].join('/');
+							}
+							break;
+						case 'account_content':
+							url += [request.api, 'account', request.id, 'content'].join('/');
+							break;
+						default:
+							break;
+					}
+					var request_api = request.api;
+					request = _.pick(request, 'as', 'account', 'for');
+					request.account = _.pick(request.account, 'id', 'as', 'account');
+					if (!_.contains(['soundcloud', 'twitter'], request_api) || _.isEmpty(request.account)) {
+						// TODO Why?
+						delete request.account;
+					}
+					return fetch(url + '?' + querystring.stringify(request), {
+						headers: _.omit(
+							{
+								device_id: storage.device_id,
+								user:      storage['authentication.' + request.api]
+							},
+							_.negate(_.isUndefined)
+						)
+					})
+						.then(function(response) {
+							if (!response.ok) {
+								var err = new Error(response.statusText);
+								err.status = response.status;
+								return Promise.reject(err);
+							}
+							return response.json();
+						});
 			}
 		})
 		.then(function(entity) {
 			return Object.assign(entity, { loaded: Date.now() });
-		})	;
+		});
 };

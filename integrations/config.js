@@ -1,6 +1,5 @@
 module.exports = {
-	endpoint: process.env.NODE_ENV === 'production' ? 'http://hover.cards/v2' : 'http://localhost:5000/v2', // TODO Remove
-	counts:   {
+	counts: {
 		grid:   21,
 		listed: 30
 	},

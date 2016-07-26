@@ -12,7 +12,7 @@ for (var i = 2; process.env['GOOGLE_SERVER_KEY_' + i]; i++) {
 }
 
 var config = {
-	apis: {
+	integrations: {
 		imgur: {
 			caller:      require('../integrations/imgur'),
 			key:         process.env.IMGUR_CLIENT_ID,
@@ -42,7 +42,7 @@ var config = {
 	}
 };
 
-config.apis.twitter.secret_storage = {
+config.integrations.twitter.secret_storage = {
 	del: function(token, callback) {
 		redis_client.del('auth:twitter:' + token, callback);
 	},
@@ -51,7 +51,7 @@ config.apis.twitter.secret_storage = {
 	}
 };
 
-config.apis.twitter.authenticate = function(routes) {
+config.integrations.twitter.authenticate = function(routes) {
 	passport.use(new TwitterStrategy({
 		consumerKey:    process.env.TWITTER_CONSUMER_KEY,
 		consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
@@ -74,12 +74,12 @@ config.apis.twitter.authenticate = function(routes) {
 	});
 };
 
-var apis = _.intersection(_.keys(config.apis), _.keys(shared_config.apis));
+var integrations = _.intersection(_.keys(config.integrations), _.keys(shared_config.integrations));
 
-config.apis = _.chain(config.apis)
-	.pick(apis)
+config.integrations = _.chain(config.integrations)
+	.pick(integrations)
 	.each(function(api_config, api) {
-		_.defaults(api_config, shared_config.apis[api]);
+		_.defaults(api_config, shared_config.integrations[api]);
 	})
 	.value();
 

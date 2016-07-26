@@ -32,11 +32,11 @@ function respond_to_caller(req, res, callback, err, result, usage) {
 	res.json(result);
 }
 
-var callers = _.mapObject(config.apis, function(api_config) {
+var callers = _.mapObject(config.integrations, function(api_config) {
 	return api_config.caller ? api_config.caller(api_config) : {};
 });
 
-_.each(config.apis, function(api_config, api) {
+_.each(config.integrations, function(api_config, api) {
 	if (api_config.authenticate) {
 		api_config.authenticate(routes);
 	}
@@ -52,7 +52,7 @@ _.each(config.apis, function(api_config, api) {
 		});
 	}
 
-	_.chain(api_config.discussion_apis)
+	_.chain(api_config.discussion_integrations)
 	 .without(api)
 	 .each(function(discussion_api) {
 		if (callers[discussion_api].discussion) {
