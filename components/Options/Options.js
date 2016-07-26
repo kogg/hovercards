@@ -4,7 +4,7 @@ var connect                  = require('react-redux').connect;
 var createStructuredSelector = require('reselect').createStructuredSelector;
 var React                    = require('react');
 
-var actions            = require('../../redux/actions.options'); // FIXME Boo
+var actions            = require('../../redux/actions.options'); // TODO webpack/webpack#2801
 var styles             = require('./Options.styles');
 var IntegrationOptions = require('../IntegrationOptions/IntegrationOptions');
 

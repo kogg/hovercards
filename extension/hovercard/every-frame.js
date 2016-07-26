@@ -62,7 +62,7 @@ var Scroll     = 'scroll' + NameSpace;
 var current_obj;
 
 var disabled;
-// FIXME Maybe move this out into its own "feature"
+// TODO Maybe move this out into its own "feature"
 chrome.storage.sync.get('disabled', function(obj) {
 	disabled = obj.disabled || {};
 

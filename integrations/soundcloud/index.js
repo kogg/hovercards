@@ -69,7 +69,7 @@ module.exports = function(params) {
 				return callback(err, null, usage);
 			}
 			callback(null, _.pick({ api:      'soundcloud', type:     'discussion', id:       args.id, comments: _.chain(comments) .first(config.counts.listed) .map(function(comment) {
-			                                       													return _.pick({ api:         'soundcloud', type:        'comment', id:          _.result(comment, 'id'), text:        autolinker.link((_.result(comment, 'body') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>')), date:        Date.parse(_.result(comment, 'created_at')), time_offset: Number(_.result(comment, 'timestamp')), account:     user_to_account(_.result(comment, 'user')) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))); }) .reject(_.isEmpty) .value() }, _.negate(_.isEmpty)), usage);
+			                                       															return _.pick({ api:         'soundcloud', type:        'comment', id:          _.result(comment, 'id'), text:        autolinker.link((_.result(comment, 'body') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>')), date:        Date.parse(_.result(comment, 'created_at')), time_offset: Number(_.result(comment, 'timestamp')), account:     user_to_account(_.result(comment, 'user')) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))); }) .reject(_.isEmpty) .value() }, _.negate(_.isEmpty)), usage);
 		});
 	};
 
@@ -112,7 +112,7 @@ module.exports = function(params) {
 				return callback(err, null, usage);
 			}
 			callback(null, _.pick({ api:     'soundcloud', type:    'account_content', id:      args.id, content: _.chain(results.user_tracks) .union(results.user_playlists) .sortBy(function(post) { return -Date.parse(post.created_at); }) .first(config.counts.grid) .map(post_to_content) .each(function(content) {
-			                                      													_.extend(content, _.isEmpty(content.account) && { account: _.pick(content.account, 'api', 'type', 'id') }); }) .reject(_.isEmpty) .value() }, _.negate(_.isEmpty)), usage);
+			                                      															_.extend(content, _.isEmpty(content.account) && { account: _.pick(content.account, 'api', 'type', 'id') }); }) .reject(_.isEmpty) .value() }, _.negate(_.isEmpty)), usage);
 		});
 	};
 

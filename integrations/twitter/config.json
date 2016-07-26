@@ -1,4 +1,0 @@
-{
-	"can_auth": true,
-	"discussion_apis": ["reddit", "twitter"]
-}

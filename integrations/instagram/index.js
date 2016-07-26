@@ -41,7 +41,7 @@ module.exports = function(params) {
 	function media_to_discussion(media) {
 		var media_comments = _.result(media, 'comments');
 		return !_.isEmpty(media) && _.chain(urls.parse(_.result(media, 'link'))) .extend({ type:     'discussion', comments: _.chain(media_comments) .result('data') .reject(_.isEmpty) .map(function(comment) {
-		                                                      													return _.pick({ api:     'instagram', type:    'comment', text:    autolinker.link(_.result(comment, 'text')), date:    _.result(comment, 'created_time') * 1000, account: user_to_account(_.result(comment, 'from')) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))); }) .value() }) .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))) .value();
+		                                                      															return _.pick({ api:     'instagram', type:    'comment', text:    autolinker.link(_.result(comment, 'text')), date:    _.result(comment, 'created_time') * 1000, account: user_to_account(_.result(comment, 'from')) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))); }) .value() }) .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))) .value();
 	}
 
 	api.content = function(args, callback) {

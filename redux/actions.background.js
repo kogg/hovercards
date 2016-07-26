@@ -1,9 +1,10 @@
 var _            = require('underscore');
 var createAction = require('redux-actions').createAction;
 
-var browser      = require('../extension/browser');
-var integrations = require('../integrations');
-var entityLabel  = require('../utils/entity-label');
+var browser            = require('../extension/browser');
+var integrations       = require('../integrations');
+var integrationsConfig = require('../integrations/config');
+var entityLabel        = require('../utils/entity-label');
 
 var setEntity = createAction('SET_ENTITY');
 
@@ -18,27 +19,19 @@ module.exports.getEntity = function(request, tabId) {
 
 		var entity = state.entities[label];
 
-		if (entity && entity.loaded && Date.now() - entity.loaded <= 5 * 60 * 1000) {
+		if (entity && entity.loaded && Date.now() - entity.loaded <= (integrationsConfig.integrations[request.api].cache_length || 5 * 60 * 1000)) {
 			return Promise.resolve(entity);
 		}
 
-		loading[label] = loading[label] || new Promise(function(resolve) {
-			setTimeout(function() {
-				delete loading[label];
-				var response = _.defaults({ loaded: Date.now(), key: 'value' }, state.entities[label] || request);
-				dispatch(setEntity(response));
-				resolve(response);
-			}, 5000);
-		});
-		console.log(integrations[request.api][request.type]);
+		loading[label] = loading[label] || integrations(request);
 
 		// FIXME #9
 		loading[label].then(function(entity) {
-			browser.tabs.sendMessage(tabId, { type: 'setEntity', payload: entity });
+			dispatch(setEntity(entity));
+			return browser.tabs.sendMessage(tabId, { type: 'setEntity', payload: entity });
 		});
 
-		entity = _.defaults({ loaded: false }, state.entities[label] || request);
-		dispatch(setEntity(entity));
-		return Promise.resolve(entity);
+		dispatch(setEntity(state.entities[label] || request));
+		return Promise.resolve(state.entities[label] || request);
 	};
 };

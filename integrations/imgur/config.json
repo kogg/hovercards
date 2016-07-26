@@ -1,7 +1,0 @@
-{
-	"discussion_apis": ["reddit", "imgur", "twitter"],
-	"content-security-policy": {
-		"img-src": ["http://i.imgur.com"],
-		"media-src": ["http://i.imgur.com"]
-	}
-}

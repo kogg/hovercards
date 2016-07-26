@@ -22,6 +22,11 @@ function returnPromise(func) {
 
 [
 	{ obj: chrome.runtime, method: 'sendMessage' },
+	{ obj: chrome.storage.local, method: 'clear' },
+	{ obj: chrome.storage.local, method: 'get' },
+	{ obj: chrome.storage.local, method: 'getBytesInUse' },
+	{ obj: chrome.storage.local, method: 'remove' },
+	{ obj: chrome.storage.local, method: 'set' },
 	{ obj: chrome.storage.sync, method: 'clear' },
 	{ obj: chrome.storage.sync, method: 'get' },
 	{ obj: chrome.storage.sync, method: 'getBytesInUse' },

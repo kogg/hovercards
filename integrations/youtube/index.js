@@ -60,9 +60,9 @@ module.exports = function(params) {
 				return true;
 			}
 			callback(null, _.pick({ api:      'youtube', type:     'discussion', id:       args.id, comments: _.chain(comment_threads) .map(function(comment_thread) {
-			                                       													var comment_thread_snippet         = _.result(comment_thread, 'snippet');
-			                                       													var comment_thread_snippet_comment = _.result(comment_thread_snippet, 'topLevelComment');
-			                                       													return _.extend(comment_to_comment(comment_thread_snippet_comment), { stats:   { likes:   Number(_.chain(comment_thread_snippet_comment).result('snippet').result('likeCount').value()), replies: Number(_.result(comment_thread_snippet, 'totalReplyCount')) }, replies: _.chain(comment_thread) .result('replies') .result('comments') .map(comment_to_comment) .reject(_.isEmpty) .reverse() .value() }); }) .reject(_.isEmpty) .filter(limit_comments) .value() }, _.negate(_.isEmpty)), usage);
+			                                       															var comment_thread_snippet         = _.result(comment_thread, 'snippet');
+			                                       															var comment_thread_snippet_comment = _.result(comment_thread_snippet, 'topLevelComment');
+			                                       															return _.extend(comment_to_comment(comment_thread_snippet_comment), { stats:   { likes:   Number(_.chain(comment_thread_snippet_comment).result('snippet').result('likeCount').value()), replies: Number(_.result(comment_thread_snippet, 'totalReplyCount')) }, replies: _.chain(comment_thread) .result('replies') .result('comments') .map(comment_to_comment) .reject(_.isEmpty) .reverse() .value() }); }) .reject(_.isEmpty) .filter(limit_comments) .value() }, _.negate(_.isEmpty)), usage);
 		});
 	};
 
@@ -121,7 +121,7 @@ module.exports = function(params) {
 			}
 
 			callback(null, _.pick({ api:     'youtube', type:    'account_content', id:      _.result(args, 'id'), content: _.chain(playlist_items) .map(function(video) {
-			                                      													return _.extend(video_to_content(video), { id: _.chain(video) .result('snippet') .result('resourceId') .result('videoId') .value() }); }) .reject(_.isEmpty) .value() }, _.negate(_.isEmpty)), usage);
+			                                      															return _.extend(video_to_content(video), { id: _.chain(video) .result('snippet') .result('resourceId') .result('videoId') .value() }); }) .reject(_.isEmpty) .value() }, _.negate(_.isEmpty)), usage);
 		});
 	};
 

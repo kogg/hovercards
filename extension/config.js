@@ -1,33 +1,49 @@
-var _             = require('underscore');
-var shared_config = require('../shared/config');
+var _ = require('underscore');
 
-var config = {
-	endpoint:     process.env.NODE_ENV === 'production' ? 'http://hover.cards/v2' : 'http://localhost:5000/v2',
-	analytics_id: 'UA-64246820-3',
-	apis:         {
-		imgur:     {},
+module.exports = {
+	analytics_id: 'UA-64246820-3', // TODO env var
+	options:      {
+		imgur: {
+			account: { enabled: true },
+			content: { enabled: true }
+		},
 		instagram: {
-			client_on_auth:  true,
-			client_auth_url: 'https://instagram.com/oauth/authorize/?scope=basic+public_content&client_id=' + process.env.INSTAGRAM_CLIENT_ID + '&redirect_uri=https://EXTENSION_ID.chromiumapp.org/callback&response_type=token'
+			account: { enabled: true },
+			content: { enabled: true }
 		},
 		reddit: {
-			key: '0jXqEudQPqSL6w'
+			account: { enabled: true },
+			content: { enabled: true }
 		},
 		soundcloud: {
-			key: '78a827254bd7a5e3bba61aa18922bf2e'
+			account: { enabled: true },
+			content: { enabled: true }
 		},
-		twitter: {},
-		youtube: {}
+		twitter: {
+			account: { enabled: true },
+			content: { enabled: true }
+		},
+		youtube: {
+			account: { enabled: true },
+			content: { enabled: true }
+		}
 	}
 };
 
-var apis = _.intersection(_.keys(config.apis), _.keys(shared_config.apis));
-
-config.apis = _.chain(config.apis)
-	.pick(apis)
-	.each(function(api_config, api) {
-		_.defaults(api_config, shared_config.apis[api]);
-	})
-	.value();
-
-module.exports = config;
+module.exports.options.keys = function optionKeys(object, prefix) {
+	object = object || _.omit(module.exports.options, 'keys');
+	prefix = prefix || '';
+	return _.chain(object)
+		.pairs()
+		.reduce(
+			function(keys, entry) {
+				if (_.isObject(entry[1]) && !_.isArray(entry[1])) {
+					return keys.concat(optionKeys(entry[1], prefix + entry[0] + '.'));
+				}
+				keys.push(prefix + entry[0]);
+				return keys;
+			},
+			[]
+		)
+		.value();
+};

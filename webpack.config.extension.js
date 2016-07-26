@@ -72,7 +72,7 @@ module.exports = {
 		]),
 		new ExtractTextPlugin('[name].css'),
 		new HtmlWebpackPlugin({
-			title:      'My Test Extension Options',
+			title:      'HoverCard Options',
 			filename:   'options.html',
 			template:   require('html-webpack-template'),
 			inject:     false,

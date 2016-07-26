@@ -1,9 +1,9 @@
 var _            = require('underscore');
 var createAction = require('redux-actions').createAction;
 
-var options = require('../extension/options');
+var config = require('../extension/config');
 
-var keys = options.keys();
+var keys = config.options.keys();
 
 var setOption = createAction('SET_OPTION');
 
