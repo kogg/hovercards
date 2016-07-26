@@ -21,7 +21,7 @@
     "fix:css": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".s\\?css$\" | xargs -I '{}' -n 1 cssfmt {} ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".s\\?css$\" | xargs git add )",
     "fix:js": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".jsx\\?$\" | xargs eslint --fix ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".jsx\\?$\" | xargs git add )",
     "start": "if [ \"$NODE_ENV\" = 'production' ]; then foreman start; else foreman start -f Procfile.dev; fi",
-    "test": "eslint . --ignore-path .gitignore --ignore-pattern 'shared/**' && mocha shared/**/test.js"
+    "test": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' && mocha integrations/**/test.js"
   },
   "dependencies": {
     "async": "^1.5.0",

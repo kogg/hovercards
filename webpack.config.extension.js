@@ -42,11 +42,10 @@ module.exports = {
 		],
 		noParse: /node_modules\/json-schema\/lib\/validate\.js/ },
 	resolve: {
-		extensions: [
-			'',
-			'.chrome.json', '.chrome.js', '.chrome.css',
-			'.webpack.js', '.web.js', '.json', '.js', '.css'
-		]
+		extensions: extensions(
+			['.chrome', '.extension'],
+			['.json', '.js', '.css']
+		)
 	},
 	devtool:   'source-map',
 	devServer: {
@@ -92,4 +91,18 @@ if (!process.env.NODE_ENV) {
 		new DotenvPlugin(),
 		new WriteFilePlugin({ log: false })
 	]);
+}
+
+function extensions(builds, extensions) {
+	var results = [];
+
+	[''].concat(builds).forEach(function(build) {
+		[''].concat(extensions).forEach(function(extension) {
+			if (Boolean(build) !== Boolean(extension)) {
+				return;
+			}
+			results.push([build, extension].join(''));
+		});
+	});
+	return results.concat(extensions);
 }
