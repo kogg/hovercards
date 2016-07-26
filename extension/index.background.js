@@ -18,7 +18,7 @@ browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 		return func(_.rest(arguments));
 	});
 
-	store.dispatch(actions[message.action].apply(actions, message.args || [])).then(
+	store.dispatch(actions[message.type](message.payload, sender.tab.id)).then(
 		_.partial(sendResponse, null),
 		sendResponse
 	);

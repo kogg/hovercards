@@ -1,6 +1,8 @@
 var _            = require('underscore');
 var handleAction = require('redux-actions').handleAction;
 
+var entity_label = require('../utils/entity-label');
+
 module.exports = handleAction(
 	'SET_ENTITY',
 	{
@@ -11,13 +13,3 @@ module.exports = handleAction(
 	},
 	{}
 );
-
-// TODO Put this somewhere else
-function entity_label(entity) {
-	return _.chain([entity.api, entity.type])
-		.compact()
-		.union(entity.as && ['as', entity.as])
-		.union(entity.for ? ['for', entity_label(entity.for)] : [entity.id])
-		.join(' ')
-		.value();
-}
