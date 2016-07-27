@@ -1,4 +1,3 @@
-var _            = require('underscore');
 var createAction = require('redux-actions').createAction;
 
 var browser            = require('../extension/browser');

@@ -16,10 +16,10 @@ urls.parse = function(url_obj) {
 			return { api: 'reddit', type: 'content', id: match[2], subreddit: match[1] };
 		}
 		if (match[2] === 'r') {
-			return;
+			return null;
 		}
 		if (match[2].match(urls.non_content_ids)) {
-			return;
+			return null;
 		}
 		return { api: 'reddit', type: 'content', id: match[2] };
 	}
@@ -31,6 +31,8 @@ urls.represent = function(identity, comment) {
 			return ['https://www.reddit.com' + (identity.subreddit ? '/r/' + identity.subreddit : '') + '/comments/' + identity.id + (_.result(comment, 'id') ? '/comment/' + comment.id : ''), 'https://redd.it/' + identity.id];
 		case 'account':
 			return ['https://www.reddit.com/user/' + identity.id];
+		default:
+			return null;
 	}
 };
 

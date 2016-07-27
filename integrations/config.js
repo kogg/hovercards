@@ -23,8 +23,7 @@ module.exports = {
 		},
 		reddit: {
 			discussion_integrations: ['reddit', 'twitter'],
-			environment:             'client',
-			key:                     '0jXqEudQPqSL6w' // TODO Remove
+			environment:             'client'
 		},
 		soundcloud: {
 			content_security_policy: {

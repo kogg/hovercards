@@ -15,29 +15,29 @@ var config = {
 	integrations: {
 		imgur: {
 			caller:      require('../integrations/imgur'),
-			key:         process.env.IMGUR_CLIENT_ID,
-			mashape_key: process.env.MASHAPE_KEY
+			key:         process.env.IMGUR_CLIENT_ID, // TODO Remove
+			mashape_key: process.env.MASHAPE_KEY // TODO Remove
 		},
 		instagram: {
 			caller: require('../integrations/instagram'),
-			key:    process.env.INSTAGRAM_CLIENT_ID,
-			secret: process.env.INSTAGRAM_CLIENT_SECRET
+			key:    process.env.INSTAGRAM_CLIENT_ID, // TODO Remove
+			secret: process.env.INSTAGRAM_CLIENT_SECRET // TODO Remove
 		},
 		reddit:     {},
 		soundcloud: {},
 		twitter:    {
 			caller:          require('../integrations/twitter'),
-			key:             process.env.TWITTER_CONSUMER_KEY,
-			secret:          process.env.TWITTER_CONSUMER_SECRET,
-			app_user:        process.env.TWITTER_APP_ACCESS_TOKEN,
-			app_user_secret: process.env.TWITTER_APP_ACCESS_TOKEN_SECRET
+			key:             process.env.TWITTER_CONSUMER_KEY, // TODO Remove
+			secret:          process.env.TWITTER_CONSUMER_SECRET, // TODO Remove
+			app_user:        process.env.TWITTER_APP_ACCESS_TOKEN, // TODO Remove
+			app_user_secret: process.env.TWITTER_APP_ACCESS_TOKEN_SECRET // TODO Remove
 		},
 		youtube: (youtube_keys.length === 1) ? {
 			caller: require('../integrations/youtube'),
-			key:    _.first(youtube_keys)
+			key:    _.first(youtube_keys) // TODO Remove
 		} : {
 			caller: require('../integrations/youtube'),
-			keys:   youtube_keys
+			keys:   youtube_keys // TODO Remove
 		}
 	}
 };
