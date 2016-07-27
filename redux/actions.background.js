@@ -9,7 +9,9 @@ var entityLabel        = require('../utils/entity-label');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-var setEntity = createAction('SET_ENTITY');
+var serverEndpoint    = 'http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5000') + '/v2/';
+var setAuthentication = createAction('SET_AUTHENTICATION');
+var setEntity         = createAction('SET_ENTITY');
 
 module.exports = require('./actions.common');
 
@@ -111,5 +113,32 @@ module.exports.analytics = function(request, sender) {
 			ga.apply(this, request);
 			return request;
 		});
+	};
+};
+
+module.exports.authenticate = function(request) {
+	return function(dispatch) {
+		if (!request.api) {
+			return Promise.reject({ message: 'Missing \'api\'', status: 400 });
+		}
+		var integrationConfig = integrationsConfig.integrations[request.api];
+		if (!_.result(integrationConfig, 'authenticatable')) {
+			return Promise.reject({ message: request.api + ' cannot be authenticated', status: 404 });
+		}
+		return browser.identity.launchWebAuthFlow({
+			url:         _.result(integrationConfig, 'authentication_url', serverEndpoint + '/' + request.api + '/authenticate?chromium_id=EXTENSION_ID').replace('EXTENSION_ID', browser.i18n.getMessage('@@extension_id')),
+			interactive: true
+		})
+			.catch(function(err) {
+				err.status = 401;
+				return Promise.reject(err);
+			})
+			.then(function(redirectURL) {
+				var user = redirectURL && (redirectURL.split('#', 2)[1] || '').split('=', 2)[1];
+				if (_.isEmpty(user)) {
+					return Promise.reject({ message: 'No user token returned for ' + request.api + ': ' + redirectURL, status: 500 });
+				}
+				dispatch(setAuthentication({ api: request.api, value: user }));
+			});
 	};
 };

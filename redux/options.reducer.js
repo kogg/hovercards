@@ -30,9 +30,9 @@ module.exports = (function optionsReducer(object, prefix) {
 })(_.omit(config.options, 'keys'));
 
 module.exports.attachStore = function(store) {
-	// Migrate disabled.API.TYPE to !options.API.TYPE.enabled
 	browser.storage.sync.get(null).then(function(items) {
 		if (items.disabled) {
+			// Migrate disabled.API.TYPE to !options.API.TYPE.enabled
 			['imgur', 'instagram', 'reddit', 'soundcloud', 'twitter', 'youtube'].forEach(function(integration) {
 				if (!items.disabled[integration]) {
 					return;

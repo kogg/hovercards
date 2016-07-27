@@ -9,13 +9,6 @@ var setEntity = createAction('SET_ENTITY');
 
 module.exports = require('./actions.common');
 
-module.exports.setEntity = function(request) {
-	return function(dispatch) {
-		dispatch(setEntity(request));
-		return Promise.resolve();
-	};
-};
-
 module.exports.getEntity = function(request) {
 	return function(dispatch, getState) {
 		var state = getState();
@@ -26,6 +19,13 @@ module.exports.getEntity = function(request) {
 
 		return browser.runtime.sendMessage({ type: 'getEntity', payload: request })
 			.then(compose(dispatch, setEntity));
+	};
+};
+
+module.exports.setEntity = function(request) {
+	return function(dispatch) {
+		dispatch(setEntity(request));
+		return Promise.resolve();
 	};
 };
 
@@ -42,5 +42,11 @@ module.exports.analytics = function(request) {
 					console.debug('google analytics', response);
 				}
 			});
+	};
+};
+
+module.exports.authenticate = function(request) {
+	return function() {
+		return browser.runtime.sendMessage({ type: 'authenticate', payload: request });
 	};
 };

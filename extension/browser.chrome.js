@@ -21,6 +21,7 @@ function returnPromise(func) {
 }
 
 [
+	{ obj: chrome.identity, method: 'launchWebAuthFlow' },
 	{ obj: chrome.runtime, method: 'sendMessage' },
 	{ obj: chrome.storage.local, method: 'clear' },
 	{ obj: chrome.storage.local, method: 'get' },

@@ -43,7 +43,7 @@ browser.storage.onChanged.addListener(function(changes, areaName) {
 });
 
 module.exports = function(request) {
-	var apiConfig = integrationsConfig.integrations[request.api];
+	var integrationConfig = integrationsConfig.integrations[request.api];
 
 	// FIXME #9
 	return Promise.all([
@@ -51,10 +51,10 @@ module.exports = function(request) {
 		browser.storage.sync.get('authentication.' + request.api)
 	])
 		.then(function(storage) {
-			switch ((storage[1]['authentication.' + request.api] && apiConfig.authenticated_environment) || apiConfig.environment) {
+			switch ((storage[1]['authentication.' + request.api] && integrationConfig.authenticated_environment) || integrationConfig.environment) {
 				case 'client':
 					// TODO shouldn't need config to be passed
-					integrations[request.api] = integrations[request.api] || clientIntegrations[request.api](Object.assign({ device_id: storage[0].device_id, user: storage[1]['authentication.' + request.api] }, apiConfig));
+					integrations[request.api] = integrations[request.api] || clientIntegrations[request.api](Object.assign({ device_id: storage[0].device_id, user: storage[1]['authentication.' + request.api] }, integrationConfig));
 					return integrations[request.api][request.type](request);
 				case 'server':
 				default:

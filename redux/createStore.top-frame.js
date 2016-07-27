@@ -4,16 +4,19 @@ var combineReducers = require('redux').combineReducers;
 var createStore     = require('redux').createStore;
 var thunkMiddlware  = require('redux-thunk').default;
 
-var actions        = require('./actions.top-frame');
-var browser        = require('../extension/browser');
-var optionsReducer = require('./options.reducer');
+var actions               = require('./actions.top-frame');
+var authenticationReducer = require('./authentication.reducer');
+var browser               = require('../extension/browser');
+var entitiesReducer       = require('./entities.reducer');
+var optionsReducer        = require('./options.reducer');
 
 createStore = applyMiddleware(thunkMiddlware)(createStore);
 
 module.exports = function(initialState) {
 	var store = createStore(combineReducers({
-		entities: require('./entities.reducer'),
-		options:  optionsReducer
+		authentication: authenticationReducer,
+		entities:       entitiesReducer,
+		options:        optionsReducer
 	}), initialState);
 
 	if (!process.env.NODE_ENV) {
@@ -23,6 +26,7 @@ module.exports = function(initialState) {
 		});
 	}
 
+	authenticationReducer.attachStore(store);
 	optionsReducer.attachStore(store);
 
 	browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {

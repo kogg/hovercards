@@ -4,14 +4,17 @@ var combineReducers = require('redux').combineReducers;
 var createStore     = require('redux').createStore;
 var thunkMiddlware  = require('redux-thunk').default;
 
-var actions = require('./actions.background');
-var browser = require('../extension/browser');
+var actions               = require('./actions.background');
+var authenticationReducer = require('./authentication.reducer');
+var browser               = require('../extension/browser');
+var entitiesReducer       = require('./entities.reducer');
 
 createStore = applyMiddleware(thunkMiddlware)(createStore);
 
 module.exports = function(initialState) {
 	var store = createStore(combineReducers({
-		entities: require('./entities.reducer')
+		authentication: authenticationReducer,
+		entities:       entitiesReducer
 	}), initialState);
 
 	if (!process.env.NODE_ENV) {
@@ -20,6 +23,8 @@ module.exports = function(initialState) {
 			console.debug('store', store.getState());
 		});
 	}
+
+	authenticationReducer.attachStore(store);
 
 	browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 		// TODO Have browser mutate this callback for us
