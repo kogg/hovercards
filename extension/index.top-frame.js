@@ -26,4 +26,4 @@ browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 	return true;
 });
 
-store.dispatch(actions.getEntity({ api: 'twitter', type: 'content', id: '616672492380397569' }));
+store.dispatch(actions.getEntity({ api: 'youtube', type: 'content', id: 'Av8sn7BXLxE' }));
