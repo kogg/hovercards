@@ -16,10 +16,10 @@ module.exports = {
 				'img-src':   ['https://scontent.cdninstagram.com'],
 				'media-src': ['https://scontent.cdninstagram.com']
 			},
-			authenticatable:           true,
-			authenticated_environment: 'client',
-			authentication_url:        'https://instagram.com/oauth/authorize/?scope=basic+public_content&client_id=' + process.env.INSTAGRAM_CLIENT_ID + '&redirect_uri=https://EXTENSION_ID.chromiumapp.org/callback&response_type=token', // FIXME Use chrome.i18n.getMessage('@@extension_id')
-			discussion_integrations:   ['instagram', 'reddit', 'twitter']
+			authenticatable:         true,
+			authentication_url:      'https://instagram.com/oauth/authorize/?scope=basic+public_content&client_id=' + process.env.INSTAGRAM_CLIENT_ID + '&redirect_uri=https://EXTENSION_ID.chromiumapp.org/callback&response_type=token', // FIXME Use chrome.i18n.getMessage('@@extension_id')
+			discussion_integrations: ['instagram', 'reddit', 'twitter'],
+			environment:             'client'
 		},
 		reddit: {
 			discussion_integrations: ['reddit', 'twitter'],

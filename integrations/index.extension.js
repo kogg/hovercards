@@ -51,10 +51,10 @@ module.exports = function(request) {
 		browser.storage.sync.get('authentication.' + request.api)
 	])
 		.then(function(storage) {
-			switch ((storage['authentication.' + request.api] && apiConfig.authenticated_environment) || apiConfig.environment) {
+			switch ((storage[1]['authentication.' + request.api] && apiConfig.authenticated_environment) || apiConfig.environment) {
 				case 'client':
 					// TODO shouldn't need config to be passed
-					integrations[request.api] = integrations[request.api] || clientIntegrations[request.api](Object.assign({ device_id: storage.device_id, user: storage['authentication.' + request.api] }, apiConfig));
+					integrations[request.api] = integrations[request.api] || clientIntegrations[request.api](Object.assign({ device_id: storage[0].device_id, user: storage[1]['authentication.' + request.api] }, apiConfig));
 					return integrations[request.api][request.type](request);
 				case 'server':
 				default:
@@ -98,10 +98,10 @@ module.exports = function(request) {
 					return fetch(url + '?' + querystring.stringify(request), {
 						headers: _.omit(
 							{
-								device_id: storage.device_id,
-								user:      storage['authentication.' + request.api]
+								device_id: storage[0].device_id,
+								user:      storage[1]['authentication.' + request.api]
 							},
-							_.negate(_.isUndefined)
+							_.isUndefined
 						)
 					})
 						.then(function(response) {

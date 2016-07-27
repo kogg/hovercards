@@ -26,4 +26,4 @@ browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 	return true;
 });
 
-store.dispatch(actions.getEntity({ api: 'imgur', type: 'content', id: 'qwdF8oU', as: 'image' }));
+store.dispatch(actions.getEntity({ api: 'instagram', type: 'content', id: 'BH-lGlYj34x' }));

@@ -1,9 +1,7 @@
 var _           = require('underscore');
 var Autolinker  = require('autolinker');
-var async       = require('async');
 var config      = require('../config');
 var querystring = require('querystring');
-var request     = require('request');
 var urls        = require('../urls');
 require('../common/mixins');
 
@@ -13,19 +11,20 @@ require('../common/mixins');
  * So even for for comments, for example, we have to go grab the track.
  */
 
-
 module.exports = function(params) {
 	var model = {};
 	var api   = { model: model };
 
 	var autolinker = new Autolinker({
-		hashtag: 'twitter',
+		hashtag:   'twitter',
 		replaceFn: function(autolinker, match) {
 			switch (match.getType()) {
 				case 'twitter':
 					return autolinker.getTagBuilder().build(match).setAttr('href', urls.print({ api: 'soundcloud', type: 'account', id: match.getTwitterHandle() }));
 				case 'hashtag':
 					return autolinker.getTagBuilder().build(match).setAttr('href', 'https://soundcloud.com/tags/' + match.getHashtag());
+				default:
+					return null;
 			}
 		}
 	});
@@ -130,7 +129,7 @@ module.exports = function(params) {
 			});
 	};
 
-	api.account_content = function(args, callback) {
+	api.account_content = function(args) {
 		var usage = {};
 
 		var getUser = model.resolve({ url: urls.print(_.defaults({ api: 'soundcloud', type: 'account' }, args)) }, null, usage);
@@ -169,23 +168,23 @@ module.exports = function(params) {
 			});
 	};
 
-	model.resolve = function(args, args_not_cached) {
+	model.resolve = function(args) {
 		return soundcloud('/resolve', { url: _.result(args, 'url') }).catch(catch_errors('SoundCloud Resolve'));
 	};
 
-	model.tracks_comments = function(args, args_not_cached) {
+	model.tracks_comments = function(args) {
 		return soundcloud('/tracks/' + _.result(args, 'id') + '/comments').catch(catch_errors('SoundCloud Tracks Comments'));
 	};
 
-	model.users_playlists = function(args, args_not_cached) {
+	model.users_playlists = function(args) {
 		return soundcloud('/users/' + _.result(args, 'id') + '/playlists', { representation: 'compact' }).catch(catch_errors('SoundCloud Users Playlists'));
 	};
 
-	model.users_tracks = function(args, args_not_cached) {
+	model.users_tracks = function(args) {
 		return soundcloud('/users/' + _.result(args, 'id') + '/tracks').catch(catch_errors('SoundCloud Users Tracks'));
 	};
 
-	model.users_web_profiles = function(args, args_not_cached) {
+	model.users_web_profiles = function(args) {
 		return soundcloud('/users/' + _.result(args, 'id') + '/web-profiles').catch(catch_errors('SoundCloud Users Web Profiles'));
 	};
 
