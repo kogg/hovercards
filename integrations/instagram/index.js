@@ -165,7 +165,6 @@ module.exports = function(params) {
 
 	function catch_errors(errName) {
 		return function(err) {
-			console.log('uhhhhhh', errName, err);
 			var status     = err.status || err.code || err.status_code;
 			var error_type = err.error_type;
 			err.message = errName + ' - ' + String(err.message);
