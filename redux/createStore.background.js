@@ -18,10 +18,7 @@ module.exports = function(initialState) {
 	}), initialState);
 
 	if (!process.env.NODE_ENV) {
-		console.debug('store', store.getState());
-		store.subscribe(function() {
-			console.debug('store', store.getState());
-		});
+		require('./storelistener')(store);
 	}
 
 	authenticationReducer.attachStore(store);
