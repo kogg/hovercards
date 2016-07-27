@@ -61,6 +61,7 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.EnvironmentPlugin([
+			'GOOGLE_ANALYTICS_ID',
 			'INSTAGRAM_CLIENT_ID',
 			'NODE_ENV',
 			'REDDIT_CLIENT_ID',

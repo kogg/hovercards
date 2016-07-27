@@ -16,6 +16,13 @@ module.exports = function(initialState) {
 		options:  optionsReducer
 	}), initialState);
 
+	if (!process.env.NODE_ENV) {
+		console.debug('store', store.getState());
+		store.subscribe(function() {
+			console.debug('store', store.getState());
+		});
+	}
+
 	optionsReducer.attachStore(store);
 
 	browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {

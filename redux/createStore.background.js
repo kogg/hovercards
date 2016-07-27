@@ -14,13 +14,20 @@ module.exports = function(initialState) {
 		entities: require('./entities.reducer')
 	}), initialState);
 
+	if (!process.env.NODE_ENV) {
+		console.debug('store', store.getState());
+		store.subscribe(function() {
+			console.debug('store', store.getState());
+		});
+	}
+
 	browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 		// TODO Have browser mutate this callback for us
 		sendResponse = _.wrap(sendResponse, function(func) {
 			return func(_.rest(arguments));
 		});
 
-		store.dispatch(actions[message.type](message.payload, sender.tab.id)).then(
+		store.dispatch(actions[message.type](message.payload, sender)).then(
 			_.partial(sendResponse, null),
 			sendResponse
 		);

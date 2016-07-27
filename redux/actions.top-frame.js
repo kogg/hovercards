@@ -1,3 +1,4 @@
+var _            = require('underscore');
 var compose      = require('redux').compose;
 var createAction = require('redux-actions').createAction;
 
@@ -25,5 +26,21 @@ module.exports.getEntity = function(request) {
 
 		return browser.runtime.sendMessage({ type: 'getEntity', payload: request })
 			.then(compose(dispatch, setEntity));
+	};
+};
+
+module.exports.analytics = function(request) {
+	return function() {
+		return browser.runtime.sendMessage({ type: 'analytics', payload: request })
+			.then(function(response) {
+				if (process.env.GOOGLE_ANALYTICS_ID) {
+					return;
+				}
+				if (_.chain(response).first(2).isEqual(['send', 'exception']).value()) {
+					console.error('google analytics', response);
+				} else {
+					console.debug('google analytics', response);
+				}
+			});
 	};
 };
