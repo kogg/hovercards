@@ -27,27 +27,36 @@ module.exports.getEntity = function(request, sender) {
 		var entity = state.entities[label];
 
 		if (entity && entity.loaded && Date.now() - entity.loaded <= (integrationsConfig.integrations[request.api].cache_length || 5 * 60 * 1000)) {
-			return Promise.resolve(entity);
+			return Promise.resolve({ payload: entity });
 		}
 
 		if (!loading[label]) {
 			loading[label] = integrations(request);
 
-			loading[label].then(function(result) {
-				dispatch(module.exports.analytics(['send', 'timing', 'service', 'loading', Date.now() - start, entityLabel(result, true)], sender));
-			});
+			loading[label]
+				.then(function(result) {
+					dispatch(module.exports.analytics(['send', 'timing', 'service', 'loading', Date.now() - start, entityLabel(result, true)], sender));
+				})
+				.catch(function() {
+					// FIXME #9 Log Error
+				});
 		}
 
-		// FIXME #9
 		if (sender.tab.id !== undefined) {
-			loading[label].then(function(entity) {
-				dispatch(setEntity(entity));
-				return browser.tabs.sendMessage(sender.tab.id, { type: 'setEntity', payload: entity });
-			});
+			loading[label]
+				.then(function(entity) {
+					dispatch(setEntity(entity));
+					browser.tabs.sendMessage(sender.tab.id, { type: 'setEntity', payload: entity });
+				})
+				.catch(function(err) {
+					err.request = request;
+					dispatch(setEntity(err));
+					browser.tabs.sendMessage(sender.tab.id, { type: 'setEntity', payload: err, error: true });
+				});
 		}
 
 		dispatch(setEntity(state.entities[label] || request));
-		return Promise.resolve(state.entities[label] || request);
+		return Promise.resolve({ payload: state.entities[label] || request });
 	};
 };
 
@@ -60,12 +69,11 @@ browser.storage.local.get('user_id')
 		browser.storage.sync.set(obj);
 	});
 
-var analytics;
+var getAnalytics;
 
 module.exports.analytics = function(request, sender) {
 	return function() {
-		// FIXME #9
-		analytics = analytics || (
+		getAnalytics = getAnalytics || (
 			process.env.GOOGLE_ANALYTICS_ID ?
 				new Promise(function(resolve) {
 					/* eslint-disable */
@@ -111,21 +119,25 @@ module.exports.analytics = function(request, sender) {
 			last.screenName = screenName;
 		}
 
-		return analytics.then(function(ga) {
-			ga.apply(this, request);
-			return request;
-		});
+		return getAnalytics
+			.then(function(ga) {
+				ga.apply(this, request);
+			})
+			.catch(function() {
+				// FIXME #9 Log "impossible" err
+				// Don't return err
+			});
 	};
 };
 
 module.exports.authenticate = function(request, sender) {
 	return function(dispatch) {
 		if (!request.api) {
-			return Promise.reject({ message: 'Missing \'api\'', status: 400 });
+			return Promise.reject({ payload: { message: 'Missing \'api\'', status: 400 }, error: true });
 		}
 		var integrationConfig = integrationsConfig.integrations[request.api];
 		if (!_.result(integrationConfig, 'authenticatable')) {
-			return Promise.reject({ message: request.api + ' cannot be authenticated', status: 404 });
+			return Promise.reject({ payload: { message: request.api + ' cannot be authenticated', status: 400 }, error: true });
 		}
 		return browser.identity.launchWebAuthFlow({
 			url:         _.result(integrationConfig, 'authentication_url', serverEndpoint + '/' + request.api + '/authenticate?chromium_id=EXTENSION_ID').replace('EXTENSION_ID', browser.i18n.getMessage('@@extension_id')),
@@ -133,12 +145,12 @@ module.exports.authenticate = function(request, sender) {
 		})
 			.catch(function(err) {
 				err.status = 401;
-				return Promise.reject(err);
+				return Promise.reject({ payload: err, error: true });
 			})
 			.then(function(redirectURL) {
 				var user = redirectURL && (redirectURL.split('#', 2)[1] || '').split('=', 2)[1];
 				if (_.isEmpty(user)) {
-					return Promise.reject({ message: 'No user token returned for ' + request.api + ': ' + redirectURL, status: 500 });
+					return Promise.reject({ payload: { message: 'No user token returned for ' + request.api + ': ' + redirectURL, status: 500 }, error: true });
 				}
 				dispatch(setAuthentication({ api: request.api, value: user }));
 				dispatch(module.exports.analytics(['send', 'event', 'service', 'authenticated', request.api], sender));

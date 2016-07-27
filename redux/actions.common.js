@@ -8,9 +8,9 @@ var keys = config.options.keys();
 var setAuthentication = createAction('SET_AUTHENTICATION');
 var setOption         = createAction('SET_OPTION');
 
-module.exports.setOption = function(key, value) {
+module.exports.setOption = function(request) {
 	return function(dispatch) {
-		return (_.indexOf(keys, key, true) !== -1) && dispatch(setOption({ key: key, value: value })) && Promise.resolve();
+		return (_.indexOf(keys, request.option, true) !== -1) && dispatch(setOption(request)) && Promise.resolve();
 	};
 };
 

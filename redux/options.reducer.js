@@ -22,7 +22,6 @@ module.exports = (function optionsReducer(object, prefix) {
 						browser.storage.sync.set({ ['options.' + prefixKey]: action.payload.value });
 						return (action.payload.value === undefined) ? null : action.payload.value;
 					}
-					// FIXME #9
 				},
 				value
 			);
@@ -41,7 +40,7 @@ module.exports.attachStore = function(store) {
 					if (!items.disabled[integration][type]) {
 						return;
 					}
-					store.dispatch(actions.setOption([integration, type, 'enabled'].join('.'), !items.disabled[integration][type]));
+					store.dispatch(actions.setOption({ option: [integration, type, 'enabled'].join('.'), value: !items.disabled[integration][type] }));
 				});
 			});
 			browser.storage.sync.remove('disabled');
@@ -51,7 +50,7 @@ module.exports.attachStore = function(store) {
 			if (!key) {
 				return;
 			}
-			store.dispatch(actions.setOption(key[1], entry[1]));
+			store.dispatch(actions.setOption({ option: key[1], value: entry[1] }));
 		});
 	});
 
@@ -64,7 +63,7 @@ module.exports.attachStore = function(store) {
 			if (!key) {
 				return;
 			}
-			store.dispatch(actions.setOption(key[1], entry[1].newValue));
+			store.dispatch(actions.setOption({ option: key[1], value: entry[1].newValue }));
 		});
 	});
 };

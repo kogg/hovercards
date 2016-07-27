@@ -32,6 +32,7 @@
     "es6-promisify": "^4.1.0",
     "express-session": "^1.11.3",
     "feathers": "^2.0.1",
+    "flux-standard-action": "^0.6.1",
     "googleapis": "^2.1.6",
     "helmet": "^2.1.1",
     "instagram-node": "^0.5.8",

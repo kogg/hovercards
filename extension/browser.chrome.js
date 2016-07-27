@@ -1,17 +1,18 @@
 var _         = require('underscore');
+var isFSA     = require('flux-standard-action').isFSA;
 var promisify = require('es6-promisify');
 
 var chrome = global.chrome;
 
 function handleRuntimeLastError(value) {
 	if (chrome.runtime.lastError) {
-		return Promise.reject(chrome.runtime.lastError);
+		return Promise.reject({ payload: chrome.runtime.lastError, error: true });
 	}
-	if (_.isArray(value)) {
-		if (value[0]) {
-			return Promise.reject(value[0]);
+	if (isFSA(value)) {
+		if (value.error) {
+			value.payload = (_.isError(value.payload)) ? value.payload : _.extend(new Error(value.payload.message), value.payload);
+			return Promise.reject(value);
 		}
-		return Promise.resolve(value[1]);
 	}
 	return Promise.resolve(value);
 }

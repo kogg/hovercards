@@ -15,7 +15,6 @@ module.exports = handleAction(
 			browser.storage.sync.set({ ['authentication.' + action.payload.api]: action.payload.value });
 			return _.defaults({ [action.payload.api]: action.payload.value }, state);
 		}
-		// FIXME #9
 	},
 	{}
 );

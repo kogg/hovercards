@@ -29,16 +29,12 @@ module.exports = function(initialState) {
 	authenticationReducer.attachStore(store);
 	optionsReducer.attachStore(store);
 
-	browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-		// TODO Have browser mutate this callback for us
-		sendResponse = _.wrap(sendResponse, function(func) {
-			return func(_.rest(arguments));
-		});
+	browser.runtime.onMessage.addListener(function(action, sender, sendResponse) {
+		action.payload = (!action.error || _.isError(action.payload)) ?
+			action.payload :
+			_.extend(new Error(action.payload.message), action.payload);
 
-		store.dispatch(actions[message.type](message.payload)).then(
-			_.partial(sendResponse, null),
-			sendResponse
-		);
+		store.dispatch(actions[action.type](action.payload, sender)).then(sendResponse, sendResponse);
 
 		return true;
 	});

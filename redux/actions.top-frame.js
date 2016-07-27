@@ -14,11 +14,12 @@ module.exports.getEntity = function(request) {
 		var state = getState();
 		var label = entityLabel(request);
 		if (state.entities[label] && state.entities[label].loaded && Date.now() - state.entities[label].loaded <= 5 * 60 * 1000) {
-			return Promise.resolve(state.entities[label]);
+			return Promise.resolve();
 		}
 
 		return browser.runtime.sendMessage({ type: 'getEntity', payload: request })
-			.then(compose(dispatch, setEntity));
+			.catch(compose(dispatch, setEntity, _.property('payload'), _.partial(_.defaults, { request: request })))
+			.then(compose(dispatch, setEntity, _.property('payload')));
 	};
 };
 
@@ -31,16 +32,22 @@ module.exports.setEntity = function(request) {
 
 module.exports.analytics = function(request) {
 	return function() {
-		return browser.runtime.sendMessage({ type: 'analytics', payload: request })
-			.then(function(response) {
-				if (process.env.GOOGLE_ANALYTICS_ID) {
-					return;
-				}
-				if (_.chain(response).first(2).isEqual(['send', 'exception']).value()) {
-					console.error('google analytics', response);
-				} else {
-					console.debug('google analytics', response);
-				}
+		var promise = browser.runtime.sendMessage({ type: 'analytics', payload: request });
+
+		if (!process.env.GOOGLE_ANALYTICS_ID) {
+			promise = promise
+				.then(function(response) {
+					if (_.chain(response).first(2).isEqual(['send', 'exception']).value()) {
+						console.error('google analytics', response);
+					} else {
+						console.debug('google analytics', response);
+					}
+				});
+		}
+		return promise
+			.catch(function() {
+				// FIXME #9 Log "impossible" err
+				// Don't return err
 			});
 	};
 };

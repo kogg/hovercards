@@ -14,7 +14,7 @@ module.exports = React.createClass({
 		options:     React.PropTypes.object.isRequired
 	},
 	onChange: function(type) {
-		this.props.setOption(this.props.integration + '.' + type + '.enabled', !this.props.options[type].enabled);
+		this.props.setOption({ option: this.props.integration + '.' + type + '.enabled', value: !this.props.options[type].enabled });
 	},
 	render: function() {
 		return (
