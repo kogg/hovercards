@@ -64,6 +64,7 @@ module.exports = {
 			'INSTAGRAM_CLIENT_ID',
 			'NODE_ENV',
 			'REDDIT_CLIENT_ID',
+			'SOUNDCLOUD_CLIENT_ID',
 			'STICKYCARDS'
 		]),
 		new CopyWebpackPlugin([

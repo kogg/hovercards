@@ -31,8 +31,7 @@ module.exports = {
 				'frame-src': ['https://w.soundcloud.com']
 			},
 			discussion_integrations: ['reddit', 'soundcloud', 'twitter'],
-			environment:             'client',
-			key:                     '78a827254bd7a5e3bba61aa18922bf2e' // TODO Remove
+			environment:             'client'
 		},
 		twitter: {
 			authenticatable:         true,
