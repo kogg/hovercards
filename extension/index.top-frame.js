@@ -26,4 +26,4 @@ browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 	return true;
 });
 
-store.dispatch(actions.getEntity({ api: 'soundcloud', type: 'content', id: 'same-drugs', account: { id: 'chancetherapper' } }));
+store.dispatch(actions.getEntity({ api: 'imgur', type: 'content', id: 'qwdF8oU', as: 'image' }));
