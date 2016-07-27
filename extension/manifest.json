@@ -9,6 +9,9 @@
         "http://*/*",
         "https://*/*"
       ],
+      "css": [
+        "top-frame.css"
+      ],
       "js": [
         "top-frame.js"
       ],

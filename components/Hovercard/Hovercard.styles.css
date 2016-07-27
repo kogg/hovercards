@@ -1,0 +1,49 @@
+.hovercard {
+  align-items: flex-start;
+  all: initial; /* no important */
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2147483647;
+
+  *,
+  *:before,
+  *:after {
+    all: initial; /* no important */
+    box-sizing: border-box;
+  }
+
+  *:before,
+  *:after {
+    display: none;
+  }
+}
+
+.hovercard-box {
+  background: white;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0;
+  cursor: pointer;
+  margin: 0;
+  max-height: 600px;
+  max-width: 500px;
+  overflow: auto;
+  pointer-events: auto;
+  width: 100%;
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-smooth: always;
+  }
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
