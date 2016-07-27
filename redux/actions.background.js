@@ -30,11 +30,13 @@ module.exports.getEntity = function(request, sender) {
 			return Promise.resolve(entity);
 		}
 
-		loading[label] = loading[label] || integrations(request).then(function(result) {
-			dispatch(module.exports.analytics(['send', 'timing', 'service', 'loading', Date.now() - start, entityLabel(request, true)], sender));
+		if (!loading[label]) {
+			loading[label] = integrations(request);
 
-			return result;
-		});
+			loading[label].then(function(result) {
+				dispatch(module.exports.analytics(['send', 'timing', 'service', 'loading', Date.now() - start, entityLabel(result, true)], sender));
+			});
+		}
 
 		// FIXME #9
 		if (sender.tab.id !== undefined) {
@@ -116,7 +118,7 @@ module.exports.analytics = function(request, sender) {
 	};
 };
 
-module.exports.authenticate = function(request) {
+module.exports.authenticate = function(request, sender) {
 	return function(dispatch) {
 		if (!request.api) {
 			return Promise.reject({ message: 'Missing \'api\'', status: 400 });
@@ -139,6 +141,7 @@ module.exports.authenticate = function(request) {
 					return Promise.reject({ message: 'No user token returned for ' + request.api + ': ' + redirectURL, status: 500 });
 				}
 				dispatch(setAuthentication({ api: request.api, value: user }));
+				dispatch(module.exports.analytics(['send', 'event', 'service', 'authenticated', request.api], sender));
 			});
 	};
 };
