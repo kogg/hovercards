@@ -1,8 +1,10 @@
-var React = require('react');
+var compose = require('redux').compose;
+var React   = require('react');
 
-var hasClass = require('../../utils/has-class');
-var styles   = require('./Hovercard.styles');
+var dom    = require('../../utils/dom');
+var styles = require('./Hovercard.styles');
 
+var PADDING_FROM_EDGES   = 10;
 var TIMEOUT_BEFORE_CLOSE = 100;
 
 module.exports = React.createClass({
@@ -21,87 +23,54 @@ module.exports = React.createClass({
 		this.props.element.addEventListener('mousemove', this.clearCloseTimeout);
 		this.props.element.addEventListener('mouseleave', this.setCloseTimeout);
 		window.addEventListener('blur', this.onWindowBlur);
+		window.addEventListener('scroll', this.positionHovercard);
+		window.addEventListener('resize', this.positionHovercard);
+		this.positionHovercard();
 	},
 	componentWillUnmount: function() {
 		this.props.element.removeEventListener('click', this.closeHovercard);
 		this.props.element.removeEventListener('mousemove', this.clearCloseTimeout);
 		this.props.element.removeEventListener('mouseleave', this.setCloseTimeout);
 		window.removeEventListener('blur', this.onWindowBlur);
+		window.removeEventListener('scroll', this.positionHovercard);
+		window.removeEventListener('resize', this.positionHovercard);
 	},
 	render: function() {
 		return (
-			<div className={styles.hovercard}>
-				<div className={styles.hovercardBox} onMouseMove={this.onHovercardMouseMove} onMouseLeave={this.onHovercardMouseLeave}>
+			<div className={styles.hovercardContainer} style={this.state}>
+				<div className={styles.hovercard} ref="hovercard" onMouseMove={compose(this.lockScrolling, this.clearCloseTimeout)} onMouseLeave={compose(this.unlockScrolling, this.setCloseTimeout)}>
 					<a>HoverCard, hear me roar!</a><br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
-					HoverCard, hear me roar!<br />
+					<pre>{JSON.stringify(this.props.entity, null, 4)}</pre>
 				</div>
 			</div>
 		);
 	},
-	onHovercardMouseMove: function() {
-		this.clearCloseTimeout();
-		this.lockScrolling();
-	},
-	onHovercardMouseLeave: function(event) {
-		this.setCloseTimeout(event);
-		this.unlockScrolling();
+	positionHovercard: function() {
+		this.setState({
+			top: Math.max(
+				window.scrollY + PADDING_FROM_EDGES, // Keep the hovercard from going off the top of the page
+				Math.min(
+					window.scrollY + window.innerHeight - this.refs.hovercard.offsetHeight - PADDING_FROM_EDGES, // Keep the hovercard from going off the bottom of the page
+					this.props.event.pageY - Math.min(
+						this.refs.hovercard.offsetHeight / 2, // Keep the hovercard from being above the cursor
+						70 // Start the hovercard offset above the cursor
+					)
+				)
+			),
+			left: Math.max(
+				window.scrollX + PADDING_FROM_EDGES, // Keep the hovercard from going off the left of the page
+				this.props.event.pageX + (
+					(this.props.event.pageX + 1 > window.scrollX + window.innerWidth - this.refs.hovercard.offsetWidth - PADDING_FROM_EDGES) ?
+						-this.refs.hovercard.offsetWidth - 1 :// Keep the hovercard from going off the right of the page by putting it on the left
+						1 // Put the hovercard on the right
+				)
+			)
+		});
 	},
 	setCloseTimeout: function(event) {
 		var element = event.relatedTarget;
 		while (element && element !== document.documentElement) {
-			if (element === this.element && hasClass(element, styles.hovercard)) {
+			if (element === this.element && element === this.refs.hovercard) {
 				return;
 			}
 			element = element.parentNode;
@@ -117,7 +86,7 @@ module.exports = React.createClass({
 		}
 		var element = document.activeElement;
 		while (element !== document.documentElement) {
-			if (hasClass(element, styles.hovercard)) {
+			if (element === this.refs.hovercard) {
 				return;
 			}
 			element = element.parentNode;
@@ -136,29 +105,15 @@ module.exports = React.createClass({
 			return;
 		}
 		this.setState({ locked: true });
-		addClass(document.documentElement, styles.hideScrollbar);
-		addClass(document.body, styles.hideScrollbar);
-		addClass(document.body, styles.overflowHidden);
+		dom.addClass(document.documentElement, styles.hideScrollbar);
+		dom.addClass(document.body, styles.hideScrollbar + ' ' + styles.overflowHidden);
 	},
 	unlockScrolling: function() {
 		if (!this.state.locked) {
 			return;
 		}
 		this.setState({ locked: false });
-		removeClass(document.documentElement, styles.hideScrollbar);
-		removeClass(document.body, styles.hideScrollbar);
-		removeClass(document.body, styles.overflowHidden);
+		dom.removeClass(document.documentElement, styles.hideScrollbar);
+		dom.removeClass(document.body, styles.hideScrollbar + ' ' + styles.overflowHidden);
 	}
 });
-
-function addClass(element, className) {
-	if (!hasClass(element, className)) {
-		element.className += ' ' + className;
-	}
-}
-
-function removeClass(element, className) {
-	if (hasClass(element, className)) {
-		element.className = element.className.replace(new RegExp('\\s*' + className, 'g'), '');
-	}
-}

@@ -3,7 +3,7 @@ var connect                  = require('react-redux').connect;
 var createStructuredSelector = require('reselect').createStructuredSelector;
 var React                    = require('react');
 
-var hasClass  = require('../../utils/has-class');
+var dom       = require('../../utils/dom');
 var styles    = require('./Hovercards.styles');
 var urls      = require('../../integrations/urls');
 var Hovercard = require('../Hovercard/Hovercard');
@@ -31,7 +31,7 @@ module.exports = connect(createStructuredSelector({
 	},
 	render: function() {
 		return (
-			<div className={styles.hovercards}>
+			<div className={styles.hovercards} ref="hovercards">
 				{this.state.hovercards.map(function(hovercard) {
 					return <Hovercard key={hovercard.key} entity={hovercard.entity} element={hovercard.element} event={hovercard.event}
 						onClose={_.partial(this.removeHovercard, hovercard)} />;
@@ -42,7 +42,7 @@ module.exports = connect(createStructuredSelector({
 	considerElement: function(event) {
 		var element = event.target;
 		while (!_.contains(['a', 'iframe'], element.nodeName.toLowerCase())) {
-			if (element === document.documentElement || hasClass(element, styles.hovercards) || hasClass(element, 'no-hovercards') || hasClass(element, 'hoverZoomLink')) {
+			if (element === document.documentElement || element === this.refs.hovercards || dom.hasClass(element, 'no-hovercards') || dom.hasClass(element, 'hoverZoomLink')) {
 				return;
 			}
 			element = element.parentNode;
@@ -58,27 +58,27 @@ module.exports = connect(createStructuredSelector({
 		var currentParent = element;
 		while (currentParent !== document.documentElement) {
 			parents.push(currentParent);
-			if (hasClass(currentParent, styles.hovercards) || hasClass(currentParent, 'no-hovercards') || hasClass(currentParent, 'hoverZoomLink')) {
+			if (currentParent === this.refs.hovercards || dom.hasClass(currentParent, 'no-hovercards') || dom.hasClass(currentParent, 'hoverZoomLink')) {
 				return;
 			}
 			currentParent = currentParent.parentNode;
 		}
 		var checks = [{ element: element }];
-		if (this.props.options.reddit.content.enabled || document.location.hostname.endsWith('reddit.com') || hasClass(element, 'title')) {
+		if (this.props.options.reddit.content.enabled && document.location.hostname.endsWith('reddit.com') && dom.hasClass(element, 'title')) {
 			var anotherElement = _.chain(element)
 				.result('parentNode')
 				.result('parentNode')
 				.result('childNodes')
 				.find(function(element) {
-					return hasClass(element, 'flat-list') && hasClass(element, 'buttons');
+					return dom.hasClass(element, ['flat-list', 'buttons']);
 				})
 				.result('childNodes')
 				.find(function(element) {
-					return hasClass(element, 'first');
+					return dom.hasClass(element, 'first');
 				})
 				.result('childNodes')
 				.find(function(element) {
-					return hasClass(element, 'comments');
+					return dom.hasClass(element, 'comments');
 				})
 				.value();
 			if (anotherElement) {
@@ -103,7 +103,7 @@ module.exports = connect(createStructuredSelector({
 				default:
 					continue;
 			}
-			url = massageUrl(url);
+			url = dom.massageUrl(url);
 			if (!url) {
 				continue;
 			}
@@ -163,10 +163,10 @@ function acceptEntity(entity, element, parents) {
 		(
 			entity.api === 'imgur' &&
 			entity.type === 'account' &&
-			!hasClass(element, 'account-user-name') &&
+			!dom.hasClass(element, 'account-user-name') &&
 			_.chain(parents)
 				.every(function(parent) {
-					return hasClass(parent, 'options') || hasClass(parent, 'user-dropdown');
+					return dom.hasClass(parent, 'options') || dom.hasClass(parent, 'user-dropdown');
 				})
 				.isEmpty()
 				.value()
@@ -174,10 +174,10 @@ function acceptEntity(entity, element, parents) {
 		(
 			entity.api === 'instagram' &&
 			entity.type === 'account' &&
-			!hasClass(element, '-cx-PRIVATE-Navigation__menuLink') &&
+			!dom.hasClass(element, '-cx-PRIVATE-Navigation__menuLink') &&
 			_.chain(parents)
 				.every(function(parent) {
-					return hasClass(parent, 'dropdown');
+					return dom.hasClass(parent, 'dropdown');
 				})
 				.isEmpty()
 				.value()
@@ -186,14 +186,14 @@ function acceptEntity(entity, element, parents) {
 			entity.api === 'reddit' &&
 			(
 				entity.type === 'account' ?
-					!hasClass(document.body, 'res') &&
+					!dom.hasClass(document.body, 'res') &&
 					_.chain(parents)
 						.every(function(parent) {
-							return hasClass(parent, 'tabmenu') || hasClass(parent, 'user');
+							return dom.hasClass(parent, 'tabmenu') || dom.hasClass(parent, 'user');
 						})
 						.isEmpty()
 						.value() :
-					!hasClass(element, 'search-comments') && !hasClass(element, 'comments')
+					!dom.hasClass(element, 'search-comments') && !dom.hasClass(element, 'comments')
 			)
 		) ||
 		(
@@ -201,27 +201,4 @@ function acceptEntity(entity, element, parents) {
 			entity.type === 'account' &&
 			document.domain === 'tweetdeck.twitter.com'
 		);
-}
-
-function massageUrl(url) {
-	if (!url) {
-		return null;
-	}
-	if (url === '#') {
-		return null;
-	}
-	if (url.match(/^javascript:.*/)) {
-		return null;
-	}
-	var a = document.createElement('a');
-	a.href = url;
-	url = a.href;
-	a.href = '';
-	if (a.remove) {
-		a.remove();
-	}
-	if (url === document.URL + '#') {
-		return null;
-	}
-	return url;
 }
