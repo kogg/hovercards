@@ -31,7 +31,7 @@ module.exports = function(initialState) {
 			action.payload :
 			_.extend(new Error(action.payload.message), action.payload);
 
-		store.dispatch(actions[action.type](action.payload, sender)).then(sendResponse, sendResponse);
+		store.dispatch(actions[action.type](action.payload, action.meta, sender)).then(sendResponse, sendResponse);
 
 		return true;
 	});

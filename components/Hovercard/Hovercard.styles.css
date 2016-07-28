@@ -38,6 +38,12 @@
     font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     font-smooth: always;
   }
+
+  pre {
+    display: block;
+    font-family: monospace !important;
+    white-space: pre;
+  }
 }
 
 .hide-scrollbar::-webkit-scrollbar {

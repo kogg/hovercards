@@ -5,7 +5,12 @@ var createAction = require('redux-actions').createAction;
 var browser     = require('../extension/browser');
 var entityLabel = require('../utils/entity-label');
 
-var setEntity = createAction('SET_ENTITY');
+var setEntity = createAction('SET_ENTITY', null, function(entity, label) {
+	if (!label) {
+		return null;
+	}
+	return { label: label };
+});
 
 module.exports = require('./actions.common');
 
@@ -23,9 +28,9 @@ module.exports.getEntity = function(request) {
 	};
 };
 
-module.exports.setEntity = function(request) {
+module.exports.setEntity = function(request, meta) {
 	return function(dispatch) {
-		dispatch(setEntity(request));
+		dispatch(setEntity(request, (meta || {}).label));
 		return Promise.resolve();
 	};
 };

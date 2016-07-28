@@ -7,7 +7,7 @@ module.exports = handleAction(
 	'SET_ENTITY',
 	{
 		next: function(state, action) {
-			return _.defaults({ [entityLabel(action.payload)]: action.payload }, state);
+			return _.defaults({ [(action.meta || {}).label || entityLabel(action.payload)]: action.payload }, state);
 		},
 		throw: function(state, action) {
 			return _.defaults(

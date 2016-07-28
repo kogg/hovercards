@@ -3,22 +3,29 @@ var connect                  = require('react-redux').connect;
 var createStructuredSelector = require('reselect').createStructuredSelector;
 var React                    = require('react');
 
-var dom       = require('../../utils/dom');
-var styles    = require('./Hovercards.styles');
-var urls      = require('../../integrations/urls');
-var Hovercard = require('../Hovercard/Hovercard');
+var actions     = require('../../redux/actions.top-frame');
+var dom         = require('../../utils/dom');
+var entityLabel = require('../../utils/entity-label');
+var styles      = require('./Hovercards.styles');
+var urls        = require('../../integrations/urls');
+var Hovercard   = require('../Hovercard/Hovercard');
 
 var TIMEOUT_BEFORE_CARD = 500;
 
 // TODO This is probably the grossest file that is getting reformated. Cleanup?
 
-module.exports = connect(createStructuredSelector({
-	options: _.property('options')
-}))(React.createClass({
+module.exports = connect(
+	createStructuredSelector({
+		entities: _.property('entities'),
+		options:  _.property('options')
+	}),
+	actions
+)(React.createClass({
 	displayName: 'Hovercards',
 	propTypes:   {
-		dispatch: React.PropTypes.func.isRequired,
-		options:  React.PropTypes.object.isRequired
+		entities:  React.PropTypes.object.isRequired,
+		getEntity: React.PropTypes.func.isRequired,
+		options:   React.PropTypes.object.isRequired
 	},
 	getInitialState: function() {
 		return { hovercards: [], incrementingId: 0 };
@@ -150,8 +157,11 @@ module.exports = connect(createStructuredSelector({
 		return (
 			<div className={styles.hovercards} ref="hovercards">
 				{this.state.hovercards.map(function(hovercard) {
-					return <Hovercard key={hovercard.key} request={hovercard.request} element={hovercard.element} event={hovercard.event}
-						onClose={_.partial(this.removeHovercard, hovercard)} />;
+					return <Hovercard key={hovercard.key}
+						request={hovercard.request} entity={this.props.entities[entityLabel(hovercard.request)]}
+						element={hovercard.element} event={hovercard.event}
+						onClose={_.partial(this.removeHovercard, hovercard)}
+						getEntity={this.props.getEntity} />;
 				}.bind(this))}
 			</div>
 		);

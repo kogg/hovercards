@@ -11,13 +11,18 @@ var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567
 
 var serverEndpoint    = 'http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5000') + '/v2/';
 var setAuthentication = createAction('SET_AUTHENTICATION');
-var setEntity         = createAction('SET_ENTITY');
+var setEntity         = createAction('SET_ENTITY', null, function(entity, label) {
+	if (!label) {
+		return null;
+	}
+	return { label: label };
+});
 
 module.exports = require('./actions.common');
 
 var loading = {};
 
-module.exports.getEntity = function(request, sender) {
+module.exports.getEntity = function(request, meta, sender) {
 	var start = Date.now();
 
 	return function(dispatch, getState) {
@@ -34,10 +39,17 @@ module.exports.getEntity = function(request, sender) {
 			loading[label] = integrations(request);
 
 			loading[label]
-				.then(function(result) {
-					dispatch(module.exports.analytics(['send', 'timing', 'service', 'loading', Date.now() - start, entityLabel(result, true)], sender));
+				.then(function(entity) {
+					dispatch(setEntity(entity));
+					var newLabel = entityLabel(entity);
+					if (newLabel !== label) {
+						dispatch(setEntity(entity, label));
+					}
+					dispatch(module.exports.analytics(['send', 'timing', 'service', 'loading', Date.now() - start, entityLabel(entity, true)], sender));
 				})
-				.catch(function() {
+				.catch(function(err) {
+					err.request = request;
+					dispatch(setEntity(err));
 					// FIXME #9 Log Error
 				});
 		}
@@ -45,12 +57,14 @@ module.exports.getEntity = function(request, sender) {
 		if (sender.tab.id !== undefined) {
 			loading[label]
 				.then(function(entity) {
-					dispatch(setEntity(entity));
 					browser.tabs.sendMessage(sender.tab.id, { type: 'setEntity', payload: entity });
+					var newLabel = entityLabel(entity);
+					if (newLabel !== label) {
+						browser.tabs.sendMessage(sender.tab.id, { type: 'setEntity', payload: entity, meta: { label: label } });
+					}
 				})
 				.catch(function(err) {
 					err.request = request;
-					dispatch(setEntity(err));
 					browser.tabs.sendMessage(sender.tab.id, { type: 'setEntity', payload: err, error: true });
 				});
 		}
@@ -71,7 +85,7 @@ browser.storage.local.get('user_id')
 
 var getAnalytics;
 
-module.exports.analytics = function(request, sender) {
+module.exports.analytics = function(request, meta, sender) {
 	return function() {
 		getAnalytics = getAnalytics || (
 			process.env.GOOGLE_ANALYTICS_ID ?
@@ -130,7 +144,7 @@ module.exports.analytics = function(request, sender) {
 	};
 };
 
-module.exports.authenticate = function(request, sender) {
+module.exports.authenticate = function(request, meta, sender) {
 	return function(dispatch) {
 		if (!request.api) {
 			return Promise.reject({ payload: { message: 'Missing \'api\'', status: 400 }, error: true });

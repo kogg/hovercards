@@ -10,10 +10,12 @@ var TIMEOUT_BEFORE_CLOSE = 100;
 module.exports = React.createClass({
 	displayName: 'Hovercard',
 	propTypes:   {
-		element: React.PropTypes.object.isRequired,
-		request: React.PropTypes.object.isRequired,
-		event:   React.PropTypes.object.isRequired,
-		onClose: React.PropTypes.func.isRequired
+		element:   React.PropTypes.object.isRequired,
+		entity:    React.PropTypes.object,
+		event:     React.PropTypes.object.isRequired,
+		getEntity: React.PropTypes.func.isRequired,
+		request:   React.PropTypes.object.isRequired,
+		onClose:   React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
 		return { locked: false };
@@ -26,6 +28,7 @@ module.exports = React.createClass({
 		window.addEventListener('scroll', this.positionHovercard);
 		window.addEventListener('resize', this.positionHovercard);
 		this.positionHovercard();
+		this.props.getEntity(this.props.request);
 	},
 	componentWillUnmount: function() {
 		this.props.element.removeEventListener('click', this.closeHovercard);
@@ -112,6 +115,7 @@ module.exports = React.createClass({
 				<div className={styles.hovercard} ref="hovercard" onMouseMove={compose(this.lockScrolling, this.clearCloseTimeout)} onMouseLeave={compose(this.unlockScrolling, this.setCloseTimeout)}>
 					<a>HoverCard, hear me roar!</a><br />
 					<pre>{JSON.stringify(this.props.request, null, 4)}</pre>
+					<pre>{JSON.stringify(this.props.entity, null, 4)}</pre>
 				</div>
 			</div>
 		);
