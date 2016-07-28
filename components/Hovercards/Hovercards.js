@@ -101,7 +101,7 @@ module.exports = connect(createStructuredSelector({
 			if (!request) {
 				continue;
 			}
-			if (check.element === element && !acceptRequest(request, element, parents)) {
+			if (!this.props.options[request.api][request.type].enabled || (check.element === element && !acceptRequest(request, element, parents))) {
 				request = null;
 			}
 		}
