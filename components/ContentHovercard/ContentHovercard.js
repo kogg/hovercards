@@ -16,7 +16,7 @@ module.exports = React.createClass({
 		return (
 			<div className={styles.content}>
 				<ContentHeader content={this.props.content} />
-				<ContentDescription />
+				<ContentDescription content={this.props.content} />
 				<ContentMedia />
 				<ContentFooter />
 				<Discussions />

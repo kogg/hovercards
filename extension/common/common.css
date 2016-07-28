@@ -532,11 +532,15 @@
 }
 
 .description + .meta {
+
+  /* account */
   padding-top: 0;
   margin-top: 0;
 }
 
 .testing .description + .meta {
+
+  /* Something to do with discussions...? */
   margin-top: 4px;
 }
 
@@ -758,6 +762,8 @@
 }
 
 .hovercard__box .account-name + .description {
+
+  /* account */
   margin: 0;
   max-height: 120px;
   padding: 6px 12px 12px 12px;
@@ -785,28 +791,6 @@
   position: relative;
 }
 
-.expand-description {
-  max-height: 9999px;
-}
-
-.description-title {
-  font-size: 14px;
-  color: rgba(0, 0, 0, .8);
-  font-weight: 600;
-}
-
-.hovercard__box .content-reddit .description {
-  max-height: 200px;
-}
-
-.content-reddit .description p {
-  display: block;
-}
-
-.content-reddit .description ul {
-  padding: 0;
-}
-
 .box h1 {
   line-height: 28px;
 }
@@ -828,6 +812,8 @@
 }
 
 .hovercard__box .content-container + .description {
+
+  /* ContentBody? */
   margin: 12px 12px 0px;
 }
 
@@ -1196,11 +1182,6 @@
   height: 293px;
 }
 
-.hovercard__box .content-text .description {
-  padding-top: 10px;
-  margin-top: 0;
-}
-
 .discussion .error .error-image {
   display: none;
 }
@@ -1465,33 +1446,6 @@
   cursor: pointer;
 }
 
-.collapsed-description {
-  position: relative;
-  cursor: pointer;
-}
-
-.hovercard__box .collapsed-description:after {
-  content: "Read More";
-  width: 120px;
-  height: 20px;
-  padding-right: 12px;
-  right: 0;
-  top: 50px;
-  color: rgba(0, 0, 0, .6);
-  cursor: pointer;
-  text-align: right;
-  display: block;
-  position: absolute;
-  font-size: 14px;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 28%, rgba(255, 255, 255, 1) 100%);
-  font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-}
-
-.hovercard__box .content-reddit .collapsed-description:after {
-  top: 180px;
-}
-
-.hovercard__box .content-reddit .expand-description,
 .expand-description {
   max-height: inherit;
 }

@@ -75,6 +75,12 @@
   "youtube_content":   { "message": "Videos" },
   "youtube_followers": { "message": "Subscribers" },
 
+  "account_id":                       { "message": "$1" },
+  "account_id_of_instagram":          { "message": "@$1" },
+  "account_id_of_soundcloud":         { "message": "@$1" },
+  "account_id_of_twitter":            { "message": "@$1" },
+  "empty_account_id_of_imgur":        { "message": "anon" },
+  "empty_account_id_of_reddit":       { "message": "[deleted]" },
   "hovercards_of_account":            { "message": "User hovercards" },
   "hovercards_of_imgur_content":      { "message": "Photo hovercards" },
   "hovercards_of_instagram_content":  { "message": "Photo hovercards" },
