@@ -107,25 +107,25 @@ module.exports = function(params) {
 	model.media_shortcode = function(args, args_not_cached, usage) {
 		usage['instagram-calls']++;
 
-		return promisify(instagram.media.bind(instagram))('shortcode/' + _.result(args, 'id')).catch(catch_errors('Instagram Media Shortcode'));
+		return promisify(instagram.media.bind(instagram.media))('shortcode/' + _.result(args, 'id')).catch(catch_errors('Instagram Media Shortcode'));
 	};
 
 	model.user = function(args, args_not_cached, usage) {
 		usage['instagram-calls']++;
 
-		return promisify(instagram.user.bind(instagram))(_.result(args, 'id')).catch(catch_errors('Instagram User'));
+		return promisify(instagram.user.bind(instagram.user))(_.result(args, 'id')).catch(catch_errors('Instagram User'));
 	};
 
 	model.user_media_recent = function(args, args_not_cached, usage) {
 		usage['instagram-calls']++;
 
-		return promisify(instagram.user_media_recent.bind(instagram))(_.result(args, 'id'), { count: config.counts.grid }).catch(catch_errors('Instagram User Media Recent'));
+		return promisify(instagram.user_media_recent.bind(instagram.user_media_recent))(_.result(args, 'id'), { count: config.counts.grid }).catch(catch_errors('Instagram User Media Recent'));
 	};
 
 	model.user_search = function(args, args_not_cached, usage) {
 		usage['instagram-calls']++;
 
-		return promisify(instagram.user_search.bind(instagram))(_.result(args, 'id'), {})
+		return promisify(instagram.user_search.bind(instagram.user_search))(_.result(args, 'id'), {})
 			.then(function(users) {
 				if (_.isEmpty(users)) {
 					return Promise.reject({ status: 404, message: '' });
@@ -153,8 +153,12 @@ module.exports = function(params) {
 						}
 						break;
 					default:
-						err.status = (status >= 500) ? 502 : 500;
-						err.original_status = status;
+						if (err.message === 'Instagram User Search - Must be authentified') {
+							err.status = 401;
+						} else {
+							err.status = (status >= 500) ? 502 : 500;
+							err.original_status = status;
+						}
 						break;
 				}
 				return Promise.reject(err);
@@ -191,8 +195,12 @@ module.exports = function(params) {
 					}
 					break;
 				default:
-					err.status = (status >= 500) ? 502 : 500;
-					err.original_status = status;
+					if (err.message === errName + ' - Must be authentified') {
+							err.status = 401;
+						} else {
+							err.status = (status >= 500) ? 502 : 500;
+							err.original_status = status;
+						}
 					break;
 			}
 			return Promise.reject(err);

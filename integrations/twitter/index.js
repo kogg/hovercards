@@ -174,7 +174,7 @@ module.exports = function(params) {
 			.then(function(twitter) {
 				usage['twitter-user-show-calls']++;
 
-				twitter.get('users/show', { screen_name: _.result(args, 'id') });
+				return twitter.get('users/show', { screen_name: _.result(args, 'id') });
 			})
 			.then(function(result) {
 				if (_.result(result.resp, 'statusCode') >= 400) {
