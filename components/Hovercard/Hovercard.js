@@ -35,16 +35,6 @@ module.exports = React.createClass({
 		window.removeEventListener('scroll', this.positionHovercard);
 		window.removeEventListener('resize', this.positionHovercard);
 	},
-	render: function() {
-		return (
-			<div className={styles.hovercardContainer} style={this.state}>
-				<div className={styles.hovercard} ref="hovercard" onMouseMove={compose(this.lockScrolling, this.clearCloseTimeout)} onMouseLeave={compose(this.unlockScrolling, this.setCloseTimeout)}>
-					<a>HoverCard, hear me roar!</a><br />
-					<pre>{JSON.stringify(this.props.entity, null, 4)}</pre>
-				</div>
-			</div>
-		);
-	},
 	positionHovercard: function() {
 		this.setState({
 			top: Math.max(
@@ -115,5 +105,15 @@ module.exports = React.createClass({
 		this.setState({ locked: false });
 		dom.removeClass(document.documentElement, styles.hideScrollbar);
 		dom.removeClass(document.body, styles.hideScrollbar + ' ' + styles.overflowHidden);
+	},
+	render: function() {
+		return (
+			<div className={styles.hovercardContainer} style={this.state}>
+				<div className={styles.hovercard} ref="hovercard" onMouseMove={compose(this.lockScrolling, this.clearCloseTimeout)} onMouseLeave={compose(this.unlockScrolling, this.setCloseTimeout)}>
+					<a>HoverCard, hear me roar!</a><br />
+					<pre>{JSON.stringify(this.props.entity, null, 4)}</pre>
+				</div>
+			</div>
+		);
 	}
 });

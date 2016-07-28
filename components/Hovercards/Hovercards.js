@@ -12,6 +12,51 @@ var TIMEOUT_BEFORE_CARD = 500;
 
 // TODO This is probably the grossest file that is getting reformated. Cleanup?
 
+function acceptEntity(entity, element, parents) {
+	return entity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
+		(
+			entity.api === 'imgur' &&
+			entity.type === 'account' &&
+			!dom.hasClass(element, 'account-user-name') &&
+			_.chain(parents)
+				.every(function(parent) {
+					return dom.hasClass(parent, 'options') || dom.hasClass(parent, 'user-dropdown');
+				})
+				.isEmpty()
+				.value()
+		) ||
+		(
+			entity.api === 'instagram' &&
+			entity.type === 'account' &&
+			!dom.hasClass(element, '-cx-PRIVATE-Navigation__menuLink') &&
+			_.chain(parents)
+				.every(function(parent) {
+					return dom.hasClass(parent, 'dropdown');
+				})
+				.isEmpty()
+				.value()
+		) ||
+		(
+			entity.api === 'reddit' &&
+			(
+				entity.type === 'account' ?
+					!dom.hasClass(document.body, 'res') &&
+					_.chain(parents)
+						.every(function(parent) {
+							return dom.hasClass(parent, 'tabmenu') || dom.hasClass(parent, 'user');
+						})
+						.isEmpty()
+						.value() :
+					!dom.hasClass(element, 'search-comments') && !dom.hasClass(element, 'comments')
+			)
+		) ||
+		(
+			entity.api === 'twitter' &&
+			entity.type === 'account' &&
+			document.domain === 'tweetdeck.twitter.com'
+		);
+}
+
 module.exports = connect(createStructuredSelector({
 	options: _.property('options')
 }))(React.createClass({
@@ -28,16 +73,6 @@ module.exports = connect(createStructuredSelector({
 	},
 	componentWillUnmount: function() {
 		document.documentElement.removeEventListener('mousemove', this.considerElement);
-	},
-	render: function() {
-		return (
-			<div className={styles.hovercards} ref="hovercards">
-				{this.state.hovercards.map(function(hovercard) {
-					return <Hovercard key={hovercard.key} entity={hovercard.entity} element={hovercard.element} event={hovercard.event}
-						onClose={_.partial(this.removeHovercard, hovercard)} />;
-				}.bind(this))}
-			</div>
-		);
 	},
 	considerElement: function(event) {
 		var element = event.target;
@@ -155,50 +190,15 @@ module.exports = connect(createStructuredSelector({
 	removeHovercard: function(hovercard) {
 		this.setState({ hovercards: _.without(this.state.hovercards, hovercard) });
 		this.lastElement = (this.lastElement !== hovercard.element) && this.lastElement;
+	},
+	render: function() {
+		return (
+			<div className={styles.hovercards} ref="hovercards">
+				{this.state.hovercards.map(function(hovercard) {
+					return <Hovercard key={hovercard.key} entity={hovercard.entity} element={hovercard.element} event={hovercard.event}
+						onClose={_.partial(this.removeHovercard, hovercard)} />;
+				}.bind(this))}
+			</div>
+		);
 	}
 }));
-
-function acceptEntity(entity, element, parents) {
-	return entity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
-		(
-			entity.api === 'imgur' &&
-			entity.type === 'account' &&
-			!dom.hasClass(element, 'account-user-name') &&
-			_.chain(parents)
-				.every(function(parent) {
-					return dom.hasClass(parent, 'options') || dom.hasClass(parent, 'user-dropdown');
-				})
-				.isEmpty()
-				.value()
-		) ||
-		(
-			entity.api === 'instagram' &&
-			entity.type === 'account' &&
-			!dom.hasClass(element, '-cx-PRIVATE-Navigation__menuLink') &&
-			_.chain(parents)
-				.every(function(parent) {
-					return dom.hasClass(parent, 'dropdown');
-				})
-				.isEmpty()
-				.value()
-		) ||
-		(
-			entity.api === 'reddit' &&
-			(
-				entity.type === 'account' ?
-					!dom.hasClass(document.body, 'res') &&
-					_.chain(parents)
-						.every(function(parent) {
-							return dom.hasClass(parent, 'tabmenu') || dom.hasClass(parent, 'user');
-						})
-						.isEmpty()
-						.value() :
-					!dom.hasClass(element, 'search-comments') && !dom.hasClass(element, 'comments')
-			)
-		) ||
-		(
-			entity.api === 'twitter' &&
-			entity.type === 'account' &&
-			document.domain === 'tweetdeck.twitter.com'
-		);
-}
