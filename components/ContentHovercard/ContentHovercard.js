@@ -1,5 +1,6 @@
 var React = require('react');
 
+var styles             = require('./ContentHovercard.styles');
 var ContentDescription = require('../ContentDescription/ContentDescription');
 var ContentFooter      = require('../ContentFooter/ContentFooter');
 var ContentHeader      = require('../ContentHeader/ContentHeader');
@@ -8,10 +9,13 @@ var Discussions        = require('../Discussions/Discussions');
 
 module.exports = React.createClass({
 	displayName: 'ContentHovercard',
-	render:      function() {
+	propTypes:   {
+		content: React.PropTypes.object.isRequired
+	},
+	render: function() {
 		return (
-			<div>
-				<ContentHeader />
+			<div className={styles.content}>
+				<ContentHeader content={this.props.content} />
 				<ContentDescription />
 				<ContentMedia />
 				<ContentFooter />

@@ -16,8 +16,9 @@ module.exports = {
 		'top-frame':  './extension/index.top-frame'
 	},
 	output: {
-		filename: '[name].js',
-		path:     'dist'
+		filename:   '[name].js',
+		path:       'dist',
+		publicPath: 'chrome-extension://__MSG_@@extension_id__/'
 	},
 	module: {
 		loaders: [

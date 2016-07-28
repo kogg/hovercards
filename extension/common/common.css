@@ -392,30 +392,6 @@
 }
 
 /*// General styles // --------------------------------------------------*/
-.flex-row,
-.flex-center,
-.flex-spread {
-  display: flex;
-  align-items: center;
-}
-
-.flex-row {
-  justify-content: center;
-}
-
-.flex-center {
-  justify-content: left;
-}
-
-.flex-spread {
-  justify-content: space-between;
-  width: 100%;
-}
-
-.flex-grow {
-  flex-grow: 1;
-}
-
 .text-center {
   text-align: center;
 }
@@ -1106,35 +1082,6 @@
   margin: 0;
 }
 
-/*//Content Card Top// ---------------------------------------------*/
-.box.hovercard__box .content-account {
-  padding: 12px;
-  border-bottom: 1px solid rgba(0, 0, 0, .1);
-}
-
-.content-account-image {
-  width: 35px;
-  height: 35px;
-  display: inline-block;
-  border-radius: 50%;
-  background-position: center;
-  background-size: cover;
-  margin-right: 6px;
-}
-
-.box.hovercard__box .content-account-image {
-  width: 28px;
-  height: 28px;
-}
-
-.box.hovercard__box .content-account-name {
-  font-size: 14px;
-}
-
-.box.hovercard__box .content-account + .description {
-  margin-top: 0;
-}
-
 /*//Tabs// ---------------------------------------------*/
 .tabs {
   display: static;
@@ -1516,31 +1463,6 @@
   display: inline-block;
   font-weight: 400;
   cursor: pointer;
-}
-
-.share-facebook {
-  background: url('../../assets/images/facebookshare.png');
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.share-twitter {
-  background: url('../../assets/images/twittershare.png');
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.share-button {
-  height: 21px;
-  width: 21px;
-  margin-left: 8px;
-  opacity: .7;
-}
-
-.share-button:hover {
-  opacity: 1;
 }
 
 .collapsed-description {

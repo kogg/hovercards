@@ -116,7 +116,9 @@ module.exports = React.createClass({
 			<div className={styles.hovercard} style={this.state} ref="hovercard"
 				onMouseMove={compose(this.lockScrolling, this.clearCloseTimeout)}
 				onMouseLeave={compose(this.unlockScrolling, this.setCloseTimeout)}>
-				{(this.props.entity || this.props.request).type === 'content' ? <ContentHovercard /> : <AccountHovercard />}
+				{(this.props.entity || this.props.request).type === 'content' ?
+					<ContentHovercard content={this.props.entity || this.props.request} /> :
+					<AccountHovercard />}
 			</div>
 		);
 	}
