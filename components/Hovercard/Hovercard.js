@@ -1,8 +1,10 @@
 var compose = require('redux').compose;
 var React   = require('react');
 
-var dom    = require('../../utils/dom');
-var styles = require('./Hovercard.styles');
+var dom              = require('../../utils/dom');
+var styles           = require('./Hovercard.styles');
+var AccountHovercard = require('../AccountHovercard/AccountHovercard');
+var ContentHovercard = require('../ContentHovercard/ContentHovercard');
 
 var PADDING_FROM_EDGES   = 10;
 var TIMEOUT_BEFORE_CLOSE = 100;
@@ -114,9 +116,7 @@ module.exports = React.createClass({
 			<div className={styles.hovercard} style={this.state} ref="hovercard"
 				onMouseMove={compose(this.lockScrolling, this.clearCloseTimeout)}
 				onMouseLeave={compose(this.unlockScrolling, this.setCloseTimeout)}>
-				<a>HoverCard, hear me roar!</a><br />
-				<pre>{JSON.stringify(this.props.request, null, 4)}</pre>
-				<pre>{JSON.stringify(this.props.entity, null, 4)}</pre>
+				{(this.props.entity || this.props.request).type === 'content' ? <ContentHovercard /> : <AccountHovercard />}
 			</div>
 		);
 	}
