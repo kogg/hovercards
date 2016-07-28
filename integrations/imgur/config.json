@@ -1,0 +1,7 @@
+{
+  "content_security_policy": {
+    "img-src": ["http://i.imgur.com"],
+    "media-src": ["http://i.imgur.com"]
+  },
+  "discussion_integrations": ["reddit", "imgur", "twitter"]
+}

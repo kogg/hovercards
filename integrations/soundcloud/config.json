@@ -1,0 +1,8 @@
+{
+  "content_security_policy": {
+    "img-src": ["https://i1.sndcdn.com"],
+    "frame-src": ["https://w.soundcloud.com"]
+  },
+  "discussion_integrations": ["reddit", "soundcloud", "twitter"],
+  "environment":             "client"
+}

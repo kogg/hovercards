@@ -1,0 +1,4 @@
+{
+  "discussion_integrations": ["reddit", "twitter"],
+  "environment": "client"
+}

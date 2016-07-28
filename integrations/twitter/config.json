@@ -1,0 +1,4 @@
+{
+  "authenticatable": true,
+  "discussion_integrations": ["reddit", "twitter"]
+}
