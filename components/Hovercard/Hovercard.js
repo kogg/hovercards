@@ -98,25 +98,25 @@ module.exports = React.createClass({
 			return;
 		}
 		this.setState({ locked: true });
-		dom.addClass(document.documentElement, styles.hideScrollbar);
-		dom.addClass(document.body, styles.hideScrollbar + ' ' + styles.overflowHidden);
+		dom.addClass(document.documentElement, styles.lockDocument);
+		dom.addClass(document.body, styles.lockBody);
 	},
 	unlockScrolling: function() {
 		if (!this.state.locked) {
 			return;
 		}
 		this.setState({ locked: false });
-		dom.removeClass(document.documentElement, styles.hideScrollbar);
-		dom.removeClass(document.body, styles.hideScrollbar + ' ' + styles.overflowHidden);
+		dom.removeClass(document.documentElement, styles.lockDocument);
+		dom.removeClass(document.body, styles.lockBody);
 	},
 	render: function() {
 		return (
-			<div className={styles.hovercardContainer} style={this.state}>
-				<div className={styles.hovercard} ref="hovercard" onMouseMove={compose(this.lockScrolling, this.clearCloseTimeout)} onMouseLeave={compose(this.unlockScrolling, this.setCloseTimeout)}>
-					<a>HoverCard, hear me roar!</a><br />
-					<pre>{JSON.stringify(this.props.request, null, 4)}</pre>
-					<pre>{JSON.stringify(this.props.entity, null, 4)}</pre>
-				</div>
+			<div className={styles.hovercard} style={this.state} ref="hovercard"
+				onMouseMove={compose(this.lockScrolling, this.clearCloseTimeout)}
+				onMouseLeave={compose(this.unlockScrolling, this.setCloseTimeout)}>
+				<a>HoverCard, hear me roar!</a><br />
+				<pre>{JSON.stringify(this.props.request, null, 4)}</pre>
+				<pre>{JSON.stringify(this.props.entity, null, 4)}</pre>
 			</div>
 		);
 	}

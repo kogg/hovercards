@@ -1,42 +1,36 @@
-.hovercard-container {
+.hovercard {
   align-items: flex-start;
   all: initial; /* no important */
+  background: white;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0;
   box-sizing: border-box;
-  display: flex;
+  cursor: pointer;
   justify-content: center;
-  pointer-events: none;
+  margin: 0;
+  max-height: 600px;
+  max-width: 500px;
+  overflow: auto;
   position: absolute;
+  width: 100%;
   z-index: 2147483647;
 
-  *,
-  *:before,
-  *:after {
-    all: initial; /* no important */
-    box-sizing: border-box;
+  * {
+    -webkit-font-smoothing: antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-smooth: always;
   }
 
   *:before,
   *:after {
     display: none;
   }
-}
 
-.hovercard {
-  background: white;
-  border-radius: 3px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0;
-  cursor: pointer;
-  margin: 0;
-  max-height: 600px;
-  max-width: 500px;
-  overflow: auto;
-  pointer-events: auto;
-  width: 100%;
-
-  * {
-    -webkit-font-smoothing: antialiased;
-    font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    font-smooth: always;
+  *,
+  *:before,
+  *:after {
+    all: initial; /* no important */
+    box-sizing: border-box;
   }
 
   pre {
@@ -46,10 +40,14 @@
   }
 }
 
-.hide-scrollbar::-webkit-scrollbar {
+.lock-document::-webkit-scrollbar {
   display: none;
 }
 
-.overflow-hidden {
+.lock-body {
   overflow: hidden;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
