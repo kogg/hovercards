@@ -13,9 +13,6 @@ module.exports = React.createClass({
 		setOption:   React.PropTypes.func.isRequired,
 		options:     React.PropTypes.object.isRequired
 	},
-	onChange: function(type) {
-		this.props.setOption({ option: this.props.integration + '.' + type + '.enabled', value: !this.props.options[type].enabled });
-	},
 	render: function() {
 		return (
 			<div className={styles.row}>
@@ -39,5 +36,8 @@ module.exports = React.createClass({
 				</div>
 			</div>
 		);
+	},
+	onChange: function(type) {
+		this.props.setOption({ option: this.props.integration + '.' + type + '.enabled', value: !this.props.options[type].enabled });
 	}
 });

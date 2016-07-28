@@ -7,29 +7,11 @@ module.exports = React.createClass({
 	getInitialState: function() {
 		return { locked: false };
 	},
-	lockScrolling: function() {
-		if (this.state.locked) {
-			return;
-		}
-		this.setState({ locked: true });
-		addClass(document.documentElement, styles.hideScrollbar);
-		addClass(document.body, styles.hideScrollbar);
-		addClass(document.body, styles.overflowHidden);
-	},
-	unLockScrolling: function() {
-		if (!this.state.locked) {
-			return;
-		}
-		this.setState({ locked: false });
-		removeClass(document.documentElement, styles.hideScrollbar);
-		removeClass(document.body, styles.hideScrollbar);
-		removeClass(document.body, styles.overflowHidden);
-	},
 	render: function() {
 		return (
 			<div className={styles.hovercard}>
 				<div className={styles.hovercardBox} onMouseMove={this.lockScrolling} onMouseLeave={this.unLockScrolling}>
-					HoverCard, hear me roar!<br />
+					<a>HoverCard, hear me roar!</a><br />
 					HoverCard, hear me roar!<br />
 					HoverCard, hear me roar!<br />
 					HoverCard, hear me roar!<br />
@@ -86,6 +68,24 @@ module.exports = React.createClass({
 				</div>
 			</div>
 		);
+	},
+	lockScrolling: function() {
+		if (this.state.locked) {
+			return;
+		}
+		this.setState({ locked: true });
+		addClass(document.documentElement, styles.hideScrollbar);
+		addClass(document.body, styles.hideScrollbar);
+		addClass(document.body, styles.overflowHidden);
+	},
+	unLockScrolling: function() {
+		if (!this.state.locked) {
+			return;
+		}
+		this.setState({ locked: false });
+		removeClass(document.documentElement, styles.hideScrollbar);
+		removeClass(document.body, styles.hideScrollbar);
+		removeClass(document.body, styles.overflowHidden);
 	}
 });
 
