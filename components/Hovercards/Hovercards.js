@@ -1,6 +1,9 @@
-var _     = require('underscore');
-var React = require('react');
+var _                        = require('underscore');
+var connect                  = require('react-redux').connect;
+var createStructuredSelector = require('reselect').createStructuredSelector;
+var React                    = require('react');
 
+var hasClass  = require('../../utils/has-class');
 var styles    = require('./Hovercards.styles');
 var urls      = require('../../integrations/urls');
 var Hovercard = require('../Hovercard/Hovercard');
@@ -9,8 +12,14 @@ var TIMEOUT_BEFORE_CARD = 500;
 
 // TODO This is probably the grossest file that is getting reformated. Cleanup?
 
-module.exports = React.createClass({
-	displayName:     'Hovercards',
+module.exports = connect(createStructuredSelector({
+	options: _.property('options')
+}))(React.createClass({
+	displayName: 'Hovercards',
+	propTypes:   {
+		dispatch: React.PropTypes.func.isRequired,
+		options:  React.PropTypes.object.isRequired
+	},
 	getInitialState: function() {
 		return { hovercards: [], incrementingId: 0 };
 	},
@@ -24,15 +33,16 @@ module.exports = React.createClass({
 		return (
 			<div className={styles.hovercards}>
 				{this.state.hovercards.map(function(hovercard) {
-					return <Hovercard key={hovercard.key} />;
-				})}
+					return <Hovercard key={hovercard.key} entity={hovercard.entity} element={hovercard.element} event={hovercard.event}
+						onClose={_.partial(this.removeHovercard, hovercard)} />;
+				}.bind(this))}
 			</div>
 		);
 	},
 	considerElement: function(event) {
 		var element = event.target;
-		while (!_.contains(['A', 'IFRAME'], element.nodeName.toUpperCase())) {
-			if (element === document.documentElement || element.className.includes(styles.hovercards) || element.className.includes('no-hovercards') || element.className.includes('hoverZoomLink')) {
+		while (!_.contains(['a', 'iframe'], element.nodeName.toLowerCase())) {
+			if (element === document.documentElement || hasClass(element, styles.hovercards) || hasClass(element, 'no-hovercards') || hasClass(element, 'hoverZoomLink')) {
 				return;
 			}
 			element = element.parentNode;
@@ -48,47 +58,74 @@ module.exports = React.createClass({
 		var currentParent = element;
 		while (currentParent !== document.documentElement) {
 			parents.push(currentParent);
-			if (currentParent.className.includes(styles.hovercards) || currentParent.className.includes('no-hovercards') || currentParent.className.includes('hoverZoomLink')) {
+			if (hasClass(currentParent, styles.hovercards) || hasClass(currentParent, 'no-hovercards') || hasClass(currentParent, 'hoverZoomLink')) {
 				return;
 			}
 			currentParent = currentParent.parentNode;
 		}
-		var url;
-		switch (element.nodeName.toUpperCase()) {
-			case 'A':
-				url = element.dataset.expandedUrl || element.dataset.href || element.dataset.fullUrl || element.href;
-				break;
-			case 'IFRAME':
-				var match = element.src.match(/[?&]screen_name=([a-zA-Z0-9_]+)(?:&|$)/);
-				if (!match || !match[1]) {
+		var checks = [{ element: element }];
+		if (this.props.options.reddit.content.enabled || document.location.hostname.endsWith('reddit.com') || hasClass(element, 'title')) {
+			var anotherElement = _.chain(element)
+				.result('parentNode')
+				.result('parentNode')
+				.result('childNodes')
+				.find(function(element) {
+					return hasClass(element, 'flat-list') && hasClass(element, 'buttons');
+				})
+				.result('childNodes')
+				.find(function(element) {
+					return hasClass(element, 'first');
+				})
+				.result('childNodes')
+				.find(function(element) {
+					return hasClass(element, 'comments');
+				})
+				.value();
+			if (anotherElement) {
+				checks.push({ element: anotherElement });
+			}
+		}
+		var entity;
+		for (var i = 0; i < checks.length && !entity; i++) {
+			var check = checks[i];
+			var url;
+			switch (check.element.nodeName.toLowerCase()) {
+				case 'a':
+					url = check.element.dataset.expandedUrl || check.element.dataset.href || check.element.dataset.fullUrl || check.element.href;
 					break;
-				}
-				url = 'https://twitter.com/' + match[1];
-				break;
-			default:
-				break;
+				case 'iframe':
+					var match = check.element.src.match(/[?&]screen_name=([a-zA-Z0-9_]+)(?:&|$)/);
+					if (!match || !match[1]) {
+						break;
+					}
+					url = 'https://twitter.com/' + match[1];
+					break;
+				default:
+					continue;
+			}
+			url = massageUrl(url);
+			if (!url) {
+				continue;
+			}
+			entity = urls.parse(url);
+			if (!entity) {
+				continue;
+			}
+			if (check.element === element && !acceptEntity(entity, element, parents)) {
+				entity = null;
+			}
 		}
-		url = massageUrl(url);
-		if (!url) {
+		if (!entity) {
 			return;
 		}
-		var entity = urls.parse(url);
-		if (!entity || !acceptEntity(entity, element, parents)) {
-			return;
-		}
-		// FIXME Need hovercards/ever-frame reddit comments magic && disabled logic
-		console.log('really passed the trials', entity, element.nodeName);
 		this.waitForHovercard(element, entity, event);
 	},
 	waitForHovercard: function(element, entity, event) {
 		var timeout = setTimeout(function() {
 			cleanup();
-			console.log('BEHOLD!!!!');
-			this.setState(function(previousState) {
-				return {
-					hovercards:     previousState.hovercards.concat({ key: previousState.incrementingId, element: element, entity: entity, event: event }),
-					incrementingId: previousState.incrementingId + 1
-				};
+			this.setState({
+				hovercards:     this.state.hovercards.concat({ key: this.state.incrementingId, element: element, entity: entity, event: event }),
+				incrementingId: this.state.incrementingId + 1
 			});
 		}.bind(this), TIMEOUT_BEFORE_CARD);
 
@@ -114,18 +151,22 @@ module.exports = React.createClass({
 		function updateEvent(newEvent) {
 			event = newEvent;
 		}
+	},
+	removeHovercard: function(hovercard) {
+		this.setState({ hovercards: _.without(this.state.hovercards, hovercard) });
+		this.lastElement = (this.lastElement !== hovercard.element) && this.lastElement;
 	}
-});
+}));
 
 function acceptEntity(entity, element, parents) {
 	return entity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
 		(
 			entity.api === 'imgur' &&
 			entity.type === 'account' &&
-			!element.className.includes('account-user-name') &&
+			!hasClass(element, 'account-user-name') &&
 			_.chain(parents)
 				.every(function(parent) {
-					return parent.className.includes('options') || parent.className.includes('user-dropdown');
+					return hasClass(parent, 'options') || hasClass(parent, 'user-dropdown');
 				})
 				.isEmpty()
 				.value()
@@ -133,10 +174,10 @@ function acceptEntity(entity, element, parents) {
 		(
 			entity.api === 'instagram' &&
 			entity.type === 'account' &&
-			!element.className.includes('-cx-PRIVATE-Navigation__menuLink') &&
+			!hasClass(element, '-cx-PRIVATE-Navigation__menuLink') &&
 			_.chain(parents)
 				.every(function(parent) {
-					return parent.className.includes('dropdown');
+					return hasClass(parent, 'dropdown');
 				})
 				.isEmpty()
 				.value()
@@ -145,14 +186,14 @@ function acceptEntity(entity, element, parents) {
 			entity.api === 'reddit' &&
 			(
 				entity.type === 'account' ?
-					!document.body.className.includes('res') &&
+					!hasClass(document.body, 'res') &&
 					_.chain(parents)
 						.every(function(parent) {
-							return parent.className.includes('tabmenu') || parent.className.includes('user');
+							return hasClass(parent, 'tabmenu') || hasClass(parent, 'user');
 						})
 						.isEmpty()
 						.value() :
-					!element.className.includes('search-comments') && !element.className.includes('comments')
+					!hasClass(element, 'search-comments') && !hasClass(element, 'comments')
 			)
 		) ||
 		(

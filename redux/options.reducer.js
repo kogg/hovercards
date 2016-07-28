@@ -16,7 +16,7 @@ module.exports = (function optionsReducer(object, prefix) {
 				'SET_OPTION',
 				{
 					next: function(state, action) {
-						if (action.payload.key !== prefixKey) {
+						if (action.payload.option !== prefixKey) {
 							return state;
 						}
 						browser.storage.sync.set({ ['options.' + prefixKey]: action.payload.value });

@@ -9,7 +9,7 @@ module.exports = function(store) {
 		var newState = store.getState();
 
 		console.group('store', newState);
-		diff(state, newState).forEach(function(diff) {
+		(diff(state, newState) || []).forEach(function(diff) {
 			switch (diff.kind) {
 				case 'N':
 					console.log('"' + diff.path.join('.') + '"', 'to', diff.rhs);
