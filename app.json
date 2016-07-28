@@ -2,6 +2,7 @@
   "name": "hovercards",
   "env": {
     "CHROMIUM_IDS":                    { "required": true },
+    "GOOGLE_ANALYTICS_ID":             { "required": false },
     "GOOGLE_SERVER_KEY":               { "required": true },
     "IMGUR_CLIENT_ID":                 { "required": true },
     "INSTAGRAM_CLIENT_ID":             { "required": true },

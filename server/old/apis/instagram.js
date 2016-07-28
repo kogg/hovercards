@@ -10,7 +10,7 @@ var HASHTAG_REGEX         = /#([^\s!"#$%&'()*+,./:;<=>?@\^_`{|}~-]+)/g;
 var MENTION_REGEX         = /(^|[^\w])@(\w[\w.]+\w)/g;
 
 if (process.browser) {
-	// TODO shim to deal with https://github.com/substack/http-browserify/pull/10
+	// FIXME substack/http-browserify#10
 	require('http').request = _.wrap(require('http').request, function(request, params, cb) {
 		return request(params, function(res) {
 			res.setEncoding = _.noop;
