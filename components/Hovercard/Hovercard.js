@@ -11,7 +11,7 @@ module.exports = React.createClass({
 	displayName: 'Hovercard',
 	propTypes:   {
 		element: React.PropTypes.object.isRequired,
-		entity:  React.PropTypes.object.isRequired,
+		request: React.PropTypes.object.isRequired,
 		event:   React.PropTypes.object.isRequired,
 		onClose: React.PropTypes.func.isRequired
 	},
@@ -111,7 +111,7 @@ module.exports = React.createClass({
 			<div className={styles.hovercardContainer} style={this.state}>
 				<div className={styles.hovercard} ref="hovercard" onMouseMove={compose(this.lockScrolling, this.clearCloseTimeout)} onMouseLeave={compose(this.unlockScrolling, this.setCloseTimeout)}>
 					<a>HoverCard, hear me roar!</a><br />
-					<pre>{JSON.stringify(this.props.entity, null, 4)}</pre>
+					<pre>{JSON.stringify(this.props.request, null, 4)}</pre>
 				</div>
 			</div>
 		);

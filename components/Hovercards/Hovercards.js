@@ -12,51 +12,6 @@ var TIMEOUT_BEFORE_CARD = 500;
 
 // TODO This is probably the grossest file that is getting reformated. Cleanup?
 
-function acceptEntity(entity, element, parents) {
-	return entity.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
-		(
-			entity.api === 'imgur' &&
-			entity.type === 'account' &&
-			!dom.hasClass(element, 'account-user-name') &&
-			_.chain(parents)
-				.every(function(parent) {
-					return dom.hasClass(parent, 'options') || dom.hasClass(parent, 'user-dropdown');
-				})
-				.isEmpty()
-				.value()
-		) ||
-		(
-			entity.api === 'instagram' &&
-			entity.type === 'account' &&
-			!dom.hasClass(element, '-cx-PRIVATE-Navigation__menuLink') &&
-			_.chain(parents)
-				.every(function(parent) {
-					return dom.hasClass(parent, 'dropdown');
-				})
-				.isEmpty()
-				.value()
-		) ||
-		(
-			entity.api === 'reddit' &&
-			(
-				entity.type === 'account' ?
-					!dom.hasClass(document.body, 'res') &&
-					_.chain(parents)
-						.every(function(parent) {
-							return dom.hasClass(parent, 'tabmenu') || dom.hasClass(parent, 'user');
-						})
-						.isEmpty()
-						.value() :
-					!dom.hasClass(element, 'search-comments') && !dom.hasClass(element, 'comments')
-			)
-		) ||
-		(
-			entity.api === 'twitter' &&
-			entity.type === 'account' &&
-			document.domain === 'tweetdeck.twitter.com'
-		);
-}
-
 module.exports = connect(createStructuredSelector({
 	options: _.property('options')
 }))(React.createClass({
@@ -120,8 +75,8 @@ module.exports = connect(createStructuredSelector({
 				checks.push({ element: anotherElement });
 			}
 		}
-		var entity;
-		for (var i = 0; i < checks.length && !entity; i++) {
+		var request;
+		for (var i = 0; i < checks.length && !request; i++) {
 			var check = checks[i];
 			var url;
 			switch (check.element.nodeName.toLowerCase()) {
@@ -142,24 +97,24 @@ module.exports = connect(createStructuredSelector({
 			if (!url) {
 				continue;
 			}
-			entity = urls.parse(url);
-			if (!entity) {
+			request = urls.parse(url);
+			if (!request) {
 				continue;
 			}
-			if (check.element === element && !acceptEntity(entity, element, parents)) {
-				entity = null;
+			if (check.element === element && !acceptRequest(request, element, parents)) {
+				request = null;
 			}
 		}
-		if (!entity) {
+		if (!request) {
 			return;
 		}
-		this.waitForHovercard(element, entity, event);
+		this.waitForHovercard(element, request, event);
 	},
-	waitForHovercard: function(element, entity, event) {
+	waitForHovercard: function(element, request, event) {
 		var timeout = setTimeout(function() {
 			cleanup();
 			this.setState({
-				hovercards:     this.state.hovercards.concat({ key: this.state.incrementingId, element: element, entity: entity, event: event }),
+				hovercards:     this.state.hovercards.concat({ key: this.state.incrementingId, element: element, request: request, event: event }),
 				incrementingId: this.state.incrementingId + 1
 			});
 		}.bind(this), TIMEOUT_BEFORE_CARD);
@@ -195,10 +150,55 @@ module.exports = connect(createStructuredSelector({
 		return (
 			<div className={styles.hovercards} ref="hovercards">
 				{this.state.hovercards.map(function(hovercard) {
-					return <Hovercard key={hovercard.key} entity={hovercard.entity} element={hovercard.element} event={hovercard.event}
+					return <Hovercard key={hovercard.key} request={hovercard.request} element={hovercard.element} event={hovercard.event}
 						onClose={_.partial(this.removeHovercard, hovercard)} />;
 				}.bind(this))}
 			</div>
 		);
 	}
 }));
+
+function acceptRequest(request, element, parents) {
+	return request.api !== document.domain.replace(/\.com$/, '').replace(/^.*\./, '') ||
+		(
+			request.api === 'imgur' &&
+			request.type === 'account' &&
+			!dom.hasClass(element, 'account-user-name') &&
+			_.chain(parents)
+				.every(function(parent) {
+					return dom.hasClass(parent, 'options') || dom.hasClass(parent, 'user-dropdown');
+				})
+				.isEmpty()
+				.value()
+		) ||
+		(
+			request.api === 'instagram' &&
+			request.type === 'account' &&
+			!dom.hasClass(element, '-cx-PRIVATE-Navigation__menuLink') &&
+			_.chain(parents)
+				.every(function(parent) {
+					return dom.hasClass(parent, 'dropdown');
+				})
+				.isEmpty()
+				.value()
+		) ||
+		(
+			request.api === 'reddit' &&
+			(
+				request.type === 'account' ?
+					!dom.hasClass(document.body, 'res') &&
+					_.chain(parents)
+						.every(function(parent) {
+							return dom.hasClass(parent, 'tabmenu') || dom.hasClass(parent, 'user');
+						})
+						.isEmpty()
+						.value() :
+					!dom.hasClass(element, 'search-comments') && !dom.hasClass(element, 'comments')
+			)
+		) ||
+		(
+			request.api === 'twitter' &&
+			request.type === 'account' &&
+			document.domain === 'tweetdeck.twitter.com'
+		);
+}
