@@ -1,8 +1,8 @@
 var React = require('react');
 
 var Carousel = require('../Carousel/Carousel');
-var Image    = require('../Image/Image');
 var Gif      = require('../Gif/Gif');
+var Image    = require('../Image/Image');
 var Video    = require('../Video/Video');
 var styles   = require('./Media.styles');
 
@@ -14,6 +14,35 @@ module.exports = React.createClass({
 		onResize: React.PropTypes.func
 	},
 	render: function() {
+		switch (this.props.content.api) {
+			case 'imgur':
+				if (!this.props.content.content) {
+					break;
+				}
+				return (
+					<div className={styles.media}>
+						<Carousel onLoad={this.props.onResize}>
+							{this.props.content.content.map(function(item, i) {
+								return (
+									<div key={i}>
+										{
+											item.gif ?
+												<Gif gif={item.gif} image={item.image} onLoad={this.props.onResize} /> :
+												<Image image={item.image} onLoad={this.props.onResize} />
+										}
+										<div className={styles.description}>
+											<b className={styles.name}>{ item.name }</b>
+											<p className={styles.text} dangerouslySetInnerHTML={{ __html: item.text }} />
+										</div>
+									</div>
+								);
+							}.bind(this))}
+						</Carousel>
+					</div>
+				);
+			default:
+				break;
+		}
 		if (this.props.content.video) {
 			return (
 				<div className={styles.media}>

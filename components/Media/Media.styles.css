@@ -13,3 +13,19 @@
     display: none;
   }
 }
+
+.description {
+  padding: 12px 0;
+  text-align: left;
+  width: 100%;
+}
+
+.text,
+.name {
+  color: rgba(0, 0, 0, .8);
+  font-size: 14px;
+}
+
+.name {
+  font-weight: bold;
+}
