@@ -6,7 +6,7 @@ var styles = require('./Video.styles');
 module.exports = React.createClass({
 	displayName: 'Video',
 	propTypes:   {
-		image:  React.PropTypes.object.isRequired,
+		image:  React.PropTypes.object,
 		muted:  React.PropTypes.bool.isRequired,
 		onLoad: React.PropTypes.func,
 		video:  React.PropTypes.string.isRequired
@@ -26,7 +26,7 @@ module.exports = React.createClass({
 			<video className={styles.video}
 				ref="video"
 				src={this.props.video}
-				poster={this.props.image.medium || this.props.image.large || this.props.image.small}
+				poster={this.props.image && (this.props.image.medium || this.props.image.large || this.props.image.small)}
 				muted={this.props.muted}
 				autoPlay={true}
 				loop={true}

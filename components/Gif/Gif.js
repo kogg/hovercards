@@ -7,7 +7,7 @@ module.exports = React.createClass({
 	displayName: 'Gif',
 	propTypes:   {
 		gif:    React.PropTypes.string.isRequired,
-		image:  React.PropTypes.object.isRequired,
+		image:  React.PropTypes.object,
 		onLoad: React.PropTypes.func
 	},
 	componentDidMount: function() {
@@ -17,7 +17,7 @@ module.exports = React.createClass({
 		return (
 			<video className={styles.gif}
 				src={this.props.gif}
-				poster={this.props.image.medium || this.props.image.large || this.props.image.small}
+				poster={this.props.image && (this.props.image.medium || this.props.image.large || this.props.image.small)}
 				muted={true}
 				autoPlay={true}
 				loop={true}
