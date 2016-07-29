@@ -46,6 +46,7 @@
   "account_id_of_twitter":            { "message": "@$1" },
   "comment_karma_of_reddit":          { "message": "Cmnt Karma" },
   "comments":                         { "message": "Comments" },
+  "content_of_soundcloud":            { "message": "Tracks" },
   "dislikes":                         { "message": "Dislikes" },
   "empty_account_id_of_imgur":        { "message": "anon" },
   "empty_account_id_of_reddit":       { "message": "[deleted]" },

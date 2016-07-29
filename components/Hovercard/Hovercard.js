@@ -41,25 +41,27 @@ module.exports = React.createClass({
 		window.removeEventListener('resize', this.positionHovercard);
 	},
 	positionHovercard: function() {
-		this.setState({
-			top: Math.max(
-				window.scrollY + PADDING_FROM_EDGES, // Keep the hovercard from going off the top of the page
-				Math.min(
-					window.scrollY + window.innerHeight - this.refs.hovercard.offsetHeight - PADDING_FROM_EDGES, // Keep the hovercard from going off the bottom of the page
-					this.props.event.pageY - Math.min(
-						this.refs.hovercard.offsetHeight / 2, // Keep the hovercard from being above the cursor
-						70 // Start the hovercard offset above the cursor
+		this.setState(function() {
+			return {
+				top: Math.max(
+					window.scrollY + PADDING_FROM_EDGES, // Keep the hovercard from going off the top of the page
+					Math.min(
+						window.scrollY + window.innerHeight - this.refs.hovercard.offsetHeight - PADDING_FROM_EDGES, // Keep the hovercard from going off the bottom of the page
+						this.props.event.pageY - Math.min(
+							this.refs.hovercard.offsetHeight / 2, // Keep the hovercard from being above the cursor
+							70 // Start the hovercard offset above the cursor
+						)
+					)
+				),
+				left: Math.max(
+					window.scrollX + PADDING_FROM_EDGES, // Keep the hovercard from going off the left of the page
+					this.props.event.pageX + (
+						(this.props.event.pageX + 1 > window.scrollX + window.innerWidth - this.refs.hovercard.offsetWidth - PADDING_FROM_EDGES) ?
+							-this.refs.hovercard.offsetWidth - 1 :// Keep the hovercard from going off the right of the page by putting it on the left
+							1 // Put the hovercard on the right
 					)
 				)
-			),
-			left: Math.max(
-				window.scrollX + PADDING_FROM_EDGES, // Keep the hovercard from going off the left of the page
-				this.props.event.pageX + (
-					(this.props.event.pageX + 1 > window.scrollX + window.innerWidth - this.refs.hovercard.offsetWidth - PADDING_FROM_EDGES) ?
-						-this.refs.hovercard.offsetWidth - 1 :// Keep the hovercard from going off the right of the page by putting it on the left
-						1 // Put the hovercard on the right
-				)
-			)
+			};
 		});
 	},
 	setCloseTimeout: function(event) {

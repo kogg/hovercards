@@ -39,7 +39,7 @@ var SoundCloudPlayer = module.exports = React.createClass({
 		return { player: null };
 	},
 	componentDidMount: function() {
-		setTimeout(this.props.onLoad || _.noop); // FIXME Why does this need a setTimeout?
+		(this.props.onLoad || _.noop)(); // FIXME Why does this need a setTimeout?
 		SoundCloudPlayer.getSC()
 			.then(function(SC) {
 				var player = SC.Widget(this.refs.player);
