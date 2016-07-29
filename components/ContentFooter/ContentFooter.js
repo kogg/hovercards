@@ -21,8 +21,10 @@ module.exports = React.createClass({
 							if (this.props.content.stats[stat] === undefined) {
 								return null;
 							}
-							// FIXME number-decorator
-							return <span key={stat} className={styles.stat}><em title={this.props.content.stats[stat]}>{format.number(this.props.content.stats[stat])}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.content.api) || browser.i18n.getMessage(stat)}</span>;
+							var number = stat.match(/_ratio$/) ?
+								parseInt(this.props.content.stats[stat] * 100, 10) + '%' :
+								format.number(this.props.content.stats[stat]);
+							return <span key={stat} className={styles.stat}><em title={this.props.content.stats[stat]}>{number}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.content.api) || browser.i18n.getMessage(stat)}</span>;
 						}.bind(this))}
 					</div>
 				</div>
