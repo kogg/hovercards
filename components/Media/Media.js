@@ -1,11 +1,12 @@
 var React = require('react');
 
-var Carousel     = require('../Carousel/Carousel');
-var Gif          = require('../Gif/Gif');
-var Image        = require('../Image/Image');
-var Video        = require('../Video/Video');
-var YoutubeVideo = require('../YoutubeVideo/YoutubeVideo');
-var styles       = require('./Media.styles');
+var Carousel         = require('../Carousel/Carousel');
+var Gif              = require('../Gif/Gif');
+var Image            = require('../Image/Image');
+var SoundCloudPlayer = require('../SoundCloudPlayer/SoundCloudPlayer');
+var Video            = require('../Video/Video');
+var YoutubeVideo     = require('../YoutubeVideo/YoutubeVideo');
+var styles           = require('./Media.styles');
 
 module.exports = React.createClass({
 	displayName: 'Media',
@@ -39,6 +40,12 @@ module.exports = React.createClass({
 								);
 							}.bind(this))}
 						</Carousel>
+					</div>
+				);
+			case 'soundcloud':
+				return (
+					<div className={styles.media}>
+						<SoundCloudPlayer content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} onLoad={this.props.onResize} />
 					</div>
 				);
 			case 'youtube':

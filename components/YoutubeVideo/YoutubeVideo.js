@@ -59,8 +59,7 @@ var YoutubeVideo = module.exports = React.createClass({
 		return { player: null };
 	},
 	componentDidMount: function() {
-		// FIXME This is causing a bug where the onLoad (which comes from Hovercard.js) doesn't have it's refs yet
-		setTimeout(this.props.onLoad || _.noop);
+		setTimeout(this.props.onLoad || _.noop); // FIXME Why does this need a setTimeout?
 		YoutubeVideo.getYT()
 			.then(function(YT) {
 				return new Promise(function(resolve, reject) {
