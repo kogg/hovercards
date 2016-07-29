@@ -6,5 +6,6 @@ module.exports = {
 		'media-src': ['https://scontent.cdninstagram.com']
 	},
 	discussion_integrations: ['instagram', 'reddit', 'twitter'],
-	environment:             'client'
+	environment:             'client',
+	stats:                   ['likes', 'comments']
 };

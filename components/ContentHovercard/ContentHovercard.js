@@ -10,14 +10,15 @@ var Media              = require('../Media/Media');
 module.exports = React.createClass({
 	displayName: 'ContentHovercard',
 	propTypes:   {
-		content: React.PropTypes.object.isRequired
+		content:             React.PropTypes.object.isRequired,
+		repositionHovercard: React.PropTypes.func
 	},
 	render: function() {
 		return (
 			<div className={styles.content}>
 				<ContentHeader content={this.props.content} />
 				<ContentDescription content={this.props.content} />
-				<Media content={this.props.content} />
+				<Media content={this.props.content} onResize={this.props.repositionHovercard} />
 				<ContentFooter content={this.props.content} />
 				<Discussions />
 			</div>

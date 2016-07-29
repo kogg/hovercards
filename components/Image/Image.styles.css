@@ -1,0 +1,12 @@
+.image {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+  user-select: none;
+
+  .hovercard__box .content-soundcloud & {
+
+    /* FIXME */
+    max-width: 200px;
+  }
+}

@@ -554,50 +554,9 @@
   width: 380px;
 }
 
-.arrows {
-  display: none;
-  width: 100%;
-  height: 100%;
-  z-index: 99999;
-  position: absolute;
-}
-
-.content-images .arrows {
-  display: block;
-}
-
 .content-images .content-container,
 .content-images .content-container-image {
   cursor: pointer;
-}
-
-.arrow-right,
-.arrow-left {
-  width: 42px;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  cursor: pointer;
-  transition: all .2s ease-in-out;
-}
-
-.arrow-left {
-  background-image: url('../../assets/images/left-arrow.svg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 20px;
-}
-
-.arrow-right {
-  right: 0;
-  left: inherit;
-  background-image: url('../../assets/images/right-arrow.svg');
-  background-position: right 11px center;
-  background-repeat: no-repeat;
-  background-size: 20px;
-  width: calc(100% - 70px);
 }
 
 .content-container:hover .arrow-right,
@@ -803,12 +762,6 @@
   margin: 12px 12px 0px;
 }
 
-.content-container-image {
-  max-width: 100%;
-  display: block;
-  margin: auto;
-}
-
 .content-images .content-container {
   border-bottom: 1px solid rgba(0, 0, 0, .1);
   margin-bottom: 12px;
@@ -818,8 +771,7 @@
   position: relative;
 }
 
-.carousel-container,
-.content-container-image {
+.carousel-container {
   user-select: none;
 }
 
@@ -1174,10 +1126,6 @@
 
 .discussion .error b {
   text-align: left;
-}
-
-.hovercard__box .content-soundcloud .content-container-image {
-  max-width: 200px;
 }
 
 .hovercard__box .content-text .content-container {

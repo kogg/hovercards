@@ -1,4 +1,5 @@
 {
   "discussion_integrations": ["reddit", "twitter"],
-  "environment": "client"
+  "environment": "client",
+  "stats":       ["score", "score_ratio", "comments"]
 }

@@ -2,7 +2,7 @@ var _ = require('underscore');
 
 var browser = require('../extension/browser');
 
-var units = ['', 'x-thousand', 'x-million', 'x-billion', 'x-trillion'];
+var units = ['', 'x_thousand', 'x_million', 'x_billion', 'x_trillion'];
 
 module.exports.number = function(number) {
 	if (!_.isNumber(number) || _.isNaN(number)) {

@@ -4,5 +4,6 @@
     "frame-src": ["https://w.soundcloud.com"]
   },
   "discussion_integrations": ["reddit", "soundcloud", "twitter"],
-  "environment":             "client"
+  "environment":             "client",
+  "stats":                   ["content", "likes", "views", "comments"]
 }

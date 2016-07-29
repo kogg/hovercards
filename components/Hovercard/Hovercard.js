@@ -117,7 +117,7 @@ module.exports = React.createClass({
 				onMouseMove={compose(this.lockScrolling, this.clearCloseTimeout)}
 				onMouseLeave={compose(this.unlockScrolling, this.setCloseTimeout)}>
 				{(this.props.entity || this.props.request).type === 'content' ?
-					<ContentHovercard content={this.props.entity || this.props.request} /> :
+					<ContentHovercard content={this.props.entity || this.props.request} repositionHovercard={this.positionHovercard} /> :
 					<AccountHovercard />}
 			</div>
 		);
