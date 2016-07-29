@@ -2,8 +2,8 @@ var Provider = require('react-redux').Provider;
 var React    = require('react');
 var ReactDOM = require('react-dom');
 
-var createStore = require('../redux/createStore.options');
 var Options     = require('../components/Options/Options');
+var createStore = require('../redux/createStore.options');
 
 var store = createStore();
 

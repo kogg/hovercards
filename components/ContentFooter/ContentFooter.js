@@ -1,11 +1,11 @@
 var React = require('react');
 
+var TimeSince = require('../TimeSince/TimeSince');
 var browser   = require('../../extension/browser');
 var config    = require('../../integrations/config');
 var format    = require('../../utils/format');
 var styles    = require('./ContentFooter.styles');
 var urls      = require('../../integrations/urls');
-var TimeSince = require('../TimeSince/TimeSince');
 
 module.exports = React.createClass({
 	displayName: 'ContentFooter',

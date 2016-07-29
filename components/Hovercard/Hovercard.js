@@ -1,10 +1,10 @@
 var compose = require('redux').compose;
 var React   = require('react');
 
-var dom              = require('../../utils/dom');
-var styles           = require('./Hovercard.styles');
 var AccountHovercard = require('../AccountHovercard/AccountHovercard');
 var ContentHovercard = require('../ContentHovercard/ContentHovercard');
+var dom              = require('../../utils/dom');
+var styles           = require('./Hovercard.styles');
 
 var PADDING_FROM_EDGES   = 10;
 var TIMEOUT_BEFORE_CLOSE = 100;

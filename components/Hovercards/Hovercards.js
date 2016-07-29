@@ -3,12 +3,12 @@ var connect                  = require('react-redux').connect;
 var createStructuredSelector = require('reselect').createStructuredSelector;
 var React                    = require('react');
 
+var Hovercard   = require('../Hovercard/Hovercard');
 var actions     = require('../../redux/actions.top-frame');
 var dom         = require('../../utils/dom');
 var entityLabel = require('../../utils/entity-label');
 var styles      = require('./Hovercards.styles');
 var urls        = require('../../integrations/urls');
-var Hovercard   = require('../Hovercard/Hovercard');
 
 var TIMEOUT_BEFORE_CARD = 500;
 

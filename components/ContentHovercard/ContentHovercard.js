@@ -1,11 +1,11 @@
 var React = require('react');
 
-var styles             = require('./ContentHovercard.styles');
 var ContentDescription = require('../ContentDescription/ContentDescription');
 var ContentFooter      = require('../ContentFooter/ContentFooter');
 var ContentHeader      = require('../ContentHeader/ContentHeader');
 var Discussions        = require('../Discussions/Discussions');
 var Media              = require('../Media/Media');
+var styles             = require('./ContentHovercard.styles');
 
 module.exports = React.createClass({
 	displayName: 'ContentHovercard',
