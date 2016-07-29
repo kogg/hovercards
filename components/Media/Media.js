@@ -1,8 +1,8 @@
 var React = require('react');
 
-var Image  = require('../Image/Image');
-var Images = require('../Images/Images');
-var styles = require('./Media.styles');
+var Carousel = require('../Carousel/Carousel');
+var Image    = require('../Image/Image');
+var styles   = require('./Media.styles');
 
 module.exports = React.createClass({
 	displayName: 'Media',
@@ -14,7 +14,11 @@ module.exports = React.createClass({
 		if (this.props.content.images) {
 			return (
 				<div className={styles.media}>
-					<Images images={this.props.content.images} onLoad={this.props.onResize} />
+					<Carousel onLoad={this.props.onResize}>
+						{this.props.content.images.map(function(image, i) {
+							return <Image key={i} image={image} onLoad={this.props.onResize} />;
+						}.bind(this))}
+					</Carousel>
 				</div>
 			);
 		}

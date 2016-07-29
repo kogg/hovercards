@@ -775,22 +775,6 @@
   user-select: none;
 }
 
-.content-container-text {
-  text-align: left;
-  width: 100%;
-  padding: 12px 0;
-}
-
-.content-container-text p,
-.content-container-text b {
-  color: rgba(0, 0, 0, .8);
-  font-size: 14px;
-}
-
-.content-container-text b {
-  font-weight: bold;
-}
-
 .hovercard__box .network {
   width: 20px;
   height: 20px;

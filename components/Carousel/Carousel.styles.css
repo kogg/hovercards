@@ -17,11 +17,11 @@
   cursor: pointer;
   transition: all .2s ease-in-out;
 
-  .images:hover & {
+  .carousel:hover & {
     opacity: .2;
   }
 
-  .images &:hover {
+  .carousel &:hover {
     opacity: .5;
   }
 }
