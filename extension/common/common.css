@@ -554,19 +554,6 @@
   width: 380px;
 }
 
-.content-container {
-  position: relative;
-  max-width: 100%;
-  min-width: 640px;
-  min-height: 520px;
-  padding: 12px 12px 0 12px;
-  text-align: left;
-}
-
-.content-container:empty {
-  display: none;
-}
-
 .arrows {
   display: none;
   width: 100%;
@@ -644,7 +631,6 @@
   height: calc(100% - 49px);
 }
 
-.hovercard__box .content-container,
 .hovercard__box .discussion {
   width: 9999px;
   max-width: 100%;

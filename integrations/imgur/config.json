@@ -3,5 +3,6 @@
     "img-src": ["http://i.imgur.com"],
     "media-src": ["http://i.imgur.com"]
   },
-  "discussion_integrations": ["reddit", "imgur", "twitter"]
+  "discussion_integrations": ["reddit", "imgur", "twitter"],
+  "stats": ["views", "score"]
 }

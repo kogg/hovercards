@@ -1,0 +1,15 @@
+.media {
+  composes: flex-row from '../flex.styles';
+  height: inherit;
+  max-width: 100%;
+  min-height: inherit;
+  min-width: inherit;
+  padding: 12px 12px 0 12px;
+  position: relative;
+  text-align: left;
+  width: 9999px;
+
+  &:empty {
+    display: none;
+  }
+}
