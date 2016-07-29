@@ -4,7 +4,7 @@
   max-width: 100%;
   user-select: none;
 
-  .hovercard__box .content-soundcloud & {
+  .content-soundcloud & {
 
     /* FIXME */
     max-width: 200px;

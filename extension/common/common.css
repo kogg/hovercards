@@ -554,21 +554,6 @@
   width: 380px;
 }
 
-.content-images .content-container,
-.content-images .content-container-image {
-  cursor: pointer;
-}
-
-.content-container:hover .arrow-right,
-.content-container:hover .arrow-left {
-  opacity: .2;
-}
-
-.content-container .arrow-left:hover,
-.content-container .arrow-right:hover {
-  opacity: .5;
-}
-
 .discussion {
   width: 100%;
   text-align: left;
@@ -760,11 +745,6 @@
 
   /* ContentBody? */
   margin: 12px 12px 0px;
-}
-
-.content-images .content-container {
-  border-bottom: 1px solid rgba(0, 0, 0, .1);
-  margin-bottom: 12px;
 }
 
 .carousel-container {

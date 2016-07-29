@@ -1,3 +1,4 @@
+var _     = require('underscore');
 var React = require('react');
 
 var styles = require('./Image.styles');
@@ -9,7 +10,7 @@ module.exports = React.createClass({
 		onLoad: React.PropTypes.func
 	},
 	componentDidMount: function() {
-		this.props.onLoad();
+		(this.props.onLoad || _.noop)();
 	},
 	render: function() {
 		return <img className={styles.image} src={this.props.image.large || this.props.image.medium || this.props.image.small} onLoad={this.props.onLoad} />;

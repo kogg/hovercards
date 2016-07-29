@@ -2,6 +2,7 @@ var React = require('react');
 
 var Carousel = require('../Carousel/Carousel');
 var Image    = require('../Image/Image');
+var Gif      = require('../Gif/Gif');
 var styles   = require('./Media.styles');
 
 module.exports = React.createClass({
@@ -11,6 +12,13 @@ module.exports = React.createClass({
 		onResize: React.PropTypes.func
 	},
 	render: function() {
+		if (this.props.content.gif) {
+			return (
+				<div className={styles.media}>
+					<Gif gif={this.props.content.gif} image={this.props.content.image} onLoad={this.props.onResize} />
+				</div>
+			);
+		}
 		if (this.props.content.images) {
 			return (
 				<div className={styles.media}>
