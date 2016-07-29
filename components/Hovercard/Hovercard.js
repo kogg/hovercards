@@ -20,7 +20,7 @@ module.exports = React.createClass({
 		onClose:   React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
-		return { locked: false };
+		return { hovered: false };
 	},
 	componentDidMount: function() {
 		this.props.element.addEventListener('click', this.closeHovercard);
@@ -92,32 +92,32 @@ module.exports = React.createClass({
 		if (process.env.NODE_ENV !== 'production' && process.env.STICKYCARDS) {
 			return;
 		}
-		this.unlockScrolling();
+		this.unHovered();
 		this.props.onClose();
 	},
-	lockScrolling: function() {
-		if (this.state.locked) {
+	hovered: function() {
+		if (this.state.hovered) {
 			return;
 		}
-		this.setState({ locked: true });
+		this.setState({ hovered: true });
 		dom.addClass(document.documentElement, styles.lockDocument);
 		dom.addClass(document.body, styles.lockBody);
 	},
-	unlockScrolling: function() {
-		if (!this.state.locked) {
+	unHovered: function() {
+		if (!this.state.hovered) {
 			return;
 		}
-		this.setState({ locked: false });
+		this.setState({ hovered: false });
 		dom.removeClass(document.documentElement, styles.lockDocument);
 		dom.removeClass(document.body, styles.lockBody);
 	},
 	render: function() {
 		return (
 			<div className={styles.hovercard} style={this.state} ref="hovercard"
-				onMouseMove={compose(this.lockScrolling, this.clearCloseTimeout)}
-				onMouseLeave={compose(this.unlockScrolling, this.setCloseTimeout)}>
+				onMouseMove={compose(this.hovered, this.clearCloseTimeout)}
+				onMouseLeave={compose(this.unHovered, this.setCloseTimeout)}>
 				{(this.props.entity || this.props.request).type === 'content' ?
-					<ContentHovercard content={this.props.entity || this.props.request} repositionHovercard={this.positionHovercard} /> :
+					<ContentHovercard content={this.props.entity || this.props.request} repositionHovercard={this.positionHovercard} hovered={this.state.hovered} /> :
 					<AccountHovercard />}
 			</div>
 		);
