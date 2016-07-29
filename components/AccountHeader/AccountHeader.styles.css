@@ -1,0 +1,18 @@
+.banner {
+  height: 126.66666667px;
+  background-position: center;
+  position: relative;
+  background-size: cover;
+  width: 100%;
+
+  &:empty {
+    display: block;
+  }
+
+  &-image {
+    width: 33.33%;
+    height: 126.66666667px;
+    background-position: center;
+    background-size: cover;
+  }
+}

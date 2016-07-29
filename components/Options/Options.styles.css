@@ -8,12 +8,12 @@ html {
   background-color: #eceef1;
 }
 
-.integration-options {
+.options {
   background-color: #eceef1;
   padding: 5px;
 }
 
-.save-button {
+.save {
   background: #349cef;
   border-radius: 30px;
   border: 0;

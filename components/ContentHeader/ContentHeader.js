@@ -24,9 +24,9 @@ module.exports = React.createClass({
 		);
 
 		return (
-			<div className={styles.contentHeader}>
+			<div className={styles.header}>
 				<div className={styles.flexSpread}>
-					{accountImage && <a className={styles.image} href={urls.print(this.props.content.account)} target="_blank" style={{ backgroundImage: 'url(' + accountImage + ')' }}></a>}
+					{accountImage && <a className={styles.image} href={urls.print(this.props.content.account)} style={{ backgroundImage: 'url(' + accountImage + ')' }} target="_blank"></a>}
 					<div className={styles.flexGrow}>
 						<a className={styles.name} href={urls.print(this.props.content.account)} target="_blank">{accountName}</a>
 					</div>

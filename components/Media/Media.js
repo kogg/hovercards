@@ -13,7 +13,7 @@ module.exports = React.createClass({
 	propTypes:   {
 		content:  React.PropTypes.object.isRequired,
 		hovered:  React.PropTypes.bool.isRequired,
-		onResize: React.PropTypes.func
+		onResize: React.PropTypes.func.isRequired
 	},
 	render: function() {
 		switch (this.props.content.api) {
@@ -23,7 +23,7 @@ module.exports = React.createClass({
 				}
 				return (
 					<div className={styles.media}>
-						<Carousel onLoad={this.props.onResize}>
+						<Carousel onResize={this.props.onResize}>
 							{this.props.content.content.map(function(item, i) {
 								return (
 									<div key={i}>
@@ -74,7 +74,7 @@ module.exports = React.createClass({
 		if (this.props.content.images) {
 			return (
 				<div className={styles.media}>
-					<Carousel onLoad={this.props.onResize}>
+					<Carousel onResize={this.props.onResize}>
 						{this.props.content.images.map(function(image, i) {
 							return <Image key={i} image={image} onLoad={this.props.onResize} />;
 						}.bind(this))}

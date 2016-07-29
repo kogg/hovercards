@@ -20,7 +20,7 @@ module.exports = connect(
 	},
 	render: function() {
 		return (
-			<div className={styles.integrationOptions}>
+			<div className={styles.options}>
 				<IntegrationOptions integration="imgur" options={this.props.options.imgur} setOption={this.props.setOption} options={this.props.options.imgur} />
 				<IntegrationOptions integration="soundcloud" options={this.props.options.soundcloud} setOption={this.props.setOption} />
 				<IntegrationOptions integration="youtube" options={this.props.options.youtube} setOption={this.props.setOption} />
@@ -28,7 +28,7 @@ module.exports = connect(
 				<IntegrationOptions integration="reddit" options={this.props.options.reddit} setOption={this.props.setOption} />
 				<IntegrationOptions integration="twitter" options={this.props.options.twitter} setOption={this.props.setOption} />
 				{/*
-					<button className={styles.saveButton}>{browser.i18n.getMessage('save_options')}</button>
+					<button className={styles.save}>{browser.i18n.getMessage('save_options')}</button>
 				*/}
 			</div>
 		);

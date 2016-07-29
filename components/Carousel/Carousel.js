@@ -6,16 +6,19 @@ module.exports = React.createClass({
 	displayName: 'Carousel',
 	propTypes:   {
 		children: React.PropTypes.arrayOf(React.PropTypes.node).isRequired,
-		onResize: React.PropTypes.func
+		onResize: React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
 		return { index: 0 };
 	},
+	componentDidMount: function() {
+		this.props.onLoad();
+	},
 	previous: function() {
-		this.setState({ index: Math.max(0, this.state.index - 1) });
+		this.setState({ index: Math.max(0, this.state.index - 1) }, this.props.onResize);
 	},
 	next: function() {
-		this.setState({ index: Math.min(this.props.children.length - 1, this.state.index + 1) });
+		this.setState({ index: Math.min(this.props.children.length - 1, this.state.index + 1) }, this.props.onResize);
 	},
 	render: function() {
 		if (this.props.children.length === 0) {

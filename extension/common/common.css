@@ -531,29 +531,7 @@
   transition: all .3s ease-in-out;
 }
 
-.description + .meta {
-
-  /* account */
-  padding-top: 0;
-  margin-top: 0;
-}
-
-.testing .description + .meta {
-
-  /* Something to do with discussions...? */
-  margin-top: 4px;
-}
-
 /*// Account Specific styles // --------------------------------------------------*/
-.account {
-  width: 100%;
-  overflow: hidden;
-}
-
-.hovercard__box .account {
-  width: 380px;
-}
-
 .discussion {
   width: 100%;
   text-align: left;
@@ -632,95 +610,6 @@
   max-width: 680px;
 }
 
-.box .account-cover {
-  height: 227px;
-  background-position: center;
-  position: relative;
-  background-size: cover;
-}
-
-.box .instagram-cover-images {
-  width: 33.33%;
-  height: 126.66666667px;
-  background-position: center;
-  background-size: cover;
-}
-
-.hovercard__box .account-cover {
-  height: 126.66666667px;
-}
-
-.box .account-cover + .account-image {
-  margin-top: -45px;
-}
-
-.box.hovercard__box .account-cover + .account-image {
-  margin-top: -45px;
-}
-
-.box .account-image {
-  margin-top: 16px;
-}
-
-.account-image {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: 3px solid white;
-  display: block;
-  margin: auto;
-  position: relative;
-  background-size: cover;
-  background-position: center;
-}
-
-.box.hovercard__box .account-image {
-  width: 90px;
-  height: 90px;
-}
-
-.account-name {
-  margin: 20px 12px 0;
-}
-
-.account-image + .account-name {
-  margin: 9px 12px 0;
-}
-
-.hovercard__box .account-name {
-  margin: 16px 12px 10px;
-}
-
-.hovercard__box .account-name + .description {
-
-  /* account */
-  margin: 0;
-  max-height: 120px;
-  padding: 6px 12px 12px 12px;
-}
-
-.hovercard__box .account-image + .account-name {
-  margin: 3px 12px 0;
-}
-
-.account-name a {
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.hovercard__box .account-name a {
-  font-size: 16px;
-}
-
-.description {
-  padding: 12px 12px 0 12px;
-  width: 100%;
-  max-height: 9999px;
-  max-height: 69px;
-  overflow: hidden;
-  position: relative;
-}
-
 .box h1 {
   line-height: 28px;
 }
@@ -768,7 +657,6 @@
 
 /*//icons and images// ---------------------------------------------*/
 .comment-item_retweet .comment-image a:after,
-.verified,
 .loading {
   background-size: 100%;
   background-position: center;
@@ -787,21 +675,6 @@
   background-color: #19cf86;
   border-radius: 50%;
   background-size: 70%;
-}
-
-.verified {
-  display: inline-block;
-  width: 21px;
-  height: 21px;
-  display: inline-block;
-  margin-left: 8px;
-  background-image: url("../../assets/images/verified.svg");
-}
-
-.box.hovercard__box .verified {
-  width: 16px;
-  height: 16px;
-  margin-left: 6px;
 }
 
 .box.hovercard__box .loading,
@@ -1055,18 +928,6 @@
 .content-youtube .content {
   min-height: 140px;
   min-width: 500px;
-}
-
-.account-youtube,
-.account-twitter,
-.account-soundcloud,
-.account-instagram {
-  min-height: 140px;
-}
-
-.account-reddit,
-.account-imgur {
-  min-height: 88px;
 }
 
 .loading-parent {
@@ -1341,6 +1202,35 @@
 
 .expand-description {
   max-height: inherit;
+}
+
+.collapsed-description {
+  position: relative;
+  cursor: pointer;
+  max-height: 69px;
+
+  &:after {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 28%, rgba(255, 255, 255, 1) 100%);
+    color: rgba(0, 0, 0, .6);
+    content: "Read More";
+    cursor: pointer;
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    height: 20px;
+    padding-right: 12px;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 50px;
+    width: 120px;
+  }
+
+  .content-reddit &:after {
+
+    /* FIXME */
+    top: 180px;
+  }
 }
 
 .notification {

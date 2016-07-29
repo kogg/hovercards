@@ -1,0 +1,88 @@
+.account {
+  overflow: hidden;
+  width: 380px;
+}
+
+.account-youtube,
+.account-twitter,
+.account-soundcloud,
+.account-instagram {
+
+  /* FIXME */
+  min-height: 140px;
+}
+
+.account-reddit,
+.account-imgur {
+
+  /* FIXME */
+  min-height: 88px;
+}
+
+.image {
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  border: 3px solid white;
+  display: block;
+  height: 90px;
+  margin: auto;
+  margin-top: 16px;
+  position: relative;
+  width: 90px;
+
+  .header + & {
+    margin-top: -45px;
+  }
+}
+
+.name-container {
+  composes: flex-row from '../flex.styles';
+  margin: 16px 12px 10px;
+
+  .image + & {
+    margin: 3px 12px 0;
+  }
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.verified {
+  background-image: url("../../assets/images/verified.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: inline-block;
+  height: 16px;
+  margin-left: 6px;
+  width: 16px;
+}
+
+.description {
+  max-height: 120px;
+  overflow: hidden;
+  padding: 12px 12px 0 12px;
+  position: relative;
+  width: 100%;
+
+  .name-container + & {
+    margin: 0;
+    max-height: 120px;
+    padding: 6px 12px 12px 12px;
+  }
+}
+
+.text {
+  display: block;
+  text-align: center;
+}
+
+.description + .meta {
+
+  /* FIXME account */
+  padding-top: 0;
+  margin-top: 0;
+}

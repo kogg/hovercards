@@ -11,7 +11,7 @@ var YoutubeVideo = module.exports = React.createClass({
 		content: React.PropTypes.object.isRequired,
 		image:   React.PropTypes.object,
 		muted:   React.PropTypes.bool.isRequired,
-		onLoad:  React.PropTypes.func
+		onLoad:  React.PropTypes.func.isRequired
 	},
 	statics: {
 		getYT: function() {
@@ -59,7 +59,7 @@ var YoutubeVideo = module.exports = React.createClass({
 		return { player: null };
 	},
 	componentDidMount: function() {
-		(this.props.onLoad || _.noop)(); // FIXME Why does this need a setTimeout?
+		this.props.onLoad();
 		YoutubeVideo.getYT()
 			.then(function(YT) {
 				return new Promise(function(resolve, reject) {

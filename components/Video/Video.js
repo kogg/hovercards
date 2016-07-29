@@ -1,4 +1,3 @@
-var _     = require('underscore');
 var React = require('react');
 
 var styles = require('./Video.styles');
@@ -8,14 +7,14 @@ module.exports = React.createClass({
 	propTypes:   {
 		image:  React.PropTypes.object,
 		muted:  React.PropTypes.bool.isRequired,
-		onLoad: React.PropTypes.func,
+		onLoad: React.PropTypes.func.isRequired,
 		video:  React.PropTypes.string.isRequired
 	},
 	getInitialState: function() {
 		return { playing: true };
 	},
 	componentDidMount: function() {
-		(this.props.onLoad || _.noop)();
+		this.props.onLoad();
 	},
 	togglePlaying: function() {
 		this.refs.video[this.state.playing ? 'pause' : 'play']();

@@ -14,6 +14,10 @@
   width: 100%;
   z-index: 2147483647;
 
+  &:empty {
+    display: block;
+  }
+
   * {
     -webkit-font-smoothing: antialiased;
     font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;

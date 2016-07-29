@@ -14,7 +14,7 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		return (
-			<div className={styles.contentFooter}>
+			<div className={styles.footer}>
 				<div className={styles.statsContainer}>
 					<div className={styles.stats}>
 						{this.props.content.stats && config.integrations[this.props.content.api].stats.map(function(stat) {

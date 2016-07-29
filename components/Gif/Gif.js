@@ -1,4 +1,3 @@
-var _     = require('underscore');
 var React = require('react');
 
 var styles = require('./Gif.styles');
@@ -8,10 +7,10 @@ module.exports = React.createClass({
 	propTypes:   {
 		gif:    React.PropTypes.string.isRequired,
 		image:  React.PropTypes.object,
-		onLoad: React.PropTypes.func
+		onLoad: React.PropTypes.func.isRequired
 	},
 	componentDidMount: function() {
-		(this.props.onLoad || _.noop)();
+		this.props.onLoad();
 	},
 	render: function() {
 		return (

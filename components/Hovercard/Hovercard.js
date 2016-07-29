@@ -41,6 +41,10 @@ module.exports = React.createClass({
 		window.removeEventListener('resize', this.positionHovercard);
 	},
 	positionHovercard: function() {
+		if (!this.isMounted()) {
+			// FIXME Anti-pattern
+			return;
+		}
 		this.setState(function() {
 			return {
 				top: Math.max(
@@ -118,9 +122,11 @@ module.exports = React.createClass({
 			<div className={styles.hovercard} style={this.state} ref="hovercard"
 				onMouseMove={compose(this.hovered, this.clearCloseTimeout)}
 				onMouseLeave={compose(this.unHovered, this.setCloseTimeout)}>
-				{(this.props.entity || this.props.request).type === 'content' ?
-					<ContentHovercard content={this.props.entity || this.props.request} repositionHovercard={this.positionHovercard} hovered={this.state.hovered} /> :
-					<AccountHovercard />}
+				{
+					(this.props.entity || this.props.request).type === 'content' ?
+						<ContentHovercard content={this.props.entity || this.props.request} onResize={this.positionHovercard} hovered={this.state.hovered} /> :
+						<AccountHovercard account={this.props.entity || this.props.request} onResize={this.positionHovercard} hovered={this.state.hovered} />
+				}
 			</div>
 		);
 	}
