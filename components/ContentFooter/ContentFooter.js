@@ -1,4 +1,5 @@
-var React = require('react');
+var React      = require('react');
+var classnames = require('classnames');
 
 var TimeSince = require('../TimeSince/TimeSince');
 var browser   = require('../../extension/browser');
@@ -10,11 +11,12 @@ var urls      = require('../../integrations/urls');
 module.exports = React.createClass({
 	displayName: 'ContentFooter',
 	propTypes:   {
-		content: React.PropTypes.object.isRequired
+		className: React.PropTypes.string,
+		content:   React.PropTypes.object.isRequired
 	},
 	render: function() {
 		return (
-			<div className={styles.footer}>
+			<div className={classnames(styles.footer, this.props.className)}>
 				<div className={styles.statsContainer}>
 					<div className={styles.stats}>
 						{this.props.content.stats && config.integrations[this.props.content.api].stats.map(function(stat) {

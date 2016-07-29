@@ -1,4 +1,5 @@
-var React = require('react');
+var React      = require('react');
+var classnames = require('classnames');
 
 var Carousel         = require('../Carousel/Carousel');
 var Gif              = require('../Gif/Gif');
@@ -11,9 +12,10 @@ var styles           = require('./Media.styles');
 module.exports = React.createClass({
 	displayName: 'Media',
 	propTypes:   {
-		content:  React.PropTypes.object.isRequired,
-		hovered:  React.PropTypes.bool.isRequired,
-		onResize: React.PropTypes.func.isRequired
+		className: React.PropTypes.string,
+		content:   React.PropTypes.object.isRequired,
+		hovered:   React.PropTypes.bool.isRequired,
+		onResize:  React.PropTypes.func.isRequired
 	},
 	render: function() {
 		switch (this.props.content.api) {
@@ -22,7 +24,7 @@ module.exports = React.createClass({
 					break;
 				}
 				return (
-					<div className={styles.media}>
+					<div className={classnames(styles.media, this.props.className)}>
 						<Carousel onResize={this.props.onResize}>
 							{this.props.content.content.map(function(item, i) {
 								return (
@@ -44,13 +46,13 @@ module.exports = React.createClass({
 				);
 			case 'soundcloud':
 				return (
-					<div className={styles.media}>
+					<div className={classnames(styles.media, this.props.className)}>
 						<SoundCloudPlayer content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} onLoad={this.props.onResize} />
 					</div>
 				);
 			case 'youtube':
 				return (
-					<div className={styles.media}>
+					<div className={classnames(styles.media, this.props.className)}>
 						<YoutubeVideo content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} onLoad={this.props.onResize} />
 					</div>
 				);
@@ -59,21 +61,21 @@ module.exports = React.createClass({
 		}
 		if (this.props.content.video) {
 			return (
-				<div className={styles.media}>
+				<div className={classnames(styles.media, this.props.className)}>
 					<Video video={this.props.content.video} image={this.props.content.image} muted={!this.props.hovered} onLoad={this.props.onResize} />
 				</div>
 			);
 		}
 		if (this.props.content.gif) {
 			return (
-				<div className={styles.media}>
+				<div className={classnames(styles.media, this.props.className)}>
 					<Gif gif={this.props.content.gif} image={this.props.content.image} onLoad={this.props.onResize} />
 				</div>
 			);
 		}
 		if (this.props.content.images) {
 			return (
-				<div className={styles.media}>
+				<div className={classnames(styles.media, this.props.className)}>
 					<Carousel onResize={this.props.onResize}>
 						{this.props.content.images.map(function(image, i) {
 							return <Image key={i} image={image} onLoad={this.props.onResize} />;
@@ -84,7 +86,7 @@ module.exports = React.createClass({
 		}
 		if (this.props.content.image) {
 			return (
-				<div className={styles.media}>
+				<div className={classnames(styles.media, this.props.className)}>
 					<Image image={this.props.content.image} onLoad={this.props.onResize} />
 				</div>
 			);

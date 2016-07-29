@@ -1,6 +1,7 @@
-var _         = require('underscore');
-var React     = require('react');
-var promisify = require('es6-promisify');
+var _          = require('underscore');
+var React      = require('react');
+var classnames = require('classnames');
+var promisify  = require('es6-promisify');
 
 var styles = require('./SoundCloudPlayer.styles');
 var urls   = require('../../integrations/urls');
@@ -8,10 +9,11 @@ var urls   = require('../../integrations/urls');
 var SoundCloudPlayer = module.exports = React.createClass({
 	displayName: 'SoundCloudPlayer',
 	propTypes:   {
-		content: React.PropTypes.object.isRequired,
-		image:   React.PropTypes.object,
-		muted:   React.PropTypes.bool.isRequired,
-		onLoad:  React.PropTypes.func.isRequired
+		className: React.PropTypes.string,
+		content:   React.PropTypes.object.isRequired,
+		image:     React.PropTypes.object,
+		muted:     React.PropTypes.bool.isRequired,
+		onLoad:    React.PropTypes.func.isRequired
 	},
 	statics: {
 		getSC: function() {
@@ -62,7 +64,7 @@ var SoundCloudPlayer = module.exports = React.createClass({
 	render: function() {
 		// FIXME Won't play https://soundcloud.com/majorlazer/sets/peace-is-the-mission ?
 		return (
-			<iframe className={styles.player}
+			<iframe className={classnames(styles.player, this.props.className)}
 				ref="player"
 				src={'https://w.soundcloud.com/player/?url=' + encodeURI(urls.print(this.props.content)) + '&auto_play=true&hide_related=true&show_user=true&show_reposts=false&visual=true'}
 				style={{ backgroundImage: this.props.image && ('url(' + (this.props.image.medium || this.props.image.large || this.props.image.small) + ')') }}

@@ -2,9 +2,12 @@ var React = require('react');
 
 module.exports = React.createClass({
 	displayName: 'Discussions',
-	render:      function() {
+	propTypes:   {
+		className: React.PropTypes.string
+	},
+	render: function() {
 		return (
-			<div></div>
+			<div className={this.props.className}></div>
 		);
 	}
 });

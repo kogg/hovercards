@@ -1,4 +1,5 @@
 var _                        = require('underscore');
+var classnames               = require('classnames');
 var connect                  = require('react-redux').connect;
 var createStructuredSelector = require('reselect').createStructuredSelector;
 var React                    = require('react');
@@ -23,6 +24,7 @@ module.exports = connect(
 )(React.createClass({
 	displayName: 'Hovercards',
 	propTypes:   {
+		className: React.PropTypes.string,
 		entities:  React.PropTypes.object.isRequired,
 		getEntity: React.PropTypes.func.isRequired,
 		options:   React.PropTypes.object.isRequired
@@ -155,7 +157,7 @@ module.exports = connect(
 	},
 	render: function() {
 		return (
-			<div className={styles.hovercards} ref="hovercards">
+			<div className={classnames(styles.hovercards, this.props.className)} ref="hovercards">
 				{this.state.hovercards.map(function(hovercard) {
 					return <Hovercard key={hovercard.key}
 						request={hovercard.request} entity={this.props.entities[entityLabel(hovercard.request)]}

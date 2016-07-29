@@ -1,17 +1,19 @@
-var _         = require('underscore');
-var React     = require('react');
-var compose   = require('redux').compose;
-var promisify = require('es6-promisify');
+var _          = require('underscore');
+var React      = require('react');
+var classnames = require('classnames');
+var compose    = require('redux').compose;
+var promisify  = require('es6-promisify');
 
 var styles = require('./YoutubeVideo.styles');
 
 var YoutubeVideo = module.exports = React.createClass({
 	displayName: 'YoutubeVideo',
 	propTypes:   {
-		content: React.PropTypes.object.isRequired,
-		image:   React.PropTypes.object,
-		muted:   React.PropTypes.bool.isRequired,
-		onLoad:  React.PropTypes.func.isRequired
+		className: React.PropTypes.string,
+		content:   React.PropTypes.object.isRequired,
+		image:     React.PropTypes.object,
+		muted:     React.PropTypes.bool.isRequired,
+		onLoad:    React.PropTypes.func.isRequired
 	},
 	statics: {
 		getYT: function() {
@@ -89,7 +91,7 @@ var YoutubeVideo = module.exports = React.createClass({
 	},
 	render: function() {
 		return (
-			<iframe className={styles.video}
+			<iframe className={classnames(styles.video, this.props.className)}
 				ref="video"
 				src={'https://www.youtube.com/embed/' + this.props.content.id + '?enablejsapi=1&origin=' + document.origin + '&autoplay=1&mute=1&rel=0'}
 				style={{ backgroundImage: this.props.image && ('url(' + (this.props.image.medium || this.props.image.large || this.props.image.small) + ')') }}

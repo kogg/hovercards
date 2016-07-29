@@ -1,4 +1,5 @@
-var React = require('react');
+var React      = require('react');
+var classnames = require('classnames');
 
 var AccountFooter = require('../AccountFooter/AccountFooter');
 var AccountHeader = require('../AccountHeader/AccountHeader');
@@ -10,9 +11,10 @@ var urls          = require('../../integrations/urls');
 module.exports = React.createClass({
 	displayName: 'AccountHovercard',
 	propTypes:   {
-		account:  React.PropTypes.object.isRequired,
-		hovered:  React.PropTypes.bool.isRequired,
-		onResize: React.PropTypes.func.isRequired
+		account:   React.PropTypes.object.isRequired,
+		className: React.PropTypes.string,
+		hovered:   React.PropTypes.bool.isRequired,
+		onResize:  React.PropTypes.func.isRequired
 	},
 	componentDidMount: function() {
 		if (this.props.account.image) {
@@ -28,7 +30,7 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		return (
-			<a className={styles.account} href={urls.print(this.props.account)} target="_blank">
+			<a className={classnames(styles.account, this.props.className)} href={urls.print(this.props.account)} target="_blank">
 				<AccountHeader className={styles.header} account={this.props.account} />
 				{this.props.account.image && <span className={styles.image} style={{ backgroundImage: 'url(' + (this.props.account.image.medium || this.props.account.image.small || this.props.account.image.large) + ')' }}></span>}
 				<div className={styles.nameContainer}>

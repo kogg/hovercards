@@ -1,4 +1,5 @@
-var React = require('react');
+var React      = require('react');
+var classnames = require('classnames');
 
 var browser = require('../../extension/browser');
 var styles  = Object.assign({}, require('../flex.styles'), require('./ContentHeader.styles'));
@@ -7,7 +8,8 @@ var urls    = require('../../integrations/urls');
 module.exports = React.createClass({
 	displayName: 'ContentHeader',
 	propTypes:   {
-		content: React.PropTypes.object.isRequired
+		className: React.PropTypes.string,
+		content:   React.PropTypes.object.isRequired
 	},
 	render: function() {
 		var accountImage = this.props.content.account && this.props.content.account.image && (this.props.content.account.image.small || this.props.content.account.image.medium || this.props.content.account.image.large);
@@ -24,7 +26,7 @@ module.exports = React.createClass({
 		);
 
 		return (
-			<div className={styles.header}>
+			<div className={classnames(styles.header, this.props.className)}>
 				<div className={styles.flexSpread}>
 					{accountImage && <a className={styles.image} href={urls.print(this.props.content.account)} style={{ backgroundImage: 'url(' + accountImage + ')' }} target="_blank"></a>}
 					<div className={styles.flexGrow}>

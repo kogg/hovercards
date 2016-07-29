@@ -1,12 +1,14 @@
-var React = require('react');
+var React      = require('react');
+var classnames = require('classnames');
 
 var styles = require('./Carousel.styles');
 
 module.exports = React.createClass({
 	displayName: 'Carousel',
 	propTypes:   {
-		children: React.PropTypes.arrayOf(React.PropTypes.node).isRequired,
-		onResize: React.PropTypes.func.isRequired
+		children:  React.PropTypes.arrayOf(React.PropTypes.node).isRequired,
+		className: React.PropTypes.string,
+		onResize:  React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
 		return { index: 0 };
@@ -25,7 +27,7 @@ module.exports = React.createClass({
 			return null;
 		}
 		return (
-			<div className={styles.carousel}>
+			<div className={classnames(styles.carousel, this.props.className)}>
 				{
 					(this.props.children.length > 1) &&
 					<div className={styles.arrows}>

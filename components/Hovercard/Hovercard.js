@@ -1,5 +1,6 @@
-var compose = require('redux').compose;
-var React   = require('react');
+var classnames = require('classnames');
+var compose    = require('redux').compose;
+var React      = require('react');
 
 var AccountHovercard = require('../AccountHovercard/AccountHovercard');
 var ContentHovercard = require('../ContentHovercard/ContentHovercard');
@@ -12,6 +13,7 @@ var TIMEOUT_BEFORE_CLOSE = 100;
 module.exports = React.createClass({
 	displayName: 'Hovercard',
 	propTypes:   {
+		className: React.PropTypes.string,
 		element:   React.PropTypes.object.isRequired,
 		entity:    React.PropTypes.object,
 		event:     React.PropTypes.object.isRequired,
@@ -119,7 +121,7 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		return (
-			<div className={styles.hovercard} style={this.state} ref="hovercard"
+			<div className={classnames(styles.hovercard, this.props.className)} style={this.state} ref="hovercard"
 				onMouseMove={compose(this.hovered, this.clearCloseTimeout)}
 				onMouseLeave={compose(this.unHovered, this.setCloseTimeout)}>
 				{

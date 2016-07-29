@@ -1,14 +1,16 @@
-var React = require('react');
+var React      = require('react');
+var classnames = require('classnames');
 
 var styles = require('./Video.styles');
 
 module.exports = React.createClass({
 	displayName: 'Video',
 	propTypes:   {
-		image:  React.PropTypes.object,
-		muted:  React.PropTypes.bool.isRequired,
-		onLoad: React.PropTypes.func.isRequired,
-		video:  React.PropTypes.string.isRequired
+		className: React.PropTypes.string,
+		image:     React.PropTypes.object,
+		muted:     React.PropTypes.bool.isRequired,
+		onLoad:    React.PropTypes.func.isRequired,
+		video:     React.PropTypes.string.isRequired
 	},
 	getInitialState: function() {
 		return { playing: true };
@@ -22,7 +24,7 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		return (
-			<video className={styles.video}
+			<video className={classnames(styles.video, this.props.className)}
 				ref="video"
 				src={this.props.video}
 				poster={this.props.image && (this.props.image.medium || this.props.image.large || this.props.image.small)}
