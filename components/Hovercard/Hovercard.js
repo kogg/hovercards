@@ -121,7 +121,7 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		return (
-			<div className={classnames(styles.hovercard, this.props.className)} style={this.state} ref="hovercard"
+			<div className={classnames(styles.hovercard, styles[(this.props.entity || this.props.request).type], this.props.className)} style={this.state} ref="hovercard"
 				onMouseMove={compose(this.hovered, this.clearCloseTimeout)}
 				onMouseLeave={compose(this.unHovered, this.setCloseTimeout)}>
 				{

@@ -1,0 +1,4 @@
+.meta-main {
+  composes: meta-main from '../meta.styles';
+  text-align: center;
+}

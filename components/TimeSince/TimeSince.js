@@ -42,6 +42,6 @@ module.exports = React.createClass({
 		clearTimeout(this.timeout);
 	},
 	render: function() {
-		return <span className={this.props.className} title={(this.props.date).toLocaleString()}>{this.state.timesince}</span>;
+		return <span className={this.props.className} title={(new Date(this.props.date)).toLocaleString()}>{this.state.timesince}</span>;
 	}
 });

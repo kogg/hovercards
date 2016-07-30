@@ -27,7 +27,7 @@ module.exports = React.createClass({
 								var number = stat.match(/_ratio$/) ?
 									parseInt(this.props.content.stats[stat] * 100, 10) + '%' :
 									format.number(this.props.content.stats[stat]);
-								return <span key={stat} className={styles.metaItem}><em title={this.props.content.stats[stat]}>{number}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.content.api) || browser.i18n.getMessage(stat)}</span>;
+								return <span key={stat} className={styles.metaItem}><em title={this.props.content.stats[stat].toLocaleString()}>{number}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.content.api) || browser.i18n.getMessage(stat)}</span>;
 							}.bind(this))
 						}
 					</div>
@@ -35,7 +35,7 @@ module.exports = React.createClass({
 				<div>
 					{
 						this.props.content.date &&
-						<a className={styles.metaItem} href={urls.print(this.props.content)} target="_blank" title={this.props.contentdate}>
+						<a className={styles.metaItem} href={urls.print(this.props.content)} target="_blank">
 							<TimeSince date={this.props.content.date} />
 						</a>
 					}

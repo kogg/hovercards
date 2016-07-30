@@ -5,7 +5,7 @@ var TimeSince = require('../TimeSince/TimeSince');
 var browser   = require('../../extension/browser');
 var config    = require('../../integrations/config');
 var format    = require('../../utils/format');
-var styles    = require('../meta.styles');
+var styles    = Object.assign({}, require('../meta.styles'), require('./AccountFooter.styles'));
 
 module.exports = React.createClass({
 	displayName: 'AccountFooter',
@@ -26,7 +26,7 @@ module.exports = React.createClass({
 								if (this.props.account.stats[stat] === undefined) {
 									return null;
 								}
-								return <span key={stat} className={styles.metaItem}><em title={this.props.account.stats[stat]}>{format.number(this.props.account.stats[stat])}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.account.api) || browser.i18n.getMessage(stat)}</span>;
+								return <span key={stat} className={styles.metaItem}><em title={this.props.account.stats[stat].toLocaleString()}>{format.number(this.props.account.stats[stat])}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.account.api) || browser.i18n.getMessage(stat)}</span>;
 							}.bind(this))
 						}
 					</div>

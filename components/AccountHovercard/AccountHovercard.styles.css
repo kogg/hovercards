@@ -1,6 +1,4 @@
 .account {
-  overflow: hidden;
-  width: 380px;
 }
 
 .account-youtube,
@@ -66,6 +64,7 @@
   overflow: hidden;
   padding: 12px 12px 0 12px;
   position: relative;
+  text-align: center;
   width: 100%;
 
   .name-container + & {
@@ -77,12 +76,9 @@
 
 .text {
   display: block;
-  text-align: center;
 }
 
-.description + .meta {
-
-  /* FIXME account */
+.description + .footer {
   padding-top: 0;
   margin-top: 0;
 }
