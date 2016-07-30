@@ -20,6 +20,18 @@
   &.account {
     overflow: hidden;
     width: 380px;
+
+    &.youtube,
+    &.twitter,
+    &.soundcloud,
+    &.instagram {
+      min-height: 140px;
+    }
+
+    &.reddit,
+    &.imgur {
+      min-height: 88px;
+    }
   }
 
   /* FIXME @cameronrohani @cam GLOBAL STYLES ARE BAD */

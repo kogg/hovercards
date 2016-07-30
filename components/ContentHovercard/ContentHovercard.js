@@ -1,12 +1,10 @@
-var React      = require('react');
-var classnames = require('classnames');
+var React = require('react');
 
 var ContentDescription = require('../ContentDescription/ContentDescription');
 var ContentFooter      = require('../ContentFooter/ContentFooter');
 var ContentHeader      = require('../ContentHeader/ContentHeader');
 var Discussions        = require('../Discussions/Discussions');
 var Media              = require('../Media/Media');
-var styles             = require('./ContentHovercard.styles');
 
 module.exports = React.createClass({
 	displayName: 'ContentHovercard',
@@ -18,7 +16,7 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		return (
-			<div className={classnames(styles.content, this.props.className)}>
+			<div className={this.props.className}>
 				<ContentHeader content={this.props.content} />
 				<ContentDescription content={this.props.content} onResize={this.props.onResize} />
 				<Media content={this.props.content} hovered={this.props.hovered} onResize={this.props.onResize} />

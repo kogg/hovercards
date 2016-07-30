@@ -3,10 +3,4 @@
   margin: auto;
   max-width: 100%;
   user-select: none;
-
-  .content-soundcloud & {
-
-    /* FIXME */
-    max-width: 200px;
-  }
 }

@@ -5,6 +5,7 @@
 }
 
 .description {
+  margin-top: 0;
   max-height: 69px;
   padding: 12px 12px 0 12px;
   width: 100%;

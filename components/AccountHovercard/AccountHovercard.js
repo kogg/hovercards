@@ -1,5 +1,4 @@
-var React      = require('react');
-var classnames = require('classnames');
+var React = require('react');
 
 var AccountFooter = require('../AccountFooter/AccountFooter');
 var AccountHeader = require('../AccountHeader/AccountHeader');
@@ -31,7 +30,7 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		return (
-			<a className={classnames(styles.account, this.props.className)} href={urls.print(this.props.account)} target="_blank">
+			<a className={this.props.className} href={urls.print(this.props.account)} target="_blank">
 				<AccountHeader className={styles.header} account={this.props.account} />
 				{this.props.account.image && <span className={styles.image} style={{ backgroundImage: 'url(' + (this.props.account.image.medium || this.props.account.image.small || this.props.account.image.large) + ')' }}></span>}
 				<div className={styles.nameContainer}>

@@ -1,22 +1,3 @@
-.account {
-}
-
-.account-youtube,
-.account-twitter,
-.account-soundcloud,
-.account-instagram {
-
-  /* FIXME */
-  min-height: 140px;
-}
-
-.account-reddit,
-.account-imgur {
-
-  /* FIXME */
-  min-height: 88px;
-}
-
 .image {
   background-position: center;
   background-size: cover;

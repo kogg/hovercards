@@ -2,12 +2,6 @@
   composes: flex-spread from '../flex.styles';
   padding: 12px;
   border-bottom: 1px solid rgba(0, 0, 0, .1);
-
-  + .description {
-
-    /* FIXME ContentDescription needs this */
-    margin-top: 0;
-  }
 }
 
 .image {
