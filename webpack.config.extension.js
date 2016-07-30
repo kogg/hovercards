@@ -4,7 +4,6 @@ var safeImportant      = require('postcss-safe-important');
 var webpack            = require('webpack');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var CopyWebpackPlugin  = require('copy-webpack-plugin');
-var DotenvPlugin       = require('webpack-dotenv-plugin');
 var ExtractTextPlugin  = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin  = require('html-webpack-plugin');
 var WriteFilePlugin    = require('write-file-webpack-plugin');
@@ -69,6 +68,7 @@ module.exports = {
 			'SOUNDCLOUD_CLIENT_ID',
 			'STICKYCARDS'
 		]),
+		new CleanWebpackPlugin(['dist']),
 		new CopyWebpackPlugin([
 			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true },
 			{ from: 'extension/copy.json', to: '_locales/en/messages.json' },
@@ -82,7 +82,8 @@ module.exports = {
 			inject:     false,
 			chunks:     ['options'],
 			appMountId: 'mount'
-		})
+		}),
+		new WriteFilePlugin({ log: false })
 	],
 	postcss: function() {
 		return [nested, autoprefixer, safeImportant];
@@ -90,10 +91,10 @@ module.exports = {
 };
 
 if (!process.env.NODE_ENV) {
+	var DotenvPlugin = require('webpack-dotenv-plugin');
+
 	module.exports.plugins = module.exports.plugins.concat([
-		new CleanWebpackPlugin(['dist']),
-		new DotenvPlugin(),
-		new WriteFilePlugin({ log: false })
+		new DotenvPlugin()
 	]);
 }
 
