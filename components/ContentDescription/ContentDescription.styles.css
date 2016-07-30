@@ -6,9 +6,7 @@
 
 .description {
   max-height: 69px;
-  overflow: hidden;
   padding: 12px 12px 0 12px;
-  position: relative;
   width: 100%;
 
   .content-reddit & {

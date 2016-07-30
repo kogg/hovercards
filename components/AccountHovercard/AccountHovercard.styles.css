@@ -61,15 +61,12 @@
 
 .description {
   max-height: 120px;
-  overflow: hidden;
   padding: 12px 12px 0 12px;
-  position: relative;
   text-align: center;
   width: 100%;
 
   .name-container + & {
     margin: 0;
-    max-height: 120px;
     padding: 6px 12px 12px 12px;
   }
 }

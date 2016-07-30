@@ -1,8 +1,9 @@
 var React      = require('react');
 var classnames = require('classnames');
 
-var styles = require('./ContentDescription.styles');
-var urls   = require('../../integrations/urls');
+var Collapsable = require('../Collapsable/Collapsable');
+var styles      = require('./ContentDescription.styles');
+var urls        = require('../../integrations/urls');
 
 module.exports = React.createClass({
 	displayName: 'ContentDescription',
@@ -21,13 +22,11 @@ module.exports = React.createClass({
 		this.props.onResize();
 	},
 	render: function() {
-		// TODO Collapsing description
-
 		return (this.props.content.name || this.props.content.text) ?
-			<div className={classnames(styles.description, this.props.className)}>
+			<Collapsable className={classnames(styles.description, this.props.className)} onResize={this.props.onResize}>
 				{ this.props.content.name && <a className={styles.name} href={urls.print(this.props.content) || this.props.content.url} target="_blank">{ this.props.content.name }</a> }
 				{ this.props.content.text && <p className={styles.text} dangerouslySetInnerHTML={{ __html: this.props.content.text }} /> }
-			</div> :
+			</Collapsable> :
 			null;
 	}
 });

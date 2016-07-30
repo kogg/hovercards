@@ -3,6 +3,7 @@ var classnames = require('classnames');
 
 var AccountFooter = require('../AccountFooter/AccountFooter');
 var AccountHeader = require('../AccountHeader/AccountHeader');
+var Collapsable   = require('../Collapsable/Collapsable');
 var browser       = require('../../extension/browser');
 var dom           = require('../../utils/dom');
 var styles        = require('./AccountHovercard.styles.css');
@@ -46,9 +47,9 @@ module.exports = React.createClass({
 				</div>
 				{
 					this.props.account.text &&
-					<div className={styles.description}>
+					<Collapsable className={styles.description} expandable={false} onResize={this.props.onResize}>
 						<p className={styles.text} dangerouslySetInnerHTML={{ __html: this.props.account.text }} />
-					</div>
+					</Collapsable>
 				}
 				<AccountFooter className={styles.footer} account={this.props.account} />
 			</a>
