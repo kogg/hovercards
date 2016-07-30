@@ -56,7 +56,9 @@
   display: block;
 }
 
-.description + .footer {
-  padding-top: 0;
-  margin-top: 0;
+.footer {
+  .description + & {
+    padding-top: 0;
+    margin-top: 0;
+  }
 }
