@@ -2,3 +2,47 @@
   composes: meta-main from '../meta.styles';
   text-align: center;
 }
+
+.network {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 18px;
+  border-radius: 50%;
+  display: inline-block;
+  height: 20px;
+  vertical-align: top;
+  width: 20px;
+
+  &.imgur {
+    background-color: #000;
+    background-size: 80%;
+    background-image: url("../../assets/images/imgur.svg");
+  }
+
+  &.instagram {
+    background-color: #3f729b;
+    background-size: 80%;
+    background-image: url("../../assets/images/instagram.svg");
+  }
+
+  &.reddit {
+    background-color: #d0e2f9;
+    background-size: 80%;
+    background-image: url("../../assets/images/reddit.svg");
+  }
+
+  &.soundcloud {
+    background-color: #ff3300;
+    background-image: url("../../assets/images/soundcloud.svg");
+  }
+
+  &.twitter {
+    background-color: #55acee;
+    background-image: url("../../assets/images/twitter.svg");
+  }
+
+  &.youtube {
+    background-color: #cd201f;
+    background-image: url("../../assets/images/youtube.svg");
+  }
+}

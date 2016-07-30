@@ -32,6 +32,7 @@ module.exports = React.createClass({
 					</div>
 				</div>
 				<div>
+					<i className={classnames(styles.network, styles[this.props.account.api])} />
 				</div>
 			</div>
 		);

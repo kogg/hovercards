@@ -7,45 +7,6 @@
   display: block;
 }
 
-.twitter {
-  background-color: #55acee;
-  background-image: url("../../assets/images/twitter.svg");
-  color: #55acee;
-}
-
-.reddit {
-  background-color: #d0e2f9;
-  background-size: 80%;
-  background-image: url("../../assets/images/reddit.svg");
-  color: #d0e2f9;
-}
-
-.soundcloud {
-  background-color: #ff3300;
-  background-image: url("../../assets/images/soundcloud.svg");
-  color: #ff3300;
-}
-
-.youtube {
-  background-color: #cd201f;
-  background-image: url("../../assets/images/youtube.svg");
-  color: #cd201f;
-}
-
-.imgur {
-  background-color: #000;
-  background-size: 80%;
-  background-image: url("../../assets/images/imgur.svg");
-  color: #000;
-}
-
-.instagram {
-  background-color: #3f729b;
-  background-size: 80%;
-  background-image: url("../../assets/images/instagram.svg");
-  color: #3f729b;
-}
-
 /*// meta // --------------------------------------------------*/
 .account .meta-main-stats {
 
@@ -135,17 +96,6 @@
 
 .hovercard__box .content {
   background-color: rgba(255, 255, 255, .1);
-}
-
-.hovercard__box .network {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-size: 18px;
-  background-repeat: no-repeat;
-  background-position: center;
-  display: inline-block;
-  vertical-align: top;
 }
 
 /*//icons and images// ---------------------------------------------*/
