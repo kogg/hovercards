@@ -27,26 +27,26 @@
   "imgur":               { "message": "Imgur" },
 
   "instagram":                    { "message": "Instagram" },
-  "instagram_content":            { "message": "Photos" },
 
   "reddit":               { "message": "Reddit" },
 
   "soundcloud":                    { "message": "SoundCloud" },
-  "soundcloud_content":            { "message": "Tracks" },
 
   "twitter":                    { "message": "Twitter" },
-  "twitter_content":            { "message": "Tweets" },
 
   "youtube":           { "message": "YouTube" },
-  "youtube_content":   { "message": "Videos" },
 
   "account_id":                       { "message": "$1" },
   "account_id_of_instagram":          { "message": "@$1" },
   "account_id_of_soundcloud":         { "message": "@$1" },
   "account_id_of_twitter":            { "message": "@$1" },
+  "age":                              { "message": "Age" },
   "comment_karma_of_reddit":          { "message": "Cmnt Karma" },
   "comments":                         { "message": "Comments" },
+  "content_of_instagram":             { "message": "Photos" },
   "content_of_soundcloud":            { "message": "Tracks" },
+  "content_of_twitter":               { "message": "Tweets" },
+  "content_of_youtube":               { "message": "Videos" },
   "dislikes":                         { "message": "Dislikes" },
   "empty_account_id_of_imgur":        { "message": "anon" },
   "empty_account_id_of_reddit":       { "message": "[deleted]" },

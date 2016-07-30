@@ -4,6 +4,13 @@
     "img-src":    ["https://yt3.ggpht.com", "https://*.googleusercontent.com"],
     "script-src": ["https://s.ytimg.com"]
   },
-  "discussion_integrations": ["reddit", "youtube", "twitter"],
-  "stats": ["views", "likes", "dislikes"]
+  "account": {
+    "stats": ["content", "followers", "views"]
+  },
+  "content": {
+    "stats": ["views", "likes", "dislikes"]
+  },
+  "discussion": {
+    "integrations": ["reddit", "youtube", "twitter"]
+  }
 }

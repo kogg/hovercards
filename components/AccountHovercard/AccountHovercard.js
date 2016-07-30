@@ -50,7 +50,7 @@ module.exports = React.createClass({
 						<p className={styles.text} dangerouslySetInnerHTML={{ __html: this.props.account.text }} />
 					</div>
 				}
-				<AccountFooter />
+				<AccountFooter account={this.props.account} />
 			</a>
 		);
 	}

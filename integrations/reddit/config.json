@@ -1,5 +1,12 @@
 {
-  "discussion_integrations": ["reddit", "twitter"],
   "environment": "client",
-  "stats":       ["score", "score_ratio", "comments"]
+  "account": {
+    "stats": ["link_karma", "comment_karma", "date"]
+  },
+  "content": {
+    "stats": ["score", "score_ratio", "comments"]
+  },
+  "discussion": {
+    "integrations": ["reddit", "twitter"]
+  }
 }

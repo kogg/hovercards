@@ -1,9 +1,16 @@
 {
+  "environment": "client",
   "content_security_policy": {
     "img-src": ["https://i1.sndcdn.com"],
     "frame-src": ["https://w.soundcloud.com"]
   },
-  "discussion_integrations": ["reddit", "soundcloud", "twitter"],
-  "environment":             "client",
-  "stats":                   ["content", "likes", "views", "comments"]
+  "account": {
+    "stats": ["content", "followers", "following"]
+  },
+  "content": {
+    "stats": ["content", "likes", "views", "comments"]
+  },
+  "discussion": {
+    "integrations": ["reddit", "soundcloud", "twitter"]
+  }
 }

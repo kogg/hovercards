@@ -1,9 +1,7 @@
-var _          = require('underscore');
-var classnames = require('classnames');
-var React      = require('react');
+var _     = require('underscore');
+var React = require('react');
 
 var browser = require('../../extension/browser');
-var styles  = require('./TimeSince.styles');
 
 var units = [
 	{ copy: 'x_seconds', value: -1 },
@@ -18,9 +16,7 @@ var units = [
 module.exports = React.createClass({
 	displayName: 'TimeSince',
 	propTypes:   {
-		className: React.PropTypes.string,
-		date:      React.PropTypes.number.isRequired,
-		href:      React.PropTypes.string
+		date: React.PropTypes.number.isRequired
 	},
 	getInitialState: function() {
 		return { timesince: '' };
@@ -46,6 +42,6 @@ module.exports = React.createClass({
 		clearTimeout(this.timeout);
 	},
 	render: function() {
-		return <a className={classnames(styles.date, this.props.className)} href={this.props.href} target="_blank" title={this.props.date}>{this.state.timesince}</a>;
+		return <span className={this.props.className} title={(this.props.date).toLocaleString()}>{this.state.timesince}</span>;
 	}
 });

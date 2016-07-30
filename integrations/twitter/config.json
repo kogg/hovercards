@@ -1,5 +1,12 @@
 {
   "authenticatable": true,
-  "discussion_integrations": ["reddit", "twitter"],
-  "stats": ["resposts", "likes"]
+  "account": {
+    "stats": ["content", "followers", "following"]
+  },
+  "content": {
+    "stats": ["resposts", "likes"]
+  },
+  "discussion": {
+    "integrations": ["reddit", "twitter"]
+  }
 }
