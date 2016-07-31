@@ -30,17 +30,18 @@ module.exports = connect(
 		onResize:    React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
-		return { };
+		return { loaded: {} };
 	},
 	componentDidMount: function() {
-		this.props.discussions.forEach(this.props.getEntity);
+		this.props.getEntity(this.props.discussions[0]);
+		this.setState({ loaded: Object.assign({}, this.state.loaded, { 0: true }) });
 	},
 	componentDidUpdate: function(prevProps) {
 		this.props.discussions.forEach(function(discussion, i) {
 			if (entityLabel(discussion) === entityLabel(prevProps.discussions[i])) {
 				return;
 			}
-			this.props.getEntity(discussion);
+			this.setState({ loaded: Object.assign({}, this.state.loaded, { [i]: false }) });
 		}.bind(this));
 
 		if (this.state.selected !== undefined) {
@@ -51,6 +52,10 @@ module.exports = connect(
 			var discussion = this.props.discussions[i];
 
 			if (!discussion.loaded && !discussion.err) {
+				if (!this.state.loaded[i]) {
+					this.props.getEntity(discussion);
+					this.setState({ loaded: Object.assign({}, this.state.loaded, { [i]: true }) });
+				}
 				return;
 			}
 
@@ -62,7 +67,10 @@ module.exports = connect(
 		this.setState({ selected: 0 });
 	},
 	select: function(i) {
-		this.setState({ selected: i });
+		if (!this.state.loaded[i]) {
+			this.props.getEntity(this.props.discussions[i]);
+		}
+		this.setState({ selected: i, loaded: Object.assign({}, this.state.loaded, { [i]: true }) });
 	},
 	render: function() {
 		return (
