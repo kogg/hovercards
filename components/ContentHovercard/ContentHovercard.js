@@ -22,7 +22,7 @@ module.exports = React.createClass({
 				<ContentDescription content={this.props.content} onResize={this.props.onResize} />
 				<Media content={this.props.content} hovered={this.props.hovered} onResize={this.props.onResize} />
 				<ContentFooter content={this.props.content} />
-				{this.props.content.loaded && <Discussions content={this.props.content} getEntity={this.props.getEntity} onResize={this.props.onResize} />}
+				<Discussions content={this.props.content} getEntity={this.props.getEntity} onResize={this.props.onResize} />
 			</div>
 		);
 	}

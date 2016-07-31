@@ -37,6 +37,10 @@ module.exports = connect(
 		this.setState({ loaded: Object.assign({}, this.state.loaded, { 0: true }) });
 	},
 	componentDidUpdate: function(prevProps) {
+		if (entityLabel(this.props.content) !== entityLabel(prevProps.content)) {
+			this.setState({ selected: null, loaded: {} });
+			return;
+		}
 		this.props.discussions.forEach(function(discussion, i) {
 			if (entityLabel(discussion) === entityLabel(prevProps.discussions[i])) {
 				return;
@@ -44,7 +48,7 @@ module.exports = connect(
 			this.setState({ loaded: Object.assign({}, this.state.loaded, { [i]: false }) });
 		}.bind(this));
 
-		if (this.state.selected !== undefined) {
+		if (_.isNumber(this.state.selected)) {
 			return;
 		}
 
