@@ -4,6 +4,7 @@ var AccountFooter = require('../AccountFooter/AccountFooter');
 var AccountHeader = require('../AccountHeader/AccountHeader');
 var Collapsable   = require('../Collapsable/Collapsable');
 var browser       = require('../../extension/browser');
+var config        = require('../../integrations/config');
 var dom           = require('../../utils/dom');
 var styles        = require('./AccountHovercard.styles.css');
 var urls          = require('../../integrations/urls');
@@ -17,13 +18,13 @@ module.exports = React.createClass({
 		onResize:  React.PropTypes.func.isRequired
 	},
 	componentDidMount: function() {
-		if (this.props.account.image) {
+		if (!config.integrations[this.props.account.api].account.noImage && this.props.account.image) {
 			dom.imageLoaded(this.props.account.image.medium || this.props.account.image.small || this.props.account.image.large)
 				.then(this.props.onResize);
 		}
 	},
 	componentDidUpdate: function() {
-		if (this.props.account.image) {
+		if (!config.integrations[this.props.account.api].account.noImage && this.props.account.image) {
 			dom.imageLoaded(this.props.account.image.medium || this.props.account.image.small || this.props.account.image.large)
 				.then(this.props.onResize);
 		}
@@ -32,7 +33,7 @@ module.exports = React.createClass({
 		return (
 			<a className={this.props.className} href={urls.print(this.props.account)} target="_blank">
 				<AccountHeader className={styles.header} account={this.props.account} />
-				{this.props.account.image && <span className={styles.image} style={{ backgroundImage: 'url(' + (this.props.account.image.medium || this.props.account.image.small || this.props.account.image.large) + ')' }}></span>}
+				{!config.integrations[this.props.account.api].account.noImage && this.props.account.image && <span className={styles.image} style={{ backgroundImage: 'url(' + (this.props.account.image.medium || this.props.account.image.small || this.props.account.image.large) + ')' }}></span>}
 				<div className={styles.nameContainer}>
 					<span className={styles.name}>
 						{

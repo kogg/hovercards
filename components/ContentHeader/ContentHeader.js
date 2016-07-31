@@ -2,6 +2,7 @@ var React      = require('react');
 var classnames = require('classnames');
 
 var browser = require('../../extension/browser');
+var config  = require('../../integrations/config');
 var styles  = Object.assign({}, require('../flex.styles'), require('./ContentHeader.styles'));
 var urls    = require('../../integrations/urls');
 
@@ -12,8 +13,17 @@ module.exports = React.createClass({
 		content:   React.PropTypes.object.isRequired
 	},
 	render: function() {
-		var accountImage = this.props.content.account && this.props.content.account.image && (this.props.content.account.image.small || this.props.content.account.image.medium || this.props.content.account.image.large);
-		var accountName  = (
+		var accountImage = (
+			!config.integrations[this.props.content.api].account.noImage &&
+			this.props.content.account &&
+			this.props.content.account.image &&
+			(
+				this.props.content.account.image.small ||
+				this.props.content.account.image.medium ||
+				this.props.content.account.image.large
+			)
+		);
+		var accountName = (
 			(
 				this.props.content.account &&
 				(

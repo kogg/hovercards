@@ -25,14 +25,6 @@
   margin: 0 4px 0 0;
 }
 
-.discussion .comment-text {
-  padding-left: 0;
-}
-
-.discussion .comment-image {
-  margin: 0 16px 0 0;
-}
-
 .comment-replies {
   border-left: 2px solid rgba(0, 0, 0, .1);
   margin: 0 12px;
@@ -44,10 +36,6 @@
 
 .comment-replies .comment-image {
   margin: 0 0 0 16px;
-}
-
-.discussion .comment-item {
-  padding: 12px;
 }
 
 .comment-replies .comment-item {
@@ -107,55 +95,12 @@
 }
 
 /*//Comments// ---------------------------------------------*/
-.comment-item {
-  display: flex;
-  justify-content: left;
-  padding: 16px 20px;
-}
-
 .tweet-conversation {
   background-color: rgba(0, 0, 0, .05);
 }
 
 .tweet-conversation + .tweet-conversation {
   margin-top: 8px;
-}
-
-.comment-image {
-  width: 44px;
-  height: 44px;
-}
-
-.comment-image a {
-  display: block;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-position: center;
-  background-size: cover;
-  position: relative;
-}
-
-.comment-image a.comment-image-empty {
-  background-image: url('../../assets/images/missing-image.png');
-}
-
-.comment-text {
-  width: 100%;
-  padding-left: 16px;
-}
-
-.comment-text a {
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.comment-text p {
-  margin: 2px 0 4px;
-}
-
-.comment-text span + span {
-  margin-left: 6px;
 }
 
 .comment-text-image {
@@ -186,10 +131,6 @@
 
 .comment-text-image img + img {
   margin-top: 4px;
-}
-
-.comment-text p a {
-  color: #0084b4;
 }
 
 .comment-text-quote {

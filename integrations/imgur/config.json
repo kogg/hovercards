@@ -4,6 +4,7 @@
     "media-src": ["http://i.imgur.com"]
   },
   "account": {
+    "noImage": true,
     "stats": ["score", "date"]
   },
   "content": {
