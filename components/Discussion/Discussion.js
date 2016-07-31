@@ -17,7 +17,7 @@ module.exports = React.createClass({
 	render: function() {
 		return (
 			<div className={this.props.className}>
-				{this.props.discussion.comments && this.props.discussion.comments.map(function(comment, i) {
+				{this.props.discussion.comments && this.props.discussion.comments.map(function renderComment(comment, i) {
 					var accountImage = (
 						!config.integrations[this.props.discussion.api].account.noImage &&
 						comment.account && comment.account.image &&
@@ -40,7 +40,7 @@ module.exports = React.createClass({
 					);
 
 					return (
-						<div key={comment.id || i}>
+						<div key={comment.id || i} className={styles.commentContainer}>
 							<div className={styles.comment}>
 								{
 									!config.integrations[this.props.discussion.api].account.noImage &&
@@ -67,6 +67,12 @@ module.exports = React.createClass({
 									}
 								</div>
 							</div>
+							{
+								comment.replies && comment.replies.length &&
+								<div className={styles.replies}>
+									{comment.replies && comment.replies.map(renderComment.bind(this))}
+								</div>
+							}
 						</div>
 					);
 				}.bind(this))}

@@ -1,7 +1,10 @@
+.commentContainer {
+  padding: 12px;
+}
+
 .comment {
   display: flex;
   justify-content: left;
-  padding: 12px;
 }
 
 .account-image-container {
@@ -39,5 +42,31 @@
 
   a {
     color: #0084b4;
+  }
+}
+
+.replies {
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  margin: 0 12px;
+  padding-bottom: 8px;
+
+  .commentContainer {
+    padding: 0;
+
+    &:not(:last-of-type) {
+      padding-bottom: 16px;
+    }
+  }
+
+  .account-image-container {
+    margin: 0 0 0 16px;
+  }
+
+  .description {
+    padding-left: 12px;
+  }
+
+  .replies {
+    margin-right: 0px;
   }
 }
