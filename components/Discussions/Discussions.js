@@ -16,8 +16,6 @@ module.exports = connect(
 			discussions: config.integrations[ownProps.content.api].discussion.integrations.map(function(integration) {
 				var request = discussionRequest(ownProps.content, integration);
 
-				// FIXME On chance, it's doing "reddit discussion ";
-
 				return state.entities[entityLabel(request)] || request;
 			})
 		};
@@ -32,33 +30,39 @@ module.exports = connect(
 		onResize:    React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
-		return { selected: 0 };
+		return { };
 	},
 	componentDidMount: function() {
-		for (var selected = 0; selected < this.props.discussions.length; selected++) {
-			var discussion = this.props.discussions[selected];
+		this.props.discussions.forEach(this.props.getEntity);
+	},
+	componentDidUpdate: function(prevProps) {
+		this.props.discussions.forEach(function(discussion, i) {
+			if (entityLabel(discussion) === entityLabel(prevProps.discussions[i])) {
+				return;
+			}
+			this.props.getEntity(discussion);
+		}.bind(this));
 
-			if (!discussion.loaded || (discussion.comments && discussion.comments.length)) {
-				return this.select(selected);
+		if (this.state.selected !== undefined) {
+			return;
+		}
+
+		for (var i = 0; i < this.props.discussions.length; i++) {
+			var discussion = this.props.discussions[i];
+
+			if (!discussion.loaded && !discussion.err) {
+				return;
+			}
+
+			if (discussion.comments && discussion.comments.length) {
+				this.setState({ selected: i });
+				return;
 			}
 		}
-		this.select(0, true);
+		this.setState({ selected: 0 });
 	},
-	componentDidUpdate: function() {
-		var discussion = this.props.discussions[this.state.selected];
-
-		if (this.state.dontRotate || !discussion.loaded || (discussion.comments && discussion.comments.length)) {
-			return;
-		}
-		if (this.state.selected === this.props.discussions.length - 1) {
-			this.select(0, true);
-			return;
-		}
-		this.select(this.state.selected + 1);
-	},
-	select: function(i, event) {
-		this.setState({ selected: i, dontRotate: this.state.dontRotate || Boolean(event) });
-		this.props.getEntity(this.props.discussions[i]);
+	select: function(i) {
+		this.setState({ selected: i });
 	},
 	render: function() {
 		return (
@@ -75,7 +79,7 @@ module.exports = connect(
 							}.bind(this))}
 						</div>
 					</div>
-					<Discussion discussion={this.props.discussions[this.state.selected]} onLoad={this.props.onResize} />
+					{ _.isNumber(this.state.selected) && <Discussion discussion={this.props.discussions[this.state.selected]} onLoad={this.props.onResize} /> }
 				</div>
 			</div>
 		);
@@ -83,6 +87,7 @@ module.exports = connect(
 }));
 
 function discussionRequest(content, integration) {
+	// TODO Roll this into something reused in integrations/index.extension.js
 	if (content.api === integration) {
 		return Object.assign({ type: 'discussion' }, _.pick(content, 'api', 'id', 'as', 'for', 'account'));
 	}

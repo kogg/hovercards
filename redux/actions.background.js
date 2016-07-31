@@ -32,6 +32,10 @@ module.exports.getEntity = function(request, meta, sender) {
 		var entity = state.entities[label];
 
 		if (entity && entity.loaded && Date.now() - entity.loaded <= (integrationsConfig.integrations[request.api].cache_length || 5 * 60 * 1000)) {
+			var newLabel = entityLabel(entity);
+			if (newLabel !== label) {
+				browser.tabs.sendMessage(sender.tab.id, { type: 'setEntity', payload: entity, meta: { label: label } });
+			}
 			return Promise.resolve({ payload: entity });
 		}
 
