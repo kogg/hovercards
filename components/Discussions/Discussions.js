@@ -38,7 +38,7 @@ module.exports = connect(
 	},
 	componentDidUpdate: function(prevProps) {
 		if (entityLabel(this.props.content) !== entityLabel(prevProps.content)) {
-			this.setState({ selected: null, loaded: {} });
+			this.setState({ selected: this.state.clicked ? this.state.selected : null, loaded: {} });
 			return;
 		}
 		this.props.discussions.forEach(function(discussion, i) {
@@ -74,7 +74,7 @@ module.exports = connect(
 		if (!this.state.loaded[i]) {
 			this.props.getEntity(this.props.discussions[i]);
 		}
-		this.setState({ selected: i, loaded: Object.assign({}, this.state.loaded, { [i]: true }) });
+		this.setState({ clicked: true, selected: i, loaded: Object.assign({}, this.state.loaded, { [i]: true }) });
 	},
 	render: function() {
 		return (
