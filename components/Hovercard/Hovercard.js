@@ -1,6 +1,6 @@
+var React      = require('react');
 var classnames = require('classnames');
 var compose    = require('redux').compose;
-var React      = require('react');
 
 var AccountHovercard = require('../AccountHovercard/AccountHovercard');
 var ContentHovercard = require('../ContentHovercard/ContentHovercard');
@@ -22,7 +22,7 @@ module.exports = React.createClass({
 		onClose:   React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
-		return { hovered: false };
+		return { hovered: false, offset: {} };
 	},
 	componentDidMount: function() {
 		this.props.element.addEventListener('click', this.closeHovercard);
@@ -49,24 +49,26 @@ module.exports = React.createClass({
 		}
 		this.setState(function() {
 			return {
-				top: Math.max(
-					window.scrollY + PADDING_FROM_EDGES, // Keep the hovercard from going off the top of the page
-					Math.min(
-						window.scrollY + window.innerHeight - this.refs.hovercard.offsetHeight - PADDING_FROM_EDGES, // Keep the hovercard from going off the bottom of the page
-						this.props.event.pageY - Math.min(
-							this.refs.hovercard.offsetHeight / 2, // Keep the hovercard from being above the cursor
-							70 // Start the hovercard offset above the cursor
+				offset: {
+					top: Math.max(
+						window.scrollY + PADDING_FROM_EDGES, // Keep the hovercard from going off the top of the page
+						Math.min(
+							window.scrollY + window.innerHeight - this.refs.hovercard.offsetHeight - PADDING_FROM_EDGES, // Keep the hovercard from going off the bottom of the page
+							this.props.event.pageY - Math.min(
+								this.refs.hovercard.offsetHeight / 2, // Keep the hovercard from being above the cursor
+								70 // Start the hovercard offset above the cursor
+							)
+						)
+					),
+					left: Math.max(
+						window.scrollX + PADDING_FROM_EDGES, // Keep the hovercard from going off the left of the page
+						this.props.event.pageX + (
+							(this.props.event.pageX + 1 > window.scrollX + window.innerWidth - this.refs.hovercard.offsetWidth - PADDING_FROM_EDGES) ?
+								-this.refs.hovercard.offsetWidth - 1 :// Keep the hovercard from going off the right of the page by putting it on the left
+								1 // Put the hovercard on the right
 						)
 					)
-				),
-				left: Math.max(
-					window.scrollX + PADDING_FROM_EDGES, // Keep the hovercard from going off the left of the page
-					this.props.event.pageX + (
-						(this.props.event.pageX + 1 > window.scrollX + window.innerWidth - this.refs.hovercard.offsetWidth - PADDING_FROM_EDGES) ?
-							-this.refs.hovercard.offsetWidth - 1 :// Keep the hovercard from going off the right of the page by putting it on the left
-							1 // Put the hovercard on the right
-					)
-				)
+				}
 			};
 		});
 	},
@@ -121,13 +123,18 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		return (
-			<div className={classnames(styles.hovercard, styles[(this.props.entity || this.props.request).type], styles[(this.props.entity || this.props.request).api], this.props.className)} style={this.state} ref="hovercard"
+			<div className={classnames(styles.hovercard, styles[(this.props.entity || this.props.request).type], styles[(this.props.entity || this.props.request).api], this.props.className)} style={this.state.offset} ref="hovercard"
 				onMouseMove={compose(this.hovered, this.clearCloseTimeout)}
 				onMouseLeave={compose(this.unHovered, this.setCloseTimeout)}>
 				{
 					(this.props.entity || this.props.request).type === 'content' ?
-						<ContentHovercard content={this.props.entity || this.props.request} onResize={this.positionHovercard} hovered={this.state.hovered} /> :
-						<AccountHovercard account={this.props.entity || this.props.request} onResize={this.positionHovercard} hovered={this.state.hovered} />
+						<ContentHovercard content={this.props.entity || this.props.request}
+							hovered={this.state.hovered}
+							getEntity={this.props.getEntity}
+							onResize={this.positionHovercard} /> :
+						<AccountHovercard account={this.props.entity || this.props.request}
+							hovered={this.state.hovered}
+							onResize={this.positionHovercard} />
 				}
 			</div>
 		);

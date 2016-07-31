@@ -21,30 +21,6 @@
 }
 
 /*// Account Specific styles // --------------------------------------------------*/
-.discussion {
-  width: 100%;
-  text-align: left;
-  overflow: hidden;
-  z-index: 999;
-}
-
-.box.hovercard__box .testing {
-  overflow: hidden;
-}
-
-.testing {
-  overflow: scroll;
-  height: calc(100% - 49px);
-}
-
-.hovercard__box .discussion {
-  width: 9999px;
-  max-width: 100%;
-  min-width: inherit;
-  min-height: inherit;
-  height: inherit;
-}
-
 .discussion .meta-main-stats span {
   margin: 0 4px 0 0;
 }
@@ -228,39 +204,6 @@
   margin: 0;
 }
 
-/*//Tabs// ---------------------------------------------*/
-.tabs {
-  display: static;
-}
-
-.account-switcher span,
-.tabs .tabs__tab {
-  margin: 0 4px;
-  display: inline-block;
-  font-weight: 400;
-  cursor: pointer;
-  color: rgba(0, 0, 0, .5);
-}
-
-.account-switcher span:first-of-type,
-.tabs .tabs__tab:first-of-type {
-  margin-left: 0;
-}
-
-.tabs .tabs__tab_selected {
-  color: black;
-}
-
-/*//Account Switcher// ---------------------------------------------*/
-.account-switcher {
-  padding: 12px;
-  background: #f0f0f0;
-}
-
-.account-switcher span {
-  cursor: auto;
-}
-
 /*content layouts*/
 .content-image,
 .content-images,
@@ -288,10 +231,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.content-undefined .discussion {
-  display: none;
 }
 
 .discussion .error .error-image {

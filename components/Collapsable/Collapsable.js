@@ -34,8 +34,15 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		return (
-			<div className={classnames(styles.collapsable, styles[(this.state.expanded || !this.state.collapsable) ? 'expanded' : 'collapsed'], this.props.className)}
-				ref="collapsable"
+			<div ref="collapsable"
+				className={classnames(
+					styles.collapsable,
+					{
+						[styles.collapsed]: !this.state.expanded && this.state.collapsable,
+						[styles.expanded]:  this.state.expanded || !this.state.collapsable
+					},
+					this.props.className
+				)}
 				onClick={this.expand}>
 				{this.props.children}
 			</div>

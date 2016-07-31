@@ -24,18 +24,6 @@
   "err_uncommentable_discussion_name": { "message": "Comments Disabled" },
   "err_uncommentable_discussion_text": { "message": "Comments are disabled for this." },
 
-  "imgur":               { "message": "Imgur" },
-
-  "instagram":                    { "message": "Instagram" },
-
-  "reddit":               { "message": "Reddit" },
-
-  "soundcloud":                    { "message": "SoundCloud" },
-
-  "twitter":                    { "message": "Twitter" },
-
-  "youtube":           { "message": "YouTube" },
-
   "account_id":                       { "message": "$1" },
   "account_id_of_instagram":          { "message": "@$1" },
   "account_id_of_soundcloud":         { "message": "@$1" },
@@ -62,6 +50,12 @@
   "hovercards_of_youtube_content":    { "message": "Video hovercards" },
   "likes":                            { "message": "Likes" },
   "link_karma_of_reddit":             { "message": "Link Karma" },
+  "name_of_imgur":                    { "message": "Imgur" },
+  "name_of_instagram":                { "message": "Instagram" },
+  "name_of_reddit":                   { "message": "Reddit" },
+  "name_of_soundcloud":               { "message": "SoundCloud" },
+  "name_of_twitter":                  { "message": "Twitter" },
+  "name_of_youtube":                  { "message": "YouTube" },
   "replies":                          { "message": "Replies" },
   "reposts_of_twitter":               { "message": "Retweets" },
   "save_options":                     { "message": "Save My Options" },

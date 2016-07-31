@@ -1,8 +1,8 @@
 var _                        = require('underscore');
+var React                    = require('react');
 var classnames               = require('classnames');
 var connect                  = require('react-redux').connect;
 var createStructuredSelector = require('reselect').createStructuredSelector;
-var React                    = require('react');
 
 var Hovercard   = require('../Hovercard/Hovercard');
 var actions     = require('../../redux/actions.top-frame');
@@ -160,10 +160,12 @@ module.exports = connect(
 			<div className={classnames(styles.hovercards, this.props.className)} ref="hovercards">
 				{this.state.hovercards.map(function(hovercard) {
 					return <Hovercard key={hovercard.key}
-						request={hovercard.request} entity={this.props.entities[entityLabel(hovercard.request)]}
-						element={hovercard.element} event={hovercard.event}
-						onClose={_.partial(this.removeHovercard, hovercard)}
-						getEntity={this.props.getEntity} />;
+						request={hovercard.request}
+						entity={this.props.entities[entityLabel(hovercard.request)]}
+						element={hovercard.element}
+						event={hovercard.event}
+						getEntity={this.props.getEntity}
+						onClose={_.partial(this.removeHovercard, hovercard)} />;
 				}.bind(this))}
 			</div>
 		);

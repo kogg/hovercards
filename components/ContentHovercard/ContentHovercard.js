@@ -11,6 +11,7 @@ module.exports = React.createClass({
 	propTypes:   {
 		className: React.PropTypes.string,
 		content:   React.PropTypes.object.isRequired,
+		getEntity: React.PropTypes.func.isRequired,
 		hovered:   React.PropTypes.bool.isRequired,
 		onResize:  React.PropTypes.func.isRequired
 	},
@@ -21,7 +22,7 @@ module.exports = React.createClass({
 				<ContentDescription content={this.props.content} onResize={this.props.onResize} />
 				<Media content={this.props.content} hovered={this.props.hovered} onResize={this.props.onResize} />
 				<ContentFooter content={this.props.content} />
-				<Discussions />
+				<Discussions content={this.props.content} getEntity={this.props.getEntity} onResize={this.props.onResize} />
 			</div>
 		);
 	}
