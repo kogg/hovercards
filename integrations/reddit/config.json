@@ -8,6 +8,9 @@
     "stats": ["score", "score_ratio", "comments"]
   },
   "discussion": {
+    "comments": {
+      "stats": ["score"]
+    },
     "integrations": ["reddit", "twitter"]
   }
 }

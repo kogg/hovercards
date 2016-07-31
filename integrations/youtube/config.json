@@ -11,6 +11,9 @@
     "stats": ["views", "likes", "dislikes"]
   },
   "discussion": {
+    "comments": {
+      "stats": ["likes", "replies"]
+    },
     "integrations": ["reddit", "youtube", "twitter"]
   }
 }

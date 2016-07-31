@@ -3,7 +3,8 @@ var classnames = require('classnames');
 
 var browser = require('../../extension/browser');
 var config  = require('../../integrations/config');
-var styles  = require('./Discussion.styles.css');
+var format  = require('../../utils/format');
+var styles  = Object.assign({}, require('../meta.styles'), require('./Discussion.styles.css'));
 var urls    = require('../../integrations/urls');
 
 module.exports = React.createClass({
@@ -50,6 +51,20 @@ module.exports = React.createClass({
 								<div className={styles.description}>
 									<a className={styles.accountName} href={urls.print(comment.account)} target="_blank">{accountName}</a>
 									<p className={styles.text} dangerouslySetInnerHTML={{ __html: comment.text }} />
+									{
+										config.integrations[this.props.discussion.api].discussion.comments &&
+										config.integrations[this.props.discussion.api].discussion.comments.stats &&
+										<div>
+											{config.integrations[this.props.discussion.api].discussion.comments.stats.map(function(stat) {
+												if (comment.stats[stat] === undefined) {
+													return null;
+												}
+												var number = format.number(comment.stats[stat]);
+
+												return <span key={stat} className={styles.metaItem}><em title={comment.stats[stat].toLocaleString()}>{number}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.discussion.api) || browser.i18n.getMessage(stat)}</span>;
+											}.bind(this))}
+										</div>
+									}
 								</div>
 							</div>
 						</div>

@@ -11,6 +11,9 @@
     "stats": ["views", "score"]
   },
   "discussion": {
+    "comments": {
+      "stats": ["score"]
+    },
     "integrations": ["reddit", "imgur", "twitter"]
   }
 }
