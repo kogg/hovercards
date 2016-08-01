@@ -14,6 +14,6 @@
     "comments": {
       "stats": ["likes", "replies"]
     },
-    "integrations": ["reddit", "youtube", "twitter"]
+    "integrations": ["reddit", "youtube"]
   }
 }

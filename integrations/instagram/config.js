@@ -13,6 +13,6 @@ module.exports = {
 		stats: ['likes', 'comments']
 	},
 	discussion: {
-		integrations: ['instagram', 'reddit', 'twitter']
+		integrations: ['instagram', 'reddit']
 	}
 };

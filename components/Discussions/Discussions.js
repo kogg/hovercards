@@ -85,17 +85,20 @@ module.exports = connect(
 		return (
 			<div className={classnames(styles.discussionsContainer, this.props.className)}>
 				<div className={styles.discussions}>
-					<div className={styles.tabsContainer}>
-						<div className={styles.tabs}>
-							{this.props.discussions.map(function(discussion, i) {
-								return (
-									<span key={discussion.api} className={classnames(styles.tab, { [styles.selected]: i === this.state.selected })} onClick={_.partial(this.select, i)}>
-										{browser.i18n.getMessage('name_of_' + discussion.api)}
-									</span>
-								);
-							}.bind(this))}
+					{
+						(this.props.discussions.length > 1 || this.props.discussions[0].api !== this.props.content.api) &&
+						<div className={styles.tabsContainer}>
+							<div className={styles.tabs}>
+								{this.props.discussions.map(function(discussion, i) {
+									return (
+										<span key={discussion.api} className={classnames(styles.tab, { [styles.selected]: i === this.state.selected })} onClick={_.partial(this.select, i)}>
+											{browser.i18n.getMessage('name_of_' + discussion.api)}
+										</span>
+									);
+								}.bind(this))}
+							</div>
 						</div>
-					</div>
+					}
 					{
 						// TODO #33 Better Loading UI
 						(!_.isNumber(this.state.selected) || (!discussion.loaded && !discussion.err)) ?

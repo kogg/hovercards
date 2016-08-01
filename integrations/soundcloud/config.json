@@ -11,6 +11,6 @@
     "stats": ["content", "likes", "views", "comments"]
   },
   "discussion": {
-    "integrations": ["reddit", "soundcloud", "twitter"]
+    "integrations": ["reddit", "soundcloud"]
   }
 }

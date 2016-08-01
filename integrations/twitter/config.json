@@ -10,6 +10,6 @@
     "comments": {
       "stats": ["likes", "reposts"]
     },
-    "integrations": ["reddit", "twitter"]
+    "integrations": ["reddit"]
   }
 }
