@@ -1,3 +1,25 @@
+.account {
+  min-height: 140px;
+  overflow: hidden;
+  width: 380px;
+
+  &.noAccountImage {
+    min-height: 88px;
+  }
+}
+
+.loading-container {
+
+  /* TODO #33 Better Loading UI */
+  composes: loading-container from '../loading.styles';
+}
+
+.loading {
+
+  /* TODO #33 Better Loading UI */
+  composes: loading from '../loading.styles';
+}
+
 .image {
   background-position: center;
   background-size: cover;

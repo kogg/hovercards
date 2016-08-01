@@ -29,16 +29,8 @@
   margin-top: 12px;
 }
 
-.hovercard__box .content {
-  background-color: rgba(255, 255, 255, .1);
-}
-
 /*//icons and images// ---------------------------------------------*/
-.comment-item_retweet .comment-image a:after,
-.loading {
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
+.comment-item_retweet .comment-image a:after {
 }
 
 .comment-item_retweet .comment-image a:after {
@@ -53,16 +45,6 @@
   background-color: #19cf86;
   border-radius: 50%;
   background-size: 70%;
-}
-
-.box.hovercard__box .loading,
-.loading {
-  width: 32px;
-  height: 32px;
-  background-image: url("../../assets/images/loading.gif");
-  display: block;
-  opacity: .7;
-  margin: 16px auto;
 }
 
 /*//Comments// ---------------------------------------------*/
@@ -116,45 +98,12 @@
   margin: 0;
 }
 
-/*content layouts*/
-.content-image,
-.content-images,
-.content-gif,
-.content-video {
-  position: relative;
-  overflow: hidden;
-}
-
-.content {
-  position: relative;
-  z-index: 99;
-}
-
-.content-text .content,
-.content-video .content,
-.content-image .content,
-.content-images .content,
-.content-youtube .content {
-  min-height: 140px;
-  min-width: 500px;
-}
-
-.loading-parent {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .discussion .error .error-image {
   display: none;
 }
 
 .discussion .error b {
   text-align: left;
-}
-
-.hovercard__box .content-text .content-container {
-  background: white;
 }
 
 .error {

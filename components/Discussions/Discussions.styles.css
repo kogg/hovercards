@@ -1,8 +1,6 @@
 .discussions-container {
   height: inherit;
   max-width: 100%;
-  min-height: inherit;
-  min-width: inherit;
   overflow: hidden;
   text-align: left;
   width: 9999px;

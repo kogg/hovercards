@@ -4,7 +4,6 @@ var compose    = require('redux').compose;
 
 var AccountHovercard = require('../AccountHovercard/AccountHovercard');
 var ContentHovercard = require('../ContentHovercard/ContentHovercard');
-var config           = require('../../integrations/config');
 var dom              = require('../../utils/dom');
 var styles           = require('./Hovercard.styles');
 
@@ -126,16 +125,7 @@ module.exports = React.createClass({
 		var entityOrRequest = this.props.entity || this.props.request;
 
 		return (
-			<div ref="hovercard"
-				className={classnames(
-					styles.hovercard,
-					{
-						[styles.account]:        entityOrRequest.type === 'account',
-						[styles.noAccountImage]: entityOrRequest.type === 'account' && config.integrations[entityOrRequest.api].account.noImage
-					},
-					this.props.className
-				)}
-				style={this.state.offset}
+			<div className={classnames(styles.hovercard, this.props.className)} style={this.state.offset} ref="hovercard"
 				onMouseMove={compose(this.hovered, this.clearCloseTimeout)}
 				onMouseLeave={compose(this.unHovered, this.setCloseTimeout)}>
 				{

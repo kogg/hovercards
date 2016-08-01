@@ -1,4 +1,5 @@
-var React = require('react');
+var React      = require('react');
+var classnames = require('classnames');
 
 var AccountFooter = require('../AccountFooter/AccountFooter');
 var AccountHeader = require('../AccountHeader/AccountHeader');
@@ -30,29 +31,50 @@ module.exports = React.createClass({
 		}
 	},
 	render: function() {
+		// TODO #33 Better Loading UI
+		var loading = !this.props.account.loaded && !this.props.account.err;
+
 		return (
-			<a className={this.props.className} href={urls.print(this.props.account)} target="_blank">
-				<AccountHeader className={styles.header} account={this.props.account} />
-				{!config.integrations[this.props.account.api].account.noImage && this.props.account.image && <span className={styles.image} style={{ backgroundImage: 'url(' + (this.props.account.image.medium || this.props.account.image.small || this.props.account.image.large) + ')' }}></span>}
-				<div className={styles.nameContainer}>
-					<span className={styles.name}>
-						{
-							this.props.account.name ||
-							browser.i18n.getMessage('account_id_of_' + this.props.account.api, [this.props.account.id]) ||
-							browser.i18n.getMessage('account_id', [this.props.account.id]) ||
-							browser.i18n.getMessage('empty_account_id_of_' + this.props.account.api)
-						}
-					</span>
-					{this.props.account.verified && <span className={styles.verified} />}
-				</div>
+			<div
+				className={classnames(
+					styles.account,
+					{
+						[styles.loadingContainer]: loading,
+						[styles.noAccountImage]:   config.integrations[this.props.account.api].account.noImage
+					},
+					this.props.className
+				)}>
 				{
-					this.props.account.text &&
-					<Collapsable className={styles.description} expandable={false} onResize={this.props.onResize}>
-						<p className={styles.text} dangerouslySetInnerHTML={{ __html: this.props.account.text }} />
-					</Collapsable>
+					loading ?
+						<div className={styles.loading} /> :
+						<a href={urls.print(this.props.account)} target="_blank">
+							<AccountHeader className={styles.header} account={this.props.account} />
+							{
+								!config.integrations[this.props.account.api].account.noImage &&
+								this.props.account.image &&
+								<span className={styles.image} style={{ backgroundImage: 'url(' + (this.props.account.image.medium || this.props.account.image.small || this.props.account.image.large) + ')' }} />
+							}
+							<div className={styles.nameContainer}>
+								<span className={styles.name}>
+									{
+										this.props.account.name ||
+										browser.i18n.getMessage('account_id_of_' + this.props.account.api, [this.props.account.id]) ||
+										browser.i18n.getMessage('account_id', [this.props.account.id]) ||
+										browser.i18n.getMessage('empty_account_id_of_' + this.props.account.api)
+									}
+								</span>
+								{this.props.account.verified && <span className={styles.verified} />}
+							</div>
+							{
+								this.props.account.text &&
+								<Collapsable className={styles.description} expandable={false} onResize={this.props.onResize}>
+									<p className={styles.text} dangerouslySetInnerHTML={{ __html: this.props.account.text }} />
+								</Collapsable>
+							}
+							<AccountFooter className={styles.footer} account={this.props.account} />
+						</a>
 				}
-				<AccountFooter className={styles.footer} account={this.props.account} />
-			</a>
+			</div>
 		);
 	}
 });

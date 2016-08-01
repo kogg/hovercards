@@ -17,16 +17,6 @@
     display: block;
   }
 
-  &.account {
-    min-height: 140px;
-    overflow: hidden;
-    width: 380px;
-
-    &.noAccountImage {
-      min-height: 88px;
-    }
-  }
-
   /* FIXME @cameronrohani @cam GLOBAL STYLES ARE BAD */
   * {
     -webkit-font-smoothing: antialiased;

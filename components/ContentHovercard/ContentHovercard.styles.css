@@ -1,0 +1,16 @@
+.content {
+  min-height: 140px;
+  min-width: 500px;
+}
+
+.loading-container {
+
+  /* TODO #33 Better Loading UI */
+  composes: loading-container from '../loading.styles';
+}
+
+.loading {
+
+  /* TODO #33 Better Loading UI */
+  composes: loading from '../loading.styles';
+}
