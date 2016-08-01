@@ -37,3 +37,15 @@
     color: black;
   }
 }
+
+.loading-container {
+
+  /* TODO #33 Better Loading UI */
+  composes: loading-container from '../loading.styles';
+}
+
+.loading {
+
+  /* TODO #33 Better Loading UI */
+  composes: loading from '../loading.styles';
+}

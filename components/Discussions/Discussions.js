@@ -77,6 +77,8 @@ module.exports = connect(
 		this.setState({ clicked: true, selected: i, loaded: Object.assign({}, this.state.loaded, { [i]: true }) });
 	},
 	render: function() {
+		var discussion = this.props.discussions[this.state.selected];
+
 		return (
 			<div className={classnames(styles.discussionsContainer, this.props.className)}>
 				<div className={styles.discussions}>
@@ -92,14 +94,17 @@ module.exports = connect(
 						</div>
 					</div>
 					{
-						_.isNumber(this.state.selected) &&
-						this.props.discussions[this.state.selected].comments &&
-						this.props.discussions[this.state.selected].comments.length &&
-						<div>
-							{this.props.discussions[this.state.selected].comments.map(function(comment, i) {
-								return <DiscussionComment key={comment.id || i} comment={comment} integration={this.props.discussions[this.state.selected].api} />;
-							}.bind(this))}
-						</div>
+						// TODO #33 Better Loading UI
+						(!_.isNumber(this.state.selected) || (!discussion.loaded && !discussion.err)) ?
+							<div className={styles.loadingContainer}><div className={styles.loading} /></div> :
+							(
+								discussion.comments && discussion.comments.length &&
+								<div>
+									{discussion.comments.map(function(comment, i) {
+										return <DiscussionComment key={comment.id || i} comment={comment} integration={discussion.api} />;
+									})}
+								</div>
+							)
 					}
 				</div>
 			</div>
