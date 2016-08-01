@@ -4,6 +4,7 @@ var compose    = require('redux').compose;
 
 var AccountHovercard = require('../AccountHovercard/AccountHovercard');
 var ContentHovercard = require('../ContentHovercard/ContentHovercard');
+var config           = require('../../integrations/config');
 var dom              = require('../../utils/dom');
 var styles           = require('./Hovercard.styles');
 
@@ -122,17 +123,28 @@ module.exports = React.createClass({
 		dom.removeClass(document.body, styles.lockBody);
 	},
 	render: function() {
+		var entityOrRequest = this.props.entity || this.props.request;
+
 		return (
-			<div className={classnames(styles.hovercard, styles[(this.props.entity || this.props.request).type], styles[(this.props.entity || this.props.request).api], this.props.className)} style={this.state.offset} ref="hovercard"
+			<div ref="hovercard"
+				className={classnames(
+					styles.hovercard,
+					{
+						[styles.account]:        entityOrRequest.type === 'account',
+						[styles.noAccountImage]: entityOrRequest.type === 'account' && config.integrations[entityOrRequest.api].account.noImage
+					},
+					this.props.className
+				)}
+				style={this.state.offset}
 				onMouseMove={compose(this.hovered, this.clearCloseTimeout)}
 				onMouseLeave={compose(this.unHovered, this.setCloseTimeout)}>
 				{
-					(this.props.entity || this.props.request).type === 'content' ?
-						<ContentHovercard content={this.props.entity || this.props.request}
+					entityOrRequest.type === 'content' ?
+						<ContentHovercard content={entityOrRequest}
 							hovered={this.state.hovered}
 							getEntity={this.props.getEntity}
 							onResize={this.positionHovercard} /> :
-						<AccountHovercard account={this.props.entity || this.props.request}
+						<AccountHovercard account={entityOrRequest}
 							hovered={this.state.hovered}
 							onResize={this.positionHovercard} />
 				}

@@ -18,18 +18,11 @@
   }
 
   &.account {
+    min-height: 140px;
     overflow: hidden;
     width: 380px;
 
-    &.youtube,
-    &.twitter,
-    &.soundcloud,
-    &.instagram {
-      min-height: 140px;
-    }
-
-    &.reddit,
-    &.imgur {
+    &.noAccountImage {
       min-height: 88px;
     }
   }
