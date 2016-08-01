@@ -18,7 +18,15 @@
     "no-multi-spaces": [2, { "exceptions": { "VariableDeclarator": true } }],
     "object-curly-spacing": [2, "always"],
     "react/jsx-uses-react": 2,
-    "react/sort-comp": 2,
+    "react/sort-comp": [2, {
+      "order": [
+        "static-methods",
+        "lifecycle",
+        "everything-else",
+        "/^on.+$/",
+        "render"
+      ]
+    }],
     "space-before-function-paren": [2, "never"]
   }
 }

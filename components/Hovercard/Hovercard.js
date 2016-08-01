@@ -85,6 +85,29 @@ module.exports = React.createClass({
 	clearCloseTimeout: function() {
 		clearTimeout(this.closeTimeout);
 	},
+	closeHovercard: function() {
+		if (process.env.NODE_ENV !== 'production' && process.env.STICKYCARDS) {
+			return;
+		}
+		this.onUnHovered();
+		this.props.onClose();
+	},
+	onHovered: function() {
+		if (this.state.hovered) {
+			return;
+		}
+		this.setState({ hovered: true });
+		dom.addClass(document.documentElement, styles.lockDocument);
+		dom.addClass(document.body, styles.lockBody);
+	},
+	onUnHovered: function() {
+		if (!this.state.hovered) {
+			return;
+		}
+		this.setState({ hovered: false });
+		dom.removeClass(document.documentElement, styles.lockDocument);
+		dom.removeClass(document.body, styles.lockBody);
+	},
 	onWindowBlur: function() {
 		if (document.activeElement.tagName.toLowerCase() === 'iframe') {
 			return;
@@ -98,36 +121,13 @@ module.exports = React.createClass({
 		}
 		this.closeHovercard();
 	},
-	closeHovercard: function() {
-		if (process.env.NODE_ENV !== 'production' && process.env.STICKYCARDS) {
-			return;
-		}
-		this.unHovered();
-		this.props.onClose();
-	},
-	hovered: function() {
-		if (this.state.hovered) {
-			return;
-		}
-		this.setState({ hovered: true });
-		dom.addClass(document.documentElement, styles.lockDocument);
-		dom.addClass(document.body, styles.lockBody);
-	},
-	unHovered: function() {
-		if (!this.state.hovered) {
-			return;
-		}
-		this.setState({ hovered: false });
-		dom.removeClass(document.documentElement, styles.lockDocument);
-		dom.removeClass(document.body, styles.lockBody);
-	},
 	render: function() {
 		var entityOrRequest = this.props.entity || this.props.request;
 
 		return (
 			<div className={classnames(styles.hovercard, this.props.className)} style={this.state.offset} ref="hovercard"
-				onMouseMove={compose(this.hovered, this.clearCloseTimeout)}
-				onMouseLeave={compose(this.unHovered, this.setCloseTimeout)}>
+				onMouseMove={compose(this.onHovered, this.clearCloseTimeout)}
+				onMouseLeave={compose(this.onUnHovered, this.setCloseTimeout)}>
 				{
 					entityOrRequest.type === 'content' ?
 						<ContentHovercard content={entityOrRequest}
