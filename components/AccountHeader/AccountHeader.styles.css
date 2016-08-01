@@ -1,4 +1,5 @@
 .banner {
+  composes: flex-row from '../flex.styles';
   height: 126.66666667px;
   background-position: center;
   position: relative;

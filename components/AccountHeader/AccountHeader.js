@@ -2,7 +2,7 @@ var React      = require('react');
 var classnames = require('classnames');
 
 var dom    = require('../../utils/dom');
-var styles = Object.assign({}, require('../flex.styles'), require('./AccountHeader.styles'));
+var styles = require('./AccountHeader.styles');
 
 module.exports = React.createClass({
 	displayName: 'AccountHeader',
@@ -35,7 +35,7 @@ module.exports = React.createClass({
 	render: function() {
 		if (this.props.account.content && this.props.account.content.content) {
 			return (
-				<div className={classnames(styles.banner, styles.flexRow, this.props.className)}>
+				<div className={classnames(styles.banner, this.props.className)}>
 					{this.props.account.content.content.slice(0, 3).map(function(content) {
 						return <div className={styles.bannerImage} style={{ backgroundImage: 'url(' + (content.image.medium || content.image.large || content.image.small) + ')' }}></div>;
 					})}
