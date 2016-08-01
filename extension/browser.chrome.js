@@ -10,7 +10,7 @@ function handleRuntimeLastError(value) {
 	}
 	if (isFSA(value)) {
 		if (value.error) {
-			value.payload = (_.isError(value.payload)) ? value.payload : _.extend(new Error(value.payload.message), value.payload);
+			value.payload = (_.isError(value.payload)) ? value.payload : Object.assign(new Error(value.payload.message), value.payload);
 			return Promise.reject(value);
 		}
 	}

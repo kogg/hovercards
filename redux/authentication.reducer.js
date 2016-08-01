@@ -13,7 +13,7 @@ module.exports = handleAction(
 				return _.omit(state, action.payload.api);
 			}
 			browser.storage.sync.set({ ['authentication.' + action.payload.api]: action.payload.value });
-			return _.defaults({ [action.payload.api]: action.payload.value }, state);
+			return Object.assign({}, state, { [action.payload.api]: action.payload.value });
 		}
 	},
 	{}

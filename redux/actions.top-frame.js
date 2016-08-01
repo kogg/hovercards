@@ -23,7 +23,9 @@ module.exports.getEntity = function(request) {
 		}
 
 		return browser.runtime.sendMessage({ type: 'getEntity', payload: request })
-			.catch(compose(dispatch, setEntity, _.property('payload'), _.partial(_.defaults, { request: request })))
+			.catch(compose(dispatch, setEntity, _.property('payload'), function(err) {
+				return Object.assign(err, { request: request });
+			}))
 			.then(compose(dispatch, setEntity, _.property('payload')));
 	};
 };
