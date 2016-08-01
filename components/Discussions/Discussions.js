@@ -3,11 +3,11 @@ var React      = require('react');
 var classnames = require('classnames');
 var connect    = require('react-redux').connect;
 
-var Discussion  = require('../Discussion/Discussion');
-var browser     = require('../../extension/browser');
-var config      = require('../../integrations/config');
-var entityLabel = require('../../utils/entity-label');
-var styles      = require('./Discussions.styles');
+var DiscussionComment = require('../DiscussionComment/DiscussionComment');
+var browser           = require('../../extension/browser');
+var config            = require('../../integrations/config');
+var entityLabel       = require('../../utils/entity-label');
+var styles            = require('./Discussions.styles');
 
 module.exports = connect(
 	function(state, ownProps) {
@@ -91,7 +91,16 @@ module.exports = connect(
 							}.bind(this))}
 						</div>
 					</div>
-					{ _.isNumber(this.state.selected) && <Discussion discussion={this.props.discussions[this.state.selected]} onLoad={this.props.onResize} /> }
+					{
+						_.isNumber(this.state.selected) &&
+						this.props.discussions[this.state.selected].comments &&
+						this.props.discussions[this.state.selected].comments.length &&
+						<div>
+							{this.props.discussions[this.state.selected].comments.map(function(comment, i) {
+								return <DiscussionComment key={comment.id || i} comment={comment} integration={this.props.discussions[this.state.selected].api} />;
+							}.bind(this))}
+						</div>
+					}
 				</div>
 			</div>
 		);

@@ -1,4 +1,4 @@
-.commentContainer {
+.comment-container {
   padding: 12px;
 }
 
@@ -45,12 +45,16 @@
   }
 }
 
+.stat {
+  composes: flex-item from '../flex.styles';
+}
+
 .replies {
   border-left: 2px solid rgba(0, 0, 0, .1);
   margin: 0 12px;
   padding-bottom: 8px;
 
-  .commentContainer {
+  .comment-container {
     padding: 0;
 
     &:not(:last-of-type) {
