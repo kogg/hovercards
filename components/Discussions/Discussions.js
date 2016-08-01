@@ -36,7 +36,10 @@ module.exports = connect(
 		this.props.getEntity(this.props.discussions[0]);
 		this.setState({ loaded: Object.assign({}, this.state.loaded, { 0: true }) });
 	},
-	componentDidUpdate: function(prevProps) {
+	componentDidUpdate: function(prevProps, prevState) {
+		if (_.isNumber(this.state.selected) && (this.state.selected !== prevState.selected || this.props.discussions[this.state.selected].loaded !== prevProps.discussions[this.state.selected].loaded || this.props.discussions[this.state.selected].err !== prevProps.discussions[this.state.selected].err)) {
+			this.props.onResize();
+		}
 		if (entityLabel(this.props.content) !== entityLabel(prevProps.content)) {
 			this.setState({ selected: this.state.clicked ? this.state.selected : null, loaded: {} });
 			return;
