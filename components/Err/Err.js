@@ -7,8 +7,20 @@ var styles  = require('./Err.styles');
 module.exports = React.createClass({
 	displayName: 'Err',
 	propTypes:   {
-		className: React.PropTypes.string,
-		error:     React.PropTypes.object.isRequired
+		authenticate: React.PropTypes.func.isRequired,
+		className:    React.PropTypes.string,
+		error:        React.PropTypes.object.isRequired,
+		getEntity:    React.PropTypes.func.isRequired
+	},
+	onClickCTA: function() {
+		return this.props.authenticate({ api: this.props.error.request && this.props.error.request.api })
+			.then(function() {
+				if (!this.isMounted()) {
+					// FIXME Anti-pattern
+					return null;
+				}
+				return this.props.getEntity(this.props.error.request);
+			}.bind(this));
 	},
 	render: function() {
 		var integration = this.props.error.request && this.props.error.request.api;
@@ -29,7 +41,7 @@ module.exports = React.createClass({
 						browser.i18n.getMessage('err_' + this.props.error.status + '_text_of_' + integration, [browser.i18n.getMessage('name_of_' + integration)]) ||
 						browser.i18n.getMessage('err_' + this.props.error.status + '_text', [browser.i18n.getMessage('name_of_' + integration)])
 					}</p>
-					{cta && <a className={classnames(styles[integration], styles.cta)}>{cta}</a>}
+					{cta && <a className={classnames(styles[integration], styles.cta)} onClick={this.onClickCTA}>{cta}</a>}
 				</div>
 			</div>
 		);

@@ -5,8 +5,16 @@ var config = require('../extension/config');
 
 var keys = config.options.keys();
 
+var clearEntities     = createAction('CLEAR_ENTITIES');
 var setAuthentication = createAction('SET_AUTHENTICATION');
 var setOption         = createAction('SET_OPTION');
+
+module.exports.clearEntities = function(request) {
+	return function(dispatch) {
+		dispatch(clearEntities(request));
+		return Promise.resolve();
+	};
+};
 
 module.exports.setOption = function(request) {
 	return function(dispatch) {

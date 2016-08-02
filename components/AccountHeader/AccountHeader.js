@@ -36,8 +36,8 @@ module.exports = React.createClass({
 		if (this.props.account.content && this.props.account.content.content) {
 			return (
 				<div className={classnames(styles.banner, this.props.className)}>
-					{this.props.account.content.content.slice(0, 3).map(function(content) {
-						return <div className={styles.bannerImage} style={{ backgroundImage: 'url(' + (content.image.medium || content.image.large || content.image.small) + ')' }}></div>;
+					{this.props.account.content.content.slice(0, 3).map(function(content, i) {
+						return <div key={content.id || i} className={styles.bannerImage} style={{ backgroundImage: 'url(' + (content.image.medium || content.image.large || content.image.small) + ')' }}></div>;
 					})}
 				</div>
 			);

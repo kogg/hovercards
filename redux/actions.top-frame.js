@@ -60,7 +60,10 @@ module.exports.analytics = function(request) {
 };
 
 module.exports.authenticate = function(request) {
-	return function() {
-		return browser.runtime.sendMessage({ type: 'authenticate', payload: request });
+	return function(dispatch) {
+		return browser.runtime.sendMessage({ type: 'authenticate', payload: request })
+			.then(function() {
+				return dispatch(module.exports.clearEntities(request.api));
+			});
 	};
 };

@@ -15,10 +15,12 @@ var urls          = require('../../integrations/urls');
 module.exports = React.createClass({
 	displayName: 'AccountHovercard',
 	propTypes:   {
-		account:   React.PropTypes.object.isRequired,
-		className: React.PropTypes.string,
-		hovered:   React.PropTypes.bool.isRequired,
-		onResize:  React.PropTypes.func.isRequired
+		account:      React.PropTypes.object.isRequired,
+		authenticate: React.PropTypes.func.isRequired,
+		className:    React.PropTypes.string,
+		getEntity:    React.PropTypes.func.isRequired,
+		hovered:      React.PropTypes.bool.isRequired,
+		onResize:     React.PropTypes.func.isRequired
 	},
 	componentDidMount: function() {
 		if (!config.integrations[this.props.account.api].account.noImage && this.props.account.image) {
@@ -36,7 +38,7 @@ module.exports = React.createClass({
 		var className = classnames(styles.account, { [styles.noAccountImage]: config.integrations[this.props.account.api].account.noImage }, this.props.className);
 
 		if (this.props.account.err) {
-			return <Err className={className} error={this.props.account.err} />;
+			return <Err className={className} error={this.props.account.err} authenticate={this.props.authenticate} getEntity={this.props.getEntity} />;
 		}
 		if (!this.props.account.loaded) {
 			return <Loading className={className} />;

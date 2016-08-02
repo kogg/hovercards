@@ -25,11 +25,12 @@ module.exports = connect(
 )(React.createClass({
 	displayName: 'Discussions',
 	propTypes:   {
-		className:   React.PropTypes.string,
-		content:     React.PropTypes.object.isRequired,
-		discussions: React.PropTypes.array.isRequired,
-		getEntity:   React.PropTypes.func.isRequired,
-		onResize:    React.PropTypes.func.isRequired
+		authenticate: React.PropTypes.func.isRequired,
+		className:    React.PropTypes.string,
+		content:      React.PropTypes.object.isRequired,
+		discussions:  React.PropTypes.array.isRequired,
+		getEntity:    React.PropTypes.func.isRequired,
+		onResize:     React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
 		return { loaded: {} };
@@ -101,7 +102,7 @@ module.exports = connect(
 							</div>
 						</div>
 					}
-					{discussion && discussion.err && <Err error={discussion.err} />}
+					{discussion && discussion.err && <Err error={discussion.err} authenticate={this.props.authenticate} getEntity={this.props.getEntity} />}
 					{(!discussion || (!discussion.err && !discussion.loaded)) && <Loading />}
 					{discussion && !discussion.err && discussion.loaded && (
 						discussion.comments && discussion.comments.length &&

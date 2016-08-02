@@ -40,6 +40,7 @@ module.exports.attachStore = function(store) {
 				return;
 			}
 			store.dispatch(actions.setAuthentication({ api: key[1], value: entry[1].newValue }));
+			store.dispatch(actions.clearEntities(key[1]));
 		});
 	});
 };

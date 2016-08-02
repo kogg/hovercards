@@ -44,6 +44,7 @@ module.exports.getEntity = function(request, meta, sender) {
 
 			loading[label]
 				.then(function(entity) {
+					delete loading[label];
 					dispatch(setEntity(entity));
 					var newLabel = entityLabel(entity);
 					if (newLabel !== label) {
@@ -52,6 +53,7 @@ module.exports.getEntity = function(request, meta, sender) {
 					dispatch(module.exports.analytics(['send', 'timing', 'service', 'loading', Date.now() - start, entityLabel(entity, true)], sender));
 				})
 				.catch(function(err) {
+					delete loading[label];
 					err.request = request;
 					dispatch(setEntity(err));
 					// FIXME #9 Log Error
@@ -172,6 +174,7 @@ module.exports.authenticate = function(request, meta, sender) {
 				}
 				dispatch(setAuthentication({ api: request.api, value: user }));
 				dispatch(module.exports.analytics(['send', 'event', 'service', 'authenticated', request.api], sender));
+				return dispatch(module.exports.clearEntities(request.api));
 			});
 	};
 };

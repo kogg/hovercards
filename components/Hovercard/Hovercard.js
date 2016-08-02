@@ -13,13 +13,14 @@ var TIMEOUT_BEFORE_CLOSE = 100;
 module.exports = React.createClass({
 	displayName: 'Hovercard',
 	propTypes:   {
-		className: React.PropTypes.string,
-		element:   React.PropTypes.object.isRequired,
-		entity:    React.PropTypes.object,
-		event:     React.PropTypes.object.isRequired,
-		getEntity: React.PropTypes.func.isRequired,
-		request:   React.PropTypes.object.isRequired,
-		onClose:   React.PropTypes.func.isRequired
+		authenticate: React.PropTypes.func.isRequired,
+		className:    React.PropTypes.string,
+		element:      React.PropTypes.object.isRequired,
+		entity:       React.PropTypes.object,
+		event:        React.PropTypes.object.isRequired,
+		getEntity:    React.PropTypes.func.isRequired,
+		request:      React.PropTypes.object.isRequired,
+		onClose:      React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
 		return { hovered: false, offset: {} };
@@ -132,10 +133,13 @@ module.exports = React.createClass({
 					entityOrRequest.type === 'content' ?
 						<ContentHovercard content={entityOrRequest}
 							hovered={this.state.hovered}
+							authenticate={this.props.authenticate}
 							getEntity={this.props.getEntity}
 							onResize={this.positionHovercard} /> :
 						<AccountHovercard account={entityOrRequest}
 							hovered={this.state.hovered}
+							authenticate={this.props.authenticate}
+							getEntity={this.props.getEntity}
 							onResize={this.positionHovercard} />
 				}
 			</div>
