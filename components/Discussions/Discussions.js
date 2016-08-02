@@ -4,6 +4,8 @@ var classnames = require('classnames');
 var connect    = require('react-redux').connect;
 
 var DiscussionComment = require('../DiscussionComment/DiscussionComment');
+var Err               = require('../Err/Err');
+var Loading           = require('../Loading/Loading');
 var browser           = require('../../extension/browser');
 var config            = require('../../integrations/config');
 var entityLabel       = require('../../utils/entity-label');
@@ -99,19 +101,16 @@ module.exports = connect(
 							</div>
 						</div>
 					}
-					{
-						// TODO #33 Better Loading UI
-						(!_.isNumber(this.state.selected) || (!discussion.loaded && !discussion.err)) ?
-							<div className={styles.loadingContainer}><div className={styles.loading} /></div> :
-							(
-								discussion.comments && discussion.comments.length &&
-								<div>
-									{discussion.comments.map(function(comment, i) {
-										return <DiscussionComment key={comment.id || i} comment={comment} integration={discussion.api} />;
-									})}
-								</div>
-							)
-					}
+					{discussion && discussion.err && <Err error={discussion.err} />}
+					{(!discussion || (!discussion.err && !discussion.loaded)) && <Loading />}
+					{discussion && !discussion.err && discussion.loaded && (
+						discussion.comments && discussion.comments.length &&
+						<div>
+							{discussion.comments.map(function(comment, i) {
+								return <DiscussionComment key={comment.id || i} comment={comment} integration={discussion.api} />;
+							})}
+						</div>
+					)}
 				</div>
 			</div>
 		);

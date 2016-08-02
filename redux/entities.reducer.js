@@ -1,4 +1,3 @@
-var _            = require('underscore');
 var handleAction = require('redux-actions').handleAction;
 
 var entityLabel = require('../utils/entity-label');
@@ -11,7 +10,7 @@ module.exports = handleAction(
 		},
 		throw: function(state, action) {
 			return Object.assign({}, state, {
-				[entityLabel(action.payload.request)]: Object.assign({}, state[entityLabel(action.payload.request)], { err: _.omit(action.payload, 'request') })
+				[entityLabel(action.payload.request)]: Object.assign({}, state[entityLabel(action.payload.request)], { err: action.payload })
 			});
 		}
 	},

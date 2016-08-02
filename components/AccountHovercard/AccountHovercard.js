@@ -4,6 +4,8 @@ var classnames = require('classnames');
 var AccountFooter = require('../AccountFooter/AccountFooter');
 var AccountHeader = require('../AccountHeader/AccountHeader');
 var Collapsable   = require('../Collapsable/Collapsable');
+var Err           = require('../Err/Err');
+var Loading       = require('../Loading/Loading');
 var browser       = require('../../extension/browser');
 var config        = require('../../integrations/config');
 var dom           = require('../../utils/dom');
@@ -31,10 +33,17 @@ module.exports = React.createClass({
 		}
 	},
 	render: function() {
-		// TODO #33 Better Loading UI
-		return (!this.props.account.loaded && !this.props.account.err) ?
-			<div className={classnames(styles.account, { [styles.noAccountImage]: config.integrations[this.props.account.api].account.noImage }, styles.loadingContainer, this.props.className)}><div className={styles.loading} /></div> :
-			<div className={classnames(styles.account, { [styles.noAccountImage]: config.integrations[this.props.account.api].account.noImage }, this.props.className)}>
+		var className = classnames(styles.account, { [styles.noAccountImage]: config.integrations[this.props.account.api].account.noImage }, this.props.className);
+
+		if (this.props.account.err) {
+			return <Err className={className} error={this.props.account.err} />;
+		}
+		if (!this.props.account.loaded) {
+			return <Loading className={className} />;
+		}
+
+		return (
+			<div className={className}>
 				<a href={urls.print(this.props.account)} target="_blank">
 					<AccountHeader className={styles.header} account={this.props.account} />
 					{
@@ -61,6 +70,7 @@ module.exports = React.createClass({
 					}
 					<AccountFooter className={styles.footer} account={this.props.account} />
 				</a>
-			</div>;
+			</div>
+		);
 	}
 });
