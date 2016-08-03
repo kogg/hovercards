@@ -8,6 +8,7 @@ module.exports = React.createClass({
 	propTypes:   {
 		children:  React.PropTypes.arrayOf(React.PropTypes.node).isRequired,
 		className: React.PropTypes.string,
+		onChange:  React.PropTypes.func.isRequired,
 		onResize:  React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
@@ -17,10 +18,14 @@ module.exports = React.createClass({
 		this.props.onResize();
 	},
 	previous: function() {
-		this.setState({ index: Math.max(0, this.state.index - 1) }, this.props.onResize);
+		var index = Math.max(0, this.state.index - 1);
+		this.setState({ index: index }, this.props.onResize);
+		this.props.onChange(index, 'mouse');
 	},
 	next: function() {
-		this.setState({ index: Math.min(this.props.children.length - 1, this.state.index + 1) }, this.props.onResize);
+		var index = Math.min(this.props.children.length - 1, this.state.index + 1);
+		this.setState({ index: index }, this.props.onResize);
+		this.props.onChange(index, 'mouse');
 	},
 	render: function() {
 		if (this.props.children.length === 0) {

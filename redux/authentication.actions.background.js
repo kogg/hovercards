@@ -32,7 +32,7 @@ module.exports.authenticate = function(request, meta, sender) {
 					return Promise.reject({ payload: { message: 'No user token returned for ' + request.api + ': ' + redirectURL, status: 500 }, error: true });
 				}
 				dispatch(setAuthentication({ api: request.api, value: user }));
-				dispatch(analyticsActions.analytics(['send', 'event', 'service', 'authenticated', request.api], sender));
+				dispatch(analyticsActions.analytics(['send', 'event', request.api, 'Authenticated'], sender));
 				return dispatch(clearEntities(request.api));
 			});
 	};

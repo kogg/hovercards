@@ -8,6 +8,7 @@ module.exports = React.createClass({
 	propTypes:   {
 		children:  React.PropTypes.node.isRequired,
 		className: React.PropTypes.string,
+		onExpand:  React.PropTypes.func.isRequired,
 		onResize:  React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
@@ -25,12 +26,13 @@ module.exports = React.createClass({
 		}
 		this.props.onResize();
 	},
-	expand: function(event) {
+	onExpand: function(event) {
 		if (this.state.expanded || !this.state.collapsable) {
 			return;
 		}
 		event.preventDefault();
 		this.setState({ expanded: true });
+		this.props.onExpand();
 	},
 	render: function() {
 		return (
@@ -43,7 +45,7 @@ module.exports = React.createClass({
 					},
 					this.props.className
 				)}
-				onClick={this.expand}>
+				onClick={this.onExpand}>
 				{this.props.children}
 			</div>
 		);

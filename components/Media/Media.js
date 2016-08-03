@@ -1,5 +1,6 @@
 var React      = require('react');
 var classnames = require('classnames');
+var connect    = require('react-redux').connect;
 
 var Carousel         = require('../Carousel/Carousel');
 var Gif              = require('../Gif/Gif');
@@ -7,15 +8,21 @@ var Image            = require('../Image/Image');
 var SoundCloudPlayer = require('../SoundCloudPlayer/SoundCloudPlayer');
 var Video            = require('../Video/Video');
 var YoutubeVideo     = require('../YoutubeVideo/YoutubeVideo');
+var actions          = require('../../redux/actions.top-frame');
+var entityLabel      = require('../../utils/entity-label');
 var styles           = require('./Media.styles');
 
-module.exports = React.createClass({
+module.exports = connect(null, actions)(React.createClass({
 	displayName: 'Media',
 	propTypes:   {
+		analytics: React.PropTypes.func.isRequired,
 		className: React.PropTypes.string,
 		content:   React.PropTypes.object.isRequired,
 		hovered:   React.PropTypes.bool.isRequired,
 		onResize:  React.PropTypes.func.isRequired
+	},
+	onCarouselChange: function(index, how) {
+		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Carousel Changed', how, index]);
 	},
 	render: function() {
 		switch (this.props.content.api) {
@@ -25,10 +32,10 @@ module.exports = React.createClass({
 				}
 				return (
 					<div className={classnames(styles.media, this.props.className)}>
-						<Carousel onResize={this.props.onResize}>
+						<Carousel onResize={this.props.onResize} onChange={this.onCarouselChange}>
 							{this.props.content.content.map(function(item, i) {
 								return (
-									<div key={i}>
+									<div key={item.id || i}>
 										{
 											item.gif ?
 												<Gif gif={item.gif} image={item.image} onLoad={this.props.onResize} /> :
@@ -76,7 +83,7 @@ module.exports = React.createClass({
 		if (this.props.content.images) {
 			return (
 				<div className={classnames(styles.media, this.props.className)}>
-					<Carousel onResize={this.props.onResize}>
+					<Carousel onResize={this.props.onResize} onChange={this.onCarouselChange}>
 						{this.props.content.images.map(function(image, i) {
 							return <Image key={i} image={image} onLoad={this.props.onResize} />;
 						}.bind(this))}
@@ -93,4 +100,4 @@ module.exports = React.createClass({
 		}
 		return null;
 	}
-});
+}));

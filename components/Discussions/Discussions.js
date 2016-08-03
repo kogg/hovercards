@@ -27,6 +27,7 @@ module.exports = connect(
 )(React.createClass({
 	displayName: 'Discussions',
 	propTypes:   {
+		analytics:   React.PropTypes.func.isRequired,
 		className:   React.PropTypes.string,
 		content:     React.PropTypes.object.isRequired,
 		discussions: React.PropTypes.array.isRequired,
@@ -82,6 +83,9 @@ module.exports = connect(
 			this.props.getEntity(this.props.discussions[i]);
 		}
 		this.setState({ clicked: true, selected: i, loaded: Object.assign({}, this.state.loaded, { [i]: true }) });
+		if (this.state.selected !== i) {
+			this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Discussion Selected', entityLabel(this.props.discussions[i], true), i]);
+		}
 	},
 	render: function() {
 		var discussion = this.props.discussions[this.state.selected];

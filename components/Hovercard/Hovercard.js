@@ -56,7 +56,7 @@ module.exports = connect(null, actions)(React.createClass({
 	},
 	componentWillUnmount: function() {
 		if (this.loadedTime) {
-			this.props.analytics(['send', 'timing', entityLabel(this.props.entity, true), 'Showing hovercard for (exclude loading)', Date.now() - this.loadedTime, this.props.entity.err && 'error hovercard']);
+			this.props.analytics(['send', 'timing', entityLabel(this.props.entity, true), 'Hovercard Open (exclude loading)', Date.now() - this.loadedTime, this.props.entity.err && 'error hovercard']);
 		}
 		this.props.element.removeEventListener('click', this.closeHovercard);
 		this.props.element.removeEventListener('mousemove', this.clearCloseTimeout);
@@ -121,7 +121,7 @@ module.exports = connect(null, actions)(React.createClass({
 		}
 		if (!this.firstHoveredTime) {
 			this.firstHoveredTime = Date.now();
-			this.props.analytics(['send', 'timing', entityLabel(this.props.entity || this.props.request, true), 'Hovered on hovercard after (include loading)', this.firstHoveredTime - this.mountedTime, this.props.entity.err && 'error hovercard']);
+			this.props.analytics(['send', 'timing', entityLabel(this.props.entity || this.props.request, true), 'Until hovered on hovercard (include loading)', this.firstHoveredTime - this.mountedTime, this.props.entity.err && 'error hovercard']);
 		}
 		this.setState({ hovered: true });
 		dom.addClass(document.documentElement, styles.lockDocument);

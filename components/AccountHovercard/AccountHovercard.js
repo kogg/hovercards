@@ -1,21 +1,25 @@
 var React      = require('react');
 var classnames = require('classnames');
+var connect    = require('react-redux').connect;
 
 var AccountFooter = require('../AccountFooter/AccountFooter');
 var AccountHeader = require('../AccountHeader/AccountHeader');
 var Collapsable   = require('../Collapsable/Collapsable');
 var Err           = require('../Err/Err');
 var Loading       = require('../Loading/Loading');
+var actions       = require('../../redux/actions.top-frame');
 var browser       = require('../../extension/browser');
 var config        = require('../../integrations/config');
 var dom           = require('../../utils/dom');
+var entityLabel   = require('../../utils/entity-label');
 var styles        = require('./AccountHovercard.styles.css');
 var urls          = require('../../integrations/urls');
 
-module.exports = React.createClass({
+module.exports = connect(null, actions)(React.createClass({
 	displayName: 'AccountHovercard',
 	propTypes:   {
 		account:   React.PropTypes.object.isRequired,
+		analytics: React.PropTypes.func.isRequired,
 		className: React.PropTypes.string,
 		hovered:   React.PropTypes.bool.isRequired,
 		onResize:  React.PropTypes.func.isRequired
@@ -31,6 +35,9 @@ module.exports = React.createClass({
 			dom.imageLoaded(this.props.account.image.medium || this.props.account.image.small || this.props.account.image.large)
 				.then(this.props.onResize);
 		}
+	},
+	onExpandDescription: function() {
+		this.props.analytics(['send', 'event', entityLabel(this.props.account, true), 'Expanded description']);
 	},
 	render: function() {
 		var className = classnames(styles.account, { [styles.noAccountImage]: config.integrations[this.props.account.api].account.noImage }, this.props.className);
@@ -64,7 +71,7 @@ module.exports = React.createClass({
 					</div>
 					{
 						this.props.account.text &&
-						<Collapsable className={styles.description} expandable={false} onResize={this.props.onResize}>
+						<Collapsable className={styles.description} onExpand={this.onExpandDescription} onResize={this.props.onResize}>
 							<p className={styles.text} dangerouslySetInnerHTML={{ __html: this.props.account.text }} />
 						</Collapsable>
 					}
@@ -73,4 +80,4 @@ module.exports = React.createClass({
 			</div>
 		);
 	}
-});
+}));

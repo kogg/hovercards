@@ -43,7 +43,7 @@ module.exports.getEntity = function(request, meta, sender) {
 					if (newLabel !== label) {
 						dispatch(setEntity(entity, label));
 					}
-					dispatch(analyticsActions.analytics(['send', 'timing', 'service', 'loading', Date.now() - start, entityLabel(entity, true)], sender));
+					dispatch(analyticsActions.analytics(['send', 'timing', entityLabel(entity, true), 'Loading', Date.now() - start], sender));
 				})
 				.catch(function(err) {
 					delete loading[label];
