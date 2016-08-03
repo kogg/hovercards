@@ -5,6 +5,7 @@ var compose    = require('redux').compose;
 var AccountHovercard = require('../AccountHovercard/AccountHovercard');
 var ContentHovercard = require('../ContentHovercard/ContentHovercard');
 var dom              = require('../../utils/dom');
+var entityLabel      = require('../../utils/entity-label');
 var styles           = require('./Hovercard.styles');
 
 var PADDING_FROM_EDGES   = 10;
@@ -13,6 +14,7 @@ var TIMEOUT_BEFORE_CLOSE = 100;
 module.exports = React.createClass({
 	displayName: 'Hovercard',
 	propTypes:   {
+		analytics:    React.PropTypes.func.isRequired,
 		authenticate: React.PropTypes.func.isRequired,
 		className:    React.PropTypes.string,
 		element:      React.PropTypes.object.isRequired,
@@ -34,8 +36,26 @@ module.exports = React.createClass({
 		window.addEventListener('resize', this.positionHovercard);
 		this.positionHovercard();
 		this.props.getEntity(this.props.request);
+		if (this.props.entity && (this.props.entity.loaded || this.props.entity.err)) {
+			this.loadedTime = Date.now();
+		}
+	},
+	componentDidUpdate: function(prevProps) {
+		if (this.loadedTime) {
+			return;
+		}
+		if (prevProps.entity && (prevProps.entity.loaded || prevProps.entity.err)) {
+			return;
+		}
+		if (!this.props.entity || (!this.props.entity.loaded && !this.props.entity.err)) {
+			return;
+		}
+		this.loadedTime = Date.now();
 	},
 	componentWillUnmount: function() {
+		if (this.loadedTime) {
+			this.props.analytics(['send', 'timing', entityLabel(this.props.entity), 'Showing hovercard', Date.now() - this.loadedTime, this.props.entity.err && 'error hovercard']);
+		}
 		this.props.element.removeEventListener('click', this.closeHovercard);
 		this.props.element.removeEventListener('mousemove', this.clearCloseTimeout);
 		this.props.element.removeEventListener('mouseleave', this.setCloseTimeout);

@@ -67,6 +67,7 @@ module.exports.analytics = function(request, meta, sender) {
 		return getAnalytics
 			.then(function(ga) {
 				ga.apply(this, request);
+				return request;
 			})
 			.catch(function() {
 				// FIXME #9 Log "impossible" err

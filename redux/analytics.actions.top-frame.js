@@ -16,10 +16,7 @@ module.exports.analytics = function(request) {
 					}
 				});
 		}
-		return promise
-			.catch(function() {
-				// FIXME #9 Log "impossible" err
-				// Don't return err
-			});
+		// FIXME #9 Log "impossible" err
+		return promise;
 	};
 };
