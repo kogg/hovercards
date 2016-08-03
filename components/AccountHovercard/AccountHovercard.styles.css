@@ -1,0 +1,74 @@
+.account {
+  min-height: 140px;
+  overflow: hidden;
+  width: 380px;
+
+  &.noAccountImage {
+    min-height: 88px;
+  }
+}
+
+.image {
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  border: 3px solid white;
+  display: block;
+  height: 90px;
+  margin: auto;
+  margin-top: 16px;
+  position: relative;
+  width: 90px;
+
+  .header + & {
+    margin-top: -45px;
+  }
+}
+
+.name-container {
+  composes: flex-row from '../flex.styles';
+  margin: 16px 12px 10px;
+
+  .image + & {
+    margin: 3px 12px 0;
+  }
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.verified {
+  background-image: url("../../assets/images/verified.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: inline-block;
+  height: 16px;
+  margin-left: 6px;
+  width: 16px;
+}
+
+.description {
+  max-height: 120px;
+  padding: 12px 12px 0 12px;
+  text-align: center;
+  width: 100%;
+
+  .name-container + & {
+    margin: 0;
+    padding: 6px 12px 12px 12px;
+  }
+}
+
+.text {
+  display: block;
+}
+
+.footer {
+  .description + & {
+    padding-top: 0;
+    margin-top: 0;
+  }
+}

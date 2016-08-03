@@ -1,0 +1,16 @@
+{
+  "environment": "client",
+  "account": {
+    "noImage": true,
+    "stats": ["link_karma", "comment_karma", "date"]
+  },
+  "content": {
+    "stats": ["score", "score_ratio", "comments"]
+  },
+  "discussion": {
+    "comments": {
+      "stats": ["score"]
+    },
+    "integrations": ["reddit"]
+  }
+}

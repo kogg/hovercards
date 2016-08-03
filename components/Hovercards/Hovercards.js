@@ -1,14 +1,15 @@
 var _                        = require('underscore');
+var React                    = require('react');
+var classnames               = require('classnames');
 var connect                  = require('react-redux').connect;
 var createStructuredSelector = require('reselect').createStructuredSelector;
-var React                    = require('react');
 
+var Hovercard   = require('../Hovercard/Hovercard');
 var actions     = require('../../redux/actions.top-frame');
 var dom         = require('../../utils/dom');
 var entityLabel = require('../../utils/entity-label');
 var styles      = require('./Hovercards.styles');
 var urls        = require('../../integrations/urls');
-var Hovercard   = require('../Hovercard/Hovercard');
 
 var TIMEOUT_BEFORE_CARD = 500;
 
@@ -23,8 +24,8 @@ module.exports = connect(
 )(React.createClass({
 	displayName: 'Hovercards',
 	propTypes:   {
+		className: React.PropTypes.string,
 		entities:  React.PropTypes.object.isRequired,
-		getEntity: React.PropTypes.func.isRequired,
 		options:   React.PropTypes.object.isRequired
 	},
 	getInitialState: function() {
@@ -155,13 +156,14 @@ module.exports = connect(
 	},
 	render: function() {
 		return (
-			<div className={styles.hovercards} ref="hovercards">
+			<div className={classnames(styles.hovercards, this.props.className)} ref="hovercards">
 				{this.state.hovercards.map(function(hovercard) {
 					return <Hovercard key={hovercard.key}
-						request={hovercard.request} entity={this.props.entities[entityLabel(hovercard.request)]}
-						element={hovercard.element} event={hovercard.event}
-						onClose={_.partial(this.removeHovercard, hovercard)}
-						getEntity={this.props.getEntity} />;
+						request={hovercard.request}
+						entity={this.props.entities[entityLabel(hovercard.request)]}
+						element={hovercard.element}
+						event={hovercard.event}
+						onClose={_.partial(this.removeHovercard, hovercard)} />;
 				}.bind(this))}
 			</div>
 		);

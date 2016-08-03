@@ -78,8 +78,9 @@ module.exports = function(params) {
 					.first()
 					.result('data')
 					.value();
-				return _.pick(
-					{
+				return _.chain(args)
+					.pick('id', 'for')
+					.extend({
 						api:      'reddit',
 						type:     'discussion',
 						id:       _.result(post, 'id'),
@@ -93,17 +94,21 @@ module.exports = function(params) {
 							.map(comment_to_comment)
 							.reject(_.isEmpty)
 							.value()
-					},
-					_.somePredicate(_.isNumber, _.negate(_.isEmpty))
-				);
+					})
+					.pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
+					.value();
 			})
 			.catch(function(err) {
 				if (err === 'none') {
-					return {
-						api:      'reddit',
-						type:     'discussion',
-						comments: []
-					};
+					return _.chain(args)
+						.pick('id', 'for')
+						.extend({
+							api:      'reddit',
+							type:     'discussion',
+							comments: []
+						})
+						.pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
+						.value();
 				}
 				return Promise.reject(err);
 			});

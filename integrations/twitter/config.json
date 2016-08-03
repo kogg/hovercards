@@ -1,0 +1,15 @@
+{
+  "authenticatable": true,
+  "account": {
+    "stats": ["content", "followers", "following"]
+  },
+  "content": {
+    "stats": ["resposts", "likes"]
+  },
+  "discussion": {
+    "comments": {
+      "stats": ["likes", "reposts"]
+    },
+    "integrations": ["reddit"]
+  }
+}

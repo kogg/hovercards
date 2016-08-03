@@ -1,1 +1,4 @@
-module.exports = require('./actions.common');
+module.exports = Object.assign(
+	{},
+	require('./options.actions')
+);

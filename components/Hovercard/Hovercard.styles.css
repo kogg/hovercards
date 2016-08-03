@@ -1,20 +1,23 @@
 .hovercard {
-  align-items: flex-start;
   all: initial; /* no important */
+  align-items: flex-start;
   background: white;
   border-radius: 3px;
   box-shadow: rgba(0, 0, 0, 0.15) 0 2px 5px 0, rgba(0, 0, 0, 0.12) 0 2px 10px 0;
   box-sizing: border-box;
-  cursor: pointer;
   justify-content: center;
   margin: 0;
   max-height: 600px;
   max-width: 500px;
   overflow: auto;
   position: absolute;
-  width: 100%;
   z-index: 2147483647;
 
+  &:empty {
+    display: block;
+  }
+
+  /* FIXME @cameronrohani @cam GLOBAL STYLES ARE BAD */
   * {
     -webkit-font-smoothing: antialiased;
     font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -33,10 +36,185 @@
     box-sizing: border-box;
   }
 
+  blockquote,
+  div,
+  h1,
+  h2,
+  h3,
+  li,
+  ul {
+    display: block; /* no important */
+  }
+
+  p,
+  span,
+  sup,
+  li,
+  li:before {
+    color: rgba(0, 0, 0, .8);
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  blockquote {
+    padding: 6px 12px;
+    border-left: 2px solid rgba(0, 0, 0, .2);
+  }
+
+  br {
+    display: none;
+  }
+
+  em {
+    color: black;
+    font-style: normal;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  p {
+    display: inline;
+    line-height: 21px;
+    font-size: 16px;
+    font-weight: 400;
+    word-wrap: break-word;
+    word-break: break-word;
+    line-height: 19px;
+    font-size: 14px;
+
+    *,
+    a {
+      line-height: 21px;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 19px;
+      font-size: 14px;
+    }
+
+    * {
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+
+    a {
+      margin: 0 3px;
+      word-wrap: break-word;
+      word-break: break-word;
+      color: #2676d6;
+    }
+
+    del {
+      text-decoration: line-through;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-weight: 700;
+    }
+
+    strong {
+      font-weight: 700;
+    }
+  }
+
   pre {
+    background: rgba(0, 0, 0, .1);
+    border-left: 3px solid rgba(0, 0, 0, .1);
     display: block;
     font-family: monospace !important;
+    padding: 6px 12px;
     white-space: pre;
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: 400;
+
+    em {
+      font-size: 14px;
+    }
+  }
+
+  sup {
+    vertical-align: super;
+    font-size: smaller;
+  }
+
+  table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: show;
+    border: 1px solid #cbcbcb;
+  }
+
+  th,
+  td {
+    display: table-cell;
+    border-left: 1px solid #cbcbcb;
+    border-width: 0 0 0 1px;
+    margin: 0;
+    overflow: visible;
+    padding: .5em 1em;
+  }
+
+  th:first-of-type {
+    border-left-width: 0;
+  }
+
+  thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+    background-color: rgba(0, 0, 0, .1);
+    color: #000;
+    text-align: left;
+    vertical-align: bottom;
+  }
+
+  tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+  }
+
+  tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+  }
+
+  ul {
+    padding: 4px 0 4px 20px;
+    list-style-type: disc;
+
+    li:before {
+      display: inline-block;
+      content: "\25CF ";
+      margin-right: 4px;
+    }
   }
 }
 

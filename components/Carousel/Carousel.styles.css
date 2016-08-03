@@ -1,0 +1,52 @@
+.carousel {
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
+  margin-bottom: 12px;
+  position: relative;
+  user-select: none;
+}
+
+.arrows {
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+  position: absolute;
+  display: block;
+}
+
+.right-arrow,
+.left-arrow {
+  width: 42px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+
+  .carousel:hover & {
+    opacity: .2;
+  }
+
+  .carousel &:hover {
+    opacity: .5;
+  }
+}
+
+.left-arrow {
+  background-image: url('../../assets/images/left-arrow.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+}
+
+.right-arrow {
+  right: 0;
+  left: inherit;
+  background-image: url('../../assets/images/right-arrow.svg');
+  background-position: right 11px center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  width: calc(100% - 70px);
+}

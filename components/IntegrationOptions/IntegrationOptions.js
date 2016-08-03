@@ -1,5 +1,6 @@
-var _     = require('underscore');
-var React = require('react');
+var _          = require('underscore');
+var React      = require('react');
+var classnames = require('classnames');
 
 var browser = require('../../extension/browser');
 var styles  = require('./IntegrationOptions.styles');
@@ -9,6 +10,7 @@ var requireLogo = require.context('../../assets/images', false, /-icon-full_colo
 module.exports = React.createClass({
 	displayName: 'IntegrationOptions',
 	propTypes:   {
+		className:   React.PropTypes.string,
 		integration: React.PropTypes.string.isRequired,
 		setOption:   React.PropTypes.func.isRequired,
 		options:     React.PropTypes.object.isRequired
@@ -18,7 +20,7 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		return (
-			<div className={styles.row}>
+			<div className={classnames(styles.row, this.props.className)}>
 				<div className={styles.col6}>
 					<label className={styles.option}>
 						<img className={styles.integrationImage} src={requireLogo('./' + this.props.integration + '-icon-full_color.png')} />

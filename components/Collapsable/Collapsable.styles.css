@@ -1,0 +1,35 @@
+.collapsable {
+  position: relative;
+  overflow: hidden;
+
+  &.collapsed {
+    cursor: pointer;
+
+    .content-reddit &:after {
+
+      /* FIXME */
+      top: 180px;
+    }
+
+    &:after {
+      background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 28%, rgba(255, 255, 255, 1) 100%);
+      color: rgba(0, 0, 0, .6);
+      content: "Read More";
+      cursor: pointer;
+      display: block;
+      font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      font-size: 14px;
+      height: 20px;
+      padding-right: 12px;
+      position: absolute;
+      right: 0;
+      text-align: right;
+      top: calc(100% - 18px);
+      width: 120px;
+    }
+  }
+
+  &.expanded {
+    max-height: 999999px;
+  }
+}

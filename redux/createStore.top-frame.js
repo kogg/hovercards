@@ -29,7 +29,7 @@ module.exports = function(initialState) {
 	browser.runtime.onMessage.addListener(function(action, sender, sendResponse) {
 		action.payload = (!action.error || _.isError(action.payload)) ?
 			action.payload :
-			_.extend(new Error(action.payload.message), action.payload);
+			Object.assign(new Error(action.payload.message), action.payload);
 
 		store.dispatch(actions[action.type](action.payload, action.meta, sender)).then(sendResponse, sendResponse);
 

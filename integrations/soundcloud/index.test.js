@@ -8,7 +8,7 @@ var expect         = chai.expect;
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
 
-describe.only('soundcloud', function() {
+describe('soundcloud', function() {
 	var resolve_endpoint;
 	var sandbox;
 	var soundcloud;

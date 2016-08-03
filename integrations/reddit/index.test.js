@@ -494,9 +494,14 @@ describe('reddit', function() {
 				search_endpoint.reply(200, default_search);
 
 				return expect(reddit.discussion({ for: { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' } })).to.eventually.eql({
-					api:     'reddit',
-					type:    'discussion',
-					id:      'CONTENT_ID',
+					api:  'reddit',
+					type: 'discussion',
+					id:   'CONTENT_ID',
+					for:  {
+						api:  'someapi',
+						type: 'content',
+						id:   'SOME_CONTENT_ID'
+					},
 					content: {
 						api:       'reddit',
 						type:      'content',

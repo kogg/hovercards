@@ -196,11 +196,11 @@ module.exports = function(params) {
 					break;
 				default:
 					if (err.message === errName + ' - Must be authentified') {
-							err.status = 401;
-						} else {
-							err.status = (status >= 500) ? 502 : 500;
-							err.original_status = status;
-						}
+						err.status = 401;
+					} else {
+						err.status = (status >= 500) ? 502 : 500;
+						err.original_status = status;
+					}
 					break;
 			}
 			return Promise.reject(err);
@@ -210,7 +210,15 @@ module.exports = function(params) {
 
 function media_to_content(media) {
 	var media_images = _.result(media, 'images');
-	return !_.isEmpty(media) && _.chain(urls.parse(_.result(media, 'link'))) .extend({ date:  _.result(media, 'created_time') * 1000, image: { small:  _.chain(media_images).result('thumbnail').result('url').value(), medium: _.chain(media_images).result('low_resolution').result('url').value(), large:  _.chain(media_images).result('standard_resolution').result('url').value() }, video: (_.result(media, 'type') === 'video') && _.chain(media).result('videos').result('standard_resolution').result('url').value(), stats: { likes:    Number(_.chain(media).result('likes').result('count').value()), comments: Number(_.chain(media).result('comments').result('count').value()) } }) .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))) .value();
+	return !_.isEmpty(media) && _.chain(urls.parse(_.result(media, 'link')))
+		.extend({
+			date:  _.result(media, 'created_time') * 1000,
+			image: { small:  _.chain(media_images).result('thumbnail').result('url').value(), medium: _.chain(media_images).result('low_resolution').result('url').value(), large:  _.chain(media_images).result('standard_resolution').result('url').value() },
+			video: (_.result(media, 'type') === 'video') && _.chain(media).result('videos').result('standard_resolution').result('url').value(),
+			stats: { likes:    Number(_.chain(media).result('likes').result('count').value()), comments: Number(_.chain(media).result('comments').result('count').value()) }
+		})
+		.pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
+		.value();
 }
 
 function user_to_account(user) {

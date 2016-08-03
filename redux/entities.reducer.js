@@ -1,24 +1,24 @@
-var _            = require('underscore');
-var handleAction = require('redux-actions').handleAction;
+var _             = require('underscore');
+var handleActions = require('redux-actions').handleActions;
 
 var entityLabel = require('../utils/entity-label');
 
-module.exports = handleAction(
-	'SET_ENTITY',
+module.exports = handleActions(
 	{
-		next: function(state, action) {
-			return _.defaults({ [(action.meta || {}).label || entityLabel(action.payload)]: action.payload }, state);
+		CLEAR_ENTITIES: function(state, action) {
+			return _.omit(state, function(value, key) {
+				return key.startsWith(action.payload);
+			});
 		},
-		throw: function(state, action) {
-			return _.defaults(
-				{
-					[entityLabel(action.payload.request)]: _.defaults(
-						{ err: _.omit(action.payload, 'request') },
-						state[entityLabel(action.payload.request)]
-					)
-				},
-				state
-			);
+		SET_ENTITY: {
+			next: function(state, action) {
+				return Object.assign({}, state, { [(action.meta || {}).label || entityLabel(action.payload)]: action.payload });
+			},
+			throw: function(state, action) {
+				return Object.assign({}, state, {
+					[entityLabel(action.payload.request)]: Object.assign({}, state[entityLabel(action.payload.request)], { err: action.payload })
+				});
+			}
 		}
 	},
 	{}

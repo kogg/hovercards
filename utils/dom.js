@@ -63,3 +63,12 @@ module.exports.massageUrl = function(url) {
 	}
 	return url;
 };
+
+module.exports.imageLoaded = function(src) {
+	return new Promise(function(resolve, reject) {
+		var img = new Image();
+		img.onload = resolve;
+		img.onerror = reject;
+		img.src = src;
+	});
+};

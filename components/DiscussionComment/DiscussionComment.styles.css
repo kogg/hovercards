@@ -1,0 +1,76 @@
+.comment-container {
+  padding: 12px;
+}
+
+.comment {
+  display: flex;
+  justify-content: left;
+}
+
+.account-image-container {
+  height: 44px;
+  margin: 0 16px 0 0;
+  width: 44px;
+}
+
+.account-image {
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  display: block;
+  height: 44px;
+  position: relative;
+  width: 44px;
+
+  &.empty {
+    background-image: url('../../assets/images/missing-image.png');
+  }
+}
+
+.account-name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.description {
+  padding-left: 0;
+  width: 100%;
+}
+
+.text {
+  margin: 2px 0 4px;
+
+  a {
+    color: #0084b4;
+  }
+}
+
+.stat {
+  composes: flex-item from '../flex.styles';
+}
+
+.replies {
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  margin: 0 12px;
+  padding-bottom: 8px;
+
+  .comment-container {
+    padding: 0;
+
+    &:not(:last-of-type) {
+      padding-bottom: 16px;
+    }
+  }
+
+  .account-image-container {
+    margin: 0 0 0 16px;
+  }
+
+  .description {
+    padding-left: 12px;
+  }
+
+  .replies {
+    margin-right: 0px;
+  }
+}
