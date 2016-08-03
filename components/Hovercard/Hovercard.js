@@ -129,7 +129,7 @@ module.exports = connect(null, actions)(React.createClass({
 	onClick: function(e) {
 		var element = e.target;
 		while (element && element.tagName.toLowerCase() !== 'a') {
-			if (element === this.refs.discussion) {
+			if (element === this.refs.hovercard) {
 				return;
 			}
 			element = element.parentNode;

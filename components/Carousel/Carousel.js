@@ -1,3 +1,4 @@
+var _          = require('underscore');
 var React      = require('react');
 var classnames = require('classnames');
 
@@ -14,15 +15,41 @@ module.exports = React.createClass({
 	getInitialState: function() {
 		return { index: 0 };
 	},
-	previous: function() {
-		var index = Math.max(0, this.state.index - 1);
-		this.setState({ index: index }, this.props.onResize);
-		this.props.onChange(index, 'mouse');
+	componentDidMount: function() {
+		window.addEventListener('keydown', this.onWindowKeyDown);
 	},
-	next: function() {
+	componentWillUnmount: function() {
+		window.addEventListener('keydown', this.onWindowKeyDown);
+	},
+	next: function(how) {
 		var index = Math.min(this.props.children.length - 1, this.state.index + 1);
 		this.setState({ index: index }, this.props.onResize);
-		this.props.onChange(index, 'mouse');
+		this.props.onChange(index, how);
+	},
+	previous: function(how) {
+		var index = Math.max(0, this.state.index - 1);
+		this.setState({ index: index }, this.props.onResize);
+		this.props.onChange(index, how);
+	},
+	onWindowKeyDown: function(e) {
+		switch (e.keyCode) {
+			case 37:
+			case 72:
+				if (this.state.index === 0) {
+					break;
+				}
+				this.previous('keydown');
+				break;
+			case 39:
+			case 76:
+				if (this.state.index === this.props.children.length - 1) {
+					break;
+				}
+				this.next('keydown');
+				break;
+			default:
+				break;
+		}
 	},
 	render: function() {
 		if (this.props.children.length === 0) {
@@ -33,8 +60,8 @@ module.exports = React.createClass({
 				{
 					(this.props.children.length > 1) &&
 					<div className={styles.arrows}>
-						{(this.state.index > 0) && <div className={styles.leftArrow} onClick={this.previous} />}
-						{(this.state.index < this.props.children.length - 1) && <div className={styles.rightArrow} onClick={this.next} />}
+						{(this.state.index > 0) && <div className={styles.leftArrow} onClick={_.partial(this.previous, 'click')} />}
+						{(this.state.index < this.props.children.length - 1) && <div className={styles.rightArrow} onClick={_.partial(this.next, 'click')} />}
 					</div>
 				}
 				{this.props.children[this.state.index]}
