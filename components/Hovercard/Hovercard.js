@@ -36,6 +36,7 @@ module.exports = React.createClass({
 		window.addEventListener('resize', this.positionHovercard);
 		this.positionHovercard();
 		this.props.getEntity(this.props.request);
+		this.mountedTime = Date.now();
 		if (this.props.entity && (this.props.entity.loaded || this.props.entity.err)) {
 			this.loadedTime = Date.now();
 		}
@@ -54,7 +55,7 @@ module.exports = React.createClass({
 	},
 	componentWillUnmount: function() {
 		if (this.loadedTime) {
-			this.props.analytics(['send', 'timing', entityLabel(this.props.entity), 'Showing hovercard', Date.now() - this.loadedTime, this.props.entity.err && 'error hovercard']);
+			this.props.analytics(['send', 'timing', entityLabel(this.props.entity), 'Showing hovercard for', Date.now() - this.loadedTime, this.props.entity.err && 'error hovercard']);
 		}
 		this.props.element.removeEventListener('click', this.closeHovercard);
 		this.props.element.removeEventListener('mousemove', this.clearCloseTimeout);
@@ -116,6 +117,10 @@ module.exports = React.createClass({
 	onHovered: function() {
 		if (this.state.hovered) {
 			return;
+		}
+		if (!this.firstHoveredTime) {
+			this.firstHoveredTime = Date.now();
+			this.props.analytics(['send', 'timing', entityLabel(this.props.entity || this.props.request), 'Hovered on hovercard after', this.firstHoveredTime - this.mountedTime, this.props.entity.err && 'error hovercard']);
 		}
 		this.setState({ hovered: true });
 		dom.addClass(document.documentElement, styles.lockDocument);
