@@ -21,7 +21,7 @@
     "fix:css": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".s\\?css$\" | xargs -I '{}' -n 1 cssfmt {} ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".s\\?css$\" | xargs git add )",
     "fix:js": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".jsx\\?$\" | xargs eslint --fix ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".jsx\\?$\" | xargs git add )",
     "start": "if [ \"$NODE_ENV\" = 'production' ]; then foreman start; else foreman start -f Procfile.dev; fi",
-    "test": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' && mocha \"./{,!(node_modules)/**/}*.test.js\""
+    "test": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**' && mocha \"./{,!(node_modules)/**/}*.test.js\""
   },
   "dependencies": {
     "async": "^1.5.0",
@@ -38,10 +38,8 @@
     "helmet": "^2.1.1",
     "instagram-node": "^0.5.8",
     "jquery": "^2.1.4",
-    "memoizee": "^0.3.9",
     "passport": "^0.2.2",
     "passport-twitter": "^1.0.3",
-    "ractive": "^0.7.3",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "react-redux": "^4.4.5",
@@ -91,8 +89,6 @@
     "postcss-nested": "^1.0.0",
     "postcss-safe-important": "^1.0.4",
     "pre-commit": "^1.1.2",
-    "ractive-component-loader": "^1.2.0",
-    "ractive-loader": "^0.5.6",
     "sinon": "^1.17.1",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",

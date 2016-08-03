@@ -22,10 +22,8 @@ module.exports = {
 	module: {
 		loaders: [
 			{ exclude: 'node_modules', test: /\.(gif|png|jpe?g|svg)$/i, loaders: ['file?name=assets/images/[name].[ext]', 'image-webpack'] },
-			{ exclude: 'node_modules', test: /\.html/, loader: 'ractive' },
 			{ exclude: 'node_modules', test: /\.js$/, loader: 'babel?cacheDirectory' },
 			{ exclude: 'node_modules', test: /\.json/, loader: 'json' },
-			{ exclude: 'node_modules', test: /\.ract/, loader: 'ractive-component' },
 			{ exclude: 'node_modules', test: /\.ttf$|\.eot$/, loader: 'file?name=assets/fonts/[name].[ext]' },
 			{ exclude: 'node_modules', test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file?name=assets/fonts/[name].[ext]' },
 			{
