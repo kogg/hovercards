@@ -41,7 +41,6 @@ var SoundCloudPlayer = module.exports = React.createClass({
 		return { player: null };
 	},
 	componentDidMount: function() {
-		this.props.onLoad();
 		SoundCloudPlayer.getSC()
 			.then(function(SC) {
 				var player = SC.Widget(this.refs.player);

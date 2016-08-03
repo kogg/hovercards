@@ -11,9 +11,6 @@ module.exports = React.createClass({
 		image:     React.PropTypes.object,
 		onLoad:    React.PropTypes.func.isRequired
 	},
-	componentDidMount: function() {
-		this.props.onLoad();
-	},
 	render: function() {
 		return (
 			<video className={classnames(styles.gif, this.props.className)}

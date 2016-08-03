@@ -1,6 +1,5 @@
 var React      = require('react');
 var classnames = require('classnames');
-var compose    = require('redux').compose;
 var connect    = require('react-redux').connect;
 
 var AccountHovercard = require('../AccountHovercard/AccountHovercard');
@@ -41,6 +40,7 @@ module.exports = connect(null, actions)(React.createClass({
 		if (this.props.entity && (this.props.entity.loaded || this.props.entity.err)) {
 			this.loadedTime = Date.now();
 		}
+		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Hovercard Opened (exclude loading)', (this.props.entity || this.props.request).err && 'error hovercard']);
 	},
 	componentDidUpdate: function(prevProps) {
 		if (this.loadedTime) {
@@ -58,12 +58,25 @@ module.exports = connect(null, actions)(React.createClass({
 		if (this.loadedTime) {
 			this.props.analytics(['send', 'timing', entityLabel(this.props.entity, true), 'Hovercard Open (exclude loading)', Date.now() - this.loadedTime, this.props.entity.err && 'error hovercard']);
 		}
+		if (this.hasScrolled) {
+			this.props.analytics(['send', 'event', entityLabel(this.props.entity, true), 'Hovercard Scrolled', this.props.entity.err && 'error hovercard', this.scrolledAmount]);
+		}
 		this.props.element.removeEventListener('click', this.closeHovercard);
 		this.props.element.removeEventListener('mousemove', this.clearCloseTimeout);
 		this.props.element.removeEventListener('mouseleave', this.setCloseTimeout);
 		window.removeEventListener('blur', this.onWindowBlur);
 		window.removeEventListener('scroll', this.positionHovercard);
 		window.removeEventListener('resize', this.positionHovercard);
+	},
+	clearCloseTimeout: function() {
+		clearTimeout(this.closeTimeout);
+	},
+	closeHovercard: function() {
+		if (process.env.NODE_ENV !== 'production' && process.env.STICKYCARDS) {
+			return;
+		}
+		this.onMouseLeave();
+		this.props.onClose();
 	},
 	positionHovercard: function() {
 		if (!this.isMounted()) {
@@ -94,9 +107,10 @@ module.exports = connect(null, actions)(React.createClass({
 				}
 			};
 		});
+		this.setScrollPosition();
 	},
-	setCloseTimeout: function(event) {
-		var element = event.relatedTarget;
+	setCloseTimeout: function(e) {
+		var element = e.relatedTarget;
 		while (element && element !== document.documentElement) {
 			if (element === this.element && element === this.refs.hovercard) {
 				return;
@@ -105,35 +119,31 @@ module.exports = connect(null, actions)(React.createClass({
 		}
 		this.closeTimeout = setTimeout(this.closeHovercard, TIMEOUT_BEFORE_CLOSE);
 	},
-	clearCloseTimeout: function() {
-		clearTimeout(this.closeTimeout);
+	setScrollPosition: function(e) {
+		this.hasScrolled = this.hasScrolled || Boolean(e);
+		this.scrolledAmount = Math.max(this.scrolledAmount || 0, this.refs.hovercard.scrollTop);
 	},
-	closeHovercard: function() {
-		if (process.env.NODE_ENV !== 'production' && process.env.STICKYCARDS) {
+	onMouseLeave: function(e) {
+		if (!this.state.hovered) {
 			return;
 		}
-		this.onUnHovered();
-		this.props.onClose();
+		this.setCloseTimeout(e);
+		this.setState({ hovered: false });
+		dom.removeClass(document.documentElement, styles.lockDocument);
+		dom.removeClass(document.body, styles.lockBody);
 	},
-	onHovered: function() {
+	onMouseMove: function() {
 		if (this.state.hovered) {
 			return;
 		}
+		this.clearCloseTimeout();
 		if (!this.firstHoveredTime) {
 			this.firstHoveredTime = Date.now();
-			this.props.analytics(['send', 'timing', entityLabel(this.props.entity || this.props.request, true), 'Until hovered on hovercard (include loading)', this.firstHoveredTime - this.mountedTime, this.props.entity.err && 'error hovercard']);
+			this.props.analytics(['send', 'timing', entityLabel(this.props.entity || this.props.request, true), 'Until hovered on hovercard (include loading)', this.firstHoveredTime - this.mountedTime, (this.props.entity || this.props.request).err && 'error hovercard']);
 		}
 		this.setState({ hovered: true });
 		dom.addClass(document.documentElement, styles.lockDocument);
 		dom.addClass(document.body, styles.lockBody);
-	},
-	onUnHovered: function() {
-		if (!this.state.hovered) {
-			return;
-		}
-		this.setState({ hovered: false });
-		dom.removeClass(document.documentElement, styles.lockDocument);
-		dom.removeClass(document.body, styles.lockBody);
 	},
 	onWindowBlur: function() {
 		if (document.activeElement.tagName.toLowerCase() === 'iframe') {
@@ -153,8 +163,9 @@ module.exports = connect(null, actions)(React.createClass({
 
 		return (
 			<div className={classnames(styles.hovercard, this.props.className)} style={this.state.offset} ref="hovercard"
-				onMouseMove={compose(this.onHovered, this.clearCloseTimeout)}
-				onMouseLeave={compose(this.onUnHovered, this.setCloseTimeout)}>
+				onMouseMove={this.onMouseMove}
+				onMouseLeave={this.onMouseLeave}
+				onScroll={this.setScrollPosition}>
 				{
 					entityOrRequest.type === 'content' ?
 						<ContentHovercard content={entityOrRequest}

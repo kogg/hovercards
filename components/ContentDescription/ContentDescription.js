@@ -16,9 +16,6 @@ module.exports = connect(null, actions)(React.createClass({
 		content:   React.PropTypes.object.isRequired,
 		onResize:  React.PropTypes.func.isRequired
 	},
-	componentDidMount: function() {
-		this.props.onResize();
-	},
 	componentDidUpdate: function(prevProps) {
 		if (this.props.content === prevProps.content) {
 			return;

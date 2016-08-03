@@ -15,9 +15,6 @@ module.exports = React.createClass({
 	getInitialState: function() {
 		return { playing: true };
 	},
-	componentDidMount: function() {
-		this.props.onLoad();
-	},
 	togglePlaying: function() {
 		this.refs.video[this.state.playing ? 'pause' : 'play']();
 		this.setState({ playing: !this.state.playing });

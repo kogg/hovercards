@@ -15,7 +15,6 @@ module.exports = React.createClass({
 		return { expanded: false, collapsable: true };
 	},
 	componentDidMount: function() {
-		this.props.onResize();
 		if (this.refs.collapsable.scrollHeight < this.refs.collapsable.offsetHeight + 5) {
 			return this.setState({ collapsable: false });
 		}

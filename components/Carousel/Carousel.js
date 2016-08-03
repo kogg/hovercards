@@ -14,9 +14,6 @@ module.exports = React.createClass({
 	getInitialState: function() {
 		return { index: 0 };
 	},
-	componentDidMount: function() {
-		this.props.onResize();
-	},
 	previous: function() {
 		var index = Math.max(0, this.state.index - 1);
 		this.setState({ index: index }, this.props.onResize);

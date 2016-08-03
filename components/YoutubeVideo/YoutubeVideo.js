@@ -61,7 +61,6 @@ var YoutubeVideo = module.exports = React.createClass({
 		return { player: null };
 	},
 	componentDidMount: function() {
-		this.props.onLoad();
 		YoutubeVideo.getYT()
 			.then(function(YT) {
 				return new Promise(function(resolve, reject) {

@@ -10,9 +10,6 @@ module.exports = React.createClass({
 		image:     React.PropTypes.object.isRequired,
 		onLoad:    React.PropTypes.func.isRequired
 	},
-	componentDidMount: function() {
-		this.props.onLoad();
-	},
 	render: function() {
 		return (
 			<img className={classnames(styles.image, this.props.className)} src={this.props.image.large || this.props.image.medium || this.props.image.small}
