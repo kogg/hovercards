@@ -12,7 +12,8 @@ var DiscussionComment = module.exports = React.createClass({
 	propTypes:   {
 		className:   React.PropTypes.string,
 		comment:     React.PropTypes.object.isRequired,
-		integration: React.PropTypes.string.isRequired
+		integration: React.PropTypes.string.isRequired,
+		onClickText: React.PropTypes.func.isRequired
 	},
 	render: function() {
 		var accountImage = (
@@ -48,7 +49,7 @@ var DiscussionComment = module.exports = React.createClass({
 					}
 					<div className={styles.description}>
 						<a className={styles.accountName} href={urls.print(this.props.comment.account)} target="_blank">{accountName}</a>
-						<p className={styles.text} dangerouslySetInnerHTML={{ __html: this.props.comment.text }} />
+						<p className={styles.text} dangerouslySetInnerHTML={{ __html: this.props.comment.text }} onClick={this.props.onClickText} />
 						{
 							config.integrations[this.props.integration].discussion.comments &&
 							config.integrations[this.props.integration].discussion.comments.stats &&
@@ -70,7 +71,7 @@ var DiscussionComment = module.exports = React.createClass({
 					this.props.comment.replies.length &&
 					<div className={styles.replies}>
 						{this.props.comment.replies && this.props.comment.replies.map(function(reply, i) {
-							return <DiscussionComment key={reply.id || i} comment={reply} integration={this.props.integration} />;
+							return <DiscussionComment key={reply.id || i} comment={reply} integration={this.props.integration} onClickText={this.props.onClickText} />;
 						}.bind(this))}
 					</div>
 				}

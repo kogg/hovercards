@@ -17,7 +17,8 @@ module.exports = connect(null, actions)(React.createClass({
 		className: React.PropTypes.string,
 		content:   React.PropTypes.object.isRequired
 	},
-	onShare: function(network) {
+	onShare: function(network, e) {
+		e.stopPropagation();
 		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Shared', network]);
 	},
 	render: function() {

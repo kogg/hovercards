@@ -8,6 +8,7 @@ var actions          = require('../../redux/actions.top-frame');
 var dom              = require('../../utils/dom');
 var entityLabel      = require('../../utils/entity-label');
 var styles           = require('./Hovercard.styles');
+var urls             = require('../../integrations/urls');
 
 var PADDING_FROM_EDGES   = 10;
 var TIMEOUT_BEFORE_CLOSE = 100;
@@ -110,18 +111,39 @@ module.exports = connect(null, actions)(React.createClass({
 		this.setScrollPosition();
 	},
 	setCloseTimeout: function(e) {
-		var element = e.relatedTarget;
-		while (element && element !== document.documentElement) {
-			if (element === this.element && element === this.refs.hovercard) {
-				return;
+		if (e) {
+			var element = e.relatedTarget;
+			while (element && element !== document.documentElement) {
+				if (element === this.element && element === this.refs.hovercard) {
+					return;
+				}
+				element = element.parentNode;
 			}
-			element = element.parentNode;
 		}
 		this.closeTimeout = setTimeout(this.closeHovercard, TIMEOUT_BEFORE_CLOSE);
 	},
 	setScrollPosition: function(e) {
 		this.hasScrolled = this.hasScrolled || Boolean(e);
 		this.scrolledAmount = Math.max(this.scrolledAmount || 0, this.refs.hovercard.scrollTop);
+	},
+	onClick: function(e) {
+		var element = e.target;
+		while (element && element.tagName.toLowerCase() !== 'a') {
+			if (element === this.refs.discussion) {
+				return;
+			}
+			element = element.parentNode;
+		}
+		if (!element.href) {
+			return;
+		}
+		e.stopPropagation();
+		if (element.target !== '_blank') {
+			e.preventDefault();
+			window.open(element.href);
+		}
+		var linkEntity = urls.parse(element.href);
+		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Link Opened', linkEntity && entityLabel(linkEntity, true)]);
 	},
 	onMouseLeave: function(e) {
 		if (!this.state.hovered) {
@@ -149,6 +171,7 @@ module.exports = connect(null, actions)(React.createClass({
 		if (document.activeElement.tagName.toLowerCase() === 'iframe') {
 			return;
 		}
+		/*
 		var element = document.activeElement;
 		while (element !== document.documentElement) {
 			if (element === this.refs.hovercard) {
@@ -156,6 +179,7 @@ module.exports = connect(null, actions)(React.createClass({
 			}
 			element = element.parentNode;
 		}
+		*/
 		this.closeHovercard();
 	},
 	render: function() {
@@ -163,6 +187,7 @@ module.exports = connect(null, actions)(React.createClass({
 
 		return (
 			<div className={classnames(styles.hovercard, this.props.className)} style={this.state.offset} ref="hovercard"
+				onClick={this.onClick}
 				onMouseMove={this.onMouseMove}
 				onMouseLeave={this.onMouseLeave}
 				onScroll={this.setScrollPosition}>

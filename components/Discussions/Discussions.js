@@ -87,6 +87,24 @@ module.exports = connect(
 			this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Discussion Selected', entityLabel(this.props.discussions[i], true), i]);
 		}
 	},
+	onClickCommentText: function(e) {
+		var element = e.target;
+		while (element && element.tagName.toLowerCase() !== 'a') {
+			if (element === this.refs.discussion) {
+				return;
+			}
+			element = element.parentNode;
+		}
+		if (!element.href) {
+			return;
+		}
+		e.stopPropagation();
+		if (element.target !== '_blank') {
+			e.preventDefault();
+			window.open(element.href);
+		}
+		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Link Opened', 'in a ' + entityLabel(this.props.discussions[this.state.selected], true)]);
+	},
 	render: function() {
 		var discussion = this.props.discussions[this.state.selected];
 
@@ -111,10 +129,10 @@ module.exports = connect(
 					{(!discussion || (!discussion.err && !discussion.loaded)) && <Loading />}
 					{discussion && !discussion.err && discussion.loaded && (
 						discussion.comments && discussion.comments.length &&
-						<div>
+						<div ref="discussion">
 							{discussion.comments.map(function(comment, i) {
-								return <DiscussionComment key={comment.id || i} comment={comment} integration={discussion.api} />;
-							})}
+								return <DiscussionComment key={comment.id || i} comment={comment} integration={discussion.api} onClickText={this.onClickCommentText} />;
+							}.bind(this))}
 						</div>
 					)}
 				</div>

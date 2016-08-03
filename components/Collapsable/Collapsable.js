@@ -25,11 +25,12 @@ module.exports = React.createClass({
 		}
 		this.props.onResize();
 	},
-	onExpand: function(event) {
+	onExpand: function(e) {
 		if (this.state.expanded || !this.state.collapsable) {
 			return;
 		}
-		event.preventDefault();
+		e.preventDefault();
+		e.stopPropagation();
 		this.setState({ expanded: true });
 		this.props.onExpand();
 	},
