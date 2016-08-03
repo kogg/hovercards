@@ -1,10 +1,12 @@
 var React      = require('react');
 var classnames = require('classnames');
+var connect    = require('react-redux').connect;
 
+var actions = require('../../redux/actions.top-frame');
 var browser = require('../../extension/browser');
 var styles  = require('./Err.styles');
 
-module.exports = React.createClass({
+module.exports = connect(null, actions)(React.createClass({
 	displayName: 'Err',
 	propTypes:   {
 		authenticate: React.PropTypes.func.isRequired,
@@ -46,4 +48,4 @@ module.exports = React.createClass({
 			</div>
 		);
 	}
-});
+}));

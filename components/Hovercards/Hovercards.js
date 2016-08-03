@@ -24,12 +24,9 @@ module.exports = connect(
 )(React.createClass({
 	displayName: 'Hovercards',
 	propTypes:   {
-		analytics:    React.PropTypes.func.isRequired,
-		authenticate: React.PropTypes.func.isRequired,
-		className:    React.PropTypes.string,
-		entities:     React.PropTypes.object.isRequired,
-		getEntity:    React.PropTypes.func.isRequired,
-		options:      React.PropTypes.object.isRequired
+		className: React.PropTypes.string,
+		entities:  React.PropTypes.object.isRequired,
+		options:   React.PropTypes.object.isRequired
 	},
 	getInitialState: function() {
 		return { hovercards: [], incrementingId: 0 };
@@ -166,9 +163,6 @@ module.exports = connect(
 						entity={this.props.entities[entityLabel(hovercard.request)]}
 						element={hovercard.element}
 						event={hovercard.event}
-						analytics={this.props.analytics}
-						authenticate={this.props.authenticate}
-						getEntity={this.props.getEntity}
 						onClose={_.partial(this.removeHovercard, hovercard)} />;
 				}.bind(this))}
 			</div>

@@ -1,9 +1,11 @@
 var React      = require('react');
 var classnames = require('classnames');
 var compose    = require('redux').compose;
+var connect    = require('react-redux').connect;
 
 var AccountHovercard = require('../AccountHovercard/AccountHovercard');
 var ContentHovercard = require('../ContentHovercard/ContentHovercard');
+var actions          = require('../../redux/actions.top-frame');
 var dom              = require('../../utils/dom');
 var entityLabel      = require('../../utils/entity-label');
 var styles           = require('./Hovercard.styles');
@@ -11,18 +13,17 @@ var styles           = require('./Hovercard.styles');
 var PADDING_FROM_EDGES   = 10;
 var TIMEOUT_BEFORE_CLOSE = 100;
 
-module.exports = React.createClass({
+module.exports = connect(null, actions)(React.createClass({
 	displayName: 'Hovercard',
 	propTypes:   {
-		analytics:    React.PropTypes.func.isRequired,
-		authenticate: React.PropTypes.func.isRequired,
-		className:    React.PropTypes.string,
-		element:      React.PropTypes.object.isRequired,
-		entity:       React.PropTypes.object,
-		event:        React.PropTypes.object.isRequired,
-		getEntity:    React.PropTypes.func.isRequired,
-		request:      React.PropTypes.object.isRequired,
-		onClose:      React.PropTypes.func.isRequired
+		analytics: React.PropTypes.func.isRequired,
+		className: React.PropTypes.string,
+		element:   React.PropTypes.object.isRequired,
+		entity:    React.PropTypes.object,
+		event:     React.PropTypes.object.isRequired,
+		getEntity: React.PropTypes.func.isRequired,
+		request:   React.PropTypes.object.isRequired,
+		onClose:   React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
 		return { hovered: false, offset: {} };
@@ -55,7 +56,7 @@ module.exports = React.createClass({
 	},
 	componentWillUnmount: function() {
 		if (this.loadedTime) {
-			this.props.analytics(['send', 'timing', entityLabel(this.props.entity), 'Showing hovercard for', Date.now() - this.loadedTime, this.props.entity.err && 'error hovercard']);
+			this.props.analytics(['send', 'timing', entityLabel(this.props.entity, true), 'Showing hovercard for (exclude loading)', Date.now() - this.loadedTime, this.props.entity.err && 'error hovercard']);
 		}
 		this.props.element.removeEventListener('click', this.closeHovercard);
 		this.props.element.removeEventListener('mousemove', this.clearCloseTimeout);
@@ -120,7 +121,7 @@ module.exports = React.createClass({
 		}
 		if (!this.firstHoveredTime) {
 			this.firstHoveredTime = Date.now();
-			this.props.analytics(['send', 'timing', entityLabel(this.props.entity || this.props.request), 'Hovered on hovercard after', this.firstHoveredTime - this.mountedTime, this.props.entity.err && 'error hovercard']);
+			this.props.analytics(['send', 'timing', entityLabel(this.props.entity || this.props.request, true), 'Hovered on hovercard after (include loading)', this.firstHoveredTime - this.mountedTime, this.props.entity.err && 'error hovercard']);
 		}
 		this.setState({ hovered: true });
 		dom.addClass(document.documentElement, styles.lockDocument);
@@ -158,16 +159,12 @@ module.exports = React.createClass({
 					entityOrRequest.type === 'content' ?
 						<ContentHovercard content={entityOrRequest}
 							hovered={this.state.hovered}
-							authenticate={this.props.authenticate}
-							getEntity={this.props.getEntity}
 							onResize={this.positionHovercard} /> :
 						<AccountHovercard account={entityOrRequest}
 							hovered={this.state.hovered}
-							authenticate={this.props.authenticate}
-							getEntity={this.props.getEntity}
 							onResize={this.positionHovercard} />
 				}
 			</div>
 		);
 	}
-});
+}));

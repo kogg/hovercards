@@ -6,6 +6,7 @@ var connect    = require('react-redux').connect;
 var DiscussionComment = require('../DiscussionComment/DiscussionComment');
 var Err               = require('../Err/Err');
 var Loading           = require('../Loading/Loading');
+var actions           = require('../../redux/actions.top-frame');
 var browser           = require('../../extension/browser');
 var config            = require('../../integrations/config');
 var entityLabel       = require('../../utils/entity-label');
@@ -13,7 +14,7 @@ var styles            = require('./Discussions.styles');
 
 module.exports = connect(
 	function(state, ownProps) {
-		// TODO Gross
+		// TODO Should come from Hovercards... also, gross
 		return {
 			discussions: config.integrations[ownProps.content.api].discussion.integrations.map(function(integration) {
 				var request = discussionRequest(ownProps.content, integration);
@@ -21,16 +22,16 @@ module.exports = connect(
 				return state.entities[entityLabel(request)] || request;
 			})
 		};
-	}
+	},
+	actions
 )(React.createClass({
 	displayName: 'Discussions',
 	propTypes:   {
-		authenticate: React.PropTypes.func.isRequired,
-		className:    React.PropTypes.string,
-		content:      React.PropTypes.object.isRequired,
-		discussions:  React.PropTypes.array.isRequired,
-		getEntity:    React.PropTypes.func.isRequired,
-		onResize:     React.PropTypes.func.isRequired
+		className:   React.PropTypes.string,
+		content:     React.PropTypes.object.isRequired,
+		discussions: React.PropTypes.array.isRequired,
+		getEntity:   React.PropTypes.func.isRequired,
+		onResize:    React.PropTypes.func.isRequired
 	},
 	getInitialState: function() {
 		return { loaded: {} };
@@ -102,7 +103,7 @@ module.exports = connect(
 							</div>
 						</div>
 					}
-					{discussion && discussion.err && <Err error={discussion.err} authenticate={this.props.authenticate} getEntity={this.props.getEntity} />}
+					{discussion && discussion.err && <Err error={discussion.err} />}
 					{(!discussion || (!discussion.err && !discussion.loaded)) && <Loading />}
 					{discussion && !discussion.err && discussion.loaded && (
 						discussion.comments && discussion.comments.length &&
