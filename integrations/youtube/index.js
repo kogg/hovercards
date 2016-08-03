@@ -6,7 +6,7 @@ var request    = require('request');
 var urls       = require('../urls');
 var Autolinker = require('autolinker');
 var Google     = require('googleapis');
-require('../common/mixins');
+require('../mixins');
 
 var autolinker = new Autolinker();
 

@@ -3,7 +3,7 @@ var Autolinker  = require('autolinker');
 var config      = require('../config');
 var querystring = require('querystring');
 var urls        = require('../urls');
-require('../common/mixins');
+require('../mixins');
 
 /*
  * FIXME We can now follow redirects how we want https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch

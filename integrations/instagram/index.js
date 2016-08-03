@@ -4,7 +4,7 @@ var config         = require('../config');
 var instagram_node = require('instagram-node');
 var promisify      = require('es6-promisify');
 var urls           = require('../urls');
-require('../common/mixins');
+require('../mixins');
 
 var DEFAULT_PROFILE_IMAGE = 'https://instagramimages-a.akamaihd.net/profiles/anonymousUser.jpg';
 
