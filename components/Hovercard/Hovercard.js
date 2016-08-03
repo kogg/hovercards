@@ -29,7 +29,7 @@ module.exports = connect(null, actions)(React.createClass({
 		return { hovered: false, offset: {} };
 	},
 	componentDidMount: function() {
-		this.props.element.addEventListener('click', this.closeHovercard);
+		this.props.element.addEventListener('click', this.onClickElement);
 		this.props.element.addEventListener('mousemove', this.clearCloseTimeout);
 		this.props.element.addEventListener('mouseleave', this.setCloseTimeout);
 		window.addEventListener('blur', this.onWindowBlur);
@@ -62,7 +62,7 @@ module.exports = connect(null, actions)(React.createClass({
 		if (this.hasScrolled) {
 			this.props.analytics(['send', 'event', entityLabel(this.props.entity, true), 'Hovercard Scrolled', this.props.entity.err && 'error hovercard', this.scrolledAmount]);
 		}
-		this.props.element.removeEventListener('click', this.closeHovercard);
+		this.props.element.removeEventListener('click', this.onClickElement);
 		this.props.element.removeEventListener('mousemove', this.clearCloseTimeout);
 		this.props.element.removeEventListener('mouseleave', this.setCloseTimeout);
 		window.removeEventListener('blur', this.onWindowBlur);
@@ -144,6 +144,10 @@ module.exports = connect(null, actions)(React.createClass({
 		}
 		var linkEntity = urls.parse(element.href);
 		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Link Opened', linkEntity && entityLabel(linkEntity, true)]);
+	},
+	onClickElement: function() {
+		this.closeHovercard();
+		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Original Link Opened']);
 	},
 	onMouseLeave: function(e) {
 		if (!this.state.hovered) {
