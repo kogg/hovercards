@@ -31,6 +31,7 @@ module.exports = function(initialState) {
 			action.payload :
 			Object.assign(new Error(action.payload.message), action.payload);
 
+		console.log(action.type);
 		store.dispatch(actions[action.type](action.payload, action.meta, sender)).then(sendResponse, sendResponse);
 
 		return true;

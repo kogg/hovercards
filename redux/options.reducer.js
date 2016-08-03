@@ -2,9 +2,9 @@ var _               = require('underscore');
 var combineReducers = require('redux').combineReducers;
 var handleAction    = require('redux-actions').handleAction;
 
-var actions = require('./actions.common'); // TODO webpack/webpack#2801
-var browser = require('../extension/browser');
-var config  = require('../extension/config');
+var browser        = require('../extension/browser');
+var config         = require('../extension/config');
+var optionsActions = require('./options.actions');
 
 module.exports = (function optionsReducer(object, prefix) {
 	prefix = prefix || '';
@@ -40,7 +40,7 @@ module.exports.attachStore = function(store) {
 					if (!items.disabled[integration][type]) {
 						return;
 					}
-					store.dispatch(actions.setOption({ option: [integration, type, 'enabled'].join('.'), value: !items.disabled[integration][type] }));
+					store.dispatch(optionsActions.setOption({ option: [integration, type, 'enabled'].join('.'), value: !items.disabled[integration][type] }));
 				});
 			});
 			browser.storage.sync.remove('disabled');
@@ -50,7 +50,7 @@ module.exports.attachStore = function(store) {
 			if (!key) {
 				return;
 			}
-			store.dispatch(actions.setOption({ option: key[1], value: entry[1] }));
+			store.dispatch(optionsActions.setOption({ option: key[1], value: entry[1] }));
 		});
 	});
 
@@ -63,7 +63,7 @@ module.exports.attachStore = function(store) {
 			if (!key) {
 				return;
 			}
-			store.dispatch(actions.setOption({ option: key[1], value: entry[1].newValue }));
+			store.dispatch(optionsActions.setOption({ option: key[1], value: entry[1].newValue }));
 		});
 	});
 };

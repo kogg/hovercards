@@ -1,8 +1,11 @@
 var _            = require('underscore');
+var createAction = require('redux-actions').createAction;
 var handleAction = require('redux-actions').handleAction;
 
-var actions = require('./actions.common'); // TODO webpack/webpack#2801
 var browser = require('../extension/browser');
+
+var clearEntities     = createAction('CLEAR_ENTITIES');
+var setAuthentication = createAction('SET_AUTHENTICATION');
 
 module.exports = handleAction(
 	'SET_AUTHENTICATION',
@@ -26,7 +29,7 @@ module.exports.attachStore = function(store) {
 			if (!key) {
 				return;
 			}
-			store.dispatch(actions.setAuthentication({ api: key[1], value: entry[1] }));
+			store.dispatch(setAuthentication({ api: key[1], value: entry[1] }));
 		});
 	});
 
@@ -39,8 +42,8 @@ module.exports.attachStore = function(store) {
 			if (!key) {
 				return;
 			}
-			store.dispatch(actions.setAuthentication({ api: key[1], value: entry[1].newValue }));
-			store.dispatch(actions.clearEntities(key[1]));
+			store.dispatch(setAuthentication({ api: key[1], value: entry[1].newValue }));
+			store.dispatch(clearEntities(key[1]));
 		});
 	});
 };
