@@ -26,7 +26,7 @@
     "start": "if [ \"$NODE_ENV\" = 'production' ]; then foreman start; else foreman start -f Procfile.dev; fi",
     "test": "run-s test:*",
     "test:lint": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**'",
-    "test:unit": "mocha \"./{,!(node_modules)/**/}*.test.js\""
+    "test:unit": "istanbul cover -x *.test.js _mocha -- -R spec \"./{,!(node_modules)/**/}*.test.js\""
   },
   "config": {
     "ghooks": {
@@ -91,6 +91,7 @@
     "html-webpack-plugin": "^2.22.0",
     "html-webpack-template": "^5.0.0",
     "image-webpack-loader": "^2.0.0",
+    "istanbul": "^0.4.4",
     "json-loader": "^0.5.4",
     "mocha": "^3.0.1",
     "nock": "^8.0.0",

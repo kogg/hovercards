@@ -1,5 +1,6 @@
 .env
 build/
+coverage
 dist-*/
 dist/
 dump.rdb
