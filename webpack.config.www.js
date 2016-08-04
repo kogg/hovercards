@@ -1,10 +1,10 @@
-var autoprefixer          = require('autoprefixer');
-var nested                = require('postcss-nested');
 var CleanWebpackPlugin    = require('clean-webpack-plugin');
 var CopyWebpackPlugin     = require('copy-webpack-plugin');
 var ExtractTextPlugin     = require('extract-text-webpack-plugin');
 var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 var HtmlWebpackPlugin     = require('html-webpack-plugin');
+var autoprefixer          = require('autoprefixer');
+var nested                = require('postcss-nested');
 
 module.exports = {
 	entry: {

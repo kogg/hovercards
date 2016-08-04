@@ -1,4 +1,4 @@
-var createStore = require('../redux/createStore.background');
+var createStore = require('../redux/createStore');
 
 require('./content-security-policy');
 

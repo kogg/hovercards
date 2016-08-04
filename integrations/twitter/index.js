@@ -4,7 +4,7 @@ var Twit       = require('twit');
 var config     = require('../config');
 var promisify  = require('es6-promisify');
 var urls       = require('../urls');
-require('../common/mixins');
+require('../mixins');
 
 module.exports = function(params) {
 	var model   = {};

@@ -1,12 +1,12 @@
 var _            = require('underscore');
 var createAction = require('redux-actions').createAction;
 
-var analyticsActions   = require('./analytics.actions.background');
+var analyticsActions   = require('./analytics.actions');
 var browser            = require('../extension/browser');
 var integrationsConfig = require('../integrations/config');
 
 var clearEntities     = createAction('CLEAR_ENTITIES');
-var serverEndpoint    = 'http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5000') + '/v2/';
+var serverEndpoint    = 'http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5100') + '/v2/';
 var setAuthentication = createAction('SET_AUTHENTICATION');
 
 module.exports.authenticate = function(request, meta, sender) {

@@ -3,7 +3,7 @@ var React    = require('react');
 var ReactDOM = require('react-dom');
 
 var Options     = require('../components/Options/Options');
-var createStore = require('../redux/createStore.options');
+var createStore = require('../redux/createStore');
 
 var store = createStore();
 

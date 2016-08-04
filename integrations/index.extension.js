@@ -15,7 +15,7 @@ var clientIntegrations = {
 };
 
 var integrations   = {};
-var serverEndpoint = 'http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5000') + '/v2/';
+var serverEndpoint = 'http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5100') + '/v2/';
 
 // Migrate auth to new auth
 var newAuthKeys = { instagram_user: 'authentication.instagram', twitter_user: 'authentication.twitter' };

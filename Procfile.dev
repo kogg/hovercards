@@ -1,5 +1,9 @@
-web:       nodemon --ignore dist/ -e js,jsx server
-www:       webpack-dev-server --inline --hot --config webpack.config.www.js
-extension: webpack-dev-server --config webpack.config.extension.js
+www:        webpack-dev-server --inline --hot --config webpack.config.www.js
+web:        nodemon --ignore dist/ -e js,jsx server
 # DON'T REORDER the process above this line
-redis:     redis-server
+# FIXME This is some straight up bullshit https://github.com/webpack/webpack/issues/2801
+extra:      webpack-dev-server --config webpack.config.extension.js
+background: ENTRY=background webpack-dev-server --config webpack.config.extension.js
+options:    ENTRY=options    webpack-dev-server --config webpack.config.extension.js
+top-frame:  ENTRY=top-frame  webpack-dev-server --config webpack.config.extension.js
+redis:      redis-server

@@ -2,7 +2,7 @@ var _        = require('underscore');
 var Snoocore = require('snoocore');
 var config   = require('../config');
 var urls     = require('../urls');
-require('../common/mixins');
+require('../mixins');
 
 module.exports = function(params) {
 	var model = {};

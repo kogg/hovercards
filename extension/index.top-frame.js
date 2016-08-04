@@ -3,7 +3,7 @@ var React    = require('react');
 var ReactDOM = require('react-dom');
 
 var Hovercards  = require('../components/Hovercards/Hovercards');
-var createStore = require('../redux/createStore.top-frame');
+var createStore = require('../redux/createStore');
 
 ReactDOM.render(
 	<Provider store={createStore()}>

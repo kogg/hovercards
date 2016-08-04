@@ -4,7 +4,7 @@ var config     = require('../config');
 var promisify  = require('es6-promisify');
 var request    = require('request');
 var urls       = require('../urls');
-require('../common/mixins');
+require('../mixins');
 
 var autolinker = new Autolinker();
 
