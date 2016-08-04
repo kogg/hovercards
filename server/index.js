@@ -2,7 +2,7 @@ var compression = require('compression');
 var feathers    = require('feathers');
 var helmet      = require('helmet');
 
-var PORT = process.env.PORT || 5000;
+var PORT = process.env.PORT || 5100;
 
 feathers()
 	.use(helmet())
