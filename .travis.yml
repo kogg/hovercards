@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+    - "4.1"
+before_install:
+    - npm install -g npm^3.9.0
+    - npm prune
+install:
+    - npm install
+script:
+    - npm test
+branches:
+    only:
+        - master
+cache:
+    directories:
+        - node_modules
+notifications:
+    email: false
