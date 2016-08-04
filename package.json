@@ -25,12 +25,12 @@
     "fix:style:js": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".jsx\\?$\" | xargs eslint --fix ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".jsx\\?$\" | xargs git add )",
     "start": "if [ \"$NODE_ENV\" = 'production' ]; then foreman start; else foreman start -f Procfile.dev; fi",
     "test": "run-s test:*",
-    "test:style": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**'",
+    "test:lint": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**'",
     "test:unit": "mocha \"./{,!(node_modules)/**/}*.test.js\""
   },
   "config": {
     "ghooks": {
-      "pre-commit": "npm run fix && npm run test:style",
+      "pre-commit": "npm run fix && npm run test:lint",
       "pre-push": "npm run test"
     }
   },
@@ -63,6 +63,7 @@
     "snoocore": "^3.2.0",
     "twit": "^2.1.1",
     "underscore": "^1.8.3",
+    "universal-analytics": "^0.4.2",
     "urijs": "^1.17.0"
   },
   "devDependencies": {

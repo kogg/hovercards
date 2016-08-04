@@ -5,13 +5,18 @@ var browser = require('../extension/browser');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
+// FIXME #9
 browser.storage.local.get('user_id')
-	.then(function(obj) {
-		if (!obj.user_id) {
+	.then(_.property('user_id'))
+	.then(function(user_id) {
+		if (!user_id) {
 			return;
 		}
-		browser.storage.local.remove('user_id');
-		browser.storage.sync.set(obj);
+
+		return Promise.all([
+			browser.storage.local.remove('user_id'),
+			browser.storage.sync.set({ user_id: user_id })
+		]);
 	});
 
 var getAnalytics;
@@ -34,7 +39,16 @@ module.exports.analytics = function(request, meta, sender) {
 						return promisify(global.ga)();
 					})
 					.then(function() {
-						return browser.storage.sync.get({ user_id: _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('') }).then(_.property('user_id'));
+						return browser.storage.sync.get('user_id');
+					})
+					.then(_.property('user_id'))
+					.then(function(user_id) {
+						if (user_id) {
+							return user_id;
+						}
+
+						user_id = _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('');
+						return browser.storage.sync.set({ user_id: user_id }).then(_.constant(user_id));
 					})
 					.then(function(user_id) {
 						global.ga('create', process.env.GOOGLE_ANALYTICS_ID, { userId: user_id });

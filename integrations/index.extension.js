@@ -19,13 +19,17 @@ var serverEndpoint = 'http://' + (process.env.NODE_ENV === 'production' ? 'hover
 
 // Migrate auth to new auth
 var newAuthKeys = { instagram_user: 'authentication.instagram', twitter_user: 'authentication.twitter' };
+// FIXME #9
 browser.storage.sync.get(_.keys(newAuthKeys)).then(function(items) {
 	_.keys(newAuthKeys).forEach(function(key) {
 		if (!items[key]) {
 			return;
 		}
-		browser.storage.sync.remove(key);
-		browser.storage.sync.set({ [newAuthKeys[key]]: items[key] });
+
+		return Promise.all([
+			browser.storage.sync.remove(key),
+			browser.storage.sync.set({ [newAuthKeys[key]]: items[key] })
+		]);
 	});
 });
 
@@ -47,14 +51,23 @@ module.exports = function(request) {
 
 	// FIXME #9
 	return Promise.all([
-		browser.storage.local.get({ device_id: _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('') }),
-		browser.storage.sync.get('authentication.' + request.api)
+		browser.storage.local.get('device_id')
+			.then(_.property('device_id'))
+			.then(function(device_id) {
+				if (device_id) {
+					return device_id;
+				}
+
+				device_id = _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('');
+				return browser.storage.local.set({ device_id: device_id }).then(_.constant(device_id));
+			}),
+		browser.storage.sync.get('authentication.' + request.api).then(_.property('authentication.' + request.api))
 	])
 		.then(function(storage) {
-			switch ((storage[1]['authentication.' + request.api] && integrationConfig.authenticated_environment) || integrationConfig.environment) {
+			switch ((storage[1] && integrationConfig.authenticated_environment) || integrationConfig.environment) {
 				case 'client':
 					// TODO shouldn't need config to be passed
-					integrations[request.api] = integrations[request.api] || clientIntegrations[request.api](Object.assign({ device_id: storage[0].device_id, user: storage[1]['authentication.' + request.api] }, integrationConfig));
+					integrations[request.api] = integrations[request.api] || clientIntegrations[request.api](Object.assign({ device_id: storage[0], user: storage[1] }, integrationConfig));
 					return integrations[request.api][request.type](request);
 				case 'server':
 				default:
@@ -98,8 +111,8 @@ module.exports = function(request) {
 					return fetch(url + '?' + querystring.stringify(request), {
 						headers: _.omit(
 							{
-								device_id: storage[0].device_id,
-								user:      storage[1]['authentication.' + request.api]
+								device_id: storage[0],
+								user:      storage[1]
 							},
 							_.isUndefined
 						)
