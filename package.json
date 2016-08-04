@@ -92,7 +92,7 @@
     "html-webpack-template": "^5.0.0",
     "image-webpack-loader": "^2.0.0",
     "json-loader": "^0.5.4",
-    "mocha": "^3.0.0",
+    "mocha": "^3.0.1",
     "nock": "^8.0.0",
     "node-fetch": "^1.6.0",
     "nodemon": "^1.10.0",
