@@ -30,7 +30,7 @@
   },
   "config": {
     "ghooks": {
-      "pre-commit": "npm run fix && npm run test:lint",
+      "pre-commit": "npm run fix",
       "pre-push": "npm run test"
     }
   },
