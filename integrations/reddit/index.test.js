@@ -1,13 +1,14 @@
 /* eslint-disable max-nested-callbacks */
 var chai           = require('chai');
 var chaiAsPromised = require('chai-as-promised');
-var config         = require('../config');
 var nock           = require('nock');
 var sinon          = require('sinon');
 var sinonChai      = require('sinon-chai');
 var expect         = chai.expect;
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
+
+var config = require('../config');
 
 describe('reddit', function() {
 	var reddit;

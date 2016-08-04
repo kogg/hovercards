@@ -62,7 +62,7 @@ describe('instagram', function() {
 			var promise = instagram.content({ id: 'CONTENT_ID' });
 
 			return Promise.all([
-				expect(promise).to.eventually.have.have.property('text', '<a href="https://instagram.com/explore/tags/thing" target="_blank" rel="noopener noreferrer">#thing</a> <a href="https://instagram.com/explore/tags/thing2" target="_blank" rel="noopener noreferrer">#thing2</a>'),
+				expect(promise).to.eventually.have.property('text', '<a href="https://instagram.com/explore/tags/thing" target="_blank" rel="noopener noreferrer">#thing</a> <a href="https://instagram.com/explore/tags/thing2" target="_blank" rel="noopener noreferrer">#thing2</a>'),
 				expect(promise).to.eventually.have.deep.property('discussions[0].comments[0].text', '<a href="https://instagram.com/explore/tags/thi" target="_blank" rel="noopener noreferrer">#thi</a>'),
 				expect(promise).to.eventually.have.deep.property('discussions[0].comments[1].text', '<a href="https://instagram.com/explore/tags/thin" target="_blank" rel="noopener noreferrer">#thin</a>')
 			]);
@@ -77,7 +77,7 @@ describe('instagram', function() {
 			var promise = instagram.content({ id: 'CONTENT_ID' });
 
 			return Promise.all([
-				expect(promise).to.eventually.have.have.property('text', '<a href="https://instagram.com/ACCOUNT_ID_1/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a> <a href="https://instagram.com/ACCOUNT_ID_2/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>'),
+				expect(promise).to.eventually.have.property('text', '<a href="https://instagram.com/ACCOUNT_ID_1/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a> <a href="https://instagram.com/ACCOUNT_ID_2/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>'),
 				expect(promise).to.eventually.have.deep.property('discussions[0].comments[0].text', '<a href="https://instagram.com/ACCOUNT_ID_3/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_3</a>'),
 				expect(promise).to.eventually.have.deep.property('discussions[0].comments[1].text', '<a href="https://instagram.com/ACCOUNT_ID_4/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_4</a>')
 			]);

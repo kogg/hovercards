@@ -1,9 +1,10 @@
 var _          = require('underscore');
 var Autolinker = require('autolinker');
-var config     = require('../config');
 var promisify  = require('es6-promisify');
 var request    = require('request');
-var urls       = require('../urls');
+
+var config = require('../config');
+var urls   = require('../urls');
 require('../mixins');
 
 var autolinker = new Autolinker();

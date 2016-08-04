@@ -1,7 +1,8 @@
 var _        = require('underscore');
 var Snoocore = require('snoocore');
-var config   = require('../config');
-var urls     = require('../urls');
+
+var config = require('../config');
+var urls   = require('../urls');
 require('../mixins');
 
 module.exports = function(params) {

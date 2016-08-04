@@ -1,8 +1,9 @@
 var _          = require('underscore');
 var Autolinker = require('autolinker');
 var Twit       = require('twit');
-var config     = require('../config');
 var promisify  = require('es6-promisify');
+
+var config     = require('../config');
 var urls       = require('../urls');
 require('../mixins');
 
@@ -44,14 +45,14 @@ module.exports = function(params) {
 
 		var query = { count: 50 };
 		if (_.chain(args).result('for').isEmpty().value()) {
-			_.extend(query, { q:        'to:' + _.chain(args).result('account').result('id').value(), since_id: _.result(args, 'id') });
+			_.extend(query, { q: 'to:' + _.chain(args).result('account').result('id').value(), since_id: _.result(args, 'id') });
 		} else {
 			_.extend(query, { q: _.map(urls.represent(args.for), function(url) { return (url || '').replace(/^https?:\/\//, ''); }).join(' OR ') });
 		}
 
 		return model.search_tweets(query, _.pick(args, 'user'), usage)
 			.then(function(tweets) {
-				return _.chain(args) .pick('id', 'for') .extend({ api:      'twitter', type:     'discussion', comments: _.chain(tweets) .map(function(tweet) { return _.result(tweet, 'retweeted_status', tweet); }) .where(query.since_id ? { in_reply_to_status_id_str: query.since_id } : {}) .uniq(false, _.property('id_str')) .first(config.counts.listed) .map(tweet_to_content) .value() }) .pick(_.negate(_.isEmpty)) .value();
+				return _.chain(args).pick('id', 'for').extend({ api: 'twitter', type: 'discussion', comments: _.chain(tweets).map(function(tweet) { return _.result(tweet, 'retweeted_status', tweet); }).where(query.since_id ? { in_reply_to_status_id_str: query.since_id } : {}).uniq(false, _.property('id_str')).first(config.counts.listed).map(tweet_to_content).value() }).pick(_.negate(_.isEmpty)).value();
 			});
 	};
 
@@ -66,7 +67,7 @@ module.exports = function(params) {
 
 				var text = autolinker_with_entities(_.result(user, 'description', ''), user_description_urls_entities);
 
-				return _.chain(user_to_account(user)) .extend({ text:     text, verified: _.result(user, 'verified'), banner:   !_.isEmpty(user_profile_banner_url) && (user_profile_banner_url.replace(/\/$/, '') + '/1500x500'), stats:    { content:    Number(_.result(user, 'statuses_count')), followers:  Number(_.result(user, 'followers_count')), following:  Number(_.result(user, 'friends_count')) }, accounts: _.chain(user_entities) .result('url') .result('urls') .pluck('expanded_url') .union(_.invoke(text.match(/href="[^"]+"/g), 'slice', 6, -1)) .uniq() .map(urls.parse) .where({ type: 'account' }) .value() }) .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty), function(value) { return value === true; /* This exists for verified */ })) .value();
+				return _.chain(user_to_account(user)).extend({ text: text, verified: _.result(user, 'verified'), banner: !_.isEmpty(user_profile_banner_url) && (user_profile_banner_url.replace(/\/$/, '') + '/1500x500'), stats: { content: Number(_.result(user, 'statuses_count')), followers: Number(_.result(user, 'followers_count')), following: Number(_.result(user, 'friends_count')) }, accounts: _.chain(user_entities).result('url').result('urls').pluck('expanded_url').union(_.invoke(text.match(/href="[^"]+"/g), 'slice', 6, -1)).uniq().map(urls.parse).where({ type: 'account' }).value() }).pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty), function(value) { return value === true; /* This exists for verified */ })).value();
 			});
 	};
 
@@ -97,9 +98,9 @@ module.exports = function(params) {
 				})
 		])
 			.then(function(results) {
-				var tweets = _.chain(results[0]) .union(results[1]) .compact() .value();
+				var tweets = _.chain(results[0]).union(results[1]).compact().value();
 
-				var tweet_id_to_replied_to_id = _.chain(tweets) .indexBy('id_str') .mapObject(_.property('in_reply_to_status_id_str')) .value();
+				var tweet_id_to_replied_to_id = _.chain(tweets).indexBy('id_str').mapObject(_.property('in_reply_to_status_id_str')).value();
 
 				var content       = _.map(tweets, tweet_to_content);
 				var content_by_id = _.indexBy(content, 'id');
@@ -117,7 +118,7 @@ module.exports = function(params) {
 					tweet_as_content.replied_to_content = replied_to_tweet_as_content;
 				});
 
-				return _.pick({ api:     'twitter', type:    'account_content', id:      _.result(args, 'id'), content: _.chain(content) .map(_.partial(_.omit, _, 'account')) .reject(_.isEmpty) .value() }, _.negate(_.isEmpty));
+				return _.pick({ api: 'twitter', type: 'account_content', id: _.result(args, 'id'), content: _.chain(content).map(_.partial(_.omit, _, 'account')).reject(_.isEmpty).value() }, _.negate(_.isEmpty));
 			});
 	};
 
@@ -126,15 +127,15 @@ module.exports = function(params) {
 			.then(function(twitter) {
 				usage['twitter-search-tweets-calls']++;
 
-				return twitter.get('search/tweets', args);
-			})
-			.then(function(result) {
-				if (_.result(result.resp, 'statusCode') >= 400) {
-					return Promise.reject({ status: result.resp.statusCode, message: '' });
-				}
-				return _.result(result.data, 'statuses');
-			})
-			.catch(catch_errors('Twitter Search Tweets', args_not_cached));
+				return twitter.get('search/tweets', args)
+					.then(function(result) {
+						if (_.result(result.resp, 'statusCode') >= 400) {
+							return Promise.reject({ status: result.resp.statusCode, message: '', code: _.chain(result.data.errors).first().result('code').value() });
+						}
+						return _.result(result.data, 'statuses');
+					})
+					.catch(catch_errors('Twitter Search Tweets', args_not_cached));
+			});
 	};
 
 	model.statuses_show = function(args, args_not_cached, usage) {
@@ -142,15 +143,15 @@ module.exports = function(params) {
 			.then(function(twitter) {
 				usage['twitter-statuses-show-calls']++;
 
-				return twitter.get('statuses/show/' + _.result(args, 'id'), {});
-			})
-			.then(function(result) {
-				if (_.result(result.resp, 'statusCode') >= 400) {
-					return Promise.reject({ status: result.resp.statusCode, message: '' });
-				}
-				return result.data;
-			})
-			.catch(catch_errors('Twitter Statuses Show', args_not_cached));
+				return twitter.get('statuses/show/' + _.result(args, 'id'), {})
+					.then(function(result) {
+						if (_.result(result.resp, 'statusCode') >= 400) {
+							return Promise.reject({ status: result.resp.statusCode, message: '', code: _.chain(result.data.errors).first().result('code').value() });
+						}
+						return result.data;
+					})
+					.catch(catch_errors('Twitter Statuses Show', args_not_cached));
+			});
 	};
 
 	model.statuses_user_timeline = function(args, args_not_cached, usage) {
@@ -158,15 +159,15 @@ module.exports = function(params) {
 			.then(function(twitter) {
 				usage['twitter-statuses-user-timeline-calls']++;
 
-				return twitter.get('statuses/user_timeline', { screen_name: _.result(args, 'id'), count: config.counts.listed });
-			})
-			.then(function(result) {
-				if (_.result(result.resp, 'statusCode') >= 400) {
-					return Promise.reject({ status: result.resp.statusCode, message: '' });
-				}
-				return result.data;
-			})
-			.catch(catch_errors('Twitter Statuses User Timeline', args_not_cached));
+				return twitter.get('statuses/user_timeline', { screen_name: _.result(args, 'id'), count: config.counts.listed })
+					.then(function(result) {
+						if (_.result(result.resp, 'statusCode') >= 400) {
+							return Promise.reject({ status: result.resp.statusCode, message: '', code: _.chain(result.data.errors).first().result('code').value() });
+						}
+						return result.data;
+					})
+					.catch(catch_errors('Twitter Statuses User Timeline', args_not_cached));
+			});
 	};
 
 	model.user_show = function(args, args_not_cached, usage) {
@@ -174,15 +175,15 @@ module.exports = function(params) {
 			.then(function(twitter) {
 				usage['twitter-user-show-calls']++;
 
-				return twitter.get('users/show', { screen_name: _.result(args, 'id') });
-			})
-			.then(function(result) {
-				if (_.result(result.resp, 'statusCode') >= 400) {
-					return Promise.reject({ status: result.resp.statusCode, message: '' });
-				}
-				return result.data;
-			})
-			.catch(catch_errors('Twitter User Show', args_not_cached));
+				return twitter.get('users/show', { screen_name: _.result(args, 'id') })
+					.then(function(result) {
+						if (_.result(result.resp, 'statusCode') >= 400) {
+							return Promise.reject({ status: result.resp.statusCode, message: '', code: _.chain(result.data.errors).first().result('code').value() });
+						}
+						return result.data;
+					})
+					.catch(catch_errors('Twitter User Show', args_not_cached));
+			});
 	};
 
 	return api;
@@ -241,7 +242,7 @@ function autolinker_with_entities(text, entities, entities_to_remove) {
 	var url_to_entities           = _.indexBy(entities, 'url');
 	var url_to_entities_to_remove = _.indexBy(entities_to_remove, 'url');
 	return Autolinker.link(text, {
-		hashtag: 'twitter',
+		hashtag:   'twitter',
 		replaceFn: function(autolinker, match) {
 			if (match.getType() !== 'url') {
 				return null;
@@ -258,7 +259,7 @@ function autolinker_with_entities(text, entities, entities_to_remove) {
 
 function user_to_account(user) {
 	var user_profile_image_url_https = _.result(user, 'profile_image_url_https');
-	return !_.isEmpty(user) && _.pick({ api:   'twitter', type:  'account', id:    _.result(user, 'screen_name'), name:  _.result(user, 'name'), image: !_.result(user, 'default_profile_image') && !_.isEmpty(user_profile_image_url_https) && { small: user_profile_image_url_https.replace('_normal', '_bigger'), large: user_profile_image_url_https.replace('_normal', '') } }, _.negate(_.isEmpty));
+	return !_.isEmpty(user) && _.pick({ api: 'twitter', type: 'account', id: _.result(user, 'screen_name'), name: _.result(user, 'name'), image: !_.result(user, 'default_profile_image') && !_.isEmpty(user_profile_image_url_https) && { small: user_profile_image_url_https.replace('_normal', '_bigger'), large: user_profile_image_url_https.replace('_normal', '') } }, _.negate(_.isEmpty));
 }
 
 function tweet_to_content(tweet) {
@@ -271,7 +272,7 @@ function tweet_to_content(tweet) {
 
 		var first_entity           = _.first(extended_entities);
 		var first_entity_media_url = _.result(first_entity, 'media_url_https');
-		var first_entity_video_url = _.chain(first_entity) .result('video_info') .result('variants') .where({ content_type: 'video/mp4' }) .min(function(variant) { return Math.abs((variant.bitrate || 0) - 832000); }) .result('url') .value();
+		var first_entity_video_url = _.chain(first_entity).result('video_info').result('variants').where({ content_type: 'video/mp4' }).min(function(variant) { return Math.abs((variant.bitrate || 0) - 832000); }).result('url').value();
 
 		var photo_entities = _.where(extended_entities, { type: 'photo' });
 
@@ -287,11 +288,11 @@ function tweet_to_content(tweet) {
 			entities_to_remove = _.union(entities_to_remove, [entity_to_move]);
 		}
 
-		extend_with = { text:           autolinker_with_entities((_.result(tweet, 'text') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>'), entities_to_keep, entities_to_remove), image:          !_.isEmpty(first_entity_media_url) && (photo_entities.length < 2) && { small:  first_entity_media_url + ':small', medium: first_entity_media_url + ':medium', large:  first_entity_media_url + ':large' }, images:         (photo_entities.length >= 2) && _.chain(photo_entities) .pluck('media_url_https') .map(function(media_url_https) {
-			return { small:  media_url_https + ':small', medium: media_url_https + ':medium', large:  media_url_https + ':large' }; }) .value(), gif:            (_.result(first_entity, 'type') === 'animated_gif') && first_entity_video_url, video:          (_.result(first_entity, 'type') === 'video') && first_entity_video_url, stats:          { likes:   Number(_.result(tweet, 'favorite_count')), reposts: Number(_.result(tweet, 'retweet_count')) }, quoted_content: quoted_content };
+		extend_with = { text:           autolinker_with_entities((_.result(tweet, 'text') || '').replace(/\n+$/, '').replace(/\n/g, '<br>'), entities_to_keep, entities_to_remove), image:          !_.isEmpty(first_entity_media_url) && (photo_entities.length < 2) && { small: first_entity_media_url + ':small', medium: first_entity_media_url + ':medium', large: first_entity_media_url + ':large' }, images:         (photo_entities.length >= 2) && _.chain(photo_entities).pluck('media_url_https').map(function(media_url_https) {
+			return { small: media_url_https + ':small', medium: media_url_https + ':medium', large: media_url_https + ':large' }; }).value(), gif:            (_.result(first_entity, 'type') === 'animated_gif') && first_entity_video_url, video:          (_.result(first_entity, 'type') === 'video') && first_entity_video_url, stats:          { likes: Number(_.result(tweet, 'favorite_count')), reposts: Number(_.result(tweet, 'retweet_count')) }, quoted_content: quoted_content };
 	} else {
 		extend_with = { reposted_content: tweet_to_content(tweet.retweeted_status) };
 	}
 
-	return _.chain({ api:     'twitter', type:    'content', id:      _.result(tweet, 'id_str'), date:    Date.parse(_.result(tweet, 'created_at')), account: user_to_account(_.result(tweet, 'user')) }) .extend(extend_with) .pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))) .value();
+	return _.chain({ api: 'twitter', type: 'content', id: _.result(tweet, 'id_str'), date: Date.parse(_.result(tweet, 'created_at')), account: user_to_account(_.result(tweet, 'user')) }).extend(extend_with).pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))).value();
 }
