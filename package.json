@@ -60,6 +60,7 @@
     "redux-thunk": "^2.1.0",
     "request": "^2.74.0",
     "reselect": "^2.5.3",
+    "rollbar-browser": "^1.9.1",
     "snoocore": "^3.2.0",
     "twit": "^2.1.1",
     "underscore": "^1.8.3",

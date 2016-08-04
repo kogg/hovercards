@@ -36,11 +36,12 @@ module.exports = {
 				)
 			}
 		],
-		noParse: /node_modules\/json-schema\/lib\/validate\.js/ },
+		noParse: /node_modules\/json-schema\/lib\/validate\.js/
+	},
 	resolve: {
 		extensions: extensions(
 			process.env.ENTRY && ['.' + process.env.ENTRY, ''],
-			['.chrome', '.extension', ''],
+			['.chrome', '.extension', '.browser', ''],
 			['.json', '.js', '.css']
 		)
 	},
@@ -62,8 +63,10 @@ module.exports = {
 			'INSTAGRAM_CLIENT_ID',
 			'NODE_ENV',
 			'REDDIT_CLIENT_ID',
+			'ROLLBAR_CLIENT_ACCESS_TOKEN',
 			'SOUNDCLOUD_CLIENT_ID',
-			'STICKYCARDS'
+			'STICKYCARDS',
+			'npm_package_gitHead'
 		]),
 		!process.env.ENTRY && new CleanWebpackPlugin(['dist']),
 		!process.env.ENTRY && new CopyWebpackPlugin([

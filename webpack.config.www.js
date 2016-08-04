@@ -5,6 +5,7 @@ var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 var HtmlWebpackPlugin     = require('html-webpack-plugin');
 var autoprefixer          = require('autoprefixer');
 var nested                = require('postcss-nested');
+var webpack               = require('webpack');
 
 module.exports = {
 	entry: {
@@ -26,12 +27,25 @@ module.exports = {
 			{ exclude: 'node_modules', test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?name=fonts/[name].[hash].[ext]&limit=10000' }
 		]
 	},
+	resolve: {
+		extensions: extensions(
+			[''],
+			['.www', '.browser', ''],
+			['.json', '.js', '.css']
+		)
+	},
 	devtool:   'source-map',
 	devServer: {
 		port:  process.env.PORT,
 		stats: { colors: true }
 	},
 	plugins: [
+		new webpack.EnvironmentPlugin([
+			'GOOGLE_ANALYTICS_ID',
+			'NODE_ENV',
+			'ROLLBAR_CLIENT_ACCESS_TOKEN',
+			'npm_package_gitHead'
+		]),
 		new CleanWebpackPlugin(['dist-landing']),
 		new CopyWebpackPlugin([{ from: 'www/CNAME' }]),
 		new ExtractTextPlugin('[name].[hash].css'),
@@ -43,3 +57,27 @@ module.exports = {
 		return [nested, autoprefixer];
 	}
 };
+
+if (!process.env.NODE_ENV) {
+	var DotenvPlugin = require('webpack-dotenv-plugin');
+
+	module.exports.plugins = module.exports.plugins.concat([
+		new DotenvPlugin()
+	]);
+}
+
+function extensions(injections, builds, extensions) {
+	var results = [''];
+
+	[].concat(injections).forEach(function(injection) {
+		[].concat(builds).forEach(function(build) {
+			[].concat(extensions).forEach(function(extension) {
+				if (!injection && !build && !extension) {
+					return;
+				}
+				results.push([injection, build, extension].join(''));
+			});
+		});
+	});
+	return results;
+}

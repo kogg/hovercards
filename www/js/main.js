@@ -1,3 +1,4 @@
+require('../../reporting');
 require('../css/main.css');
 var $ = require('jquery');
 
