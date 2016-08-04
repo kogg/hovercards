@@ -1,7 +1,7 @@
 var _            = require('underscore');
 var createAction = require('redux-actions').createAction;
 
-var analyticsActions   = require('./analytics.actions.background');
+var analyticsActions   = require('./analytics.actions');
 var browser            = require('../extension/browser');
 var integrationsConfig = require('../integrations/config');
 

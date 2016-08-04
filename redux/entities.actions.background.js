@@ -1,6 +1,6 @@
 var createAction = require('redux-actions').createAction;
 
-var analyticsActions   = require('./analytics.actions.background');
+var analyticsActions   = require('./analytics.actions');
 var browser            = require('../extension/browser');
 var integrations       = require('../integrations');
 var integrationsConfig = require('../integrations/config');

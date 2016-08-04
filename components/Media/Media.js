@@ -8,7 +8,7 @@ var Image            = require('../Image/Image');
 var SoundCloudPlayer = require('../SoundCloudPlayer/SoundCloudPlayer');
 var Video            = require('../Video/Video');
 var YoutubeVideo     = require('../YoutubeVideo/YoutubeVideo');
-var actions          = require('../../redux/actions.top-frame');
+var actions          = require('../../redux/actions');
 var entityLabel      = require('../../utils/entity-label');
 var styles           = require('./Media.styles');
 

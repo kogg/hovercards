@@ -5,7 +5,7 @@ var connect                  = require('react-redux').connect;
 var createStructuredSelector = require('reselect').createStructuredSelector;
 
 var Hovercard   = require('../Hovercard/Hovercard');
-var actions     = require('../../redux/actions.top-frame');
+var actions     = require('../../redux/actions');
 var dom         = require('../../utils/dom');
 var entityLabel = require('../../utils/entity-label');
 var styles      = require('./Hovercards.styles');

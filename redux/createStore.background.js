@@ -4,7 +4,7 @@ var combineReducers = require('redux').combineReducers;
 var createStore     = require('redux').createStore;
 var thunkMiddlware  = require('redux-thunk').default;
 
-var actions               = require('./actions.background');
+var actions               = require('./actions');
 var authenticationReducer = require('./authentication.reducer');
 var browser               = require('../extension/browser');
 var entitiesReducer       = require('./entities.reducer');

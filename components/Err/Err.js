@@ -2,7 +2,7 @@ var React      = require('react');
 var classnames = require('classnames');
 var connect    = require('react-redux').connect;
 
-var actions = require('../../redux/actions.top-frame');
+var actions = require('../../redux/actions');
 var browser = require('../../extension/browser');
 var styles  = require('./Err.styles');
 
