@@ -28,6 +28,12 @@
     "test:style": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**'",
     "test:unit": "mocha \"./{,!(node_modules)/**/}*.test.js\""
   },
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run fix && npm run test:style",
+      "pre-push": "npm run test"
+    }
+  },
   "dependencies": {
     "async": "^2.0.1",
     "autolinker": "^0.27.0",
@@ -79,6 +85,7 @@
     "favicons-webpack-plugin": "0.0.6",
     "file-loader": "^0.9.0",
     "gh-pages": "^0.11.0",
+    "ghooks": "^1.3.2",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.22.0",
     "html-webpack-template": "^5.0.0",
@@ -92,7 +99,6 @@
     "postcss-loader": "^0.9.1",
     "postcss-nested": "^1.0.0",
     "postcss-safe-important": "^1.0.4",
-    "pre-commit": "^1.1.2",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",
@@ -106,9 +112,5 @@
   "engines": {
     "node": "^4.1.0",
     "npm": "^3.9.0"
-  },
-  "pre-commit": [
-    "fix",
-    "test:style"
-  ]
+  }
 }
