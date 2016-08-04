@@ -12,8 +12,11 @@
     "url": "git+https://github.com/teamkogg/hovercards.git"
   },
   "scripts": {
-    "build": "run-p build:*",
-    "build:extension": "NODE_ENV=production webpack -p --config webpack.config.extensionjs && mkdir -p build && zip -q -r build/pkg-$npm_package_version.zip dist",
+    "build": "run-s build:*",
+    "build:extension": "NODE_ENV=production webpack -p --config webpack.config.extensionjs && run-p build:extension:* && mkdir -p build && zip -q -r build/pkg-$npm_package_version.zip dist",
+    "build:extension:background": "NODE_ENV=production ENTRY=background webpack -p --config webpack.config.extensionjs",
+    "build:extension:options": "NODE_ENV=production ENTRY=options webpack -p --config webpack.config.extensionjs",
+    "build:extension:top-frame": "NODE_ENV=production ENTRY=top-frame webpack -p --config webpack.config.extensionjs",
     "build:www": "webpack -p --config webpack.config.www.js",
     "clean": "rm -rf dist dist-* build dump.rdb npm-debug.log*",
     "deploy:www": "gh-pages -d dist-www",
@@ -21,7 +24,9 @@
     "fix:css": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".s\\?css$\" | xargs -I '{}' -n 1 stylefmt {} ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".s\\?css$\" | xargs git add )",
     "fix:js": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".jsx\\?$\" | xargs eslint --fix ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".jsx\\?$\" | xargs git add )",
     "start": "if [ \"$NODE_ENV\" = 'production' ]; then foreman start; else foreman start -f Procfile.dev; fi",
-    "test": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**' && mocha \"./{,!(node_modules)/**/}*.test.js\""
+    "test": "run-s test:*",
+    "test:style": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**'",
+    "test:unit": "mocha \"./{,!(node_modules)/**/}*.test.js\""
   },
   "dependencies": {
     "async": "^2.0.1",
