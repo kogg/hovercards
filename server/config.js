@@ -2,7 +2,7 @@ var _               = require('underscore');
 var TwitterStrategy = require('passport-twitter').Strategy;
 var passport        = require('passport');
 var redis_client    = require('./redis-client');
-var shared_config   = require('../shared/config');
+var shared_config   = require('../integrations/config');
 
 var CHROMIUM_IDS = process.env.CHROMIUM_IDS.split(';');
 
@@ -12,37 +12,37 @@ for (var i = 2; process.env['GOOGLE_SERVER_KEY_' + i]; i++) {
 }
 
 var config = {
-	apis: {
+	integrations: {
 		imgur: {
-			caller:      require('../shared/imgur'),
-			key:         process.env.IMGUR_CLIENT_ID,
-			mashape_key: process.env.MASHAPE_KEY
+			caller:      require('../integrations/imgur'),
+			key:         process.env.IMGUR_CLIENT_ID, // TODO Remove
+			mashape_key: process.env.MASHAPE_KEY // TODO Remove
 		},
 		instagram: {
-			caller: require('../shared/instagram'),
-			key:    process.env.INSTAGRAM_CLIENT_ID,
-			secret: process.env.INSTAGRAM_CLIENT_SECRET
+			caller: require('../integrations/instagram'),
+			key:    process.env.INSTAGRAM_CLIENT_ID, // TODO Remove
+			secret: process.env.INSTAGRAM_CLIENT_SECRET // TODO Remove
 		},
 		reddit:     {},
 		soundcloud: {},
 		twitter:    {
-			caller:          require('../shared/twitter'),
-			key:             process.env.TWITTER_CONSUMER_KEY,
-			secret:          process.env.TWITTER_CONSUMER_SECRET,
-			app_user:        process.env.TWITTER_APP_ACCESS_TOKEN,
-			app_user_secret: process.env.TWITTER_APP_ACCESS_TOKEN_SECRET
+			caller:          require('../integrations/twitter'),
+			key:             process.env.TWITTER_CONSUMER_KEY, // TODO Remove
+			secret:          process.env.TWITTER_CONSUMER_SECRET, // TODO Remove
+			app_user:        process.env.TWITTER_APP_ACCESS_TOKEN, // TODO Remove
+			app_user_secret: process.env.TWITTER_APP_ACCESS_TOKEN_SECRET // TODO Remove
 		},
 		youtube: (youtube_keys.length === 1) ? {
-			caller: require('../shared/youtube'),
-			key:    _.first(youtube_keys)
+			caller: require('../integrations/youtube'),
+			key:    _.first(youtube_keys) // TODO Remove
 		} : {
-			caller: require('../shared/youtube'),
-			keys:   youtube_keys
+			caller: require('../integrations/youtube'),
+			keys:   youtube_keys // TODO Remove
 		}
 	}
 };
 
-config.apis.twitter.secret_storage = {
+config.integrations.twitter.secret_storage = {
 	del: function(token, callback) {
 		redis_client.del('auth:twitter:' + token, callback);
 	},
@@ -51,7 +51,7 @@ config.apis.twitter.secret_storage = {
 	}
 };
 
-config.apis.twitter.authenticate = function(routes) {
+config.integrations.twitter.authenticate = function(routes) {
 	passport.use(new TwitterStrategy({
 		consumerKey:    process.env.TWITTER_CONSUMER_KEY,
 		consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
@@ -74,12 +74,12 @@ config.apis.twitter.authenticate = function(routes) {
 	});
 };
 
-var apis = _.intersection(_.keys(config.apis), _.keys(shared_config.apis));
+var integrations = _.intersection(_.keys(config.integrations), _.keys(shared_config.integrations));
 
-config.apis = _.chain(config.apis)
-	.pick(apis)
+config.integrations = _.chain(config.integrations)
+	.pick(integrations)
 	.each(function(api_config, api) {
-		_.defaults(api_config, shared_config.apis[api]);
+		_.defaults(api_config, shared_config.integrations[api]);
 	})
 	.value();
 

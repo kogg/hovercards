@@ -1,17 +1,17 @@
-var express = require('express');
-var os      = require('os');
+var compression = require('compression');
+var feathers    = require('feathers');
+var helmet      = require('helmet');
 
-var app = express();
+var PORT = process.env.PORT || 5100;
 
-app.set('port', process.env.PORT || 5000);
-
-app.get('/', function(req, res) {
-	res.redirect('http://www.hovercards.com');
-});
-app.use('/v2', require('./api-routes'));
-app.use('/v1', require('./old/hovercards'));
-// app.use('/', require('./view-routes'));
-
-app.listen(app.get('port'), function() {
-	console.log('Server is running at', 'http://' + os.hostname() + ':' + app.get('port'));
-});
+feathers()
+	.use(helmet())
+	.use(compression())
+	.get('/', function(req, res) {
+		res.redirect('http://www.hovercards.com');
+	})
+	.use('/v2', require('./api-routes'))
+	.use('/v1', require('./old/hovercards'))
+	.listen(PORT, function() {
+		console.log('Server is running at', 'http://localhost:' + PORT);
+	});

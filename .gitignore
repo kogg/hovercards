@@ -1,6 +1,7 @@
 .env
-dist-landing/*
-dist/*
+build/
+dist-*/
+dist/
 dump.rdb
 node_modules/
 npm-debug.log*

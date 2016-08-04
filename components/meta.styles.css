@@ -1,0 +1,21 @@
+.meta {
+  composes: flex-row from './flex.styles';
+  padding: 12px;
+}
+
+.meta-main-container {
+  position: relative;
+  width: 100%;
+  height: 20px;
+}
+
+.meta-main {
+  transition: all .3s ease-in-out; /* TODO Why? */
+  .meta-item {
+    margin: 0 6px 0 0;
+  }
+}
+
+.meta-item {
+  line-height: 20px;
+}

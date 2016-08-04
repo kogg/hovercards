@@ -1,0 +1,23 @@
+.flex-row,
+.flex-center,
+.flex-spread {
+  display: flex;
+  align-items: center;
+}
+
+.flex-row {
+  justify-content: center;
+}
+
+.flex-center {
+  justify-content: left;
+}
+
+.flex-spread {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}

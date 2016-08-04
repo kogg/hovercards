@@ -1,7 +1,0 @@
-{
-	"discussion_apis": ["reddit", "soundcloud", "twitter"],
-	"content-security-policy": {
-		"img-src": ["https://i1.sndcdn.com"],
-		"frame-src": ["https://w.soundcloud.com"]
-	}
-}

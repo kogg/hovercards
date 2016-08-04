@@ -1,0 +1,18 @@
+/* TODO #33 Better Loading UI */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading {
+  background-image: url("../../assets/images/loading.gif");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: block;
+  height: 32px;
+  margin: 16px auto;
+  opacity: .7;
+  width: 32px;
+}

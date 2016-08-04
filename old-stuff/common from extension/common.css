@@ -1,0 +1,155 @@
+/*// General styles // --------------------------------------------------*/
+.text-center {
+  text-align: center;
+}
+
+.hovercard p.text-center {
+  display: block;
+}
+
+/*// meta // --------------------------------------------------*/
+.account .meta-main-stats {
+
+  /* FIXME */
+  text-align: center;
+}
+
+.hovercard__box .account .meta-main-stats {
+
+  /* FIXME */
+  text-align: left;
+}
+
+/*// Account Specific styles // --------------------------------------------------*/
+.discussion .meta-main-stats span {
+  margin: 0 4px 0 0;
+}
+
+.hovercard__box .discussion .description {
+  margin-top: 12px;
+}
+
+/*//icons and images// ---------------------------------------------*/
+.comment-item_retweet .comment-image a:after {
+}
+
+.comment-item_retweet .comment-image a:after {
+  content: "";
+  position: absolute;
+  display: block;
+  bottom: 0;
+  right: 0;
+  background-image: url("../../assets/images/twitter-retweet.svg");
+  width: 18px;
+  height: 18px;
+  background-color: #19cf86;
+  border-radius: 50%;
+  background-size: 70%;
+}
+
+/*//Comments// ---------------------------------------------*/
+.tweet-conversation {
+  background-color: rgba(0, 0, 0, .05);
+}
+
+.tweet-conversation + .tweet-conversation {
+  margin-top: 8px;
+}
+
+.comment-text-image {
+  border: 1px solid rgba(0, 0, 0, .1);
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  margin: 6px 0;
+  display: inline-block;
+}
+
+.comment-text-image a {
+  padding: 12px;
+  display: block;
+  cursor: pointer;
+}
+
+.comment-text-image a:hover {
+  text-decoration: underline;
+}
+
+.comment-text-image img,
+.comment-text-image video {
+  max-width: 100%;
+  position: relative;
+  display: block;
+}
+
+.comment-text-image img + img {
+  margin-top: 4px;
+}
+
+.comment-text-quote {
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, .1);
+  padding: 12px;
+}
+
+.comment-text-quote .comment-item,
+.comment-text-quote .comment-text {
+  padding: 0;
+  margin: 0;
+}
+
+.discussion .error .error-image {
+  display: none;
+}
+
+.discussion .error b {
+  text-align: left;
+}
+
+.notification {
+  padding: 36px;
+  margin: 12px 12px 0 12px;
+  text-align: center;
+  border-radius: 3px;
+  color: black;
+  background: #f0f0f0;
+  background-image: url("../../assets/images/carlito-corner.png");
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
+
+.box.hovercard__box p.notification-message {
+  display: block;
+  text-align: center;
+  font-size: 17px;
+  line-height: 26px;
+  margin-bottom: 12px;
+  color: #434343;
+}
+
+.box a.notification-link {
+  background: #b965fd;
+  padding: 10px 32px;
+  color: white;
+  display: inline-block;
+  font-weight: 600;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.box a.notification-link:hover {
+  opacity: .86;
+}
+
+.box a.notification-cancel {
+  padding: 10px 0px 10px 16px;
+  color: #b965fd;
+  display: inline-block;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.box a.notification-cancel:hover {
+  opacity: .86;
+}
