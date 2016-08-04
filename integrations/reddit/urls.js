@@ -3,7 +3,7 @@ var _ = require('underscore');
 var urls = {};
 
 urls.hostnames_parsed = ['reddit.com', 'www.reddit.com', 'np.reddit.com', 'm.reddit.com', 'redd.it', 'redditmedia.com', 'www.redditmedia.com'];
-urls.non_content_ids = /^(?:ads|advertising|blog|buttons|code|contact|controversial|domain|gilded|gold|help|jobs|login|message|new|password|prefs|rising|rules|submit|subreddits|top|wiki)$/;
+urls.non_content_ids = /^(?:ads|advertising|blog|buttons|code|contact|controversial|domain|explore|gilded|gold|help|jobs|login|message|new|password|prefs|promoted|rising|rules|submit|subreddits|top|wiki)$/;
 
 urls.parse = function(url_obj) {
 	var pathname = (url_obj.pathname || '').replace(/\/$/, '');

@@ -92,6 +92,10 @@ describe('reddit urls', function() {
 				expect(urls.parse(url.parse('https://www.reddit.com/domain/i.imgur.com', true, true))).not.to.be.ok;
 			});
 
+			it('not from reddit.com/explore', function() {
+				expect(urls.parse(url.parse('https://www.reddit.com/explore', true, true))).not.to.be.ok;
+			});
+
 			it('not from reddit.com/gilded', function() {
 				expect(urls.parse(url.parse('https://www.reddit.com/gilded', true, true))).not.to.be.ok;
 			});
@@ -138,6 +142,10 @@ describe('reddit urls', function() {
 
 			it('not from reddit.com/prefs', function() {
 				expect(urls.parse(url.parse('https://www.reddit.com/prefs', true, true))).not.to.be.ok;
+			});
+
+			it('not from reddit.com/promoted', function() {
+				expect(urls.parse(url.parse('https://www.reddit.com/promoted', true, true))).not.to.be.ok;
 			});
 
 			it('not from reddit.com/rising', function() {
