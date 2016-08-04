@@ -12,7 +12,7 @@ describe('soundcloud', function() {
 	var resolve_endpoint;
 	var sandbox;
 	var soundcloud;
-	var urls;
+	// var urls;
 
 	/*
 	before(function() {
@@ -31,7 +31,7 @@ describe('soundcloud', function() {
 	beforeEach(function() {
 		sandbox = sinon.sandbox.create();
 		soundcloud = require('.')({ key: 'SOUNDCLOUD_CLIENT_ID' });
-		urls = require('../urls');
+		// urls = require('../urls');
 
 		resolve_endpoint = nock('https://api.soundcloud.com')
 			.get('/resolve')
@@ -54,15 +54,15 @@ describe('soundcloud', function() {
 				.query({ client_id: 'SOUNDCLOUD_CLIENT_ID' });
 
 			default_track = {
-				id:                'SOUNDCLOUD_TRACK_ID',
-				kind:              'track',
-				created_at:        '2015/06/29 15:48:11 +0000',
-				commentable:       true,
-				permalink:         'CONTENT_ID',
-				description:       'TEXT',
-				title:             'NAME',
-				artwork_url:       'image-large.jpg',
-				user:              {
+				id:          'SOUNDCLOUD_TRACK_ID',
+				kind:        'track',
+				created_at:  '2015/06/29 15:48:11 +0000',
+				commentable: true,
+				permalink:   'CONTENT_ID',
+				description: 'TEXT',
+				title:       'NAME',
+				artwork_url: 'image-large.jpg',
+				user:        {
 					permalink:  'ACCOUNT_ID',
 					username:   'ACCOUNT NAME',
 					avatar_url: 'account-image-large.jpg'
@@ -135,7 +135,7 @@ describe('soundcloud', function() {
 				tracks_endpoint.reply(200, default_track);
 
 				return expect(soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.eventually.have.property('text', '<a href="https://soundcloud.com/tags/thing" target="_blank">#thing</a> <a href="https://soundcloud.com/tags/thing2" target="_blank">#thing2</a>');
+					.to.eventually.have.property('text', '<a href="https://soundcloud.com/tags/thing" target="_blank" rel="noopener noreferrer">#thing</a> <a href="https://soundcloud.com/tags/thing2" target="_blank" rel="noopener noreferrer">#thing2</a>');
 			});
 
 			it('should replace accounts with links in the text', function() {
@@ -143,7 +143,7 @@ describe('soundcloud', function() {
 				tracks_endpoint.reply(200, default_track);
 
 				return expect(soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.eventually.have.property('text', '<a href="https://soundcloud.com/ACCOUNT_ID_1" target="_blank">@ACCOUNT_ID_1</a> <a href="https://soundcloud.com/ACCOUNT_ID_2" target="_blank">@ACCOUNT_ID_2</a>');
+					.to.eventually.have.property('text', '<a href="https://soundcloud.com/ACCOUNT_ID_1" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a> <a href="https://soundcloud.com/ACCOUNT_ID_2" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>');
 			});
 
 			it('should remove the default image for account', function() {
@@ -289,7 +289,7 @@ describe('soundcloud', function() {
 				playlists_endpoint.reply(200, default_playlist);
 
 				return expect(soundcloud.content({ id: 'CONTENT_ID', as: 'playlist', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.eventually.have.property('text', '<a href="https://soundcloud.com/tags/thing" target="_blank">#thing</a> <a href="https://soundcloud.com/tags/thing2" target="_blank">#thing2</a>');
+					.to.eventually.have.property('text', '<a href="https://soundcloud.com/tags/thing" target="_blank" rel="noopener noreferrer">#thing</a> <a href="https://soundcloud.com/tags/thing2" target="_blank" rel="noopener noreferrer">#thing2</a>');
 			});
 
 			it('should replace accounts with links in the text', function() {
@@ -297,7 +297,7 @@ describe('soundcloud', function() {
 				playlists_endpoint.reply(200, default_playlist);
 
 				return expect(soundcloud.content({ id: 'CONTENT_ID', as: 'playlist', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.eventually.have.property('text', '<a href="https://soundcloud.com/ACCOUNT_ID_1" target="_blank">@ACCOUNT_ID_1</a> <a href="https://soundcloud.com/ACCOUNT_ID_2" target="_blank">@ACCOUNT_ID_2</a>');
+					.to.eventually.have.property('text', '<a href="https://soundcloud.com/ACCOUNT_ID_1" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a> <a href="https://soundcloud.com/ACCOUNT_ID_2" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>');
 			});
 
 			it('should remove the default image for account', function() {
@@ -435,15 +435,15 @@ describe('soundcloud', function() {
 				.query({ client_id: 'SOUNDCLOUD_CLIENT_ID' });
 
 			default_track = {
-				id:                'SOUNDCLOUD_TRACK_ID',
-				kind:              'track',
-				created_at:        '2015/06/29 15:48:11 +0000',
-				commentable:       true,
-				permalink:         'CONTENT_ID',
-				description:       'TEXT',
-				title:             'NAME',
-				artwork_url:       'image-large.jpg',
-				user:              {
+				id:          'SOUNDCLOUD_TRACK_ID',
+				kind:        'track',
+				created_at:  '2015/06/29 15:48:11 +0000',
+				commentable: true,
+				permalink:   'CONTENT_ID',
+				description: 'TEXT',
+				title:       'NAME',
+				artwork_url: 'image-large.jpg',
+				user:        {
 					permalink:  'ACCOUNT_ID',
 					username:   'ACCOUNT NAME',
 					avatar_url: 'account-image-large.jpg'
@@ -483,7 +483,7 @@ describe('soundcloud', function() {
 			tracks_endpoint.reply(200, default_track);
 			tracks_comments_endpoint.reply(200, default_tracks_comments);
 
-			return expect(soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } })).to.eventually.eql({ api:      'soundcloud', type:     'discussion', id:       'CONTENT_ID', comments: [{ api:         'soundcloud', type:        'comment', id:          'SOUNDCLOUD_COMMENT_ID_1', text:        'TEXT 1', date:        1430192247000, time_offset: 1000, account:     { api:   'soundcloud', type:  'account', id:    'ACCOUNT_ID_1', name:  'NAME 1', image: { small:  'image-1-large.jpg', medium: 'image-1-t300x300.jpg', large:  'image-1-t500x500.jpg' } } }, { api:         'soundcloud', type:        'comment', id:          'SOUNDCLOUD_COMMENT_ID_2', text:        'TEXT 2', date:        1430105847000, time_offset: 2000, account:     { api:   'soundcloud', type:  'account', id:    'ACCOUNT_ID_2', name:  'NAME 2', image: { small:  'image-2-large.jpg', medium: 'image-2-t300x300.jpg', large:  'image-2-t500x500.jpg' } } }] });
+			return expect(soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } })).to.eventually.eql({ api: 'soundcloud', type: 'discussion', id: 'CONTENT_ID', comments: [{ api: 'soundcloud', type: 'comment', id: 'SOUNDCLOUD_COMMENT_ID_1', text: 'TEXT 1', date: 1430192247000, time_offset: 1000, account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID_1', name: 'NAME 1', image: { small: 'image-1-large.jpg', medium: 'image-1-t300x300.jpg', large: 'image-1-t500x500.jpg' } } }, { api: 'soundcloud', type: 'comment', id: 'SOUNDCLOUD_COMMENT_ID_2', text: 'TEXT 2', date: 1430105847000, time_offset: 2000, account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID_2', name: 'NAME 2', image: { small: 'image-2-large.jpg', medium: 'image-2-t300x300.jpg', large: 'image-2-t500x500.jpg' } } }] });
 		});
 
 		it('should replace newlines with linebreaks in the text', function() {
@@ -511,8 +511,8 @@ describe('soundcloud', function() {
 			var promise = soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 
 			return Promise.all([
-				expect(promise).to.eventually.have.deep.property('comments[0].text', '<a href="https://soundcloud.com/tags/thing" target="_blank">#thing</a>'),
-				expect(promise).to.eventually.have.deep.property('comments[1].text', '<a href="https://soundcloud.com/tags/thing2" target="_blank">#thing2</a>')
+				expect(promise).to.eventually.have.deep.property('comments[0].text', '<a href="https://soundcloud.com/tags/thing" target="_blank" rel="noopener noreferrer">#thing</a>'),
+				expect(promise).to.eventually.have.deep.property('comments[1].text', '<a href="https://soundcloud.com/tags/thing2" target="_blank" rel="noopener noreferrer">#thing2</a>')
 			]);
 		});
 
@@ -526,8 +526,8 @@ describe('soundcloud', function() {
 			var promise = soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 
 			return Promise.all([
-				expect(promise).to.eventually.have.deep.property('comments[0].text', '<a href="https://soundcloud.com/ACCOUNT_ID_1" target="_blank">@ACCOUNT_ID_1</a>'),
-				expect(promise).to.eventually.have.deep.property('comments[1].text', '<a href="https://soundcloud.com/ACCOUNT_ID_2" target="_blank">@ACCOUNT_ID_2</a>')
+				expect(promise).to.eventually.have.deep.property('comments[0].text', '<a href="https://soundcloud.com/ACCOUNT_ID_1" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a>'),
+				expect(promise).to.eventually.have.deep.property('comments[1].text', '<a href="https://soundcloud.com/ACCOUNT_ID_2" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>')
 			]);
 		});
 
@@ -766,7 +766,7 @@ describe('soundcloud', function() {
 
 			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
 				expect(err).not.to.be.ok;
-				expect(account).to.have.property('text', '<a href="https://soundcloud.com/tags/thing" target="_blank">#thing</a> <a href="https://soundcloud.com/tags/thing2" target="_blank">#thing2</a>');
+				expect(account).to.have.property('text', '<a href="https://soundcloud.com/tags/thing" target="_blank" rel="noopener noreferrer">#thing</a> <a href="https://soundcloud.com/tags/thing2" target="_blank" rel="noopener noreferrer">#thing2</a>');
 				done();
 			});
 		});
@@ -779,7 +779,7 @@ describe('soundcloud', function() {
 
 			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
 				expect(err).not.to.be.ok;
-				expect(account).to.have.property('text', '<a href="https://soundcloud.com/ACCOUNT_ID_1" target="_blank">@ACCOUNT_ID_1</a> <a href="https://soundcloud.com/ACCOUNT_ID_2" target="_blank">@ACCOUNT_ID_2</a>');
+				expect(account).to.have.property('text', '<a href="https://soundcloud.com/ACCOUNT_ID_1" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a> <a href="https://soundcloud.com/ACCOUNT_ID_2" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>');
 				done();
 			});
 		});

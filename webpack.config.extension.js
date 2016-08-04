@@ -100,7 +100,7 @@ function extensions(injections, builds, extensions) {
 	[].concat(injections).forEach(function(injection) {
 		[].concat(builds).forEach(function(build) {
 			[].concat(extensions).forEach(function(extension) {
-				if (!Boolean(injection) && !Boolean(build) && !Boolean(extension)) {
+				if (!injection && !build && !extension) {
 					return;
 				}
 				results.push([injection, build, extension].join(''));

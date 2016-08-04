@@ -31,12 +31,12 @@ module.exports = React.createClass({
 		var now                = new Date();
 		var now_with_date_time = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), date.getUTCMilliseconds()));
 		// This difference pretends that months are exactly 31 days.
-		var difference = now - now_with_date_time + 1000 * 60 * 60 * 24 * (now.getUTCDate() - date.getUTCDate() + 31 * (now.getUTCMonth() - date.getUTCMonth() + 12 * (now.getUTCFullYear() - date.getUTCFullYear())));
+		var difference = now - now_with_date_time + (1000 * 60 * 60 * 24 * (now.getUTCDate() - date.getUTCDate() + (31 * (now.getUTCMonth() - date.getUTCMonth() + (12 * (now.getUTCFullYear() - date.getUTCFullYear()))))));
 		var unit  = units[_.sortedIndex(units, { value: difference }, 'value') - 1];
 		var value = Math.floor(difference / unit.value);
 
 		this.setState({ timesince: browser.i18n.getMessage(unit.copy, [value]) });
-		this.timeout = setTimeout(this.componentWillReceiveProps.bind(this), date + (value + 1) * unit.value - now);
+		this.timeout = setTimeout(this.componentWillReceiveProps.bind(this), date + ((value + 1) * unit.value) - now);
 	},
 	componentWillUnmount: function() {
 		clearTimeout(this.timeout);
