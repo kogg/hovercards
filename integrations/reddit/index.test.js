@@ -112,21 +112,37 @@ describe('reddit', function() {
 			return expect(reddit.content({ id: 'CONTENT_ID' })).to.eventually.not.have.property('account');
 		});
 
+		it('should include image', function() {
+			default_article_comments[0].data.children[0].data.preview = {
+				images: [
+					{
+						resolutions: [
+							{ height: 60, width: 108, url: 'image_small.jpg' },
+							{ height: 121, width: 216, url: 'image_no.jpg' },
+							{ height: 180, width: 320, url: 'image_medium.jpg' },
+							{ height: 360, width: 640, url: 'image_large.jpg' },
+							{ height: 540, width: 960, url: 'image_no.jpg' },
+							{ height: 607, width: 1080, url: 'image_no.jpg' }
+						],
+						source: { height: 720, width: 1280, url: 'image.jpg' }
+					}
+				]
+			};
+			article_comments_endpoint.reply(200, default_article_comments);
+
+			return expect(reddit.content({ id: 'CONTENT_ID' })).to.eventually.have.property('image')
+				.that.eql({ small: 'image_small.jpg', medium: 'image_medium.jpg', large: 'image_large.jpg' });
+		});
+
 		it('should include oembed post', function() {
 			default_article_comments[0].data.children[0].data.media = {
 				oembed: {
-					html:          '&lt;iframe&gt;&lt;/iframe&gt;',
-					thumbnail_url: 'image.jpg'
+					html: '&lt;iframe&gt;&lt;/iframe&gt;'
 				}
 			};
 			article_comments_endpoint.reply(200, default_article_comments);
 
-			var promise = reddit.content({ id: 'CONTENT_ID' });
-
-			return Promise.all([
-				expect(promise).to.eventually.have.property('image').that.eql({ small: 'image.jpg', medium: 'image.jpg', large: 'image.jpg' }),
-				expect(promise).to.eventually.have.property('oembed', '<iframe></iframe>')
-			]);
+			return expect(reddit.content({ id: 'CONTENT_ID' })).to.eventually.have.property('oembed', '<iframe></iframe>');
 		});
 
 		describe('article comments endpoint', function() {
