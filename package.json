@@ -11,8 +11,8 @@
     "url": "git+https://github.com/teamkogg/hovercards.git"
   },
   "scripts": {
-    "build": "run-p build:*",
-    "build:extension": "NODE_ENV=production webpack -p --config webpack.config.extension.js && run-p build:extension:* && mkdir -p build && zip -q -r build/pkg-$npm_package_version.zip dist",
+    "build": "run-s build:*",
+    "build:extension": "NODE_ENV=production webpack -p --config webpack.config.extension.js && run-s build:extension:* && mkdir -p build && zip -q -r build/pkg-$npm_package_version.zip dist",
     "build:extension:background": "NODE_ENV=production ENTRY=background webpack -p --config webpack.config.extension.js",
     "build:extension:options": "NODE_ENV=production ENTRY=options webpack -p --config webpack.config.extension.js",
     "build:extension:top-frame": "NODE_ENV=production ENTRY=top-frame webpack -p --config webpack.config.extension.js",
@@ -22,7 +22,7 @@
     "coverage:report": "cat ./coverage/lcov.info | codecov",
     "deploy": "echo deploy code here",
     "deploy:www": "gh-pages -d dist-www",
-    "fix": "run-p fix:style:*",
+    "fix": "run-s fix:style:*",
     "fix:style:css": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".css$\" | xargs -I '{}' -n 1 stylefmt {} ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".css$\" | xargs git add )",
     "fix:style:js": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".js$\" | xargs eslint --fix ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".js$\" | xargs git add )",
     "release": "semantic-release pre && npm run deploy && semantic-release post",
