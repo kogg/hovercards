@@ -9,6 +9,7 @@ script:
   - npm run coverage:check
 after_success:
   - npm run coverage:report
+  - npm run release
 branches:
   only:
     - master
