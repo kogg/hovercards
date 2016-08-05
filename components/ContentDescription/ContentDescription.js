@@ -28,7 +28,7 @@ module.exports = connect(null, actions)(React.createClass({
 	render: function() {
 		return (this.props.content.name || this.props.content.text) ?
 			<Collapsable className={classnames(styles.description, this.props.className)} onExpand={this.onExpandDescription} onResize={this.props.onResize}>
-				{ this.props.content.name && <a className={styles.name} href={urls.print(this.props.content) || this.props.content.url} target="_blank">{ this.props.content.name }</a> }
+				{ this.props.content.name && <a className={styles.name} href={this.props.content.url || urls.print(this.props.content)} target="_blank">{ this.props.content.name }</a> }
 				{ this.props.content.text && <p className={styles.text} dangerouslySetInnerHTML={{ __html: this.props.content.text }} /> }
 			</Collapsable> :
 			null;
