@@ -1,10 +1,11 @@
-var CleanWebpackPlugin    = require('clean-webpack-plugin');
-var CopyWebpackPlugin     = require('copy-webpack-plugin');
-var ExtractTextPlugin     = require('extract-text-webpack-plugin');
-var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-var HtmlWebpackPlugin     = require('html-webpack-plugin');
-var autoprefixer          = require('autoprefixer');
-var nested                = require('postcss-nested');
+var BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin');
+var CleanWebpackPlugin       = require('clean-webpack-plugin');
+var CopyWebpackPlugin        = require('copy-webpack-plugin');
+var ExtractTextPlugin        = require('extract-text-webpack-plugin');
+var FaviconsWebpackPlugin    = require('favicons-webpack-plugin');
+var HtmlWebpackPlugin        = require('html-webpack-plugin');
+var autoprefixer             = require('autoprefixer');
+var nested                   = require('postcss-nested');
 
 module.exports = {
 	entry: {
@@ -26,12 +27,14 @@ module.exports = {
 			{ exclude: 'node_modules', test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?name=fonts/[name].[hash].[ext]&limit=10000' }
 		]
 	},
+	bail:      true,
 	devtool:   'source-map',
 	devServer: {
 		port:  process.env.PORT,
 		stats: { colors: true }
 	},
 	plugins: [
+		new BellOnBundlerErrorPlugin(),
 		new CleanWebpackPlugin(['dist-landing']),
 		new CopyWebpackPlugin([{ from: 'www/CNAME' }]),
 		new ExtractTextPlugin('[name].[hash].css'),

@@ -1,8 +1,7 @@
 .env
-build/
 coverage
-dist-*/
-dist/
+dist-*
+dist
 dump.rdb
-node_modules/
+node_modules
 npm-debug.log*

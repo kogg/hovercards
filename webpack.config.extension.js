@@ -1,17 +1,20 @@
-var _                  = require('underscore');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-var CopyWebpackPlugin  = require('copy-webpack-plugin');
-var ExtractTextPlugin  = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin  = require('html-webpack-plugin');
-var WriteFilePlugin    = require('write-file-webpack-plugin');
-var autoprefixer       = require('autoprefixer');
-var nested             = require('postcss-nested');
-var safeImportant      = require('postcss-safe-important');
-var webpack            = require('webpack');
+var _                        = require('underscore');
+var BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin');
+var CleanWebpackPlugin       = require('clean-webpack-plugin');
+var CopyWebpackPlugin        = require('copy-webpack-plugin');
+var ExtractTextPlugin        = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin        = require('html-webpack-plugin');
+var StringReplacePlugin      = require('string-replace-webpack-plugin');
+var WriteFilePlugin          = require('write-file-webpack-plugin');
+var autoprefixer             = require('autoprefixer');
+var nested                   = require('postcss-nested');
+var path                     = require('path');
+var safeImportant            = require('postcss-safe-important');
+var webpack                  = require('webpack');
 
 module.exports = {
 	// FIXME This is some straight up bullshit https://github.com/webpack/webpack/issues/2801
-	entry:  process.env.ENTRY ? { [process.env.ENTRY]: './extension/index.' + process.env.ENTRY } : {},
+	entry:  process.env.ENTRY ? { [process.env.ENTRY]: './extension/index' } : { manifest: './extension/manifest' },
 	output: {
 		filename:   '[name].js',
 		path:       'dist',
@@ -21,7 +24,7 @@ module.exports = {
 		loaders: [
 			{ exclude: 'node_modules', test: /\.(gif|png|jpe?g|svg)$/i, loaders: ['file?name=assets/images/[name].[ext]', 'image-webpack'] },
 			{ exclude: 'node_modules', test: /\.js$/, loader: 'babel?cacheDirectory' },
-			{ exclude: 'node_modules', test: /\.json/, loader: 'json' },
+			{ exclude: ['node_modules', path.join(__dirname, 'extension/manifest.json')], test: /\.json/, loader: 'json' },
 			{ exclude: 'node_modules', test: /\.ttf$|\.eot$/, loader: 'file?name=assets/fonts/[name].[ext]' },
 			{ exclude: 'node_modules', test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file?name=assets/fonts/[name].[ext]' },
 			{
@@ -34,6 +37,21 @@ module.exports = {
 						'postcss'
 					]
 				)
+			},
+			{
+				exclude: 'node_modules',
+				test:    /manifest\.json$/,
+				loaders: [
+					'file?name=manifest.json',
+					StringReplacePlugin.replace({
+						replacements: [{
+							pattern:     /__VERSION__/ig,
+							replacement: function() {
+								return require('./package').version || '0.0.1';
+							}
+						}]
+					})
+				]
 			}
 		],
 		noParse: /node_modules\/json-schema\/lib\/validate\.js/
@@ -45,6 +63,7 @@ module.exports = {
 			['.json', '.js', '.css']
 		)
 	},
+	bail:      true,
 	devtool:   'source-map',
 	devServer: {
 		outputPath: 'dist',
@@ -58,6 +77,7 @@ module.exports = {
 		tls:     'empty'
 	},
 	plugins: _.compact([
+		new BellOnBundlerErrorPlugin(),
 		new webpack.EnvironmentPlugin([
 			'GOOGLE_ANALYTICS_ID',
 			'INSTAGRAM_CLIENT_ID',
@@ -69,8 +89,7 @@ module.exports = {
 		!process.env.ENTRY && new CleanWebpackPlugin(['dist']),
 		!process.env.ENTRY && new CopyWebpackPlugin([
 			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true },
-			{ from: 'extension/copy.json', to: '_locales/en/messages.json' },
-			{ from: 'extension/manifest.json' }
+			{ from: 'extension/copy.json', to: '_locales/en/messages.json' }
 		]),
 		new ExtractTextPlugin('[name].css'),
 		process.env.ENTRY === 'options' && new HtmlWebpackPlugin({
@@ -80,6 +99,7 @@ module.exports = {
 			inject:     false,
 			appMountId: 'mount'
 		}),
+		new StringReplacePlugin(),
 		new WriteFilePlugin({ log: false })
 	]),
 	postcss: function() {

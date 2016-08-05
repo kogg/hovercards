@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "4.1"
+  - "6.1"
 before_install:
   - npm install -g npm@3.9.5
   - npm prune
@@ -9,6 +9,7 @@ script:
   - npm run coverage:check
 after_success:
   - npm run coverage:report
+  - npm run release
 branches:
   only:
     - master
