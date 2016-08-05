@@ -12,7 +12,7 @@ module.exports = {
 		privacy: './www/js/privacy.js'
 	},
 	output: {
-		path:     'dist-landing',
+		path:     'dist-www',
 		filename: '[name].[hash].js'
 	},
 	module: {
