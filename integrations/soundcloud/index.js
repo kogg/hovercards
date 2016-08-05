@@ -102,6 +102,7 @@ module.exports = function(params) {
 				.then(function(user) {
 					return model.users_web_profiles(_.pick(user, 'id'), null, usage);
 				})
+				.catch(_.constant([]))
 		])
 			.then(function(results) {
 				var text = autolinker.link((_.result(results[0], 'description') || '').replace(/\n+$/, '').replace(/\n/g, '<br>'));

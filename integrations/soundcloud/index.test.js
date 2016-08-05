@@ -12,7 +12,7 @@ describe('soundcloud', function() {
 	var resolve_endpoint;
 	var sandbox;
 	var soundcloud;
-	// var urls;
+	var urls;
 
 	/*
 	before(function() {
@@ -31,7 +31,7 @@ describe('soundcloud', function() {
 	beforeEach(function() {
 		sandbox = sinon.sandbox.create();
 		soundcloud = require('.')({ key: 'SOUNDCLOUD_CLIENT_ID' });
-		// urls = require('../urls');
+		urls = require('../urls');
 
 		resolve_endpoint = nock('https://api.soundcloud.com')
 			.get('/resolve')
@@ -661,7 +661,6 @@ describe('soundcloud', function() {
 		});
 	});
 
-	/*
 	describe('.account', function() {
 		var users_endpoint;
 		var web_profiles_endpoint;
@@ -679,7 +678,7 @@ describe('soundcloud', function() {
 
 			sandbox.stub(urls, 'parse');
 
-			default_user = { id:               'SOUNDCLOUD_USER_ID', permalink:        'ACCOUNT_ID', username:         'NAME', avatar_url:       'image-large.jpg', description:      'TEXT', track_count:      1000, followers_count:  2000, followings_count: 3000 };
+			default_user = { id: 'SOUNDCLOUD_USER_ID', permalink: 'ACCOUNT_ID', username: 'NAME', avatar_url: 'image-large.jpg', description: 'TEXT', track_count: 1000, followers_count: 2000, followings_count: 3000 };
 			default_web_profiles = [];
 		});
 
@@ -688,11 +687,7 @@ describe('soundcloud', function() {
 			users_endpoint.reply(200, default_user);
 			web_profiles_endpoint.reply(200, default_web_profiles);
 
-			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
-				expect(err).not.to.be.ok;
-				expect(account).to.eql({ api:   'soundcloud', type:  'account', id:    'ACCOUNT_ID', name:  'NAME', text:  'TEXT', image: { small:  'image-large.jpg', medium: 'image-t300x300.jpg', large:  'image-t500x500.jpg' }, stats: { content:   1000, followers: 2000, following: 3000 } });
-				done();
-			});
+			return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.eventually.eql({ api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID', name: 'NAME', text: 'TEXT', image: { small: 'image-large.jpg', medium: 'image-t300x300.jpg', large: 'image-t500x500.jpg' }, stats: { content: 1000, followers: 2000, following: 3000 } });
 		});
 
 		it('should reference accounts in text', function() {
@@ -704,12 +699,12 @@ describe('soundcloud', function() {
 			urls.parse.withArgs('https://www.hovercards.com').returns({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_1' });
 			urls.parse.withArgs('https://soundcloud.com/ACCOUNT_ID_2').returns({ api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID_2' });
 
-			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
-				expect(err).not.to.be.ok;
-				expect(account.accounts).to.contain({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_1' });
-				expect(account.accounts).to.contain({ api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID_2' });
-				done();
-			});
+			var promise = soundcloud.account({ id: 'ACCOUNT_ID' });
+
+			return Promise.all([
+				expect(promise).to.eventually.have.property('accounts').that.contains({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_1' }),
+				expect(promise).to.eventually.have.property('accounts').that.contains({ api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID_2' })
+			]);
 		});
 
 		it('should reference account in website', function() {
@@ -720,11 +715,7 @@ describe('soundcloud', function() {
 
 			urls.parse.withArgs('https://www.hovercards.com').returns({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_1' });
 
-			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
-				expect(err).not.to.be.ok;
-				expect(account.accounts).to.contain({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_1' });
-				done();
-			});
+			return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.eventually.have.property('accounts').that.contains({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_1' });
 		});
 
 		it('should reference accounts in web-profiles', function() {
@@ -737,12 +728,12 @@ describe('soundcloud', function() {
 			urls.parse.withArgs('https://www.hovercards.com').returns({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_1' });
 			urls.parse.withArgs('https://www.wenoknow.com').returns({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_2' });
 
-			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
-				expect(err).not.to.be.ok;
-				expect(account.accounts).to.contain({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_1' });
-				expect(account.accounts).to.contain({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_2' });
-				done();
-			});
+			var promise = soundcloud.account({ id: 'ACCOUNT_ID' });
+
+			return Promise.all([
+				expect(promise).to.eventually.have.property('accounts').that.contains({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_1' }),
+				expect(promise).to.eventually.have.property('accounts').that.contains({ api: 'someapi', type: 'account', id: 'ACCOUNT_ID_2' })
+			]);
 		});
 
 		it('should replace newlines in the text with linebreaks', function() {
@@ -751,11 +742,7 @@ describe('soundcloud', function() {
 			users_endpoint.reply(200, default_user);
 			web_profiles_endpoint.reply(200, default_web_profiles);
 
-			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
-				expect(err).not.to.be.ok;
-				expect(account).to.have.property('text', 'TE<br>XT 1');
-				done();
-			});
+			return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.eventually.have.property('text', 'TE<br>XT 1');
 		});
 
 		it('should replace hashtags with links in the text', function() {
@@ -764,11 +751,7 @@ describe('soundcloud', function() {
 			users_endpoint.reply(200, default_user);
 			web_profiles_endpoint.reply(200, default_web_profiles);
 
-			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
-				expect(err).not.to.be.ok;
-				expect(account).to.have.property('text', '<a href="https://soundcloud.com/tags/thing" target="_blank" rel="noopener noreferrer">#thing</a> <a href="https://soundcloud.com/tags/thing2" target="_blank" rel="noopener noreferrer">#thing2</a>');
-				done();
-			});
+			return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.eventually.have.property('text', '<a href="https://soundcloud.com/tags/thing" target="_blank" rel="noopener noreferrer">#thing</a> <a href="https://soundcloud.com/tags/thing2" target="_blank" rel="noopener noreferrer">#thing2</a>');
 		});
 
 		it('should replace accounts with links in the text', function() {
@@ -777,11 +760,7 @@ describe('soundcloud', function() {
 			users_endpoint.reply(200, default_user);
 			web_profiles_endpoint.reply(200, default_web_profiles);
 
-			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
-				expect(err).not.to.be.ok;
-				expect(account).to.have.property('text', '<a href="https://soundcloud.com/ACCOUNT_ID_1" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a> <a href="https://soundcloud.com/ACCOUNT_ID_2" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>');
-				done();
-			});
+			return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.eventually.have.property('text', '<a href="https://soundcloud.com/ACCOUNT_ID_1" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a> <a href="https://soundcloud.com/ACCOUNT_ID_2" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>');
 		});
 
 		it('should remove the default image', function() {
@@ -790,11 +769,7 @@ describe('soundcloud', function() {
 			users_endpoint.reply(200, default_user);
 			web_profiles_endpoint.reply(200, default_web_profiles);
 
-			soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
-				expect(err).not.to.be.ok;
-				expect(account).not.to.have.property('image');
-				done();
-			});
+			return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.eventually.not.have.property('image');
 		});
 
 		describe('resolve endpoint', function() {
@@ -806,55 +781,47 @@ describe('soundcloud', function() {
 			it('should 403 on 401', function() {
 				resolve_endpoint.reply(401, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 403 });
-					done();
-				});
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
 			});
 
 			it('should 403 on 403', function() {
 				resolve_endpoint.reply(403, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 403 });
-					done();
-				});
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
 			});
 
 			it('should 404 on 404', function() {
 				resolve_endpoint.reply(404, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 404 });
-					done();
-				});
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
 			});
 
 			it('should 429 on 429', function() {
 				resolve_endpoint.reply(429, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 429 });
-					done();
-				});
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
 			});
 
 			it('should 500 on 4xx', function() {
 				resolve_endpoint.reply(478, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 500, original_status: 478 });
-					done();
-				});
+				var promise = soundcloud.account({ id: 'ACCOUNT_ID' });
+
+				return Promise.all([
+					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+				]);
 			});
 
 			it('should 502 on 5xx', function() {
 				resolve_endpoint.reply(578, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 502, original_status: 578 });
-					done();
-				});
+				var promise = soundcloud.account({ id: 'ACCOUNT_ID' });
+
+				return Promise.all([
+					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+				]);
 			});
 		});
 
@@ -867,55 +834,47 @@ describe('soundcloud', function() {
 			it('should 403 on 401', function() {
 				users_endpoint.reply(401, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 403 });
-					done();
-				});
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
 			});
 
 			it('should 403 on 403', function() {
 				users_endpoint.reply(403, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 403 });
-					done();
-				});
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
 			});
 
 			it('should 404 on 404', function() {
 				users_endpoint.reply(404, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 404 });
-					done();
-				});
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
 			});
 
 			it('should 429 on 429', function() {
 				users_endpoint.reply(429, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 429 });
-					done();
-				});
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
 			});
 
 			it('should 500 on 4xx', function() {
 				users_endpoint.reply(478, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 500, original_status: 478 });
-					done();
-				});
+				var promise = soundcloud.account({ id: 'ACCOUNT_ID' });
+
+				return Promise.all([
+					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+				]);
 			});
 
 			it('should 502 on 5xx', function() {
 				users_endpoint.reply(578, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 502, original_status: 578 });
-					done();
-				});
+				var promise = soundcloud.account({ id: 'ACCOUNT_ID' });
+
+				return Promise.all([
+					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+				]);
 			});
 		});
 
@@ -928,254 +887,8 @@ describe('soundcloud', function() {
 			it('should be fine on err', function() {
 				web_profiles_endpoint.reply(404, '');
 
-				soundcloud.account({ id: 'ACCOUNT_ID' }, function(err, account) {
-					expect(err).not.to.be.ok;
-					expect(account).to.be.ok;
-					done();
-				});
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.eventually.be.ok;
 			});
 		});
 	});
-
-	describe('.account_content', function() {
-		var users_endpoint;
-		var users_playlists_endpoint;
-		var users_tracks_endpoint;
-		var default_user;
-		var default_users_playlists;
-		var default_users_tracks;
-
-		beforeEach(function() {
-			resolve_endpoint = resolve_endpoint.query({ url: 'https://soundcloud.com/ACCOUNT_ID' });
-			users_endpoint = nock('https://api.soundcloud.com')
-				.get('/users/SOUNDCLOUD_USER_ID')
-				.query({ client_id: 'SOUNDCLOUD_CLIENT_ID' });
-			users_playlists_endpoint = nock('https://api.soundcloud.com')
-				.get('/users/SOUNDCLOUD_USER_ID/playlists')
-				.query({ client_id: 'SOUNDCLOUD_CLIENT_ID', representation: 'compact' });
-			users_tracks_endpoint = nock('https://api.soundcloud.com')
-				.get('/users/SOUNDCLOUD_USER_ID/tracks')
-				.query({ client_id: 'SOUNDCLOUD_CLIENT_ID' });
-
-			sandbox.stub(urls, 'parse');
-
-			default_user = { id:               'SOUNDCLOUD_USER_ID', permalink:        'ACCOUNT_ID', username:         'NAME', avatar_url:       'image-large.jpg', description:      'TEXT', track_count:      1000, playlist_count:   2000, followers_count:  3000, followings_count: 4000 };
-			default_users_playlists = [{ kind:        'playlist', created_at:  '2015/05/22 01:53:47 +0000', title:       'NAME PLAYLIST 1', permalink:   'CONTENT_ID_PLAYLIST_1', track_count: 1101, artwork_url: 'image-playlist-1-large.jpg', user:        { permalink: 'ACCOUNT_ID_PLAYLIST_1' } }, { kind:        'playlist', created_at:  '2015/05/20 01:53:47 +0000', title:       'NAME PLAYLIST 2', permalink:   'CONTENT_ID_PLAYLIST_2', track_count: 2101, artwork_url: 'image-playlist-2-large.jpg', user:        { permalink: 'ACCOUNT_ID_PLAYLIST_2' } }];
-			default_users_tracks = [{ created_at:        '2015/05/21 01:53:47 +0000', permalink:         'CONTENT_ID_TRACK_1', title:             'NAME TRACK 1', artwork_url:       'image-track-1-large.jpg', user:              { permalink: 'ACCOUNT_ID_TRACK_1' }, playback_count:    1202, favoritings_count: 1201, comment_count:     1203 }, { created_at:        '2015/05/19 01:53:47 +0000', permalink:         'CONTENT_ID_TRACK_2', title:             'NAME TRACK 2', artwork_url:       'image-track-2-large.jpg', user:              { permalink: 'ACCOUNT_ID_TRACK_2' }, playback_count:    2202, favoritings_count: 2201, comment_count:     2203 }];
-		});
-
-		it('should callback soundcloud tracks and playlists', function() {
-			resolve_endpoint.reply(302, null, { location: 'https://api.soundcloud.com/users/SOUNDCLOUD_USER_ID?client_id=SOUNDCLOUD_CLIENT_ID' });
-			users_endpoint.reply(200, default_user);
-			users_playlists_endpoint.reply(200, default_users_playlists);
-			users_tracks_endpoint.reply(200, default_users_tracks);
-
-			soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content) {
-				expect(err).not.to.be.ok;
-				expect(account_content).to.eql({ api:     'soundcloud', type:    'account_content', id:      'ACCOUNT_ID', content: [{ api:     'soundcloud', type:    'content', id:      'CONTENT_ID_PLAYLIST_1', as:      'playlist', name:    'NAME PLAYLIST 1', date:    1432259627000, image:   { small:  'image-playlist-1-large.jpg', medium: 'image-playlist-1-t300x300.jpg', large:  'image-playlist-1-t500x500.jpg' }, stats:   { content: 1101 }, account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID_PLAYLIST_1' } }, { api:     'soundcloud', type:    'content', id:      'CONTENT_ID_TRACK_1', name:    'NAME TRACK 1', date:    1432173227000, image:   { small:  'image-track-1-large.jpg', medium: 'image-track-1-t300x300.jpg', large:  'image-track-1-t500x500.jpg' }, stats:   { likes:    1201, views:    1202, comments: 1203 }, account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID_TRACK_1' } }, { api:     'soundcloud', type:    'content', id:      'CONTENT_ID_PLAYLIST_2', as:      'playlist', name:    'NAME PLAYLIST 2', date:    1432086827000, image:   { small:  'image-playlist-2-large.jpg', medium: 'image-playlist-2-t300x300.jpg', large:  'image-playlist-2-t500x500.jpg' }, stats:   { content: 2101 }, account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID_PLAYLIST_2' } }, { api:     'soundcloud', type:    'content', id:      'CONTENT_ID_TRACK_2', name:    'NAME TRACK 2', date:    1432000427000, image:   { small:  'image-track-2-large.jpg', medium: 'image-track-2-t300x300.jpg', large:  'image-track-2-t500x500.jpg' }, stats:   { likes:    2201, views:    2202, comments: 2203 }, account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID_TRACK_2' } }] });
-				done();
-			});
-		});
-
-		describe('usage', function() {
-			it('should have nothing to report', function() {
-				resolve_endpoint.reply(302, null, { location: 'https://api.soundcloud.com/users/SOUNDCLOUD_USER_ID?client_id=SOUNDCLOUD_CLIENT_ID' });
-				users_endpoint.reply(200, default_user);
-				users_playlists_endpoint.reply(200, default_users_playlists);
-				users_tracks_endpoint.reply(200, default_users_tracks);
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err, account_content, usage) {
-					expect(usage).to.be.empty;
-					done();
-				});
-			});
-		});
-
-		describe('resolve endpoint', function() {
-			beforeEach(function() {
-				users_endpoint.reply(200, default_user);
-				users_playlists_endpoint.reply(200, default_users_playlists);
-				users_tracks_endpoint.reply(200, default_users_tracks);
-			});
-
-			it('should 403 on 401', function() {
-				resolve_endpoint.reply(401, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 403 });
-					done();
-				});
-			});
-
-			it('should 403 on 403', function() {
-				resolve_endpoint.reply(403, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 403 });
-					done();
-				});
-			});
-
-			it('should 404 on 404', function() {
-				resolve_endpoint.reply(404, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 404 });
-					done();
-				});
-			});
-
-			it('should 429 on 429', function() {
-				resolve_endpoint.reply(429, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 429 });
-					done();
-				});
-			});
-
-			it('should 500 on 4xx', function() {
-				resolve_endpoint.reply(478, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 500, original_status: 478 });
-					done();
-				});
-			});
-
-			it('should 502 on 5xx', function() {
-				resolve_endpoint.reply(578, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Resolve', status: 502, original_status: 578 });
-					done();
-				});
-			});
-		});
-
-		describe('users playlists endpoint', function() {
-			beforeEach(function() {
-				resolve_endpoint.reply(302, null, { location: 'https://api.soundcloud.com/users/SOUNDCLOUD_USER_ID?client_id=SOUNDCLOUD_CLIENT_ID' });
-				users_endpoint.reply(200, default_user);
-				users_tracks_endpoint.reply(200, default_users_tracks);
-			});
-
-			it('should 403 on 401', function() {
-				users_playlists_endpoint.reply(401, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Users Playlists', status: 403 });
-					done();
-				});
-			});
-
-			it('should 403 on 403', function() {
-				users_playlists_endpoint.reply(403, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Users Playlists', status: 403 });
-					done();
-				});
-			});
-
-			it('should 404 on 404', function() {
-				users_playlists_endpoint.reply(404, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Users Playlists', status: 404 });
-					done();
-				});
-			});
-
-			it('should 429 on 429', function() {
-				users_playlists_endpoint.reply(429, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Users Playlists', status: 429 });
-					done();
-				});
-			});
-
-			it('should 500 on 4xx', function() {
-				users_playlists_endpoint.reply(478, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Users Playlists', status: 500, original_status: 478 });
-					done();
-				});
-			});
-
-			it('should 502 on 5xx', function() {
-				users_playlists_endpoint.reply(578, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Users Playlists', status: 502, original_status: 578 });
-					done();
-				});
-			});
-		});
-
-		describe('users tracks endpoint', function() {
-			beforeEach(function() {
-				resolve_endpoint.reply(302, null, { location: 'https://api.soundcloud.com/users/SOUNDCLOUD_USER_ID?client_id=SOUNDCLOUD_CLIENT_ID' });
-				users_endpoint.reply(200, default_user);
-				users_playlists_endpoint.reply(200, default_users_playlists);
-			});
-
-			it('should 403 on 401', function() {
-				users_tracks_endpoint.reply(401, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Users Tracks', status: 403 });
-					done();
-				});
-			});
-
-			it('should 403 on 403', function() {
-				users_tracks_endpoint.reply(403, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Users Tracks', status: 403 });
-					done();
-				});
-			});
-
-			it('should 404 on 404', function() {
-				users_tracks_endpoint.reply(404, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Users Tracks', status: 404 });
-					done();
-				});
-			});
-
-			it('should 429 on 429', function() {
-				users_tracks_endpoint.reply(429, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Users Tracks', status: 429 });
-					done();
-				});
-			});
-
-			it('should 500 on 4xx', function() {
-				users_tracks_endpoint.reply(478, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Users Tracks', status: 500, original_status: 478 });
-					done();
-				});
-			});
-
-			it('should 502 on 5xx', function() {
-				users_tracks_endpoint.reply(578, '');
-
-				soundcloud.account_content({ id: 'ACCOUNT_ID' }, function(err) {
-					expect(err).to.eql({ message: 'SoundCloud Users Tracks', status: 502, original_status: 578 });
-					done();
-				});
-			});
-		});
-	});
-	*/
 });

@@ -77,7 +77,7 @@ module.exports = function(params) {
 
 				var text = autolinker.link(_.result(user, 'bio', ''));
 
-				return _.chain(user_to_account(user)).extend({ text: text, stats: { content: Number(_.result(user_counts, 'media')), followers: Number(_.result(user_counts, 'followed_by')), following: Number(_.result(user_counts, 'follows')) }, accounts: _.chain(text.match(/href="[^"]+"/g)).invoke('slice', 6, -1).map(urls.parse).unshift(urls.parse(_.result(user, 'website'))).where({ type: 'account' }).value(), content: results[2] && { api: 'instagram', type: 'account_content', id: _.result(user, 'username'), content: _.map(results[2], media_to_content) } }).pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))).value();
+				return _.chain(user_to_account(user)).extend({ text: text, stats: { content: Number(_.result(user_counts, 'media')), followers: Number(_.result(user_counts, 'followed_by')), following: Number(_.result(user_counts, 'follows')) }, accounts: _.chain(text.match(/href="[^"]+"/g)).invoke('slice', 6, -1).map(urls.parse).unshift(urls.parse(_.result(user, 'website'))).where({ type: 'account' }).value() }).pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))).value();
 			});
 	};
 
