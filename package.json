@@ -20,7 +20,7 @@
     "clean": "rm -rf coverage dist dist-* dump.rdb npm-debug.log*",
     "coverage:check": "istanbul check-coverage --statements 75 --branches 75 --functions 75 --lines 75",
     "coverage:report": "cat ./coverage/lcov.info | codecov",
-    "deploy": "npm run deploy:extension",
+    "deploy": "run-s deploy:*",
     "deploy:extension": "webstore upload --source dist --extension-id dighmiipfpfdfbfmpodcmfdgkkcakbco",
     "deploy:www": "gh-pages -d dist-www",
     "fix": "run-s fix:style:*",
