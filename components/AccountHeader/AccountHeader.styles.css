@@ -9,7 +9,6 @@
   &:empty {
     display: block;
   }
-
   &-image {
     width: 33.33%;
     height: 126.66666667px;
