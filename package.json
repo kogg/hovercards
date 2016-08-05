@@ -20,6 +20,7 @@
     "clean": "rm -rf build coverage dist dist-* build dump.rdb npm-debug.log*",
     "coverage:check": "istanbul check-coverage --statements 75 --branches 75 --functions 75 --lines 75",
     "coverage:report": "cat ./coverage/lcov.info | codecov",
+    "deploy": "echo deploy code here",
     "deploy:www": "gh-pages -d dist-www",
     "fix": "run-p fix:style:*",
     "fix:style:css": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".css$\" | xargs -I '{}' -n 1 stylefmt {} ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".css$\" | xargs git add )",
