@@ -5,6 +5,7 @@ var connect    = require('react-redux').connect;
 var Carousel         = require('../Carousel/Carousel');
 var Gif              = require('../Gif/Gif');
 var Image            = require('../Image/Image');
+var OEmbed           = require('../OEmbed/OEmbed');
 var SoundCloudPlayer = require('../SoundCloudPlayer/SoundCloudPlayer');
 var Video            = require('../Video/Video');
 var YoutubeVideo     = require('../YoutubeVideo/YoutubeVideo');
@@ -65,6 +66,13 @@ module.exports = connect(null, actions)(React.createClass({
 				);
 			default:
 				break;
+		}
+		if (this.props.content.oembed) {
+			return (
+				<div className={classnames(styles.media, this.props.className)}>
+					<OEmbed oembed={this.props.content.oembed} image={this.props.content.image} onLoad={this.props.onResize} />
+				</div>
+			);
 		}
 		if (this.props.content.video) {
 			return (
