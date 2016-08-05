@@ -112,6 +112,23 @@ describe('reddit', function() {
 			return expect(reddit.content({ id: 'CONTENT_ID' })).to.eventually.not.have.property('account');
 		});
 
+		it('should include oembed post', function() {
+			default_article_comments[0].data.children[0].data.media = {
+				oembed: {
+					html:          '&lt;iframe&gt;&lt;/iframe&gt;',
+					thumbnail_url: 'image.jpg'
+				}
+			};
+			article_comments_endpoint.reply(200, default_article_comments);
+
+			var promise = reddit.content({ id: 'CONTENT_ID' });
+
+			return Promise.all([
+				expect(promise).to.eventually.have.property('image').that.eql({ small: 'image.jpg', medium: 'image.jpg', large: 'image.jpg' }),
+				expect(promise).to.eventually.have.property('oembed', '<iframe></iframe>')
+			]);
+		});
+
 		describe('article comments endpoint', function() {
 			it('should try again on 401', function() {
 				article_comments_endpoint.reply(401, '');
