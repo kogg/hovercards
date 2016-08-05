@@ -116,6 +116,7 @@
     "semantic-release": "^4.3.5",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
+    "string-replace-webpack-plugin": "0.0.3",
     "style-loader": "^0.13.1",
     "stylefmt": "^4.2.3",
     "url-loader": "^0.5.7",
