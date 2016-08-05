@@ -208,11 +208,19 @@ module.exports = function(params) {
 
 function post_to_content(post) {
 	var author  = _.result(post, 'author');
+	var gifs    = [];
 	var images  = [];
 	var preview = _.chain(post).result('preview').result('images').first().value();
 
 	if (preview) {
-		images = _.union(preview.resolutions, preview.source && [preview.source]);
+		images = _.chain(preview.resolutions).union([preview.source]).compact().value();
+		gifs = _.chain(preview)
+			.result('variants')
+			.result('mp4')
+			.value();
+		if (gifs) {
+			gifs = _.chain(gifs.resolutions).union([gifs.source]).compact().value();
+		}
 	}
 
 	return !_.isEmpty(post) && _.pick(
@@ -246,6 +254,12 @@ function post_to_content(post) {
 					.result('url')
 					.value()
 			},
+			gif: !_.isEmpty(gifs) && _.chain(gifs)
+				.min(function(gif) {
+					return Math.abs(gif.width - 300);
+				})
+				.result('url')
+				.value(),
 			text: _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '')
 				.replace(/\n/gi, '')
 				.replace(/<!-- .*? -->/gi, '')
