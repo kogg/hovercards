@@ -112,7 +112,7 @@ describe('reddit', function() {
 			return expect(reddit.content({ id: 'CONTENT_ID' })).to.eventually.not.have.property('account');
 		});
 
-		it('should include image', function() {
+		it('should callback with image', function() {
 			default_article_comments[0].data.children[0].data.preview = {
 				images: [
 					{
@@ -134,7 +134,29 @@ describe('reddit', function() {
 				.that.eql({ small: 'image_small.jpg', medium: 'image_medium.jpg', large: 'image_large.jpg' });
 		});
 
-		it('should include oembed post', function() {
+		it('should callback with gif', function() {
+			default_article_comments[0].data.children[0].data.preview = {
+				images: [
+					{
+						variants: {
+							mp4: {
+								resolutions: [
+									{ height: 44, width: 108, url: 'gif_no.mp4' },
+									{ height: 89, width: 216, url: 'gif_no.mp4' },
+									{ height: 132, width: 320, url: 'gif.mp4' }
+								],
+								source: { height: 207, width: 500, url: 'gif_no.mp4' }
+							}
+						}
+					}
+				]
+			};
+			article_comments_endpoint.reply(200, default_article_comments);
+
+			return expect(reddit.content({ id: 'CONTENT_ID' })).to.eventually.have.property('gif', 'gif.mp4');
+		});
+
+		it('should callback with oembed post', function() {
 			default_article_comments[0].data.children[0].data.media = {
 				oembed: {
 					html: '&lt;iframe&gt;&lt;/iframe&gt;'
