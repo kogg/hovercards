@@ -77,31 +77,7 @@ module.exports = function(params) {
 
 				var text = autolinker.link(_.result(user, 'bio', ''));
 
-				return _.chain(user_to_account(user)).extend({ text: text, stats: { content: Number(_.result(user_counts, 'media')), followers: Number(_.result(user_counts, 'followed_by')), following: Number(_.result(user_counts, 'follows')) }, accounts: _.chain(text.match(/href="[^"]+"/g)).invoke('slice', 6, -1).map(urls.parse).unshift(urls.parse(_.result(user, 'website'))).where({ type: 'account' }).value(), content: results[2] && { api: 'instagram', type: 'account_content', id: _.result(user, 'username'), content: _.map(results[2], media_to_content) } }).pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))).value();
-			});
-	};
-
-	api.account_content = function(args) {
-		var usage = { 'instagram-calls': 0 };
-
-		var getUserIncomplete = model.user_search(_.pick(args, 'id'), null, usage)
-			.then(function(users) {
-				var user_incomplete = _.find(users, function(user) { return _.isEqual(user.username.toLowerCase(), _.result(args, 'id').toLowerCase()); });
-				if (!user_incomplete) {
-					return Promise.reject({ message: 'Instagram User Search', status: 404 });
-				}
-				return user_incomplete;
-			});
-
-		return Promise.all([
-			getUserIncomplete,
-			getUserIncomplete
-				.then(function(user_incomplete) {
-					return model.user_media_recent(_.pick(user_incomplete, 'id'), null, usage);
-				})
-		])
-			.then(function(results) {
-				return _.pick({ api: 'instagram', type: 'account_content', id: _.result(results[0], 'username') || args.id, content: _.chain(results[1]).map(media_to_content).reject(_.isEmpty).value() }, _.negate(_.isEmpty));
+				return _.chain(user_to_account(user)).extend({ text: text, stats: { content: Number(_.result(user_counts, 'media')), followers: Number(_.result(user_counts, 'followed_by')), following: Number(_.result(user_counts, 'follows')) }, accounts: _.chain(text.match(/href="[^"]+"/g)).invoke('slice', 6, -1).map(urls.parse).unshift(urls.parse(_.result(user, 'website'))).where({ type: 'account' }).value() }).pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))).value();
 			});
 	};
 

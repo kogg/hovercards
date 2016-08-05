@@ -102,6 +102,7 @@ module.exports = function(params) {
 				.then(function(user) {
 					return model.users_web_profiles(_.pick(user, 'id'), null, usage);
 				})
+				.catch(_.constant([]))
 		])
 			.then(function(results) {
 				var text = autolinker.link((_.result(results[0], 'description') || '').replace(/\n+$/, '').replace(/\n/g, '<br>'));
@@ -130,59 +131,12 @@ module.exports = function(params) {
 			});
 	};
 
-	api.account_content = function(args) {
-		var usage = {};
-
-		var getUser = model.resolve({ url: urls.print(_.defaults({ api: 'soundcloud', type: 'account' }, args)) }, null, usage);
-
-		return Promise.all([
-			getUser
-				.then(function(user) {
-					return model.users_tracks(_.pick(user, 'id'), null, usage);
-				}),
-			getUser
-				.then(function(user) {
-					return model.users_playlists(_.pick(user, 'id'), null, usage);
-				})
-		])
-			.then(function(results) {
-				return _.pick(
-					{
-						api:     'soundcloud',
-						type:    'account_content',
-						id:      args.id,
-						content: _.chain(results[0])
-							.union(results[1])
-							.sortBy(function(post) {
-								return -Date.parse(post.created_at);
-							})
-							.first(config.counts.grid)
-							.map(post_to_content)
-							.each(function(content) {
-								_.extend(content, _.isEmpty(content.account) && { account: _.pick(content.account, 'api', 'type', 'id') });
-							})
-							.reject(_.isEmpty)
-							.value()
-					},
-					_.negate(_.isEmpty)
-				);
-			});
-	};
-
 	model.resolve = function(args) {
 		return soundcloud('/resolve', { url: _.result(args, 'url') }).catch(catch_errors('SoundCloud Resolve'));
 	};
 
 	model.tracks_comments = function(args) {
 		return soundcloud('/tracks/' + _.result(args, 'id') + '/comments').catch(catch_errors('SoundCloud Tracks Comments'));
-	};
-
-	model.users_playlists = function(args) {
-		return soundcloud('/users/' + _.result(args, 'id') + '/playlists', { representation: 'compact' }).catch(catch_errors('SoundCloud Users Playlists'));
-	};
-
-	model.users_tracks = function(args) {
-		return soundcloud('/users/' + _.result(args, 'id') + '/tracks').catch(catch_errors('SoundCloud Users Tracks'));
 	};
 
 	model.users_web_profiles = function(args) {
