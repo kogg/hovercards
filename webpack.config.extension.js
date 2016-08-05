@@ -1,15 +1,16 @@
-var _                   = require('underscore');
-var CleanWebpackPlugin  = require('clean-webpack-plugin');
-var CopyWebpackPlugin   = require('copy-webpack-plugin');
-var ExtractTextPlugin   = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin   = require('html-webpack-plugin');
-var StringReplacePlugin = require('string-replace-webpack-plugin');
-var WriteFilePlugin     = require('write-file-webpack-plugin');
-var autoprefixer        = require('autoprefixer');
-var nested              = require('postcss-nested');
-var path                = require('path');
-var safeImportant       = require('postcss-safe-important');
-var webpack             = require('webpack');
+var _                        = require('underscore');
+var BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin');
+var CleanWebpackPlugin       = require('clean-webpack-plugin');
+var CopyWebpackPlugin        = require('copy-webpack-plugin');
+var ExtractTextPlugin        = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin        = require('html-webpack-plugin');
+var StringReplacePlugin      = require('string-replace-webpack-plugin');
+var WriteFilePlugin          = require('write-file-webpack-plugin');
+var autoprefixer             = require('autoprefixer');
+var nested                   = require('postcss-nested');
+var path                     = require('path');
+var safeImportant            = require('postcss-safe-important');
+var webpack                  = require('webpack');
 
 module.exports = {
 	// FIXME This is some straight up bullshit https://github.com/webpack/webpack/issues/2801
@@ -76,6 +77,7 @@ module.exports = {
 		tls:     'empty'
 	},
 	plugins: _.compact([
+		new BellOnBundlerErrorPlugin(),
 		new webpack.EnvironmentPlugin([
 			'GOOGLE_ANALYTICS_ID',
 			'INSTAGRAM_CLIENT_ID',
