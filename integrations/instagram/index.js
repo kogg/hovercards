@@ -81,30 +81,6 @@ module.exports = function(params) {
 			});
 	};
 
-	api.account_content = function(args) {
-		var usage = { 'instagram-calls': 0 };
-
-		var getUserIncomplete = model.user_search(_.pick(args, 'id'), null, usage)
-			.then(function(users) {
-				var user_incomplete = _.find(users, function(user) { return _.isEqual(user.username.toLowerCase(), _.result(args, 'id').toLowerCase()); });
-				if (!user_incomplete) {
-					return Promise.reject({ message: 'Instagram User Search', status: 404 });
-				}
-				return user_incomplete;
-			});
-
-		return Promise.all([
-			getUserIncomplete,
-			getUserIncomplete
-				.then(function(user_incomplete) {
-					return model.user_media_recent(_.pick(user_incomplete, 'id'), null, usage);
-				})
-		])
-			.then(function(results) {
-				return _.pick({ api: 'instagram', type: 'account_content', id: _.result(results[0], 'username') || args.id, content: _.chain(results[1]).map(media_to_content).reject(_.isEmpty).value() }, _.negate(_.isEmpty));
-			});
-	};
-
 	model.media_shortcode = function(args, args_not_cached, usage) {
 		usage['instagram-calls']++;
 

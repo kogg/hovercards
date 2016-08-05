@@ -71,57 +71,6 @@ module.exports = function(params) {
 			});
 	};
 
-	api.account_content = function(args) {
-		var usage = { 'twitter-statuses-show-calls': 0, 'twitter-statuses-user-timeline-calls': 0 };
-
-		var getTweets = model.statuses_user_timeline(_.pick(args, 'id'), _.pick(args, 'user'), usage);
-
-		return Promise.all([
-			getTweets,
-			getTweets
-				.then(function(tweets) {
-					var tweet_ids      = _.pluck(tweets, 'id_str');
-					var replied_to_ids = _.pluck(tweets, 'in_reply_to_status_id_str');
-
-					return Promise.all(
-						_.chain(replied_to_ids)
-							.difference(tweet_ids)
-							.compact()
-							.map(function(repliedToId) {
-								return model.statuses_show({ id: repliedToId }, _.pick(args, 'user'), usage)
-									.catch(function() {
-										return null;
-									});
-							})
-							.value()
-					);
-				})
-		])
-			.then(function(results) {
-				var tweets = _.chain(results[0]).union(results[1]).compact().value();
-
-				var tweet_id_to_replied_to_id = _.chain(tweets).indexBy('id_str').mapObject(_.property('in_reply_to_status_id_str')).value();
-
-				var content       = _.map(tweets, tweet_to_content);
-				var content_by_id = _.indexBy(content, 'id');
-
-				_.each(content, function(tweet_as_content) {
-					var replied_to_id = tweet_id_to_replied_to_id[tweet_as_content.id];
-					if (!replied_to_id) {
-						return;
-					}
-					var replied_to_tweet_as_content = content_by_id[replied_to_id];
-					if (!replied_to_tweet_as_content) {
-						return;
-					}
-					content = _.without(content, replied_to_tweet_as_content);
-					tweet_as_content.replied_to_content = replied_to_tweet_as_content;
-				});
-
-				return _.pick({ api: 'twitter', type: 'account_content', id: _.result(args, 'id'), content: _.chain(content).map(_.partial(_.omit, _, 'account')).reject(_.isEmpty).value() }, _.negate(_.isEmpty));
-			});
-	};
-
 	model.search_tweets = function(args, args_not_cached, usage) {
 		return provide_twit(_.result(args_not_cached, 'user'))
 			.then(function(twitter) {
@@ -151,22 +100,6 @@ module.exports = function(params) {
 						return result.data;
 					})
 					.catch(catch_errors('Twitter Statuses Show', args_not_cached));
-			});
-	};
-
-	model.statuses_user_timeline = function(args, args_not_cached, usage) {
-		return provide_twit(_.result(args_not_cached, 'user'))
-			.then(function(twitter) {
-				usage['twitter-statuses-user-timeline-calls']++;
-
-				return twitter.get('statuses/user_timeline', { screen_name: _.result(args, 'id'), count: config.counts.listed })
-					.then(function(result) {
-						if (_.result(result.resp, 'statusCode') >= 400) {
-							return Promise.reject({ status: result.resp.statusCode, message: '', code: _.chain(result.data.errors).first().result('code').value() });
-						}
-						return result.data;
-					})
-					.catch(catch_errors('Twitter Statuses User Timeline', args_not_cached));
 			});
 	};
 

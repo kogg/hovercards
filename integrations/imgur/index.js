@@ -63,28 +63,10 @@ module.exports = function(params) {
 			});
 	};
 
-	api.account_content = function(args) {
-		var usage = { 'mashape-requests': 0, 'imgur-requests': 0 };
-
-		return model.account_submissions(_.pick(args, 'id'), null, usage)
-			.then(function(submissions) {
-				return _.pick({ api:     'imgur', type:    'account_content', id:      args.id, content: _.chain(submissions).map(function(submission) {
-					return _.pick(image_or_album_to_content(submission), 'api', 'type', 'id', 'as', 'name', 'image', 'gif'); }).reject(_.isEmpty).first(config.counts.grid).value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
-			});
-	};
-
 	model.account = function(args, args_not_cached, usage) {
 		return imgur('/account/' + _.result(args, 'id'), usage, true)
 			.catch(function(err) {
 				err.message = 'Imgur Account - ' + String(err.message);
-				return Promise.reject(err);
-			});
-	};
-
-	model.account_submissions = function(args, args_not_cached, usage) {
-		return imgur('/account/' + _.result(args, 'id') + '/submissions/0', usage, true)
-			.catch(function(err) {
-				err.message = 'Imgur Account Submissions - ' + String(err.message);
 				return Promise.reject(err);
 			});
 	};

@@ -133,65 +133,6 @@ module.exports = function(params) {
 			});
 	};
 
-	api.account_content = function(args) {
-		var usage = { 'reddit-requests': 0 };
-
-		model.user_overview(_.pick(args, 'id'), null, usage)
-			.then(function(things) {
-				return _.pick(
-					{
-						api:     'reddit',
-						type:    'account_content',
-						id:      args.id,
-						content: _.chain(things)
-							.map(function(thing) {
-								switch (_.result(thing, 'kind')) {
-									case 't1':
-										var comment          = _.result(thing, 'data');
-										var content_id       = _.rest((_.result(comment, 'link_id') || '').split('_')).join('_');
-										var url              = _.result(comment, 'link_url');
-										var link_as_identity = url && urls.parse(url);
-										if (_.isMatch(link_as_identity, { api: 'reddit', type: 'content', id: content_id })) {
-											url = null;
-										}
-										return _.chain(comment_to_comment(comment))
-											.omit('account')
-											.extend({
-												content: _.pick(
-													{
-														api:       'reddit',
-														type:      'content',
-														id:        content_id,
-														name:      _.result(comment, 'link_title'),
-														subreddit: _.result(comment, 'subreddit'),
-														url:       url,
-														account:   (_.result(comment, 'link_author') !== '[deleted]') && {
-															api:  'reddit',
-															type: 'account',
-															id:   _.result(comment, 'link_author')
-														}
-													},
-													_.negate(_.isEmpty)
-												)
-											})
-											.value();
-									case 't3':
-										var content = _.omit(post_to_content(thing.data), 'account', 'text');
-										content.stats = _.pick(content.stats, 'score');
-										return content;
-									default:
-										// FIXME #9
-										return {};
-								}
-							})
-							.reject(_.isEmpty)
-							.value()
-					},
-					_.somePredicate(_.isNumber, _.negate(_.isEmpty))
-				);
-			});
-	};
-
 	model.article_comments = function(args, args_not_cached, usage) {
 		usage['reddit-requests']++;
 
@@ -249,35 +190,6 @@ module.exports = function(params) {
 			})
 			.catch(function(err) {
 				err.message = 'Reddit User About - ' + String(err.message);
-				switch (err.status) {
-					case 404:
-					case 429:
-						break;
-					default:
-						err.original_status = err.status;
-						err.status = err.status >= 500 ? 502 : 500;
-						break;
-				}
-				return Promise.reject(err);
-			});
-	};
-
-	model.user_overview = function(args, args_not_cached, usage) {
-		usage['reddit-requests']++;
-
-		return reddit('/user/$username/overview').get({ $username: _.result(args, 'id'), limit: config.counts.listed })
-			.then(function(body) {
-				var things = _.chain(body)
-					.result('data')
-					.result('children')
-					.value();
-				if (!_.isObject(things)) {
-					return Promise.reject({ status: 404, message: '' }); // FIXME #9
-				}
-				return things;
-			})
-			.catch(function(err) {
-				err.message = 'Reddit User Overview - ' + String(err.message);
 				switch (err.status) {
 					case 404:
 					case 429:
