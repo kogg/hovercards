@@ -207,8 +207,13 @@ module.exports = function(params) {
 };
 
 function post_to_content(post) {
-	var author = _.result(post, 'author');
-	var oembed = _.chain(post).result('media').result('oembed').value();
+	var author  = _.result(post, 'author');
+	var images  = [];
+	var preview = _.chain(post).result('preview').result('images').first().value();
+
+	if (preview) {
+		images = _.union(preview.resolutions, preview.source && [preview.source]);
+	}
 
 	return !_.isEmpty(post) && _.pick(
 		{
@@ -220,9 +225,28 @@ function post_to_content(post) {
 			subreddit: _.result(post, 'subreddit'),
 			url:       !_.result(post, 'is_self') && _.result(post, 'url'),
 			account:   (author !== '[deleted]') && { api: 'reddit', type: 'account', id: author },
-			image:     _.result(oembed, 'thumbnail_url') && { small: oembed.thumbnail_url, medium: oembed.thumbnail_url, large: oembed.thumbnail_url },
-			oembed:    _.result(oembed, 'html'),
-			text:      _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '')
+			oembed:    _.chain(post).result('media').result('oembed').result('html').value(),
+			image:     !_.isEmpty(images) && {
+				small: _.chain(images)
+					.min(function(image) {
+						return Math.abs(image.width - 80);
+					})
+					.result('url')
+					.value(),
+				medium: _.chain(images)
+					.min(function(image) {
+						return Math.abs(image.width - 300);
+					})
+					.result('url')
+					.value(),
+				large: _.chain(images)
+					.min(function(image) {
+						return Math.abs(image.width - 600);
+					})
+					.result('url')
+					.value()
+			},
+			text: _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '')
 				.replace(/\n/gi, '')
 				.replace(/<!-- .*? -->/gi, '')
 				.replace(/^\s*<div class="md">(.*?)<\/div>\s*$/, '$1')
