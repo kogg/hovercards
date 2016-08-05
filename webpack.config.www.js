@@ -1,5 +1,4 @@
 var BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin');
-var CleanWebpackPlugin       = require('clean-webpack-plugin');
 var CopyWebpackPlugin        = require('copy-webpack-plugin');
 var ExtractTextPlugin        = require('extract-text-webpack-plugin');
 var FaviconsWebpackPlugin    = require('favicons-webpack-plugin');
@@ -34,8 +33,10 @@ module.exports = {
 	},
 	plugins: [
 		new BellOnBundlerErrorPlugin(),
-		new CleanWebpackPlugin(['dist-landing']),
-		new CopyWebpackPlugin([{ from: 'www/CNAME' }]),
+		new CopyWebpackPlugin([
+			{ from: 'assets/images/facebeefbanner.jpg', to: 'images' },
+			{ from: 'www/CNAME' }
+		]),
 		new ExtractTextPlugin('[name].[hash].css'),
 		new FaviconsWebpackPlugin({ logo: './assets/images/logo.png', title: 'HoverCards', prefix: 'favicons-[hash]/' }),
 		new HtmlWebpackPlugin({ chunks: ['main'], template: 'www/index.html' }),
