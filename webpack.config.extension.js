@@ -36,7 +36,8 @@ module.exports = {
 				)
 			}
 		],
-		noParse: /node_modules\/json-schema\/lib\/validate\.js/ },
+		noParse: /node_modules\/json-schema\/lib\/validate\.js/
+	},
 	resolve: {
 		extensions: extensions(
 			process.env.ENTRY && ['.' + process.env.ENTRY, ''],

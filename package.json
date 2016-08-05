@@ -18,6 +18,7 @@
     "build:extension:options": "NODE_ENV=production ENTRY=options webpack -p --config webpack.config.extension.js",
     "build:extension:top-frame": "NODE_ENV=production ENTRY=top-frame webpack -p --config webpack.config.extension.js",
     "build:www": "webpack -p --config webpack.config.www.js",
+    "check-coverage": "istanbul check-coverage --statements 75 --branches 75 --functions 75 --lines 75",
     "clean": "rm -rf dist dist-* build dump.rdb npm-debug.log*",
     "deploy:www": "gh-pages -d dist-www",
     "fix": "run-p fix:style:*",
@@ -31,7 +32,7 @@
   "config": {
     "ghooks": {
       "pre-commit": "npm run fix",
-      "pre-push": "npm run test"
+      "pre-push": "npm run test && npm run check-coverage"
     }
   },
   "dependencies": {

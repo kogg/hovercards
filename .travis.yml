@@ -1,18 +1,19 @@
 language: node_js
 node_js:
-    - "4.1"
+	- "4.1"
 before_install:
-    - npm install -g npm@3.9.5
-    - npm prune
+	- npm install -g npm@3.9.5
+	- npm prune
 install:
-    - npm install
+	- npm install
 script:
-    - npm test
+	- npm test
+	- npm run check-coverage
 branches:
-    only:
-        - master
+	only:
+		- master
 cache:
-    directories:
-        - node_modules
+	directories:
+		- node_modules
 notifications:
-    email: false
+	email: false
