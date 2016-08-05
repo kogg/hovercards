@@ -85,7 +85,7 @@ module.exports = {
 			'SOUNDCLOUD_CLIENT_ID',
 			'STICKYCARDS'
 		]),
-		!process.env.ENTRY && new CleanWebpackPlugin(['dist']),
+		!process.env.ENTRY && !process.env.NODE_ENV && new CleanWebpackPlugin(['dist']),
 		!process.env.ENTRY && new CopyWebpackPlugin([
 			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true },
 			{ from: 'extension/copy.json', to: '_locales/en/messages.json' }
