@@ -26,6 +26,7 @@ module.exports = {
 			{ exclude: 'node_modules', test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?name=fonts/[name].[hash].[ext]&limit=10000' }
 		]
 	},
+	bail:      true,
 	devtool:   'source-map',
 	devServer: {
 		port:  process.env.PORT,

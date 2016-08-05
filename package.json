@@ -1,6 +1,5 @@
 {
   "name": "hovercards",
-  "version": "3.2.0",
   "description": "Get more content. Open fewer tabs.",
   "homepage": "http://hovercards.com",
   "bugs": {
@@ -18,13 +17,14 @@
     "build:extension:options": "NODE_ENV=production ENTRY=options webpack -p --config webpack.config.extension.js",
     "build:extension:top-frame": "NODE_ENV=production ENTRY=top-frame webpack -p --config webpack.config.extension.js",
     "build:www": "webpack -p --config webpack.config.www.js",
-    "clean": "rm -rf dist dist-* build dump.rdb npm-debug.log*",
+    "clean": "rm -rf build coverage dist dist-* build dump.rdb npm-debug.log*",
     "coverage:check": "istanbul check-coverage --statements 75 --branches 75 --functions 75 --lines 75",
     "coverage:report": "cat ./coverage/lcov.info | codecov",
     "deploy:www": "gh-pages -d dist-www",
     "fix": "run-p fix:style:*",
-    "fix:style:css": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".s\\?css$\" | xargs -I '{}' -n 1 stylefmt {} ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".s\\?css$\" | xargs git add )",
-    "fix:style:js": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".jsx\\?$\" | xargs eslint --fix ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".jsx\\?$\" | xargs git add )",
+    "fix:style:css": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".css$\" | xargs -I '{}' -n 1 stylefmt {} ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".css$\" | xargs git add )",
+    "fix:style:js": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".js$\" | xargs eslint --fix ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".js$\" | xargs git add )",
+    "release": "semantic-release pre && npm run deploy && semantic-release post",
     "start": "if [ \"$NODE_ENV\" = 'production' ]; then foreman start; else foreman start -f Procfile.dev; fi",
     "test": "run-s test:*",
     "test:lint": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**'",
@@ -96,6 +96,7 @@
     "image-webpack-loader": "^2.0.0",
     "istanbul": "^0.4.4",
     "json-loader": "^0.5.4",
+    "last-release-git-tag": "^1.0.1",
     "mocha": "^3.0.1",
     "nock": "^8.0.0",
     "node-fetch": "^1.6.0",
@@ -104,6 +105,7 @@
     "postcss-loader": "^0.9.1",
     "postcss-nested": "^1.0.0",
     "postcss-safe-important": "^1.0.4",
+    "semantic-release": "^4.3.5",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",
@@ -117,5 +119,8 @@
   "engines": {
     "node": "^4.1.0",
     "npm": "^3.9.0"
+  },
+  "release": {
+    "getLastRelease": "last-release-git-tag"
   }
 }

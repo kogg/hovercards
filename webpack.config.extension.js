@@ -45,6 +45,7 @@ module.exports = {
 			['.json', '.js', '.css']
 		)
 	},
+	bail:      true,
 	devtool:   'source-map',
 	devServer: {
 		outputPath: 'dist',
