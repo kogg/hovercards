@@ -128,12 +128,15 @@ module.exports = function(request) {
 						)
 					})
 						.then(function(response) {
-							if (response.ok) {
-								return response.json();
-							}
-							throw errors[response.status] ?
-								new errors[response.status]() :
-								new errors.FeathersError(null, null, response.status);
+							return response.json()
+								.then(function(json) {
+									if (response.ok) {
+										return json;
+									}
+									var err = new errors.FeathersError(json.message, json.name, json.code, json.className, json.data);
+									err.errors = json.errors;
+									throw err;
+								});
 						});
 			}
 		})

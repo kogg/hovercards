@@ -1,24 +1,37 @@
 var _         = require('underscore');
+var errors    = require('feathers-errors');
 var isFSA     = require('flux-standard-action').isFSA;
 var promisify = require('es6-promisify');
 
 var chrome = global.chrome;
 
-function handleRuntimeLastError(value) {
+function makeFSA(action) {
 	if (chrome.runtime.lastError) {
-		return Promise.reject({ payload: chrome.runtime.lastError, error: true });
+		return Promise.reject(action, { payload: chrome.runtime.lastError, error: true });
 	}
-	if (isFSA(value)) {
-		if (value.error) {
-			value.payload = (_.isError(value.payload)) ? value.payload : Object.assign(new Error(value.payload.message), value.payload);
-			return Promise.reject(value);
-		}
+	if (!isFSA(action) || !action.error) {
+		return Promise.resolve(action);
 	}
-	return Promise.resolve(value);
-}
-
-function returnPromise(func) {
-	return promisify(func).apply(this, _.rest(arguments)).then(handleRuntimeLastError, handleRuntimeLastError);
+	if (_.isError(action.payload)) {
+		return Promise.reject(action);
+	}
+	if (action.payload.type === 'FeathersError') {
+		return Promise.reject(Object.assign(
+			{},
+			action,
+			{ payload: Object.assign(
+				new errors.FeathersError(
+					action.payload.message,
+					action.payload.name,
+					action.payload.code,
+					action.payload.className,
+					action.payload.data
+				),
+				{ errors: action.payload.errors, request: action.payload.request }
+			) }
+		));
+	}
+	return Promise.reject(Object.assign(new Error(action.payload.message), action.payload));
 }
 
 [
@@ -40,7 +53,17 @@ function returnPromise(func) {
 	if (!wrapIt.obj || !wrapIt.obj[wrapIt.method]) {
 		return;
 	}
-	wrapIt.obj[wrapIt.method] = _.wrap(wrapIt.obj[wrapIt.method], returnPromise);
+	wrapIt.obj[wrapIt.method] = _.wrap(wrapIt.obj[wrapIt.method], function(func) {
+		return promisify(func).apply(this, _.rest(arguments))
+			.catch(_.identity)
+			.then(makeFSA);
+	});
+});
+
+chrome.runtime.onMessage.addListener = _.wrap(chrome.runtime.onMessage.addListener, function(addListener, listener) {
+	return addListener.bind(chrome.runtime.onMessage)(function(action, sender, sendResponse) {
+		return listener(makeFSA(action), sender, sendResponse);
+	});
 });
 
 module.exports = chrome;

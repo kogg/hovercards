@@ -63,8 +63,7 @@ module.exports.getEntity = function(request, meta, sender) {
 					}
 				})
 				.catch(function(err) {
-					err.request = request;
-					browser.tabs.sendMessage(sender.tab.id, { type: 'setEntity', payload: err, error: true });
+					browser.tabs.sendMessage(sender.tab.id, { type: 'setEntity', payload: Object.assign(err.toJSON(), { type: 'FeathersError', request: request }), error: true });
 				});
 		}
 
