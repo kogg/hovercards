@@ -1,2 +1,2 @@
-require('../../reporting');
+require('../../report');
 require('../css/privacy.css');
