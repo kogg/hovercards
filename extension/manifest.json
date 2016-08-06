@@ -55,7 +55,7 @@
     "http://*/*",
     "https://*/*"
   ],
-  "content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self' https://www.youtube.com",
+  "content_security_policy": "script-src 'self' __UNSAFE_EVAL__ https://www.google-analytics.com; object-src 'self' https://www.youtube.com",
   "default_locale": "en",
   "manifest_version": 2
 }

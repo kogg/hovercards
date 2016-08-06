@@ -44,12 +44,20 @@ module.exports = {
 				loaders: [
 					'file?name=manifest.json',
 					StringReplacePlugin.replace({
-						replacements: [{
-							pattern:     /__VERSION__/ig,
-							replacement: function() {
-								return require('./package').version || '0.0.1';
+						replacements: [
+							{
+								pattern:     /__UNSAFE_EVAL__/ig,
+								replacement: function() {
+									return process.env.NODE_ENV ? '' : '\'unsafe-eval\'';
+								}
+							},
+							{
+								pattern:     /__VERSION__/ig,
+								replacement: function() {
+									return require('./package').version || '0.0.1';
+								}
 							}
-						}]
+						]
 					})
 				]
 			}
