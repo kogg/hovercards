@@ -38,9 +38,9 @@
       "path": "./node_modules/cz-conventional-changelog"
     },
     "ghooks": {
-      "pre-commit": "npm run fix",
+      "pre-commit": "npm run fix --color",
       "commit-msg": "validate-commit-msg",
-      "pre-push": "npm run test:lint -- --color && npm run test:unit:no-cover -- -R nyan --colors"
+      "pre-push": "npm run test:lint --color -- --color && npm run test:unit:no-cover --color -- -R nyan --colors"
     },
     "validate-commit-msg": {
       "helpMessage": "Install commitizen and use `git cz` instead of `git commit` https://github.com/commitizen/cz-cli#installing-the-command-line-tool"
