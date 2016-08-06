@@ -1,9 +1,10 @@
 var _          = require('underscore');
-var Autolinker = require( 'autolinker' );
-var config     = require('../config');
+var Autolinker = require('autolinker');
 var promisify  = require('es6-promisify');
 var request    = require('request');
-var urls       = require('../urls');
+
+var config = require('../config');
+var urls   = require('../urls');
 require('../mixins');
 
 var autolinker = new Autolinker();
@@ -21,7 +22,7 @@ module.exports = function(params) {
 
 				return _.chain(image_or_album_to_content(image_or_album, _.result(args, 'as')))
 					.extend({
-						account: !_.isEmpty(account_url) && { api:  'imgur', type: 'account', id:   account_url },
+						account: !_.isEmpty(account_url) && { api: 'imgur', type: 'account', id: account_url },
 						content: _.chain(image_or_album)
 							.result('images')
 							.map(image_or_album_to_content)
@@ -45,9 +46,9 @@ module.exports = function(params) {
 		return model.gallery_comments(_.pick(args, 'id'), null, usage)
 			.then(function(comments) {
 				return _.pick({ api:      'imgur', type:     'discussion', id:       args.id, comments: (function comments_to_comments(comments, next_points) {
-					return _.chain(comments) .reject(_.isEmpty) .first(config.counts.listed) .reject(function(comment) { return _.result(comment, 'points') < next_points / 2.0; }) .map(function(comment, i, comments) {
+					return _.chain(comments).reject(_.isEmpty).first(config.counts.listed).reject(function(comment) { return _.result(comment, 'points') < next_points / 2.0; }).map(function(comment, i, comments) {
 						var author = _.result(comment, 'author');
-						return _.pick({ api:     'imgur', type:    'comment', id:      _.result(comment, 'id'), text:    autolinker.link((_.result(comment, 'comment') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>')), date:    _.result(comment, 'datetime') * 1000, stats:   { score: _.result(comment, 'points') }, account: !_.isEmpty(author) && { api: 'imgur', type: 'account', id: author }, replies: comments_to_comments(_.result(comment, 'children'), _.max([_.result(comments[i + 1], 'points'), next_points])) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))); }) .value(); }(comments, -Infinity)) }, _.negate(_.isEmpty));
+						return _.pick({ api: 'imgur', type: 'comment', id: _.result(comment, 'id'), text: autolinker.link((_.result(comment, 'comment') || '').replace(/\n+$/, '').replace(/\n/g, '<br>')), date: _.result(comment, 'datetime') * 1000, stats: { score: _.result(comment, 'points') }, account: !_.isEmpty(author) && { api: 'imgur', type: 'account', id: author }, replies: comments_to_comments(_.result(comment, 'children'), _.max([_.result(comments[i + 1], 'points'), next_points])) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))); }).value(); }(comments, -Infinity)) }, _.negate(_.isEmpty));
 			});
 	};
 
@@ -56,19 +57,9 @@ module.exports = function(params) {
 
 		return model.account(_.pick(args, 'id'), null, usage)
 			.then(function(account) {
-				var text = autolinker.link((_.result(account, 'bio') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>'));
+				var text = autolinker.link((_.result(account, 'bio') || '').replace(/\n+$/, '').replace(/\n/g, '<br>'));
 
-				return _.pick({ api:      'imgur', type:     'account', id:       _.result(account, 'url'), text:     text, date:     _.result(account, 'created') * 1000, stats:    { score: Number(_.result(account, 'reputation')) }, accounts: _.chain(text.match(/href="[^"]+"/g)) .invoke('slice', 6, -1) .map(urls.parse) .where({ type: 'account' }) .uniq(false, function(account) { return account.api + '/' + account.id + '/' + account.as; }) .value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
-			});
-	};
-
-	api.account_content = function(args) {
-		var usage = { 'mashape-requests': 0, 'imgur-requests': 0 };
-
-		return model.account_submissions(_.pick(args, 'id'), null, usage)
-			.then(function(submissions) {
-				return _.pick({ api:     'imgur', type:    'account_content', id:      args.id, content: _.chain(submissions) .map(function(submission) {
-					return _.pick(image_or_album_to_content(submission), 'api', 'type', 'id', 'as', 'name', 'image', 'gif'); }) .reject(_.isEmpty) .first(config.counts.grid) .value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
+				return _.pick({ api: 'imgur', type: 'account', id: _.result(account, 'url'), text: text, date: _.result(account, 'created') * 1000, stats: { score: Number(_.result(account, 'reputation')) }, accounts: _.chain(text.match(/href="[^"]+"/g)).invoke('slice', 6, -1).map(urls.parse).where({ type: 'account' }).uniq(false, function(account) { return account.api + '/' + account.id + '/' + account.as; }).value() }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
 			});
 	};
 
@@ -80,18 +71,10 @@ module.exports = function(params) {
 			});
 	};
 
-	model.account_submissions = function(args, args_not_cached, usage) {
-		return imgur('/account/' + _.result(args, 'id') + '/submissions/0', usage, true)
-			.catch(function(err) {
-				err.message = 'Imgur Account Submissions - ' + String(err.message);
-				return Promise.reject(err);
-			});
-	};
-
 	model.album = function(args, args_not_cached, usage) {
 		return model.gallery(args, args_not_cached, usage)
 			.catch(function(err) {
-				if (err !== 404) {
+				if (err.status !== 404) {
 					return Promise.reject(err);
 				}
 				return imgur('/album/' + _.result(args, 'id'), usage, true)
@@ -177,5 +160,5 @@ module.exports = function(params) {
 function image_or_album_to_content(image_or_album, as) {
 	var is_album = _.result(image_or_album, 'is_album', as === 'album');
 	var score    = _.result(image_or_album, 'score');
-	return !_.isEmpty(image_or_album) && _.pick({ api:   'imgur', type:  'content', id:    _.result(image_or_album, 'id'), as:    is_album ? 'album' : 'image', name:  _.result(image_or_album, 'title'), text:  autolinker.link((_.result(image_or_album, 'description') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>')), date:  _.result(image_or_album, 'datetime') * 1000, image: { small:  'http://i.imgur.com/' + _.result(image_or_album, is_album ? 'cover' : 'id') + 's.jpg', medium: 'http://i.imgur.com/' + _.result(image_or_album, is_album ? 'cover' : 'id') + 'm.jpg', large:  'http://i.imgur.com/' + _.result(image_or_album, is_album ? 'cover' : 'id') + 'l.jpg' }, gif:   _.result(image_or_album, 'animated') && (_.result(image_or_album, 'type') === 'image/gif') && _.result(image_or_album, 'mp4'), stats: _.pick({ views: Number(_.result(image_or_album, 'views')), score: _.isNumber(score) && Number(score) }, _.isNumber) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
+	return !_.isEmpty(image_or_album) && _.pick({ api: 'imgur', type: 'content', id: _.result(image_or_album, 'id'), as: is_album ? 'album' : 'image', name: _.result(image_or_album, 'title'), text: autolinker.link((_.result(image_or_album, 'description') || '').replace(/\n+$/, '').replace(/\n/g, '<br>')), date: _.result(image_or_album, 'datetime') * 1000, image: { small: 'http://i.imgur.com/' + _.result(image_or_album, is_album ? 'cover' : 'id') + 's.jpg', medium: 'http://i.imgur.com/' + _.result(image_or_album, is_album ? 'cover' : 'id') + 'm.jpg', large: 'http://i.imgur.com/' + _.result(image_or_album, is_album ? 'cover' : 'id') + 'l.jpg' }, gif: _.result(image_or_album, 'animated') && (_.result(image_or_album, 'type') === 'image/gif') && _.result(image_or_album, 'mp4'), stats: _.pick({ views: Number(_.result(image_or_album, 'views')), score: _.isNumber(score) && Number(score) }, _.isNumber) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
 }

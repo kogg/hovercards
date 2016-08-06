@@ -1,7 +1,8 @@
 var _        = require('underscore');
 var Snoocore = require('snoocore');
-var config   = require('../config');
-var urls     = require('../urls');
+
+var config = require('../config');
+var urls   = require('../urls');
 require('../mixins');
 
 module.exports = function(params) {
@@ -132,65 +133,6 @@ module.exports = function(params) {
 			});
 	};
 
-	api.account_content = function(args) {
-		var usage = { 'reddit-requests': 0 };
-
-		model.user_overview(_.pick(args, 'id'), null, usage)
-			.then(function(things) {
-				return _.pick(
-					{
-						api:     'reddit',
-						type:    'account_content',
-						id:      args.id,
-						content: _.chain(things)
-							.map(function(thing) {
-								switch (_.result(thing, 'kind')) {
-									case 't1':
-										var comment          = _.result(thing, 'data');
-										var content_id       = _.rest((_.result(comment, 'link_id') || '').split('_')).join('_');
-										var url              = _.result(comment, 'link_url');
-										var link_as_identity = url && urls.parse(url);
-										if (_.isMatch(link_as_identity, { api: 'reddit', type: 'content', id: content_id })) {
-											url = null;
-										}
-										return _.chain(comment_to_comment(comment))
-											.omit('account')
-											.extend({
-												content: _.pick(
-													{
-														api:       'reddit',
-														type:      'content',
-														id:        content_id,
-														name:      _.result(comment, 'link_title'),
-														subreddit: _.result(comment, 'subreddit'),
-														url:       url,
-														account:   (_.result(comment, 'link_author') !== '[deleted]') && {
-															api:  'reddit',
-															type: 'account',
-															id:   _.result(comment, 'link_author')
-														}
-													},
-													_.negate(_.isEmpty)
-												)
-											})
-											.value();
-									case 't3':
-										var content = _.omit(post_to_content(thing.data), 'account', 'text');
-										content.stats = _.pick(content.stats, 'score');
-										return content;
-									default:
-										// FIXME #9
-										return {};
-								}
-							})
-							.reject(_.isEmpty)
-							.value()
-					},
-					_.somePredicate(_.isNumber, _.negate(_.isEmpty))
-				);
-			});
-	};
-
 	model.article_comments = function(args, args_not_cached, usage) {
 		usage['reddit-requests']++;
 
@@ -261,40 +203,26 @@ module.exports = function(params) {
 			});
 	};
 
-	model.user_overview = function(args, args_not_cached, usage) {
-		usage['reddit-requests']++;
-
-		return reddit('/user/$username/overview').get({ $username: _.result(args, 'id'), limit: config.counts.listed })
-			.then(function(body) {
-				var things = _.chain(body)
-					.result('data')
-					.result('children')
-					.value();
-				if (!_.isObject(things)) {
-					return Promise.reject({ status: 404, message: '' }); // FIXME #9
-				}
-				return things;
-			})
-			.catch(function(err) {
-				err.message = 'Reddit User Overview - ' + String(err.message);
-				switch (err.status) {
-					case 404:
-					case 429:
-						break;
-					default:
-						err.original_status = err.status;
-						err.status = err.status >= 500 ? 502 : 500;
-						break;
-				}
-				return Promise.reject(err);
-			});
-	};
-
 	return api;
 };
 
 function post_to_content(post) {
-	var author = _.result(post, 'author');
+	var author  = _.result(post, 'author');
+	var gifs    = [];
+	var images  = [];
+	var preview = _.chain(post).result('preview').result('images').first().value();
+
+	if (preview) {
+		images = _.chain(preview.resolutions).union([preview.source]).compact().value();
+		gifs = _.chain(preview)
+			.result('variants')
+			.result('mp4')
+			.value();
+		if (gifs) {
+			gifs = _.chain(gifs.resolutions).union([gifs.source]).compact().value();
+		}
+	}
+
 	return !_.isEmpty(post) && _.pick(
 		{
 			api:       'reddit',
@@ -305,7 +233,34 @@ function post_to_content(post) {
 			subreddit: _.result(post, 'subreddit'),
 			url:       !_.result(post, 'is_self') && _.result(post, 'url'),
 			account:   (author !== '[deleted]') && { api: 'reddit', type: 'account', id: author },
-			text:      _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '')
+			oembed:    _.chain(post).result('media').result('oembed').result('html').value(),
+			image:     !_.isEmpty(images) && {
+				small: _.chain(images)
+					.min(function(image) {
+						return Math.abs(image.width - 80);
+					})
+					.result('url')
+					.value(),
+				medium: _.chain(images)
+					.min(function(image) {
+						return Math.abs(image.width - 300);
+					})
+					.result('url')
+					.value(),
+				large: _.chain(images)
+					.min(function(image) {
+						return Math.abs(image.width - 600);
+					})
+					.result('url')
+					.value()
+			},
+			gif: !_.isEmpty(gifs) && _.chain(gifs)
+				.min(function(gif) {
+					return Math.abs(gif.width - 300);
+				})
+				.result('url')
+				.value(),
+			text: _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '')
 				.replace(/\n/gi, '')
 				.replace(/<!-- .*? -->/gi, '')
 				.replace(/^\s*<div class="md">(.*?)<\/div>\s*$/, '$1')

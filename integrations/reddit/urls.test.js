@@ -76,6 +76,10 @@ describe('reddit urls', function() {
 				expect(urls.parse(url.parse('https://www.reddit.com/code', true, true))).not.to.be.ok;
 			});
 
+			it('not from reddit.com/dev', function() {
+				expect(urls.parse(url.parse('https://www.reddit.com/dev', true, true))).not.to.be.ok;
+			});
+
 			it('not from reddit.com/contact', function() {
 				expect(urls.parse(url.parse('https://www.reddit.com/contact', true, true))).not.to.be.ok;
 			});
@@ -90,6 +94,10 @@ describe('reddit urls', function() {
 
 			it('not from reddit.com/domain/*', function() {
 				expect(urls.parse(url.parse('https://www.reddit.com/domain/i.imgur.com', true, true))).not.to.be.ok;
+			});
+
+			it('not from reddit.com/explore', function() {
+				expect(urls.parse(url.parse('https://www.reddit.com/explore', true, true))).not.to.be.ok;
 			});
 
 			it('not from reddit.com/gilded', function() {
@@ -138,6 +146,10 @@ describe('reddit urls', function() {
 
 			it('not from reddit.com/prefs', function() {
 				expect(urls.parse(url.parse('https://www.reddit.com/prefs', true, true))).not.to.be.ok;
+			});
+
+			it('not from reddit.com/promoted', function() {
+				expect(urls.parse(url.parse('https://www.reddit.com/promoted', true, true))).not.to.be.ok;
 			});
 
 			it('not from reddit.com/rising', function() {

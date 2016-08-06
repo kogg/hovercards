@@ -50,8 +50,8 @@ module.exports = connect(null, actions)(React.createClass({
 				<div className={styles.nameContainer}>
 					<a className={styles.name} href={urls.print(this.props.content.account)} target="_blank">{accountName}</a>
 				</div>
-				<a className={styles.shareOnFacebook} href={'https://www.facebook.com/sharer/sharer.php?u=' + urls.print(this.props.content)} target="_blank" onClick={_.partial(this.onShare, 'facebook')} />
-				<a className={styles.shareOnTwitter} href={'https://twitter.com/intent/tweet?url=' + urls.print(this.props.content) + '&via=hovercards&source=https://hovercards.com'} target="_blank" onClick={_.partial(this.onShare, 'twitter')} />
+				<a className={styles.shareOnFacebook} href={'https://www.facebook.com/sharer/sharer.php?u=' + (this.props.content.url || urls.print(this.props.content))} target="_blank" onClick={_.partial(this.onShare, 'facebook')} />
+				<a className={styles.shareOnTwitter} href={'https://twitter.com/intent/tweet?url=' + (this.props.content.url || urls.print(this.props.content)) + '&via=hovercards&source=https://hovercards.com'} target="_blank" onClick={_.partial(this.onShare, 'twitter')} />
 			</div>
 		);
 	}

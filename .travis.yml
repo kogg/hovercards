@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - "6.1"
+before_install:
+  - npm install -g npm@3.9.5
+  - npm prune
+script:
+  - npm test
+  - npm run coverage:check
+after_success:
+  - npm run coverage:report
+  - npm run release
+branches:
+  only:
+    - master
+cache:
+  directories:
+    - node_modules
+notifications:
+  email: false

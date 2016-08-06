@@ -1,8 +1,9 @@
 var _           = require('underscore');
 var Autolinker  = require('autolinker');
-var config      = require('../config');
 var querystring = require('querystring');
-var urls        = require('../urls');
+
+var config = require('../config');
+var urls   = require('../urls');
 require('../mixins');
 
 /*
@@ -69,10 +70,10 @@ module.exports = function(params) {
 							.map(function(comment) {
 								return _.pick(
 									{
-										api:         'soundcloud',
-										type:        'comment',
-										id:          _.result(comment, 'id'),
-										text:        autolinker.link((_.result(comment, 'body') || '')
+										api:  'soundcloud',
+										type: 'comment',
+										id:   _.result(comment, 'id'),
+										text: autolinker.link((_.result(comment, 'body') || '')
 											.replace(/\n+$/, '')
 											.replace(/\n/g, '<br>')),
 										date:        Date.parse(_.result(comment, 'created_at')),
@@ -101,9 +102,10 @@ module.exports = function(params) {
 				.then(function(user) {
 					return model.users_web_profiles(_.pick(user, 'id'), null, usage);
 				})
+				.catch(_.constant([]))
 		])
 			.then(function(results) {
-				var text = autolinker.link((_.result(results[0], 'description') || '') .replace(/\n+$/, '') .replace(/\n/g, '<br>'));
+				var text = autolinker.link((_.result(results[0], 'description') || '').replace(/\n+$/, '').replace(/\n/g, '<br>'));
 
 				return _.chain(user_to_account(results[0]))
 					.extend({
@@ -129,59 +131,12 @@ module.exports = function(params) {
 			});
 	};
 
-	api.account_content = function(args) {
-		var usage = {};
-
-		var getUser = model.resolve({ url: urls.print(_.defaults({ api: 'soundcloud', type: 'account' }, args)) }, null, usage);
-
-		return Promise.all([
-			getUser
-				.then(function(user) {
-					return model.users_tracks(_.pick(user, 'id'), null, usage);
-				}),
-			getUser
-				.then(function(user) {
-					return model.users_playlists(_.pick(user, 'id'), null, usage);
-				})
-		])
-			.then(function(results) {
-				return _.pick(
-					{
-						api:     'soundcloud',
-						type:    'account_content',
-						id:      args.id,
-						content: _.chain(results[0])
-							.union(results[1])
-							.sortBy(function(post) {
-								return -Date.parse(post.created_at);
-							})
-							.first(config.counts.grid)
-							.map(post_to_content)
-							.each(function(content) {
-								_.extend(content, _.isEmpty(content.account) && { account: _.pick(content.account, 'api', 'type', 'id') });
-							})
-							.reject(_.isEmpty)
-							.value()
-					},
-					_.negate(_.isEmpty)
-				);
-			});
-	};
-
 	model.resolve = function(args) {
 		return soundcloud('/resolve', { url: _.result(args, 'url') }).catch(catch_errors('SoundCloud Resolve'));
 	};
 
 	model.tracks_comments = function(args) {
 		return soundcloud('/tracks/' + _.result(args, 'id') + '/comments').catch(catch_errors('SoundCloud Tracks Comments'));
-	};
-
-	model.users_playlists = function(args) {
-		return soundcloud('/users/' + _.result(args, 'id') + '/playlists', { representation: 'compact' }).catch(catch_errors('SoundCloud Users Playlists'));
-	};
-
-	model.users_tracks = function(args) {
-		return soundcloud('/users/' + _.result(args, 'id') + '/tracks').catch(catch_errors('SoundCloud Users Tracks'));
 	};
 
 	model.users_web_profiles = function(args) {
@@ -205,12 +160,12 @@ module.exports = function(params) {
 
 function user_to_account(user) {
 	var user_artwork_url = _.result(user, 'avatar_url', '');
-	return !_.isEmpty(user) && _.pick({ api:   'soundcloud', type:  'account', id:    _.result(user, 'permalink'), name:  _.result(user, 'username'), image: !_.isEmpty(user_artwork_url) && !user_artwork_url.match(/default_avatar_large/) && { small:  user_artwork_url, medium: user_artwork_url.replace('-large', '-t300x300'), large:  user_artwork_url.replace('-large', '-t500x500') } }, _.negate(_.isEmpty));
+	return !_.isEmpty(user) && _.pick({ api: 'soundcloud', type: 'account', id: _.result(user, 'permalink'), name: _.result(user, 'username'), image: !_.isEmpty(user_artwork_url) && !user_artwork_url.match(/default_avatar_large/) && { small: user_artwork_url, medium: user_artwork_url.replace('-large', '-t300x300'), large: user_artwork_url.replace('-large', '-t500x500') } }, _.negate(_.isEmpty));
 }
 
 function post_to_content(post) {
 	var artwork_url = _.result(post, 'artwork_url', '');
-	return !_.isEmpty(post) && _.pick({ api:     'soundcloud', type:    'content', id:      _.result(post, 'permalink'), as:      (_.result(post, 'kind') === 'playlist') && 'playlist', name:    _.result(post, 'title'), date:    Date.parse(_.result(post, 'created_at')), stats:   _.result(post, 'kind') === 'playlist' ? { content: Number(_.result(post, 'track_count')) } : { likes:    Number(_.result(post, 'favoritings_count')), views:    Number(_.result(post, 'playback_count')), comments: Number(_.result(post, 'comment_count')) }, image:   !artwork_url.match(/default_avatar_large/) && { small:  artwork_url, medium: artwork_url.replace('-large', '-t300x300'), large:  artwork_url.replace('-large', '-t500x500') }, account: user_to_account(post.user) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
+	return !_.isEmpty(post) && _.pick({ api: 'soundcloud', type: 'content', id: _.result(post, 'permalink'), as: (_.result(post, 'kind') === 'playlist') && 'playlist', name: _.result(post, 'title'), date: Date.parse(_.result(post, 'created_at')), stats: _.result(post, 'kind') === 'playlist' ? { content: Number(_.result(post, 'track_count')) } : { likes: Number(_.result(post, 'favoritings_count')), views: Number(_.result(post, 'playback_count')), comments: Number(_.result(post, 'comment_count')) }, image: !artwork_url.match(/default_avatar_large/) && { small: artwork_url, medium: artwork_url.replace('-large', '-t300x300'), large: artwork_url.replace('-large', '-t500x500') }, account: user_to_account(post.user) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
 }
 
 function catch_errors(errName) {

@@ -1,11 +1,10 @@
-var CleanWebpackPlugin    = require('clean-webpack-plugin');
-var CopyWebpackPlugin     = require('copy-webpack-plugin');
-var ExtractTextPlugin     = require('extract-text-webpack-plugin');
-var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-var HtmlWebpackPlugin     = require('html-webpack-plugin');
-var autoprefixer          = require('autoprefixer');
-var nested                = require('postcss-nested');
-var webpack               = require('webpack');
+var BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin');
+var CopyWebpackPlugin        = require('copy-webpack-plugin');
+var ExtractTextPlugin        = require('extract-text-webpack-plugin');
+var FaviconsWebpackPlugin    = require('favicons-webpack-plugin');
+var HtmlWebpackPlugin        = require('html-webpack-plugin');
+var autoprefixer             = require('autoprefixer');
+var nested                   = require('postcss-nested');
 
 module.exports = {
 	entry: {
@@ -13,7 +12,7 @@ module.exports = {
 		privacy: './www/js/privacy.js'
 	},
 	output: {
-		path:     'dist-landing',
+		path:     'dist-www',
 		filename: '[name].[hash].js'
 	},
 	module: {
@@ -40,14 +39,11 @@ module.exports = {
 		stats: { colors: true }
 	},
 	plugins: [
-		new webpack.EnvironmentPlugin([
-			'GOOGLE_ANALYTICS_ID',
-			'NODE_ENV',
-			'ROLLBAR_CLIENT_ACCESS_TOKEN',
-			'npm_package_gitHead'
+		new BellOnBundlerErrorPlugin(),
+		new CopyWebpackPlugin([
+			{ from: 'assets/images/facebeefbanner.jpg', to: 'images' },
+			{ from: 'www/CNAME' }
 		]),
-		new CleanWebpackPlugin(['dist-landing']),
-		new CopyWebpackPlugin([{ from: 'www/CNAME' }]),
 		new ExtractTextPlugin('[name].[hash].css'),
 		new FaviconsWebpackPlugin({ logo: './assets/images/logo.png', title: 'HoverCards', prefix: 'favicons-[hash]/' }),
 		new HtmlWebpackPlugin({ chunks: ['main'], template: 'www/index.html' }),
