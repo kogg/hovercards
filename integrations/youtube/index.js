@@ -11,9 +11,18 @@ require('../mixins');
 var autolinker = new Autolinker();
 
 module.exports = function(params) {
+	var keys = _.compact([].concat(params.keys, params.key));
+
+	if (!keys.length) {
+		keys.push(process.env.GOOGLE_SERVER_KEY);
+		for (var i = 2; process.env['GOOGLE_SERVER_KEY_' + i]; i++) {
+			keys.push(process.env['GOOGLE_SERVER_KEY_' + i]);
+		}
+	}
+
 	var model = {};
 	var api   = { model: model };
-	var youtubes = _.map(params.keys || [params.key], function(key) {
+	var youtubes = _.map(keys, function(key) {
 		return Google.youtube({ version: 'v3', auth: key });
 	});
 

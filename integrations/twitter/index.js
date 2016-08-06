@@ -1,7 +1,6 @@
 var _          = require('underscore');
 var Autolinker = require('autolinker');
 var Twit       = require('twit');
-var promisify  = require('es6-promisify');
 
 var config     = require('../config');
 var urls       = require('../urls');
@@ -125,7 +124,7 @@ module.exports = function(params) {
 		if (_.isEmpty(user)) {
 			return Promise.resolve(twitter);
 		}
-		return promisify(params.secret_storage.get.bind(params.secret_storage))(user)
+		return params.secret_storage.get(user)
 			.catch(function() {
 				return Promise.reject({ status: 401, message: '' });
 			})
@@ -150,7 +149,7 @@ module.exports = function(params) {
 			switch (status) {
 				case 401:
 					if (code === 89) {
-						params.secret_storage.del(args_not_cached.user, _.noop);
+						params.secret_storage.del(args_not_cached.user);
 						err.status = 401;
 					} else {
 						err.status = args_not_cached.user ? 403 : 401;

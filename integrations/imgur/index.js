@@ -127,7 +127,7 @@ module.exports = function(params) {
 
 		return promisify(request)({
 			url:     (use_mashape ? 'https://imgur-apiv3.p.mashape.com' : 'https://api.imgur.com') + '/3' + endpoint + '.json',
-			headers: _.extend({ authorization: 'Client-ID ' + params.key || process.env.IMGUR_CLIENT_ID }, use_mashape && { 'x-mashape-key': params.mashape_key || process.env.MASHAPE_KEY }),
+			headers: _.extend({ authorization: 'Client-ID ' + (params.key || process.env.IMGUR_CLIENT_ID) }, use_mashape && { 'x-mashape-key': params.mashape_key || process.env.MASHAPE_KEY }),
 			json:    true
 		})
 			.then(function(response) {
