@@ -23,6 +23,7 @@ module.exports = function(initialState) {
 
 	authenticationReducer.attachStore(store);
 
+	// TODO wrap this in extension/browser
 	browser.runtime.onMessage.addListener(function(action, sender, sendResponse) {
 		action.payload = (!action.error || _.isError(action.payload)) ?
 			action.payload :

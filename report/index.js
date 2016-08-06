@@ -6,4 +6,6 @@ rollbar.init(process.env.ROLLBAR_ACCESS_TOKEN || ' ', {
 });
 rollbar.handleUncaughtExceptionsAndRejections();
 
+rollbar.error = rollbar.handleError;
+
 module.exports = rollbar;

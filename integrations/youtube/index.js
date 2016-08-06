@@ -1,11 +1,13 @@
 var _          = require('underscore');
-var cheerio    = require('cheerio');
-var config     = require('../config');
-var promisify  = require('es6-promisify');
-var request    = require('request');
-var urls       = require('../urls');
 var Autolinker = require('autolinker');
 var Google     = require('googleapis');
+var cheerio    = require('cheerio');
+var errors     = require('feathers-errors');
+var promisify  = require('es6-promisify');
+var request    = require('request');
+
+var config = require('../config');
+var urls   = require('../urls');
 require('../mixins');
 
 var autolinker = new Autolinker();
@@ -104,18 +106,15 @@ module.exports = function(params) {
 		usage.scanning++;
 
 		return promisify(request, { multiArgs: true })({ url: urls.print(_.extend({ api: 'youtube', type: 'account' }, args)) + '/about' })
+			.then(catch_errors(0))
 			.then(function(result) {
-				if (_.result(result[0], 'statusCode') >= 400) {
-					return Promise.reject({ status: result[0].statusCode, message: '' });
-				}
-				var $ = cheerio.load(result[1]);
+				var $ = cheerio.load(result);
 				var id = _.result(urls.parse('https://www.youtube.com' + $('.channel-header-profile-image-container').attr('href')), 'id');
 				if (!id) {
-					return Promise.reject({ status: 404, message: '' });
+					throw new errors.NotFound();
 				}
 				return _.pick({ id: id, accounts: _.chain($('.about-metadata .about-channel-link').get()).map($).invoke('attr', 'href').map(urls.parse).where({ type: 'account' }).value() }, _.negate(_.isEmpty));
-			})
-			.catch(catch_errors('Youtube About Page'));
+			});
 	};
 
 	model.channel = function(args, args_not_cached, usage) {
@@ -128,17 +127,14 @@ module.exports = function(params) {
 			quotaUser:  args_not_cached.device_id || params.device_id,
 			maxResults: 1
 		})
+			.then(catch_errors(1))
 			.then(function(result) {
-				if (_.result(result[1], 'statusCode') >= 400) {
-					return Promise.reject({ status: result[1].statusCode, message: '' });
-				}
-				var channel = _.chain(result[0]).result('items').first().value();
+				var channel = _.chain(result).result('items').first().value();
 				if (!_.isObject(channel)) {
-					return Promise.reject({ status: 404, message: '' });
+					throw new errors.NotFound();
 				}
 				return _.chain(channel).pick('id', 'snippet', 'statistics', 'brandingSettings', 'contentDetails').pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))).value();
-			})
-			.catch(catch_errors('Youtube Channel'));
+			});
 	};
 
 	model.channel_for_legacy = function(args, args_not_cached, usage) {
@@ -151,17 +147,14 @@ module.exports = function(params) {
 			quotaUser:   args_not_cached.device_id || params.device_id,
 			maxResults:  1
 		})
+			.then(catch_errors(1))
 			.then(function(result) {
-				if (_.result(result[1], 'statusCode') >= 400) {
-					return Promise.reject({ status: result[1].statusCode, message: '' });
-				}
-				var channel = _.chain(result[0]).result('items').first().value();
+				var channel = _.chain(result).result('items').first().value();
 				if (!_.isObject(channel)) {
-					return Promise.reject({ status: 404, message: '' });
+					throw new errors.NotFound();
 				}
 				return _.chain(channel).pick('id').pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))).value();
-			})
-			.catch(catch_errors('Youtube Channel (for Legacy)'));
+			});
 	};
 
 	model.comment_threads = function(args, args_not_cached, usage) {
@@ -175,13 +168,10 @@ module.exports = function(params) {
 			order:      'relevance',
 			maxResults: config.counts.listed
 		})
+			.then(catch_errors(1))
 			.then(function(result) {
-				if (_.result(result[1], 'statusCode') >= 400) {
-					return Promise.reject({ status: result[1].statusCode, message: '' });
-				}
-				return _.chain(result[0]).result('items').reject(_.isEmpty).value();
-			})
-			.catch(catch_errors('Youtube Channel (for Legacy)'));
+				return _.chain(result).result('items').reject(_.isEmpty).value();
+			});
 	};
 
 	model.video = function(args, args_not_cached, usage) {
@@ -193,17 +183,14 @@ module.exports = function(params) {
 			id:        args.id,
 			quotaUser: args_not_cached.device_id || params.device_id
 		})
+			.then(catch_errors(1))
 			.then(function(result) {
-				if (_.result(result[1], 'statusCode') >= 400) {
-					return Promise.reject({ status: result[1].statusCode, message: '' });
-				}
-				var video = _.chain(result[0]).result('items').first().value();
+				var video = _.chain(result).result('items').first().value();
 				if (!_.isObject(video)) {
-					return Promise.reject({ status: 404, message: '' });
+					throw new errors.NotFound();
 				}
 				return _.chain(video).pick('id', 'snippet', 'statistics').pick(_.negate(_.isEmpty)).value();
-			})
-			.catch(catch_errors('Youtube Playlist Items'));
+			});
 	};
 
 	return api;
@@ -220,19 +207,23 @@ function comment_to_comment(comment) {
 	return !_.isEmpty(comment) && _.pick({ api: 'youtube', type: 'comment', id: _.result(comment, 'id'), text: autolinker.link((_.result(comment_snippet, 'textDisplay') || '').replace(/\n+$/, '').replace(/\n/g, '<br>')), date: Date.parse(_.result(comment_snippet, 'publishedAt')), stats: { likes: Number(_.result(comment_snippet, 'likeCount')) }, account: { api: 'youtube', type: 'account', id: _.chain(comment_snippet).result('authorChannelId').result('value').value(), name: _.result(comment_snippet, 'authorDisplayName'), image: { small: _.result(comment_snippet, 'authorProfileImageUrl') } } }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
 }
 
-function catch_errors(errName) {
-	return function(err) {
-		err.message = errName + ' - ' + String(err.message);
-		switch (err.status) {
+function catch_errors(index) {
+	return function(result) {
+		if (_.result(result[index], 'statusCode') < 400) {
+			return result[1 - index];
+		}
+		switch (result[index].statusCode) {
 			case 403:
 			case 404:
+				throw new errors[result[index].statusCode]();
 			case 429:
-				break;
+				throw new errors.FeathersError(null, 'TooManyRequests', 429, 'too-many-requests');
 			default:
-				err.original_status = err.status;
-				err.status = (err.status >= 500) ? 502 : 500;
-				break;
+				var err = result[index].statusCode > 500 ?
+					new errors.FeathersError(null, 'BadGateway', 502, 'bad-gateway') :
+					new errors.GeneralError();
+				err.original_code = result[index].statusCode;
+				throw err;
 		}
-		return Promise.reject(err);
 	};
 }

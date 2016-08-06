@@ -1,4 +1,5 @@
 var _           = require('underscore');
+var errors      = require('feathers-errors');
 var querystring = require('querystring');
 var Response    = require('http-browserify/lib/response');
 
@@ -127,12 +128,12 @@ module.exports = function(request) {
 						)
 					})
 						.then(function(response) {
-							if (!response.ok) {
-								var err = new Error(response.statusText);
-								err.status = response.status;
-								return Promise.reject(err);
+							if (response.ok) {
+								return response.json();
 							}
-							return response.json();
+							throw errors[response.status] ?
+								new errors[response.status]() :
+								new errors.FeathersError(null, null, response.status);
 						});
 			}
 		})

@@ -91,19 +91,19 @@ describe('youtube', function() {
 			it('should 404 on empty result', function() {
 				video_endpoint.reply(200, '');
 
-				return expect(youtube.content({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(youtube.content({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 404 on 404', function() {
 				video_endpoint.reply(404, '');
 
-				return expect(youtube.content({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(youtube.content({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				video_endpoint.reply(429, '');
 
-				return expect(youtube.content({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(youtube.content({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -112,8 +112,8 @@ describe('youtube', function() {
 				var promise = youtube.content({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -123,8 +123,8 @@ describe('youtube', function() {
 				var promise = youtube.content({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -152,19 +152,19 @@ describe('youtube', function() {
 			it('should 403 on 403', function() {
 				comment_threads_endpoint.reply(403, '');
 
-				return expect(youtube.discussion({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
+				return expect(youtube.discussion({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 404 on 404', function() {
 				comment_threads_endpoint.reply(404, '');
 
-				return expect(youtube.discussion({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(youtube.discussion({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				comment_threads_endpoint.reply(429, '');
 
-				return expect(youtube.discussion({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(youtube.discussion({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -173,8 +173,8 @@ describe('youtube', function() {
 				var promise = youtube.discussion({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -184,8 +184,8 @@ describe('youtube', function() {
 				var promise = youtube.discussion({ id: 'CONTENT_ID', device_id: 'DEVICE_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -326,19 +326,19 @@ describe('youtube', function() {
 			it('should 404 on empty result', function() {
 				about_page_endpoint.reply(200, '');
 
-				return expect(youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 404 on 404', function() {
 				about_page_endpoint.reply(404, '');
 
-				return expect(youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				about_page_endpoint.reply(429, '');
 
-				return expect(youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -347,8 +347,8 @@ describe('youtube', function() {
 				var promise = youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -358,8 +358,8 @@ describe('youtube', function() {
 				var promise = youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -372,19 +372,19 @@ describe('youtube', function() {
 			it('should 404 on empty result', function() {
 				channel_endpoint.reply(200, { items: [] });
 
-				return expect(youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 404 on 404', function() {
 				channel_endpoint.reply(404, '');
 
-				return expect(youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				channel_endpoint.reply(429, '');
 
-				return expect(youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -393,8 +393,8 @@ describe('youtube', function() {
 				var promise = youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -404,8 +404,8 @@ describe('youtube', function() {
 				var promise = youtube.account({ id: 'ACCOUNT_ID', device_id: 'DEVICE_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});

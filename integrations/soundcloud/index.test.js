@@ -159,28 +159,28 @@ describe('soundcloud', function() {
 					tracks_endpoint.reply(401, '');
 
 					return expect(soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-						.to.be.rejected.and.to.eventually.have.property('status', 403);
+						.to.be.rejected.and.to.eventually.have.property('code', 403);
 				});
 
 				it('should 403 on 403', function() {
 					tracks_endpoint.reply(403, '');
 
 					return expect(soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-						.to.be.rejected.and.to.eventually.have.property('status', 403);
+						.to.be.rejected.and.to.eventually.have.property('code', 403);
 				});
 
 				it('should 404 on 404', function() {
 					tracks_endpoint.reply(404, '');
 
 					return expect(soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-						.to.be.rejected.and.to.eventually.have.property('status', 404);
+						.to.be.rejected.and.to.eventually.have.property('code', 404);
 				});
 
 				it('should 429 on 429', function() {
 					tracks_endpoint.reply(429, '');
 
 					return expect(soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-						.to.be.rejected.and.to.eventually.have.property('status', 429);
+						.to.be.rejected.and.to.eventually.have.property('code', 429);
 				});
 
 				it('should 500 on 4xx', function() {
@@ -189,8 +189,8 @@ describe('soundcloud', function() {
 					var promise = soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 
 					return Promise.all([
-						expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-						expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+						expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+						expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 					]);
 				});
 
@@ -200,8 +200,8 @@ describe('soundcloud', function() {
 					var promise = soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 
 					return Promise.all([
-						expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-						expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+						expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+						expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 					]);
 				});
 			});
@@ -313,28 +313,28 @@ describe('soundcloud', function() {
 					playlists_endpoint.reply(401, '');
 
 					return expect(soundcloud.content({ id: 'CONTENT_ID', as: 'playlist', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-						.to.be.rejected.and.to.eventually.have.property('status', 403);
+						.to.be.rejected.and.to.eventually.have.property('code', 403);
 				});
 
 				it('should 403 on 403', function() {
 					playlists_endpoint.reply(403, '');
 
 					return expect(soundcloud.content({ id: 'CONTENT_ID', as: 'playlist', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-						.to.be.rejected.and.to.eventually.have.property('status', 403);
+						.to.be.rejected.and.to.eventually.have.property('code', 403);
 				});
 
 				it('should 404 on 404', function() {
 					playlists_endpoint.reply(404, '');
 
 					return expect(soundcloud.content({ id: 'CONTENT_ID', as: 'playlist', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-						.to.be.rejected.and.to.eventually.have.property('status', 404);
+						.to.be.rejected.and.to.eventually.have.property('code', 404);
 				});
 
 				it('should 429 on 429', function() {
 					playlists_endpoint.reply(429, '');
 
 					return expect(soundcloud.content({ id: 'CONTENT_ID', as: 'playlist', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-						.to.be.rejected.and.to.eventually.have.property('status', 429);
+						.to.be.rejected.and.to.eventually.have.property('code', 429);
 				});
 
 				it('should 500 on 4xx', function() {
@@ -343,8 +343,8 @@ describe('soundcloud', function() {
 					var promise = soundcloud.content({ id: 'CONTENT_ID', as: 'playlist', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 
 					return Promise.all([
-						expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-						expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+						expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+						expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 					]);
 				});
 
@@ -354,8 +354,8 @@ describe('soundcloud', function() {
 					var promise = soundcloud.content({ id: 'CONTENT_ID', as: 'playlist', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 
 					return Promise.all([
-						expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-						expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+						expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+						expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 					]);
 				});
 			});
@@ -371,28 +371,28 @@ describe('soundcloud', function() {
 				resolve_endpoint.reply(401, '');
 
 				return expect(soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 403);
+					.to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 403 on 403', function() {
 				resolve_endpoint.reply(403, '');
 
 				return expect(soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 403);
+					.to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 404 on 404', function() {
 				resolve_endpoint.reply(404, '');
 
 				return expect(soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 404);
+					.to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				resolve_endpoint.reply(429, '');
 
 				return expect(soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 429);
+					.to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -401,8 +401,8 @@ describe('soundcloud', function() {
 				var promise = soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -412,8 +412,8 @@ describe('soundcloud', function() {
 				var promise = soundcloud.content({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -556,28 +556,28 @@ describe('soundcloud', function() {
 				resolve_endpoint.reply(401, '');
 
 				return expect(soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 403);
+					.to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 403 on 403', function() {
 				resolve_endpoint.reply(403, '');
 
 				return expect(soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 403);
+					.to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 404 on 404', function() {
 				resolve_endpoint.reply(404, '');
 
 				return expect(soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 404);
+					.to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				resolve_endpoint.reply(429, '');
 
 				return expect(soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 429);
+					.to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -586,8 +586,8 @@ describe('soundcloud', function() {
 				var promise = soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -597,8 +597,8 @@ describe('soundcloud', function() {
 				var promise = soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -613,28 +613,28 @@ describe('soundcloud', function() {
 				tracks_comments_endpoint.reply(401, '');
 
 				return expect(soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 403);
+					.to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 403 on 403', function() {
 				tracks_comments_endpoint.reply(403, '');
 
 				return expect(soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 403);
+					.to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 404 on 404', function() {
 				tracks_comments_endpoint.reply(404, '');
 
 				return expect(soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 404);
+					.to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				tracks_comments_endpoint.reply(429, '');
 
 				return expect(soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 429);
+					.to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -643,8 +643,8 @@ describe('soundcloud', function() {
 				var promise = soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -654,8 +654,8 @@ describe('soundcloud', function() {
 				var promise = soundcloud.discussion({ id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -781,25 +781,25 @@ describe('soundcloud', function() {
 			it('should 403 on 401', function() {
 				resolve_endpoint.reply(401, '');
 
-				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 403 on 403', function() {
 				resolve_endpoint.reply(403, '');
 
-				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 404 on 404', function() {
 				resolve_endpoint.reply(404, '');
 
-				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				resolve_endpoint.reply(429, '');
 
-				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -808,8 +808,8 @@ describe('soundcloud', function() {
 				var promise = soundcloud.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -819,8 +819,8 @@ describe('soundcloud', function() {
 				var promise = soundcloud.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -834,25 +834,25 @@ describe('soundcloud', function() {
 			it('should 403 on 401', function() {
 				users_endpoint.reply(401, '');
 
-				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 403 on 403', function() {
 				users_endpoint.reply(403, '');
 
-				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 404 on 404', function() {
 				users_endpoint.reply(404, '');
 
-				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				users_endpoint.reply(429, '');
 
-				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(soundcloud.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -861,8 +861,8 @@ describe('soundcloud', function() {
 				var promise = soundcloud.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -872,8 +872,8 @@ describe('soundcloud', function() {
 				var promise = soundcloud.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
