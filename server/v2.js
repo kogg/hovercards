@@ -6,9 +6,9 @@ var promisify  = require('es6-promisify');
 var session    = require('express-session');
 var RedisStore = require('connect-redis')(session);
 
-var config       = require('../integrations/config.js');
-var redis_client = require('./redis-client');
-var report       = require('../report');
+var config = require('../integrations/config.js');
+var redis  = require('./redis');
+var report = require('../report');
 
 var CHROMIUM_IDS = process.env.CHROMIUM_IDS.split(';');
 
@@ -23,11 +23,11 @@ var integrations = _.chain(config.integrations)
 			secret_storage: {
 				del: function(token) {
 					// FIXME Hardcoded is bad
-					return promisify(redis_client.del.bind(redis_client))('auth:twitter:' + token);
+					return promisify(redis.del.bind(redis))('auth:twitter:' + token);
 				},
 				get: function(token) {
 					// FIXME Hardcoded is bad
-					return promisify(redis_client.get.bind(redis_client))('auth:twitter:' + token);
+					return promisify(redis.get.bind(redis))('auth:twitter:' + token);
 				}
 			}
 		});
@@ -50,7 +50,7 @@ var integrations = _.chain(config.integrations)
 						.join('::')
 						.value();
 
-					promises[key] = promises[key] || promisify(redis_client.get.bind(redis_client))(key)
+					promises[key] = promises[key] || promisify(redis.get.bind(redis))(key)
 						.then(function(result) {
 							delete promises[key];
 							return result ? JSON.parse(result) : Promise.reject();
@@ -63,7 +63,7 @@ var integrations = _.chain(config.integrations)
 					// Whether the promise was set before or not, reset the expiration date
 					promises[key]
 						.then(function(result) {
-							return promisify(redis_client.setex.bind(redis_client))(key, (config.integrations[integration].cache_length || 5 * 60 * 1000) / 1000, JSON.stringify(result));
+							return promisify(redis.setex.bind(redis))(key, (config.integrations[integration].cache_length || 5 * 60 * 1000) / 1000, JSON.stringify(result));
 						});
 
 					return promises[key];
@@ -76,7 +76,7 @@ var integrations = _.chain(config.integrations)
 
 module.exports = express.Router()
 	.use(session({
-		store:             new RedisStore({ client: redis_client }),
+		store:             new RedisStore({ client: redis }),
 		secret:            (process.env.SECURE_KEY || '').split(','),
 		saveUninitialized: false,
 		resave:            false
@@ -154,12 +154,12 @@ module.exports = express.Router()
 	/*
 	 * TODO #47
 	.get('/in-app-messaging', function(req, res, next) {
-		promisify(redis_client.get.bind(redis_client))('active-message')
+		promisify(redis.get.bind(redis))('active-message')
 			.then(function(activeMessage) {
 				if (!activeMessage) {
 					throw new errors.NotFound('No active message');
 				}
-				return promisify(redis_client.hgetall.bind(redis_client))(activeMessage)
+				return promisify(redis.hgetall.bind(redis))(activeMessage)
 					.then(function(message) {
 						if (!message) {
 							throw new errors.NotFound('No active message');

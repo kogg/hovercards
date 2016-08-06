@@ -8,7 +8,7 @@ var PORT = process.env.PORT || 5100;
 feathers()
 	.use(helmet())
 	.use(compression())
-	.use('/v2', require('./api-routes'))
+	.use('/v2', require('./v2'))
 	.get('/', function(req, res) {
 		res.redirect(process.env.npm_package_homepage);
 	})
