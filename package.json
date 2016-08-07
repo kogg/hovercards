@@ -92,7 +92,7 @@
     "codecov.io": "^0.1.6",
     "copy-webpack-plugin": "^3.0.1",
     "css-loader": "^0.23.1",
-    "cz-conventional-changelog": "^1.1.6",
+    "cz-conventional-changelog": "^1.1.7",
     "deep-diff": "^0.3.4",
     "eslint": "^3.2.2",
     "eslint-config-xo": "^0.15.3",
