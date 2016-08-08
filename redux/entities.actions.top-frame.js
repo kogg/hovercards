@@ -1,5 +1,4 @@
 var _            = require('underscore');
-var compose      = require('redux').compose;
 var createAction = require('redux-actions').createAction;
 
 var browser     = require('../extension/browser');
@@ -18,7 +17,9 @@ module.exports.getEntity = function(request) {
 		}
 
 		return browser.runtime.sendMessage(createAction('getEntity')(request))
-			.then(compose(dispatch, setEntity, _.property('payload')));
+			.then(_.property('payload'))
+			.then(setEntity)
+			.then(dispatch);
 	};
 };
 

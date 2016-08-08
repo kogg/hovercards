@@ -13,6 +13,7 @@ var SoundCloudPlayer = module.exports = React.createClass({
 		className: React.PropTypes.string,
 		content:   React.PropTypes.object.isRequired,
 		image:     React.PropTypes.object,
+		meta:      React.PropTypes.object.isRequired,
 		muted:     React.PropTypes.bool.isRequired,
 		onLoad:    React.PropTypes.func.isRequired
 	},
@@ -42,7 +43,13 @@ var SoundCloudPlayer = module.exports = React.createClass({
 		SoundCloudPlayer.getSC()
 			.then(function(SC) {
 				var player = SC.Widget(this.refs.player);
-				return promisify(player.bind.bind(player))(SC.Widget.Events.READY).then(_.constant(player));
+				if (this.props.meta.time_offset) {
+					player.bind(SC.Widget.Events.PLAY, function() {
+						player.seekTo(this.props.meta.time_offset * 1000);
+					}.bind(this));
+				}
+				return promisify(player.bind.bind(player))(SC.Widget.Events.READY)
+					.then(_.constant(player));
 			}.bind(this))
 			.then(function(player) {
 				this.setState({ player: player });

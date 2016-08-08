@@ -19,22 +19,62 @@ describe('soundcloud urls', function() {
 		describe('into content', function() {
 			it('from soundcloud.com/ACCOUNT_ID/CONTENT_ID', function() {
 				expect(urls.parse(url.parse('https://www.soundcloud.com/ACCOUNT_ID/CONTENT_ID', true, true)))
-					.to.eql({ api:     'soundcloud', type:    'content', id:      'CONTENT_ID', account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID' } });
+					.to.eql({ api: 'soundcloud', type: 'content', id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
+			});
+
+			it('from soundcloud.com/ACCOUNT_ID/CONTENT_ID#t=10s', function() {
+				expect(urls.parse(url.parse('https://www.soundcloud.com/ACCOUNT_ID/CONTENT_ID#t=10s', true, true))).to.eql({
+					api:     'soundcloud',
+					type:    'content',
+					id:      'CONTENT_ID',
+					account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' },
+					meta:    { time_offset: 10 }
+				});
+			});
+
+			it('from soundcloud.com/ACCOUNT_ID/CONTENT_ID#t=10m', function() {
+				expect(urls.parse(url.parse('https://www.soundcloud.com/ACCOUNT_ID/CONTENT_ID#t=10m', true, true))).to.eql({
+					api:     'soundcloud',
+					type:    'content',
+					id:      'CONTENT_ID',
+					account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' },
+					meta:    { time_offset: 600 }
+				});
+			});
+
+			it('from soundcloud.com/ACCOUNT_ID/CONTENT_ID#t=10h', function() {
+				expect(urls.parse(url.parse('https://www.soundcloud.com/ACCOUNT_ID/CONTENT_ID#t=10h', true, true))).to.eql({
+					api:     'soundcloud',
+					type:    'content',
+					id:      'CONTENT_ID',
+					account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' },
+					meta:    { time_offset: 36000 }
+				});
+			});
+
+			it('from soundcloud.com/ACCOUNT_ID/CONTENT_ID#t=10h10m10s', function() {
+				expect(urls.parse(url.parse('https://www.soundcloud.com/ACCOUNT_ID/CONTENT_ID#t=10h10m10s', true, true))).to.eql({
+					api:     'soundcloud',
+					type:    'content',
+					id:      'CONTENT_ID',
+					account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' },
+					meta:    { time_offset: 36610 }
+				});
 			});
 
 			it('from soundcloud.com/ACCOUNT_ID/CONTENT_ID/*', function() {
 				expect(urls.parse(url.parse('https://www.soundcloud.com/ACCOUNT_ID/CONTENT_ID/likes', true, true)))
-					.to.eql({ api:     'soundcloud', type:    'content', id:      'CONTENT_ID', account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID' } });
+					.to.eql({ api: 'soundcloud', type: 'content', id: 'CONTENT_ID', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 			});
 
 			it('from soundcloud.com/ACCOUNT_ID/sets/CONTENT_ID', function() {
 				expect(urls.parse(url.parse('https://www.soundcloud.com/ACCOUNT_ID/sets/CONTENT_ID', true, true)))
-					.to.eql({ api:     'soundcloud', type:    'content', id:      'CONTENT_ID', as:      'playlist', account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID' } });
+					.to.eql({ api: 'soundcloud', type: 'content', id: 'CONTENT_ID', as: 'playlist', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 			});
 
 			it('from soundcloud.com/ACCOUNT_ID/sets/CONTENT_ID/*', function() {
 				expect(urls.parse(url.parse('https://www.soundcloud.com/ACCOUNT_ID/sets/CONTENT_ID/likes', true, true)))
-					.to.eql({ api:     'soundcloud', type:    'content', id:      'CONTENT_ID', as:      'playlist', account: { api:  'soundcloud', type: 'account', id:   'ACCOUNT_ID' } });
+					.to.eql({ api: 'soundcloud', type: 'content', id: 'CONTENT_ID', as: 'playlist', account: { api: 'soundcloud', type: 'account', id: 'ACCOUNT_ID' } });
 			});
 		});
 

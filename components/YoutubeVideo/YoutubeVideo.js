@@ -13,6 +13,7 @@ var YoutubeVideo = module.exports = React.createClass({
 		className: React.PropTypes.string,
 		content:   React.PropTypes.object.isRequired,
 		image:     React.PropTypes.object,
+		meta:      React.PropTypes.object.isRequired,
 		muted:     React.PropTypes.bool.isRequired,
 		onLoad:    React.PropTypes.func.isRequired
 	},
@@ -91,7 +92,7 @@ var YoutubeVideo = module.exports = React.createClass({
 		return (
 			<iframe className={classnames(styles.video, this.props.className)}
 				ref="video"
-				src={'https://www.youtube.com/embed/' + this.props.content.id + '?enablejsapi=1&origin=' + document.origin + '&autoplay=1&mute=1&rel=0'}
+				src={'https://www.youtube.com/embed/' + this.props.content.id + '?enablejsapi=1&origin=' + document.origin + '&autoplay=1&mute=1&rel=0' + (this.props.meta.time_offset ? '&start=' + this.props.meta.time_offset : '')}
 				style={{ backgroundImage: this.props.image && ('url(' + (this.props.image.medium || this.props.image.large || this.props.image.small) + ')') }}
 				allowFullScreen={true}
 				onLoad={this.props.onLoad} />

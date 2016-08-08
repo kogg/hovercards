@@ -21,6 +21,7 @@ module.exports = connect(null, actions)(React.createClass({
 		className: React.PropTypes.string,
 		content:   React.PropTypes.object.isRequired,
 		hovered:   React.PropTypes.bool.isRequired,
+		meta:      React.PropTypes.object.isRequired,
 		onResize:  React.PropTypes.func.isRequired
 	},
 	onCarouselChange: function(index, how) {
@@ -57,13 +58,13 @@ module.exports = connect(null, actions)(React.createClass({
 			case 'soundcloud':
 				return (
 					<div className={classnames(styles.media, this.props.className)}>
-						<SoundCloudPlayer content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} onLoad={this.props.onResize} />
+						<SoundCloudPlayer content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} meta={this.props.meta} onLoad={this.props.onResize} />
 					</div>
 				);
 			case 'youtube':
 				return (
 					<div className={classnames(styles.media, this.props.className)}>
-						<YoutubeVideo content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} onLoad={this.props.onResize} />
+						<YoutubeVideo content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} meta={this.props.meta} onLoad={this.props.onResize} />
 					</div>
 				);
 			default:

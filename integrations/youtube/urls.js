@@ -13,10 +13,10 @@ urls.parse = function(url_obj) {
 		case 'm.youtube.com':
 			switch (path_parts[0]) {
 				case 'watch':
-					return !_.isEmpty(url_obj.query.v) && _.extend({ api: 'youtube', type: 'content', id: url_obj.query.v.replace(/[?&].*/, '') }, url_obj.query.t && { time_offset: url_obj.query.t });
+					return !_.isEmpty(url_obj.query.v) && _.extend({ api: 'youtube', type: 'content', id: url_obj.query.v.replace(/[?&].*/, '') }, url_obj.query.t && { meta: { time_offset: Number(url_obj.query.t) } });
 				case 'embed':
 				case 'v':
-					return !_.isEmpty(path_parts[1]) && _.extend({ api: 'youtube', type: 'content', id: path_parts[1].replace(/[?&].*/, '') }, url_obj.query.start && { time_offset: url_obj.query.start });
+					return !_.isEmpty(path_parts[1]) && _.extend({ api: 'youtube', type: 'content', id: path_parts[1].replace(/[?&].*/, '') }, url_obj.query.start && { meta: { time_offset: Number(url_obj.query.start) } });
 				case 'attribution_link':
 					return !_.isEmpty(url_obj.query.u) && urls.parse(url.parse('https://youtube.com' + url_obj.query.u, true, true));
 				case 'channel':
@@ -28,9 +28,8 @@ urls.parse = function(url_obj) {
 				default:
 					return !_.isEmpty(path_parts[0]) && !path_parts[0].match(/^(?:account|channels|dashboard|feed|logout|playlist|signin|subscription_(?:center|manager)|t|testtube|upload|yt)$/) && { api: 'youtube', type: 'account', id: path_parts[0].replace(/[?&].*/, ''), as: 'custom_url' };
 			}
-			break;
 		case 'youtu.be':
-			return !_.isEmpty(path_parts[0]) && _.extend({ api: 'youtube', type: 'content', id: path_parts[0].replace(/[?&].*/, '') }, url_obj.query.t && { time_offset: url_obj.query.t });
+			return !_.isEmpty(path_parts[0]) && _.extend({ api: 'youtube', type: 'content', id: path_parts[0].replace(/[?&].*/, '') }, url_obj.query.t && { meta: { time_offset: Number(url_obj.query.t) } });
 		default:
 			return null;
 	}
@@ -53,7 +52,6 @@ urls.represent = function(identity, comment) {
 				default:
 					return ['https://www.youtube.com/channel/' + identity.id];
 			}
-			return null;
 		default:
 			return null;
 	}
