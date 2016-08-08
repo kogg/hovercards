@@ -1,3 +1,4 @@
+var report = require('../../report');
 require('../css/main.css');
 var $ = require('jquery');
 
@@ -52,9 +53,12 @@ $(function() {
 				return;
 			}
 			e.preventDefault();
-			window.chrome.webstore.install('https://chrome.google.com/webstore/detail/dighmiipfpfdfbfmpodcmfdgkkcakbco', function() { }, function(error, code) {
-				ga('send', 'event', 'install link', 'fail', [code, error].join(' - '));
-			});
+			window.chrome.webstore.install('https://chrome.google.com/webstore/detail/dighmiipfpfdfbfmpodcmfdgkkcakbco',
+				function() { },
+				function(error) {
+					report.warning(error);
+				}
+			);
 		});
 	}
 	$('a[href*="#"]:not([href="#"])').click(function() {

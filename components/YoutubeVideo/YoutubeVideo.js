@@ -4,6 +4,7 @@ var classnames = require('classnames');
 var compose    = require('redux').compose;
 var promisify  = require('es6-promisify');
 
+var report = require('../../report');
 var styles = require('./YoutubeVideo.styles');
 
 var YoutubeVideo = module.exports = React.createClass({
@@ -18,13 +19,13 @@ var YoutubeVideo = module.exports = React.createClass({
 	statics: {
 		getYT: function() {
 			if (window.YT) {
-				// FIXME #9 Log that this shouldn't be happening
+				report.error(new Error('window.YT should not exist'));
 				return null;
 			}
 			window.YT = window.YT || { loading: 0, loaded: 0 };
 			window.YTConfig = window.YTConfig || { host: 'http://www.youtube.com' };
 			if (window.YT.loading) {
-				// FIXME #9 Log that this shouldn't be happening
+				report.error(new Error('window.YT.loading should not exist'));
 				return null;
 			}
 			window.YT.loading = 1;
@@ -37,16 +38,13 @@ var YoutubeVideo = module.exports = React.createClass({
 			/* eslint-enable */
 			YoutubeVideo.getYT = _.constant(
 				Promise.all([
-					// FIXME #9 Log youtube iframe loading errors
 					// TODO Instead of hardcoding this url, retrieve it from https://www.youtube.com/iframe_api
 					fetch('https://s.ytimg.com/yts/jsbin/www-widgetapi-vflwSZmGJ/www-widgetapi.js')
 						.then(function(response) {
 							return response.text();
 						})
 						.then(function(text) {
-							/* eslint-disable no-eval */
-							eval(text);
-							/* eslint-enable no-eval */
+							eval(text); // eslint-disable-line no-eval
 						}),
 					promisify(window.YT.ready.bind(window.YT))()
 				])
@@ -76,7 +74,8 @@ var YoutubeVideo = module.exports = React.createClass({
 			}.bind(this))
 			.then(function(player) {
 				this.setState({ player: player });
-			}.bind(this));
+			}.bind(this))
+			.catch(report.error);
 	},
 	componentDidUpdate: function() {
 		if (!this.state || !this.state.player) {

@@ -5,10 +5,8 @@ var config = require('../extension/config');
 
 var keys = config.options.keys();
 
-var setOption = createAction('SET_OPTION');
-
 module.exports.setOption = function(request) {
 	return function(dispatch) {
-		return (_.indexOf(keys, request.option, true) !== -1) && dispatch(setOption(request)) && Promise.resolve();
+		return (_.indexOf(keys, request.option, true) !== -1) && dispatch(createAction('SET_OPTION')(request)) && Promise.resolve();
 	};
 };

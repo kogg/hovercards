@@ -4,6 +4,7 @@ var connect    = require('react-redux').connect;
 
 var actions = require('../../redux/actions');
 var browser = require('../../extension/browser');
+var report  = require('../../report');
 var styles  = require('./Err.styles');
 
 module.exports = connect(null, actions)(React.createClass({
@@ -22,13 +23,14 @@ module.exports = connect(null, actions)(React.createClass({
 					return null;
 				}
 				return this.props.getEntity(this.props.error.request);
-			}.bind(this));
+			}.bind(this))
+			.catch(report.error);
 	},
 	render: function() {
 		var integration = this.props.error.request && this.props.error.request.api;
 		var cta         = (
-			browser.i18n.getMessage('err_' + this.props.error.status + '_cta_of_' + integration) ||
-			browser.i18n.getMessage('err_' + this.props.error.status + '_cta')
+			browser.i18n.getMessage('err_' + this.props.error.code + '_cta_of_' + integration) ||
+			browser.i18n.getMessage('err_' + this.props.error.code + '_cta')
 		);
 
 		return (
@@ -36,12 +38,12 @@ module.exports = connect(null, actions)(React.createClass({
 				<div className={styles.image} />
 				<div className={styles.description}>
 					<b className={styles.name}>{
-						browser.i18n.getMessage('err_' + this.props.error.status + '_name_of_' + integration, [browser.i18n.getMessage('name_of_' + integration)]) ||
-						browser.i18n.getMessage('err_' + this.props.error.status + '_name', [browser.i18n.getMessage('name_of_' + integration)])
+						browser.i18n.getMessage('err_' + this.props.error.code + '_name_of_' + integration, [browser.i18n.getMessage('name_of_' + integration)]) ||
+						browser.i18n.getMessage('err_' + this.props.error.code + '_name', [browser.i18n.getMessage('name_of_' + integration)])
 					}</b>
 					<p className={styles.name}>{
-						browser.i18n.getMessage('err_' + this.props.error.status + '_text_of_' + integration, [browser.i18n.getMessage('name_of_' + integration)]) ||
-						browser.i18n.getMessage('err_' + this.props.error.status + '_text', [browser.i18n.getMessage('name_of_' + integration)])
+						browser.i18n.getMessage('err_' + this.props.error.code + '_text_of_' + integration, [browser.i18n.getMessage('name_of_' + integration)]) ||
+						browser.i18n.getMessage('err_' + this.props.error.code + '_text', [browser.i18n.getMessage('name_of_' + integration)])
 					}</p>
 					{cta && <a className={classnames(styles[integration], styles.cta)} onClick={this.onClickCTA}>{cta}</a>}
 				</div>

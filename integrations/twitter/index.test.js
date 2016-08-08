@@ -30,9 +30,9 @@ describe('twitter', function() {
 			app_user:        'APP_TOKEN',
 			app_user_secret: 'APP_TOKEN_SECRET',
 			secret_storage:  {
-				get: function(key, callback) { callback(null, secrets[key]); },
-				set: function(key, value, callback) { secrets[key] = value; callback(null, 'OK'); },
-				del: function() { _.chain(arguments).initial().each(function(key) { delete secrets[key]; }); _.last(arguments)(null, arguments.length - 1); }
+				get: function(key) { return Promise.resolve(secrets[key]); },
+				set: function(key, value) { secrets[key] = value; return Promise.resolve('OK'); },
+				del: function() { _.chain(arguments).initial().each(function(key) { delete secrets[key]; }); return Promise.resolve(arguments.length - 1); }
 			}
 		});
 		urls = require('../urls');
@@ -210,7 +210,7 @@ describe('twitter', function() {
 
 				delete secrets.TWITTER_USER;
 
-				return expect(twitter.content({ id: 'CONTENT_ID', user: 'TWITTER_USER' })).to.be.rejected.and.to.eventually.have.property('status', 401);
+				return expect(twitter.content({ id: 'CONTENT_ID', user: 'TWITTER_USER' })).to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 401 on Invalid/Expired Token', function() {
@@ -218,13 +218,13 @@ describe('twitter', function() {
 					.get('/1.1/statuses/show/CONTENT_ID.json')
 					.reply(401, { statusCode: 401, errors: [{ code: 89, message: 'Invalid or expired token.' }] });
 
-				return expect(twitter.content({ id: 'CONTENT_ID', user: 'TWITTER_USER' })).to.be.rejected.and.to.eventually.have.property('status', 401);
+				return expect(twitter.content({ id: 'CONTENT_ID', user: 'TWITTER_USER' })).to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 401 on 401 with no code', function() {
 				statuses_show_endpoint.reply(401, { statusCode: 401, request: '/1.1/users/show.json', error: 'Not authorized.' });
 
-				return expect(twitter.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 401);
+				return expect(twitter.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 403 on 401 with user and no code', function() {
@@ -232,25 +232,25 @@ describe('twitter', function() {
 					.get('/1.1/statuses/show/CONTENT_ID.json')
 					.reply(401, { statusCode: 401, request: '/1.1/users/show.json', error: 'Not authorized.' });
 
-				return expect(twitter.content({ id: 'CONTENT_ID', user: 'TWITTER_USER' })).to.be.rejected.and.to.eventually.have.property('status', 403);
+				return expect(twitter.content({ id: 'CONTENT_ID', user: 'TWITTER_USER' })).to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 403 on Protected Account', function() {
 				statuses_show_endpoint.reply(403, { statusCode: 403, errors: [{ code: 179, message: 'Sorry, you are not authorized to see this status.' }] });
 
-				return expect(twitter.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
+				return expect(twitter.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 404 on 404', function() {
 				statuses_show_endpoint.reply(404, { statusCode: 404, errors: [] });
 
-				return expect(twitter.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(twitter.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				statuses_show_endpoint.reply(429, { statusCode: 429, errors: [] });
 
-				return expect(twitter.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(twitter.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -259,8 +259,8 @@ describe('twitter', function() {
 				var promise = twitter.content({ id: 'CONTENT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -270,8 +270,8 @@ describe('twitter', function() {
 				var promise = twitter.content({ id: 'CONTENT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -283,12 +283,12 @@ describe('twitter', function() {
 
 		// Probably shouldn't do this
 		function test_tweet(num, in_reply_to_num) {
-			return { created_at: 'Wed Jun 05 20:07:10 +0000 2012', id_str: 'CONTENT_ID_' + num, text: 'TEXT ' + num, retweet_count: num * 1000 + 2, favorite_count: num * 1000 + 1, user: { screen_name: 'ACCOUNT_ID_' + num, profile_image_url_https: 'image_' + num + '_normal.png', name: 'NAME ' + num }, in_reply_to_status_id_str: !_.isUndefined(in_reply_to_num) && ('CONTENT_ID_' + in_reply_to_num), in_reply_to_screen_name: !_.isUndefined(in_reply_to_num) && ('ACCOUNT_ID_' + in_reply_to_num) };
+			return { created_at: 'Wed Jun 05 20:07:10 +0000 2012', id_str: 'CONTENT_ID_' + num, text: 'TEXT ' + num, retweet_count: (num * 1000) + 2, favorite_count: (num * 1000) + 1, user: { screen_name: 'ACCOUNT_ID_' + num, profile_image_url_https: 'image_' + num + '_normal.png', name: 'NAME ' + num }, in_reply_to_status_id_str: !_.isUndefined(in_reply_to_num) && ('CONTENT_ID_' + in_reply_to_num), in_reply_to_screen_name: !_.isUndefined(in_reply_to_num) && ('ACCOUNT_ID_' + in_reply_to_num) };
 		}
 
 		// Probably shouldn't do this
 		function test_content(num) {
-			return { api: 'twitter', type: 'content', id: 'CONTENT_ID_' + num, text: 'TEXT ' + num, date: 1338926830000, stats: { likes: num * 1000 + 1, reposts: num * 1000 + 2 }, account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_' + num, name: 'NAME ' + num, image: { small: 'image_' + num + '_bigger.png', large: 'image_' + num + '.png' } } };
+			return { api: 'twitter', type: 'content', id: 'CONTENT_ID_' + num, text: 'TEXT ' + num, date: 1338926830000, stats: { likes: (num * 1000) + 1, reposts: (num * 1000) + 2 }, account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_' + num, name: 'NAME ' + num, image: { small: 'image_' + num + '_bigger.png', large: 'image_' + num + '.png' } } };
 		}
 
 		beforeEach(function() {
@@ -586,7 +586,7 @@ describe('twitter', function() {
 				delete secrets.TWITTER_USER;
 
 				return expect(twitter.discussion({ id: 'CONTENT_ID_0', user: 'TWITTER_USER', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 401);
+					.to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 401 on Invalid/Expired Token', function() {
@@ -596,14 +596,14 @@ describe('twitter', function() {
 					.reply(401, { statusCode: 401, errors: [{ code: 89, message: 'Invalid or expired token.' }] });
 
 				return expect(twitter.discussion({ id: 'CONTENT_ID_0', user: 'TWITTER_USER', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 401);
+					.to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 401 on 401 with no code', function() {
 				search_tweets_endpoint.reply(401, { statusCode: 401, request: '/1.1/users/show.json', error: 'Not authorized.' });
 
 				return expect(twitter.discussion({ id: 'CONTENT_ID_0', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 401);
+					.to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 403 on 401 with user and no code', function() {
@@ -613,28 +613,28 @@ describe('twitter', function() {
 					.reply(401, { statusCode: 401, request: '/1.1/users/show.json', error: 'Not authorized.' });
 
 				return expect(twitter.discussion({ id: 'CONTENT_ID_0', user: 'TWITTER_USER', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 403);
+					.to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 403 on Protected Account', function() {
 				search_tweets_endpoint.reply(403, { statusCode: 403, errors: [{ code: 179, message: 'Sorry, you are not authorized to see this status.' }] });
 
 				return expect(twitter.discussion({ id: 'CONTENT_ID_0', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 403);
+					.to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 404 on 404', function() {
 				search_tweets_endpoint.reply(404, { statusCode: 404, errors: [] });
 
 				return expect(twitter.discussion({ id: 'CONTENT_ID_0', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 404);
+					.to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				search_tweets_endpoint.reply(429, { statusCode: 429, errors: [] });
 
 				return expect(twitter.discussion({ id: 'CONTENT_ID_0', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } }))
-					.to.be.rejected.and.to.eventually.have.property('status', 429);
+					.to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -643,8 +643,8 @@ describe('twitter', function() {
 				var promise = twitter.discussion({ id: 'CONTENT_ID_0', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -654,8 +654,8 @@ describe('twitter', function() {
 				var promise = twitter.discussion({ id: 'CONTENT_ID_0', account: { api: 'twitter', type: 'account', id: 'ACCOUNT_ID_0' } });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -753,7 +753,7 @@ describe('twitter', function() {
 
 				delete secrets.TWITTER_USER;
 
-				return expect(twitter.account({ id: 'ACCOUNT_ID', user: 'TWITTER_USER' })).to.be.rejected.and.to.eventually.have.property('status', 401);
+				return expect(twitter.account({ id: 'ACCOUNT_ID', user: 'TWITTER_USER' })).to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 401 on Invalid/Expired Token', function() {
@@ -762,13 +762,13 @@ describe('twitter', function() {
 					.query({ screen_name: 'ACCOUNT_ID' })
 					.reply(401, { statusCode: 401, errors: [{ code: 89, message: 'Invalid or expired token.' }] });
 
-				return expect(twitter.account({ id: 'ACCOUNT_ID', user: 'TWITTER_USER' })).to.be.rejected.and.to.eventually.have.property('status', 401);
+				return expect(twitter.account({ id: 'ACCOUNT_ID', user: 'TWITTER_USER' })).to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 401 on 401 with no code', function() {
 				user_show_endpoint.reply(401, { statusCode: 401, request: '/1.1/users/show.json', error: 'Not authorized.' });
 
-				return expect(twitter.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 401);
+				return expect(twitter.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 403 on 401 with user and no code', function() {
@@ -777,25 +777,25 @@ describe('twitter', function() {
 					.query({ screen_name: 'ACCOUNT_ID' })
 					.reply(401, { statusCode: 401, request: '/1.1/users/show.json', error: 'Not authorized.' });
 
-				return expect(twitter.account({ id: 'ACCOUNT_ID', user: 'TWITTER_USER' })).to.be.rejected.and.to.eventually.have.property('status', 403);
+				return expect(twitter.account({ id: 'ACCOUNT_ID', user: 'TWITTER_USER' })).to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 403 on Protected Account', function() {
 				user_show_endpoint.reply(403, { statusCode: 403, errors: [{ code: 179, message: 'Sorry, you are not authorized to see this status.' }] });
 
-				return expect(twitter.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
+				return expect(twitter.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 404 on 404', function() {
 				user_show_endpoint.reply(404, { statusCode: 404, errors: [] });
 
-				return expect(twitter.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(twitter.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				user_show_endpoint.reply(429, { statusCode: 429, errors: [] });
 
-				return expect(twitter.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(twitter.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -804,8 +804,8 @@ describe('twitter', function() {
 				var promise = twitter.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -815,8 +815,8 @@ describe('twitter', function() {
 				var promise = twitter.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
