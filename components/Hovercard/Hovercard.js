@@ -1,3 +1,4 @@
+var _          = require('underscore');
 var React      = require('react');
 var classnames = require('classnames');
 var connect    = require('react-redux').connect;
@@ -37,7 +38,7 @@ module.exports = connect(null, actions)(React.createClass({
 		window.addEventListener('scroll', this.positionHovercard);
 		window.addEventListener('resize', this.positionHovercard);
 		this.positionHovercard();
-		this.props.getEntity(this.props.request)
+		this.props.getEntity(_.omit(this.props.request, 'meta'))
 			.catch(report.error);
 		this.mountedTime = Date.now();
 		if (this.props.entity && (this.props.entity.loaded || this.props.entity.err)) {
@@ -184,6 +185,7 @@ module.exports = connect(null, actions)(React.createClass({
 			return;
 		}
 		/*
+		 * TODO https://github.com/teamkogg/hovercards/issues/14
 		var element = document.activeElement;
 		while (element !== document.documentElement) {
 			if (element === this.refs.hovercard) {
@@ -206,6 +208,7 @@ module.exports = connect(null, actions)(React.createClass({
 				{
 					entityOrRequest.type === 'content' ?
 						<ContentHovercard content={entityOrRequest}
+							meta={this.props.request.meta || {}}
 							hovered={this.state.hovered}
 							onResize={this.positionHovercard} /> :
 						<AccountHovercard account={entityOrRequest}
