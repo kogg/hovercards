@@ -7,16 +7,13 @@ var chrome = global.chrome;
 
 function makeFSA(action) {
 	if (chrome.runtime.lastError) {
-		return Promise.reject(action, { payload: chrome.runtime.lastError, error: true });
+		return Promise.reject(chrome.runtime.lastError);
 	}
-	if (!isFSA(action) || !action.error) {
+	if (!isFSA(action) || !action.error || _.isError(action.payload)) {
 		return Promise.resolve(action);
 	}
-	if (_.isError(action.payload)) {
-		return Promise.reject(action);
-	}
 	if (action.payload.type === 'FeathersError') {
-		return Promise.reject(Object.assign(
+		return Promise.resolve(Object.assign(
 			{},
 			action,
 			{ payload: Object.assign(
@@ -31,7 +28,7 @@ function makeFSA(action) {
 			) }
 		));
 	}
-	return Promise.reject(Object.assign(new Error(action.payload.message), action.payload));
+	return Promise.resolve(Object.assign({}, action, { payload: new Error(action.payload.message) }));
 }
 
 [
@@ -55,8 +52,7 @@ function makeFSA(action) {
 	}
 	wrapIt.obj[wrapIt.method] = _.wrap(wrapIt.obj[wrapIt.method], function(func) {
 		return promisify(func).apply(this, _.rest(arguments))
-			.catch(_.identity)
-			.then(makeFSA);
+			.then(makeFSA, makeFSA);
 	});
 });
 

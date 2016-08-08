@@ -1,32 +1,37 @@
-var _               = require('underscore');
-var combineReducers = require('redux').combineReducers;
-var handleAction    = require('redux-actions').handleAction;
+var _             = require('underscore');
+var createAction  = require('redux-actions').createAction;
+var handleActions = require('redux-actions').handleActions;
 
-var browser        = require('../extension/browser');
-var config         = require('../extension/config');
-var optionsActions = require('./options.actions');
+var browser = require('../extension/browser');
+var config  = require('../extension/config');
+var report  = require('../report');
 
-module.exports = (function optionsReducer(object, prefix) {
-	prefix = prefix || '';
-	return combineReducers(_.mapObject(object, function(value, key) {
-		var prefixKey = prefix + key;
-		return (_.isObject(value) && !_.isArray(value)) ?
-			optionsReducer(value, prefixKey + '.') :
-			handleAction(
-				'SET_OPTION',
-				{
-					next: function(state, action) {
-						if (action.payload.option !== prefixKey) {
-							return state;
-						}
-						browser.storage.sync.set({ ['options.' + prefixKey]: action.payload.value });
-						return (action.payload.value === undefined) ? null : action.payload.value;
+module.exports = handleActions(
+	{
+		SET_OPTION: {
+			next: function(state, action) {
+				var keys     = action.payload.option.split('.');
+				var newState = _.clone(state);
+				var obj      = newState;
+				for (var i = 0; i < keys.length - 1; i++) {
+					if (obj[keys[i]] === undefined) {
+						return state;
 					}
-				},
-				value
-			);
-	}));
-})(_.omit(config.options, 'keys'));
+					obj[keys[i]] = _.clone(obj[keys[i]]);
+					obj = obj[keys[i]];
+				}
+				if (obj === undefined) {
+					return state;
+				}
+				obj[keys[keys.length - 1]] = action.payload.value;
+				browser.storage.sync.set({ ['options.' + action.payload.option]: action.payload.value })
+					.catch(report.error);
+				return newState;
+			}
+		}
+	},
+	_.omit(config.options, 'keys')
+);
 
 module.exports.attachStore = function(store) {
 	browser.storage.sync.get(null).then(function(items) {
@@ -40,17 +45,18 @@ module.exports.attachStore = function(store) {
 					if (!items.disabled[integration][type]) {
 						return;
 					}
-					store.dispatch(optionsActions.setOption({ option: [integration, type, 'enabled'].join('.'), value: !items.disabled[integration][type] }));
+					store.dispatch(createAction('SET_OPTION')({ option: [integration, type, 'enabled'].join('.'), value: !items.disabled[integration][type] }));
 				});
 			});
-			browser.storage.sync.remove('disabled');
+			browser.storage.sync.remove('disabled')
+				.catch(report.error);
 		}
 		_.pairs(items).forEach(function(entry) {
 			var key = entry[0].match(/^options\.(.+)/);
 			if (!key) {
 				return;
 			}
-			store.dispatch(optionsActions.setOption({ option: key[1], value: entry[1] }));
+			store.dispatch(createAction('SET_OPTION')({ option: key[1], value: entry[1] }));
 		});
 	});
 
@@ -63,7 +69,7 @@ module.exports.attachStore = function(store) {
 			if (!key) {
 				return;
 			}
-			store.dispatch(optionsActions.setOption({ option: key[1], value: entry[1].newValue }));
+			store.dispatch(createAction('SET_OPTION')({ option: key[1], value: entry[1].newValue }));
 		});
 	});
 };

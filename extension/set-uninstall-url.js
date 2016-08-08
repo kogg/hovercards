@@ -1,10 +1,10 @@
 var _ = require('underscore');
 
 var browser = require('./browser');
+var report  = require('../report');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-// FIXME #9
 browser.storage.onChanged.addListener(function(changes, areaName) {
 	if (areaName !== 'sync') {
 		return;
@@ -13,7 +13,8 @@ browser.storage.onChanged.addListener(function(changes, areaName) {
 		if (entry[0] !== 'user_id') {
 			return;
 		}
-		return browser.runtime.setUninstallURL('http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5100') + '/track_uninstall?user_id=' + entry[1]);
+		browser.runtime.setUninstallURL('http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5100') + '/track_uninstall?user_id=' + entry[1])
+			.catch(report.error);
 	});
 });
 
@@ -32,4 +33,5 @@ browser.runtime.setUninstallURL('http://' + (process.env.NODE_ENV === 'productio
 	})
 	.then(function(user_id) {
 		return browser.runtime.setUninstallURL('http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5100') + '/track_uninstall?user_id=' + user_id);
-	});
+	})
+	.catch(report.error);

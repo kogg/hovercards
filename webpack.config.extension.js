@@ -44,20 +44,12 @@ module.exports = {
 				loaders: [
 					'file?name=manifest.json',
 					StringReplacePlugin.replace({
-						replacements: [
-							{
-								pattern:     /__UNSAFE_EVAL__/ig,
-								replacement: function() {
-									return process.env.NODE_ENV ? '' : '\'unsafe-eval\'';
-								}
-							},
-							{
-								pattern:     /__VERSION__/ig,
-								replacement: function() {
-									return require('./package').version || '0.0.1';
-								}
+						replacements: [{
+							pattern:     /__VERSION__/ig,
+							replacement: function() {
+								return require('./package').version || '0.0.1';
 							}
-						]
+						}]
 					})
 				]
 			}
@@ -71,7 +63,7 @@ module.exports = {
 			['.json', '.js', '.css']
 		)
 	},
-	devtool:   process.env.NODE_ENV ? 'cheap-source-map' : 'cheap-module-eval-source-map',
+	devtool:   process.env.NODE_ENV ? 'source-map' : 'cheap-source-map',
 	devServer: {
 		outputPath: 'dist',
 		port:       process.env.PORT,

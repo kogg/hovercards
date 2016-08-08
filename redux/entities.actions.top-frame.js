@@ -6,10 +6,7 @@ var browser     = require('../extension/browser');
 var entityLabel = require('../utils/entity-label');
 
 var setEntity = createAction('SET_ENTITY', null, function(entity, label) {
-	if (!label) {
-		return null;
-	}
-	return { label: label };
+	return label && { label: label };
 });
 
 module.exports.getEntity = function(request) {
@@ -20,10 +17,7 @@ module.exports.getEntity = function(request) {
 			return Promise.resolve();
 		}
 
-		return browser.runtime.sendMessage({ type: 'getEntity', payload: request })
-			.catch(compose(dispatch, setEntity, _.property('payload'), function(err) {
-				return Object.assign(err, { request: request });
-			}))
+		return browser.runtime.sendMessage(createAction('getEntity')(request))
 			.then(compose(dispatch, setEntity, _.property('payload')));
 	};
 };

@@ -1,3 +1,4 @@
+var _       = require('underscore');
 var rollbar = require('rollbar-browser');
 
 module.exports = rollbar.init({
@@ -16,4 +17,10 @@ module.exports = rollbar.init({
 	verbose:                    !process.env.NODE_ENV,
 	captureUncaught:            true,
 	captureUnhandledRejections: true
+});
+
+['critical', 'error', 'warning', 'info', 'debug', 'log'].forEach(function(method) {
+	module.exports[method] = _.wrap(module.exports[method], function(func, err) {
+		return func.bind(module.exports)(err);
+	});
 });

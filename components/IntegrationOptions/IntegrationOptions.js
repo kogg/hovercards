@@ -3,6 +3,7 @@ var React      = require('react');
 var classnames = require('classnames');
 
 var browser = require('../../extension/browser');
+var report  = require('../../report');
 var styles  = require('./IntegrationOptions.styles');
 
 var requireLogo = require.context('../../assets/images', false, /-icon-full_color.png$/);
@@ -16,7 +17,8 @@ module.exports = React.createClass({
 		options:     React.PropTypes.object.isRequired
 	},
 	onChange: function(type) {
-		this.props.setOption({ option: this.props.integration + '.' + type + '.enabled', value: !this.props.options[type].enabled });
+		this.props.setOption({ option: this.props.integration + '.' + type + '.enabled', value: !this.props.options[type].enabled })
+			.catch(report.error);
 	},
 	render: function() {
 		return (

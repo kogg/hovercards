@@ -7,6 +7,7 @@ var ContentHovercard = require('../ContentHovercard/ContentHovercard');
 var actions          = require('../../redux/actions');
 var dom              = require('../../utils/dom');
 var entityLabel      = require('../../utils/entity-label');
+var report           = require('../../report');
 var styles           = require('./Hovercard.styles');
 var urls             = require('../../integrations/urls');
 
@@ -36,12 +37,14 @@ module.exports = connect(null, actions)(React.createClass({
 		window.addEventListener('scroll', this.positionHovercard);
 		window.addEventListener('resize', this.positionHovercard);
 		this.positionHovercard();
-		this.props.getEntity(this.props.request);
+		this.props.getEntity(this.props.request)
+			.catch(report.error);
 		this.mountedTime = Date.now();
 		if (this.props.entity && (this.props.entity.loaded || this.props.entity.err)) {
 			this.loadedTime = Date.now();
 		}
-		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Hovercard Opened (exclude loading)', (this.props.entity || this.props.request).err && 'error hovercard']);
+		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Hovercard Opened (exclude loading)', (this.props.entity || this.props.request).err && 'error hovercard'])
+			.catch(report.error);
 	},
 	componentDidUpdate: function(prevProps) {
 		if (this.loadedTime) {
@@ -57,10 +60,12 @@ module.exports = connect(null, actions)(React.createClass({
 	},
 	componentWillUnmount: function() {
 		if (this.loadedTime) {
-			this.props.analytics(['send', 'timing', entityLabel(this.props.entity, true), 'Hovercard Open (exclude loading)', Date.now() - this.loadedTime, this.props.entity.err && 'error hovercard']);
+			this.props.analytics(['send', 'timing', entityLabel(this.props.entity, true), 'Hovercard Open (exclude loading)', Date.now() - this.loadedTime, this.props.entity.err && 'error hovercard'])
+				.catch(report.error);
 		}
 		if (this.hasScrolled) {
-			this.props.analytics(['send', 'event', entityLabel(this.props.entity, true), 'Hovercard Scrolled', this.props.entity.err && 'error hovercard', this.scrolledAmount]);
+			this.props.analytics(['send', 'event', entityLabel(this.props.entity, true), 'Hovercard Scrolled', this.props.entity.err && 'error hovercard', this.scrolledAmount])
+				.catch(report.error);
 		}
 		this.props.element.removeEventListener('click', this.onClickElement);
 		this.props.element.removeEventListener('mousemove', this.clearCloseTimeout);
@@ -143,11 +148,13 @@ module.exports = connect(null, actions)(React.createClass({
 			window.open(element.href);
 		}
 		var linkEntity = urls.parse(element.href);
-		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Link Opened', linkEntity && entityLabel(linkEntity, true)]);
+		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Link Opened', linkEntity && entityLabel(linkEntity, true)])
+			.catch(report.error);
 	},
 	onClickElement: function() {
 		this.closeHovercard();
-		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Original Link Opened']);
+		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Original Link Opened'])
+			.catch(report.error);
 	},
 	onMouseLeave: function(e) {
 		if (!this.state.hovered) {
@@ -165,7 +172,8 @@ module.exports = connect(null, actions)(React.createClass({
 		this.clearCloseTimeout();
 		if (!this.firstHoveredTime) {
 			this.firstHoveredTime = Date.now();
-			this.props.analytics(['send', 'timing', entityLabel(this.props.entity || this.props.request, true), 'Until hovered on hovercard (include loading)', this.firstHoveredTime - this.mountedTime, (this.props.entity || this.props.request).err && 'error hovercard']);
+			this.props.analytics(['send', 'timing', entityLabel(this.props.entity || this.props.request, true), 'Until hovered on hovercard (include loading)', this.firstHoveredTime - this.mountedTime, (this.props.entity || this.props.request).err && 'error hovercard'])
+				.catch(report.error);
 		}
 		this.setState({ hovered: true });
 		dom.addClass(document.documentElement, styles.lockDocument);

@@ -5,6 +5,7 @@ var Response    = require('http-browserify/lib/response');
 
 var browser = require('../extension/browser');
 var config  = require('./config');
+var report  = require('../report');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 Response.prototype.setEncoding = Response.prototype.setEncoding || _.noop; // FIXME substack/http-browserify#10
@@ -28,7 +29,6 @@ var newAuthKeys = _.chain(config.integrations)
 	})
 	.object()
 	.value();
-// FIXME #9
 browser.storage.sync.get(_.keys(newAuthKeys))
 	.then(function(items) {
 		return Promise.all(_.map(newAuthKeys, function(newKey, oldKey) {
@@ -41,7 +41,8 @@ browser.storage.sync.get(_.keys(newAuthKeys))
 				browser.storage.sync.set({ [newKey]: items[oldKey] })
 			]);
 		}));
-	});
+	})
+	.catch(report.error);
 
 browser.storage.onChanged.addListener(function(changes, areaName) {
 	if (areaName !== 'sync') {
@@ -59,7 +60,6 @@ browser.storage.onChanged.addListener(function(changes, areaName) {
 module.exports = function(request) {
 	var integrationConfig = config.integrations[request.api];
 
-	// FIXME #9
 	return Promise.all([
 		browser.storage.local.get('device_id')
 			.then(_.property('device_id'))
@@ -69,9 +69,11 @@ module.exports = function(request) {
 				}
 
 				device_id = _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('');
-				return browser.storage.local.set({ device_id: device_id }).then(_.constant(device_id));
+				return browser.storage.local.set({ device_id: device_id })
+					.then(_.constant(device_id));
 			}),
-		browser.storage.sync.get('authentication.' + request.api).then(_.property('authentication.' + request.api))
+		browser.storage.sync.get('authentication.' + request.api)
+			.then(_.property('authentication.' + request.api))
 	])
 		.then(function(storage) {
 			switch ((storage[1] && integrationConfig.authenticated_environment) || integrationConfig.environment) {

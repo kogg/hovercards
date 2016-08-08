@@ -6,6 +6,7 @@ var thunkMiddlware  = require('redux-thunk').default;
 
 var actions = require('./actions');
 var browser = require('../extension/browser');
+var report  = require('../report');
 
 createStore = applyMiddleware(thunkMiddlware)(createStore);
 
@@ -25,12 +26,11 @@ module.exports = function(reducers, initialState) {
 
 	browser.runtime.onMessage.addListener(function(actionAsPromise, sender, sendResponse) {
 		actionAsPromise
-			.catch(_.identity)
 			.then(function(action) {
 				return store.dispatch(actions[action.type](action.payload, action.meta, sender));
 			})
-			.catch(_.identity)
-			.then(sendResponse);
+			.then(sendResponse)
+			.catch(report.error);
 
 		return true;
 	});

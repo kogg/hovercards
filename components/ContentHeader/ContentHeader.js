@@ -7,6 +7,7 @@ var browser     = require('../../extension/browser');
 var actions     = require('../../redux/actions');
 var config      = require('../../integrations/config');
 var entityLabel = require('../../utils/entity-label');
+var report      = require('../../report');
 var styles      = require('./ContentHeader.styles');
 var urls        = require('../../integrations/urls');
 
@@ -19,7 +20,8 @@ module.exports = connect(null, actions)(React.createClass({
 	},
 	onShare: function(network, e) {
 		e.stopPropagation();
-		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Shared', network]);
+		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Shared', network])
+			.catch(report.error);
 	},
 	render: function() {
 		var accountImage = (

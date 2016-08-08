@@ -4,6 +4,7 @@ var connect    = require('react-redux').connect;
 
 var actions = require('../../redux/actions');
 var browser = require('../../extension/browser');
+var report  = require('../../report');
 var styles  = require('./Err.styles');
 
 module.exports = connect(null, actions)(React.createClass({
@@ -22,7 +23,8 @@ module.exports = connect(null, actions)(React.createClass({
 					return null;
 				}
 				return this.props.getEntity(this.props.error.request);
-			}.bind(this));
+			}.bind(this))
+			.catch(report.error);
 	},
 	render: function() {
 		var integration = this.props.error.request && this.props.error.request.api;

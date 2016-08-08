@@ -3,6 +3,7 @@ var React      = require('react');
 var classnames = require('classnames');
 var promisify  = require('es6-promisify');
 
+var report = require('../../report');
 var styles = require('./SoundCloudPlayer.styles');
 var urls   = require('../../integrations/urls');
 
@@ -18,19 +19,16 @@ var SoundCloudPlayer = module.exports = React.createClass({
 	statics: {
 		getSC: function() {
 			if (window.SC) {
-				// FIXME #9 Log that this shouldn't be happening
+				report.error(new Error('window.SC should not exist'));
 				return null;
 			}
 			SoundCloudPlayer.getSC = _.constant(
-				// FIXME #9 Log soundcloud iframe loading errors
 				fetch('https://w.soundcloud.com/player/api.js')
 					.then(function(response) {
 						return response.text();
 					})
 					.then(function(text) {
-						/* eslint-disable no-eval */
-						eval(text);
-						/* eslint-enable no-eval */
+						eval(text); // eslint-disable-line no-eval
 						return window.SC;
 					})
 			);
@@ -48,7 +46,8 @@ var SoundCloudPlayer = module.exports = React.createClass({
 			}.bind(this))
 			.then(function(player) {
 				this.setState({ player: player });
-			}.bind(this));
+			}.bind(this))
+			.catch(report.error);
 	},
 	componentDidUpdate: function() {
 		if (!this.state || !this.state.player) {
