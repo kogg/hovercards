@@ -109,7 +109,7 @@
     "istanbul": "^0.4.4",
     "json-loader": "^0.5.4",
     "last-release-github": "^1.1.1",
-    "mocha": "^3.0.1",
+    "mocha": "^3.0.2",
     "nock": "^8.0.0",
     "node-fetch": "^1.6.0",
     "nodemon": "^1.10.0",
