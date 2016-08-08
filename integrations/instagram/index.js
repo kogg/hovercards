@@ -1,5 +1,6 @@
 var _              = require('underscore');
 var Autolinker     = require('autolinker');
+var errors         = require('feathers-errors');
 var instagram_node = require('instagram-node');
 var promisify      = require('es6-promisify');
 
@@ -33,7 +34,7 @@ module.exports = function(params) {
 	api.content = function(args) {
 		var usage = { 'instagram-calls': 0 };
 
-		return model.media_shortcode(_.pick(args, 'id'), null, usage)
+		return model.media_shortcode(_.pick(args, 'id'), _.pick(params, 'user'), usage)
 			.then(function(media) {
 				return _.chain(media_to_content(media, 'link')).extend({ text: autolinker.link(_.chain(media).result('caption').result('text', '').value()), account: user_to_account(_.result(media, 'user')), discussions: [media_to_discussion(media)] }).pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))).value();
 			});
@@ -42,18 +43,18 @@ module.exports = function(params) {
 	api.discussion = function(args) {
 		var usage = { 'instagram-calls': 0 };
 
-		return model.media_shortcode(_.pick(args, 'id'), null, usage)
+		return model.media_shortcode(_.pick(args, 'id'), _.pick(params, 'user'), usage)
 			.then(media_to_discussion);
 	};
 
 	api.account = function(args) {
 		var usage = { 'instagram-calls': 0 };
 
-		var getUserIncomplete = model.user_search(_.pick(args, 'id'), null, usage)
+		var getUserIncomplete = model.user_search(_.pick(args, 'id'), _.pick(params, 'user'), usage)
 			.then(function(users) {
 				var user_incomplete = _.find(users, function(user) { return _.isEqual(user.username.toLowerCase(), _.result(args, 'id').toLowerCase()); });
 				if (!user_incomplete) {
-					return Promise.reject({ message: 'Instagram User Search', status: 404 });
+					throw new errors.NotFound();
 				}
 				return user_incomplete;
 			});
@@ -62,13 +63,12 @@ module.exports = function(params) {
 			getUserIncomplete,
 			getUserIncomplete
 				.then(function(user_incomplete) {
-					return model.user(_.pick(user_incomplete, 'id'), null, usage);
+					return model.user(_.pick(user_incomplete, 'id'), _.pick(params, 'user'), usage);
 				}),
 			getUserIncomplete
 				.then(function(user_incomplete) {
-					return model.user_media_recent(_.pick(user_incomplete, 'id'), null, usage).catch(function() {
-						return null;
-					});
+					return model.user_media_recent(_.pick(user_incomplete, 'id'), _.pick(params, 'user'), usage)
+						.catch(_.constant(null));
 				})
 		])
 			.then(function(results) {
@@ -84,103 +84,69 @@ module.exports = function(params) {
 	model.media_shortcode = function(args, args_not_cached, usage) {
 		usage['instagram-calls']++;
 
-		return promisify(instagram.media.bind(instagram.media))('shortcode/' + _.result(args, 'id')).catch(catch_errors('Instagram Media Shortcode'));
+		return promisify(instagram.media.bind(instagram.media))('shortcode/' + _.result(args, 'id')).catch(catch_errors(args_not_cached));
 	};
 
 	model.user = function(args, args_not_cached, usage) {
 		usage['instagram-calls']++;
 
-		return promisify(instagram.user.bind(instagram.user))(_.result(args, 'id')).catch(catch_errors('Instagram User'));
+		return promisify(instagram.user.bind(instagram.user))(_.result(args, 'id')).catch(catch_errors(args_not_cached));
 	};
 
 	model.user_media_recent = function(args, args_not_cached, usage) {
 		usage['instagram-calls']++;
 
-		return promisify(instagram.user_media_recent.bind(instagram.user_media_recent))(_.result(args, 'id'), { count: config.counts.grid }).catch(catch_errors('Instagram User Media Recent'));
+		return promisify(instagram.user_media_recent.bind(instagram.user_media_recent))(_.result(args, 'id'), { count: config.counts.grid }).catch(catch_errors(args_not_cached));
 	};
 
 	model.user_search = function(args, args_not_cached, usage) {
 		usage['instagram-calls']++;
 
 		return promisify(instagram.user_search.bind(instagram.user_search))(_.result(args, 'id'), {})
+			.catch(catch_errors(args_not_cached))
 			.then(function(users) {
 				if (_.isEmpty(users)) {
-					return Promise.reject({ status: 404, message: '' });
+					throw new errors.NotFound();
 				}
 				return users;
-			})
-			.catch(function(err) {
-				var status = err.status || err.code || err.status_code;
-				var error_type = err.error_type;
-				err.message = 'Instagram User Search - ' + String(err.message);
-				switch (status) {
-					case 404:
-					case 429:
-						err.status = status;
-						break;
-					case 400:
-						switch (error_type) {
-							case 'OAuthAccessTokenException':
-								err.status = 401;
-								break;
-							default:
-								err.status = (status >= 500) ? 502 : 500;
-								err.original_status = status;
-								break;
-						}
-						break;
-					default:
-						if (err.message === 'Instagram User Search - Must be authentified') {
-							err.status = 401;
-						} else {
-							err.status = (status >= 500) ? 502 : 500;
-							err.original_status = status;
-						}
-						break;
-				}
-				return Promise.reject(err);
 			});
 	};
 
 	return api;
 
-	function catch_errors(errName) {
+	function catch_errors(args_not_cached) {
 		return function(err) {
-			var status     = err.status || err.code || err.status_code;
-			var error_type = err.error_type;
-			err.message = errName + ' - ' + String(err.message);
+			var status = err.status || err.code || err.status_code;
+
 			switch (status) {
 				case 404:
+					throw new errors.NotFound(err);
 				case 429:
-					err.status = status;
-					break;
+					throw new errors.FeathersError(err, 'TooManyRequests', 429, 'too-many-requests');
 				case 400:
-					switch (error_type) {
+					switch (err.error_type) {
 						case 'APINotAllowedError':
-							err.status = params.user ? 403 : 401;
-							break;
+							throw args_not_cached.user ?
+								new errors.Forbidden(err) :
+								new errors.NotAuthenticated(err);
 						case 'APINotFoundError':
-							err.status = 404;
-							break;
+							throw new errors.NotFound(err);
 						case 'OAuthAccessTokenException':
-							err.status = 401;
-							break;
+							throw new errors.NotAuthenticated(err);
 						default:
-							err.status = (status >= 500) ? 502 : 500;
-							err.original_status = status;
 							break;
 					}
-					break;
+					/* falls through */
 				default:
-					if (err.message === errName + ' - Must be authentified') {
-						err.status = 401;
-					} else {
-						err.status = (status >= 500) ? 502 : 500;
-						err.original_status = status;
+					if (err.message === 'Must be authentified') {
+						throw new errors.NotAuthenticated(err);
 					}
-					break;
+					err = status > 500 ?
+						new errors.FeathersError(err, 'BadGateway', 502, 'bad-gateway') :
+						new errors.GeneralError(err);
+					err.original_code = status;
+					throw err;
 			}
-			return Promise.reject(err);
 		};
 	}
 };

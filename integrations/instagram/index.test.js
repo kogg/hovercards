@@ -102,13 +102,13 @@ describe('instagram', function() {
 			it('should 401 on OAuthAccessTokenException', function() {
 				media_shortcode_endpoint.reply(400, { meta: { code: 400, error_type: 'OAuthAccessTokenException', error_message: 'The access_token provided is invalid.' } });
 
-				return expect(instagram.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 401);
+				return expect(instagram.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 401 on APINotAllowedError', function() {
 				media_shortcode_endpoint.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 
-				return expect(instagram.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 401);
+				return expect(instagram.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 403 on APINotAllowedError when authorized', function() {
@@ -117,19 +117,19 @@ describe('instagram', function() {
 					.query({ access_token: 'INSTAGRAM_USER' })
 					.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 
-				return expect(require('.')({ user: 'INSTAGRAM_USER' }).content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
+				return expect(require('.')({ user: 'INSTAGRAM_USER' }).content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 404 on 404', function() {
 				media_shortcode_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' } });
 
-				return expect(instagram.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(instagram.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on OAuthRateLimitException', function() {
 				media_shortcode_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' } });
 
-				return expect(instagram.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(instagram.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -138,8 +138,8 @@ describe('instagram', function() {
 				var promise = instagram.content({ id: 'CONTENT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -149,8 +149,8 @@ describe('instagram', function() {
 				var promise = instagram.content({ id: 'CONTENT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -218,13 +218,13 @@ describe('instagram', function() {
 			it('should 401 on OAuthAccessTokenException', function() {
 				media_shortcode_endpoint.reply(400, { meta: { code: 400, error_type: 'OAuthAccessTokenException', error_message: 'The access_token provided is invalid.' } });
 
-				return expect(instagram.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 401);
+				return expect(instagram.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 401 on APINotAllowedError', function() {
 				media_shortcode_endpoint.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 
-				return expect(instagram.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 401);
+				return expect(instagram.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 403 on APINotAllowedError when authorized', function() {
@@ -233,19 +233,19 @@ describe('instagram', function() {
 					.query({ access_token: 'INSTAGRAM_USER' })
 					.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 
-				return expect(require('.')({ user: 'INSTAGRAM_USER' }).discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
+				return expect(require('.')({ user: 'INSTAGRAM_USER' }).discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 404 on 404', function() {
 				media_shortcode_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' } });
 
-				return expect(instagram.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(instagram.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on OAuthRateLimitException', function() {
 				media_shortcode_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' } });
 
-				return expect(instagram.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(instagram.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -254,8 +254,8 @@ describe('instagram', function() {
 				var promise = instagram.discussion({ id: 'CONTENT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -265,8 +265,8 @@ describe('instagram', function() {
 				var promise = instagram.discussion({ id: 'CONTENT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -384,13 +384,13 @@ describe('instagram', function() {
 			it('should 401 on OAuthAccessTokenException', function() {
 				user_endpoint.reply(400, { meta: { code: 400, error_type: 'OAuthAccessTokenException', error_message: 'The access_token provided is invalid.' } });
 
-				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 401);
+				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 401 on APINotAllowedError', function() {
 				user_endpoint.reply(400, { meta: { code: 400, error_type: 'APINotAllowedError', error_message: 'you cannot view this resource' } });
 
-				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 401);
+				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 401);
 			});
 
 			it('should 403 on APINotAllowedError when authorized', function() {
@@ -403,19 +403,19 @@ describe('instagram', function() {
 					.query({ access_token: 'INSTAGRAM_USER', q: 'ACCOUNT_ID' })
 					.reply(200, default_user_search);
 
-				return expect(require('.')({ user: 'INSTAGRAM_USER' }).account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 403);
+				return expect(require('.')({ user: 'INSTAGRAM_USER' }).account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 403);
 			});
 
 			it('should 404 on 404', function() {
 				user_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' } });
 
-				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on OAuthRateLimitException', function() {
 				user_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' } });
 
-				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -424,8 +424,8 @@ describe('instagram', function() {
 				var promise = instagram.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -435,8 +435,8 @@ describe('instagram', function() {
 				var promise = instagram.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -463,26 +463,26 @@ describe('instagram', function() {
 			it('should 404 on empty result', function() {
 				user_search_endpoint.reply(404, { meta: { code: 200 }, data: [] });
 
-				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 404 on mismatching result', function() {
 				default_user_search.data.shift();
 				user_search_endpoint.reply(200, default_user_search);
 
-				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 404 on 404', function() {
 				user_search_endpoint.reply(404, { meta: { code: 404, error_type: 'idk', error_message: 'I said IDK' } });
 
-				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on OAuthRateLimitException', function() {
 				user_search_endpoint.reply(429, { meta: { code: 429, error_type: 'OAuthRateLimitException', error_message: 'The maximum number of requests per hour has been exceeded.' } });
 
-				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -491,8 +491,8 @@ describe('instagram', function() {
 				var promise = instagram.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -502,8 +502,8 @@ describe('instagram', function() {
 				var promise = instagram.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});

@@ -319,7 +319,7 @@ describe('imgur', function() {
 				it('should 429 on 429', function() {
 					image_endpoint.reply(429, { success: false, status: 429 });
 
-					return expect(imgur.content({ id: 'CONTENT_ID', as: 'image' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+					return expect(imgur.content({ id: 'CONTENT_ID', as: 'image' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 				});
 
 				it('should 500 on 4xx', function() {
@@ -328,8 +328,8 @@ describe('imgur', function() {
 					var promise = imgur.content({ id: 'CONTENT_ID', as: 'image' });
 
 					return Promise.all([
-						expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-						expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+						expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+						expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 					]);
 				});
 
@@ -339,8 +339,8 @@ describe('imgur', function() {
 					var promise = imgur.content({ id: 'CONTENT_ID', as: 'image' });
 
 					return Promise.all([
-						expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-						expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+						expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+						expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 					]);
 				});
 			});
@@ -391,7 +391,7 @@ describe('imgur', function() {
 				it('should 429 on 429', function() {
 					album_endpoint.reply(429, { success: false, status: 429 });
 
-					return expect(imgur.content({ id: 'CONTENT_ID', as: 'album' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+					return expect(imgur.content({ id: 'CONTENT_ID', as: 'album' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 				});
 
 				it('should 500 on 4xx', function() {
@@ -400,8 +400,8 @@ describe('imgur', function() {
 					var promise = imgur.content({ id: 'CONTENT_ID', as: 'album' });
 
 					return Promise.all([
-						expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-						expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+						expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+						expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 					]);
 				});
 
@@ -411,8 +411,8 @@ describe('imgur', function() {
 					var promise = imgur.content({ id: 'CONTENT_ID', as: 'album' });
 
 					return Promise.all([
-						expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-						expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+						expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+						expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 					]);
 				});
 			});
@@ -439,7 +439,7 @@ describe('imgur', function() {
 			it('should 429 on 429', function() {
 				gallery_endpoint.reply(429, { success: false, status: 429 });
 
-				return expect(imgur.content({ id: 'CONTENT_ID', as: 'gallery' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(imgur.content({ id: 'CONTENT_ID', as: 'gallery' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -448,8 +448,8 @@ describe('imgur', function() {
 				var promise = imgur.content({ id: 'CONTENT_ID', as: 'gallery' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -459,8 +459,8 @@ describe('imgur', function() {
 				var promise = imgur.content({ id: 'CONTENT_ID', as: 'gallery' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -528,13 +528,13 @@ describe('imgur', function() {
 			it('should 404 on 404', function() {
 				comments_endpoint.reply(404, { success: false, status: 404 });
 
-				return expect(imgur.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(imgur.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				comments_endpoint.reply(429, { success: false, status: 429 });
 
-				return expect(imgur.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(imgur.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -543,8 +543,8 @@ describe('imgur', function() {
 				var promise = imgur.discussion({ id: 'CONTENT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -554,8 +554,8 @@ describe('imgur', function() {
 				var promise = imgur.discussion({ id: 'CONTENT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -621,13 +621,13 @@ describe('imgur', function() {
 			it('should 404 on 404', function() {
 				account_endpoint.reply(404, { success: false, status: 404 });
 
-				return expect(imgur.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(imgur.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				account_endpoint.reply(429, { success: false, status: 429 });
 
-				return expect(imgur.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(imgur.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -636,8 +636,8 @@ describe('imgur', function() {
 				var promise = imgur.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -647,8 +647,8 @@ describe('imgur', function() {
 				var promise = imgur.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});

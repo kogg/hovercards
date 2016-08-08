@@ -59,11 +59,11 @@ module.exports = {
 	resolve: {
 		extensions: extensions(
 			process.env.ENTRY && ['.' + process.env.ENTRY, ''],
-			['.chrome', '.extension', ''],
+			['.chrome', '.extension', '.browser', ''],
 			['.json', '.js', '.css']
 		)
 	},
-	devtool:   'source-map',
+	devtool:   process.env.NODE_ENV ? 'source-map' : 'cheap-source-map',
 	devServer: {
 		outputPath: 'dist',
 		port:       process.env.PORT,
@@ -82,8 +82,10 @@ module.exports = {
 			'INSTAGRAM_CLIENT_ID',
 			'NODE_ENV',
 			'REDDIT_CLIENT_ID',
+			'ROLLBAR_CLIENT_ACCESS_TOKEN',
 			'SOUNDCLOUD_CLIENT_ID',
-			'STICKYCARDS'
+			'STICKYCARDS',
+			'npm_package_gitHead'
 		]),
 		!process.env.ENTRY && !process.env.NODE_ENV && new CleanWebpackPlugin(['dist']),
 		!process.env.ENTRY && new CopyWebpackPlugin([

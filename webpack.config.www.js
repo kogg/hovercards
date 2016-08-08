@@ -26,7 +26,14 @@ module.exports = {
 			{ exclude: 'node_modules', test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?name=fonts/[name].[hash].[ext]&limit=10000' }
 		]
 	},
-	devtool:   'source-map',
+	resolve: {
+		extensions: extensions(
+			[''],
+			['.www', '.browser', ''],
+			['.json', '.js', '.css']
+		)
+	},
+	devtool:   process.env.NODE_ENV ? 'source-map' : 'cheap-source-map',
 	devServer: {
 		port:  process.env.PORT,
 		stats: { colors: true }
@@ -46,3 +53,27 @@ module.exports = {
 		return [nested, autoprefixer];
 	}
 };
+
+if (!process.env.NODE_ENV) {
+	var DotenvPlugin = require('webpack-dotenv-plugin');
+
+	module.exports.plugins = module.exports.plugins.concat([
+		new DotenvPlugin()
+	]);
+}
+
+function extensions(injections, builds, extensions) {
+	var results = [''];
+
+	[].concat(injections).forEach(function(injection) {
+		[].concat(builds).forEach(function(build) {
+			[].concat(extensions).forEach(function(extension) {
+				if (!injection && !build && !extension) {
+					return;
+				}
+				results.push([injection, build, extension].join(''));
+			});
+		});
+	});
+	return results;
+}

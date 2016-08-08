@@ -25,21 +25,22 @@
     "deploy:www": "git config --global user.email \"teamkogg@gmail.com\" && git config --global user.name \"Kogg\" && gh-pages -d dist-www",
     "fix": "run-s fix:style:*",
     "fix:style:css": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".css$\" | xargs -I '{}' -n 1 stylefmt {} ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".css$\" | xargs git add )",
-    "fix:style:js": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".js$\" | xargs eslint --fix ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".js$\" | xargs git add )",
+    "fix:style:js": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".js$\" | xargs eslint --fix --color ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \".js$\" | xargs git add )",
     "release": "semantic-release pre && npm run build && npm run deploy && semantic-release post",
     "start": "if [ \"$NODE_ENV\" = 'production' ]; then foreman start; else foreman start -f Procfile.dev; fi",
     "test": "run-s test:*",
     "test:lint": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**'",
-    "test:unit": "istanbul cover -x *.test.js _mocha -- -R spec \"./{,!(node_modules)/**/}*.test.js\""
+    "test:unit": "istanbul cover -x *.test.js _mocha -- -R spec \"./{,!(node_modules)/**/}*.test.js\"",
+    "test:unit:no-cover": "mocha \"./{,!(node_modules)/**/}*.test.js\""
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     },
     "ghooks": {
-      "pre-commit": "npm run fix",
+      "pre-commit": "npm run fix --color",
       "commit-msg": "validate-commit-msg",
-      "pre-push": "npm run test && npm run coverage:check"
+      "pre-push": "npm run test:lint --color -- --color && npm run test:unit:no-cover --color -- -R nyan --colors"
     },
     "validate-commit-msg": {
       "helpMessage": "Install commitizen and use `git cz` instead of `git commit` https://github.com/commitizen/cz-cli#installing-the-command-line-tool"
@@ -55,6 +56,7 @@
     "es6-promisify": "^4.1.0",
     "express-session": "^1.11.3",
     "feathers": "^2.0.1",
+    "feathers-errors": "^2.4.0",
     "flux-standard-action": "^0.6.1",
     "googleapis": "^12.0.0",
     "helmet": "^2.1.2",
@@ -71,6 +73,8 @@
     "redux-thunk": "^2.1.0",
     "request": "^2.74.0",
     "reselect": "^2.5.3",
+    "rollbar": "^0.6.2",
+    "rollbar-browser": "^1.9.1",
     "snoocore": "^3.2.0",
     "twit": "^2.1.1",
     "underscore": "^1.8.3",

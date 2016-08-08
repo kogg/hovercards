@@ -185,13 +185,13 @@ describe('reddit', function() {
 			it('should 404 on 404', function() {
 				article_comments_endpoint.reply(404, '');
 
-				return expect(reddit.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(reddit.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				article_comments_endpoint.reply(429, '');
 
-				return expect(reddit.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(reddit.content({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -200,8 +200,8 @@ describe('reddit', function() {
 				var promise = reddit.content({ id: 'CONTENT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -213,8 +213,8 @@ describe('reddit', function() {
 				var promise = reddit.content({ id: 'CONTENT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -466,13 +466,13 @@ describe('reddit', function() {
 			it('should 404 on 404', function() {
 				article_comments_endpoint.reply(404, '');
 
-				return expect(reddit.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(reddit.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				article_comments_endpoint.reply(429, '');
 
-				return expect(reddit.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(reddit.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -481,8 +481,8 @@ describe('reddit', function() {
 				var promise = reddit.discussion({ id: 'CONTENT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -494,8 +494,8 @@ describe('reddit', function() {
 				var promise = reddit.discussion({ id: 'CONTENT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});
@@ -656,13 +656,13 @@ describe('reddit', function() {
 				it('should 404 on 404', function() {
 					search_endpoint.reply(404, '');
 
-					return expect(reddit.discussion({ for: { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' } })).to.be.rejected.and.to.eventually.have.property('status', 404);
+					return expect(reddit.discussion({ for: { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' } })).to.be.rejected.and.to.eventually.have.property('code', 404);
 				});
 
 				it('should 429 on 429', function() {
 					search_endpoint.reply(429, '');
 
-					return expect(reddit.discussion({ for: { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' } })).to.be.rejected.and.to.eventually.have.property('status', 429);
+					return expect(reddit.discussion({ for: { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' } })).to.be.rejected.and.to.eventually.have.property('code', 429);
 				});
 
 				it('should 500 on 4xx', function() {
@@ -671,8 +671,8 @@ describe('reddit', function() {
 					var promise = reddit.discussion({ for: { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' } });
 
 					return Promise.all([
-						expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-						expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+						expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+						expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 					]);
 				});
 
@@ -684,8 +684,8 @@ describe('reddit', function() {
 					var promise = reddit.discussion({ for: { api: 'someapi', type: 'content', id: 'SOME_CONTENT_ID' } });
 
 					return Promise.all([
-						expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-						expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+						expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+						expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 					]);
 				});
 			});
@@ -746,13 +746,13 @@ describe('reddit', function() {
 			it('should 404 on 404', function() {
 				user_about_endpoint.reply(404, '');
 
-				return expect(reddit.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 404);
+				return expect(reddit.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
 				user_about_endpoint.reply(429, '');
 
-				return expect(reddit.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('status', 429);
+				return expect(reddit.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 429);
 			});
 
 			it('should 500 on 4xx', function() {
@@ -761,8 +761,8 @@ describe('reddit', function() {
 				var promise = reddit.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 500),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 478)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 500),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 478)
 				]);
 			});
 
@@ -774,8 +774,8 @@ describe('reddit', function() {
 				var promise = reddit.account({ id: 'ACCOUNT_ID' });
 
 				return Promise.all([
-					expect(promise).to.be.rejected.and.to.eventually.have.property('status', 502),
-					expect(promise).to.be.rejected.and.to.eventually.have.property('original_status', 578)
+					expect(promise).to.be.rejected.and.to.eventually.have.property('code', 502),
+					expect(promise).to.be.rejected.and.to.eventually.have.property('original_code', 578)
 				]);
 			});
 		});

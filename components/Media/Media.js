@@ -11,6 +11,7 @@ var Video            = require('../Video/Video');
 var YoutubeVideo     = require('../YoutubeVideo/YoutubeVideo');
 var actions          = require('../../redux/actions');
 var entityLabel      = require('../../utils/entity-label');
+var report           = require('../../report');
 var styles           = require('./Media.styles');
 
 module.exports = connect(null, actions)(React.createClass({
@@ -23,7 +24,8 @@ module.exports = connect(null, actions)(React.createClass({
 		onResize:  React.PropTypes.func.isRequired
 	},
 	onCarouselChange: function(index, how) {
-		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Carousel Changed', how, index]);
+		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Carousel Changed', how, index])
+			.catch(report.error);
 	},
 	render: function() {
 		switch (this.props.content.api) {
