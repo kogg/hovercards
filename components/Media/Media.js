@@ -58,7 +58,7 @@ module.exports = connect(null, actions)(React.createClass({
 			case 'soundcloud':
 				return (
 					<div className={classnames(styles.media, this.props.className)}>
-						<SoundCloudPlayer content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} onLoad={this.props.onResize} />
+						<SoundCloudPlayer content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} meta={this.props.meta} onLoad={this.props.onResize} />
 					</div>
 				);
 			case 'youtube':
