@@ -77,9 +77,9 @@ module.exports = function(params) {
 										text: autolinker.link((_.result(comment, 'body') || '')
 											.replace(/\n+$/, '')
 											.replace(/\n/g, '<br>')),
-										date:        Date.parse(_.result(comment, 'created_at')),
-										time_offset: Number(_.result(comment, 'timestamp')),
-										account:     user_to_account(_.result(comment, 'user'))
+										date:    Date.parse(_.result(comment, 'created_at')),
+										meta:    { time_offset: Number(_.result(comment, 'timestamp')) },
+										account: user_to_account(_.result(comment, 'user'))
 									},
 									_.somePredicate(_.isNumber, _.negate(_.isEmpty))
 								);
