@@ -1,5 +1,6 @@
 .meta {
   composes: flex-row from './flex.styles';
+  composes: flex-spread from './flex.styles';
   padding: 12px;
 }
 
@@ -12,10 +13,16 @@
 .meta-main {
   transition: all .3s ease-in-out; /* TODO Why? */
   .meta-item {
-    margin: 0 6px 0 0;
+    margin: 0 8px 0 0;
   }
 }
 
 .meta-item {
   line-height: 20px;
+  font-size: 14px;
+  color: rgba(0,0,0,.6);
+}
+.meta-number {
+  font-size: 14px;
+  color: rgba(0,0,0,.8);
 }

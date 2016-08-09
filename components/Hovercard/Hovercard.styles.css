@@ -32,41 +32,17 @@
   *,
   *:before,
   *:after {
-    all: initial;
+    all: initial; /* no important */
     box-sizing: border-box;
   }
 
   div {
-    display: block;
-  }
-
-  p,
-  span,
-  sup,
-  li,
-  li:before {
-    color: rgba(0, 0, 0, .8);
+    display: block; /* no important */
   }
 
   a {
     text-decoration: none;
     color: black;
-  }
-
-  em {
-    color: black;
-    font-style: normal;
-    font-size: 14px;
-    font-weight: 400;
-  }
-
-  span {
-    font-size: 14px;
-    font-weight: 400;
-
-    em {
-      font-size: 14px;
-    }
   }
 
 }
