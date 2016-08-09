@@ -1,10 +1,11 @@
 .comment-container {
-  padding: 12px;
+  padding: 12px 24px;
 }
-
 .comment {
   display: flex;
   justify-content: left;
+}
+.comment:not(:first-of-type) {
 }
 
 .account-image-container {
@@ -28,8 +29,10 @@
 }
 
 .account-name {
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: normal;
+  text-decoration: underline;
+  color: rgba(0,0,0,.8);
 }
 
 .description {
@@ -38,21 +41,49 @@
 }
 
 .text {
-  margin: 2px 0 4px;
+  margin: 5px 0;
+  display: block;
 
+  p {
+    display: block;
+    color: rgba(0,0,0,.66);
+    font-size: 15px;
+    line-height: 1.45;
+  }
   a {
-    color: #0084b4;
+    font-size: 15px;
+    line-height: 1.45;
+    color: rgba(0,0,0,.8);
+    text-decoration: underline;
+  }
+  pre {
+    display: block;
+    padding: 10px;
+    background-color: #fafafa;
+    border-left: 2px solid #eceef1;
+
+    code {
+      color: rgba(0,0,0,.66);
+      font-size: 15px;
+      line-height: 1.45;
+    }
   }
 }
 
 .stat {
   composes: flex-item from '../flex.styles';
+  font-size: 15px;
+  color: rgba(0,0,0,.6);
+}
+.stat-number {
+  font-size: 15px;
+  color: rgba(0,0,0,.8);
 }
 
 .replies {
-  border-left: 2px solid rgba(0, 0, 0, .1);
-  margin: 0 12px;
-  padding-bottom: 8px;
+  border-left: 3px solid rgba(0, 0, 0, .1);
+  padding-left: 20px;
+  margin-top: 20px;
 
   .comment-container {
     padding: 0;
@@ -67,7 +98,6 @@
   }
 
   .description {
-    padding-left: 12px;
   }
 
   .replies {

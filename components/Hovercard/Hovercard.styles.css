@@ -8,7 +8,7 @@
   justify-content: center;
   margin: 0;
   max-height: 600px;
-  max-width: 500px;
+  max-width: 620px;
   overflow: auto;
   position: absolute;
   z-index: 2147483647;
@@ -38,11 +38,6 @@
 
   div {
     display: block; /* no important */
-  }
-
-  a {
-    text-decoration: none;
-    color: black;
   }
 
 }

@@ -60,7 +60,7 @@ var DiscussionComment = module.exports = React.createClass({
 									}
 									var number = format.number(this.props.comment.stats[stat]);
 
-									return <span key={stat} className={styles.stat}><em title={this.props.comment.stats[stat].toLocaleString()}>{number}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.integration) || browser.i18n.getMessage(stat)}</span>;
+									return <span key={stat} className={styles.stat}><em className={styles.statNumber} title={this.props.comment.stats[stat].toLocaleString()}>{number}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.integration) || browser.i18n.getMessage(stat)}</span>;
 								}.bind(this))}
 							</div>
 						}
