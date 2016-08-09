@@ -1,5 +1,6 @@
 var _        = require('underscore');
 var Snoocore = require('snoocore');
+var errors   = require('feathers-errors');
 
 var config = require('../config');
 var urls   = require('../urls');
@@ -111,7 +112,7 @@ module.exports = function(params) {
 						.pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
 						.value();
 				}
-				return Promise.reject(err);
+				throw err;
 			});
 	};
 
@@ -137,43 +138,19 @@ module.exports = function(params) {
 		usage['reddit-requests']++;
 
 		return reddit('/comments/$article').get({ $article: _.result(args, 'id'), limit: config.counts.listed })
-			.catch(function(err) {
-				err.message = 'Reddit Article Comments - ' + String(err.message);
-				switch (err.status) {
-					case 404:
-					case 429:
-						break;
-					default:
-						err.original_status = err.status;
-						err.status = err.status >= 500 ? 502 : 500;
-						break;
-				}
-				return Promise.reject(err);
-			});
+			.catch(catch_error);
 	};
 
 	model.search = function(args, args_not_cached, usage) {
 		usage['reddit-requests']++;
 
 		return reddit('/search').get({ q: _.result(args, 'q'), limit: 25 })
+			.catch(catch_error)
 			.then(function(searchResults) {
 				return _.chain(searchResults)
 					.result('data')
 					.result('children')
 					.value();
-			})
-			.catch(function(err) {
-				err.message = 'Reddit Search - ' + String(err.message);
-				switch (err.status) {
-					case 404:
-					case 429:
-						break;
-					default:
-						err.original_status = err.status;
-						err.status = err.status >= 500 ? 502 : 500;
-						break;
-				}
-				return Promise.reject(err);
 			});
 	};
 
@@ -181,33 +158,52 @@ module.exports = function(params) {
 		usage['reddit-requests']++;
 
 		return reddit('/user/$username/about').get({ $username: _.result(args, 'id') })
+			.catch(catch_error)
 			.then(function(body) {
 				var user = _.result(body, 'data');
 				if (!_.isObject(user)) {
-					return Promise.reject({ status: 404, message: '' }); // FIXME #9
+					throw new errors.NotFound();
 				}
 				return user;
-			})
-			.catch(function(err) {
-				err.message = 'Reddit User About - ' + String(err.message);
-				switch (err.status) {
-					case 404:
-					case 429:
-						break;
-					default:
-						err.original_status = err.status;
-						err.status = err.status >= 500 ? 502 : 500;
-						break;
-				}
-				return Promise.reject(err);
 			});
 	};
 
 	return api;
 };
 
+function catch_error(err) {
+	switch (err.status) {
+		case 404:
+			throw new errors.NotFound(err);
+		case 429:
+			throw new errors.FeathersError(err, 'TooManyRequests', 429, 'too-many-requests');
+		default:
+			var original_status = err.status;
+			err = err.status > 500 ?
+				new errors.FeathersError(err, 'BadGateway', 502, 'bad-gateway') :
+				new errors.GeneralError(err);
+			err.original_code = original_status;
+			throw err;
+	}
+}
+
 function post_to_content(post) {
-	var author = _.result(post, 'author');
+	var author  = _.result(post, 'author');
+	var gifs    = [];
+	var images  = [];
+	var preview = _.chain(post).result('preview').result('images').first().value();
+
+	if (preview) {
+		images = _.chain(preview.resolutions).union([preview.source]).compact().value();
+		gifs = _.chain(preview)
+			.result('variants')
+			.result('mp4')
+			.value();
+		if (gifs) {
+			gifs = _.chain(gifs.resolutions).union([gifs.source]).compact().value();
+		}
+	}
+
 	return !_.isEmpty(post) && _.pick(
 		{
 			api:       'reddit',
@@ -218,7 +214,34 @@ function post_to_content(post) {
 			subreddit: _.result(post, 'subreddit'),
 			url:       !_.result(post, 'is_self') && _.result(post, 'url'),
 			account:   (author !== '[deleted]') && { api: 'reddit', type: 'account', id: author },
-			text:      _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '')
+			oembed:    _.chain(post).result('media').result('oembed').result('html').value(),
+			image:     !_.isEmpty(images) && {
+				small: _.chain(images)
+					.min(function(image) {
+						return Math.abs(image.width - 80);
+					})
+					.result('url')
+					.value(),
+				medium: _.chain(images)
+					.min(function(image) {
+						return Math.abs(image.width - 300);
+					})
+					.result('url')
+					.value(),
+				large: _.chain(images)
+					.min(function(image) {
+						return Math.abs(image.width - 600);
+					})
+					.result('url')
+					.value()
+			},
+			gif: !_.isEmpty(gifs) && _.chain(gifs)
+				.min(function(gif) {
+					return Math.abs(gif.width - 300);
+				})
+				.result('url')
+				.value(),
+			text: _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '')
 				.replace(/\n/gi, '')
 				.replace(/<!-- .*? -->/gi, '')
 				.replace(/^\s*<div class="md">(.*?)<\/div>\s*$/, '$1')

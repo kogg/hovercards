@@ -5,11 +5,13 @@ var connect    = require('react-redux').connect;
 var Carousel         = require('../Carousel/Carousel');
 var Gif              = require('../Gif/Gif');
 var Image            = require('../Image/Image');
+var OEmbed           = require('../OEmbed/OEmbed');
 var SoundCloudPlayer = require('../SoundCloudPlayer/SoundCloudPlayer');
 var Video            = require('../Video/Video');
 var YoutubeVideo     = require('../YoutubeVideo/YoutubeVideo');
 var actions          = require('../../redux/actions');
 var entityLabel      = require('../../utils/entity-label');
+var report           = require('../../report');
 var styles           = require('./Media.styles');
 
 module.exports = connect(null, actions)(React.createClass({
@@ -19,10 +21,12 @@ module.exports = connect(null, actions)(React.createClass({
 		className: React.PropTypes.string,
 		content:   React.PropTypes.object.isRequired,
 		hovered:   React.PropTypes.bool.isRequired,
+		meta:      React.PropTypes.object.isRequired,
 		onResize:  React.PropTypes.func.isRequired
 	},
 	onCarouselChange: function(index, how) {
-		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Carousel Changed', how, index]);
+		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Carousel Changed', how, index])
+			.catch(report.error);
 	},
 	render: function() {
 		switch (this.props.content.api) {
@@ -54,17 +58,24 @@ module.exports = connect(null, actions)(React.createClass({
 			case 'soundcloud':
 				return (
 					<div className={classnames(styles.media, this.props.className)}>
-						<SoundCloudPlayer content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} onLoad={this.props.onResize} />
+						<SoundCloudPlayer content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} meta={this.props.meta} onLoad={this.props.onResize} />
 					</div>
 				);
 			case 'youtube':
 				return (
 					<div className={classnames(styles.media, this.props.className)}>
-						<YoutubeVideo content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} onLoad={this.props.onResize} />
+						<YoutubeVideo content={this.props.content} image={this.props.content.image} muted={!this.props.hovered} meta={this.props.meta} onLoad={this.props.onResize} />
 					</div>
 				);
 			default:
 				break;
+		}
+		if (this.props.content.oembed) {
+			return (
+				<div className={classnames(styles.media, this.props.className)}>
+					<OEmbed oembed={this.props.content.oembed} image={this.props.content.image} onLoad={this.props.onResize} />
+				</div>
+			);
 		}
 		if (this.props.content.video) {
 			return (

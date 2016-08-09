@@ -35,7 +35,7 @@ module.exports = React.createClass({
 				<div>
 					{
 						this.props.content.date &&
-						<a className={styles.metaItem} href={urls.print(this.props.content)} target="_blank">
+						<a className={styles.metaItem} href={urls.print(this.props.content) || this.props.content.url} target="_blank">
 							<TimeSince date={this.props.content.date} />
 						</a>
 					}

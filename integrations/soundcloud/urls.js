@@ -23,6 +23,12 @@ urls.parse = function(url_obj) {
 		}
 		_.extend(content, { id: path_parts[2], as: 'playlist' });
 	}
+	if (url_obj.hash) {
+		var hash_parts = url_obj.hash.match(/t=(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?/);
+		if (hash_parts) {
+			content.meta = { time_offset: (Number(hash_parts[1] || 0) * 3600) + (Number(hash_parts[2] || 0) * 60) + Number(hash_parts[3] || 0) };
+		}
+	}
 	return content;
 };
 
@@ -32,6 +38,8 @@ urls.represent = function(identity, comment) {
 			return ['https://soundcloud.com/' + (_.result(identity.account, 'id') || 'screen_name') + (identity.as === 'playlist' ? '/sets' : '') + '/' + identity.id + (_.result(comment, 'id') ? '/comments/' + comment.id : '')];
 		case 'account':
 			return ['https://soundcloud.com/' + identity.id];
+		default:
+			return null;
 	}
 };
 

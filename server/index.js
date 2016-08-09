@@ -8,28 +8,20 @@ var PORT = process.env.PORT || 5100;
 feathers()
 	.use(helmet())
 	.use(compression())
-	.use('/v2', require('./api-routes'))
-	.use('/v1', require('./old/hovercards'))
+	.use('/v2', require('./v2'))
 	.get('/', function(req, res) {
-		res.redirect('http://www.hovercards.com');
+		res.redirect(process.env.npm_package_homepage);
 	})
-	.get(
-		'/track_uninstall',
-		process.env.GOOGLE_ANALYTICS_ID ?
-			function(req, res, next) {
-				ua(process.env.GOOGLE_ANALYTICS_ID, req.query.user_id, { strictCidFormat: false })
-					.pageview('/track_uninstall')
-					.send();
-				next();
-			} :
-			function(req, res, next) {
-				console.log('google analytics', ['send', 'pageview', '/track_uninstall']);
-				next();
-			},
-		function(req, res) {
-			res.redirect('https://hovercards.typeform.com/to/ajyJv2');
+	.get('/track_uninstall', function(req, res) {
+		if (process.env.GOOGLE_ANALYTICS_ID) {
+			ua(process.env.GOOGLE_ANALYTICS_ID, req.query.user_id, { strictCidFormat: false })
+				.pageview('/track_uninstall')
+				.send();
+		} else {
+			console.log('google analytics', ['send', 'pageview', '/track_uninstall']);
 		}
-	)
+		res.redirect('https://hovercards.typeform.com/to/ajyJv2');
+	})
 	.listen(PORT, function() {
 		console.log('Server is running at', 'http://localhost:' + PORT);
 	});

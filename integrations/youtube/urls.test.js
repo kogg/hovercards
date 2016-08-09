@@ -24,7 +24,7 @@ describe('youtube urls', function() {
 
 			it('from youtube.com/watch?v=CONTENT_ID&t=12345', function() {
 				expect(urls.parse(url.parse('https://www.youtube.com/watch?v=CONTENT_ID&t=12345', true, true)))
-					.to.eql({ api: 'youtube', type: 'content', id: 'CONTENT_ID', time_offset: '12345' });
+					.to.eql({ api: 'youtube', type: 'content', id: 'CONTENT_ID', meta: { time_offset: 12345 } });
 			});
 
 			it('from youtube.com/watch?v=CONTENT_ID?something=stupid', function() {
@@ -44,7 +44,7 @@ describe('youtube urls', function() {
 
 			it('from youtube.com/v/CONTENT_ID?start=12345', function() {
 				expect(urls.parse(url.parse('https://www.youtube.com/v/CONTENT_ID?start=12345', true, true)))
-					.to.eql({ api: 'youtube', type: 'content', id: 'CONTENT_ID', time_offset: '12345' });
+					.to.eql({ api: 'youtube', type: 'content', id: 'CONTENT_ID', meta: { time_offset: 12345 } });
 			});
 
 			it('from youtube.com/v/CONTENT_ID&fs=1', function() {
@@ -59,7 +59,7 @@ describe('youtube urls', function() {
 
 			it('from youtube.com/embed/CONTENT_ID?start=12345', function() {
 				expect(urls.parse(url.parse('https://www.youtube.com/embed/CONTENT_ID?start=12345', true, true)))
-					.to.eql({ api: 'youtube', type: 'content', id: 'CONTENT_ID', time_offset: '12345' });
+					.to.eql({ api: 'youtube', type: 'content', id: 'CONTENT_ID', meta: { time_offset: 12345 } });
 			});
 
 			it('from youtu.be/CONTENT_ID', function() {
@@ -69,7 +69,7 @@ describe('youtube urls', function() {
 
 			it('from youtu.be/CONTENT_ID?t=12345', function() {
 				expect(urls.parse(url.parse('https://youtu.be/CONTENT_ID?t=12345', true, true)))
-					.to.eql({ api: 'youtube', type: 'content', id: 'CONTENT_ID', time_offset: '12345' });
+					.to.eql({ api: 'youtube', type: 'content', id: 'CONTENT_ID', meta: { time_offset: 12345 } });
 			});
 
 			it('from youtube.com/attribution_link?a=o1LX8xlWfYg&u=/watch%3Fv%3DCONTENT_ID%26feature%3Dem-subs_digest', function() {

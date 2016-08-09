@@ -2,10 +2,10 @@ var _            = require('underscore');
 var promisify    = require('es6-promisify');
 
 var browser = require('../extension/browser');
+var report  = require('../report');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-// FIXME #9
 browser.storage.local.get('user_id')
 	.then(_.property('user_id'))
 	.then(function(user_id) {
@@ -17,7 +17,8 @@ browser.storage.local.get('user_id')
 			browser.storage.local.remove('user_id'),
 			browser.storage.sync.set({ user_id: user_id })
 		]);
-	});
+	})
+	.catch(report.error);
 
 var getAnalytics;
 
@@ -81,11 +82,6 @@ module.exports.analytics = function(request, meta, sender) {
 		return getAnalytics
 			.then(function(ga) {
 				ga.apply(this, request);
-				return request;
-			})
-			.catch(function() {
-				// FIXME #9 Log "impossible" err
-				// Don't return err
 			});
 	};
 };

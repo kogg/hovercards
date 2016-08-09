@@ -1,7 +1,7 @@
 var _          = require('underscore');
 var Autolinker = require('autolinker');
 var Twit       = require('twit');
-var promisify  = require('es6-promisify');
+var errors     = require('feathers-errors');
 
 var config     = require('../config');
 var urls       = require('../urls');
@@ -30,9 +30,7 @@ module.exports = function(params) {
 						return null;
 					}
 					return model.statuses_show({ id: tweet.in_reply_to_status_id_str }, _.pick(args, 'user'), usage)
-						.catch(function() {
-							return null;
-						});
+						.catch(_.constant(null));
 				})
 		])
 			.then(function(results) {
@@ -77,13 +75,8 @@ module.exports = function(params) {
 				usage['twitter-search-tweets-calls']++;
 
 				return twitter.get('search/tweets', args)
-					.then(function(result) {
-						if (_.result(result.resp, 'statusCode') >= 400) {
-							return Promise.reject({ status: result.resp.statusCode, message: '', code: _.chain(result.data.errors).first().result('code').value() });
-						}
-						return _.result(result.data, 'statuses');
-					})
-					.catch(catch_errors('Twitter Search Tweets', args_not_cached));
+					.then(handle_response(args_not_cached))
+					.then(_.property('statuses'));
 			});
 	};
 
@@ -93,13 +86,7 @@ module.exports = function(params) {
 				usage['twitter-statuses-show-calls']++;
 
 				return twitter.get('statuses/show/' + _.result(args, 'id'), {})
-					.then(function(result) {
-						if (_.result(result.resp, 'statusCode') >= 400) {
-							return Promise.reject({ status: result.resp.statusCode, message: '', code: _.chain(result.data.errors).first().result('code').value() });
-						}
-						return result.data;
-					})
-					.catch(catch_errors('Twitter Statuses Show', args_not_cached));
+					.then(handle_response(args_not_cached));
 			});
 	};
 
@@ -109,13 +96,7 @@ module.exports = function(params) {
 				usage['twitter-user-show-calls']++;
 
 				return twitter.get('users/show', { screen_name: _.result(args, 'id') })
-					.then(function(result) {
-						if (_.result(result.resp, 'statusCode') >= 400) {
-							return Promise.reject({ status: result.resp.statusCode, message: '', code: _.chain(result.data.errors).first().result('code').value() });
-						}
-						return result.data;
-					})
-					.catch(catch_errors('Twitter User Show', args_not_cached));
+					.then(handle_response(args_not_cached));
 			});
 	};
 
@@ -125,13 +106,13 @@ module.exports = function(params) {
 		if (_.isEmpty(user)) {
 			return Promise.resolve(twitter);
 		}
-		return promisify(params.secret_storage.get.bind(params.secret_storage))(user)
+		return params.secret_storage.get(user)
 			.catch(function() {
-				return Promise.reject({ status: 401, message: '' });
+				throw new errors.NotAuthenticated();
 			})
 			.then(function(secret) {
 				if (_.isEmpty(secret)) {
-					return Promise.reject({ status: 401, message: '' });
+					throw new errors.NotAuthenticated();
 				}
 				return new Twit({
 					access_token:        user,
@@ -142,31 +123,32 @@ module.exports = function(params) {
 			});
 	}
 
-	function catch_errors(errName, args_not_cached) {
-		return function(err) {
-			var status = err.status || err.statusCode;
-			var code   = err.code;
-			err.message = errName + ' - ' + String(err.message);
-			switch (status) {
+	function handle_response(args_not_cached) {
+		return function(result) {
+			if (_.result(result.resp, 'statusCode') < 400) {
+				return result.data;
+			}
+			switch (result.resp.statusCode) {
 				case 401:
-					if (code === 89) {
-						params.secret_storage.del(args_not_cached.user, _.noop);
-						err.status = 401;
-					} else {
-						err.status = args_not_cached.user ? 403 : 401;
+					if (_.chain(result.data.errors).first().result('code').value() === 89) {
+						params.secret_storage.del(args_not_cached.user);
+						throw new errors.NotAuthenticated();
 					}
-					break;
+					throw args_not_cached.user ?
+						new errors.Forbidden() :
+						new errors.NotAuthenticated();
 				case 403:
 				case 404:
+					throw new errors[result.resp.statusCode]();
 				case 429:
-					err.status = status;
-					break;
+					throw new errors.FeathersError(null, 'TooManyRequests', 429, 'too-many-requests');
 				default:
-					err.status = (status >= 500) ? 502 : 500;
-					err.original_status = status;
-					break;
+					var err = result.resp.statusCode > 500 ?
+						new errors.FeathersError(null, 'BadGateway', 502, 'bad-gateway') :
+						new errors.GeneralError();
+					err.original_code = result.resp.statusCode;
+					throw err;
 			}
-			return Promise.reject(err);
 		};
 	}
 };

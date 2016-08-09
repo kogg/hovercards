@@ -1,0 +1,14 @@
+.oembed-container {
+  background-position: center;
+  background-size: cover;
+  max-width: 100%;
+  width: 100%;
+}
+
+.oembed {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+  user-select: none;
+  width: 100%;
+}
