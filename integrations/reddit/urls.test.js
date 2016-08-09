@@ -76,6 +76,10 @@ describe('reddit urls', function() {
 				expect(urls.parse(url.parse('https://www.reddit.com/code', true, true))).not.to.be.ok;
 			});
 
+			it('not from reddit.com/dev', function() {
+				expect(urls.parse(url.parse('https://www.reddit.com/dev', true, true))).not.to.be.ok;
+			});
+
 			it('not from reddit.com/contact', function() {
 				expect(urls.parse(url.parse('https://www.reddit.com/contact', true, true))).not.to.be.ok;
 			});

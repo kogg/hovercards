@@ -3,6 +3,7 @@ var React      = require('react');
 var classnames = require('classnames');
 var promisify  = require('es6-promisify');
 
+var report = require('../../report');
 var styles = require('./SoundCloudPlayer.styles');
 var urls   = require('../../integrations/urls');
 
@@ -12,25 +13,23 @@ var SoundCloudPlayer = module.exports = React.createClass({
 		className: React.PropTypes.string,
 		content:   React.PropTypes.object.isRequired,
 		image:     React.PropTypes.object,
+		meta:      React.PropTypes.object.isRequired,
 		muted:     React.PropTypes.bool.isRequired,
 		onLoad:    React.PropTypes.func.isRequired
 	},
 	statics: {
 		getSC: function() {
 			if (window.SC) {
-				// FIXME #9 Log that this shouldn't be happening
+				report.error(new Error('window.SC should not exist'));
 				return null;
 			}
 			SoundCloudPlayer.getSC = _.constant(
-				// FIXME #9 Log soundcloud iframe loading errors
 				fetch('https://w.soundcloud.com/player/api.js')
 					.then(function(response) {
 						return response.text();
 					})
 					.then(function(text) {
-						/* eslint-disable no-eval */
-						eval(text);
-						/* eslint-enable no-eval */
+						eval(text); // eslint-disable-line no-eval
 						return window.SC;
 					})
 			);
@@ -44,11 +43,18 @@ var SoundCloudPlayer = module.exports = React.createClass({
 		SoundCloudPlayer.getSC()
 			.then(function(SC) {
 				var player = SC.Widget(this.refs.player);
-				return promisify(player.bind.bind(player))(SC.Widget.Events.READY).then(_.constant(player));
+				if (this.props.meta.time_offset) {
+					player.bind(SC.Widget.Events.PLAY, function() {
+						player.seekTo(this.props.meta.time_offset * 1000);
+					}.bind(this));
+				}
+				return promisify(player.bind.bind(player))(SC.Widget.Events.READY)
+					.then(_.constant(player));
 			}.bind(this))
 			.then(function(player) {
 				this.setState({ player: player });
-			}.bind(this));
+			}.bind(this))
+			.catch(report.error);
 	},
 	componentDidUpdate: function() {
 		if (!this.state || !this.state.player) {

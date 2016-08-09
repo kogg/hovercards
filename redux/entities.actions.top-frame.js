@@ -1,15 +1,11 @@
 var _            = require('underscore');
-var compose      = require('redux').compose;
 var createAction = require('redux-actions').createAction;
 
 var browser     = require('../extension/browser');
 var entityLabel = require('../utils/entity-label');
 
 var setEntity = createAction('SET_ENTITY', null, function(entity, label) {
-	if (!label) {
-		return null;
-	}
-	return { label: label };
+	return label && { label: label };
 });
 
 module.exports.getEntity = function(request) {
@@ -20,11 +16,10 @@ module.exports.getEntity = function(request) {
 			return Promise.resolve();
 		}
 
-		return browser.runtime.sendMessage({ type: 'getEntity', payload: request })
-			.catch(compose(dispatch, setEntity, _.property('payload'), function(err) {
-				return Object.assign(err, { request: request });
-			}))
-			.then(compose(dispatch, setEntity, _.property('payload')));
+		return browser.runtime.sendMessage(createAction('getEntity')(request))
+			.then(_.property('payload'))
+			.then(setEntity)
+			.then(dispatch);
 	};
 };
 

@@ -5,10 +5,12 @@ var entityLabel = require('../utils/entity-label');
 
 module.exports = handleActions(
 	{
-		CLEAR_ENTITIES: function(state, action) {
-			return _.omit(state, function(value, key) {
-				return key.startsWith(action.payload);
-			});
+		CLEAR_ENTITIES: {
+			next: function(state, action) {
+				return _.omit(state, function(value, key) {
+					return key.startsWith(action.payload);
+				});
+			}
 		},
 		SET_ENTITY: {
 			next: function(state, action) {

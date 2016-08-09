@@ -8,6 +8,8 @@
     "INSTAGRAM_CLIENT_ID":             { "required": true },
     "INSTAGRAM_CLIENT_SECRET":         { "required": true },
     "MASHAPE_KEY":                     { "required": false },
+    "ROLLBAR_ACCESS_TOKEN":            { "required": true },
+    "ROLLBAR_CLIENT_ACCESS_TOKEN":     { "required": true },
     "REDDIT_CLIENT_ID":                { "required": true },
     "SOUNDCLOUD_CLIENT_ID":            { "required": true },
     "TWITTER_APP_ACCESS_TOKEN":        { "required": true },

@@ -1,13 +1,16 @@
 var _           = require('underscore');
+var errors      = require('feathers-errors');
 var querystring = require('querystring');
 var Response    = require('http-browserify/lib/response');
 
-var browser            = require('../extension/browser');
-var integrationsConfig = require('../integrations/config');
+var browser = require('../extension/browser');
+var config  = require('./config');
+var report  = require('../report');
 
 var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 Response.prototype.setEncoding = Response.prototype.setEncoding || _.noop; // FIXME substack/http-browserify#10
 
+// TODO Make this use authenticatable like newAuthKeys does
 var clientIntegrations = {
 	instagram:  require('./instagram'),
 	reddit:     require('./reddit'),
@@ -18,27 +21,35 @@ var integrations   = {};
 var serverEndpoint = 'http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5100') + '/v2/';
 
 // Migrate auth to new auth
-var newAuthKeys = { instagram_user: 'authentication.instagram', twitter_user: 'authentication.twitter' };
-// FIXME #9
-browser.storage.sync.get(_.keys(newAuthKeys)).then(function(items) {
-	_.keys(newAuthKeys).forEach(function(key) {
-		if (!items[key]) {
-			return;
-		}
+var newAuthKeys = _.chain(config.integrations)
+	.pick(_.property('authenticatable'))
+	.keys()
+	.map(function(integration) {
+		return [integration + '_user', 'authentication.' + integration];
+	})
+	.object()
+	.value();
+browser.storage.sync.get(_.keys(newAuthKeys))
+	.then(function(items) {
+		return Promise.all(_.map(newAuthKeys, function(newKey, oldKey) {
+			if (!items[oldKey]) {
+				return;
+			}
 
-		return Promise.all([
-			browser.storage.sync.remove(key),
-			browser.storage.sync.set({ [newAuthKeys[key]]: items[key] })
-		]);
-	});
-});
+			return Promise.all([
+				browser.storage.sync.remove(oldKey),
+				browser.storage.sync.set({ [newKey]: items[oldKey] })
+			]);
+		}));
+	})
+	.catch(report.error);
 
 browser.storage.onChanged.addListener(function(changes, areaName) {
 	if (areaName !== 'sync') {
 		return;
 	}
-	_.pairs(changes).forEach(function(entry) {
-		var key = entry[0].match(/^authentication\.(.+)/);
+	_.keys(changes).forEach(function(key) {
+		key = key.match(/^authentication\.(.+)/);
 		if (!key) {
 			return;
 		}
@@ -47,9 +58,8 @@ browser.storage.onChanged.addListener(function(changes, areaName) {
 });
 
 module.exports = function(request) {
-	var integrationConfig = integrationsConfig.integrations[request.api];
+	var integrationConfig = config.integrations[request.api];
 
-	// FIXME #9
 	return Promise.all([
 		browser.storage.local.get('device_id')
 			.then(_.property('device_id'))
@@ -59,9 +69,11 @@ module.exports = function(request) {
 				}
 
 				device_id = _.times(25, _.partial(_.sample, ALPHANUMERIC, null)).join('');
-				return browser.storage.local.set({ device_id: device_id }).then(_.constant(device_id));
+				return browser.storage.local.set({ device_id: device_id })
+					.then(_.constant(device_id));
 			}),
-		browser.storage.sync.get('authentication.' + request.api).then(_.property('authentication.' + request.api))
+		browser.storage.sync.get('authentication.' + request.api)
+			.then(_.property('authentication.' + request.api))
 	])
 		.then(function(storage) {
 			switch ((storage[1] && integrationConfig.authenticated_environment) || integrationConfig.environment) {
@@ -118,12 +130,15 @@ module.exports = function(request) {
 						)
 					})
 						.then(function(response) {
-							if (!response.ok) {
-								var err = new Error(response.statusText);
-								err.status = response.status;
-								return Promise.reject(err);
-							}
-							return response.json();
+							return response.json()
+								.then(function(json) {
+									if (response.ok) {
+										return json;
+									}
+									var err = new errors.FeathersError(json.message, json.name, json.code, json.className, json.data);
+									err.errors = json.errors;
+									throw err;
+								});
 						});
 			}
 		})

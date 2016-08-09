@@ -10,6 +10,7 @@ var actions           = require('../../redux/actions');
 var browser           = require('../../extension/browser');
 var config            = require('../../integrations/config');
 var entityLabel       = require('../../utils/entity-label');
+var report            = require('../../report');
 var styles            = require('./Discussions.styles');
 
 module.exports = connect(
@@ -38,7 +39,8 @@ module.exports = connect(
 		return { loaded: {} };
 	},
 	componentDidMount: function() {
-		this.props.getEntity(this.props.discussions[0]);
+		this.props.getEntity(this.props.discussions[0])
+			.catch(report.error);
 		this.setState({ loaded: Object.assign({}, this.state.loaded, { 0: true }) });
 	},
 	componentDidUpdate: function(prevProps, prevState) {
@@ -65,7 +67,8 @@ module.exports = connect(
 
 			if (!discussion.loaded && !discussion.err) {
 				if (!this.state.loaded[i]) {
-					this.props.getEntity(discussion);
+					this.props.getEntity(discussion)
+						.catch(report.error);
 					this.setState({ loaded: Object.assign({}, this.state.loaded, { [i]: true }) });
 				}
 				return;
@@ -80,11 +83,13 @@ module.exports = connect(
 	},
 	select: function(i) {
 		if (!this.state.loaded[i]) {
-			this.props.getEntity(this.props.discussions[i]);
+			this.props.getEntity(this.props.discussions[i])
+				.catch(report.error);
 		}
 		this.setState({ clicked: true, selected: i, loaded: Object.assign({}, this.state.loaded, { [i]: true }) });
 		if (this.state.selected !== i) {
-			this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Discussion Selected', entityLabel(this.props.discussions[i], true), i]);
+			this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Discussion Selected', entityLabel(this.props.discussions[i], true), i])
+				.catch(report.error);
 		}
 	},
 	onClickCommentText: function(e) {
@@ -103,7 +108,8 @@ module.exports = connect(
 			e.preventDefault();
 			window.open(element.href);
 		}
-		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Link Opened', 'in a ' + entityLabel(this.props.discussions[this.state.selected], true)]);
+		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Link Opened', 'in a ' + entityLabel(this.props.discussions[this.state.selected], true)])
+			.catch(report.error);
 	},
 	render: function() {
 		var discussion = this.props.discussions[this.state.selected];

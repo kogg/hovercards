@@ -3,7 +3,7 @@ var diff = require('deep-diff');
 module.exports = function(store) {
 	var state = store.getState();
 
-	console.group('store');
+	console.groupCollapsed('store');
 	console.log(state);
 	console.groupEnd();
 	store.subscribe(function() {
@@ -13,8 +13,7 @@ module.exports = function(store) {
 		if (!differences || !differences.length) {
 			return;
 		}
-		console.group('store change');
-		console.log(newState);
+		console.groupCollapsed('store change');
 		differences.forEach(function(diff) {
 			switch (diff.kind) {
 				case 'N':
@@ -48,6 +47,7 @@ module.exports = function(store) {
 					break;
 			}
 		});
+		console.log(newState);
 		console.groupEnd();
 
 		state = newState;

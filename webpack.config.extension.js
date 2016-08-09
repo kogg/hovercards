@@ -1,15 +1,16 @@
-var _                   = require('underscore');
-var CleanWebpackPlugin  = require('clean-webpack-plugin');
-var CopyWebpackPlugin   = require('copy-webpack-plugin');
-var ExtractTextPlugin   = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin   = require('html-webpack-plugin');
-var StringReplacePlugin = require('string-replace-webpack-plugin');
-var WriteFilePlugin     = require('write-file-webpack-plugin');
-var autoprefixer        = require('autoprefixer');
-var nested              = require('postcss-nested');
-var path                = require('path');
-var safeImportant       = require('postcss-safe-important');
-var webpack             = require('webpack');
+var _                        = require('underscore');
+var BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin');
+var CleanWebpackPlugin       = require('clean-webpack-plugin');
+var CopyWebpackPlugin        = require('copy-webpack-plugin');
+var ExtractTextPlugin        = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin        = require('html-webpack-plugin');
+var StringReplacePlugin      = require('string-replace-webpack-plugin');
+var WriteFilePlugin          = require('write-file-webpack-plugin');
+var autoprefixer             = require('autoprefixer');
+var nested                   = require('postcss-nested');
+var path                     = require('path');
+var safeImportant            = require('postcss-safe-important');
+var webpack                  = require('webpack');
 
 module.exports = {
 	// FIXME This is some straight up bullshit https://github.com/webpack/webpack/issues/2801
@@ -58,12 +59,11 @@ module.exports = {
 	resolve: {
 		extensions: extensions(
 			process.env.ENTRY && ['.' + process.env.ENTRY, ''],
-			['.chrome', '.extension', ''],
+			['.chrome', '.extension', '.browser', ''],
 			['.json', '.js', '.css']
 		)
 	},
-	bail:      true,
-	devtool:   'source-map',
+	devtool:   process.env.NODE_ENV ? 'source-map' : 'cheap-source-map',
 	devServer: {
 		outputPath: 'dist',
 		port:       process.env.PORT,
@@ -76,15 +76,18 @@ module.exports = {
 		tls:     'empty'
 	},
 	plugins: _.compact([
+		new BellOnBundlerErrorPlugin(),
 		new webpack.EnvironmentPlugin([
 			'GOOGLE_ANALYTICS_ID',
 			'INSTAGRAM_CLIENT_ID',
 			'NODE_ENV',
 			'REDDIT_CLIENT_ID',
+			'ROLLBAR_CLIENT_ACCESS_TOKEN',
 			'SOUNDCLOUD_CLIENT_ID',
-			'STICKYCARDS'
+			'STICKYCARDS',
+			'npm_package_gitHead'
 		]),
-		!process.env.ENTRY && new CleanWebpackPlugin(['dist']),
+		!process.env.ENTRY && !process.env.NODE_ENV && new CleanWebpackPlugin(['dist']),
 		!process.env.ENTRY && new CopyWebpackPlugin([
 			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true },
 			{ from: 'extension/copy.json', to: '_locales/en/messages.json' }

@@ -8,15 +8,14 @@ module.exports.analytics = function(request) {
 
 		if (!process.env.GOOGLE_ANALYTICS_ID) {
 			promise = promise
-				.then(function(response) {
-					if (_.chain(response).first(2).isEqual(['send', 'exception']).value()) {
-						console.error('google analytics', response);
+				.then(function() {
+					if (_.chain(request).first(2).isEqual(['send', 'exception']).value()) {
+						console.error('google analytics', request);
 					} else {
-						console.debug('google analytics', response);
+						console.debug('google analytics', request);
 					}
 				});
 		}
-		// FIXME #9 Log "impossible" err
 		return promise;
 	};
 };

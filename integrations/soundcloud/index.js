@@ -1,5 +1,6 @@
 var _           = require('underscore');
 var Autolinker  = require('autolinker');
+var errors      = require('feathers-errors');
 var querystring = require('querystring');
 
 var config = require('../config');
@@ -76,9 +77,9 @@ module.exports = function(params) {
 										text: autolinker.link((_.result(comment, 'body') || '')
 											.replace(/\n+$/, '')
 											.replace(/\n/g, '<br>')),
-										date:        Date.parse(_.result(comment, 'created_at')),
-										time_offset: Number(_.result(comment, 'timestamp')),
-										account:     user_to_account(_.result(comment, 'user'))
+										date:    Date.parse(_.result(comment, 'created_at')),
+										meta:    { time_offset: Number(_.result(comment, 'timestamp')) },
+										account: user_to_account(_.result(comment, 'user'))
 									},
 									_.somePredicate(_.isNumber, _.negate(_.isEmpty))
 								);
@@ -132,15 +133,15 @@ module.exports = function(params) {
 	};
 
 	model.resolve = function(args) {
-		return soundcloud('/resolve', { url: _.result(args, 'url') }).catch(catch_errors('SoundCloud Resolve'));
+		return soundcloud('/resolve', { url: _.result(args, 'url') });
 	};
 
 	model.tracks_comments = function(args) {
-		return soundcloud('/tracks/' + _.result(args, 'id') + '/comments').catch(catch_errors('SoundCloud Tracks Comments'));
+		return soundcloud('/tracks/' + _.result(args, 'id') + '/comments');
 	};
 
 	model.users_web_profiles = function(args) {
-		return soundcloud('/users/' + _.result(args, 'id') + '/web-profiles').catch(catch_errors('SoundCloud Users Web Profiles'));
+		return soundcloud('/users/' + _.result(args, 'id') + '/web-profiles');
 	};
 
 	return api;
@@ -148,12 +149,24 @@ module.exports = function(params) {
 	function soundcloud(endpoint, args) {
 		return fetch('https://api.soundcloud.com' + endpoint + '?' + querystring.stringify(_.defaults({ client_id: params.key || process.env.SOUNDCLOUD_CLIENT_ID }, args)))
 			.then(function(response) {
-				if (!response.ok) {
-					var err = new Error(response.statusText);
-					err.status = response.status;
-					return Promise.reject(err);
+				if (response.ok) {
+					return response.json();
 				}
-				return response.json();
+				switch (response.status) {
+					case 401:
+						throw new errors.Forbidden();
+					case 403:
+					case 404:
+						throw new errors[response.status]();
+					case 429:
+						throw new errors.FeathersError(null, 'TooManyRequests', 429, 'too-many-requests');
+					default:
+						var err = response.status > 500 ?
+							new errors.FeathersError(null, 'BadGateway', 502, 'bad-gateway') :
+							new errors.GeneralError();
+						err.original_code = response.status;
+						throw err;
+				}
 			});
 	}
 };
@@ -166,24 +179,4 @@ function user_to_account(user) {
 function post_to_content(post) {
 	var artwork_url = _.result(post, 'artwork_url', '');
 	return !_.isEmpty(post) && _.pick({ api: 'soundcloud', type: 'content', id: _.result(post, 'permalink'), as: (_.result(post, 'kind') === 'playlist') && 'playlist', name: _.result(post, 'title'), date: Date.parse(_.result(post, 'created_at')), stats: _.result(post, 'kind') === 'playlist' ? { content: Number(_.result(post, 'track_count')) } : { likes: Number(_.result(post, 'favoritings_count')), views: Number(_.result(post, 'playback_count')), comments: Number(_.result(post, 'comment_count')) }, image: !artwork_url.match(/default_avatar_large/) && { small: artwork_url, medium: artwork_url.replace('-large', '-t300x300'), large: artwork_url.replace('-large', '-t500x500') }, account: user_to_account(post.user) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
-}
-
-function catch_errors(errName) {
-	return function(err) {
-		err.message = errName + ' - ' + String(err.message);
-		switch (err.status) {
-			case 401:
-				err.status = 403;
-				/* falls through */
-			case 403:
-			case 404:
-			case 429:
-				break;
-			default:
-				err.original_status = err.status;
-				err.status = (err.status >= 500) ? 502 : 500;
-				break;
-		}
-		return Promise.reject(err);
-	};
 }
