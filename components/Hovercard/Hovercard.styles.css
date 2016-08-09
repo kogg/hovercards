@@ -1,4 +1,6 @@
 .hovercard {
+
+  /* DON'T DELETE THIS, event if we don't use it for styling */
   all: initial; /* no important */
   align-items: flex-start;
   background: white;
@@ -16,30 +18,6 @@
   &:empty {
     display: block;
   }
-
-  /* FIXME @cameronrohani @cam GLOBAL STYLES ARE BAD */
-  * {
-    -webkit-font-smoothing: antialiased;
-    font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    font-smooth: always;
-  }
-
-  *:before,
-  *:after {
-    display: none;
-  }
-
-  *,
-  *:before,
-  *:after {
-    all: initial; /* no important */
-    box-sizing: border-box;
-  }
-
-  div {
-    display: block; /* no important */
-  }
-
 }
 
 .lock-document::-webkit-scrollbar {

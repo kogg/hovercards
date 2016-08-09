@@ -15,7 +15,7 @@
 .tabs-container {
   background: #f0f0f0;
   composes: flex-spread from '../flex.styles';
-  padding: 12px;
+  padding: 12px 24px;
 }
 
 .tabs {
@@ -23,17 +23,18 @@
 }
 
 .tab {
-  color: rgba(0, 0, 0, .5);
+  color: rgba(0, 0, 0, .66);
   cursor: pointer;
   display: inline-block;
   font-weight: 400;
   margin: 0 4px;
+  font-size: 15px;
 
   &:first-of-type {
     margin-left: 0;
   }
 
   &.selected {
-    color: black;
+    color: rgba(0,0,0,.8);
   }
 }

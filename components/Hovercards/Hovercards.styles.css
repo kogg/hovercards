@@ -1,9 +1,30 @@
 .hovercards {
 
-  /* DON'T DELETE THIS, event if we don't use it for styling */
-}
+  /* FIXME @cameronrohani @cam GLOBAL STYLES ARE BAD */
+  * {
+    -webkit-font-smoothing: antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-smooth: always;
+  }
 
+  *:before,
+  *:after {
+    display: none;
+  }
+
+  *,
+  *:before,
+  *:after {
+    all: initial; /* no important */
+    box-sizing: border-box;
+  }
+
+  div {
+    display: block; /* no important */
+  }
 /* cyrillic-ext */
+
+}
 @font-face {
   font-family: 'Roboto';
   font-style: normal;

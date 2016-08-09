@@ -1,7 +1,7 @@
 .meta {
   composes: flex-row from './flex.styles';
   composes: flex-spread from './flex.styles';
-  padding: 12px;
+  padding: 12px 24px;
 }
 
 .meta-main-container {
@@ -17,6 +17,7 @@
   }
 }
 
+.meta-item span,
 .meta-item {
   line-height: 20px;
   font-size: 14px;
