@@ -1,5 +1,7 @@
 .header {
-  composes: flex-spread from '../flex.styles';
+  @raw  {
+    composes: flex-spread from '../flex.styles';
+  }
   padding: 12px;
   border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
@@ -15,7 +17,9 @@
 }
 
 .name-container {
-  composes: flex-grow from '../flex.styles';
+  @raw  {
+    composes: flex-grow from '../flex.styles';
+  }
 }
 
 .name {
@@ -37,11 +41,15 @@
 }
 
 .share-on-facebook {
-  composes: share;
+  @raw  {
+    composes: share;
+  }
   background-image: url('../../assets/images/facebookshare.png');
 }
 
 .share-on-twitter {
-  composes: share;
+  @raw  {
+    composes: share;
+  }
   background-image: url('../../assets/images/twittershare.png');
 }

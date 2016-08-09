@@ -1,5 +1,7 @@
 .meta-main {
-  composes: meta-main from '../meta.styles';
+  @raw  {
+    composes: meta-main from '../meta.styles';
+  }
 }
 
 .network {

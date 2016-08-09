@@ -26,7 +26,9 @@
 }
 
 .name-container {
-  composes: flex-row from '../flex.styles';
+  @raw  {
+    composes: flex-row from '../flex.styles';
+  }
   margin: 16px 12px 10px;
   text-align: center;
 
@@ -37,7 +39,7 @@
 
 .name {
   font-size: 16px;
-  color: rgba(0,0,0,.8);
+  color: rgba(0, 0, 0, .8);
   font-weight: 700;
 }
 
@@ -61,8 +63,9 @@
   .text {
     text-align: center;
     font-size: 14px;
-    color: rgba(0,0,0,.6);
+    color: rgba(0, 0, 0, .6);
   }
+
   .name-container + & {
     margin: 0;
     padding: 6px 12px 12px 12px;

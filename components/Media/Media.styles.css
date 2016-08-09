@@ -1,5 +1,7 @@
 .media {
-  composes: flex-row from '../flex.styles';
+  @raw  {
+    composes: flex-row from '../flex.styles';
+  }
   height: inherit;
   max-width: 100%;
   min-height: inherit;

@@ -1,10 +1,12 @@
 .comment-container {
   padding: 12px 24px;
 }
+
 .comment {
   display: flex;
   justify-content: left;
 }
+
 .comment:not(:first-of-type) {
 }
 
@@ -32,7 +34,7 @@
   font-size: 15px;
   font-weight: normal;
   text-decoration: underline;
-  color: rgba(0,0,0,.8);
+  color: rgba(0, 0, 0, .8);
 }
 
 .description {
@@ -46,16 +48,18 @@
 
   p {
     display: block;
-    color: rgba(0,0,0,.66);
+    color: rgba(0, 0, 0, .66);
     font-size: 15px;
     line-height: 1.45;
   }
+
   a {
     font-size: 15px;
     line-height: 1.45;
-    color: rgba(0,0,0,.8);
+    color: rgba(0, 0, 0, .8);
     text-decoration: underline;
   }
+
   pre {
     display: block;
     padding: 10px;
@@ -63,7 +67,7 @@
     border-left: 2px solid #eceef1;
 
     code {
-      color: rgba(0,0,0,.66);
+      color: rgba(0, 0, 0, .66);
       font-size: 15px;
       line-height: 1.45;
     }
@@ -71,13 +75,16 @@
 }
 
 .stat {
-  composes: flex-item from '../flex.styles';
+  @raw  {
+    composes: flex-item from '../flex.styles';
+  }
   font-size: 15px;
-  color: rgba(0,0,0,.6);
+  color: rgba(0, 0, 0, .6);
 }
+
 .stat-number {
   font-size: 15px;
-  color: rgba(0,0,0,.8);
+  color: rgba(0, 0, 0, .8);
 }
 
 .replies {

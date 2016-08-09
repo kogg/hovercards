@@ -1,14 +1,18 @@
 .banner {
-  composes: flex-row from '../flex.styles';
   height: 126.66666667px;
   background-position: center;
   position: relative;
   background-size: cover;
   width: 100%;
 
+  @raw  {
+    composes: flex-row from '../flex.styles';
+  }
+
   &:empty {
     display: block;
   }
+
   &-image {
     width: 33.33%;
     height: 126.66666667px;
