@@ -19,7 +19,7 @@ module.exports = connect(null, actions)(React.createClass({
 		return this.props.authenticate({ api: this.props.error.request && this.props.error.request.api })
 			.then(function() {
 				if (!this.isMounted()) {
-					// FIXME Anti-pattern
+					// HACK isMounted is an anti-pattern https://facebook.github.io/react/blog/2015/12/16/ismounted-antipattern.html
 					return null;
 				}
 				return this.props.getEntity(this.props.error.request);

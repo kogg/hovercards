@@ -12,8 +12,6 @@ var urls        = require('../../integrations/urls');
 
 var TIMEOUT_BEFORE_CARD = 500;
 
-// TODO This is probably the grossest file that is getting reformated. Cleanup?
-
 module.exports = connect(
 	createStructuredSelector({
 		entities: _.property('entities'),
@@ -130,7 +128,7 @@ module.exports = connect(
 		element.addEventListener('mousemove', updateEvent);
 		window.addEventListener('blur', abandon);
 
-		var that = this; // FIXME
+		var that = this;
 
 		function abandon() {
 			cleanup();

@@ -15,7 +15,7 @@ var safeImportant            = require('postcss-safe-important');
 var webpack                  = require('webpack');
 
 module.exports = {
-	// FIXME This is some straight up bullshit https://github.com/webpack/webpack/issues/2801
+	// FIXME https://github.com/webpack/webpack/issues/2801
 	entry:  process.env.ENTRY ? { [process.env.ENTRY]: './extension/index' } : { manifest: './extension/manifest' },
 	output: {
 		filename:   '[name].js',

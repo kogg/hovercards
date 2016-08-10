@@ -15,7 +15,6 @@ var styles            = require('./Discussions.styles');
 
 module.exports = connect(
 	function(state, ownProps) {
-		// TODO Should come from Hovercards... also, gross
 		return {
 			discussions: config.integrations[ownProps.content.api].discussion.integrations.map(function(integration) {
 				var request = discussionRequest(ownProps.content, integration);
@@ -148,7 +147,6 @@ module.exports = connect(
 }));
 
 function discussionRequest(content, integration) {
-	// TODO Roll this into something reused in integrations/index.extension.js
 	if (content.api === integration) {
 		return Object.assign({ type: 'discussion' }, _.pick(content, 'api', 'id', 'as', 'for', 'account'));
 	}

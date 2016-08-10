@@ -87,7 +87,7 @@ module.exports = connect(null, actions)(React.createClass({
 	},
 	positionHovercard: function() {
 		if (!this.isMounted()) {
-			// FIXME Anti-pattern
+			// HACK isMounted is an anti-pattern https://facebook.github.io/react/blog/2015/12/16/ismounted-antipattern.html
 			return;
 		}
 		this.setState(function() {

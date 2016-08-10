@@ -1,4 +1,4 @@
-/* TODO Find a better way to do global styles */
+/* HACK Global styles are bad */
 * {
   box-sizing: border-box;
   margin: 0;

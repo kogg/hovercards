@@ -3,9 +3,7 @@ var url = require('url');
 
 var hostnames_to_urls = {};
 
-// TODO Browserify freaks out unless they're explicitly listed out
-// Can't use require-globify since this isn't necessarily a browserify file
-// Can't do a loop through apis and construct the require since this is used by browserify
+// HACK Can't use require.context because of mocha and node
 _.each([require('../imgur/urls'),
         require('../instagram/urls'),
         require('../reddit/urls'),
@@ -29,7 +27,7 @@ urls.parse = function(url_string) {
 	if (url_object.hostname === 'l.facebook.com') {
 		return urls.parse(url_object.query.u);
 	}
-	return _.chain(hostnames_to_urls[url_object.hostname]) .invoke('parse', url_object) .compact() .first() .value();
+	return _.chain(hostnames_to_urls[url_object.hostname]).invoke('parse', url_object).compact().first().value();
 };
 
 urls.represent = function(identity, comment) {

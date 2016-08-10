@@ -3,7 +3,7 @@ var classnames = require('classnames');
 
 var styles = require('./Loading.styles');
 
-// TODO #33 Better Loading UI
+// TODO https://github.com/teamkogg/hovercards/issues/33
 module.exports = React.createClass({
 	displayName: 'Loading',
 	propTypes:   {

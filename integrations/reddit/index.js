@@ -14,7 +14,7 @@ module.exports = function(params) {
 		userAgent:          'node:HoverCards:v2 (by /u/HoverCards)',
 		decodeHtmlEntities: true,
 		throttle:           0,
-		retryDelay:         params.test ? 0 : 5000, // TODO Find a better way
+		retryDelay:         params.test ? 0 : 5000, // HACK So the tests don't lag when retrying
 		retryAttempts:      2,
 		oauth:              {
 			type:        'implicit',

@@ -4,6 +4,7 @@
     "at-rule-name-space-after": "always",
     "block-opening-brace-space-before": ["always", { "ignoreAtRules": "raw" }],
     "color-hex-length": null,
+    "comment-word-blacklist": [['TODO', 'FIXME', 'HACK'], { "severity": "warning" }],
     "declaration-block-no-ignored-properties": [true, { "severity": "warning" }],
     "number-leading-zero": null,
     "property-no-unknown": [true, { "severity": "warning", "ignoreProperties": ["composes", "font-smooth", "text-size-adjust"] }],

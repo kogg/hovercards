@@ -29,6 +29,7 @@ var SoundCloudPlayer = module.exports = React.createClass({
 						return response.text();
 					})
 					.then(function(text) {
+						// HACK Eval-ing text we downloaded
 						eval(text); // eslint-disable-line no-eval
 						return window.SC;
 					})
@@ -67,7 +68,7 @@ var SoundCloudPlayer = module.exports = React.createClass({
 		}
 	},
 	render: function() {
-		// FIXME Won't play https://soundcloud.com/majorlazer/sets/peace-is-the-mission ?
+		// FIXME https://github.com/teamkogg/hovercards/issues/108
 		return (
 			<iframe className={classnames(styles.player, this.props.className)}
 				ref="player"

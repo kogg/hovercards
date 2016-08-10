@@ -15,6 +15,7 @@
     }],
     "new-cap": 0,
     "no-mixed-spaces-and-tabs": [2, "smart-tabs"],
+    "no-warning-comments": [1, { "terms": ["todo", "fixme", "hack"], "location": "anywhere" }],
     "no-multi-spaces": [2, { "exceptions": { "VariableDeclarator": true } }],
     "object-curly-spacing": [2, "always"],
     "react/jsx-uses-react": 2,
