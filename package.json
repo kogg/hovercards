@@ -20,7 +20,7 @@
     "check": "run-s check:styles:*",
     "check:styles": "run-s check:styles:*",
     "check:styles:css": "stylelint \"**/*.css\" --color --ignore-path .gitignore",
-    "check:styles:js": "eslint --color . --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**'",
+    "check:styles:js": "eslint . --color --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**'",
     "clean": "rm -rf coverage dist dist-* dump.rdb npm-debug.log*",
     "coverage:check": "istanbul check-coverage --statements 75 --branches 75 --functions 75 --lines 75",
     "coverage:report": "cat ./coverage/lcov.info | codecov",

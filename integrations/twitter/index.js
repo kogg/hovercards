@@ -187,7 +187,15 @@ function tweet_to_content(tweet) {
 
 		var first_entity           = _.first(extended_entities);
 		var first_entity_media_url = _.result(first_entity, 'media_url_https');
-		var first_entity_video_url = _.chain(first_entity).result('video_info').result('variants').where({ content_type: 'video/mp4' }).min(function(variant) { return Math.abs((variant.bitrate || 0) - 832000); }).result('url').value();
+		var first_entity_video_url = _.chain(first_entity)
+			.result('video_info')
+			.result('variants')
+			.where({ content_type: 'video/mp4' })
+			.min(function(variant) {
+				return Math.abs((variant.bitrate || 0) - 832000);
+			})
+			.result('url')
+			.value();
 
 		var photo_entities = _.where(extended_entities, { type: 'photo' });
 
@@ -198,16 +206,53 @@ function tweet_to_content(tweet) {
 			quoted_content = tweet_to_content(tweet.quoted_status);
 
 			var quoted_url     = (urls.print(quoted_content) || '').toLowerCase();
-			var entity_to_move = _.find(entities_to_keep, function(entity) { return (entity.expanded_url || '').toLowerCase() === quoted_url; });
+			var entity_to_move = _.find(entities_to_keep, function(entity) {
+				return (entity.expanded_url || '').toLowerCase() === quoted_url;
+			});
 			entities_to_keep = _.without(entities_to_keep, entity_to_move);
 			entities_to_remove = _.union(entities_to_remove, [entity_to_move]);
 		}
 
-		extend_with = { text:           autolinker_with_entities((_.result(tweet, 'text') || '').replace(/\n+$/, '').replace(/\n/g, '<br>'), entities_to_keep, entities_to_remove), image:          !_.isEmpty(first_entity_media_url) && (photo_entities.length < 2) && { small: first_entity_media_url + ':small', medium: first_entity_media_url + ':medium', large: first_entity_media_url + ':large' }, images:         (photo_entities.length >= 2) && _.chain(photo_entities).pluck('media_url_https').map(function(media_url_https) {
-			return { small: media_url_https + ':small', medium: media_url_https + ':medium', large: media_url_https + ':large' }; }).value(), gif:            (_.result(first_entity, 'type') === 'animated_gif') && first_entity_video_url, video:          (_.result(first_entity, 'type') === 'video') && first_entity_video_url, stats:          { likes: Number(_.result(tweet, 'favorite_count')), reposts: Number(_.result(tweet, 'retweet_count')) }, quoted_content: quoted_content };
+		extend_with = {
+			text:  autolinker_with_entities((_.result(tweet, 'text') || '').replace(/\n+$/, '').replace(/\n/g, '<br>'), entities_to_keep, entities_to_remove),
+			image: !_.isEmpty(first_entity_media_url) && (photo_entities.length < 2) && {
+				small:  first_entity_media_url + ':small',
+				medium: first_entity_media_url + ':medium',
+				large:  first_entity_media_url + ':large'
+			},
+			images: (photo_entities.length >= 2) && _.chain(photo_entities)
+				.pluck('media_url_https')
+				.map(function(media_url_https) {
+					return {
+						small:  media_url_https + ':small',
+						medium: media_url_https + ':medium',
+						large:  media_url_https + ':large'
+					};
+				})
+				.value(),
+			gif:   (_.result(first_entity, 'type') === 'animated_gif') && first_entity_video_url,
+			video: (_.result(first_entity, 'type') === 'video') && first_entity_video_url,
+			stats: {
+				likes:   Number(_.result(tweet, 'favorite_count')),
+				reposts: Number(_.result(tweet, 'retweet_count'))
+			},
+			quoted_content: quoted_content
+		};
 	} else {
 		extend_with = { reposted_content: tweet_to_content(tweet.retweeted_status) };
 	}
 
-	return _.chain({ api: 'twitter', type: 'content', id: _.result(tweet, 'id_str'), date: Date.parse(_.result(tweet, 'created_at')), account: user_to_account(_.result(tweet, 'user')) }).extend(extend_with).pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))).value();
+	return _.pick(
+		Object.assign(
+			{
+				api:     'twitter',
+				type:    'content',
+				id:      _.result(tweet, 'id_str'),
+				date:    Date.parse(_.result(tweet, 'created_at')),
+				account: user_to_account(_.result(tweet, 'user'))
+			},
+			extend_with
+		),
+		_.somePredicate(_.isNumber, _.negate(_.isEmpty))
+	);
 }

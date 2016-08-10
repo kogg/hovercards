@@ -18,6 +18,8 @@ urls.represent = function(identity) {
 			return ['https://instagram.com/p/' + identity.id + '/', 'https://instagr.am/p/' + identity.id + '/'];
 		case 'account':
 			return ['https://instagram.com/' + identity.id + '/', 'https://instagr.am/' + identity.id + '/'];
+		default:
+			return null;
 	}
 };
 
