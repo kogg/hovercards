@@ -29,7 +29,7 @@
     "release": "semantic-release pre && npm run build && npm run deploy && semantic-release post",
     "start": "if [ \"$NODE_ENV\" = 'production' ]; then foreman start; else foreman start -f Procfile.dev; fi",
     "test": "run-s test:*",
-    "test:lint": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**'",
+    "test:styles": "eslint . --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**'",
     "test:unit": "istanbul cover -x *.test.js _mocha -- -R spec \"./{,!(node_modules)/**/}*.test.js\"",
     "test:unit:no-cover": "mocha \"./{,!(node_modules)/**/}*.test.js\""
   },
@@ -40,7 +40,7 @@
     "ghooks": {
       "pre-commit": "npm run fix --color",
       "commit-msg": "validate-commit-msg",
-      "pre-push": "npm run test:lint --color -- --color && npm run test:unit:no-cover --color -- -R nyan --colors"
+      "pre-push": "npm run test:styles --color -- --color && npm run test:unit:no-cover --color -- -R nyan --colors"
     },
     "validate-commit-msg": {
       "helpMessage": "Install commitizen and use `git cz` instead of `git commit` https://github.com/commitizen/cz-cli#installing-the-command-line-tool"
