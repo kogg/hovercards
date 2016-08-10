@@ -181,17 +181,6 @@ function acceptRequest(request, element, parents) {
 				.value()
 		) ||
 		(
-			request.api === 'instagram' &&
-			request.type === 'account' &&
-			!dom.hasClass(element, '-cx-PRIVATE-Navigation__menuLink') &&
-			_.chain(parents)
-				.every(function(parent) {
-					return dom.hasClass(parent, 'dropdown');
-				})
-				.isEmpty()
-				.value()
-		) ||
-		(
 			request.api === 'reddit' &&
 			(
 				request.type === 'account' ?
