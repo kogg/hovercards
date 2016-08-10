@@ -6,7 +6,6 @@
   "homepage_url": "http://hovercards.com",
 
   "minimum_chrome_version": "43",
-  "minimum_opera_version": "39",
   "icons": {
     "16": "assets/images/logo-16.png",
     "19": "assets/images/logo-19.png",
