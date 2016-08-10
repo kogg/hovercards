@@ -20,7 +20,7 @@ module.exports = {
 	output: {
 		filename:   '[name].js',
 		path:       'dist',
-		publicPath: process.env.ENTRY === 'options' ? '' : 'chrome-extension://__MSG_@@extension_id__/'
+		publicPath: process.env.ENTRY === 'top-frame' ? 'chrome-extension://__MSG_@@extension_id__/' : ''
 	},
 	module: {
 		loaders: [
@@ -106,14 +106,19 @@ module.exports = {
 		new WriteFilePlugin({ log: false })
 	]),
 	postcss: function() {
-		return [
-			nested({ bubble: ['raw'] }),
-			autoprefixer,
-			raw.inspect(),
-			increaseSpecificity({ stackableRoot: ':global(.hovercards-root)', repeat: 1 }),
-			raw.write(),
-			safeImportant
-		];
+		return process.env.ENTRY === 'top-frame' ?
+			[
+				nested({ bubble: ['raw'] }),
+				autoprefixer,
+				raw.inspect(),
+				increaseSpecificity({ stackableRoot: ':global(.hovercards-root)', repeat: 1 }),
+				raw.write(),
+				safeImportant
+			] :
+			[
+				nested,
+				autoprefixer
+			];
 	}
 };
 

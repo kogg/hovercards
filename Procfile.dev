@@ -3,7 +3,7 @@ web:        nodemon --ignore dist/ -e js,jsx server
 # DON'T REORDER the process above this line
 # FIXME https://github.com/webpack/webpack/issues/2801
 manifest:   webpack-dev-server --config webpack.config.extension.js
-background: ENTRY=background webpack-dev-server --config webpack.config.extension.js
-options:    ENTRY=options    webpack-dev-server --config webpack.config.extension.js
+background: ENTRY=background webpack-dev-server --inline --hot --config webpack.config.extension.js
+options:    ENTRY=options    webpack-dev-server --inline --hot --config webpack.config.extension.js
 top-frame:  ENTRY=top-frame  webpack-dev-server --config webpack.config.extension.js
 redis:      redis-server
