@@ -1,7 +1,9 @@
 .meta {
-  composes: flex-row from './flex.styles';
-  composes: flex-spread from './flex.styles';
   padding: 12px 24px;
+  @raw  {
+    composes: flex-row from './flex.styles';
+    composes: flex-spread from './flex.styles';
+  }
 }
 
 .meta-main-container {
@@ -21,9 +23,10 @@
 .meta-item {
   line-height: 20px;
   font-size: 14px;
-  color: rgba(0,0,0,.6);
+  color: rgba(0, 0, 0, .6);
 }
+
 .meta-number {
   font-size: 14px;
-  color: rgba(0,0,0,.8);
+  color: rgba(0, 0, 0, .8);
 }

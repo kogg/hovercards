@@ -7,8 +7,10 @@ var HtmlWebpackPlugin        = require('html-webpack-plugin');
 var StringReplacePlugin      = require('string-replace-webpack-plugin');
 var WriteFilePlugin          = require('write-file-webpack-plugin');
 var autoprefixer             = require('autoprefixer');
+var increaseSpecificity      = require('postcss-increase-specificity');
 var nested                   = require('postcss-nested');
 var path                     = require('path');
+var raw                      = require('postcss-raw');
 var safeImportant            = require('postcss-safe-important');
 var webpack                  = require('webpack');
 
@@ -104,7 +106,14 @@ module.exports = {
 		new WriteFilePlugin({ log: false })
 	]),
 	postcss: function() {
-		return [nested, autoprefixer, safeImportant];
+		return [
+			nested({ bubble: ['raw'] }),
+			autoprefixer,
+			raw.inspect(),
+			increaseSpecificity,
+			raw.write(),
+			safeImportant
+		];
 	}
 };
 

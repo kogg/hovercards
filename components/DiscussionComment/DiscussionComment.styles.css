@@ -5,9 +5,6 @@
   display: flex;
   justify-content: left;
 }
-.comment:not(:first-of-type) {
-}
-
 .account-image-container {
   height: 44px;
   margin: 0 16px 0 0;
@@ -41,15 +38,21 @@
 }
 
 .text {
-  composes: condensed from '../no-formatting.styles';
   margin: 5px 0;
   display: block;
+
+  @raw {
+    composes: condensed from '../no-formatting.styles';
+  }
 }
 
 .stat {
-  composes: flex-item from '../flex.styles';
   font-size: 15px;
   color: rgba(0,0,0,.6);
+  
+  @raw {  
+    composes: flex-item from '../flex.styles';
+  }
 }
 .stat-number {
   font-size: 15px;
