@@ -63,12 +63,12 @@ var YoutubeVideo = module.exports = React.createClass({
 	componentDidMount: function() {
 		YoutubeVideo.getYT()
 			.then(function(YT) {
-				return new Promise(function(resolve, reject) {
+				return new Promise(function(resolve) {
 					/* eslint-disable no-new */
 					new YT.Player(this.refs.video, {
 						events: {
 							onReady: compose(resolve, _.property('target')),
-							onError: reject
+							onError: report.error
 						}
 					});
 					/* eslint-enable no-new */
