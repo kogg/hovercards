@@ -4,15 +4,15 @@
 }
 
 .image {
-  margin-right: 12px;
   background: url('../../assets/images/hovercards-error.png');
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
   width: 80px;
   height: 80px;
-  margin-bottom: 8px;
   margin: auto;
+  margin-bottom: 8px;
+  margin-right: 12px;
 
   &:hover {
     animation-duration: 100ms;
@@ -44,27 +44,27 @@
   padding: 6px 8px 6px 30px;
 
   &.imgur {
-    background-image: url("../../assets/images/imgur.svg");
+    background-image: url('../../assets/images/imgur.svg');
   }
 
   &.instagram {
-    background-image: url("../../assets/images/instagram.svg");
+    background-image: url('../../assets/images/instagram.svg');
   }
 
   &.reddit {
-    background-image: url("../../assets/images/reddit.svg");
+    background-image: url('../../assets/images/reddit.svg');
   }
 
   &.soundcloud {
-    background-image: url("../../assets/images/soundcloud.svg");
+    background-image: url('../../assets/images/soundcloud.svg');
   }
 
   &.twitter {
-    background-image: url("../../assets/images/twitter.svg");
+    background-image: url('../../assets/images/twitter.svg');
   }
 
   &.youtube {
-    background-image: url("../../assets/images/youtube.svg");
+    background-image: url('../../assets/images/youtube.svg');
   }
 }
 

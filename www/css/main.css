@@ -7,9 +7,8 @@
   padding: 0;
   margin: 0;
   -webkit-font-smoothing: antialiased;
-  -moz-font-smoothing: antialiased;
-  -ms-font-smoothing: antialiased;
-  font-smoothing: antialiased;
+  -moz-osx-font-smoothing: auto;
+  font-smooth: always;
 }
 
 html {
@@ -28,20 +27,6 @@ body {
   overflow: auto;
 }
 
-/*.bluebg,
-.orangebg,
-.purplebg {
-  background-image: url('../../assets/images/shapes.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.bluebg {
-  background-image: url('../../assets/images/shapes2.jpg');
-}
-.orangebg {
-  background-image: url('../../assets/images/shapes3.jpg');
-}*/
 .col-1,
 .col-2,
 .col-3,
@@ -78,7 +63,7 @@ body {
 }
 
 .col-6 {
-  width: 50.000000000%;
+  width: 50%;
 }
 
 .col-7 {
@@ -102,7 +87,7 @@ body {
 }
 
 .col-12 {
-  width: 100.000000000%;
+  width: 100%;
 }
 
 @font-face {
@@ -120,12 +105,7 @@ body {
 .row {
   height: 100vh;
   min-height: 600px;
-
-  /*  max-height: 700px;
-  max-width: 1280px;*/
   margin: auto;
-
-  /*border-bottom: 1px solid rgba(0,0,0,.05)*/
 }
 
 .share-links {
@@ -198,9 +178,6 @@ body {
   display: none;
 }
 
-.image-holder {
-}
-
 b {
   display: block;
   color: #727272;
@@ -249,8 +226,6 @@ b img {
 }
 
 .blue {
-
-  /*background: #9cd6be;*/
   z-index: 2;
 }
 
@@ -268,8 +243,6 @@ b img {
 }
 
 .orange {
-
-  /*background: #ffc774;*/
   background-size: cover;
   background-position: center;
   z-index: 4;
@@ -333,9 +306,7 @@ img.chatbubble {
 }
 
 .yellow {
-
-  /*background: #ffdead;*/
-  background: #fff;
+  background: #ffffff;
 }
 
 .row div.col-8 img {
@@ -346,9 +317,9 @@ img.chatbubble {
 
 .image-holder {
   position: relative;
-  -webkit-box-shadow: 0px 10px 68px 3px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0px 10px 68px 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 10px 68px 3px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 10px 68px 3px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 10px 68px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 68px 3px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -364,7 +335,7 @@ img.chatbubble {
 
 .row div.col-8 img.shadowify,
 .row div.col-8 img.shadowify2 {
-  box-shadow: 0px 10px 68px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 68px 3px rgba(0, 0, 0, 0.1);
   width: calc(100% - 7%);
   top: 0;
   left: 0;
@@ -379,10 +350,7 @@ img.chatbubble {
   top: inherit;
   right: 0;
   bottom: 0;
-  box-shadow: 0px 10px 68px 3px rgba(0, 0, 0, 0.1);
-}
-
-.hovercard-slide3-1 img.shadowify2 {
+  box-shadow: 0 10px 68px 3px rgba(0, 0, 0, 0.1);
 }
 
 .hovercard-slide3-3 img.shadowify2,
@@ -411,9 +379,6 @@ img.chatbubble {
   top: 0;
   opacity: 0;
   transition: all .2s ease-in-out .2s;
-}
-
-.sb1 {
 }
 
 .hc1,
@@ -557,8 +522,6 @@ h1 {
 }
 
 h2 {
-
-  /*color: #727272;*/
   width: 100%;
   font-size: 1.35vw;
   line-height: 1.5;
@@ -570,8 +533,6 @@ h2 {
 }
 
 .features p {
-
-  /*color: #727272;*/
   line-height: 1.2;
   font-size: 17px;
 }
@@ -588,7 +549,7 @@ a {
 .cta {
   display: inline-block;
   margin-top: 30px;
-  color: #fff;
+  color: #ffffff;
   padding: 3% 6%;
   text-transform: capitalize;
   font-weight: bold;
@@ -622,9 +583,9 @@ a {
   background: #f7f7f7;
   padding: 16px;
   text-align: center;
-  -webkit-box-shadow: 0px 8px 0px 0px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0px 8px 0px 0px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 8px 0px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 8px 0 0 rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 8px 0 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 0 0 rgba(0, 0, 0, 0.1);
   border-radius: 0 0 14px 14px;
   border-top: 1px solid rgba(0, 0, 0, .05);
 }
@@ -706,45 +667,45 @@ a {
 
 @-webkit-keyframes scrolldowninner {
   0% {
-    -webkit-transform: scaleY(.4)translateY(0);
-    transform: scaleY(.4)translateY(0);
+    -webkit-transform: scaleY(.4) translateY(0);
+    transform: scaleY(.4) translateY(0);
   }
 
   20% {
-    -webkit-transform: scaleY(1)translateY(0);
-    transform: scaleY(1)translateY(0);
+    -webkit-transform: scaleY(1) translateY(0);
+    transform: scaleY(1) translateY(0);
   }
 
   60% {
-    -webkit-transform: scaleY(.4)translateY(12px);
-    transform: scaleY(.4)translateY(12px);
+    -webkit-transform: scaleY(.4) translateY(12px);
+    transform: scaleY(.4) translateY(12px);
   }
 
   100% {
-    -webkit-transform: scaleY(.4)translateY(0);
-    transform: scaleY(.4)translateY(0);
+    -webkit-transform: scaleY(.4) translateY(0);
+    transform: scaleY(.4) translateY(0);
   }
 }
 
 @keyframes scrolldowninner {
   0% {
-    -webkit-transform: scaleY(.4)translateY(0);
-    transform: scaleY(.4)translateY(0);
+    -webkit-transform: scaleY(.4) translateY(0);
+    transform: scaleY(.4) translateY(0);
   }
 
   20% {
-    -webkit-transform: scaleY(1)translateY(0);
-    transform: scaleY(1)translateY(0);
+    -webkit-transform: scaleY(1) translateY(0);
+    transform: scaleY(1) translateY(0);
   }
 
   60% {
-    -webkit-transform: scaleY(.4)translateY(12px);
-    transform: scaleY(.4)translateY(12px);
+    -webkit-transform: scaleY(.4) translateY(12px);
+    transform: scaleY(.4) translateY(12px);
   }
 
   100% {
-    -webkit-transform: scaleY(.4)translateY(0);
-    transform: scaleY(.4)translateY(0);
+    -webkit-transform: scaleY(.4) translateY(0);
+    transform: scaleY(.4) translateY(0);
   }
 }
 
@@ -773,15 +734,6 @@ a {
   background-repeat: repeat-y;
 }
 
-@media (min-width: 1280px) {
-  /*  h1 {
-    font-size: 32px
-  }
-  h2 {
-    font-size: 17px;
-  }*/
-}
-
 @media (max-width: 1280px) {
   .website {
     height: 100%;
@@ -793,16 +745,6 @@ a {
 
   .row div.col-8 img {
     width: 100%;
-  }
-}
-
-@media (max-width: 1120px) {
-  .browser {
-  }
-}
-
-@media (max-width: 1080px) {
-  .browser {
   }
 }
 
@@ -867,16 +809,10 @@ a {
     display: none;
   }
 
-  .row div.leftcol.col-4 img {
-  }
-
   .row div.col-8,
   .row div.leftcol.col-4 {
     display: block;
     position: relative;
-  }
-
-  .row div.leftcol.col-4 {
   }
 
   .row div.col-8 {
@@ -919,7 +855,7 @@ a {
   .row div.col-8 .shadowify2,
   .row div.col-8 .shadowify,
   .image-holder {
-    box-shadow: 0px 0px 24px 3px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 0 24px 3px rgba(0, 0, 0, 0.1) !important;
   }
 
   .orange .image-holder {

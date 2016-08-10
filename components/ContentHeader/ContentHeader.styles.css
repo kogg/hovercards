@@ -42,15 +42,17 @@
 }
 
 .share-on-facebook {
+  background-image: url('../../assets/images/facebookshare.png');
+
   @raw  {
     composes: share;
   }
-  background-image: url('../../assets/images/facebookshare.png');
 }
 
 .share-on-twitter {
+  background-image: url('../../assets/images/twittershare.png');
+
   @raw  {
     composes: share;
   }
-  background-image: url('../../assets/images/twittershare.png');
 }

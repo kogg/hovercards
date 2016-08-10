@@ -1,4 +1,4 @@
-/*// General styles // --------------------------------------------------*/
+/* General styles */
 .text-center {
   text-align: center;
 }
@@ -7,20 +7,20 @@
   display: block;
 }
 
-/*// meta // --------------------------------------------------*/
+/* meta */
 .account .meta-main-stats {
-
   /* FIXME */
+
   text-align: center;
 }
 
 .hovercard__box .account .meta-main-stats {
-
   /* FIXME */
+
   text-align: left;
 }
 
-/*// Account Specific styles // --------------------------------------------------*/
+/* Account Specific styles */
 .discussion .meta-main-stats span {
   margin: 0 4px 0 0;
 }
@@ -29,17 +29,14 @@
   margin-top: 12px;
 }
 
-/*//icons and images// ---------------------------------------------*/
+/* icons and images */
 .comment-item_retweet .comment-image a:after {
-}
-
-.comment-item_retweet .comment-image a:after {
-  content: "";
+  content: '';
   position: absolute;
   display: block;
   bottom: 0;
   right: 0;
-  background-image: url("../../assets/images/twitter-retweet.svg");
+  background-image: url('../../assets/images/twitter-retweet.svg');
   width: 18px;
   height: 18px;
   background-color: #19cf86;
@@ -47,7 +44,7 @@
   background-size: 70%;
 }
 
-/*//Comments// ---------------------------------------------*/
+/* Comments */
 .tweet-conversation {
   background-color: rgba(0, 0, 0, .05);
 }
@@ -113,7 +110,7 @@
   border-radius: 3px;
   color: black;
   background: #f0f0f0;
-  background-image: url("../../assets/images/carlito-corner.png");
+  background-image: url('../../assets/images/carlito-corner.png');
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;
@@ -143,7 +140,7 @@
 }
 
 .box a.notification-cancel {
-  padding: 10px 0px 10px 16px;
+  padding: 10px 0 10px 16px;
   color: #b965fd;
   display: inline-block;
   font-weight: 600;

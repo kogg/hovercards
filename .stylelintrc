@@ -1,0 +1,14 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "at-rule-name-space-after": "always",
+    "block-opening-brace-space-before": ["always", { "ignoreAtRules": "raw" }],
+    "color-hex-length": "long",
+    "declaration-block-no-ignored-properties": null,
+    "number-leading-zero": null,
+    "property-no-unknown": [true, { "ignoreProperties": ["composes", "font-smooth", "text-size-adjust"] }],
+    "selector-pseudo-element-colon-notation": "single",
+    "shorthand-property-no-redundant-values": null,
+    "string-quotes": "single"
+  }
+}

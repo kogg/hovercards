@@ -1,7 +1,4 @@
 .media {
-  @raw  {
-    composes: flex-row from '../flex.styles';
-  }
   height: inherit;
   max-width: 100%;
   min-height: inherit;
@@ -10,6 +7,10 @@
   position: relative;
   text-align: left;
   width: 9999px;
+
+  @raw  {
+    composes: flex-row from '../flex.styles';
+  }
 
   &:empty {
     display: none;

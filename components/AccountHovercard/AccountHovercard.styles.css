@@ -26,11 +26,12 @@
 }
 
 .name-container {
+  margin: 16px 12px 10px;
+  text-align: center;
+
   @raw  {
     composes: flex-row from '../flex.styles';
   }
-  margin: 16px 12px 10px;
-  text-align: center;
 
   .image + & {
     margin: 3px 12px 0;
@@ -44,7 +45,7 @@
 }
 
 .verified {
-  background-image: url("../../assets/images/verified.svg");
+  background-image: url('../../assets/images/verified.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100%;

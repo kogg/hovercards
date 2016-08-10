@@ -1,16 +1,16 @@
-.formatted {
-
-}
 .condensed {
   br {
     display: none;
   }
-	del {
-	  text-decoration: line-through;
-	}
-	h1 {
+
+  del {
+    text-decoration: line-through;
+  }
+
+  h1 {
     font-size: 28px;
   }
+
   h2 {
     font-size: 22px;
   }
@@ -18,6 +18,7 @@
   h3 {
     font-size: 18px;
   }
+
   blockquote,
   h1,
   h2,
@@ -26,12 +27,13 @@
   ul {
     display: block; /* no important */
   }
+
   blockquote {
     padding: 6px 12px;
     border-left: 2px solid rgba(0, 0, 0, .2);
   }
 
- 	h1 {
+  h1 {
     font-size: 28px;
   }
 
@@ -42,7 +44,8 @@
   h3 {
     font-size: 18px;
   }
-	pre {
+
+  pre {
     background: rgba(0, 0, 0, .1);
     border-left: 3px solid rgba(0, 0, 0, .1);
     display: block;
@@ -50,7 +53,8 @@
     padding: 6px 12px;
     white-space: pre;
   }
-	 sup {
+
+  sup {
     vertical-align: super;
     font-size: smaller;
   }
@@ -84,7 +88,7 @@
     vertical-align: middle;
     border-color: inherit;
     background-color: rgba(0, 0, 0, .1);
-    color: #000;
+    color: #000000;
     text-align: left;
     vertical-align: bottom;
   }
@@ -107,22 +111,25 @@
 
     li:before {
       display: inline-block;
-      content: "\25CF ";
+      content: '\25CF ';
       margin-right: 4px;
     }
   }
+
   p {
-      display: block;
-      color: rgba(0,0,0,.66);
-      font-size: 15px;
-      line-height: 1.45;
-    }
+    display: block;
+    color: rgba(0, 0, 0, .66);
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
   a {
     font-size: 15px;
     line-height: 1.45;
-    color: rgba(0,0,0,.8);
+    color: rgba(0, 0, 0, .8);
     text-decoration: underline;
   }
+
   pre {
     display: block;
     padding: 10px;
@@ -130,12 +137,14 @@
     border-left: 2px solid #eceef1;
 
     code {
-      color: rgba(0,0,0,.66);
+      color: rgba(0, 0, 0, .66);
       font-size: 15px;
       line-height: 1.45;
     }
   }
-  /*p {
+
+  /*
+  p {
     display: inline;
     line-height: 21px;
     font-size: 16px;
@@ -183,5 +192,6 @@
     strong {
       font-weight: 700;
     }
-  }*/
+  }
+  */
 }

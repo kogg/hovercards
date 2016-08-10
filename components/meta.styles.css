@@ -1,5 +1,6 @@
 .meta {
   padding: 12px 24px;
+
   @raw  {
     composes: flex-row from './flex.styles';
     composes: flex-spread from './flex.styles';
@@ -13,7 +14,8 @@
 }
 
 .meta-main {
-  transition: all .3s ease-in-out; /* TODO Why? */
+  transition: all .3s ease-in-out;
+
   .meta-item {
     margin: 0 8px 0 0;
   }
