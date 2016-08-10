@@ -110,7 +110,7 @@ module.exports = {
 			nested({ bubble: ['raw'] }),
 			autoprefixer,
 			raw.inspect(),
-			increaseSpecificity,
+			increaseSpecificity({ stackableRoot: ':global(.hovercards-root)', repeat: 1 }),
 			raw.write(),
 			safeImportant
 		];

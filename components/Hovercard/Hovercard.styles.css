@@ -1,7 +1,4 @@
 .hovercard {
-
-  /* DON'T DELETE THIS, event if we don't use it for styling */
-  all: initial; /* no important */
   align-items: flex-start;
   background: white;
   border-radius: 3px;
@@ -20,14 +17,16 @@
   }
 }
 
-.lock-document::-webkit-scrollbar {
-  display: none;
-}
-
-.lock-body {
-  overflow: hidden;
-
-  &::-webkit-scrollbar {
+@raw  {
+  .lock-document::-webkit-scrollbar {
     display: none;
+  }
+
+  .lock-body {
+    overflow: hidden;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }

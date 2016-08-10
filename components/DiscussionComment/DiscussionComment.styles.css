@@ -1,10 +1,12 @@
 .comment-container {
   padding: 12px 24px;
 }
+
 .comment {
   display: flex;
   justify-content: left;
 }
+
 .account-image-container {
   height: 44px;
   margin: 0 16px 0 0;
@@ -29,7 +31,7 @@
   font-size: 15px;
   font-weight: normal;
   text-decoration: underline;
-  color: rgba(0,0,0,.8);
+  color: rgba(0, 0, 0, .8);
 }
 
 .description {
@@ -41,22 +43,23 @@
   margin: 5px 0;
   display: block;
 
-  @raw {
+  @raw  {
     composes: condensed from '../no-formatting.styles';
   }
 }
 
 .stat {
   font-size: 15px;
-  color: rgba(0,0,0,.6);
-  
-  @raw {  
+  color: rgba(0, 0, 0, .6);
+
+  @raw  {
     composes: flex-item from '../flex.styles';
   }
 }
+
 .stat-number {
   font-size: 15px;
-  color: rgba(0,0,0,.8);
+  color: rgba(0, 0, 0, .8);
 }
 
 .replies {
