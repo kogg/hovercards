@@ -78,7 +78,6 @@ module.exports = {
 		tls:     'empty'
 	},
 	plugins: _.compact([
-		new BellOnBundlerErrorPlugin(),
 		new webpack.EnvironmentPlugin([
 			'GOOGLE_ANALYTICS_ID',
 			'INSTAGRAM_CLIENT_ID',
@@ -89,6 +88,7 @@ module.exports = {
 			'STICKYCARDS',
 			'npm_package_gitHead'
 		]),
+		new BellOnBundlerErrorPlugin(),
 		!process.env.ENTRY && !process.env.NODE_ENV && new CleanWebpackPlugin(['dist']),
 		!process.env.ENTRY && new CopyWebpackPlugin([
 			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true },
