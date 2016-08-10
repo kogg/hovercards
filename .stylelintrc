@@ -3,12 +3,12 @@
   "rules": {
     "at-rule-name-space-after": "always",
     "block-opening-brace-space-before": ["always", { "ignoreAtRules": "raw" }],
-    "color-hex-length": "long",
-    "declaration-block-no-ignored-properties": null,
+    "color-hex-length": null,
+    "declaration-block-no-ignored-properties": [true, { "severity": "warning" }],
     "number-leading-zero": null,
-    "property-no-unknown": [true, { "ignoreProperties": ["composes", "font-smooth", "text-size-adjust"] }],
+    "property-no-unknown": [true, { "severity": "warning", "ignoreProperties": ["composes", "font-smooth", "text-size-adjust"] }],
     "selector-pseudo-element-colon-notation": "single",
-    "shorthand-property-no-redundant-values": null,
+    "shorthand-property-no-redundant-values": [true, { "severity": "warning" }],
     "string-quotes": "single"
   }
 }
