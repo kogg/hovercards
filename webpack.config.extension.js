@@ -61,7 +61,7 @@ module.exports = {
 	resolve: {
 		extensions: extensions(
 			process.env.ENTRY && ['.' + process.env.ENTRY, ''],
-			['.chrome', '.extension', '.browser', ''],
+			['.extension', '.browser', ''],
 			['.json', '.js', '.css']
 		)
 	},
