@@ -30,14 +30,79 @@ module.exports = function(params) {
 
 		return model.article_comments(_.pick(args, 'id'), null, usage)
 			.then(function(commentTree) {
-				return post_to_content(
-					_.chain(commentTree)
-						.first()
-						.result('data')
-						.result('children')
-						.first()
-						.result('data')
-						.value()
+				var post = _.chain(commentTree)
+					.first()
+					.result('data')
+					.result('children')
+					.first()
+					.result('data')
+					.value();
+
+				var author  = _.result(post, 'author');
+				var gifs    = [];
+				var images  = [];
+				var preview = _.chain(post).result('preview').result('images').first().value();
+
+				if (preview) {
+					images = _.chain(preview.resolutions).union([preview.source]).compact().value();
+					gifs = _.chain(preview)
+						.result('variants')
+						.result('mp4')
+						.value();
+					if (gifs) {
+						gifs = _.chain(gifs.resolutions).union([gifs.source]).compact().value();
+					}
+				}
+
+				return !_.isEmpty(post) && _.pick(
+					{
+						api:       'reddit',
+						type:      'content',
+						id:        _.result(post, 'id'),
+						name:      _.result(post, 'title'),
+						date:      Number(_.result(post, 'created_utc')) * 1000,
+						subreddit: _.result(post, 'subreddit'),
+						url:       !_.result(post, 'is_self') && _.result(post, 'url'),
+						account:   (author !== '[deleted]') && { api: 'reddit', type: 'account', id: author },
+						oembed:    _.chain(post).result('media').result('oembed').result('html').value(),
+						image:     !_.isEmpty(images) && {
+							small: _.chain(images)
+								.min(function(image) {
+									return Math.abs(image.width - 80);
+								})
+								.result('url')
+								.value(),
+							medium: _.chain(images)
+								.min(function(image) {
+									return Math.abs(image.width - 300);
+								})
+								.result('url')
+								.value(),
+							large: _.chain(images)
+								.min(function(image) {
+									return Math.abs(image.width - 600);
+								})
+								.result('url')
+								.value()
+						},
+						gif: !_.isEmpty(gifs) && _.chain(gifs)
+							.min(function(gif) {
+								return Math.abs(gif.width - 300);
+							})
+							.result('url')
+							.value(),
+						text: _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '')
+							.replace(/\n/gi, '')
+							.replace(/<!-- .*? -->/gi, '')
+							.replace(/^\s*<div class="md">(.*?)<\/div>\s*$/, '$1')
+							.replace(/<a href="\/([^"]*?)">(.*?)<\/a>/gi, '<a href="https://www.reddit.com/$1">$2</a>'),
+						stats: {
+							score:       Number(_.result(post, 'score')),
+							score_ratio: Number(_.result(post, 'upvote_ratio')),
+							comments:    Number(_.result(post, 'num_comments'))
+						}
+					},
+					_.somePredicate(_.isNumber, _.negate(_.isEmpty))
 				);
 			});
 	};
@@ -86,7 +151,6 @@ module.exports = function(params) {
 						api:      'reddit',
 						type:     'discussion',
 						id:       _.result(post, 'id'),
-						content:  post_to_content(post),
 						comments: _.chain(commentTree)
 							.last()
 							.result('data')
@@ -185,75 +249,6 @@ function catch_error(err) {
 			err.original_code = original_status;
 			throw err;
 	}
-}
-
-function post_to_content(post) {
-	var author  = _.result(post, 'author');
-	var gifs    = [];
-	var images  = [];
-	var preview = _.chain(post).result('preview').result('images').first().value();
-
-	if (preview) {
-		images = _.chain(preview.resolutions).union([preview.source]).compact().value();
-		gifs = _.chain(preview)
-			.result('variants')
-			.result('mp4')
-			.value();
-		if (gifs) {
-			gifs = _.chain(gifs.resolutions).union([gifs.source]).compact().value();
-		}
-	}
-
-	return !_.isEmpty(post) && _.pick(
-		{
-			api:       'reddit',
-			type:      'content',
-			id:        _.result(post, 'id'),
-			name:      _.result(post, 'title'),
-			date:      Number(_.result(post, 'created_utc')) * 1000,
-			subreddit: _.result(post, 'subreddit'),
-			url:       !_.result(post, 'is_self') && _.result(post, 'url'),
-			account:   (author !== '[deleted]') && { api: 'reddit', type: 'account', id: author },
-			oembed:    _.chain(post).result('media').result('oembed').result('html').value(),
-			image:     !_.isEmpty(images) && {
-				small: _.chain(images)
-					.min(function(image) {
-						return Math.abs(image.width - 80);
-					})
-					.result('url')
-					.value(),
-				medium: _.chain(images)
-					.min(function(image) {
-						return Math.abs(image.width - 300);
-					})
-					.result('url')
-					.value(),
-				large: _.chain(images)
-					.min(function(image) {
-						return Math.abs(image.width - 600);
-					})
-					.result('url')
-					.value()
-			},
-			gif: !_.isEmpty(gifs) && _.chain(gifs)
-				.min(function(gif) {
-					return Math.abs(gif.width - 300);
-				})
-				.result('url')
-				.value(),
-			text: _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '')
-				.replace(/\n/gi, '')
-				.replace(/<!-- .*? -->/gi, '')
-				.replace(/^\s*<div class="md">(.*?)<\/div>\s*$/, '$1')
-				.replace(/<a href="\/([^"]*?)">(.*?)<\/a>/gi, '<a href="https://www.reddit.com/$1">$2</a>'),
-			stats: {
-				score:       Number(_.result(post, 'score')),
-				score_ratio: Number(_.result(post, 'upvote_ratio')),
-				comments:    Number(_.result(post, 'num_comments'))
-			}
-		},
-		_.somePredicate(_.isNumber, _.negate(_.isEmpty))
-	);
 }
 
 function comment_to_comment(comment) {
