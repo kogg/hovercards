@@ -99,6 +99,12 @@ module.exports = function(params) {
 								followers: Number(_.result(user_counts, 'followed_by')),
 								following: Number(_.result(user_counts, 'follows'))
 							},
+							content: results[2] && {
+								api:     'instagram',
+								type:    'account_content',
+								id:      _.result(user, 'username'),
+								content: _.map(results[2], media_to_content)
+							},
 							accounts: _.chain(text.match(/href="[^"]+"/g))
 								.invoke('slice', 6, -1)
 								.map(urls.parse)
