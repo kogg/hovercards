@@ -1,6 +1,8 @@
-var _        = require('underscore');
-var Snoocore = require('snoocore');
-var errors   = require('feathers-errors');
+var _         = require('underscore');
+var Snoocore  = require('snoocore');
+var errors    = require('feathers-errors');
+var opengraph = require('open-graph-scraper');
+var promisify = require('es6-promisify');
 
 var config = require('../config');
 var urls   = require('../urls');
@@ -104,6 +106,35 @@ module.exports = function(params) {
 					},
 					_.somePredicate(_.isNumber, _.negate(_.isEmpty))
 				);
+			})
+			.then(function(content) {
+				if (!content.url || content.oembed || content.image || content.gif) {
+					return content;
+				}
+				return promisify(opengraph)({ url: content.url })
+					.then(function(result) {
+						if (!result.success) {
+							return content;
+						}
+
+						var data = _.result(result, 'data');
+
+						return Object.assign(
+							{
+								name: _.result(data, 'ogTitle') || _.result(data, 'twitterTitle'),
+								text: _.result(data, 'ogDescription') || _.result(data, 'twitterDescription')
+							},
+							content,
+							{
+								image: content.image ||
+									(_.result(data, 'ogImage') && { small: data.ogImage.url, medium: data.ogImage.url, large: data.ogImage.url }) ||
+									(_.result(data, 'twitterImage') && { small: data.twitterImage.url, medium: data.twitterImage.url, large: data.twitterImage.url })
+							}
+						);
+					})
+					.catch(function() {
+						return content;
+					});
 			});
 	};
 

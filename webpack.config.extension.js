@@ -73,6 +73,7 @@ module.exports = {
 	},
 	node: {
 		console: true,
+		dns:     'empty',
 		fs:      'empty',
 		net:     'empty',
 		tls:     'empty'
