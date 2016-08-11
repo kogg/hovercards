@@ -293,27 +293,9 @@ describe('reddit', function() {
 			article_comments_endpoint.reply(200, default_article_comments);
 
 			return expect(reddit.discussion({ id: 'CONTENT_ID' })).to.eventually.eql({
-				api:     'reddit',
-				type:    'discussion',
-				id:      'CONTENT_ID',
-				content: {
-					api:       'reddit',
-					type:      'content',
-					id:        'CONTENT_ID',
-					name:      'TITLE',
-					date:      1440189331000,
-					subreddit: 'SUBREDDIT',
-					stats:     {
-						score:       1000,
-						score_ratio: 0.1,
-						comments:    2000
-					},
-					account: {
-						api:  'reddit',
-						type: 'account',
-						id:   'ACCOUNT_ID'
-					}
-				},
+				api:      'reddit',
+				type:     'discussion',
+				id:       'CONTENT_ID',
 				comments: [
 					{
 						api:   'reddit',
@@ -419,20 +401,6 @@ describe('reddit', function() {
 			]);
 		});
 
-		it('should include urls for link posts', function() {
-			delete default_article_comments[0].data.children[0].data.selftext_html;
-			default_article_comments[0].data.children[0].data.is_self = false;
-			default_article_comments[0].data.children[0].data.url = 'https://www.hovercards.com';
-			article_comments_endpoint.reply(200, default_article_comments);
-
-			var promise = reddit.discussion({ id: 'CONTENT_ID' });
-
-			return Promise.all([
-				expect(promise).to.eventually.not.have.deep.property('content.text'),
-				expect(promise).to.eventually.have.deep.property('content.url', 'https://www.hovercards.com')
-			]);
-		});
-
 		it('should ignore [deleted] accounts', function() {
 			default_article_comments[0].data.children[0].data.author = '[deleted]';
 			default_article_comments[1].data.children[0].data.author = '[deleted]';
@@ -442,7 +410,6 @@ describe('reddit', function() {
 			var promise = reddit.discussion({ id: 'CONTENT_ID' });
 
 			return Promise.all([
-				expect(promise).to.eventually.not.have.deep.property('content.account'),
 				expect(promise).to.eventually.not.have.deep.property('comments[0].account'),
 				expect(promise).to.eventually.not.have.deep.property('comments[1].account')
 			]);
@@ -557,24 +524,6 @@ describe('reddit', function() {
 						api:  'someapi',
 						type: 'content',
 						id:   'SOME_CONTENT_ID'
-					},
-					content: {
-						api:       'reddit',
-						type:      'content',
-						id:        'CONTENT_ID',
-						name:      'TITLE',
-						date:      1440189331000,
-						subreddit: 'SUBREDDIT',
-						stats:     {
-							score:       1000,
-							score_ratio: 0.1,
-							comments:    2000
-						},
-						account: {
-							api:  'reddit',
-							type: 'account',
-							id:   'ACCOUNT_ID'
-						}
 					},
 					comments: [
 						{ api:     'reddit',
