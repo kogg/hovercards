@@ -3,7 +3,7 @@ var classnames = require('classnames');
 
 var styles = require('./Loading.styles');
 
-// TODO https://github.com/teamkogg/hovercards/issues/33
+// TODO https://github.com/kogg/hovercards/issues/33
 module.exports = React.createClass({
 	displayName: 'Loading',
 	propTypes:   {

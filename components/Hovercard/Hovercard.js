@@ -185,7 +185,7 @@ module.exports = connect(null, actions)(React.createClass({
 			return;
 		}
 		/*
-		 * TODO https://github.com/teamkogg/hovercards/issues/14
+		 * TODO https://github.com/kogg/hovercards/issues/14
 		var element = document.activeElement;
 		while (element !== document.documentElement) {
 			if (element === this.refs.hovercard) {

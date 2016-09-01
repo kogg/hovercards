@@ -3,12 +3,12 @@
   "description": "Get more content. Open fewer tabs.",
   "homepage": "http://hovercards.com",
   "bugs": {
-    "url": "https://github.com/teamkogg/hovercards/issues"
+    "url": "https://github.com/kogg/hovercards/issues"
   },
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/teamkogg/hovercards.git"
+    "url": "git+https://github.com/kogg/hovercards.git"
   },
   "scripts": {
     "build": "run-s build:*",
@@ -26,7 +26,7 @@
     "coverage:report": "cat ./coverage/lcov.info | codecov",
     "deploy": "run-s deploy:*",
     "deploy:extension": "webstore upload --source dist --extension-id dighmiipfpfdfbfmpodcmfdgkkcakbco --auto-publish --client-id $CHROME_CLIENT_ID --client-secret $CHROME_CLIENT_SECRET --refresh-token CHROME_REFRESH_TOKEN",
-    "deploy:www": "git config --global user.email \"teamkogg@gmail.com\" && git config --global user.name \"Kogg\" && gh-pages -d dist-www",
+    "deploy:www": "gh-pages -d dist-www",
     "fix": "run-s fix:styles:*",
     "fix:styles": "run-s fix:styles:*",
     "fix:styles:css": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \"\\.css$\" | xargs stylefmt --config .stylelintrc ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \"\\.css$\" | xargs git add )",

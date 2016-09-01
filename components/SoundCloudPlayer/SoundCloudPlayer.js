@@ -67,7 +67,7 @@ var SoundCloudPlayer = module.exports = React.createClass({
 		this.state.player.setVolume(this.props.muted ? 0 : 1);
 	},
 	render: function() {
-		// FIXME https://github.com/teamkogg/hovercards/issues/108
+		// FIXME https://github.com/kogg/hovercards/issues/108
 		return (
 			<iframe className={classnames(styles.player, this.props.className)}
 				ref="player"

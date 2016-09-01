@@ -101,7 +101,7 @@ module.exports = feathers.Router()
 	)
 
 	/*
-	 * TODO https://github.com/teamkogg/hovercards/issues/47
+	 * TODO https://github.com/kogg/hovercards/issues/47
 	.get('/in-app-messaging', function(req, res, next) {
 		promisify(redis.get.bind(redis))('active-message')
 			.then(function(activeMessage) {
