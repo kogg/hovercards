@@ -4,7 +4,7 @@
 [![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/rating/dighmiipfpfdfbfmpodcmfdgkkcakbco.svg?style=flat-square&maxAge=3600)](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco/reviews)
 [![Chrome Web Store Rating Count](https://img.shields.io/chrome-web-store/rating-count/dighmiipfpfdfbfmpodcmfdgkkcakbco.svg?style=flat-square&maxAge=3600)](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco/reviews)
 
-[![Travis](https://travis-ci.org/kogg/hovercards.svg?branch=master&style=flat-square&maxAge=3600)](https://travis-ci.org/kogg/hovercards)
+[![Travis](https://img.shields.io/travis/kogg/hovercards/master.svg?style=flat-square&maxAge=3600)](https://travis-ci.org/kogg/hovercards)
 [![Website](https://img.shields.io/website-up-down-green-red/http/hovercards.com.svg?style=flat-square&maxAge=3600)](http://hovercards.com)
 
 [![Codecov](https://img.shields.io/codecov/c/github/kogg/hovercards.svg?style=flat-square&maxAge=3600)](https://codecov.io/gh/kogg/hovercards)
