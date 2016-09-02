@@ -6,6 +6,6 @@
 
 [![Build Status](https://travis-ci.org/kogg/hovercards.svg?branch=master&style=flat-square)](https://travis-ci.com/kogg/hovercards)
 [![Website](https://img.shields.io/website-up-down-green-red/http/hovercards.com.svg?style=flat-square)](http://hovercards.com)
-[![Codecov private](https://img.shields.io/codecov/c/github/kogg/hovercards.svg?style=flat-square)](https://codecov.io/gh/kogg/hovercards)
+[![Codecov](https://img.shields.io/codecov/c/github/kogg/hovercards.svg?style=flat-square)](https://codecov.io/gh/kogg/hovercards)
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)
