@@ -63,12 +63,13 @@
   .text {
     text-align: center;
     font-size: 14px;
+    margin: 3px 0;
     color: rgba(0, 0, 0, .6);
   }
 
   .name-container + & {
     margin: 0;
-    padding: 6px 12px 12px 12px;
+    padding: 6px 12px 0 12px;
   }
 }
 
@@ -78,7 +79,5 @@
 
 .footer {
   .description + & {
-    padding-top: 0;
-    margin-top: 0;
   }
 }

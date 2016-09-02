@@ -2,14 +2,15 @@
   font-size: 14px;
   color: rgba(0, 0, 0, .8);
   font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .description {
   margin-top: 0;
-  max-height: 69px;
-  padding: 12px 12px 0 12px;
+  max-height: 90px;
+  padding: 12px 24px 0 24px;
   width: 100%;
-
   .content-reddit & {
 
     /* FIXME */
