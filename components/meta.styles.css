@@ -1,16 +1,19 @@
 .meta {
   margin-top: 12px;
   padding: 12px 24px;
-  border-top: 1px solid rgba(0,0,0,.1);
+  border-top: 1px solid rgba(0, 0, 0, .1);
+
   @raw  {
     composes: flex-row from './flex.styles';
     composes: flex-spread from './flex.styles';
   }
 }
+
 .mediameta .meta {
   border-top: none;
   margin-top: 4px;
 }
+
 .meta-main-container {
   position: relative;
   width: 100%;
@@ -38,7 +41,7 @@
   color: rgba(0, 0, 0, .8);
 
   span {
-  font-weight: 500;
-  color: rgba(0, 0, 0, .8);    
+    font-weight: 500;
+    color: rgba(0, 0, 0, .8);
   }
 }

@@ -88,9 +88,6 @@
     font-size: 16px;
   }
 
-  h4 {
-  }
-
   sup {
     color: rgba(0, 0, 0, .6) !important;
     vertical-align: super;
@@ -124,9 +121,6 @@
   p {
     display: block;
     color: rgba(0, 0, 0, .6);
-
-    a {
-    }
   }
 
   * {

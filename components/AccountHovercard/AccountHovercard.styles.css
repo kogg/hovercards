@@ -77,8 +77,3 @@
 .text {
   display: block;
 }
-
-.footer {
-  .description + & {
-  }
-}
