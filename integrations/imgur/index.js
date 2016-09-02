@@ -181,11 +181,23 @@ module.exports = function(params) {
 						.result('data')
 						.value();
 				}
+				var message = (
+					_.chain(response)
+						.result('body')
+						.result('data')
+						.result('error')
+						.value() ||
+					_.chain(response)
+						.result('data')
+						.result('error')
+						.value() ||
+					_.result(response, 'error')
+				);
 				switch (response.statusCode) {
 					case 404:
-						throw new errors.NotFound();
+						throw new errors.NotFound(message);
 					case 429:
-						throw new errors.FeathersError(null, 'TooManyRequests', 429, 'too-many-requests');
+						throw new errors.FeathersError(message, 'TooManyRequests', 429, 'too-many-requests');
 					case 503:
 						if (use_mashape) {
 							return imgur(endpoint, usage, false);
@@ -193,8 +205,8 @@ module.exports = function(params) {
 						/* falls through */
 					default:
 						var err = response.statusCode > 500 ?
-							new errors.FeathersError(null, 'BadGateway', 502, 'bad-gateway') :
-							new errors.GeneralError();
+							new errors.FeathersError(message, 'BadGateway', 502, 'bad-gateway') :
+							new errors.GeneralError(message);
 						err.original_code = response.statusCode;
 						throw err;
 				}
