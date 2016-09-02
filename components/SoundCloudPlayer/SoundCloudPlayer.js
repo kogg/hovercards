@@ -1,6 +1,7 @@
 var _          = require('underscore');
 var React      = require('react');
 var classnames = require('classnames');
+var errors     = require('feathers-errors');
 var promisify  = require('es6-promisify');
 
 var report = require('../../report');
@@ -26,6 +27,9 @@ var SoundCloudPlayer = module.exports = React.createClass({
 			SoundCloudPlayer.getSC = _.constant(
 				fetch('https://w.soundcloud.com/player/api.js')
 					.then(function(response) {
+						if (!response.ok) {
+							throw new errors.FeathersError('Youtube API won\'t load', 'FeathersError');
+						}
 						return response.text();
 					})
 					.then(function(text) {

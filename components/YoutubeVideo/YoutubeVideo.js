@@ -2,6 +2,7 @@ var _          = require('underscore');
 var React      = require('react');
 var classnames = require('classnames');
 var compose    = require('redux').compose;
+var errors     = require('feathers-errors');
 var promisify  = require('es6-promisify');
 
 var report = require('../../report');
@@ -42,6 +43,9 @@ var YoutubeVideo = module.exports = React.createClass({
 					// HACK This is a url from within https://www.youtube.com/iframe_api
 					fetch('https://s.ytimg.com/yts/jsbin/www-widgetapi-vflwSZmGJ/www-widgetapi.js')
 						.then(function(response) {
+							if (!response.ok) {
+								throw new errors.FeathersError('Youtube API won\'t load', 'FeathersError');
+							}
 							return response.text();
 						})
 						.then(function(text) {
