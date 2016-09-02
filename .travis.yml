@@ -17,9 +17,3 @@ cache:
     - node_modules
 notifications:
   email: false
-  slack:
-    rooms:
-      - kogg:5ux9iusrdT0YrLcCYetMSUEL#development
-    on_failure: always
-    on_pull_requests: false
-    on_success: never
