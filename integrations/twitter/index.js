@@ -45,7 +45,7 @@ module.exports = function(params) {
 		if (_.chain(args).result('for').isEmpty().value()) {
 			_.extend(query, { q: 'to:' + _.chain(args).result('account').result('id').value(), since_id: _.result(args, 'id') });
 		} else {
-			_.extend(query, { q: _.map(urls.represent(args.for), function(url) { return (url || '').replace(/^https?:\/\//, ''); }).join(' OR ') });
+			_.extend(query, { q: _.map(urls.represent(Object.assign({ api: 'twitter' }, args.for)), function(url) { return (url || '').replace(/^https?:\/\//, ''); }).join(' OR ') });
 		}
 
 		return model.search_tweets(query, _.pick(args, 'user'), usage)
