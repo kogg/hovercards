@@ -5,7 +5,7 @@
   "bugs": {
     "url": "https://github.com/kogg/hovercards/issues"
   },
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kogg/hovercards.git"
