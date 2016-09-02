@@ -24,7 +24,7 @@
     "coverage:check": "istanbul check-coverage --statements 75 --branches 75 --functions 75 --lines 75",
     "coverage:report": "cat ./coverage/lcov.info | codecov",
     "deploy": "run-s deploy:*",
-    "deploy:extension": "webstore upload --source dist --extension-id dighmiipfpfdfbfmpodcmfdgkkcakbco --auto-publish --client-id $CHROME_CLIENT_ID --client-secret $CHROME_CLIENT_SECRET --refresh-token CHROME_REFRESH_TOKEN",
+    "deploy:extension": "webstore upload --source dist --extension-id dighmiipfpfdfbfmpodcmfdgkkcakbco --auto-publish --client-id $CHROME_CLIENT_ID --client-secret $CHROME_CLIENT_SECRET --refresh-token $CHROME_REFRESH_TOKEN",
     "deploy:www": "gh-pages -d dist-www",
     "fix": "run-s fix:*",
     "fix:css": "( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \"\\.css$\" | xargs stylefmt --config .stylelintrc ) && ( git diff --staged --name-only --diff-filter=ACMRTUXB | grep \"\\.css$\" | xargs git add )",
