@@ -90,7 +90,6 @@
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-es2015-computed-properties": "^6.8.0",
     "babel-preset-react": "^6.11.1",
-    "babel-preset-react-native": "^1.9.0",
     "bell-on-bundler-error-plugin": "^1.0.8",
     "chai": "^3.3.0",
     "chai-as-promised": "^5.3.0",
