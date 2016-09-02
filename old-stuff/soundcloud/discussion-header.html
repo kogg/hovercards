@@ -1,9 +1,0 @@
-<discussion-header content="{{ content }}">
-	{{#if content.as === 'playlist'}}
-		<span><em decorator="number:{{ content.stats.content }}"></em>  {{ copy('content',  'soundcloud') }}</span>
-	{{else}}
-		<span><em decorator="number:{{ content.stats.likes    }}"></em> {{ copy('likes',    'soundcloud') }}</span>
-		<span><em decorator="number:{{ content.stats.views    }}"></em> {{ copy('views',    'soundcloud') }}</span>
-		<span><em decorator="number:{{ content.stats.comments }}"></em> {{ copy('comments', 'soundcloud') }}</span>
-	{{/if}}
-</discussion-header>

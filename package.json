@@ -19,7 +19,7 @@
     "build:www": "NODE_ENV=production webpack -p --config webpack.config.www.js",
     "check": "run-s check:*",
     "check:css": "stylelint \"**/*.css\" --color --ignore-path .gitignore",
-    "check:js": "eslint . --color --ignore-path .gitignore --ignore-pattern 'integrations/**' --ignore-pattern 'old-stuff/**'",
+    "check:js": "eslint . --color --ignore-path .gitignore --ignore-pattern 'integrations/**'",
     "clean": "rm -rf coverage dist dist-* dump.rdb npm-debug.log*",
     "coverage:check": "istanbul check-coverage --statements 75 --branches 75 --functions 75 --lines 75",
     "coverage:report": "cat ./coverage/lcov.info | codecov",

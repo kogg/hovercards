@@ -1,6 +1,0 @@
-<discussion-header content="{{ content }}">
-	<span><em decorator="number:{{ content.stats.views }}"></em> {{ copy('views', 'imgur') }}</span>
-	{{#if !_.isUndefined(content.stats.score)}}
-		<span><em decorator="number:{{ content.stats.score }}"></em> {{ copy('score', 'imgur') }}</span>
-	{{/if}}
-</discussion-header>
