@@ -21,12 +21,12 @@ module.exports = React.createClass({
 						{
 							this.props.account.stats && config.integrations[this.props.account.api].account.stats.map(function(stat) {
 								if (stat === 'date') {
-									return <span key={stat} className={styles.metaItem}><em><TimeSince date={this.props.account.date} /></em> {browser.i18n.getMessage('age_of_' + this.props.account.api) || browser.i18n.getMessage('age')}</span>;
+									return <span key={stat} className={styles.metaItem}><em className={styles.metaNumber}><TimeSince date={this.props.account.date} /></em> {browser.i18n.getMessage('age_of_' + this.props.account.api) || browser.i18n.getMessage('age')}</span>;
 								}
 								if (this.props.account.stats[stat] === undefined) {
 									return null;
 								}
-								return <span key={stat} className={styles.metaItem}><em title={this.props.account.stats[stat].toLocaleString()}>{format.number(this.props.account.stats[stat])}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.account.api) || browser.i18n.getMessage(stat)}</span>;
+								return <span key={stat} className={styles.metaItem}><em className={styles.metaNumber} title={this.props.account.stats[stat].toLocaleString()}>{format.number(this.props.account.stats[stat])}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.account.api) || browser.i18n.getMessage(stat)}</span>;
 							}.bind(this))
 						}
 					</div>

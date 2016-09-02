@@ -1,5 +1,5 @@
 .comment-container {
-  padding: 12px;
+  padding: 12px 24px;
 }
 
 .comment {
@@ -28,8 +28,10 @@
 }
 
 .account-name {
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: normal;
+  text-decoration: underline;
+  color: rgba(0, 0, 0, .8);
 }
 
 .description {
@@ -38,21 +40,32 @@
 }
 
 .text {
-  margin: 2px 0 4px;
+  margin: 5px 0;
+  display: block;
 
-  a {
-    color: #0084b4;
+  @raw  {
+    composes: format from '../no-formatting.styles';
   }
 }
 
 .stat {
-  composes: flex-item from '../flex.styles';
+  font-size: 15px;
+  color: rgba(0, 0, 0, .6);
+
+  @raw  {
+    composes: flex-item from '../flex.styles';
+  }
+}
+
+.stat-number {
+  font-size: 15px;
+  color: rgba(0, 0, 0, .8);
 }
 
 .replies {
-  border-left: 2px solid rgba(0, 0, 0, .1);
-  margin: 0 12px;
-  padding-bottom: 8px;
+  border-left: 3px solid rgba(0, 0, 0, .1);
+  padding-left: 20px;
+  margin-top: 20px;
 
   .comment-container {
     padding: 0;
@@ -66,11 +79,7 @@
     margin: 0 0 0 16px;
   }
 
-  .description {
-    padding-left: 12px;
-  }
-
   .replies {
-    margin-right: 0px;
+    margin-right: 0;
   }
 }

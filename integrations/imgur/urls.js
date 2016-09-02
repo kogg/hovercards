@@ -30,6 +30,8 @@ urls.represent = function(identity, comment) {
 			]);
 		case 'account':
 			return ['https://imgur.com/user/' + identity.id];
+		default:
+			return null;
 	}
 };
 

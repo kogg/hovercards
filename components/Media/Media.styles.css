@@ -1,17 +1,24 @@
 .media {
-  composes: flex-row from '../flex.styles';
   height: inherit;
   max-width: 100%;
   min-height: inherit;
   min-width: inherit;
-  padding: 12px 12px 0 12px;
+  padding: 18px 24px 0 24px;
   position: relative;
   text-align: left;
   width: 9999px;
 
+  @raw  {
+    composes: flex-row from '../flex.styles';
+  }
+
   &:empty {
     display: none;
   }
+}
+
+.media + .meta {
+  display: none;
 }
 
 .description {
@@ -26,6 +33,15 @@
   font-size: 14px;
 }
 
+.text {
+  color: rgba(0, 0, 0, .6);
+}
+
 .name {
   font-weight: bold;
+  margin-right: 6px;
+}
+
+.name:empty {
+  display: none;
 }

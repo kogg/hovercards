@@ -1,8 +1,8 @@
 {
   "environment": "client",
   "content_security_policy": {
-    "img-src": ["https://i1.sndcdn.com"],
-    "frame-src": ["https://w.soundcloud.com"]
+    "img-src": ["i1.sndcdn.com"],
+    "frame-src": ["w.soundcloud.com"]
   },
   "account": {
     "stats": ["content", "followers", "following"]

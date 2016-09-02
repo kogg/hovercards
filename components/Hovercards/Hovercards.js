@@ -1,19 +1,16 @@
 var _                        = require('underscore');
 var React                    = require('react');
-var classnames               = require('classnames');
 var connect                  = require('react-redux').connect;
 var createStructuredSelector = require('reselect').createStructuredSelector;
 
+require('./Hovercards.styles');
 var Hovercard   = require('../Hovercard/Hovercard');
 var actions     = require('../../redux/actions');
 var dom         = require('../../utils/dom');
 var entityLabel = require('../../utils/entity-label');
-var styles      = require('./Hovercards.styles');
 var urls        = require('../../integrations/urls');
 
 var TIMEOUT_BEFORE_CARD = 500;
-
-// TODO This is probably the grossest file that is getting reformated. Cleanup?
 
 module.exports = connect(
 	createStructuredSelector({
@@ -131,7 +128,7 @@ module.exports = connect(
 		element.addEventListener('mousemove', updateEvent);
 		window.addEventListener('blur', abandon);
 
-		var that = this; // FIXME
+		var that = this;
 
 		function abandon() {
 			cleanup();
@@ -156,7 +153,7 @@ module.exports = connect(
 	},
 	render: function() {
 		return (
-			<div className={classnames(styles.hovercards, this.props.className)} ref="hovercards">
+			<div className={this.props.className} ref="hovercards">
 				{this.state.hovercards.map(function(hovercard) {
 					return <Hovercard key={hovercard.key}
 						request={hovercard.request}
@@ -179,17 +176,6 @@ function acceptRequest(request, element, parents) {
 			_.chain(parents)
 				.every(function(parent) {
 					return dom.hasClass(parent, 'options') || dom.hasClass(parent, 'user-dropdown');
-				})
-				.isEmpty()
-				.value()
-		) ||
-		(
-			request.api === 'instagram' &&
-			request.type === 'account' &&
-			!dom.hasClass(element, '-cx-PRIVATE-Navigation__menuLink') &&
-			_.chain(parents)
-				.every(function(parent) {
-					return dom.hasClass(parent, 'dropdown');
 				})
 				.isEmpty()
 				.value()

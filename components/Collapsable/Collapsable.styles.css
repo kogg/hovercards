@@ -2,30 +2,42 @@
   position: relative;
   overflow: hidden;
 
+  @raw  {
+    composes: format from '../no-formatting.styles';
+  }
+
   &.collapsed {
     cursor: pointer;
 
-    .content-reddit &:after {
-
-      /* FIXME */
-      top: 180px;
+    &:after {
+      background: #e8e8e8;
+      border-radius: 20px;
+      line-height: 10px;
+      color: rgba(0, 0, 0, .6);
+      content: '...';
+      cursor: pointer;
+      font-weight: bolder;
+      display: block;
+      font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-size: 18px;
+      height: 20px;
+      padding: 0 6px;
+      position: absolute;
+      right: 24px;
+      text-align: right;
+      top: calc(100% - 23px);
+      z-index: 20;
     }
 
-    &:after {
-      background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 28%, rgba(255, 255, 255, 1) 100%);
-      color: rgba(0, 0, 0, .6);
-      content: "Read More";
-      cursor: pointer;
-      display: block;
-      font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      font-size: 14px;
-      height: 20px;
-      padding-right: 12px;
+    &:before {
+      content: '';
       position: absolute;
-      right: 0;
-      text-align: right;
-      top: calc(100% - 18px);
-      width: 120px;
+      display: block;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 28%, rgba(255, 255, 255, 1) 100%);
+      right: 24px;
+      top: calc(100% - 23px);
+      height: 20px;
+      width: 60px;
     }
   }
 

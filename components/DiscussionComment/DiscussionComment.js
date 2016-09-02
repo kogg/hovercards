@@ -60,7 +60,7 @@ var DiscussionComment = module.exports = React.createClass({
 									}
 									var number = format.number(this.props.comment.stats[stat]);
 
-									return <span key={stat} className={styles.stat}><em title={this.props.comment.stats[stat].toLocaleString()}>{number}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.integration) || browser.i18n.getMessage(stat)}</span>;
+									return <span key={stat} className={styles.stat}><em className={styles.statNumber} title={this.props.comment.stats[stat].toLocaleString()}>{number}</em> {browser.i18n.getMessage(stat + '_of_' + this.props.integration) || browser.i18n.getMessage(stat)}</span>;
 								}.bind(this))}
 							</div>
 						}
@@ -68,7 +68,7 @@ var DiscussionComment = module.exports = React.createClass({
 				</div>
 				{
 					this.props.comment.replies &&
-					this.props.comment.replies.length &&
+					Boolean(this.props.comment.replies.length) &&
 					<div className={styles.replies}>
 						{this.props.comment.replies && this.props.comment.replies.map(function(reply, i) {
 							return <DiscussionComment key={reply.id || i} comment={reply} integration={this.props.integration} onClickText={this.props.onClickText} />;

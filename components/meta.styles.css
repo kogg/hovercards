@@ -1,6 +1,17 @@
 .meta {
-  composes: flex-row from './flex.styles';
-  padding: 12px;
+  margin-top: 12px;
+  padding: 12px 24px;
+  border-top: 1px solid rgba(0, 0, 0, .1);
+
+  @raw  {
+    composes: flex-row from './flex.styles';
+    composes: flex-spread from './flex.styles';
+  }
+}
+
+.mediameta .meta {
+  border-top: none;
+  margin-top: 4px;
 }
 
 .meta-main-container {
@@ -10,12 +21,27 @@
 }
 
 .meta-main {
-  transition: all .3s ease-in-out; /* TODO Why? */
+  transition: all .3s ease-in-out;
+
   .meta-item {
-    margin: 0 6px 0 0;
+    margin: 0 8px 0 0;
   }
 }
 
+.meta-item span,
 .meta-item {
   line-height: 20px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, .6);
+}
+
+.meta-number {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, .8);
+
+  span {
+    font-weight: 500;
+    color: rgba(0, 0, 0, .8);
+  }
 }

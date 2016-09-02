@@ -26,8 +26,12 @@
 }
 
 .name-container {
-  composes: flex-row from '../flex.styles';
   margin: 16px 12px 10px;
+  text-align: center;
+
+  @raw  {
+    composes: flex-row from '../flex.styles';
+  }
 
   .image + & {
     margin: 3px 12px 0;
@@ -36,11 +40,12 @@
 
 .name {
   font-size: 16px;
+  color: rgba(0, 0, 0, .8);
   font-weight: 700;
 }
 
 .verified {
-  background-image: url("../../assets/images/verified.svg");
+  background-image: url('../../assets/images/verified.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -56,19 +61,19 @@
   text-align: center;
   width: 100%;
 
+  .text {
+    text-align: center;
+    font-size: 14px;
+    margin: 3px 0;
+    color: rgba(0, 0, 0, .6);
+  }
+
   .name-container + & {
     margin: 0;
-    padding: 6px 12px 12px 12px;
+    padding: 6px 12px 0 12px;
   }
 }
 
 .text {
   display: block;
-}
-
-.footer {
-  .description + & {
-    padding-top: 0;
-    margin-top: 0;
-  }
 }

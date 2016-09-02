@@ -5,11 +5,12 @@ var FaviconsWebpackPlugin    = require('favicons-webpack-plugin');
 var HtmlWebpackPlugin        = require('html-webpack-plugin');
 var autoprefixer             = require('autoprefixer');
 var nested                   = require('postcss-nested');
+var webpack                  = require('webpack');
 
 module.exports = {
 	entry: {
-		main:    './www/js/main.js',
-		privacy: './www/js/privacy.js'
+		index:   './www/js/index',
+		privacy: './www/js/privacy'
 	},
 	output: {
 		path:     'dist-www',
@@ -39,6 +40,9 @@ module.exports = {
 		stats: { colors: true }
 	},
 	plugins: [
+		new webpack.EnvironmentPlugin([
+			'CHROME_EXTENSION_ID'
+		]),
 		new BellOnBundlerErrorPlugin(),
 		new CopyWebpackPlugin([
 			{ from: 'assets/images/facebeefbanner.jpg', to: 'images' },
@@ -46,8 +50,29 @@ module.exports = {
 		]),
 		new ExtractTextPlugin('[name].[hash].css'),
 		new FaviconsWebpackPlugin({ logo: './assets/images/logo.png', title: 'HoverCards', prefix: 'favicons-[hash]/' }),
-		new HtmlWebpackPlugin({ chunks: ['main'], template: 'www/index.html' }),
-		new HtmlWebpackPlugin({ chunks: ['privacy'], template: 'www/privacy.html', filename: 'privacy.html' })
+		new HtmlWebpackPlugin({
+			title:           'HoverCards - More content. Fewer Tabs.',
+			template:        'www/index.ejs',
+			inject:          false,
+			chunks:          ['index'],
+			googleAnalytics: process.env.GOOGLE_ANALYTICS_ID && {
+				trackingId:     process.env.GOOGLE_ANALYTICS_ID,
+				pageViewOnLoad: true
+			},
+			mobile: true
+		}),
+		new HtmlWebpackPlugin({
+			title:           'HoverCards - Privacy Policy.',
+			filename:        'privacy.html',
+			template:        'www/privacy.ejs',
+			inject:          false,
+			chunks:          ['privacy'],
+			googleAnalytics: process.env.GOOGLE_ANALYTICS_ID && {
+				trackingId:     process.env.GOOGLE_ANALYTICS_ID,
+				pageViewOnLoad: true
+			},
+			mobile: true
+		})
 	],
 	postcss: function() {
 		return [nested, autoprefixer];

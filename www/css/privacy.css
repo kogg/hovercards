@@ -1,37 +1,44 @@
-@import './main.css';
+@import './index.css';
 
 .sub-header {
-	text-align: center;
-	color: white;
-	padding: 50px 20px;
-	background: #b4e6f7
+  text-align: center;
+  color: white;
+  padding: 50px 20px;
+  background: #b4e6f7;
 }
+
 .sub-header h1 {
-	font-size: 60px
+  font-size: 60px;
 }
+
 .center-container {
-	max-width: 780px;
-	width: 100%;
-	margin: auto;
-	padding: 50px 20px
+  max-width: 780px;
+  width: 100%;
+  margin: auto;
+  padding: 50px 20px;
 }
+
 .login-text a {
-	text-decoration: none;
-	color: white;
+  text-decoration: none;
+  color: white;
 }
+
 p {
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
+
 a {
-	color: blue
+  color: blue;
 }
+
 @media (max-width: 760px) {
-	.sub-header h1 {
-		font-size: 30px;
-	}
+  .sub-header h1 {
+    font-size: 30px;
+  }
 }
+
 @media (max-width: 460px) {
-	.sub-header h1 {
-		font-size: 25px;
-	}
+  .sub-header h1 {
+    font-size: 25px;
+  }
 }

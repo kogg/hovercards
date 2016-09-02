@@ -7,12 +7,6 @@ var config = require('../config');
 var urls   = require('../urls');
 require('../mixins');
 
-/*
- * FIXME We can now follow redirects how we want https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch
- * So a lot of this is weird because CLIENT SIDE WE CAN'T STOP THE REDIRECTS FROM HAPPENING
- * So even for for comments, for example, we have to go grab the track.
- */
-
 module.exports = function(params) {
 	var model = {};
 	var api   = { model: model };

@@ -11,14 +11,13 @@ module.exports = _.chain(config.integrations)
 		return (integrationConfig.environment || 'server') === 'server' || integrationConfig.authenticated_environment === 'server';
 	})
 	.mapObject(function(integrationConfig, integration) {
+		// HACK This only applied to twitter
 		return require('../integrations/' + integration)({
 			secret_storage: {
 				del: function(token) {
-					// FIXME Hardcoded is bad
 					return promisify(redis.del.bind(redis))('auth:twitter:' + token);
 				},
 				get: function(token) {
-					// FIXME Hardcoded is bad
 					return promisify(redis.get.bind(redis))('auth:twitter:' + token);
 				}
 			}

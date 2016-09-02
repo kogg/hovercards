@@ -19,7 +19,7 @@ module.exports = connect(null, actions)(React.createClass({
 		return this.props.authenticate({ api: this.props.error.request && this.props.error.request.api })
 			.then(function() {
 				if (!this.isMounted()) {
-					// FIXME Anti-pattern
+					// HACK isMounted is an anti-pattern https://facebook.github.io/react/blog/2015/12/16/ismounted-antipattern.html
 					return null;
 				}
 				return this.props.getEntity(this.props.error.request);
@@ -29,8 +29,8 @@ module.exports = connect(null, actions)(React.createClass({
 	render: function() {
 		var integration = this.props.error.request && this.props.error.request.api;
 		var cta         = (
-			browser.i18n.getMessage('err_' + this.props.error.code + '_cta_of_' + integration) ||
-			browser.i18n.getMessage('err_' + this.props.error.code + '_cta')
+			browser.i18n.getMessage('err_' + (this.props.error.code || 500) + '_cta_of_' + integration) ||
+			browser.i18n.getMessage('err_' + (this.props.error.code || 500) + '_cta')
 		);
 
 		return (
@@ -38,12 +38,12 @@ module.exports = connect(null, actions)(React.createClass({
 				<div className={styles.image} />
 				<div className={styles.description}>
 					<b className={styles.name}>{
-						browser.i18n.getMessage('err_' + this.props.error.code + '_name_of_' + integration, [browser.i18n.getMessage('name_of_' + integration)]) ||
-						browser.i18n.getMessage('err_' + this.props.error.code + '_name', [browser.i18n.getMessage('name_of_' + integration)])
+						browser.i18n.getMessage('err_' + (this.props.error.code || 500) + '_name_of_' + integration, [browser.i18n.getMessage('name_of_' + integration)]) ||
+						browser.i18n.getMessage('err_' + (this.props.error.code || 500) + '_name', [browser.i18n.getMessage('name_of_' + integration)])
 					}</b>
 					<p className={styles.name}>{
-						browser.i18n.getMessage('err_' + this.props.error.code + '_text_of_' + integration, [browser.i18n.getMessage('name_of_' + integration)]) ||
-						browser.i18n.getMessage('err_' + this.props.error.code + '_text', [browser.i18n.getMessage('name_of_' + integration)])
+						browser.i18n.getMessage('err_' + (this.props.error.code || 500) + '_text_of_' + integration, [browser.i18n.getMessage('name_of_' + integration)]) ||
+						browser.i18n.getMessage('err_' + (this.props.error.code || 500) + '_text', [browser.i18n.getMessage('name_of_' + integration)])
 					}</p>
 					{cta && <a className={classnames(styles[integration], styles.cta)} onClick={this.onClickCTA}>{cta}</a>}
 				</div>

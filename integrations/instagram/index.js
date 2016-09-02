@@ -36,7 +36,17 @@ module.exports = function(params) {
 
 		return model.media_shortcode(_.pick(args, 'id'), _.pick(params, 'user'), usage)
 			.then(function(media) {
-				return _.chain(media_to_content(media, 'link')).extend({ text: autolinker.link(_.chain(media).result('caption').result('text', '').value()), account: user_to_account(_.result(media, 'user')), discussions: [media_to_discussion(media)] }).pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))).value();
+				return _.pick(
+					Object.assign(
+						media_to_content(media, 'link'),
+						{
+							text:        autolinker.link(_.chain(media).result('caption').result('text', '').value()),
+							account:     user_to_account(_.result(media, 'user')),
+							discussions: [media_to_discussion(media)]
+						}
+					),
+					_.somePredicate(_.isNumber, _.negate(_.isEmpty))
+				);
 			});
 	};
 
@@ -52,7 +62,9 @@ module.exports = function(params) {
 
 		var getUserIncomplete = model.user_search(_.pick(args, 'id'), _.pick(params, 'user'), usage)
 			.then(function(users) {
-				var user_incomplete = _.find(users, function(user) { return _.isEqual(user.username.toLowerCase(), _.result(args, 'id').toLowerCase()); });
+				var user_incomplete = _.find(users, function(user) {
+					return _.isEqual(user.username.toLowerCase(), _.result(args, 'id').toLowerCase());
+				});
 				if (!user_incomplete) {
 					throw new errors.NotFound();
 				}
@@ -72,31 +84,59 @@ module.exports = function(params) {
 				})
 		])
 			.then(function(results) {
-				var user        = _.extend({}, results[0], results[1]);
+				var user        = Object.assign({}, results[0], results[1]);
 				var user_counts = _.result(user, 'counts');
 
 				var text = autolinker.link(_.result(user, 'bio', ''));
 
-				return _.chain(user_to_account(user)).extend({ text: text, stats: { content: Number(_.result(user_counts, 'media')), followers: Number(_.result(user_counts, 'followed_by')), following: Number(_.result(user_counts, 'follows')) }, accounts: _.chain(text.match(/href="[^"]+"/g)).invoke('slice', 6, -1).map(urls.parse).unshift(urls.parse(_.result(user, 'website'))).where({ type: 'account' }).value() }).pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))).value();
+				return _.pick(
+					Object.assign(
+						user_to_account(user),
+						{
+							text:  text,
+							stats: {
+								content:   Number(_.result(user_counts, 'media')),
+								followers: Number(_.result(user_counts, 'followed_by')),
+								following: Number(_.result(user_counts, 'follows'))
+							},
+							content: results[2] && {
+								api:     'instagram',
+								type:    'account_content',
+								id:      _.result(user, 'username'),
+								content: _.map(results[2], media_to_content)
+							},
+							accounts: _.chain(text.match(/href="[^"]+"/g))
+								.invoke('slice', 6, -1)
+								.map(urls.parse)
+								.unshift(urls.parse(_.result(user, 'website')))
+								.where({ type: 'account' })
+								.value()
+						}
+					),
+					_.somePredicate(_.isNumber, _.negate(_.isEmpty))
+				);
 			});
 	};
 
 	model.media_shortcode = function(args, args_not_cached, usage) {
 		usage['instagram-calls']++;
 
-		return promisify(instagram.media.bind(instagram.media))('shortcode/' + _.result(args, 'id')).catch(catch_errors(args_not_cached));
+		return promisify(instagram.media.bind(instagram.media))('shortcode/' + _.result(args, 'id'))
+			.catch(catch_errors(args_not_cached));
 	};
 
 	model.user = function(args, args_not_cached, usage) {
 		usage['instagram-calls']++;
 
-		return promisify(instagram.user.bind(instagram.user))(_.result(args, 'id')).catch(catch_errors(args_not_cached));
+		return promisify(instagram.user.bind(instagram.user))(_.result(args, 'id'))
+			.catch(catch_errors(args_not_cached));
 	};
 
 	model.user_media_recent = function(args, args_not_cached, usage) {
 		usage['instagram-calls']++;
 
-		return promisify(instagram.user_media_recent.bind(instagram.user_media_recent))(_.result(args, 'id'), { count: config.counts.grid }).catch(catch_errors(args_not_cached));
+		return promisify(instagram.user_media_recent.bind(instagram.user_media_recent))(_.result(args, 'id'), { count: config.counts.grid })
+			.catch(catch_errors(args_not_cached));
 	};
 
 	model.user_search = function(args, args_not_cached, usage) {
@@ -153,23 +193,67 @@ module.exports = function(params) {
 
 function media_to_content(media) {
 	var media_images = _.result(media, 'images');
-	return !_.isEmpty(media) && _.chain(urls.parse(_.result(media, 'link')))
-		.extend({
-			date:  _.result(media, 'created_time') * 1000,
-			image: { small: _.chain(media_images).result('thumbnail').result('url').value(), medium: _.chain(media_images).result('low_resolution').result('url').value(), large: _.chain(media_images).result('standard_resolution').result('url').value() },
-			video: (_.result(media, 'type') === 'video') && _.chain(media).result('videos').result('standard_resolution').result('url').value(),
-			stats: { likes: Number(_.chain(media).result('likes').result('count').value()), comments: Number(_.chain(media).result('comments').result('count').value()) }
-		})
-		.pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty)))
-		.value();
+
+	return !_.isEmpty(media) && _.pick(
+		Object.assign(
+			urls.parse(_.result(media, 'link')),
+			{
+				date:  _.result(media, 'created_time') * 1000,
+				image: {
+					small:  _.chain(media_images).result('thumbnail').result('url').value(),
+					medium: _.chain(media_images).result('low_resolution').result('url').value(),
+					large:  _.chain(media_images).result('standard_resolution').result('url').value()
+				},
+				video: (_.result(media, 'type') === 'video') && _.chain(media).result('videos').result('standard_resolution').result('url').value(),
+				stats: {
+					likes:    Number(_.chain(media).result('likes').result('count').value()),
+					comments: Number(_.chain(media).result('comments').result('count').value())
+				}
+			}
+		),
+		_.somePredicate(_.isNumber, _.negate(_.isEmpty))
+	);
 }
 
 function user_to_account(user) {
-	return !_.isEmpty(user) && _.pick({ api: 'instagram', type: 'account', id: _.result(user, 'username'), name: _.result(user, 'full_name'), image: _.result(user, 'profile_picture') !== DEFAULT_PROFILE_IMAGE && { medium: _.result(user, 'profile_picture') } }, _.negate(_.isEmpty));
+	return !_.isEmpty(user) && _.pick(
+		{
+			api:   'instagram',
+			type:  'account',
+			id:    _.result(user, 'username'),
+			name:  _.result(user, 'full_name'),
+			image: _.result(user, 'profile_picture') !== DEFAULT_PROFILE_IMAGE && { medium: _.result(user, 'profile_picture') }
+		},
+		_.negate(_.isEmpty)
+	);
 }
 
 function media_to_discussion(media) {
 	var media_comments = _.result(media, 'comments');
-	return !_.isEmpty(media) && _.chain(urls.parse(_.result(media, 'link'))).extend({ type:     'discussion', comments: _.chain(media_comments).result('data').reject(_.isEmpty).map(function(comment) {
-		return _.pick({ api: 'instagram', type: 'comment', text: autolinker.link(_.result(comment, 'text')), date: _.result(comment, 'created_time') * 1000, account: user_to_account(_.result(comment, 'from')) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty))); }).value() }).pick(_.somePredicate(_.isNumber, _.negate(_.isEmpty))).value();
+
+	return !_.isEmpty(media) && _.pick(
+		Object.assign(
+			urls.parse(_.result(media, 'link')),
+			{
+				type:     'discussion',
+				comments: _.chain(media_comments)
+					.result('data')
+					.reject(_.isEmpty)
+					.map(function(comment) {
+						return _.pick(
+							{
+								api:     'instagram',
+								type:    'comment',
+								text:    autolinker.link(_.result(comment, 'text')),
+								date:    _.result(comment, 'created_time') * 1000,
+								account: user_to_account(_.result(comment, 'from'))
+							},
+							_.somePredicate(_.isNumber, _.negate(_.isEmpty))
+						);
+					})
+					.value()
+			}
+		),
+		_.somePredicate(_.isNumber, _.negate(_.isEmpty))
+	);
 }

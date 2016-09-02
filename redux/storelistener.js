@@ -34,10 +34,11 @@ module.exports = function(store) {
 							console.log('["' + diff.path.join('"]["') + '"]', 'deleted', diff.lhs, 'at', diff.index);
 							break;
 						case 'E':
-							console.log('["' + diff.path.join('"]["') + '"]', 'TODO A-E change', diff);
+							// TODO Finish these cases
+							console.log('["' + diff.path.join('"]["') + '"]', diff);
 							break;
 						case 'A':
-							console.log('["' + diff.path.join('"]["') + '"]', 'TODO A-A change', diff);
+							console.log('["' + diff.path.join('"]["') + '"]', diff);
 							break;
 						default:
 							break;

@@ -1,4 +1,4 @@
-/* TODO #33 Better Loading UI */
+/* TODO https://github.com/kogg/hovercards/issues/33 */
 .loading-container {
   display: flex;
   align-items: center;
@@ -6,7 +6,7 @@
 }
 
 .loading {
-  background-image: url("../../assets/images/loading.gif");
+  background-image: url('../../assets/images/loading.gif');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100%;

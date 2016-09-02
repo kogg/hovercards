@@ -7,10 +7,12 @@ var browser = require('../extension/browser');
 var config  = require('./config');
 var report  = require('../report');
 
-var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-Response.prototype.setEncoding = Response.prototype.setEncoding || _.noop; // FIXME substack/http-browserify#10
+// FIXME https://github.com/substack/http-browserify/pull/10
+Response.prototype.setEncoding = Response.prototype.setEncoding || _.noop;
 
-// TODO Make this use authenticatable like newAuthKeys does
+var ALPHANUMERIC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+// HACK These are the integrations that have environment==='client' || authenticated_environment==='client'
 var clientIntegrations = {
 	instagram:  require('./instagram'),
 	reddit:     require('./reddit'),
@@ -78,7 +80,7 @@ module.exports = function(request) {
 		.then(function(storage) {
 			switch ((storage[1] && integrationConfig.authenticated_environment) || integrationConfig.environment) {
 				case 'client':
-					// TODO shouldn't need config to be passed
+					// FIXME shouldn't need config to be passed
 					integrations[request.api] = integrations[request.api] || clientIntegrations[request.api](Object.assign({ device_id: storage[0], user: storage[1] }, integrationConfig));
 					return integrations[request.api][request.type](request);
 				case 'server':
@@ -97,7 +99,6 @@ module.exports = function(request) {
 								request.for = _.pick(request.for, 'as', 'account');
 								request.for.account = _.pick(request.for.account, 'id', 'as');
 								if (!_.contains(['soundcloud', 'twitter'], for_api) || _.isEmpty(request.for.account)) {
-									// TODO Why?
 									delete request.for.account;
 								}
 								if (_.isEmpty(request.for)) {
@@ -117,7 +118,6 @@ module.exports = function(request) {
 					request = _.pick(request, 'as', 'account', 'for');
 					request.account = _.pick(request.account, 'id', 'as', 'account');
 					if (!_.contains(['soundcloud', 'twitter'], request_api) || _.isEmpty(request.account)) {
-						// TODO Why?
 						delete request.account;
 					}
 					return fetch(url + '?' + querystring.stringify(request), {

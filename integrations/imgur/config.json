@@ -1,7 +1,7 @@
 {
   "content_security_policy": {
-    "img-src": ["http://i.imgur.com"],
-    "media-src": ["http://i.imgur.com"]
+    "img-src": ["i.imgur.com"],
+    "media-src": ["i.imgur.com"]
   },
   "account": {
     "noImage": true,

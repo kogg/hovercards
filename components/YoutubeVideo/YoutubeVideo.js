@@ -39,12 +39,13 @@ var YoutubeVideo = module.exports = React.createClass({
 			/* eslint-enable */
 			YoutubeVideo.getYT = _.constant(
 				Promise.all([
-					// TODO Instead of hardcoding this url, retrieve it from https://www.youtube.com/iframe_api
+					// HACK This is a url from within https://www.youtube.com/iframe_api
 					fetch('https://s.ytimg.com/yts/jsbin/www-widgetapi-vflwSZmGJ/www-widgetapi.js')
 						.then(function(response) {
 							return response.text();
 						})
 						.then(function(text) {
+							// HACK Eval-ing text we downloaded
 							eval(text); // eslint-disable-line no-eval
 						}),
 					promisify(window.YT.ready.bind(window.YT))()
@@ -62,12 +63,12 @@ var YoutubeVideo = module.exports = React.createClass({
 	componentDidMount: function() {
 		YoutubeVideo.getYT()
 			.then(function(YT) {
-				return new Promise(function(resolve, reject) {
+				return new Promise(function(resolve) {
 					/* eslint-disable no-new */
 					new YT.Player(this.refs.video, {
 						events: {
 							onReady: compose(resolve, _.property('target')),
-							onError: reject
+							onError: report.error
 						}
 					});
 					/* eslint-enable no-new */

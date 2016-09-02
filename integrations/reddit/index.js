@@ -1,6 +1,8 @@
-var _        = require('underscore');
-var Snoocore = require('snoocore');
-var errors   = require('feathers-errors');
+var _         = require('underscore');
+var Snoocore  = require('snoocore');
+var errors    = require('feathers-errors');
+var opengraph = require('open-graph-scraper');
+var promisify = require('es6-promisify');
 
 var config = require('../config');
 var urls   = require('../urls');
@@ -14,7 +16,7 @@ module.exports = function(params) {
 		userAgent:          'node:HoverCards:v2 (by /u/HoverCards)',
 		decodeHtmlEntities: true,
 		throttle:           0,
-		retryDelay:         params.test ? 0 : 5000, // TODO Find a better way
+		retryDelay:         params.test ? 0 : 5000, // HACK So the tests don't lag when retrying
 		retryAttempts:      2,
 		oauth:              {
 			type:        'implicit',
@@ -30,15 +32,109 @@ module.exports = function(params) {
 
 		return model.article_comments(_.pick(args, 'id'), null, usage)
 			.then(function(commentTree) {
-				return post_to_content(
-					_.chain(commentTree)
-						.first()
-						.result('data')
-						.result('children')
-						.first()
-						.result('data')
-						.value()
+				var post = _.chain(commentTree)
+					.first()
+					.result('data')
+					.result('children')
+					.first()
+					.result('data')
+					.value();
+
+				var author  = _.result(post, 'author');
+				var gifs    = [];
+				var images  = [];
+				var preview = _.chain(post).result('preview').result('images').first().value();
+
+				if (preview) {
+					images = _.chain(preview.resolutions).union([preview.source]).compact().value();
+					gifs = _.chain(preview)
+						.result('variants')
+						.result('mp4')
+						.value();
+					if (gifs) {
+						gifs = _.chain(gifs.resolutions).union([gifs.source]).compact().value();
+					}
+				}
+
+				return !_.isEmpty(post) && _.pick(
+					{
+						api:       'reddit',
+						type:      'content',
+						id:        _.result(post, 'id'),
+						name:      _.result(post, 'title'),
+						date:      Number(_.result(post, 'created_utc')) * 1000,
+						subreddit: _.result(post, 'subreddit'),
+						url:       !_.result(post, 'is_self') && _.result(post, 'url'),
+						account:   (author !== '[deleted]') && { api: 'reddit', type: 'account', id: author },
+						oembed:    _.chain(post).result('media').result('oembed').result('html').value(),
+						image:     !_.isEmpty(images) && {
+							small: _.chain(images)
+								.min(function(image) {
+									return Math.abs(image.width - 80);
+								})
+								.result('url')
+								.value(),
+							medium: _.chain(images)
+								.min(function(image) {
+									return Math.abs(image.width - 300);
+								})
+								.result('url')
+								.value(),
+							large: _.chain(images)
+								.min(function(image) {
+									return Math.abs(image.width - 600);
+								})
+								.result('url')
+								.value()
+						},
+						gif: !_.isEmpty(gifs) && _.chain(gifs)
+							.min(function(gif) {
+								return Math.abs(gif.width - 300);
+							})
+							.result('url')
+							.value(),
+						text: _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '')
+							.replace(/\n/gi, '')
+							.replace(/<!-- .*? -->/gi, '')
+							.replace(/^\s*<div class="md">(.*?)<\/div>\s*$/, '$1')
+							.replace(/<a href="\/([^"]*?)">(.*?)<\/a>/gi, '<a href="https://www.reddit.com/$1">$2</a>'),
+						stats: {
+							score:       Number(_.result(post, 'score')),
+							score_ratio: Number(_.result(post, 'upvote_ratio')),
+							comments:    Number(_.result(post, 'num_comments'))
+						}
+					},
+					_.somePredicate(_.isNumber, _.negate(_.isEmpty))
 				);
+			})
+			.then(function(content) {
+				if (!content.url || content.oembed || content.image || content.gif) {
+					return content;
+				}
+				return promisify(opengraph)({ url: content.url })
+					.then(function(result) {
+						if (!result.success) {
+							return content;
+						}
+
+						var data = _.result(result, 'data');
+
+						return Object.assign(
+							{
+								name: _.result(data, 'ogTitle') || _.result(data, 'twitterTitle'),
+								text: _.result(data, 'ogDescription') || _.result(data, 'twitterDescription')
+							},
+							content,
+							{
+								image: content.image ||
+									(_.result(data, 'ogImage') && { small: data.ogImage.url, medium: data.ogImage.url, large: data.ogImage.url }) ||
+									(_.result(data, 'twitterImage') && { small: data.twitterImage.url, medium: data.twitterImage.url, large: data.twitterImage.url })
+							}
+						);
+					})
+					.catch(function() {
+						return content;
+					});
 			});
 	};
 
@@ -86,7 +182,6 @@ module.exports = function(params) {
 						api:      'reddit',
 						type:     'discussion',
 						id:       _.result(post, 'id'),
-						content:  post_to_content(post),
 						comments: _.chain(commentTree)
 							.last()
 							.result('data')
@@ -185,75 +280,6 @@ function catch_error(err) {
 			err.original_code = original_status;
 			throw err;
 	}
-}
-
-function post_to_content(post) {
-	var author  = _.result(post, 'author');
-	var gifs    = [];
-	var images  = [];
-	var preview = _.chain(post).result('preview').result('images').first().value();
-
-	if (preview) {
-		images = _.chain(preview.resolutions).union([preview.source]).compact().value();
-		gifs = _.chain(preview)
-			.result('variants')
-			.result('mp4')
-			.value();
-		if (gifs) {
-			gifs = _.chain(gifs.resolutions).union([gifs.source]).compact().value();
-		}
-	}
-
-	return !_.isEmpty(post) && _.pick(
-		{
-			api:       'reddit',
-			type:      'content',
-			id:        _.result(post, 'id'),
-			name:      _.result(post, 'title'),
-			date:      Number(_.result(post, 'created_utc')) * 1000,
-			subreddit: _.result(post, 'subreddit'),
-			url:       !_.result(post, 'is_self') && _.result(post, 'url'),
-			account:   (author !== '[deleted]') && { api: 'reddit', type: 'account', id: author },
-			oembed:    _.chain(post).result('media').result('oembed').result('html').value(),
-			image:     !_.isEmpty(images) && {
-				small: _.chain(images)
-					.min(function(image) {
-						return Math.abs(image.width - 80);
-					})
-					.result('url')
-					.value(),
-				medium: _.chain(images)
-					.min(function(image) {
-						return Math.abs(image.width - 300);
-					})
-					.result('url')
-					.value(),
-				large: _.chain(images)
-					.min(function(image) {
-						return Math.abs(image.width - 600);
-					})
-					.result('url')
-					.value()
-			},
-			gif: !_.isEmpty(gifs) && _.chain(gifs)
-				.min(function(gif) {
-					return Math.abs(gif.width - 300);
-				})
-				.result('url')
-				.value(),
-			text: _.result(post, 'is_self') && (_.result(post, 'selftext_html') || '')
-				.replace(/\n/gi, '')
-				.replace(/<!-- .*? -->/gi, '')
-				.replace(/^\s*<div class="md">(.*?)<\/div>\s*$/, '$1')
-				.replace(/<a href="\/([^"]*?)">(.*?)<\/a>/gi, '<a href="https://www.reddit.com/$1">$2</a>'),
-			stats: {
-				score:       Number(_.result(post, 'score')),
-				score_ratio: Number(_.result(post, 'upvote_ratio')),
-				comments:    Number(_.result(post, 'num_comments'))
-			}
-		},
-		_.somePredicate(_.isNumber, _.negate(_.isEmpty))
-	);
 }
 
 function comment_to_comment(comment) {
