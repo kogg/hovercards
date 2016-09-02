@@ -86,7 +86,7 @@ module.exports = connect(
 			var url;
 			switch (check.element.nodeName.toLowerCase()) {
 				case 'a':
-					url = check.element.dataset.expandedUrl || check.element.dataset.href || check.element.dataset.fullUrl || check.element.href;
+					url = (check.element.dataset && (check.element.dataset.expandedUrl || check.element.dataset.href || check.element.dataset.fullUrl)) || check.element.href;
 					break;
 				case 'iframe':
 					var match = check.element.src.match(/[?&]screen_name=([a-zA-Z0-9_]+)(?:&|$)/);
