@@ -24,11 +24,10 @@ module.exports = {
 	},
 	module: {
 		loaders: [
+			{ exclude: 'node_modules', test: /\.(eot|ttf|(woff(2)?(\?v=\d\.\d\.\d)?))$/, loader: 'file?name=assets/fonts/[name].[ext]' },
 			{ exclude: 'node_modules', test: /\.(gif|png|jpe?g|svg)$/i, loaders: ['file?name=assets/images/[name].[ext]', 'image-webpack'] },
-			{ exclude: 'node_modules', test: /\.js$/, loader: 'babel?cacheDirectory' },
-			{ exclude: ['node_modules', path.join(__dirname, 'extension/manifest.json')], test: /\.json/, loader: 'json' },
-			{ exclude: 'node_modules', test: /\.ttf$|\.eot$/, loader: 'file?name=assets/fonts/[name].[ext]' },
-			{ exclude: 'node_modules', test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file?name=assets/fonts/[name].[ext]' },
+			{ exclude: 'node_modules', test: /\.(js)$/, loader: 'babel?cacheDirectory' },
+			{ exclude: ['node_modules', path.join(__dirname, 'extension/manifest.json')], test: /\.(json)$/, loader: 'json' },
 			{
 				exclude: 'node_modules',
 				test:    /\.css$/,

@@ -18,13 +18,11 @@ module.exports = {
 	},
 	module: {
 		loaders: [
-			{ exclude: 'node_modules', test: /\.css$/, loader: ExtractTextPlugin.extract('style', ['css?-autoprefixer&importLoaders=1&sourceMap', 'postcss']) },
+			{ exclude: 'node_modules', test: /\.(css)$/, loader: ExtractTextPlugin.extract('style', ['css?-autoprefixer&importLoaders=1&sourceMap', 'postcss']) },
+			{ exclude: 'node_modules', test: /\.(eot|ttf|(woff(2)?(\?v=\d\.\d\.\d)?))$/, loader: 'url?name=fonts/[name].[hash].[ext]&limit=10000' },
 			{ exclude: 'node_modules', test: /\.(gif|png|jpe?g|svg)$/i, loaders: ['url?name=images/[name].[hash].[ext]&limit=10000', 'image-webpack'] },
-			{ exclude: 'node_modules', test: /\.html/, loader: 'html?attrs[]=img:src&attrs[]=link:href' },
-			{ exclude: 'node_modules', test: /\.js$/, loader: 'babel?cacheDirectory' },
-			{ exclude: 'node_modules', test: /\.json/, loader: 'file?name=[name].[hash].[ext]' },
-			{ exclude: 'node_modules', test: /\.ttf$|\.eot$/, loader: 'file?name=fonts/[name].[hash].[ext]' },
-			{ exclude: 'node_modules', test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?name=fonts/[name].[hash].[ext]&limit=10000' }
+			{ exclude: 'node_modules', test: /\.(js)$/, loader: 'babel?cacheDirectory' },
+			{ exclude: 'node_modules', test: /\.(json)/, loader: 'file?name=[name].[hash].[ext]' }
 		]
 	},
 	resolve: {
