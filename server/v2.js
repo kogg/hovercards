@@ -14,6 +14,14 @@ var report       = require('../report');
 
 var CHROMIUM_IDS = process.env.CHROMIUM_IDS.split(';');
 
+var rollbarErrorHandler = process.env.ROLLBAR_ACCESS_TOKEN ?
+	report.errorHandler() :
+	function(err, req, res, next) {
+		console.error(err);
+		console.error(err.stack);
+		next(err);
+	};
+
 // HACK This only applied to twitter
 passport.use(new TwitterStrategy({
 	consumerKey:    process.env.TWITTER_CONSUMER_KEY,
@@ -123,7 +131,12 @@ module.exports = feathers.Router()
 	})
 	*/
 
-	.use(report.errorHandler())
+	.use(function(err, req, res, next) { // eslint-disable-line no-unused-vars
+		if (err.code >= 400 && err.code < 500) {
+			return next(err);
+		}
+		rollbarErrorHandler(err, req, res, next);
+	})
 	.use(function(err, req, res, next) { // eslint-disable-line no-unused-vars
 		err.message = err.message || 'Do not recognize url ' + req.path;
 		res.status(err.code || 500).json(err);
