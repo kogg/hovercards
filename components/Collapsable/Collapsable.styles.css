@@ -2,6 +2,10 @@
   position: relative;
   overflow: hidden;
 
+  @raw  {
+    composes: format from '../no-formatting.styles';
+  }
+
   &.collapsed {
     cursor: pointer;
 
@@ -10,11 +14,11 @@
       border-radius: 20px;
       line-height: 10px;
       color: rgba(0, 0, 0, .6);
-      content: "...";
+      content: '...';
       cursor: pointer;
       font-weight: bolder;
       display: block;
-      font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       font-size: 18px;
       height: 20px;
       padding: 0 6px;
@@ -26,7 +30,7 @@
     }
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       display: block;
       background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 28%, rgba(255, 255, 255, 1) 100%);
@@ -34,136 +38,10 @@
       top: calc(100% - 23px);
       height: 20px;
       width: 60px;
-
     }
   }
 
   &.expanded {
     max-height: 999999px;
-  }
-  br {
-    display: none;
-  }
-  * {
-    font-size: 14px;
-  }
-  del {
-    text-decoration: line-through;
-  }
-  blockquote,
-  h1,
-  h2,
-  h3,
-  li,
-  ul {
-    display: block; /* no important */
-  }
-  table {
-    display: table;
-    border-collapse: separate;
-    border-spacing: 2px;
-    border-collapse: collapse;
-    border-spacing: 0;
-    empty-cells: show;
-    border: 1px solid #cbcbcb;
-  }
-
-  th,
-  td {
-    display: table-cell;
-    border-left: 1px solid #cbcbcb;
-    border-width: 0 0 0 1px;
-    margin: 0;
-    overflow: visible;
-    padding: .5em 1em;
-  }
-
-  th:first-of-type {
-    border-left-width: 0;
-  }
-
-  thead {
-    display: table-header-group;
-    vertical-align: middle;
-    border-color: inherit;
-    background-color: rgba(0, 0, 0, .1);
-    color: #000;
-    text-align: left;
-    vertical-align: bottom;
-  }
-
-  tbody {
-    display: table-row-group;
-    vertical-align: middle;
-    border-color: inherit;
-  }
-
-  tr {
-    display: table-row;
-    vertical-align: inherit;
-    border-color: inherit;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    display: block;
-    font-weight: 600;
-  }
-  h1 {
-    font-size: 21px;
-  }
-  h2 {
-    font-size: 18px;
-  }
-  h3 {
-    font-size: 16px;
-  }
-  h4 {
-  }
-  sup {
-    color: rgba(0,0,0,.6) !important;
-    vertical-align: super;
-    font-size: 12px;
-  }
-  blockquote,
-  pre {
-    color: rgba(0,0,0,.6);
-    background: rgba(0,0,0,.05);
-    padding: 6px;
-    display: block;
-    border-left: 3px solid rgba(0,0,0,.1);
-    * {
-      color: rgba(0,0,0,.6);
-    }
-  }
-  ul {
-    padding-left: 15px;
-    display: block;
-    
-    li {
-      color: rgba(0,0,0,.6);
-      display: list-item;
-      text-align: -webkit-match-parent;
-    }
-  }
-  p {
-    display: block;
-    color: rgba(0,0,0,.6);
-
-    a {
-    }
-  }
-  * {
-    margin: 10px 0;
-  }
-  blockquote * {
-    margin: 0;
-  }
-  strong {
-    color: rgba(0,0,0,.6);
   }
 }

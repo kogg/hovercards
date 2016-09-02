@@ -44,7 +44,7 @@
   display: block;
 
   @raw  {
-    composes: condensed from '../no-formatting.styles';
+    composes: format from '../no-formatting.styles';
   }
 }
 
