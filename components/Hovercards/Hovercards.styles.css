@@ -1,6 +1,6 @@
 * {
   -webkit-font-smoothing: antialiased;
-  font-family: -apple-system, BlinkMacSystemFont, "Roboto", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-smooth: always;
 }
 
@@ -19,6 +19,8 @@
 div {
   display: block;
 }
+
+/* stylelint-disable unit-case, unit-no-unknown */
 
 /* cyrillic-ext */
 @font-face {
@@ -208,3 +210,4 @@ div {
   src: local('Roboto Bold'), local('Roboto-Bold'), url(https://fonts.gstatic.com/s/roboto/v15/d-6IYplOFocCacKzxwXSOJBw1xU1rKptJj_0jans920.woff2) format('woff2');
   unicode-range: U+0000 - 00FF, U+0131, U+0152 - 0153, U+02C6, U+02DA, U+02DC, U+2000 - 206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
+/* stylelint-enable */

@@ -1,8 +1,7 @@
 var _ = require('underscore');
 
 module.exports = {
-	analytics_id: 'UA-64246820-3', // TODO env var
-	options:      {
+	options: {
 		imgur: {
 			account: { enabled: true },
 			content: { enabled: true }

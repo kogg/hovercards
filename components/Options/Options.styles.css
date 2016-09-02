@@ -1,4 +1,4 @@
-/* TODO Find a better way to do global styles */
+/* HACK Global styles are bad */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -17,7 +17,7 @@ html {
   background: #349cef;
   border-radius: 30px;
   border: 0;
-  box-shadow: 0 0px 0px rgba(0, 0, 0, 0), 0 0px 0px rgba(0, 0, 0, 0);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0), 0 0 0 rgba(0, 0, 0, 0);
   color: white;
   cursor: pointer;
   display: block;
@@ -37,14 +37,14 @@ html {
 
   &.options-saved {
     background: #4cbb91;
-    box-shadow: 0 0px 0px rgba(0, 0, 0, 0), 0 0px 0px rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0), 0 0 0 rgba(0, 0, 0, 0);
     cursor: default;
     transform: scale(1);
   }
 
   &.options-error {
     background: #e94639;
-    box-shadow: 0 0px 0px rgba(0, 0, 0, 0), 0 0px 0px rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0), 0 0 0 rgba(0, 0, 0, 0);
     cursor: default;
     transform: scale(1);
   }

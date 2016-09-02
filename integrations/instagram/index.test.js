@@ -316,7 +316,49 @@ describe('instagram', function() {
 			user_media_recent_endpoint.reply(200, default_user_media_recent);
 			user_search_endpoint.reply(200, default_user_search);
 
-			return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.eventually.eql({ api: 'instagram', type: 'account', id: 'ACCOUNT_ID', name: 'NAME', text: 'TEXT', image: { medium: 'image_150_150.jpg' }, stats: { content: 1000, followers: 2000, following: 3000 } });
+			return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.eventually.eql({
+				api:     'instagram', type:    'account', id:      'ACCOUNT_ID', name:    'NAME', text:    'TEXT',
+				image:   { medium: 'image_150_150.jpg' },
+				stats:   { content: 1000, followers: 2000, following: 3000 },
+				content: {
+					api:     'instagram',
+					type:    'account_content',
+					id:      'ACCOUNT_ID',
+					content: [
+						{
+							api:   'instagram',
+							type:  'content',
+							id:    'CONTENT_1',
+							date:  1296710327000,
+							image: {
+								small:  'image_1_150_150.jpg',
+								medium: 'image_1_306_306.jpg',
+								large:  'image_1_612_612.jpg'
+							},
+							stats: {
+								likes:    1001,
+								comments: 1002
+							}
+						},
+						{
+							api:   'instagram',
+							type:  'content',
+							id:    'CONTENT_2',
+							date:  1296710327000,
+							video: 'video_640_640.mp4',
+							image: {
+								small:  'image_2_150_150.jpg',
+								medium: 'image_2_306_306.jpg',
+								large:  'image_2_612_612.jpg'
+							},
+							stats: {
+								likes:    2001,
+								comments: 2002
+							}
+						}
+					]
+				}
+			});
 		});
 
 		it('should reference accounts in text', function() {

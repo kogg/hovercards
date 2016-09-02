@@ -68,7 +68,7 @@ var DiscussionComment = module.exports = React.createClass({
 				</div>
 				{
 					this.props.comment.replies &&
-					this.props.comment.replies.length &&
+					Boolean(this.props.comment.replies.length) &&
 					<div className={styles.replies}>
 						{this.props.comment.replies && this.props.comment.replies.map(function(reply, i) {
 							return <DiscussionComment key={reply.id || i} comment={reply} integration={this.props.integration} onClickText={this.props.onClickText} />;

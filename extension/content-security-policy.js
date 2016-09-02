@@ -18,10 +18,14 @@ var csp_append = _.chain(integrationsConfig)
 	})
 	.value();
 
+csp_append['font-src'] = 'fonts.gstatic.com';
+
 browser.webRequest.onHeadersReceived.addListener(
 	function(details) {
 		var responseHeaders = _.result(details, 'responseHeaders');
-		var csp = _.findWhere(responseHeaders, { name: 'content-security-policy' });
+		var csp = _.find(responseHeaders, function(responseHeader) {
+			return responseHeader.name.match(/content-security-policy/i);
+		});
 		if (csp) {
 			var csp_object = _.indexBy(csp.value.trim().replace(/;$/, '').split(/\s*;\s*/), function(string) {
 				return string.substring(0, string.indexOf(' '));

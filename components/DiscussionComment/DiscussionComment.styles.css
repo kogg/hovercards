@@ -79,10 +79,7 @@
     margin: 0 0 0 16px;
   }
 
-  .description {
-  }
-
   .replies {
-    margin-right: 0px;
+    margin-right: 0;
   }
 }

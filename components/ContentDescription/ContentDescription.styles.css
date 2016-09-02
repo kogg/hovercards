@@ -11,24 +11,4 @@
   max-height: 90px;
   padding: 12px 24px 0 24px;
   width: 100%;
-  .content-reddit & {
-
-    /* FIXME */
-    max-height: 200px;
-
-    p {
-      display: block;
-    }
-
-    ul {
-      padding: 0;
-    }
-  }
-
-  .content-text & {
-
-    /* FIXME */
-    padding-top: 10px;
-    margin-top: 0;
-  }
 }

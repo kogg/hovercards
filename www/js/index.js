@@ -1,5 +1,5 @@
 var report = require('../../report');
-require('../css/main.css');
+require('../css/index.css');
 var $ = require('jquery');
 
 /* global ga */

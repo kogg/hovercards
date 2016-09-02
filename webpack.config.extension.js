@@ -15,12 +15,12 @@ var safeImportant            = require('postcss-safe-important');
 var webpack                  = require('webpack');
 
 module.exports = {
-	// FIXME This is some straight up bullshit https://github.com/webpack/webpack/issues/2801
+	// FIXME https://github.com/webpack/webpack/issues/2801
 	entry:  process.env.ENTRY ? { [process.env.ENTRY]: './extension/index' } : { manifest: './extension/manifest' },
 	output: {
 		filename:   '[name].js',
 		path:       'dist',
-		publicPath: process.env.ENTRY === 'options' ? '' : 'chrome-extension://__MSG_@@extension_id__/'
+		publicPath: process.env.ENTRY === 'top-frame' ? 'chrome-extension://__MSG_@@extension_id__/' : ''
 	},
 	module: {
 		loaders: [
@@ -61,7 +61,7 @@ module.exports = {
 	resolve: {
 		extensions: extensions(
 			process.env.ENTRY && ['.' + process.env.ENTRY, ''],
-			['.chrome', '.extension', '.browser', ''],
+			['.extension', '.browser', ''],
 			['.json', '.js', '.css']
 		)
 	},
@@ -73,12 +73,12 @@ module.exports = {
 	},
 	node: {
 		console: true,
+		dns:     'empty',
 		fs:      'empty',
 		net:     'empty',
 		tls:     'empty'
 	},
 	plugins: _.compact([
-		new BellOnBundlerErrorPlugin(),
 		new webpack.EnvironmentPlugin([
 			'GOOGLE_ANALYTICS_ID',
 			'INSTAGRAM_CLIENT_ID',
@@ -89,6 +89,7 @@ module.exports = {
 			'STICKYCARDS',
 			'npm_package_gitHead'
 		]),
+		new BellOnBundlerErrorPlugin(),
 		!process.env.ENTRY && !process.env.NODE_ENV && new CleanWebpackPlugin(['dist']),
 		!process.env.ENTRY && new CopyWebpackPlugin([
 			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true },
@@ -106,14 +107,19 @@ module.exports = {
 		new WriteFilePlugin({ log: false })
 	]),
 	postcss: function() {
-		return [
-			nested({ bubble: ['raw'] }),
-			autoprefixer,
-			raw.inspect(),
-			increaseSpecificity({ stackableRoot: ':global(.hovercards-root)', repeat: 1 }),
-			raw.write(),
-			safeImportant
-		];
+		return process.env.ENTRY === 'top-frame' ?
+			[
+				nested({ bubble: ['raw'] }),
+				autoprefixer,
+				raw.inspect(),
+				increaseSpecificity({ stackableRoot: ':global(.hovercards-root)', repeat: 1 }),
+				raw.write(),
+				safeImportant
+			] :
+			[
+				nested,
+				autoprefixer
+			];
 	}
 };
 

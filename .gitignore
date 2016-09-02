@@ -1,7 +1,7 @@
 .env
-coverage
+coverage/*
 dist-*
-dist
+dist/*
 dump.rdb
-node_modules
+node_modules/*
 npm-debug.log*

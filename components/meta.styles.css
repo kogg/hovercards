@@ -18,7 +18,8 @@
 }
 
 .meta-main {
-  transition: all .3s ease-in-out; /* TODO Why? */
+  transition: all .3s ease-in-out;
+
   .meta-item {
     margin: 0 8px 0 0;
   }

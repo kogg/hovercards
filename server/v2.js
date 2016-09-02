@@ -14,7 +14,7 @@ var report       = require('../report');
 
 var CHROMIUM_IDS = process.env.CHROMIUM_IDS.split(';');
 
-// FIXME Hardcoded is bad
+// HACK This only applied to twitter
 passport.use(new TwitterStrategy({
 	consumerKey:    process.env.TWITTER_CONSUMER_KEY,
 	consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
@@ -101,7 +101,7 @@ module.exports = feathers.Router()
 	)
 
 	/*
-	 * TODO #47
+	 * TODO https://github.com/kogg/hovercards/issues/47
 	.get('/in-app-messaging', function(req, res, next) {
 		promisify(redis.get.bind(redis))('active-message')
 			.then(function(activeMessage) {

@@ -1,4 +1,4 @@
-/* eslint-disable max-nested-callbacks */
+/* eslint-disable max-nested-callbacks, no-multi-str */
 var chai           = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var nock           = require('nock');
@@ -167,6 +167,62 @@ describe('reddit', function() {
 			return expect(reddit.content({ id: 'CONTENT_ID' })).to.eventually.have.property('oembed', '<iframe></iframe>');
 		});
 
+		it('should callback with open graph information', function() {
+			default_article_comments[0].data.children[0].data.is_self = false;
+			default_article_comments[0].data.children[0].data.url = 'https://www.hovercards.com';
+			delete default_article_comments[0].data.children[0].data.title;
+			delete default_article_comments[0].data.children[0].data.selftext_html;
+			article_comments_endpoint.reply(200, default_article_comments);
+
+			nock('https://www.hovercards.com')
+				.get('/')
+				.reply(200, '<html>\
+					<head>\
+						<meta property="og:image"        content="image.jpg" />\
+						<meta property="og:image:width"  content="1200" />\
+						<meta property="og:image:height" content="630" />\
+						<meta property="og:title"        content="TITLE" />\
+						<meta property="og:description"  content="TEXT" />\
+					</head>\
+					<body></body>\
+				 </html>');
+
+			var promise = reddit.content({ id: 'CONTENT_ID' });
+
+			return Promise.all([
+				expect(promise).to.eventually.have.property('name', 'TITLE'),
+				expect(promise).to.eventually.have.property('text', 'TEXT'),
+				expect(promise).to.eventually.have.property('image').that.eql({ small: 'image.jpg', medium: 'image.jpg', large: 'image.jpg' })
+			]);
+		});
+
+		it('should callback with twitter card information', function() {
+			default_article_comments[0].data.children[0].data.is_self = false;
+			default_article_comments[0].data.children[0].data.url = 'https://www.hovercards.com';
+			delete default_article_comments[0].data.children[0].data.title;
+			delete default_article_comments[0].data.children[0].data.selftext_html;
+			article_comments_endpoint.reply(200, default_article_comments);
+
+			nock('https://www.hovercards.com')
+				.get('/')
+				.reply(200, '<html>\
+					<head>\
+						<meta name="twitter:title"       content="TITLE" />\
+						<meta name="twitter:description" content="TEXT" />\
+						<meta name="twitter:image"       content="image.jpg" />\
+					</head>\
+					<body></body>\
+				 </html>');
+
+			var promise = reddit.content({ id: 'CONTENT_ID' });
+
+			return Promise.all([
+				expect(promise).to.eventually.have.property('name', 'TITLE'),
+				expect(promise).to.eventually.have.property('text', 'TEXT'),
+				expect(promise).to.eventually.have.property('image').that.eql({ small: 'image.jpg', medium: 'image.jpg', large: 'image.jpg' })
+			]);
+		});
+
 		describe('article comments endpoint', function() {
 			it('should try again on 401', function() {
 				article_comments_endpoint.reply(401, '');
@@ -293,27 +349,9 @@ describe('reddit', function() {
 			article_comments_endpoint.reply(200, default_article_comments);
 
 			return expect(reddit.discussion({ id: 'CONTENT_ID' })).to.eventually.eql({
-				api:     'reddit',
-				type:    'discussion',
-				id:      'CONTENT_ID',
-				content: {
-					api:       'reddit',
-					type:      'content',
-					id:        'CONTENT_ID',
-					name:      'TITLE',
-					date:      1440189331000,
-					subreddit: 'SUBREDDIT',
-					stats:     {
-						score:       1000,
-						score_ratio: 0.1,
-						comments:    2000
-					},
-					account: {
-						api:  'reddit',
-						type: 'account',
-						id:   'ACCOUNT_ID'
-					}
-				},
+				api:      'reddit',
+				type:     'discussion',
+				id:       'CONTENT_ID',
 				comments: [
 					{
 						api:   'reddit',
@@ -419,20 +457,6 @@ describe('reddit', function() {
 			]);
 		});
 
-		it('should include urls for link posts', function() {
-			delete default_article_comments[0].data.children[0].data.selftext_html;
-			default_article_comments[0].data.children[0].data.is_self = false;
-			default_article_comments[0].data.children[0].data.url = 'https://www.hovercards.com';
-			article_comments_endpoint.reply(200, default_article_comments);
-
-			var promise = reddit.discussion({ id: 'CONTENT_ID' });
-
-			return Promise.all([
-				expect(promise).to.eventually.not.have.deep.property('content.text'),
-				expect(promise).to.eventually.have.deep.property('content.url', 'https://www.hovercards.com')
-			]);
-		});
-
 		it('should ignore [deleted] accounts', function() {
 			default_article_comments[0].data.children[0].data.author = '[deleted]';
 			default_article_comments[1].data.children[0].data.author = '[deleted]';
@@ -442,7 +466,6 @@ describe('reddit', function() {
 			var promise = reddit.discussion({ id: 'CONTENT_ID' });
 
 			return Promise.all([
-				expect(promise).to.eventually.not.have.deep.property('content.account'),
 				expect(promise).to.eventually.not.have.deep.property('comments[0].account'),
 				expect(promise).to.eventually.not.have.deep.property('comments[1].account')
 			]);
@@ -557,24 +580,6 @@ describe('reddit', function() {
 						api:  'someapi',
 						type: 'content',
 						id:   'SOME_CONTENT_ID'
-					},
-					content: {
-						api:       'reddit',
-						type:      'content',
-						id:        'CONTENT_ID',
-						name:      'TITLE',
-						date:      1440189331000,
-						subreddit: 'SUBREDDIT',
-						stats:     {
-							score:       1000,
-							score_ratio: 0.1,
-							comments:    2000
-						},
-						account: {
-							api:  'reddit',
-							type: 'account',
-							id:   'ACCOUNT_ID'
-						}
 					},
 					comments: [
 						{ api:     'reddit',
