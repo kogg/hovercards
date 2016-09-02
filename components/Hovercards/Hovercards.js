@@ -36,7 +36,7 @@ module.exports = connect(
 	},
 	considerElement: function(event) {
 		var element = event.target;
-		while (!_.contains(['a', 'iframe'], element.nodeName.toLowerCase())) {
+		while (!_.contains(['a', 'iframe'], (element.nodeName || element.tagName || '').toLowerCase())) {
 			if (element === document.documentElement || element === this.refs.hovercards || dom.hasClass(element, 'no-hovercards') || dom.hasClass(element, 'hoverZoomLink')) {
 				return;
 			}
@@ -84,7 +84,7 @@ module.exports = connect(
 		for (var i = 0; i < checks.length && !request; i++) {
 			var check = checks[i];
 			var url;
-			switch (check.element.nodeName.toLowerCase()) {
+			switch ((check.element.nodeName || check.element.tagName || '').toLowerCase()) {
 				case 'a':
 					url = (check.element.dataset && (check.element.dataset.expandedUrl || check.element.dataset.href || check.element.dataset.fullUrl)) || check.element.href;
 					break;
