@@ -1,9 +1,0 @@
-{{#if account.banner}}
-	<div class="{{ prefix('account-cover') }}" style="background-image:url('{{ account.banner }}')">
-	</div>
-{{/if}}
-<account account="{{ account }}">
-	<span><em decorator="number:{{ account.stats.content }}"></em>   {{ copy('content',   'youtube') }}</span>
-	<span><em decorator="number:{{ account.stats.followers }}"></em> {{ copy('followers', 'youtube') }}</span>
-	<span><em decorator="number:{{ account.stats.views }}"></em>     {{ copy('views',     'youtube') }}</span>
-</account>

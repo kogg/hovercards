@@ -22,8 +22,6 @@
 
   table {
     display: table;
-    border-collapse: separate;
-    border-spacing: 2px;
     border-collapse: collapse;
     border-spacing: 0;
     empty-cells: show;
@@ -46,7 +44,6 @@
 
   thead {
     display: table-header-group;
-    vertical-align: middle;
     border-color: inherit;
     background-color: rgba(0, 0, 0, .1);
     color: #000;
