@@ -21,7 +21,7 @@ var SoundCloudPlayer = module.exports = React.createClass({
 	statics: {
 		getSC: function() {
 			if (window.SC) {
-				report.error(new Error('window.SC should not exist'));
+				report.catchException(new Error('window.SC should not exist'));
 				return null;
 			}
 			SoundCloudPlayer.getSC = _.constant(
@@ -48,7 +48,7 @@ var SoundCloudPlayer = module.exports = React.createClass({
 		SoundCloudPlayer.getSC()
 			.then(function(SC) {
 				var player = SC.Widget(this.refs.player);
-				player.bind(SC.Widget.Events.ERROR, report.error);
+				player.bind(SC.Widget.Events.ERROR, report.catchException);
 				if (this.props.meta.time_offset) {
 					player.bind(SC.Widget.Events.PLAY, function() {
 						player.seekTo(this.props.meta.time_offset * 1000);
@@ -62,7 +62,7 @@ var SoundCloudPlayer = module.exports = React.createClass({
 				player.play();
 				this.setState({ player: player });
 			}.bind(this))
-			.catch(report.error);
+			.catch(report.catchException);
 	},
 	componentDidUpdate: function() {
 		if (!this.state || !this.state.player) {

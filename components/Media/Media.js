@@ -26,7 +26,7 @@ module.exports = connect(null, actions)(React.createClass({
 	},
 	onCarouselChange: function(index, how) {
 		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Carousel Changed', how, index])
-			.catch(report.error);
+			.catch(report.catchException);
 	},
 	render: function() {
 		switch (this.props.content.api) {

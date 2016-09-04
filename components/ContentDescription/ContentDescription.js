@@ -25,7 +25,7 @@ module.exports = connect(null, actions)(React.createClass({
 	},
 	onExpandDescription: function() {
 		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Expanded description'])
-			.catch(report.error);
+			.catch(report.catchException);
 	},
 	render: function() {
 		return (this.props.content.name || this.props.content.text) ?

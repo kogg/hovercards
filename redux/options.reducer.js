@@ -25,7 +25,7 @@ module.exports = handleActions(
 				}
 				obj[keys[keys.length - 1]] = action.payload.value;
 				browser.storage.sync.set({ ['options.' + action.payload.option]: action.payload.value })
-					.catch(report.error);
+					.catch(report.captureException);
 				return newState;
 			}
 		}
@@ -49,7 +49,7 @@ module.exports.attachStore = function(store) {
 				});
 			});
 			browser.storage.sync.remove('disabled')
-				.catch(report.error);
+				.catch(report.captureException);
 		}
 		_.pairs(items).forEach(function(entry) {
 			var key = entry[0].match(/^options\.(.+)/);

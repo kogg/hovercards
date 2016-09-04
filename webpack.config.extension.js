@@ -83,7 +83,7 @@ module.exports = {
 			'INSTAGRAM_CLIENT_ID',
 			'NODE_ENV',
 			'REDDIT_CLIENT_ID',
-			'ROLLBAR_CLIENT_ACCESS_TOKEN',
+			'SENTRY_DSN_CLIENT',
 			'SOUNDCLOUD_CLIENT_ID',
 			'STICKYCARDS',
 			'npm_package_gitHead'

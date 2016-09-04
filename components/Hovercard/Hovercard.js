@@ -39,13 +39,13 @@ module.exports = connect(null, actions)(React.createClass({
 		window.addEventListener('resize', this.positionHovercard);
 		this.positionHovercard();
 		this.props.getEntity(_.omit(this.props.request, 'meta'))
-			.catch(report.error);
+			.catch(report.catchException);
 		this.mountedTime = Date.now();
 		if (this.props.entity && (this.props.entity.loaded || this.props.entity.err)) {
 			this.loadedTime = Date.now();
 		}
 		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Hovercard Opened (exclude loading)', (this.props.entity || this.props.request).err && 'error hovercard'])
-			.catch(report.error);
+			.catch(report.catchException);
 	},
 	componentDidUpdate: function(prevProps) {
 		if (this.loadedTime) {
@@ -62,11 +62,11 @@ module.exports = connect(null, actions)(React.createClass({
 	componentWillUnmount: function() {
 		if (this.loadedTime) {
 			this.props.analytics(['send', 'timing', entityLabel(this.props.entity, true), 'Hovercard Open (exclude loading)', Date.now() - this.loadedTime, this.props.entity.err && 'error hovercard'])
-				.catch(report.error);
+				.catch(report.catchException);
 		}
 		if (this.hasScrolled) {
 			this.props.analytics(['send', 'event', entityLabel(this.props.entity, true), 'Hovercard Scrolled', this.props.entity.err && 'error hovercard', this.scrolledAmount])
-				.catch(report.error);
+				.catch(report.catchException);
 		}
 		this.props.element.removeEventListener('click', this.onClickElement);
 		this.props.element.removeEventListener('mousemove', this.clearCloseTimeout);
@@ -150,12 +150,12 @@ module.exports = connect(null, actions)(React.createClass({
 		}
 		var linkEntity = urls.parse(element.href);
 		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Link Opened', linkEntity && entityLabel(linkEntity, true)])
-			.catch(report.error);
+			.catch(report.catchException);
 	},
 	onClickElement: function() {
 		this.closeHovercard();
 		this.props.analytics(['send', 'event', entityLabel(this.props.entity || this.props.request, true), 'Original Link Opened'])
-			.catch(report.error);
+			.catch(report.catchException);
 	},
 	onMouseLeave: function(e) {
 		if (!this.state.hovered) {
@@ -174,7 +174,7 @@ module.exports = connect(null, actions)(React.createClass({
 		if (!this.firstHoveredTime) {
 			this.firstHoveredTime = Date.now();
 			this.props.analytics(['send', 'timing', entityLabel(this.props.entity || this.props.request, true), 'Until hovered on hovercard (include loading)', this.firstHoveredTime - this.mountedTime, (this.props.entity || this.props.request).err && 'error hovercard'])
-				.catch(report.error);
+				.catch(report.catchException);
 		}
 		this.setState({ hovered: true });
 		dom.addClass(document.documentElement, styles.lockDocument);

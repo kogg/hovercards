@@ -1,11 +1,6 @@
-var rollbar = require('rollbar');
+var raven = require('raven');
 
-rollbar.init(process.env.ROLLBAR_ACCESS_TOKEN || ' ', {
-	codeVersion: process.env.npm_package_gitHead,
-	environment: process.env.NODE_ENV
+module.exports = new raven.Client(process.env.SENTRY_DSN, {
+	environment: process.env.NODE_ENV,
+	release:     process.env.npm_package_gitHead
 });
-rollbar.handleUncaughtExceptionsAndRejections();
-
-rollbar.error = rollbar.handleError;
-
-module.exports = rollbar;

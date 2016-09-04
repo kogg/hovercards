@@ -36,7 +36,7 @@ module.exports.getEntity = function(request, meta, sender) {
 			var newLabel = entityLabel(entity);
 			if (newLabel !== label) {
 				browser.tabs.sendMessage(sender.tab.id, setTabEntity(entity, label))
-					.catch(report.error);
+					.catch(report.captureException);
 			}
 			return Promise.resolve({ payload: entity });
 		}
@@ -53,14 +53,14 @@ module.exports.getEntity = function(request, meta, sender) {
 						dispatch(setEntity(entity, label));
 					}
 					dispatch(analyticsActions.analytics(['send', 'timing', entityLabel(entity, true), 'Loading', Date.now() - start], sender))
-						.catch(report.error);
+						.catch(report.captureException);
 				})
 				.catch(function(err) {
 					delete loading[label];
 					err.request = request;
 					dispatch(setEntity(err));
 					if (!err.code || err.code >= 500) {
-						report.error(err);
+						report.captureException(err);
 					}
 				});
 		}
@@ -69,11 +69,11 @@ module.exports.getEntity = function(request, meta, sender) {
 			loading[label]
 				.then(function(entity) {
 					browser.tabs.sendMessage(sender.tab.id, setTabEntity(entity))
-						.catch(report.error);
+						.catch(report.captureException);
 					var newLabel = entityLabel(entity);
 					if (newLabel !== label) {
 						browser.tabs.sendMessage(sender.tab.id, setTabEntity(entity, label))
-							.catch(report.error);
+							.catch(report.captureException);
 					}
 				})
 				.catch(function(err) {
@@ -81,7 +81,7 @@ module.exports.getEntity = function(request, meta, sender) {
 						err = err.toJSON();
 					}
 					browser.tabs.sendMessage(sender.tab.id, { type: 'setEntity', payload: Object.assign(err, { type: 'FeathersError', request: request }), error: true })
-						.catch(report.error);
+						.catch(report.captureException);
 				});
 		}
 

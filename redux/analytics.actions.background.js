@@ -18,7 +18,7 @@ browser.storage.local.get('user_id')
 			browser.storage.sync.set({ user_id: user_id })
 		]);
 	})
-	.catch(report.error);
+	.catch(report.captureException);
 
 var getAnalytics;
 

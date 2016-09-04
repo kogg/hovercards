@@ -10,17 +10,8 @@ var RedisStore      = require('connect-redis')(session);
 var config       = require('../integrations/config');
 var integrations = require('../integrations');
 var redis        = require('./redis');
-var report       = require('../report');
 
 var CHROMIUM_IDS = process.env.CHROMIUM_IDS.split(';');
-
-var rollbarErrorHandler = process.env.ROLLBAR_ACCESS_TOKEN ?
-	report.errorHandler() :
-	function(err, req, res, next) {
-		console.error(err);
-		console.error(err.stack);
-		next(err);
-	};
 
 // HACK This only applied to twitter
 passport.use(new TwitterStrategy({
@@ -106,7 +97,7 @@ module.exports = feathers.Router()
 		function(req, res) {
 			res.redirect('https://' + req.query.chromium_id + '.chromiumapp.org/callback#access_token=' + req.user);
 		}
-	)
+	);
 
 	/*
 	 * TODO https://github.com/kogg/hovercards/issues/47
@@ -130,14 +121,3 @@ module.exports = feathers.Router()
 			.catch(next);
 	})
 	*/
-
-	.use(function(err, req, res, next) { // eslint-disable-line no-unused-vars
-		if (err.code >= 400 && err.code < 500) {
-			return next(err);
-		}
-		rollbarErrorHandler(err, req, res, next);
-	})
-	.use(function(err, req, res, next) { // eslint-disable-line no-unused-vars
-		err.message = err.message || 'Do not recognize url ' + req.path;
-		res.status(err.code || 500).json(err);
-	});

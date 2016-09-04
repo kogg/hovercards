@@ -39,7 +39,7 @@ module.exports = connect(
 	},
 	componentDidMount: function() {
 		this.props.getEntity(this.props.discussions[0])
-			.catch(report.error);
+			.catch(report.catchException);
 		this.setState({ loaded: Object.assign({}, this.state.loaded, { 0: true }) });
 	},
 	componentDidUpdate: function(prevProps, prevState) {
@@ -67,7 +67,7 @@ module.exports = connect(
 			if (!discussion.loaded && !discussion.err) {
 				if (!this.state.loaded[i]) {
 					this.props.getEntity(discussion)
-						.catch(report.error);
+						.catch(report.catchException);
 					this.setState({ loaded: Object.assign({}, this.state.loaded, { [i]: true }) });
 				}
 				return;
@@ -83,12 +83,12 @@ module.exports = connect(
 	select: function(i) {
 		if (!this.state.loaded[i]) {
 			this.props.getEntity(this.props.discussions[i])
-				.catch(report.error);
+				.catch(report.catchException);
 		}
 		this.setState({ clicked: true, selected: i, loaded: Object.assign({}, this.state.loaded, { [i]: true }) });
 		if (this.state.selected !== i) {
 			this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Discussion Selected', entityLabel(this.props.discussions[i], true), i])
-				.catch(report.error);
+				.catch(report.catchException);
 		}
 	},
 	onClickCommentText: function(e) {
@@ -108,7 +108,7 @@ module.exports = connect(
 			window.open(element.href);
 		}
 		this.props.analytics(['send', 'event', entityLabel(this.props.content, true), 'Link Opened', 'in a ' + entityLabel(this.props.discussions[this.state.selected], true)])
-			.catch(report.error);
+			.catch(report.catchException);
 	},
 	render: function() {
 		var discussion = this.props.discussions[this.state.selected];
