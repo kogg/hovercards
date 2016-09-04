@@ -56,7 +56,9 @@ $(function() {
 			window.chrome.webstore.install('https://chrome.google.com/webstore/detail/dighmiipfpfdfbfmpodcmfdgkkcakbco',
 				function() { },
 				function(error) {
-					report.warning(error);
+					report.captureException(error, {
+						level: 'warning'
+					});
 				}
 			);
 		});

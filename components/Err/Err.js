@@ -24,7 +24,7 @@ module.exports = connect(null, actions)(React.createClass({
 				}
 				return this.props.getEntity(this.props.error.request);
 			}.bind(this))
-			.catch(report.error);
+			.catch(report.catchException);
 	},
 	render: function() {
 		var integration = this.props.error.request && this.props.error.request.api;

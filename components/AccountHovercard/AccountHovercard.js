@@ -39,7 +39,7 @@ module.exports = connect(null, actions)(React.createClass({
 	},
 	onExpandDescription: function() {
 		this.props.analytics(['send', 'event', entityLabel(this.props.account, true), 'Expanded description'])
-			.catch(report.error);
+			.catch(report.catchException);
 	},
 	render: function() {
 		var className = classnames(styles.account, { [styles.noAccountImage]: config.integrations[this.props.account.api].account.noImage }, this.props.className);

@@ -18,7 +18,7 @@ module.exports = React.createClass({
 	},
 	onChange: function(type) {
 		this.props.setOption({ option: this.props.integration + '.' + type + '.enabled', value: !this.props.options[type].enabled })
-			.catch(report.error);
+			.catch(report.catchException);
 	},
 	render: function() {
 		return (

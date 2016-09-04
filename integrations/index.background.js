@@ -44,7 +44,7 @@ browser.storage.sync.get(_.keys(newAuthKeys))
 			]);
 		}));
 	})
-	.catch(report.error);
+	.catch(report.captureException);
 
 browser.storage.onChanged.addListener(function(changes, areaName) {
 	if (areaName !== 'sync') {

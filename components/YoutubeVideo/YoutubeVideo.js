@@ -21,13 +21,13 @@ var YoutubeVideo = module.exports = React.createClass({
 	statics: {
 		getYT: function() {
 			if (window.YT) {
-				report.error(new Error('window.YT should not exist'));
+				report.catchException(new Error('window.YT should not exist'));
 				return null;
 			}
 			window.YT = window.YT || { loading: 0, loaded: 0 };
 			window.YTConfig = window.YTConfig || { host: 'http://www.youtube.com' };
 			if (window.YT.loading) {
-				report.error(new Error('window.YT.loading should not exist'));
+				report.catchException(new Error('window.YT.loading should not exist'));
 				return null;
 			}
 			window.YT.loading = 1;
@@ -72,7 +72,7 @@ var YoutubeVideo = module.exports = React.createClass({
 					new YT.Player(this.refs.video, {
 						events: {
 							onReady: compose(resolve, _.property('target')),
-							onError: report.error
+							onError: report.catchException
 						}
 					});
 					/* eslint-enable no-new */
@@ -81,7 +81,7 @@ var YoutubeVideo = module.exports = React.createClass({
 			.then(function(player) {
 				this.setState({ player: player });
 			}.bind(this))
-			.catch(report.error);
+			.catch(report.catchException);
 	},
 	componentDidUpdate: function() {
 		if (!this.state || !this.state.player) {

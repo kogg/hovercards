@@ -30,7 +30,7 @@ module.exports = function(reducers, initialState) {
 				return store.dispatch(actions[action.type](action.payload, action.meta, sender));
 			})
 			.then(sendResponse)
-			.catch(report.error);
+			.catch(report.captureException);
 
 		return true;
 	});

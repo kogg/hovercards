@@ -14,7 +14,7 @@ browser.storage.onChanged.addListener(function(changes, areaName) {
 			return;
 		}
 		browser.runtime.setUninstallURL('http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5100') + '/track_uninstall?user_id=' + entry[1])
-			.catch(report.error);
+			.catch(report.captureException);
 	});
 });
 
@@ -34,4 +34,4 @@ browser.runtime.setUninstallURL('http://' + (process.env.NODE_ENV === 'productio
 	.then(function(user_id) {
 		return browser.runtime.setUninstallURL('http://' + (process.env.NODE_ENV === 'production' ? 'hover.cards' : 'localhost:5100') + '/track_uninstall?user_id=' + user_id);
 	})
-	.catch(report.error);
+	.catch(report.captureException);
