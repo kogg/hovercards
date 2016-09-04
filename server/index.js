@@ -28,7 +28,7 @@ feathers()
 	})
 
 	.use(function(err, req, res, next) { // eslint-disable-line no-unused-vars
-		if (err.code >= 400 && err.code < 500) {
+		if (!err.code || err.code < 400 || err.code >= 500) {
 			return next(err);
 		}
 		err.message = err.message || 'Do not recognize url ' + req.path;
