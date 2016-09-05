@@ -93,6 +93,11 @@ module.exports = {
 			'STICKYCARDS',
 			'npm_package_gitHead'
 		]),
+		new webpack.optimize.CommonsChunkPlugin({
+			name:      'common',
+			minChunks: 2,
+			chunks:    ['background', 'options', 'top-frame']
+		}),
 		new BellOnBundlerErrorPlugin(),
 		new CleanWebpackPlugin(['dist']),
 		new CopyWebpackPlugin([
@@ -105,7 +110,7 @@ module.exports = {
 			filename:   'options.html',
 			template:   require('html-webpack-template'),
 			inject:     false,
-			chunks:     ['options'],
+			chunks:     ['common', 'options'],
 			appMountId: 'mount'
 		}),
 		new StringReplacePlugin(),
