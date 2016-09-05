@@ -4,13 +4,12 @@ var combineReducers = require('redux').combineReducers;
 var createStore     = require('redux').createStore;
 var thunkMiddlware  = require('redux-thunk').default;
 
-var actions = require('./actions');
 var browser = require('../extension/browser');
 var report  = require('../report');
 
 createStore = applyMiddleware(thunkMiddlware)(createStore);
 
-module.exports = function(reducers, initialState) {
+module.exports = function(actions, reducers, initialState) {
 	var store = createStore(combineReducers(reducers), initialState);
 
 	if (!process.env.NODE_ENV) {

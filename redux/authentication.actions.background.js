@@ -2,7 +2,7 @@ var _            = require('underscore');
 var createAction = require('redux-actions').createAction;
 var errors       = require('feathers-errors');
 
-var analyticsActions   = require('./analytics.actions');
+var analyticsActions   = require('./analytics.actions.background');
 var browser            = require('../extension/browser');
 var integrationsConfig = require('../integrations/config');
 

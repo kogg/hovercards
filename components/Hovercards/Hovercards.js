@@ -5,7 +5,7 @@ var createStructuredSelector = require('reselect').createStructuredSelector;
 
 require('./Hovercards.styles');
 var Hovercard   = require('../Hovercard/Hovercard');
-var actions     = require('../../redux/actions');
+var actions     = require('../../redux/actions.top-frame');
 var dom         = require('../../utils/dom');
 var entityLabel = require('../../utils/entity-label');
 var urls        = require('../../integrations/urls');

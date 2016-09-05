@@ -12,10 +12,7 @@
   },
   "scripts": {
     "build": "npm run clean && run-s build:*",
-    "build:extension": "NODE_ENV=production webpack -p --config webpack.config.extension.js && run-s build:extension:*",
-    "build:extension:background": "NODE_ENV=production ENTRY=background webpack -p --config webpack.config.extension.js",
-    "build:extension:options": "NODE_ENV=production ENTRY=options webpack -p --config webpack.config.extension.js",
-    "build:extension:top-frame": "NODE_ENV=production ENTRY=top-frame webpack -p --config webpack.config.extension.js",
+    "build:extension": "NODE_ENV=production webpack -p --config webpack.config.extension.js",
     "build:www": "NODE_ENV=production webpack -p --config webpack.config.www.js",
     "check": "run-s check:*",
     "check:css": "stylelint \"**/*.css\" --color --ignore-path .gitignore",

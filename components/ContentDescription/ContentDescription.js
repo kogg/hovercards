@@ -3,7 +3,7 @@ var classnames = require('classnames');
 var connect    = require('react-redux').connect;
 
 var Collapsable = require('../Collapsable/Collapsable');
-var actions     = require('../../redux/actions');
+var actions     = require('../../redux/actions.top-frame');
 var entityLabel = require('../../utils/entity-label');
 var report      = require('../../report');
 var styles      = require('./ContentDescription.styles');

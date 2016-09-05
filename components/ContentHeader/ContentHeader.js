@@ -4,7 +4,7 @@ var classnames = require('classnames');
 var connect    = require('react-redux').connect;
 
 var browser     = require('../../extension/browser');
-var actions     = require('../../redux/actions');
+var actions     = require('../../redux/actions.top-frame');
 var config      = require('../../integrations/config');
 var entityLabel = require('../../utils/entity-label');
 var report      = require('../../report');
