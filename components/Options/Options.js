@@ -5,7 +5,7 @@ var connect                  = require('react-redux').connect;
 var createStructuredSelector = require('reselect').createStructuredSelector;
 
 var IntegrationOptions = require('../IntegrationOptions/IntegrationOptions');
-var actions            = require('../../redux/actions');
+var actions            = require('../../redux/actions.options');
 var styles             = require('./Options.styles');
 
 module.exports = connect(

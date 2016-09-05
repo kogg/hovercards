@@ -15,12 +15,16 @@ var safeImportant            = require('postcss-safe-important');
 var webpack                  = require('webpack');
 
 module.exports = {
-	// FIXME https://github.com/webpack/webpack/issues/2801
-	entry:  process.env.ENTRY ? { [process.env.ENTRY]: './extension/index' } : { manifest: './extension/manifest' },
+	entry: {
+		'background': './extension/index.background',
+		'manifest':   './extension/manifest',
+		'options':    './extension/index.options',
+		'top-frame':  './extension/index.top-frame'
+	},
 	output: {
 		filename:   '[name].js',
 		path:       'dist',
-		publicPath: process.env.ENTRY === 'top-frame' ? 'chrome-extension://__MSG_@@extension_id__/' : ''
+		publicPath: 'chrome-extension://' + process.env.CHROME_EXTENSION_ID + '/'
 	},
 	module: {
 		loaders: [
@@ -59,11 +63,11 @@ module.exports = {
 	},
 	resolve: {
 		extensions: extensions(
-			process.env.ENTRY && ['.' + process.env.ENTRY, ''],
 			['.extension', '.browser', ''],
 			['.json', '.js', '.css']
 		)
 	},
+	bail:      process.env.NODE_ENV,
 	devtool:   process.env.NODE_ENV ? 'source-map' : 'cheap-source-map',
 	devServer: {
 		outputPath: 'dist',
@@ -79,6 +83,7 @@ module.exports = {
 	},
 	plugins: _.compact([
 		new webpack.EnvironmentPlugin([
+			'CHROME_EXTENSION_ID',
 			'GOOGLE_ANALYTICS_ID',
 			'INSTAGRAM_CLIENT_ID',
 			'NODE_ENV',
@@ -88,37 +93,38 @@ module.exports = {
 			'STICKYCARDS',
 			'npm_package_gitHead'
 		]),
+		new webpack.optimize.CommonsChunkPlugin({
+			name:      'common',
+			minChunks: 2,
+			chunks:    ['background', 'options', 'top-frame']
+		}),
 		new BellOnBundlerErrorPlugin(),
-		!process.env.ENTRY && !process.env.NODE_ENV && new CleanWebpackPlugin(['dist']),
-		!process.env.ENTRY && new CopyWebpackPlugin([
+		new CleanWebpackPlugin(['dist']),
+		new CopyWebpackPlugin([
 			{ from: 'assets/images/logo-*', to: 'assets/images', flatten: true },
 			{ from: 'extension/copy.json', to: '_locales/en/messages.json' }
 		]),
 		new ExtractTextPlugin('[name].css'),
-		process.env.ENTRY === 'options' && new HtmlWebpackPlugin({
+		new HtmlWebpackPlugin({
 			title:      'HoverCard Options',
 			filename:   'options.html',
 			template:   require('html-webpack-template'),
 			inject:     false,
+			chunks:     ['common', 'options'],
 			appMountId: 'mount'
 		}),
 		new StringReplacePlugin(),
 		new WriteFilePlugin({ log: false })
 	]),
 	postcss: function() {
-		return process.env.ENTRY === 'top-frame' ?
-			[
-				nested({ bubble: ['raw'] }),
-				autoprefixer,
-				raw.inspect(),
-				increaseSpecificity({ stackableRoot: ':global(.hovercards-root)', repeat: 1 }),
-				raw.write(),
-				safeImportant
-			] :
-			[
-				nested,
-				autoprefixer
-			];
+		return [
+			nested({ bubble: ['raw'] }),
+			autoprefixer,
+			raw.inspect(),
+			increaseSpecificity({ stackableRoot: ':global(.hovercards-root)', repeat: 1 }),
+			raw.write(),
+			safeImportant
+		];
 	}
 };
 

@@ -15,6 +15,7 @@
 
   "background": {
     "scripts": [
+      "common.js",
       "background.js"
     ]
   },
@@ -27,6 +28,7 @@
         "top-frame.css"
       ],
       "js": [
+        "common.js",
         "top-frame.js"
       ],
       "all_frames": false

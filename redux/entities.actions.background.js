@@ -1,8 +1,8 @@
 var createAction = require('redux-actions').createAction;
 
-var analyticsActions   = require('./analytics.actions');
+var analyticsActions   = require('./analytics.actions.background');
 var browser            = require('../extension/browser');
-var integrations       = require('../integrations');
+var integrations       = require('../integrations/index.background');
 var integrationsConfig = require('../integrations/config');
 var entityLabel        = require('../utils/entity-label');
 var report             = require('../report');

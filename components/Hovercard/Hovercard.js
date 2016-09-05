@@ -5,7 +5,7 @@ var connect    = require('react-redux').connect;
 
 var AccountHovercard = require('../AccountHovercard/AccountHovercard');
 var ContentHovercard = require('../ContentHovercard/ContentHovercard');
-var actions          = require('../../redux/actions');
+var actions          = require('../../redux/actions.top-frame');
 var dom              = require('../../utils/dom');
 var entityLabel      = require('../../utils/entity-label');
 var report           = require('../../report');

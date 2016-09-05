@@ -4,12 +4,12 @@ var React    = require('react');
 var ReactDOM = require('react-dom');
 
 var Options     = require('../components/Options/Options');
-var createStore = require('../redux/createStore');
+var createStore = require('../redux/createStore.options');
 
-var store = createStore();
+global.document.getElementById('mount').className = 'hovercards-root';
 
 ReactDOM.render(
-	<Provider store={store}>
+	<Provider store={createStore()}>
 		<Options />
 	</Provider>,
 	global.document.getElementById('mount')
