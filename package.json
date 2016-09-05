@@ -32,7 +32,7 @@
     "postrelease": "semantic-release post",
     "release:extension": "webstore upload --source dist --extension-id dighmiipfpfdfbfmpodcmfdgkkcakbco --auto-publish --client-id $CHROME_CLIENT_ID --client-secret $CHROME_CLIENT_SECRET --refresh-token $CHROME_REFRESH_TOKEN",
     "release:npm": "npm publish",
-    "release:sentry": "curl https://sentry.io/api/0/projects/kogg/hovercards/releases/ -X POST -H \"Authorization: Bearer $SENTRY_AUTH_TOKEN\" -H \"Content-Type: application/json\" --data \"{\\\"version\\\": \\\"$npm_package_gitHead\\\"}\" --verbose && run-s release:sentry:*",
+    "release:sentry": "curl https://sentry.io/api/0/projects/kogg/hovercards/releases/ -X POST -H \"Authorization: Bearer $SENTRY_AUTH_TOKEN\" -H \"Content-Type: application/json\" --data \"{\\\"version\\\": \\\"$npm_package_gitHead\\\"}\" --include && run-s release:sentry:*",
     "release:sentry:background": "curl https://sentry.io/api/0/projects/kogg/hovercards/releases/$npm_package_gitHead/files/ -X POST -H \"Authorization: Bearer $SENTRY_AUTH_TOKEN\" -F file=@dist/background.js.map --include",
     "release:sentry:options": "curl https://sentry.io/api/0/projects/kogg/hovercards/releases/$npm_package_gitHead/files/ -X POST -H \"Authorization: Bearer $SENTRY_AUTH_TOKEN\" -F file=@dist/options.js.map --include",
     "release:sentry:top-frame": "curl https://sentry.io/api/0/projects/kogg/hovercards/releases/$npm_package_gitHead/files/ -X POST -H \"Authorization: Bearer $SENTRY_AUTH_TOKEN\" -F file=@dist/top-frame.js.map --include",
