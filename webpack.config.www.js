@@ -33,6 +33,7 @@ module.exports = {
 			['.json', '.js', '.css']
 		)
 	},
+	bail:      process.env.NODE_ENV,
 	devtool:   process.env.NODE_ENV ? 'source-map' : 'cheap-source-map',
 	devServer: {
 		port:  process.env.PORT,
