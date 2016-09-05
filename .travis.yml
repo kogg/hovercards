@@ -9,6 +9,8 @@ script:
 after_success:
   - npm run coverage:report
   - npm run release
+  - curl -sL https://sentry.io/get-cli/ | bash
+  - npm run upload:maps
 branches:
   only:
     - master

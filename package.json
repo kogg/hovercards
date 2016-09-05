@@ -11,7 +11,7 @@
     "url": "git+https://github.com/kogg/hovercards.git"
   },
   "scripts": {
-    "build": "run-s build:*",
+    "build": "npm run clean && run-s build:*",
     "build:extension": "NODE_ENV=production webpack -p --config webpack.config.extension.js && run-s build:extension:*",
     "build:extension:background": "NODE_ENV=production ENTRY=background webpack -p --config webpack.config.extension.js",
     "build:extension:options": "NODE_ENV=production ENTRY=options webpack -p --config webpack.config.extension.js",
@@ -34,7 +34,8 @@
     "start": "if [ \"$NODE_ENV\" = 'production' ]; then foreman start; else foreman start -f Procfile.dev; fi",
     "test": "run-s test:*",
     "test:unit": "istanbul cover -x *.test.js _mocha -- -R spec \"./{,!(node_modules)/**/}*.test.js\"",
-    "test:unit:no-cover": "mocha \"./{,!(node_modules)/**/}*.test.js\" --color -R nyan"
+    "test:unit:no-cover": "mocha \"./{,!(node_modules)/**/}*.test.js\" --color -R nyan",
+    "upload:maps": "sentry-cli releases new `git rev-parse HEAD` upload-sourcemaps dist"
   },
   "config": {
     "commitizen": {
