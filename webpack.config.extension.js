@@ -52,7 +52,7 @@ module.exports = {
 						replacements: [{
 							pattern:     /__VERSION__/ig,
 							replacement: function() {
-								return require('./package').version || '0.0.1';
+								return process.env.NODE_ENV ? process.env.npm_package_version : '0.0.1';
 							}
 						}]
 					})
@@ -91,7 +91,7 @@ module.exports = {
 			'SENTRY_DSN_CLIENT',
 			'SOUNDCLOUD_CLIENT_ID',
 			'STICKYCARDS',
-			'npm_package_gitHead'
+			'npm_package_version'
 		]),
 		new webpack.optimize.CommonsChunkPlugin({
 			name:      'common',
