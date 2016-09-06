@@ -77,9 +77,9 @@ describe('instagram', function() {
 			var promise = instagram.content({ id: 'CONTENT_ID' });
 
 			return Promise.all([
-				expect(promise).to.eventually.have.property('text', '<a href="https://instagram.com/ACCOUNT_ID_1/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a> <a href="https://instagram.com/ACCOUNT_ID_2/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>'),
-				expect(promise).to.eventually.have.deep.property('discussions[0].comments[0].text', '<a href="https://instagram.com/ACCOUNT_ID_3/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_3</a>'),
-				expect(promise).to.eventually.have.deep.property('discussions[0].comments[1].text', '<a href="https://instagram.com/ACCOUNT_ID_4/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_4</a>')
+				expect(promise).to.eventually.have.property('text', '<a href="https://instagram.com/ACCOUNT_ID_1" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a> <a href="https://instagram.com/ACCOUNT_ID_2" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>'),
+				expect(promise).to.eventually.have.deep.property('discussions[0].comments[0].text', '<a href="https://instagram.com/ACCOUNT_ID_3" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_3</a>'),
+				expect(promise).to.eventually.have.deep.property('discussions[0].comments[1].text', '<a href="https://instagram.com/ACCOUNT_ID_4" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_4</a>')
 			]);
 		});
 
@@ -195,8 +195,8 @@ describe('instagram', function() {
 			var promise = instagram.discussion({ id: 'CONTENT_ID' });
 
 			return Promise.all([
-				expect(promise).to.eventually.have.deep.property('.comments[0].text', '<a href="https://instagram.com/ACCOUNT_ID_1/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a>'),
-				expect(promise).to.eventually.have.deep.property('.comments[1].text', '<a href="https://instagram.com/ACCOUNT_ID_2/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>')
+				expect(promise).to.eventually.have.deep.property('.comments[0].text', '<a href="https://instagram.com/ACCOUNT_ID_1" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a>'),
+				expect(promise).to.eventually.have.deep.property('.comments[1].text', '<a href="https://instagram.com/ACCOUNT_ID_2" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>')
 			]);
 		});
 
@@ -405,7 +405,7 @@ describe('instagram', function() {
 			user_media_recent_endpoint.reply(200, default_user_media_recent);
 			user_search_endpoint.reply(200, default_user_search);
 
-			return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.eventually.have.property('text', '<a href="https://instagram.com/ACCOUNT_ID_1/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a> <a href="https://instagram.com/ACCOUNT_ID_2/" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>');
+			return expect(instagram.account({ id: 'ACCOUNT_ID' })).to.eventually.have.property('text', '<a href="https://instagram.com/ACCOUNT_ID_1" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_1</a> <a href="https://instagram.com/ACCOUNT_ID_2" target="_blank" rel="noopener noreferrer">@ACCOUNT_ID_2</a>');
 		});
 
 		it('should remove the default image', function() {

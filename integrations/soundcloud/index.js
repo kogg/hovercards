@@ -12,15 +12,16 @@ module.exports = function(params) {
 	var api   = { model: model };
 
 	var autolinker = new Autolinker({
+		mention:   'twitter',
 		hashtag:   'twitter',
-		replaceFn: function(autolinker, match) {
+		replaceFn: function(match) {
 			switch (match.getType()) {
-				case 'twitter':
-					return autolinker.getTagBuilder().build(match).setAttr('href', urls.print({ api: 'soundcloud', type: 'account', id: match.getTwitterHandle() }));
+				case 'mention':
+					return match.buildTag().setAttr('href', urls.print({ api: 'soundcloud', type: 'account', id: match.getMention() }));
 				case 'hashtag':
-					return autolinker.getTagBuilder().build(match).setAttr('href', 'https://soundcloud.com/tags/' + match.getHashtag());
+					return match.buildTag().setAttr('href', 'https://soundcloud.com/tags/' + match.getHashtag());
 				default:
-					return null;
+					return true;
 			}
 		}
 	});

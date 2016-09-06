@@ -157,16 +157,17 @@ function autolinker_with_entities(text, entities, entities_to_remove) {
 	var url_to_entities           = _.indexBy(entities, 'url');
 	var url_to_entities_to_remove = _.indexBy(entities_to_remove, 'url');
 	return Autolinker.link(text, {
-		hashtag:   'twitter',
-		replaceFn: function(autolinker, match) {
+		mention: 'twitter',
+		hashtag: 'twitter',
+		replaceFn: function(match) {
 			if (match.getType() !== 'url') {
-				return null;
+				return true;
 			}
 			if (!_.isEmpty(url_to_entities_to_remove[match.getUrl()])) {
 				return '';
 			}
 			var entity = url_to_entities[match.getUrl()];
-			var tag = autolinker.getTagBuilder().build(match);
+			var tag = match.buildTag();
 			return _.isEmpty(entity) ? tag : tag.setAttr('href', entity.expanded_url).setInnerHtml(entity.display_url);
 		}
 	});

@@ -10,16 +10,6 @@ require('../mixins');
 
 var DEFAULT_PROFILE_IMAGE = 'https://instagramimages-a.akamaihd.net/profiles/anonymousUser.jpg';
 
-var autolinker = new Autolinker({
-	hashtag:   'instagram',
-	replaceFn: function(autolinker, match) {
-		if (match.getType() !== 'twitter') {
-			return null;
-		}
-		return autolinker.getTagBuilder().build(match).setAttr('href', urls.print({ api: 'instagram', type: 'account', id: match.getTwitterHandle() }));
-	}
-});
-
 module.exports = function(params) {
 	var instagram = instagram_node.instagram();
 	var model     = {};
@@ -40,7 +30,7 @@ module.exports = function(params) {
 					Object.assign(
 						media_to_content(media, 'link'),
 						{
-							text:        autolinker.link(_.chain(media).result('caption').result('text', '').value()),
+							text:        Autolinker.link(_.chain(media).result('caption').result('text', '').value(), { mention: 'instagram', hashtag: 'instagram' }),
 							account:     user_to_account(_.result(media, 'user')),
 							discussions: [media_to_discussion(media)]
 						}
@@ -87,7 +77,7 @@ module.exports = function(params) {
 				var user        = Object.assign({}, results[0], results[1]);
 				var user_counts = _.result(user, 'counts');
 
-				var text = autolinker.link(_.result(user, 'bio', ''));
+				var text = Autolinker.link(_.result(user, 'bio', ''), { mention: 'instagram', hashtag: 'instagram' });
 
 				return _.pick(
 					Object.assign(
@@ -244,7 +234,7 @@ function media_to_discussion(media) {
 							{
 								api:     'instagram',
 								type:    'comment',
-								text:    autolinker.link(_.result(comment, 'text')),
+								text:    Autolinker.link(_.result(comment, 'text'), { mention: 'instagram', hashtag: 'instagram' }),
 								date:    _.result(comment, 'created_time') * 1000,
 								account: user_to_account(_.result(comment, 'from'))
 							},
