@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "async": "^2.0.1",
-    "autolinker": "^0.28.0",
+    "autolinker": "^1.0.0",
     "cheerio": "^0.22.0",
     "classnames": "^2.2.5",
     "compression": "^1.6.2",
