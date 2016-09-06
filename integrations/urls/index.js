@@ -22,7 +22,15 @@ urls.parse = function(url_string) {
 	if (_.isEmpty(url_string)) {
 		return;
 	}
-	var url_object = url.parse(url_string, true, true);
+	var url_object;
+	try {
+		url_object = url.parse(url_string, true, true);
+	} catch (e) {
+		if (e instanceof URIError) {
+			return;
+		}
+		throw e;
+	}
 
 	if (url_object.hostname === 'l.facebook.com') {
 		return urls.parse(url_object.query.u);
