@@ -36,6 +36,9 @@ module.exports = connect(
 	},
 	considerElement: function(event) {
 		var element = event.target;
+		if (!element) {
+			return;
+		}
 		while (!_.contains(['a', 'iframe'], (element.nodeName || element.tagName || '').toLowerCase())) {
 			if (element === document.documentElement || element === this.refs.hovercards || dom.hasClass(element, 'no-hovercards') || dom.hasClass(element, 'hoverZoomLink')) {
 				return;
