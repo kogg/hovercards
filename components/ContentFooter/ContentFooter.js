@@ -22,7 +22,7 @@ module.exports = React.createClass({
 						<div className={styles.metaMain}>
 							{
 								this.props.content.stats && config.integrations[this.props.content.api].content.stats.map(function(stat) {
-									if (this.props.content.stats[stat] === undefined) {
+									if (this.props.content.stats[stat] === undefined || this.props.content.stats[stat] === null) {
 										return null;
 									}
 									var number = stat.match(/_ratio$/) ?
