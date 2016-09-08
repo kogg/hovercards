@@ -316,6 +316,12 @@ describe('imgur', function() {
 					return expect(imgur.content({ id: 'CONTENT_ID', as: 'image' })).to.eventually.be.ok;
 				});
 
+				it('should 404 on 400', function() {
+					image_endpoint.reply(400, { success: false, status: 400 });
+
+					return expect(imgur.content({ id: 'CONTENT_ID', as: 'image' })).to.be.rejected.and.to.eventually.have.property('code', 404);
+				});
+
 				it('should 429 on 429', function() {
 					image_endpoint.reply(429, { success: false, status: 429 });
 
@@ -388,6 +394,12 @@ describe('imgur', function() {
 					return expect(imgur.content({ id: 'CONTENT_ID', as: 'album' })).to.eventually.be.ok;
 				});
 
+				it('should 404 on 400', function() {
+					album_endpoint.reply(400, { success: false, status: 400 });
+
+					return expect(imgur.content({ id: 'CONTENT_ID', as: 'album' })).to.be.rejected.and.to.eventually.have.property('code', 404);
+				});
+
 				it('should 429 on 429', function() {
 					album_endpoint.reply(429, { success: false, status: 429 });
 
@@ -434,6 +446,12 @@ describe('imgur', function() {
 					.reply(200, default_image);
 
 				return expect(imgur.content({ id: 'CONTENT_ID', as: 'gallery' })).to.eventually.be.ok;
+			});
+
+			it('should 404 on 400', function() {
+				gallery_endpoint.reply(400, { success: false, status: 400 });
+
+				return expect(imgur.content({ id: 'CONTENT_ID', as: 'gallery' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 429 on 429', function() {
@@ -523,6 +541,12 @@ describe('imgur', function() {
 					.reply(200, default_comments);
 
 				return expect(imgur.discussion({ id: 'CONTENT_ID' })).to.eventually.be.ok;
+			});
+
+			it('should 404 on 400', function() {
+				comments_endpoint.reply(400, { success: false, status: 400 });
+
+				return expect(imgur.discussion({ id: 'CONTENT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 404 on 404', function() {
@@ -616,6 +640,12 @@ describe('imgur', function() {
 					.reply(200, default_account);
 
 				return expect(imgur.account({ id: 'ACCOUNT_ID' })).to.eventually.be.ok;
+			});
+
+			it('should 404 on 400', function() {
+				account_endpoint.reply(400, { success: false, status: 400 });
+
+				return expect(imgur.account({ id: 'ACCOUNT_ID' })).to.be.rejected.and.to.eventually.have.property('code', 404);
 			});
 
 			it('should 404 on 404', function() {
