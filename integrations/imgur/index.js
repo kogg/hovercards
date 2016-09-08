@@ -194,6 +194,7 @@ module.exports = function(params) {
 					_.result(response, 'error')
 				);
 				switch (response.statusCode) {
+					case 400:
 					case 404:
 						throw new errors.NotFound(message);
 					case 429:
