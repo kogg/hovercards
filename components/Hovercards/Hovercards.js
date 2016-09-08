@@ -44,6 +44,9 @@ module.exports = connect(
 				return;
 			}
 			element = element.parentNode;
+			if (!element) {
+				return;
+			}
 		}
 		if (this.lastElement === element) {
 			return;
