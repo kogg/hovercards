@@ -17,7 +17,13 @@ module.exports = function(params) {
 	api.content = function(args) {
 		var usage = { 'mashape-requests': 0, 'imgur-requests': 0 };
 
-		return model[_.result(args, 'as')](_.pick(args, 'id'), null, usage)
+		var as = _.result(args, 'as');
+
+		if (!as || !_.contains(['gallery', 'image', 'album'], as)) {
+			as = 'gallery';
+		}
+
+		return model[as](_.pick(args, 'id'), null, usage)
 			.then(function(image_or_album) {
 				var account_url = _.result(image_or_album, 'account_url');
 
