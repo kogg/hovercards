@@ -1,3 +1,5 @@
+![Inject your contributions!](../assets/images/inject-the-binary.jpg)
+
 ## Issues
 We encourage you to create issues. We've put an [issue template](ISSUE_TEMPLATE.md) in place to get you started. We use [robinpowered's github labels](https://robinpowered.com/blog/best-practice-system-for-organizing-and-tagging-github-issues/) for our issues, loosely.
 
