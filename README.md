@@ -13,6 +13,24 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square&maxAge=3600)](http://commitizen.github.io/cz-cli/)
 
 # HoverCards
-We just opened up HoverCards to the world, so we currently don't have much to show in here :disappointed:. We're open to discussion in our [gitter](https://gitter.im/kogg/hovercards), so come chat with us!
+HoverCards is a chrome extension that lets you see what's behind links from youtube, twitter, reddit, soundcloud, imgur, & instagram — all with out ever leaving the web page you're currently on.
+
+## Usage
+
+### [Chrome](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco) (recommended)
+Install HoverCards from [the chrome webstore](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco). Simple.
+
+### npm
+```bash
+npm install -g hovercards
+```
+
+You will need to load the chrome extension as an unpacked extension, which there is [a guide](https://developer.chrome.com/extensions/getstarted#unpacked) for. The extension will be in the `dist` folder.
+
+## [Development](.github/CONTRIBUTING.md)
+Look in [`CONTRIBUTING.md`](.github/CONTRIBUTING.md) to see how to get setup for development
+
+## Join us!
+We just opened up HoverCards to the world, so we're looking for this to be a community driven project. Our documentation is very spotty and looking for love. Feel free to create issues, chat with us in [our gitter](https://gitter.im/kogg/hovercards), and throw us some pull requests of your own!
 
 ![Bye!](assets/images/carlito-corner.png)
