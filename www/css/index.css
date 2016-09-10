@@ -113,6 +113,11 @@ body {
   width: 100%;
 }
 
+.share-links > iframe {
+  position: relative;
+  top: 5px;
+}
+
 .twittersharey {
   position: relative;
   top: 5px;
