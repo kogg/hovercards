@@ -113,6 +113,11 @@ body {
   width: 100%;
 }
 
+.share-links > iframe {
+  position: relative;
+  top: 5px;
+}
+
 .twittersharey {
   position: relative;
   top: 5px;
@@ -993,4 +998,26 @@ a {
 
 .orange .animate-click {
   z-index: 19;
+}
+
+.github-fork {
+  pointer-events: none;
+}
+
+.github-fork.github-fork-active {
+  pointer-events: auto;
+}
+
+.github-fork img {
+  transition: all .4s ease-in-out;
+  border: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 9999999999;
+  opacity: 0;
+}
+
+.github-fork.github-fork-active img {
+  opacity: 1;
 }
