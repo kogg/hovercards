@@ -3,5 +3,6 @@ coverage/*
 dist-*
 dist/*
 dump.rdb
+bower_components/*
 node_modules/*
 npm-debug.log*
