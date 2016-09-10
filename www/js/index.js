@@ -32,7 +32,6 @@ $(function() {
 		screens.each(function(i) {
 			$(this).toggleClass('active-screen', (scrollTop + screenheight > moverpositions[i]) && (!moverpositions[i + 1] || (scrollTop + screenheight <= moverpositions[i + 1])));
 		});
-		$('.github-fork').toggleClass('github-fork-active', screens.last().hasClass('active-screen'));
 	}
 	function resize() {
 		screenheight = $(window).height();
