@@ -2,11 +2,13 @@ var _       = require('underscore');
 var browser = require('./browser');
 var report  = require('../report');
 
-var url = 'http://hovercards.com';
+var analyticsActions = require('../redux/analytics.actions.background');
+var url              = 'http://hovercards.com';
 
 browser.browserAction.setBadgeBackgroundColor({ color: '#ff0000' });
 browser.browserAction.onClicked.addListener(function() {
 	browser.tabs.create({ url: url });
+	analyticsActions.analytics(['send', 'event', 'not applicable', 'Browser Action', 'opened ' + url])();
 	browser.storage.sync.set({ 'notifications.opensource': true })
 		.catch(report.captureException);
 });
