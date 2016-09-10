@@ -1,26 +1,28 @@
 [![HoverCards banner](assets/images/facebeefbanner.jpg)](http://hovercards.com)
 
-[![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/dighmiipfpfdfbfmpodcmfdgkkcakbco.svg?style=flat-square&maxAge=3600)](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco)
-[![Chrome Web Store Downloads](https://img.shields.io/chrome-web-store/d/dighmiipfpfdfbfmpodcmfdgkkcakbco.svg?style=flat-square&maxAge=3600)](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco)
-[![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/rating/dighmiipfpfdfbfmpodcmfdgkkcakbco.svg?style=flat-square&maxAge=3600)](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco/reviews)
-[![Chrome Web Store Rating Count](https://img.shields.io/chrome-web-store/rating-count/dighmiipfpfdfbfmpodcmfdgkkcakbco.svg?style=flat-square&maxAge=3600)](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco/reviews)
-
-[![Gitter](https://img.shields.io/gitter/room/kogg/hovercards.js.svg?style=flat-square&maxAge=3600)](https://gitter.im/kogg/hovercards)
-[![Travis](https://img.shields.io/travis/kogg/hovercards/master.svg?style=flat-square&maxAge=3600)](https://travis-ci.org/kogg/hovercards)
-[![Codecov](https://img.shields.io/codecov/c/github/kogg/hovercards.svg?style=flat-square&maxAge=3600)](https://codecov.io/gh/kogg/hovercards)
-[![Website](https://img.shields.io/website-up-down-green-red/http/hovercards.com.svg?style=flat-square&maxAge=3600)](http://hovercards.com)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square&maxAge=3600)](http://commitizen.github.io/cz-cli/)
+[![Gitter](https://img.shields.io/gitter/room/kogg/hovercards.js.svg?style=flat-square&maxAge=2592000)](https://gitter.im/kogg/hovercards)
+[![Travis](https://img.shields.io/travis/kogg/hovercards/master.svg?style=flat-square&maxAge=2592000)](https://travis-ci.org/kogg/hovercards)
+[![Website](https://img.shields.io/website-up-down-green-red/http/hovercards.com.svg?style=flat-square&maxAge=2592000)](http://hovercards.com)
 
 # HoverCards
 HoverCards is a chrome extension that lets you see what's behind links from youtube, twitter, reddit, soundcloud, imgur, & instagram — all with out ever leaving the web page you're currently on.
 
 ## Usage
 
-### [Chrome](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco) (recommended)
+### Chrome Webstore
+
+[![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/dighmiipfpfdfbfmpodcmfdgkkcakbco.svg?style=flat-square&maxAge=2592000)](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco)
+[![Chrome Web Store Downloads](https://img.shields.io/chrome-web-store/d/dighmiipfpfdfbfmpodcmfdgkkcakbco.svg?style=flat-square&maxAge=2592000)](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco)
+[![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/rating/dighmiipfpfdfbfmpodcmfdgkkcakbco.svg?style=flat-square&maxAge=2592000)](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco/reviews)
+[![Chrome Web Store Rating Count](https://img.shields.io/chrome-web-store/rating-count/dighmiipfpfdfbfmpodcmfdgkkcakbco.svg?style=flat-square&maxAge=2592000)](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco/reviews)
+
 Install HoverCards from [the chrome webstore](https://chrome.google.com/webstore/detail/hovercards/dighmiipfpfdfbfmpodcmfdgkkcakbco). Simple.
 
 ### npm
+
+[![npm Version](https://img.shields.io/npm/v/hovercards.svg?style=flat-square&maxAge=2592000)](https://www.npmjs.com/package/hovercards)
+[![npm Downloads](https://img.shields.io/npm/dm/hovercards.svg?style=flat-square&maxAge=2592000)](https://www.npmjs.com/package/hovercards)
+
 ```bash
 npm install -g hovercards
 ```
@@ -28,6 +30,12 @@ npm install -g hovercards
 You will need to load the chrome extension as an unpacked extension, which there is [a guide](https://developer.chrome.com/extensions/getstarted#unpacked) for. The extension will be in the `dist` folder.
 
 ## Development
+
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square&maxAge=2592000)](http://commitizen.github.io/cz-cli/)
+[![David](https://img.shields.io/david/kogg/hovercards.svg?maxAge=2592000?style=flat-square)](https://github.com/kogg/hovercards)
+[![David](https://img.shields.io/david/dev/kogg/hovercards.svg?maxAge=2592000?style=flat-square)](https://github.com/kogg/hovercards)
+
 ```bash
 gem install foreman                          # https://devcenter.heroku.com/articles/heroku-local#run-your-app-locally-using-foreman
 brew install redis                           # https://medium.com/@petehouston/install-and-config-redis-on-mac-os-x-via-homebrew-eb8df9a4f298
@@ -44,6 +52,12 @@ There are a few environment variables that should be set in `.env` to get differ
 Everything __except__ the content scripts are hot reloaded. This includes a local version of the [website](http://hovercards.com), which can be viewed at [localhost:5000](http://localhost:5000).
 
 ### Tests
+
+[![Codecov](https://img.shields.io/codecov/c/github/kogg/hovercards.svg?style=flat-square&maxAge=2592000)](https://codecov.io/gh/kogg/hovercards)
+[![bitHound](https://img.shields.io/bithound/code/github/kogg/hovercards.svg?maxAge=2592000?style=flat-square)](https://www.bithound.io/github/kogg/hovercards)
+[![bitHound](https://img.shields.io/bithound/dependencies/github/kogg/hovercards.svg?maxAge=2592000?style=flat-square)](https://www.bithound.io/github/kogg/hovercards)
+[![bitHound](https://img.shields.io/bithound/devDependencies/github/kogg/hovercards.svg?maxAge=2592000?style=flat-square)](https://www.bithound.io/github/kogg/hovercards)
+
 Our tests are very incomplete. Currently, there are tests for the various integrations (eg. reddit, youtube, etc.) but none for the extension's logic or the website.
 
 The tests run automatically on every pull request. They also run on `master` before releasing to our website, chrome webstore, and server.
