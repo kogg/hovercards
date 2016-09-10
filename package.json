@@ -128,7 +128,7 @@
     "node-fetch": "^1.6.0",
     "nodemon": "^1.10.2",
     "npm-run-all": "^3.1.0",
-    "postcss-increase-specificity": "^0.2.2",
+    "postcss-increase-specificity": "^0.3.0",
     "postcss-loader": "^0.13.0",
     "postcss-nested": "^1.0.0",
     "postcss-raw": "^0.1.2",
