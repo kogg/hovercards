@@ -87,6 +87,7 @@
     "request": "^2.74.0",
     "reselect": "^2.5.3",
     "snoocore": "^3.2.0",
+    "string.prototype.endswith": "^0.2.0",
     "twit": "^2.1.1",
     "underscore": "^1.8.3",
     "universal-analytics": "^0.4.2",
