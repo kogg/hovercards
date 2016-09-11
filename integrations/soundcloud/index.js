@@ -167,11 +167,11 @@ module.exports = function(params) {
 };
 
 function user_to_account(user) {
-	var user_artwork_url = _.result(user, 'avatar_url', '');
+	var user_artwork_url = _.result(user, 'avatar_url') || '';
 	return !_.isEmpty(user) && _.pick({ api: 'soundcloud', type: 'account', id: _.result(user, 'permalink'), name: _.result(user, 'username'), image: !_.isEmpty(user_artwork_url) && !user_artwork_url.match(/default_avatar_large/) && { small: user_artwork_url, medium: user_artwork_url.replace('-large', '-t300x300'), large: user_artwork_url.replace('-large', '-t500x500') } }, _.negate(_.isEmpty));
 }
 
 function post_to_content(post) {
-	var artwork_url = _.result(post, 'artwork_url', '');
+	var artwork_url = _.result(post, 'artwork_url') || '';
 	return !_.isEmpty(post) && _.pick({ api: 'soundcloud', type: 'content', id: _.result(post, 'permalink'), as: (_.result(post, 'kind') === 'playlist') && 'playlist', name: _.result(post, 'title'), date: Date.parse(_.result(post, 'created_at')), stats: _.result(post, 'kind') === 'playlist' ? { content: Number(_.result(post, 'track_count')) } : { likes: Number(_.result(post, 'favoritings_count')), views: Number(_.result(post, 'playback_count')), comments: Number(_.result(post, 'comment_count')) }, image: !artwork_url.match(/default_avatar_large/) && { small: artwork_url, medium: artwork_url.replace('-large', '-t300x300'), large: artwork_url.replace('-large', '-t500x500') }, account: user_to_account(post.user) }, _.somePredicate(_.isNumber, _.negate(_.isEmpty)));
 }
