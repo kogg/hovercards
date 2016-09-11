@@ -104,6 +104,9 @@ module.exports = connect(
 				default:
 					continue;
 			}
+			if (!url) {
+				continue;
+			}
 			url = dom.massageUrl(url);
 			if (!url) {
 				continue;
