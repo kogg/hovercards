@@ -63,6 +63,9 @@ module.exports = connect(
 				return;
 			}
 			currentParent = currentParent.parentNode;
+			if (!currentParent) {
+				return;
+			}
 		}
 		var checks = [{ element: element }];
 		if (this.props.options.reddit.content.enabled && document.location.hostname.endsWith('reddit.com') && dom.hasClass(element, 'title')) {
@@ -103,6 +106,9 @@ module.exports = connect(
 					break;
 				default:
 					continue;
+			}
+			if (!url) {
+				continue;
 			}
 			url = dom.massageUrl(url);
 			if (!url) {

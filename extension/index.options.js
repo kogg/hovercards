@@ -1,4 +1,5 @@
 require('../report');
+require('string.prototype.endswith');
 var Provider = require('react-redux').Provider;
 var React    = require('react');
 var ReactDOM = require('react-dom');
