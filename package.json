@@ -63,7 +63,7 @@
     "classnames": "^2.2.5",
     "compression": "^1.6.2",
     "connect-redis": "^3.0.2",
-    "es6-promisify": "^4.1.0",
+    "es6-promisify": "^5.0.0",
     "express-session": "^1.14.1",
     "feathers": "^2.0.1",
     "feathers-errors": "^2.4.0",
