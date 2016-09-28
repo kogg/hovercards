@@ -37,7 +37,23 @@ module.exports = {
 	devtool:   process.env.NODE_ENV ? 'source-map' : 'cheap-source-map',
 	devServer: {
 		port:  process.env.PORT,
-		stats: { colors: true }
+		stats: {
+			assets:       true,
+			cached:       false, // Filters information from devServer.stats.modules
+			cachedAssets: false, // Filters information from devServer.stats.assets
+			children:     true,
+			chunks:       false,
+			colors:       true,
+			errorDetails: true,
+			errors:       true,
+			hash:         false,
+			modules:      true,
+			publicPath:   false,
+			reasons:      true,
+			timings:      true,
+			version:      false,
+			warnings:     false
+		}
 	},
 	plugins: [
 		new webpack.EnvironmentPlugin([
