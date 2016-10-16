@@ -120,7 +120,7 @@
     "ghooks": "^1.3.2",
     "html-webpack-plugin": "^2.22.0",
     "html-webpack-template": "^5.4.1",
-    "image-webpack-loader": "^2.0.0",
+    "image-webpack-loader": "^3.0.0",
     "istanbul": "^0.4.5",
     "json-loader": "^0.5.4",
     "last-release-github": "^1.1.1",
