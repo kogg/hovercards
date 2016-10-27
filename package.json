@@ -67,7 +67,7 @@
     "express-session": "^1.14.1",
     "feathers": "^2.0.1",
     "feathers-errors": "^2.4.0",
-    "flux-standard-action": "^0.6.1",
+    "flux-standard-action": "^1.0.0",
     "googleapis": "^14.0.0",
     "helmet": "^2.1.3",
     "instagram-node": "^0.5.8",
