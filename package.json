@@ -73,7 +73,7 @@
     "instagram-node": "^0.5.8",
     "jquery": "^3.1.0",
     "open-graph-scraper": "^2.3.2",
-    "passport": "^0.3.2",
+    "passport": "^0.4.1",
     "passport-twitter": "^1.0.3",
     "raven": "^0.12.1",
     "raven-js": "^3.7.0",
