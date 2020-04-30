@@ -42,7 +42,9 @@
     "release:www": "git config --global user.email \"teamkogg@gmail.com\" && git config --global user.name \"Kogg\" && gh-pages --dist dist-www --repo https://$GH_TOKEN@github.com/kogg/hovercards.git",
     "start": "if [ \"$NODE_ENV\" = 'production' ]; then foreman start; else foreman start -f Procfile.dev; fi",
     "test": "run-s test:*",
-    "test:unit": "istanbul cover -x *.test.js _mocha -- -R spec \"./{,!(node_modules)/**/}*.test.js\""
+    "test:unit": "istanbul cover -x *.test.js _mocha -- -R spec \"./{,!(node_modules)/**/}*.test.js\"",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "config": {
     "commitizen": {
@@ -91,7 +93,8 @@
     "twit": "^2.1.1",
     "underscore": "^1.8.3",
     "universal-analytics": "^0.4.2",
-    "urijs": "^1.17.0"
+    "urijs": "^1.17.0",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.1",
@@ -155,5 +158,6 @@
   },
   "release": {
     "getLastRelease": "last-release-github"
-  }
+  },
+  "snyk": true
 }
