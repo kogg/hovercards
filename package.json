@@ -72,7 +72,7 @@
     "helmet": "^3.0.0",
     "instagram-node": "^0.5.8",
     "jquery": "^3.1.0",
-    "open-graph-scraper": "^2.3.2",
+    "open-graph-scraper": "^4.0.0",
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.3",
     "raven": "^0.12.1",
